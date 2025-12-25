@@ -1,6 +1,5 @@
 export default function AboutSection() {
-  return (
-    <>
+  return <>
       <div className="bg-[#f9f7f2] py-10 px-6 md:px-16">
         <div className="max-w-7xl mx-auto flex justify-between items-center">
           {/* Page Title */}
@@ -68,11 +67,7 @@ export default function AboutSection() {
 
           {/* RIGHT SIDE — IMAGE */}
           <div className="flex justify-center ">
-            <img
-              src="/src/assets/pic4.png"
-              alt="Decorative"
-              className="w-80 h-auto md:h-[700px] object-cover rounded-lg shadow"
-            />
+            <img alt="Decorative" className="w-80 h-auto md:h-[700px] object-cover rounded-lg shadow" src="/lovable-uploads/d53bdc66-5423-4a11-8c1d-a9166b55ead1.png" />
           </div>
         </div>
       </section>
@@ -120,6 +115,5 @@ export default function AboutSection() {
           </div>
         </div>
       </section>
-    </>
-  );
+    </>;
 }
