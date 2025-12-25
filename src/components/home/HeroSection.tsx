@@ -1,117 +1,205 @@
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { ArrowRight, Sparkles } from "lucide-react";
+import { ChevronLeft, ChevronRight, Quote } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import heroImage from "@/assets/hero-bookstore.jpg";
+import { cn } from "@/lib/utils";
+
+// Featured reviews similar to Cambridge Scholars
+const featuredReviews = [
+  {
+    id: 1,
+    bookTitle: "Fundamentals of Human Ecology",
+    subtitle: "A Paradigm for a More Sustainable Economy",
+    author: "Dr. Sarah Mitchell & Prof. James Chen",
+    quote: "An invaluable gem as a guide to the human condition, which is so lost and without reference points in today's world.",
+    reviewer: "Prof. Michael Thompson",
+    reviewerTitle: "London School of Economics",
+    image: "https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=400&h=600&fit=crop",
+    bookId: "1"
+  },
+  {
+    id: 2,
+    bookTitle: "The Psychology of Decision Making",
+    subtitle: "Understanding Cognitive Biases in Modern Society",
+    author: "Dr. Elena Rodriguez",
+    quote: "This remarkable book traces how human decision-making has evolved, offering a powerful reminder that our cognitive frameworks continue to shape our world.",
+    reviewer: "Dr. Amara Williams",
+    reviewerTitle: "Yale University",
+    image: "https://images.unsplash.com/photo-1589998059171-988d887df646?w=400&h=600&fit=crop",
+    bookId: "2"
+  },
+  {
+    id: 3,
+    bookTitle: "Digital Transformation in Academia",
+    subtitle: "Reshaping Higher Education for the 21st Century",
+    author: "Prof. David Park",
+    quote: "A lucid study that offers concrete guidelines for navigating the digital revolution in academic institutions. Thoughtful, timely, and deeply relevant.",
+    reviewer: "Dr. Rachel Foster",
+    reviewerTitle: "University of Melbourne",
+    image: "https://images.unsplash.com/photo-1543002588-bfa74002ed7e?w=400&h=600&fit=crop",
+    bookId: "3"
+  }
+];
 
 export function HeroSection() {
-  return (
-    <section className="relative min-h-screen flex items-center overflow-hidden">
-      {/* Background Image with parallax effect */}
-      <div className="absolute inset-0">
-        <img
-          src={heroImage}
-          alt="Cozy bookstore interior"
-          className="w-full h-full object-cover scale-105"
-        />
-        {/* Premium gradient overlay */}
-        <div className="absolute inset-0 bg-gradient-to-r from-primary/95 via-primary/80 to-primary/50" />
-        <div className="absolute inset-0 bg-gradient-to-t from-primary/60 via-transparent to-primary/30" />
-      </div>
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [isAutoPlaying, setIsAutoPlaying] = useState(true);
 
-      {/* Decorative elements */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {/* Gold accent orbs */}
-        <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-accent/10 rounded-full blur-3xl animate-float" />
-        <div className="absolute bottom-1/4 left-1/3 w-64 h-64 bg-accent/5 rounded-full blur-2xl animate-float" style={{ animationDelay: '2s' }} />
-        
-        {/* Subtle grid pattern */}
-        <div className="absolute inset-0 opacity-[0.03]" style={{
-          backgroundImage: 'linear-gradient(hsl(var(--primary-foreground)) 1px, transparent 1px), linear-gradient(90deg, hsl(var(--primary-foreground)) 1px, transparent 1px)',
-          backgroundSize: '60px 60px'
+  const activeReview = featuredReviews[activeIndex];
+
+  useEffect(() => {
+    if (!isAutoPlaying) return;
+    const interval = setInterval(() => {
+      setActiveIndex((prev) => (prev + 1) % featuredReviews.length);
+    }, 6000);
+    return () => clearInterval(interval);
+  }, [isAutoPlaying]);
+
+  const goToPrev = () => {
+    setIsAutoPlaying(false);
+    setActiveIndex((prev) => (prev - 1 + featuredReviews.length) % featuredReviews.length);
+  };
+
+  const goToNext = () => {
+    setIsAutoPlaying(false);
+    setActiveIndex((prev) => (prev + 1) % featuredReviews.length);
+  };
+
+  return (
+    <section className="relative bg-primary pt-32 pb-16 overflow-hidden">
+      {/* Background Pattern */}
+      <div className="absolute inset-0 opacity-5">
+        <div className="absolute inset-0" style={{
+          backgroundImage: 'radial-gradient(circle at 2px 2px, currentColor 1px, transparent 0)',
+          backgroundSize: '40px 40px'
         }} />
       </div>
 
-      {/* Content */}
-      <div className="container-wide relative z-10 py-32">
-        <div className="max-w-2xl">
-          {/* Premium badge */}
-          <div 
-            className="inline-flex items-center gap-2 bg-accent/15 backdrop-blur-sm text-accent px-5 py-2.5 rounded-full text-sm font-medium mb-8 border border-accent/20 animate-fade-up"
-            style={{ animationDelay: "0.1s" }}
-          >
-            <Sparkles className="h-4 w-4" />
-            <span>Curated Collections for Discerning Readers</span>
-          </div>
-
-          {/* Main heading with elegant typography */}
-          <h1
-            className="font-serif text-5xl md:text-6xl lg:text-7xl font-semibold text-primary-foreground leading-[1.1] mb-8 animate-fade-up text-balance"
-            style={{ animationDelay: "0.2s" }}
-          >
-            Where Stories
-            <span className="block mt-2">
-              Come to <span className="text-gradient-gold">Life</span>
+      <div className="container-wide relative z-10">
+        <div className="grid lg:grid-cols-2 gap-12 items-center">
+          {/* Content */}
+          <div className="text-primary-foreground space-y-6">
+            <span className="inline-block text-accent text-sm font-semibold uppercase tracking-widest">
+              Featured Review
             </span>
-          </h1>
+            
+            <h1 className="font-serif text-3xl md:text-4xl lg:text-5xl font-bold leading-tight">
+              {activeReview.bookTitle}
+            </h1>
+            
+            {activeReview.subtitle && (
+              <p className="text-xl text-primary-foreground/80 italic">
+                {activeReview.subtitle}
+              </p>
+            )}
+            
+            <p className="text-primary-foreground/70">
+              By {activeReview.author}
+            </p>
 
-          {/* Decorative line */}
-          <div 
-            className="w-20 h-1 bg-gradient-gold rounded-full mb-8 animate-fade-up"
-            style={{ animationDelay: "0.25s" }}
-          />
+            {/* Quote */}
+            <div className="relative pl-6 border-l-2 border-accent py-2">
+              <Quote className="absolute -left-3 -top-1 h-6 w-6 text-accent fill-accent" />
+              <p className="text-lg italic text-primary-foreground/90 leading-relaxed">
+                "{activeReview.quote}"
+              </p>
+              <p className="mt-4 text-sm text-primary-foreground/70">
+                <span className="font-semibold text-primary-foreground">{activeReview.reviewer}</span>
+                <span className="mx-2">—</span>
+                {activeReview.reviewerTitle}
+              </p>
+            </div>
 
-          <p
-            className="text-xl md:text-2xl text-primary-foreground/80 mb-10 leading-relaxed animate-fade-up font-light"
-            style={{ animationDelay: "0.3s" }}
-          >
-            Discover bestselling novels, timeless classics, and curated collections 
-            for every reader. Your next adventure awaits.
-          </p>
-
-          {/* Premium CTA buttons */}
-          <div
-            className="flex flex-wrap gap-5 animate-fade-up"
-            style={{ animationDelay: "0.4s" }}
-          >
-            <Button asChild variant="hero" size="xl" className="group">
-              <Link to="/books">
-                Explore Collection
-                <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
-              </Link>
-            </Button>
-            <Button asChild variant="hero-outline" size="xl">
-              <Link to="/books">Browse Categories</Link>
-            </Button>
+            <div className="pt-4">
+              <Button 
+                asChild
+                className="bg-accent hover:bg-accent/90 text-accent-foreground"
+              >
+                <Link to={`/books/${activeReview.bookId}`}>View Book</Link>
+              </Button>
+            </div>
           </div>
 
-          {/* Trust indicators */}
-          <div 
-            className="flex items-center gap-8 mt-14 pt-8 border-t border-primary-foreground/10 animate-fade-up"
-            style={{ animationDelay: "0.5s" }}
-          >
-            <div className="text-center">
-              <p className="text-3xl font-serif font-semibold text-primary-foreground">50k+</p>
-              <p className="text-sm text-primary-foreground/60 mt-1">Books Available</p>
-            </div>
-            <div className="w-px h-12 bg-primary-foreground/20" />
-            <div className="text-center">
-              <p className="text-3xl font-serif font-semibold text-primary-foreground">15k+</p>
-              <p className="text-sm text-primary-foreground/60 mt-1">Happy Readers</p>
-            </div>
-            <div className="w-px h-12 bg-primary-foreground/20" />
-            <div className="text-center">
-              <p className="text-3xl font-serif font-semibold text-primary-foreground">4.9</p>
-              <p className="text-sm text-primary-foreground/60 mt-1">Customer Rating</p>
+          {/* Book Image */}
+          <div className="relative flex justify-center lg:justify-end">
+            <div className="relative">
+              {/* Book mockup shadow */}
+              <div className="absolute inset-0 translate-x-4 translate-y-4 bg-black/20 rounded-lg blur-xl" />
+              
+              {/* Main Image */}
+              <div className="relative w-64 md:w-80 aspect-[3/4] rounded-lg overflow-hidden shadow-2xl">
+                <img
+                  src={activeReview.image}
+                  alt={activeReview.bookTitle}
+                  className="w-full h-full object-cover transition-all duration-700"
+                />
+              </div>
+
+              {/* Thumbnail navigation */}
+              <div className="absolute -left-4 md:-left-8 top-1/2 -translate-y-1/2 flex flex-col gap-2">
+                {featuredReviews.map((review, index) => (
+                  <button
+                    key={review.id}
+                    onClick={() => {
+                      setIsAutoPlaying(false);
+                      setActiveIndex(index);
+                    }}
+                    className={cn(
+                      "w-12 h-16 md:w-14 md:h-20 rounded overflow-hidden transition-all duration-300 border-2",
+                      activeIndex === index
+                        ? "border-accent scale-110 shadow-lg"
+                        : "border-transparent opacity-60 hover:opacity-100"
+                    )}
+                  >
+                    <img
+                      src={review.image}
+                      alt={review.bookTitle}
+                      className="w-full h-full object-cover"
+                    />
+                  </button>
+                ))}
+              </div>
             </div>
           </div>
         </div>
-      </div>
 
-      {/* Premium scroll indicator */}
-      <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3 animate-fade-up" style={{ animationDelay: "0.6s" }}>
-        <span className="text-xs uppercase tracking-[0.2em] text-primary-foreground/50 font-medium">Scroll</span>
-        <div className="w-6 h-10 border-2 border-primary-foreground/20 rounded-full flex items-start justify-center p-2">
-          <div className="w-1 h-2 bg-accent rounded-full animate-bounce" />
+        {/* Navigation */}
+        <div className="flex items-center justify-center gap-4 mt-12">
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={goToPrev}
+            className="rounded-full border border-primary-foreground/20 text-primary-foreground hover:bg-primary-foreground/10 h-10 w-10"
+          >
+            <ChevronLeft className="h-5 w-5" />
+          </Button>
+
+          <div className="flex gap-2">
+            {featuredReviews.map((_, index) => (
+              <button
+                key={index}
+                onClick={() => {
+                  setIsAutoPlaying(false);
+                  setActiveIndex(index);
+                }}
+                className={cn(
+                  "h-2 rounded-full transition-all duration-300",
+                  activeIndex === index
+                    ? "w-8 bg-accent"
+                    : "w-2 bg-primary-foreground/30 hover:bg-primary-foreground/50"
+                )}
+              />
+            ))}
+          </div>
+
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={goToNext}
+            className="rounded-full border border-primary-foreground/20 text-primary-foreground hover:bg-primary-foreground/10 h-10 w-10"
+          >
+            <ChevronRight className="h-5 w-5" />
+          </Button>
         </div>
       </div>
     </section>
