@@ -16,12 +16,10 @@ import {
 
 const navigation = [
   { name: "Home", href: "/" },
-  { name: "Shop", href: "/books" },
-  { name: "Categories", href: "/categories" },
-  { name: "Authors", href: "/authors" },
-  { name: "Publish", href: "/publish" },
-  { name: "News", href: "/news" },
-  { name: "About", href: "/about" },
+  { name: "About Us", href: "/about" },
+  { name: "Buy a Book", href: "/books" },
+  { name: "Publish a Book", href: "/publish" },
+  { name: "FAQs", href: "/faq" },
   { name: "Contact", href: "/contact" },
 ];
 
