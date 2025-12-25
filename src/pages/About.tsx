@@ -77,7 +77,7 @@ export default function AboutSection() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
           {/* LEFT SIDE IMAGE */}
           <div className="flex justify-center">
-            <img src="/src/assets/pic5.png" alt="Green Door" className="w-full md:w-[420px] h-full rounded shadow" />
+            <img alt="Green Door" className="w-full md:w-[420px] h-full rounded shadow" src="/lovable-uploads/3f1259fa-8061-4dd4-9451-dcb25fd9cc8d.png" />
           </div>
 
           {/* RIGHT SIDE TEXT */}
