@@ -149,16 +149,25 @@ export default function Books() {
       <Header />
 
       <main className="pt-24 pb-16">
-        {/* Hero */}
-        <section className="bg-secondary py-16">
-          <div className="container-wide">
-            <h1 className="font-serif text-4xl md:text-5xl font-bold text-foreground mb-4">
-              Browse Our Collection
-            </h1>
-            <p className="text-muted-foreground text-lg max-w-2xl">
-              Explore thousands of titles across every genre. Find your next
-              favorite read.
-            </p>
+      {/* Hero */}
+        <section className="relative bg-gradient-charcoal py-20 overflow-hidden">
+          <div className="absolute inset-0 opacity-10">
+            <div className="absolute top-0 left-0 w-72 h-72 bg-accent rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2" />
+            <div className="absolute bottom-0 right-0 w-96 h-96 bg-accent rounded-full blur-3xl translate-x-1/3 translate-y-1/3" />
+          </div>
+          <div className="container-wide relative z-10">
+            <div className="max-w-3xl">
+              <span className="inline-block text-accent text-sm font-medium tracking-widest uppercase mb-4 animate-fade-up">
+                Our Collection
+              </span>
+              <h1 className="font-serif text-4xl md:text-6xl font-bold text-primary-foreground mb-6 animate-fade-up" style={{ animationDelay: '0.1s' }}>
+                Discover Your Next
+                <span className="block text-gradient-gold mt-2">Literary Adventure</span>
+              </h1>
+              <p className="text-primary-foreground/80 text-lg md:text-xl leading-relaxed animate-fade-up" style={{ animationDelay: '0.2s' }}>
+                Explore our curated selection of books across every genre—from timeless classics to contemporary bestsellers.
+              </p>
+            </div>
           </div>
         </section>
 
@@ -166,29 +175,29 @@ export default function Books() {
         <section className="container-wide py-12">
           {/* Search & Filter Toggle */}
           <div className="flex flex-col md:flex-row gap-4 mb-8">
-            <div className="relative flex-1">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+            <div className="relative flex-1 group">
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground transition-colors group-focus-within:text-accent" />
               <Input
                 type="text"
                 placeholder="Search by title, author, or category..."
                 value={searchQuery}
                 onChange={(e) => handleSearchChange(e.target.value)}
-                className="pl-12 h-12"
+                className="pl-12 h-14 text-base border-2 border-border bg-card shadow-sm focus:border-accent focus:ring-accent/20 transition-all duration-200 rounded-xl"
               />
             </div>
             <Button
-              variant="outline"
+              variant={showFilters ? "gold" : "outline"}
               size="lg"
               onClick={() => setShowFilters(!showFilters)}
-              className="gap-2"
+              className="gap-2 h-14 px-6 rounded-xl transition-all duration-200"
             >
-              <SlidersHorizontal className="h-4 w-4" />
+              <SlidersHorizontal className="h-5 w-5" />
               Filters
               {(selectedCategory !== "all" ||
                 selectedPriceRange !== 0 ||
                 selectedRating !== 0) && (
-                <span className="ml-1 h-5 w-5 rounded-full bg-accent text-primary text-xs flex items-center justify-center">
-                  !
+                <span className="ml-2 h-6 w-6 rounded-full bg-accent text-accent-foreground text-xs font-bold flex items-center justify-center shadow-gold">
+                  ✓
                 </span>
               )}
             </Button>
@@ -197,23 +206,26 @@ export default function Books() {
           {/* Filter Panel */}
           <div
             className={cn(
-              "overflow-hidden transition-all duration-300 mb-8",
-              showFilters ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
+              "overflow-hidden transition-all duration-500 ease-out mb-8",
+              showFilters ? "max-h-[500px] opacity-100" : "max-h-0 opacity-0"
             )}
           >
-            <div className="bg-card rounded-xl p-6 shadow-card">
-              <div className="flex items-center justify-between mb-6">
-                <h3 className="font-serif text-lg font-semibold">Filters</h3>
-                <Button variant="ghost" size="sm" onClick={clearFilters}>
+            <div className="bg-card rounded-2xl p-8 shadow-card border border-border/50">
+              <div className="flex items-center justify-between mb-8">
+                <div>
+                  <h3 className="font-serif text-xl font-semibold text-foreground">Refine Your Search</h3>
+                  <p className="text-sm text-muted-foreground mt-1">Filter books by category, price, and rating</p>
+                </div>
+                <Button variant="ghost" size="sm" onClick={clearFilters} className="text-muted-foreground hover:text-destructive transition-colors">
+                  <X className="mr-2 h-4 w-4" />
                   Clear All
-                  <X className="ml-1 h-4 w-4" />
                 </Button>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                 {/* Category */}
-                <div>
-                  <label className="text-sm font-medium text-foreground mb-3 block">
+                <div className="space-y-4">
+                  <label className="text-sm font-semibold text-foreground uppercase tracking-wider block">
                     Category
                   </label>
                   <div className="flex flex-wrap gap-2">
@@ -221,6 +233,7 @@ export default function Books() {
                       variant={selectedCategory === "all" ? "gold" : "outline"}
                       size="sm"
                       onClick={() => handleCategoryChange("all")}
+                      className="rounded-full"
                     >
                       All
                     </Button>
@@ -234,6 +247,7 @@ export default function Books() {
                         }
                         size="sm"
                         onClick={() => handleCategoryChange(cat.toLowerCase())}
+                        className="rounded-full"
                       >
                         {cat}
                       </Button>
@@ -242,8 +256,8 @@ export default function Books() {
                 </div>
 
                 {/* Price Range */}
-                <div>
-                  <label className="text-sm font-medium text-foreground mb-3 block">
+                <div className="space-y-4">
+                  <label className="text-sm font-semibold text-foreground uppercase tracking-wider block">
                     Price Range
                   </label>
                   <div className="flex flex-wrap gap-2">
@@ -253,6 +267,7 @@ export default function Books() {
                         variant={selectedPriceRange === idx ? "gold" : "outline"}
                         size="sm"
                         onClick={() => setSelectedPriceRange(idx)}
+                        className="rounded-full"
                       >
                         {range.label}
                       </Button>
@@ -261,8 +276,8 @@ export default function Books() {
                 </div>
 
                 {/* Rating */}
-                <div>
-                  <label className="text-sm font-medium text-foreground mb-3 block">
+                <div className="space-y-4">
+                  <label className="text-sm font-semibold text-foreground uppercase tracking-wider block">
                     Rating
                   </label>
                   <div className="flex flex-wrap gap-2">
@@ -272,6 +287,7 @@ export default function Books() {
                         variant={selectedRating === idx ? "gold" : "outline"}
                         size="sm"
                         onClick={() => setSelectedRating(idx)}
+                        className="rounded-full"
                       >
                         {filter.label}
                       </Button>
@@ -283,37 +299,48 @@ export default function Books() {
           </div>
 
           {/* Results Count */}
-          <p className="text-muted-foreground mb-6">
-            {loading ? (
-              <span className="inline-flex items-center gap-2">
-                <Loader2 className="h-4 w-4 animate-spin" />
-                Loading books...
-              </span>
-            ) : (
-              <>Showing {filteredBooks.length} of {allBooks.length} books</>
-            )}
-          </p>
+          <div className="flex items-center justify-between mb-8">
+            <div className="flex items-center gap-3">
+              {loading ? (
+                <span className="inline-flex items-center gap-3 text-muted-foreground">
+                  <Loader2 className="h-5 w-5 animate-spin text-accent" />
+                  <span className="text-base">Curating your collection...</span>
+                </span>
+              ) : (
+                <>
+                  <span className="text-3xl font-serif font-bold text-foreground">{filteredBooks.length}</span>
+                  <span className="text-muted-foreground text-base">books found</span>
+                </>
+              )}
+            </div>
+          </div>
 
           {/* Books Grid */}
           {filteredBooks.length > 0 ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 lg:gap-8">
               {filteredBooks.map((book, index) => (
                 <div
                   key={book.id}
                   className="animate-fade-up"
-                  style={{ animationDelay: `${index * 0.05}s` }}
+                  style={{ animationDelay: `${Math.min(index * 0.05, 0.4)}s` }}
                 >
                   <BookCard book={book} />
                 </div>
               ))}
             </div>
           ) : (
-            <div className="text-center py-16">
-              <p className="text-muted-foreground text-lg mb-4">
-                No books found matching your criteria.
+            <div className="text-center py-24 bg-card rounded-2xl border border-border/50">
+              <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-muted flex items-center justify-center">
+                <Search className="h-10 w-10 text-muted-foreground" />
+              </div>
+              <h3 className="font-serif text-2xl font-semibold text-foreground mb-3">
+                No books found
+              </h3>
+              <p className="text-muted-foreground text-lg mb-6 max-w-md mx-auto">
+                We couldn't find any books matching your criteria. Try adjusting your filters.
               </p>
-              <Button variant="gold" onClick={clearFilters}>
-                Clear Filters
+              <Button variant="gold" size="lg" onClick={clearFilters} className="rounded-full px-8">
+                Clear All Filters
               </Button>
             </div>
           )}
