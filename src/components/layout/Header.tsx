@@ -70,13 +70,13 @@ export function Header() {
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center gap-5">
+          <div className="hidden lg:flex items-center gap-6">
             {navigation.map((item) => (
               <Link
                 key={item.name}
                 to={item.href}
                 className={cn(
-                  "text-sm font-medium transition-colors duration-200 hover:text-accent",
+                  "text-base font-medium transition-colors duration-200 hover:text-accent",
                   location.pathname === item.href ? "text-accent" : "text-foreground",
                 )}
               >
