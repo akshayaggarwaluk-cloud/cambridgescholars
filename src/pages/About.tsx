@@ -1,173 +1,125 @@
-import { BookOpen, Heart, Users, Award } from "lucide-react";
-import { Header } from "@/components/layout/Header";
-import { Footer } from "@/components/layout/Footer";
-
-const values = [
-  {
-    icon: BookOpen,
-    title: "Love for Literature",
-    description: "We believe in the transformative power of stories to inspire, educate, and connect us all.",
-  },
-  {
-    icon: Heart,
-    title: "Reader First",
-    description: "Every decision we make puts our readers at the center. Your reading experience matters most.",
-  },
-  {
-    icon: Users,
-    title: "Community",
-    description: "We're building a community of book lovers who share their passion and recommendations.",
-  },
-  {
-    icon: Award,
-    title: "Quality Curation",
-    description: "Our team of literary experts carefully selects every title to ensure exceptional quality.",
-  },
-];
-
-const timeline = [
-  {
-    year: "2015",
-    title: "The Beginning",
-    description: "Started as a small corner bookshop with just 500 titles and a dream to connect readers with great stories.",
-  },
-  {
-    year: "2018",
-    title: "Going Digital",
-    description: "Launched our online platform to reach book lovers beyond our local community.",
-  },
-  {
-    year: "2021",
-    title: "Expansion",
-    description: "Grew to over 50,000 titles and opened our second flagship store.",
-  },
-  {
-    year: "2024",
-    title: "Today",
-    description: "Serving readers worldwide with curated collections and personalized recommendations.",
-  },
-];
-
-export default function About() {
+export default function AboutSection() {
   return (
-    <div className="min-h-screen bg-background">
-      <Header />
+    <>
+      <div className="bg-[#f9f7f2] py-10 px-6 md:px-16">
+        <div className="max-w-7xl mx-auto flex justify-between items-center">
+          {/* Page Title */}
+          <h1 className="text-3xl font-serif text-gray-800">About Us</h1>
 
-      <main className="pt-24">
-        {/* Hero */}
-        <section className="py-24 bg-gradient-to-br from-primary via-primary to-charcoal-light text-primary-foreground">
-          <div className="container-wide">
-            <div className="max-w-3xl">
-              <p className="text-accent font-medium mb-4">About Biblioscape</p>
-              <h1 className="font-serif text-5xl md:text-6xl font-bold mb-6">
-                Our Story
-              </h1>
-              <p className="text-xl text-primary-foreground/80 leading-relaxed">
-                We're more than a bookstore. We're a haven for readers, a community 
-                for book lovers, and a gateway to worlds yet to be discovered. Every 
-                book we carry has been chosen with care, every recommendation made 
-                with passion.
-              </p>
-            </div>
+          {/* Breadcrumb */}
+          <nav className="text-sm text-gray-600">
+            <ol className="flex space-x-1 md:space-x-2">
+              <li>
+                <a href="/" className="hover:underline italic">
+                  Home
+                </a>
+              </li>
+              <li>
+                <span className="mx-1">/</span>
+              </li>
+              <li>
+                <span className="text-red-500 italic">About Us</span>
+              </li>
+            </ol>
+          </nav>
+        </div>
+      </div>
+      {/* FIRST SECTION */}
+      <section className="w-full px-6 md:px-20 py-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-start">
+          {/* LEFT SIDE — TEXT CONTENT */}
+          <div className="space-y-6 leading-relaxed ">
+            <p>
+              Founded in 2001 by a group of academics, Cambridge Scholars Publishing is an independent academic
+              publisher with a strong commitment to original scholarship and academic excellence. We are based in
+              Newcastle upon Tyne, in the historic Lady Stephenson Library, with additional offices in Berlin and
+              Barcelona.
+            </p>
+
+            <p>
+              We specialise in publishing <strong>monographs, edited collections, and thesis-based works</strong>
+              across a broad range of disciplines.
+            </p>
+
+            <h2 className="text-2xl font-semibold">What We Do</h2>
+
+            <p>At Cambridge Scholars, we support authors at every stage of the publishing journey.</p>
+
+            <ul className="list-disc pl-6 space-y-2">
+              <li>
+                <strong>No charges to authors</strong> – no submission fees.
+              </li>
+              <li>
+                <strong>Royalties from the first sale</strong>.
+              </li>
+              <li>
+                <strong>Comprehensive editorial support</strong>.
+              </li>
+            </ul>
+
+            <h2 className="text-2xl font-semibold">Global Distribution</h2>
+
+            <p>Our titles are distributed globally through academic and commercial networks.</p>
+
+            <p>
+              We offer a unique <strong>Print-on-Time</strong> system ensuring titles remain available.
+            </p>
           </div>
-        </section>
 
-        {/* Values */}
-        <section className="py-24">
-          <div className="container-wide">
-            <div className="text-center mb-16">
-              <p className="text-accent font-medium mb-2">What We Believe</p>
-              <h2 className="font-serif text-4xl md:text-5xl font-bold text-foreground">
-                Our Values
-              </h2>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-              {values.map((value, index) => (
-                <div
-                  key={value.title}
-                  className="text-center p-8 bg-card rounded-2xl shadow-card animate-fade-up"
-                  style={{ animationDelay: `${index * 0.1}s` }}
-                >
-                  <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-accent/10 mb-6">
-                    <value.icon className="h-8 w-8 text-accent" />
-                  </div>
-                  <h3 className="font-serif text-xl font-semibold text-foreground mb-3">
-                    {value.title}
-                  </h3>
-                  <p className="text-muted-foreground leading-relaxed">
-                    {value.description}
-                  </p>
-                </div>
-              ))}
-            </div>
+          {/* RIGHT SIDE — IMAGE */}
+          <div className="flex justify-center ">
+            <img
+              src="/src/assets/pic4.png"
+              alt="Decorative"
+              className="w-80 h-auto md:h-[700px] object-cover rounded-lg shadow"
+            />
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* Timeline */}
-        <section className="py-24 bg-secondary">
-          <div className="container-wide">
-            <div className="text-center mb-16">
-              <p className="text-accent font-medium mb-2">Our Journey</p>
-              <h2 className="font-serif text-4xl md:text-5xl font-bold text-foreground">
-                How We Grew
-              </h2>
-            </div>
-
-            <div className="max-w-3xl mx-auto">
-              {timeline.map((item, index) => (
-                <div
-                  key={item.year}
-                  className="flex gap-8 mb-12 last:mb-0 animate-fade-up"
-                  style={{ animationDelay: `${index * 0.1}s` }}
-                >
-                  <div className="flex-shrink-0">
-                    <div className="w-20 h-20 rounded-full bg-accent flex items-center justify-center">
-                      <span className="font-serif text-lg font-bold text-primary">
-                        {item.year}
-                      </span>
-                    </div>
-                  </div>
-                  <div className="pt-2">
-                    <h3 className="font-serif text-2xl font-semibold text-foreground mb-2">
-                      {item.title}
-                    </h3>
-                    <p className="text-muted-foreground leading-relaxed">
-                      {item.description}
-                    </p>
-                  </div>
-                </div>
-              ))}
-            </div>
+      {/* SECOND SECTION */}
+      <section className="w-full px-6 md:px-20 py-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+          {/* LEFT SIDE IMAGE */}
+          <div className="flex justify-center">
+            <img src="/src/assets/pic5.png" alt="Green Door" className="w-full md:w-[420px] h-full rounded shadow" />
           </div>
-        </section>
 
-        {/* Stats */}
-        <section className="py-24">
-          <div className="container-wide">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-              <div className="animate-fade-up" style={{ animationDelay: "0.1s" }}>
-                <p className="font-serif text-5xl font-bold text-accent mb-2">50K+</p>
-                <p className="text-muted-foreground">Books in Collection</p>
-              </div>
-              <div className="animate-fade-up" style={{ animationDelay: "0.2s" }}>
-                <p className="font-serif text-5xl font-bold text-accent mb-2">100K+</p>
-                <p className="text-muted-foreground">Happy Readers</p>
-              </div>
-              <div className="animate-fade-up" style={{ animationDelay: "0.3s" }}>
-                <p className="font-serif text-5xl font-bold text-accent mb-2">15+</p>
-                <p className="text-muted-foreground">Years Experience</p>
-              </div>
-              <div className="animate-fade-up" style={{ animationDelay: "0.4s" }}>
-                <p className="font-serif text-5xl font-bold text-accent mb-2">4.9</p>
-                <p className="text-muted-foreground">Average Rating</p>
-              </div>
-            </div>
+          {/* RIGHT SIDE TEXT */}
+          <div className="text-gray-800 space-y-8 leading-relaxed">
+            <h2 className="text-3xl md:text-4xl font-semibold">Why Publish With Us</h2>
+
+            <p className="text-base md:text-lg">
+              We understand the academic publishing process and the importance of presenting your work with clarity and
+              professionalism.
+            </p>
+
+            <ul className="list-disc pl-6 space-y-2 text-base md:text-lg">
+              <li>Responsive and personalised approach</li>
+              <li>Transparent publishing process</li>
+              <li>Commitment to editorial excellence</li>
+              <li>Extensive global distribution network</li>
+              <li>Strong relationships with universities and libraries</li>
+            </ul>
+
+            <p className="text-base md:text-lg">
+              Click <span className="text-blue-600 cursor-pointer">here</span> to read more.
+            </p>
+
+            <h2 className="text-3xl md:text-4xl font-semibold">Our Space</h2>
+
+            <p className="text-base md:text-lg">
+              Our headquarters are located in the historic Lady Stephenson Library.
+            </p>
+
+            <p className="text-base md:text-lg">We proudly support a diverse global academic community.</p>
+
+            <p className="text-base md:text-lg font-semibold">
+              Cambridge Scholars Publishing Limited is not affiliated with Cambridge University Press.
+            </p>
           </div>
-        </section>
-      </main>
-
-      <Footer />
-    </div>
+        </div>
+      </section>
+    </>
   );
 }
