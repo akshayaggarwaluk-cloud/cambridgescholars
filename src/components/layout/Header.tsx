@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X, ShoppingCart, Search, BookOpen, User, LogOut, Heart } from "lucide-react";
+import { Menu, X, ShoppingCart, Search, User, LogOut, Heart } from "lucide-react";
+import logoImage from "@/assets/logo.png";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useCart } from "@/contexts/CartContext";
@@ -59,8 +60,8 @@ export function Header() {
       <nav className="container-wide">
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-2 group">
-            <BookOpen className="h-6 w-6 text-accent" />
+          <Link to="/" className="flex items-center gap-3 group">
+            <img src={logoImage} alt="Cambridge Scholars Publishing" className="h-12 w-auto" />
             <div className="flex flex-col">
               <span className="font-serif text-base font-semibold leading-none text-foreground">
                 Cambridge Scholars
