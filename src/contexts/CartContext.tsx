@@ -4,6 +4,8 @@ import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "./AuthContext";
 import { books } from "@/data/books";
 
+export type BookFormat = "ebook" | "hardbook";
+
 export interface Book {
   id: string;
   title: string;
@@ -22,11 +24,12 @@ export interface Book {
 
 export interface CartItem extends Book {
   quantity: number;
+  format: BookFormat;
 }
 
 interface CartContextType {
   items: CartItem[];
-  addToCart: (book: Book) => void;
+  addToCart: (book: Book, format?: BookFormat) => void;
   removeFromCart: (bookId: string) => void;
   updateQuantity: (bookId: string, quantity: number) => void;
   clearCart: () => void;
@@ -105,43 +108,58 @@ export function CartProvider({ children }: { children: ReactNode }) {
     }
   };
 
-  const addToCart = (book: Book) => {
+  const addToCart = (book: Book, format: BookFormat = "hardbook") => {
     setItems((prev) => {
-      const existing = prev.find((item) => item.id === book.id);
+      // Match by both book id and format
+      const existing = prev.find((item) => item.id === book.id && item.format === format);
       const newQuantity = existing ? existing.quantity + 1 : 1;
       
-      // Sync to database
-      syncCartToDatabase(book.id, newQuantity);
+      // Sync to database (using book_id with format suffix for uniqueness)
+      syncCartToDatabase(`${book.id}_${format}`, newQuantity);
       
       if (existing) {
-        toast.success(`Added another copy of "${book.title}"`);
+        toast.success(`Added another ${format === "ebook" ? "eBook" : "Hardbook"} of "${book.title}"`);
         return prev.map((item) =>
-          item.id === book.id
+          item.id === book.id && item.format === format
             ? { ...item, quantity: item.quantity + 1 }
             : item
         );
       }
-      toast.success(`"${book.title}" added to cart`);
-      return [...prev, { ...book, quantity: 1 }];
+      toast.success(`"${book.title}" (${format === "ebook" ? "eBook" : "Hardbook"}) added to cart`);
+      return [...prev, { ...book, quantity: 1, format }];
     });
   };
 
-  const removeFromCart = (bookId: string) => {
-    syncCartToDatabase(bookId, 0);
-    setItems((prev) => prev.filter((item) => item.id !== bookId));
+  const removeFromCart = (cartItemId: string) => {
+    syncCartToDatabase(cartItemId, 0);
+    // cartItemId format: "bookId_format"
+    const [bookId, format] = cartItemId.includes("_") 
+      ? [cartItemId.substring(0, cartItemId.lastIndexOf("_")), cartItemId.substring(cartItemId.lastIndexOf("_") + 1)]
+      : [cartItemId, null];
+    
+    setItems((prev) => prev.filter((item) => 
+      format ? !(item.id === bookId && item.format === format) : item.id !== bookId
+    ));
     toast.info("Item removed from cart");
   };
 
-  const updateQuantity = (bookId: string, quantity: number) => {
+  const updateQuantity = (cartItemId: string, quantity: number) => {
     if (quantity <= 0) {
-      removeFromCart(bookId);
+      removeFromCart(cartItemId);
       return;
     }
     
-    syncCartToDatabase(bookId, quantity);
+    syncCartToDatabase(cartItemId, quantity);
+    // cartItemId format: "bookId_format"
+    const [bookId, format] = cartItemId.includes("_") 
+      ? [cartItemId.substring(0, cartItemId.lastIndexOf("_")), cartItemId.substring(cartItemId.lastIndexOf("_") + 1)]
+      : [cartItemId, null];
+    
     setItems((prev) =>
       prev.map((item) =>
-        item.id === bookId ? { ...item, quantity } : item
+        (format ? item.id === bookId && item.format === format : item.id === bookId)
+          ? { ...item, quantity }
+          : item
       )
     );
   };

@@ -1,17 +1,26 @@
+import { useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import { ArrowLeft, Star, ShoppingCart, Heart, Share2, BookOpen, Calendar, Building, FileText } from "lucide-react";
+import { ArrowLeft, Star, ShoppingCart, Heart, Share2, BookOpen, Calendar, Building, FileText, Tablet, Book } from "lucide-react";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { Button } from "@/components/ui/button";
 import { BookCard } from "@/components/books/BookCard";
 import { books } from "@/data/books";
-import { useCart } from "@/contexts/CartContext";
+import { useCart, BookFormat } from "@/contexts/CartContext";
+import { cn } from "@/lib/utils";
 
 export default function BookDetails() {
   const { id } = useParams<{ id: string }>();
   const { addToCart } = useCart();
+  const [selectedFormat, setSelectedFormat] = useState<BookFormat>("hardbook");
 
   const book = books.find((b) => b.id === id);
+  
+  // eBook is typically cheaper
+  const getPrice = (format: BookFormat) => {
+    if (!book) return 0;
+    return format === "ebook" ? book.price * 0.6 : book.price;
+  };
 
   if (!book) {
     return (
@@ -108,12 +117,49 @@ export default function BookDetails() {
                 </span>
               </div>
 
+              {/* Format Selection */}
+              <div className="mb-6">
+                <p className="text-sm font-medium text-muted-foreground mb-3">Select Format</p>
+                <div className="flex gap-3">
+                  <button
+                    onClick={() => setSelectedFormat("ebook")}
+                    className={cn(
+                      "flex items-center gap-3 px-4 py-3 rounded-lg border-2 transition-all",
+                      selectedFormat === "ebook"
+                        ? "border-accent bg-accent/10"
+                        : "border-border hover:border-accent/50"
+                    )}
+                  >
+                    <Tablet className={cn("h-5 w-5", selectedFormat === "ebook" ? "text-accent" : "text-muted-foreground")} />
+                    <div className="text-left">
+                      <p className={cn("font-medium", selectedFormat === "ebook" ? "text-accent" : "text-foreground")}>eBook</p>
+                      <p className="text-sm text-muted-foreground">${getPrice("ebook").toFixed(2)}</p>
+                    </div>
+                  </button>
+                  <button
+                    onClick={() => setSelectedFormat("hardbook")}
+                    className={cn(
+                      "flex items-center gap-3 px-4 py-3 rounded-lg border-2 transition-all",
+                      selectedFormat === "hardbook"
+                        ? "border-accent bg-accent/10"
+                        : "border-border hover:border-accent/50"
+                    )}
+                  >
+                    <Book className={cn("h-5 w-5", selectedFormat === "hardbook" ? "text-accent" : "text-muted-foreground")} />
+                    <div className="text-left">
+                      <p className={cn("font-medium", selectedFormat === "hardbook" ? "text-accent" : "text-foreground")}>Hardbook</p>
+                      <p className="text-sm text-muted-foreground">${getPrice("hardbook").toFixed(2)}</p>
+                    </div>
+                  </button>
+                </div>
+              </div>
+
               {/* Price */}
               <div className="flex items-center gap-4 mb-8">
                 <span className="font-serif text-4xl font-bold text-foreground">
-                  ${book.price.toFixed(2)}
+                  ${getPrice(selectedFormat).toFixed(2)}
                 </span>
-                {book.originalPrice && (
+                {book.originalPrice && selectedFormat === "hardbook" && (
                   <span className="text-xl text-muted-foreground line-through">
                     ${book.originalPrice.toFixed(2)}
                   </span>
@@ -173,7 +219,7 @@ export default function BookDetails() {
                   variant="gold"
                   size="xl"
                   className="flex-1"
-                  onClick={() => addToCart(book)}
+                  onClick={() => addToCart({ ...book, price: getPrice(selectedFormat) }, selectedFormat)}
                 >
                   <ShoppingCart className="mr-2 h-5 w-5" />
                   Add to Cart

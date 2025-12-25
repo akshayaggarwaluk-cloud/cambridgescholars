@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Minus, Plus, Trash2, ArrowLeft, ShoppingBag } from "lucide-react";
+import { Minus, Plus, Trash2, ArrowLeft, ShoppingBag, Tablet, Book } from "lucide-react";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { Button } from "@/components/ui/button";
@@ -60,7 +60,7 @@ export default function Cart() {
             <div className="lg:col-span-2 space-y-6">
               {items.map((item) => (
                 <div
-                  key={item.id}
+                  key={`${item.id}_${item.format}`}
                   className="flex gap-6 p-6 bg-card rounded-xl shadow-card"
                 >
                   <Link
@@ -83,9 +83,25 @@ export default function Cart() {
                     <p className="text-muted-foreground text-sm mb-2">
                       {item.author}
                     </p>
-                    <p className="text-xs text-muted-foreground uppercase tracking-wider mb-4">
-                      {item.category}
-                    </p>
+                    <div className="flex items-center gap-2 mb-4">
+                      <span className="text-xs text-muted-foreground uppercase tracking-wider">
+                        {item.category}
+                      </span>
+                      <span className="text-muted-foreground">•</span>
+                      <span className="inline-flex items-center gap-1 text-xs text-accent font-medium">
+                        {item.format === "ebook" ? (
+                          <>
+                            <Tablet className="h-3 w-3" />
+                            eBook
+                          </>
+                        ) : (
+                          <>
+                            <Book className="h-3 w-3" />
+                            Hardbook
+                          </>
+                        )}
+                      </span>
+                    </div>
 
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-3">
@@ -94,7 +110,7 @@ export default function Cart() {
                           size="icon"
                           className="h-8 w-8"
                           onClick={() =>
-                            updateQuantity(item.id, item.quantity - 1)
+                            updateQuantity(`${item.id}_${item.format}`, item.quantity - 1)
                           }
                         >
                           <Minus className="h-4 w-4" />
@@ -107,7 +123,7 @@ export default function Cart() {
                           size="icon"
                           className="h-8 w-8"
                           onClick={() =>
-                            updateQuantity(item.id, item.quantity + 1)
+                            updateQuantity(`${item.id}_${item.format}`, item.quantity + 1)
                           }
                         >
                           <Plus className="h-4 w-4" />
@@ -122,7 +138,7 @@ export default function Cart() {
                           variant="ghost"
                           size="icon"
                           className="text-muted-foreground hover:text-destructive"
-                          onClick={() => removeFromCart(item.id)}
+                          onClick={() => removeFromCart(`${item.id}_${item.format}`)}
                         >
                           <Trash2 className="h-4 w-4" />
                         </Button>
