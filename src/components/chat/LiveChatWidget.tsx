@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { MessageCircle, X, Send, User, Bot, Loader2, UserCheck } from "lucide-react";
+import { MessageCircle, X, Send, User, Bot, UserCheck, Check, CheckCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
@@ -10,6 +10,43 @@ interface Message {
   role: "user" | "assistant";
   content: string;
   timestamp: Date;
+  status: "sending" | "sent" | "delivered" | "read";
+}
+
+function TypingIndicator() {
+  return (
+    <div className="flex gap-3 animate-fade-up">
+      <div className="w-8 h-8 rounded-full bg-secondary flex items-center justify-center">
+        <Bot className="h-4 w-4 text-foreground" />
+      </div>
+      <div className="bg-secondary rounded-2xl rounded-bl-md px-4 py-3">
+        <div className="flex items-center gap-1">
+          <span className="w-2 h-2 bg-muted-foreground/60 rounded-full animate-bounce" style={{ animationDelay: "0ms" }} />
+          <span className="w-2 h-2 bg-muted-foreground/60 rounded-full animate-bounce" style={{ animationDelay: "150ms" }} />
+          <span className="w-2 h-2 bg-muted-foreground/60 rounded-full animate-bounce" style={{ animationDelay: "300ms" }} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function MessageStatus({ status }: { status: Message["status"] }) {
+  return (
+    <span className="inline-flex items-center ml-1">
+      {status === "sending" && (
+        <span className="w-3 h-3 border border-current/40 border-t-transparent rounded-full animate-spin" />
+      )}
+      {status === "sent" && (
+        <Check className="h-3 w-3 opacity-60" />
+      )}
+      {status === "delivered" && (
+        <CheckCheck className="h-3 w-3 opacity-60" />
+      )}
+      {status === "read" && (
+        <CheckCheck className="h-3 w-3 text-accent" />
+      )}
+    </span>
+  );
 }
 
 export function LiveChatWidget() {
@@ -20,10 +57,11 @@ export function LiveChatWidget() {
       role: "assistant",
       content: "Hi! 👋 I'm your Biblioscape assistant. How can I help you today? I can answer questions about orders, shipping, book recommendations, and more!",
       timestamp: new Date(),
+      status: "read",
     },
   ]);
   const [input, setInput] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
+  const [isTyping, setIsTyping] = useState(false);
   const [isEscalated, setIsEscalated] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
@@ -33,7 +71,20 @@ export function LiveChatWidget() {
 
   useEffect(() => {
     scrollToBottom();
-  }, [messages]);
+  }, [messages, isTyping]);
+
+  // Mark messages as read when chat is opened
+  useEffect(() => {
+    if (isOpen) {
+      setMessages((prev) =>
+        prev.map((msg) =>
+          msg.role === "assistant" && msg.status !== "read"
+            ? { ...msg, status: "read" as const }
+            : msg
+        )
+      );
+    }
+  }, [isOpen]);
 
   const sendMessage = async (requestHuman = false) => {
     if (!input.trim() && !requestHuman) return;
@@ -43,11 +94,30 @@ export function LiveChatWidget() {
       role: "user",
       content: requestHuman ? "I'd like to speak with a human agent please." : input.trim(),
       timestamp: new Date(),
+      status: "sending",
     };
 
     setMessages((prev) => [...prev, userMessage]);
     setInput("");
-    setIsLoading(true);
+
+    // Simulate sending delay
+    await new Promise((r) => setTimeout(r, 300));
+    setMessages((prev) =>
+      prev.map((msg) =>
+        msg.id === userMessage.id ? { ...msg, status: "sent" as const } : msg
+      )
+    );
+
+    // Simulate delivery
+    await new Promise((r) => setTimeout(r, 400));
+    setMessages((prev) =>
+      prev.map((msg) =>
+        msg.id === userMessage.id ? { ...msg, status: "delivered" as const } : msg
+      )
+    );
+
+    // Show typing indicator
+    setIsTyping(true);
 
     try {
       // Prepare messages for API (excluding welcome message)
@@ -63,14 +133,34 @@ export function LiveChatWidget() {
 
       if (error) throw error;
 
+      // Mark user message as read
+      setMessages((prev) =>
+        prev.map((msg) =>
+          msg.id === userMessage.id ? { ...msg, status: "read" as const } : msg
+        )
+      );
+
+      // Small delay before showing response for natural feel
+      await new Promise((r) => setTimeout(r, 500));
+
       const assistantMessage: Message = {
         id: (Date.now() + 1).toString(),
         role: "assistant",
         content: data.message,
         timestamp: new Date(),
+        status: "delivered",
       };
 
       setMessages((prev) => [...prev, assistantMessage]);
+      
+      // Mark as read after a moment
+      setTimeout(() => {
+        setMessages((prev) =>
+          prev.map((msg) =>
+            msg.id === assistantMessage.id ? { ...msg, status: "read" as const } : msg
+          )
+        );
+      }, 500);
       
       if (data.escalated) {
         setIsEscalated(true);
@@ -82,10 +172,11 @@ export function LiveChatWidget() {
         role: "assistant",
         content: "I'm having trouble connecting. Please try again or email us at support@biblioscape.com",
         timestamp: new Date(),
+        status: "read",
       };
       setMessages((prev) => [...prev, errorMessage]);
     } finally {
-      setIsLoading(false);
+      setIsTyping(false);
     }
   };
 
@@ -122,19 +213,35 @@ export function LiveChatWidget() {
         {/* Header */}
         <div className="flex items-center justify-between p-4 border-b border-border/50 bg-gradient-charcoal rounded-t-2xl">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full bg-accent/20 flex items-center justify-center">
-              {isEscalated ? (
-                <UserCheck className="h-5 w-5 text-accent" />
-              ) : (
-                <Bot className="h-5 w-5 text-accent" />
-              )}
+            <div className="relative">
+              <div className="w-10 h-10 rounded-full bg-accent/20 flex items-center justify-center">
+                {isEscalated ? (
+                  <UserCheck className="h-5 w-5 text-accent" />
+                ) : (
+                  <Bot className="h-5 w-5 text-accent" />
+                )}
+              </div>
+              {/* Online indicator */}
+              <span className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-card rounded-full" />
             </div>
             <div>
               <h3 className="font-semibold text-primary-foreground">
                 {isEscalated ? "Support Team" : "Biblioscape Assistant"}
               </h3>
-              <p className="text-xs text-primary-foreground/60">
-                {isEscalated ? "A human agent will respond soon" : "Usually replies instantly"}
+              <p className="text-xs text-primary-foreground/60 flex items-center gap-1">
+                {isTyping ? (
+                  <>
+                    <span className="inline-block w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse" />
+                    Typing...
+                  </>
+                ) : isEscalated ? (
+                  "A human agent will respond soon"
+                ) : (
+                  <>
+                    <span className="inline-block w-1.5 h-1.5 bg-green-400 rounded-full" />
+                    Online
+                  </>
+                )}
               </p>
             </div>
           </div>
@@ -181,31 +288,27 @@ export function LiveChatWidget() {
                 <p className="text-sm leading-relaxed whitespace-pre-wrap">
                   {message.content}
                 </p>
-                <p
+                <div
                   className={cn(
-                    "text-[10px] mt-1 opacity-60",
-                    message.role === "user" ? "text-right" : "text-left"
+                    "flex items-center gap-1 text-[10px] mt-1 opacity-60",
+                    message.role === "user" ? "justify-end" : "justify-start"
                   )}
                 >
-                  {message.timestamp.toLocaleTimeString([], {
-                    hour: "2-digit",
-                    minute: "2-digit",
-                  })}
-                </p>
+                  <span>
+                    {message.timestamp.toLocaleTimeString([], {
+                      hour: "2-digit",
+                      minute: "2-digit",
+                    })}
+                  </span>
+                  {message.role === "user" && (
+                    <MessageStatus status={message.status} />
+                  )}
+                </div>
               </div>
             </div>
           ))}
           
-          {isLoading && (
-            <div className="flex gap-3">
-              <div className="w-8 h-8 rounded-full bg-secondary flex items-center justify-center">
-                <Bot className="h-4 w-4 text-foreground" />
-              </div>
-              <div className="bg-secondary rounded-2xl rounded-bl-md px-4 py-3">
-                <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
-              </div>
-            </div>
-          )}
+          {isTyping && <TypingIndicator />}
           
           <div ref={messagesEndRef} />
         </div>
@@ -215,8 +318,8 @@ export function LiveChatWidget() {
           <div className="px-4 py-2 border-t border-border/50">
             <button
               onClick={() => sendMessage(true)}
-              disabled={isLoading}
-              className="w-full text-center text-sm text-muted-foreground hover:text-accent transition-colors py-2"
+              disabled={isTyping}
+              className="w-full text-center text-sm text-muted-foreground hover:text-accent transition-colors py-2 disabled:opacity-50"
             >
               <UserCheck className="inline h-4 w-4 mr-1" />
               Talk to a human agent
@@ -232,12 +335,12 @@ export function LiveChatWidget() {
               onChange={(e) => setInput(e.target.value)}
               onKeyPress={handleKeyPress}
               placeholder="Type your message..."
-              disabled={isLoading}
+              disabled={isTyping}
               className="flex-1 rounded-full border-border/50 focus:border-accent"
             />
             <Button
               onClick={() => sendMessage()}
-              disabled={isLoading || !input.trim()}
+              disabled={isTyping || !input.trim()}
               size="icon"
               variant="gold"
               className="rounded-full"
