@@ -34,7 +34,7 @@ export function WelcomeSection() {
           <img 
             src="https://camschl-wordpress-uploads.s3.eu-west-1.amazonaws.com/wp-content/uploads/2025/10/Line-drawing-green-door-cropped-e1759655768727.png" 
             alt="Cambridge Scholars Publishing"
-            className="h-24 md:h-32 w-auto object-contain"
+            className="h-36 md:h-48 w-auto object-contain"
           />
         </div>
 
