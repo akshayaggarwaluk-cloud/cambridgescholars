@@ -19,6 +19,7 @@ const navigation = [
   { name: "Home", href: "/" },
   { name: "Books", href: "/books" },
   { name: "Publish", href: "/publish" },
+  { name: "FAQ", href: "/faq" },
   { name: "About", href: "/about" },
   { name: "Contact", href: "/contact" },
 ];
