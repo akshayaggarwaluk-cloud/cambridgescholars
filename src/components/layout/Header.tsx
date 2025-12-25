@@ -57,7 +57,7 @@ export function Header() {
       )}
     >
       <nav className="container-wide">
-        <div className="flex items-center justify-between h-14">
+        <div className="flex items-center justify-between h-20">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2 group">
             <BookOpen className="h-6 w-6 text-accent" />
