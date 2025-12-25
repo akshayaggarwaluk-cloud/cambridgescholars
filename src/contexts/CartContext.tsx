@@ -1,5 +1,8 @@
-import { createContext, useContext, useState, ReactNode } from "react";
+import { createContext, useContext, useState, useEffect, ReactNode } from "react";
 import { toast } from "sonner";
+import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "./AuthContext";
+import { books } from "@/data/books";
 
 export interface Book {
   id: string;
@@ -29,16 +32,87 @@ interface CartContextType {
   clearCart: () => void;
   cartCount: number;
   cartTotal: number;
+  loading: boolean;
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
 export function CartProvider({ children }: { children: ReactNode }) {
   const [items, setItems] = useState<CartItem[]>([]);
+  const [loading, setLoading] = useState(false);
+  const { user } = useAuth();
+
+  // Load cart from database when user logs in
+  useEffect(() => {
+    if (user) {
+      loadCartFromDatabase();
+    } else {
+      setItems([]);
+    }
+  }, [user]);
+
+  const loadCartFromDatabase = async () => {
+    if (!user) return;
+    
+    setLoading(true);
+    try {
+      const { data, error } = await supabase
+        .from("cart_items")
+        .select("*")
+        .eq("user_id", user.id);
+
+      if (error) throw error;
+
+      if (data) {
+        const cartItems: CartItem[] = data.map((item) => {
+          const book = books.find((b) => b.id === item.book_id);
+          if (book) {
+            return { ...book, quantity: item.quantity };
+          }
+          return null;
+        }).filter(Boolean) as CartItem[];
+        
+        setItems(cartItems);
+      }
+    } catch (error) {
+      console.error("Error loading cart:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const syncCartToDatabase = async (bookId: string, quantity: number) => {
+    if (!user) return;
+
+    try {
+      if (quantity <= 0) {
+        await supabase
+          .from("cart_items")
+          .delete()
+          .eq("user_id", user.id)
+          .eq("book_id", bookId);
+      } else {
+        await supabase
+          .from("cart_items")
+          .upsert({
+            user_id: user.id,
+            book_id: bookId,
+            quantity,
+          }, { onConflict: "user_id,book_id" });
+      }
+    } catch (error) {
+      console.error("Error syncing cart:", error);
+    }
+  };
 
   const addToCart = (book: Book) => {
     setItems((prev) => {
       const existing = prev.find((item) => item.id === book.id);
+      const newQuantity = existing ? existing.quantity + 1 : 1;
+      
+      // Sync to database
+      syncCartToDatabase(book.id, newQuantity);
+      
       if (existing) {
         toast.success(`Added another copy of "${book.title}"`);
         return prev.map((item) =>
@@ -53,6 +127,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
   };
 
   const removeFromCart = (bookId: string) => {
+    syncCartToDatabase(bookId, 0);
     setItems((prev) => prev.filter((item) => item.id !== bookId));
     toast.info("Item removed from cart");
   };
@@ -62,6 +137,8 @@ export function CartProvider({ children }: { children: ReactNode }) {
       removeFromCart(bookId);
       return;
     }
+    
+    syncCartToDatabase(bookId, quantity);
     setItems((prev) =>
       prev.map((item) =>
         item.id === bookId ? { ...item, quantity } : item
@@ -69,7 +146,17 @@ export function CartProvider({ children }: { children: ReactNode }) {
     );
   };
 
-  const clearCart = () => {
+  const clearCart = async () => {
+    if (user) {
+      try {
+        await supabase
+          .from("cart_items")
+          .delete()
+          .eq("user_id", user.id);
+      } catch (error) {
+        console.error("Error clearing cart:", error);
+      }
+    }
     setItems([]);
   };
 
@@ -89,6 +176,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
         clearCart,
         cartCount,
         cartTotal,
+        loading,
       }}
     >
       {children}

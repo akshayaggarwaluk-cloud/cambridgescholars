@@ -1,24 +1,96 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { ArrowLeft, CheckCircle } from "lucide-react";
+import { ArrowLeft, CheckCircle, AlertCircle } from "lucide-react";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useCart } from "@/contexts/CartContext";
+import { useAuth } from "@/contexts/AuthContext";
+import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 
 export default function Checkout() {
   const { items, cartTotal, clearCart } = useCart();
+  const { user } = useAuth();
   const navigate = useNavigate();
   const [isComplete, setIsComplete] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    email: user?.email || "",
+    phone: "",
+    address: "",
+    city: "",
+    zip: "",
+  });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData((prev) => ({ ...prev, [e.target.id]: e.target.value }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsComplete(true);
-    clearCart();
-    toast.success("Order placed successfully!");
+    
+    if (!user) {
+      toast.error("Please sign in to complete your order");
+      navigate("/auth");
+      return;
+    }
+
+    setLoading(true);
+    
+    try {
+      // Create order
+      const { data: order, error: orderError } = await supabase
+        .from("orders")
+        .insert({
+          user_id: user.id,
+          total: cartTotal,
+          status: "completed",
+          shipping_address: {
+            firstName: formData.firstName,
+            lastName: formData.lastName,
+            address: formData.address,
+            city: formData.city,
+            zip: formData.zip,
+            phone: formData.phone,
+          },
+        })
+        .select()
+        .single();
+
+      if (orderError) throw orderError;
+
+      // Create order items
+      const orderItems = items.map((item) => ({
+        order_id: order.id,
+        book_id: item.id,
+        book_title: item.title,
+        book_author: item.author,
+        book_image: item.image,
+        price: item.price,
+        quantity: item.quantity,
+      }));
+
+      const { error: itemsError } = await supabase
+        .from("order_items")
+        .insert(orderItems);
+
+      if (itemsError) throw itemsError;
+
+      // Clear cart
+      await clearCart();
+      setIsComplete(true);
+      toast.success("Order placed successfully!");
+    } catch (error) {
+      console.error("Error creating order:", error);
+      toast.error("Failed to place order. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   if (items.length === 0 && !isComplete) {
@@ -40,16 +112,41 @@ export default function Checkout() {
             </h1>
             <p className="text-muted-foreground mb-8">
               Thank you for your purchase. Your books will be on their way soon.
-              We've sent a confirmation email with your order details.
+              You can view your order in your order history.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button asChild variant="gold" size="lg">
-                <Link to="/books">Continue Shopping</Link>
+                <Link to="/orders">View Orders</Link>
               </Button>
               <Button asChild variant="outline" size="lg">
-                <Link to="/">Go Home</Link>
+                <Link to="/books">Continue Shopping</Link>
               </Button>
             </div>
+          </div>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
+
+  if (!user) {
+    return (
+      <div className="min-h-screen bg-background">
+        <Header />
+        <main className="pt-32 pb-16">
+          <div className="container-wide text-center max-w-lg mx-auto">
+            <div className="inline-flex items-center justify-center w-24 h-24 rounded-full bg-accent/20 mb-6">
+              <AlertCircle className="h-12 w-12 text-accent" />
+            </div>
+            <h1 className="font-serif text-4xl font-bold text-foreground mb-4">
+              Sign In Required
+            </h1>
+            <p className="text-muted-foreground mb-8">
+              Please sign in to complete your checkout and save your order history.
+            </p>
+            <Button asChild variant="gold" size="lg">
+              <Link to="/auth">Sign In</Link>
+            </Button>
           </div>
         </main>
         <Footer />
@@ -93,6 +190,8 @@ export default function Checkout() {
                       <Input
                         id="email"
                         type="email"
+                        value={formData.email}
+                        onChange={handleChange}
                         placeholder="your@email.com"
                         required
                       />
@@ -102,6 +201,8 @@ export default function Checkout() {
                       <Input
                         id="phone"
                         type="tel"
+                        value={formData.phone}
+                        onChange={handleChange}
                         placeholder="(123) 456-7890"
                       />
                     </div>
@@ -116,58 +217,78 @@ export default function Checkout() {
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="space-y-2">
                       <Label htmlFor="firstName">First Name</Label>
-                      <Input id="firstName" placeholder="John" required />
+                      <Input
+                        id="firstName"
+                        value={formData.firstName}
+                        onChange={handleChange}
+                        placeholder="John"
+                        required
+                      />
                     </div>
                     <div className="space-y-2">
                       <Label htmlFor="lastName">Last Name</Label>
-                      <Input id="lastName" placeholder="Doe" required />
+                      <Input
+                        id="lastName"
+                        value={formData.lastName}
+                        onChange={handleChange}
+                        placeholder="Doe"
+                        required
+                      />
                     </div>
                     <div className="space-y-2 md:col-span-2">
                       <Label htmlFor="address">Address</Label>
                       <Input
                         id="address"
+                        value={formData.address}
+                        onChange={handleChange}
                         placeholder="123 Main Street"
                         required
                       />
                     </div>
                     <div className="space-y-2">
                       <Label htmlFor="city">City</Label>
-                      <Input id="city" placeholder="New York" required />
-                    </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="zip">ZIP Code</Label>
-                      <Input id="zip" placeholder="10001" required />
-                    </div>
-                  </div>
-                </div>
-
-                {/* Payment */}
-                <div className="bg-card rounded-xl shadow-card p-6">
-                  <h2 className="font-serif text-xl font-semibold text-foreground mb-6">
-                    Payment Method
-                  </h2>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="space-y-2 md:col-span-2">
-                      <Label htmlFor="cardNumber">Card Number</Label>
                       <Input
-                        id="cardNumber"
-                        placeholder="1234 5678 9012 3456"
+                        id="city"
+                        value={formData.city}
+                        onChange={handleChange}
+                        placeholder="New York"
                         required
                       />
                     </div>
                     <div className="space-y-2">
-                      <Label htmlFor="expiry">Expiry Date</Label>
-                      <Input id="expiry" placeholder="MM/YY" required />
-                    </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="cvv">CVV</Label>
-                      <Input id="cvv" placeholder="123" required />
+                      <Label htmlFor="zip">ZIP Code</Label>
+                      <Input
+                        id="zip"
+                        value={formData.zip}
+                        onChange={handleChange}
+                        placeholder="10001"
+                        required
+                      />
                     </div>
                   </div>
                 </div>
 
-                <Button type="submit" variant="gold" size="xl" className="w-full">
-                  Place Order - ${cartTotal.toFixed(2)}
+                {/* Payment Placeholder */}
+                <div className="bg-card rounded-xl shadow-card p-6">
+                  <h2 className="font-serif text-xl font-semibold text-foreground mb-4">
+                    Payment Method
+                  </h2>
+                  <p className="text-muted-foreground text-sm mb-4">
+                    This is a demo store. No actual payment will be processed.
+                  </p>
+                  <div className="p-4 bg-secondary rounded-lg text-center text-muted-foreground">
+                    Payment integration would go here
+                  </div>
+                </div>
+
+                <Button
+                  type="submit"
+                  variant="gold"
+                  size="xl"
+                  className="w-full"
+                  disabled={loading}
+                >
+                  {loading ? "Processing..." : `Place Order - $${cartTotal.toFixed(2)}`}
                 </Button>
               </form>
             </div>
