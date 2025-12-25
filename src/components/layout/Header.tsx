@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X, ShoppingCart, Search, BookOpen, User, LogOut } from "lucide-react";
+import { Menu, X, ShoppingCart, Search, BookOpen, User, LogOut, Heart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useCart } from "@/contexts/CartContext";
+import { useWishlist } from "@/contexts/WishlistContext";
 import { useAuth } from "@/contexts/AuthContext";
 import { SearchAutocomplete } from "@/components/search/SearchAutocomplete";
 import {
@@ -29,6 +30,7 @@ export function Header() {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const location = useLocation();
   const { cartCount } = useCart();
+  const { wishlistCount } = useWishlist();
   const { user, signOut } = useAuth();
 
   useEffect(() => {
@@ -111,6 +113,21 @@ export function Header() {
               </Button>
             )}
 
+            <Link to="/wishlist" className="relative">
+              <Button 
+                variant="ghost" 
+                size="icon" 
+                className="h-8 w-8 text-foreground hover:bg-secondary"
+              >
+                <Heart className="h-4 w-4" />
+                {wishlistCount > 0 && (
+                  <span className="absolute -top-1 -right-1 h-4 w-4 rounded-full bg-accent text-accent-foreground text-[10px] font-bold flex items-center justify-center">
+                    {wishlistCount}
+                  </span>
+                )}
+              </Button>
+            </Link>
+
             <Link to="/cart" className="relative">
               <Button 
                 variant="ghost" 
@@ -178,6 +195,20 @@ export function Header() {
             >
               <Search className="h-4 w-4" />
             </Button>
+            <Link to="/wishlist" className="relative">
+              <Button 
+                variant="ghost" 
+                size="icon" 
+                className="h-8 w-8 text-foreground"
+              >
+                <Heart className="h-4 w-4" />
+                {wishlistCount > 0 && (
+                  <span className="absolute -top-1 -right-1 h-4 w-4 rounded-full bg-accent text-accent-foreground text-[10px] font-bold flex items-center justify-center">
+                    {wishlistCount}
+                  </span>
+                )}
+              </Button>
+            </Link>
             <Link to="/cart" className="relative">
               <Button 
                 variant="ghost" 
