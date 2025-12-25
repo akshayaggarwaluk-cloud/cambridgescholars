@@ -68,7 +68,7 @@ export function Header() {
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2 group">
             <BookOpen className="h-8 w-8 text-accent transition-transform duration-300 group-hover:scale-110" />
-            <span className="font-serif text-2xl font-semibold text-foreground text-white">Biblioscape</span>
+            <span className="font-serif text-2xl font-semibold text-foreground">Biblioscape</span>
           </Link>
 
           {/* Desktop Navigation */}
@@ -78,7 +78,7 @@ export function Header() {
                 key={item.name}
                 to={item.href}
                 className={cn(
-                  "link-underline text-sm font-medium transition-colors duration-200",
+                  "link-underline text-sm font-medium transition-colors duration-200 text-white",
                   location.pathname === item.href ? "text-accent" : "text-muted-foreground hover:text-foreground",
                 )}
               >
