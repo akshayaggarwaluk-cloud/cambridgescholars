@@ -1,9 +1,17 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X, ShoppingCart, Search, Moon, Sun, BookOpen } from "lucide-react";
+import { Menu, X, ShoppingCart, Search, Moon, Sun, BookOpen, User, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useCart } from "@/contexts/CartContext";
+import { useAuth } from "@/contexts/AuthContext";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 const navigation = [
   { name: "Home", href: "/" },
@@ -18,6 +26,7 @@ export function Header() {
   const [isDark, setIsDark] = useState(false);
   const location = useLocation();
   const { cartCount } = useCart();
+  const { user, signOut } = useAuth();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -34,6 +43,10 @@ export function Header() {
       document.documentElement.classList.remove("dark");
     }
   }, [isDark]);
+
+  const handleSignOut = async () => {
+    await signOut();
+  };
 
   return (
     <header
@@ -95,6 +108,39 @@ export function Header() {
                 )}
               </Button>
             </Link>
+
+            {user ? (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-foreground">
+                    <User className="h-5 w-5" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-48">
+                  <DropdownMenuItem asChild>
+                    <Link to="/profile" className="flex items-center gap-2">
+                      <User className="h-4 w-4" />
+                      Profile
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem asChild>
+                    <Link to="/orders" className="flex items-center gap-2">
+                      <ShoppingCart className="h-4 w-4" />
+                      Orders
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={handleSignOut} className="flex items-center gap-2">
+                    <LogOut className="h-4 w-4" />
+                    Sign Out
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ) : (
+              <Button asChild variant="gold" size="sm">
+                <Link to="/auth">Sign In</Link>
+              </Button>
+            )}
           </div>
 
           {/* Mobile Menu Button */}
@@ -124,7 +170,7 @@ export function Header() {
         <div
           className={cn(
             "md:hidden overflow-hidden transition-all duration-300",
-            isMenuOpen ? "max-h-96 pb-6" : "max-h-0"
+            isMenuOpen ? "max-h-screen pb-6" : "max-h-0"
           )}
         >
           <div className="flex flex-col gap-4 pt-4">
@@ -143,6 +189,43 @@ export function Header() {
                 {item.name}
               </Link>
             ))}
+            
+            {user ? (
+              <>
+                <Link
+                  to="/profile"
+                  onClick={() => setIsMenuOpen(false)}
+                  className="text-lg font-medium py-2 text-muted-foreground hover:text-foreground"
+                >
+                  Profile
+                </Link>
+                <Link
+                  to="/orders"
+                  onClick={() => setIsMenuOpen(false)}
+                  className="text-lg font-medium py-2 text-muted-foreground hover:text-foreground"
+                >
+                  Orders
+                </Link>
+                <button
+                  onClick={() => {
+                    handleSignOut();
+                    setIsMenuOpen(false);
+                  }}
+                  className="text-lg font-medium py-2 text-muted-foreground hover:text-foreground text-left"
+                >
+                  Sign Out
+                </button>
+              </>
+            ) : (
+              <Link
+                to="/auth"
+                onClick={() => setIsMenuOpen(false)}
+                className="text-lg font-medium py-2 text-accent"
+              >
+                Sign In
+              </Link>
+            )}
+            
             <div className="flex items-center gap-4 pt-4 border-t border-border">
               <Button
                 variant="ghost"
