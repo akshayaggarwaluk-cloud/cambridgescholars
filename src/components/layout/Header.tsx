@@ -50,21 +50,12 @@ export function Header() {
   };
 
   return (
-    <header className={cn(
-      "fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-background border-b border-border",
-      isScrolled && "shadow-sm"
-    )}>
-      {/* Top Bar */}
-      <div className="border-b border-border bg-secondary/50">
-        <div className="container-wide">
-          <div className="flex items-center justify-between h-8 text-xs">
-            <span className="text-muted-foreground">
-              Independent Academic Publisher
-            </span>
-          </div>
-        </div>
-      </div>
-
+    <header
+      className={cn(
+        "fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-background border-b border-border",
+        isScrolled && "shadow-sm",
+      )}
+    >
       <nav className="container-wide">
         <div className="flex items-center justify-between h-14">
           {/* Logo */}
@@ -74,9 +65,7 @@ export function Header() {
               <span className="font-serif text-base font-semibold leading-none text-foreground">
                 Cambridge Scholars
               </span>
-              <span className="text-[9px] uppercase tracking-[0.2em] text-muted-foreground">
-                Publishing
-              </span>
+              <span className="text-[9px] uppercase tracking-[0.2em] text-muted-foreground">Publishing</span>
             </div>
           </Link>
 
@@ -88,7 +77,7 @@ export function Header() {
                 to={item.href}
                 className={cn(
                   "text-sm font-medium transition-colors duration-200 hover:text-accent",
-                  location.pathname === item.href ? "text-accent" : "text-foreground"
+                  location.pathname === item.href ? "text-accent" : "text-foreground",
                 )}
               >
                 {item.name}
@@ -114,11 +103,7 @@ export function Header() {
             )}
 
             <Link to="/wishlist" className="relative">
-              <Button 
-                variant="ghost" 
-                size="icon" 
-                className="h-8 w-8 text-foreground hover:bg-secondary"
-              >
+              <Button variant="ghost" size="icon" className="h-8 w-8 text-foreground hover:bg-secondary">
                 <Heart className="h-4 w-4" />
                 {wishlistCount > 0 && (
                   <span className="absolute -top-1 -right-1 h-4 w-4 rounded-full bg-accent text-accent-foreground text-[10px] font-bold flex items-center justify-center">
@@ -129,11 +114,7 @@ export function Header() {
             </Link>
 
             <Link to="/cart" className="relative">
-              <Button 
-                variant="ghost" 
-                size="icon" 
-                className="h-8 w-8 text-foreground hover:bg-secondary"
-              >
+              <Button variant="ghost" size="icon" className="h-8 w-8 text-foreground hover:bg-secondary">
                 <ShoppingCart className="h-4 w-4" />
                 {cartCount > 0 && (
                   <span className="absolute -top-1 -right-1 h-4 w-4 rounded-full bg-accent text-accent-foreground text-[10px] font-bold flex items-center justify-center">
@@ -146,11 +127,7 @@ export function Header() {
             {user ? (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button 
-                    variant="ghost" 
-                    size="icon" 
-                    className="h-8 w-8 text-foreground hover:bg-secondary"
-                  >
+                  <Button variant="ghost" size="icon" className="h-8 w-8 text-foreground hover:bg-secondary">
                     <User className="h-4 w-4" />
                   </Button>
                 </DropdownMenuTrigger>
@@ -175,8 +152,8 @@ export function Header() {
                 </DropdownMenuContent>
               </DropdownMenu>
             ) : (
-              <Button 
-                asChild 
+              <Button
+                asChild
                 size="sm"
                 className="h-8 bg-accent hover:bg-accent/90 text-accent-foreground text-xs px-4"
               >
@@ -196,11 +173,7 @@ export function Header() {
               <Search className="h-4 w-4" />
             </Button>
             <Link to="/wishlist" className="relative">
-              <Button 
-                variant="ghost" 
-                size="icon" 
-                className="h-8 w-8 text-foreground"
-              >
+              <Button variant="ghost" size="icon" className="h-8 w-8 text-foreground">
                 <Heart className="h-4 w-4" />
                 {wishlistCount > 0 && (
                   <span className="absolute -top-1 -right-1 h-4 w-4 rounded-full bg-accent text-accent-foreground text-[10px] font-bold flex items-center justify-center">
@@ -210,11 +183,7 @@ export function Header() {
               </Button>
             </Link>
             <Link to="/cart" className="relative">
-              <Button 
-                variant="ghost" 
-                size="icon" 
-                className="h-8 w-8 text-foreground"
-              >
+              <Button variant="ghost" size="icon" className="h-8 w-8 text-foreground">
                 <ShoppingCart className="h-4 w-4" />
                 {cartCount > 0 && (
                   <span className="absolute -top-1 -right-1 h-4 w-4 rounded-full bg-accent text-accent-foreground text-[10px] font-bold flex items-center justify-center">
@@ -223,10 +192,10 @@ export function Header() {
                 )}
               </Button>
             </Link>
-            <Button 
-              variant="ghost" 
-              size="icon" 
-              onClick={() => setIsMenuOpen(!isMenuOpen)} 
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
               className="h-8 w-8 text-foreground"
             >
               {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
@@ -242,10 +211,12 @@ export function Header() {
         )}
 
         {/* Mobile Menu */}
-        <div className={cn(
-          "lg:hidden overflow-hidden transition-all duration-300",
-          isMenuOpen ? "max-h-screen pb-4" : "max-h-0"
-        )}>
+        <div
+          className={cn(
+            "lg:hidden overflow-hidden transition-all duration-300",
+            isMenuOpen ? "max-h-screen pb-4" : "max-h-0",
+          )}
+        >
           <div className="flex flex-col gap-1 pt-3 border-t border-border">
             {navigation.map((item) => (
               <Link
@@ -254,7 +225,7 @@ export function Header() {
                 onClick={() => setIsMenuOpen(false)}
                 className={cn(
                   "text-sm font-medium py-2 transition-colors duration-200",
-                  location.pathname === item.href ? "text-accent" : "text-foreground hover:text-accent"
+                  location.pathname === item.href ? "text-accent" : "text-foreground hover:text-accent",
                 )}
               >
                 {item.name}
@@ -288,11 +259,7 @@ export function Header() {
                 </button>
               </>
             ) : (
-              <Link 
-                to="/auth" 
-                onClick={() => setIsMenuOpen(false)} 
-                className="text-sm font-medium py-2 text-accent"
-              >
+              <Link to="/auth" onClick={() => setIsMenuOpen(false)} className="text-sm font-medium py-2 text-accent">
                 Sign In
               </Link>
             )}
