@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { ChevronLeft, ChevronRight, Quote } from "lucide-react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
@@ -8,36 +8,51 @@ import { cn } from "@/lib/utils";
 const featuredReviews = [
   {
     id: 1,
+    label: "Featured Review",
     bookTitle: "Fundamentals of Human Ecology",
     subtitle: "A Paradigm for a More Sustainable Economy",
-    author: "Dr. Sarah Mitchell & Prof. James Chen",
+    author: "By Nuria Chinchilla Albiol and Pilar García Lombardía",
     quote: "An invaluable gem as a guide to the human condition, which is so lost and without reference points in today's world.",
-    reviewer: "Prof. Michael Thompson",
-    reviewerTitle: "London School of Economics",
-    image: "https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=400&h=600&fit=crop",
+    reviewer: "Isabel Tocino",
+    reviewerTitle: "Vice President of the Board of Directors of Banco Santander, former Minister of the Environment of Spain",
+    image: "https://camschl-wordpress-uploads.s3.eu-west-1.amazonaws.com/wp-content/uploads/2021/12/fundamental-mockup-1-scaled.png",
     bookId: "1"
   },
   {
     id: 2,
-    bookTitle: "The Psychology of Decision Making",
-    subtitle: "Understanding Cognitive Biases in Modern Society",
-    author: "Dr. Elena Rodriguez",
-    quote: "This remarkable book traces how human decision-making has evolved, offering a powerful reminder that our cognitive frameworks continue to shape our world.",
-    reviewer: "Dr. Amara Williams",
-    reviewerTitle: "Yale University",
-    image: "https://images.unsplash.com/photo-1589998059171-988d887df646?w=400&h=600&fit=crop",
+    label: "Featured Review",
+    bookTitle: "Instinct, Tradition and Reason",
+    subtitle: "The Moral Philosophy of F.A. Hayek",
+    author: "By Jules Goddard",
+    quote: "This remarkable book traces how human morality has evolved, using the insights of F.A. Hayek. At the same time, it looks ahead to a future where AI may shape—and be shaped by—its own forms of moral reasoning. It offers a powerful reminder that our ethical frameworks may soon need to change. Thoughtful, timely, and deeply relevant.",
+    reviewer: "François Ortalo-Magné",
+    reviewerTitle: "Dean & CEO, 2017-2024, London Business School, UK",
+    image: "https://camschl-wordpress-uploads.s3.eu-west-1.amazonaws.com/wp-content/uploads/2021/12/Instinct-mockup-scaled.png",
     bookId: "2"
   },
   {
     id: 3,
-    bookTitle: "Digital Transformation in Academia",
-    subtitle: "Reshaping Higher Education for the 21st Century",
-    author: "Prof. David Park",
-    quote: "A lucid study that offers concrete guidelines for navigating the digital revolution in academic institutions. Thoughtful, timely, and deeply relevant.",
-    reviewer: "Dr. Rachel Foster",
-    reviewerTitle: "University of Melbourne",
-    image: "https://images.unsplash.com/photo-1543002588-bfa74002ed7e?w=400&h=600&fit=crop",
+    label: "Featured Review",
+    bookTitle: "Caribbean Men in the Arts",
+    subtitle: "Demystifying Masculinities with Essays, Interviews, Poetry and Stories",
+    author: "By Keino Senior and Opal Palmer Adisa",
+    quote: "From every angle and through many genres, Opal Palmer Adisa and Keino Senior, explore masculinity and manhood throughout the Caribbean. This collection of essays, poems and artists' statements makes this the first anthology of its kind. It is impossible to read this book without learning a little more about yourself, whether you are man, woman, or nonbinary!",
+    reviewer: "Jericho Brown",
+    reviewerTitle: "Pulitzer Prize Winner for 'The Tradition'",
+    image: "https://camschl-wordpress-uploads.s3.eu-west-1.amazonaws.com/wp-content/uploads/2021/12/carribean-mockup-scaled.png",
     bookId: "3"
+  },
+  {
+    id: 4,
+    label: "Featured Review",
+    bookTitle: "Rescuing the Social Function of the Economy",
+    subtitle: "Brazil is Back",
+    author: "By Ladislau Dowbor",
+    quote: "With special focus on Brazil, this lucid study offers concrete guidelines for escape from the tragedy of hunger in the midst of plenty, underused resources, idle hands with so much work that should be done to benefit the larger society, while the global economy regresses from creating capital for production to bestowing wealth on a few – all the result of policies that can be reversed by an informed and engaged public. A most valuable contribution in these troubled times.",
+    reviewer: "Noam Chomsky",
+    reviewerTitle: "Massachusetts Institute of Technology, USA",
+    image: "https://camschl-wordpress-uploads.s3.eu-west-1.amazonaws.com/wp-content/uploads/2021/12/unnamed-1-scaled.png",
+    bookId: "4"
   }
 ];
 
@@ -51,7 +66,7 @@ export function HeroSection() {
     if (!isAutoPlaying) return;
     const interval = setInterval(() => {
       setActiveIndex((prev) => (prev + 1) % featuredReviews.length);
-    }, 6000);
+    }, 8000);
     return () => clearInterval(interval);
   }, [isAutoPlaying]);
 
@@ -66,105 +81,72 @@ export function HeroSection() {
   };
 
   return (
-    <section className="relative bg-primary pt-32 pb-16 overflow-hidden">
-      {/* Background Pattern */}
-      <div className="absolute inset-0 opacity-5">
-        <div className="absolute inset-0" style={{
-          backgroundImage: 'radial-gradient(circle at 2px 2px, currentColor 1px, transparent 0)',
-          backgroundSize: '40px 40px'
-        }} />
+    <section className="relative bg-primary pt-28 pb-12 md:pt-32 md:pb-16 min-h-[85vh] flex items-center overflow-hidden">
+      {/* Background decorative elements */}
+      <div className="absolute inset-0 overflow-hidden">
+        <div className="absolute top-20 left-10 w-64 h-64 bg-accent/5 rounded-full blur-3xl" />
+        <div className="absolute bottom-20 right-10 w-96 h-96 bg-accent/5 rounded-full blur-3xl" />
       </div>
 
-      <div className="container-wide relative z-10">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
+      <div className="container-wide relative z-10 w-full">
+        <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center">
           {/* Content */}
-          <div className="text-primary-foreground space-y-6">
-            <span className="inline-block text-accent text-sm font-semibold uppercase tracking-widest">
-              Featured Review
+          <div className="text-primary-foreground space-y-5 order-2 lg:order-1">
+            <span className="inline-block text-accent text-xs font-semibold uppercase tracking-[0.2em]">
+              {activeReview.label}
             </span>
             
-            <h1 className="font-serif text-3xl md:text-4xl lg:text-5xl font-bold leading-tight">
+            <h1 className="font-serif text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold leading-[1.1] text-balance">
               {activeReview.bookTitle}
             </h1>
             
             {activeReview.subtitle && (
-              <p className="text-xl text-primary-foreground/80 italic">
+              <h2 className="text-lg md:text-xl lg:text-2xl text-primary-foreground/80 italic font-serif">
                 {activeReview.subtitle}
-              </p>
+              </h2>
             )}
             
-            <p className="text-primary-foreground/70">
-              By {activeReview.author}
+            <p className="text-primary-foreground/70 text-sm md:text-base">
+              {activeReview.author}
             </p>
 
             {/* Quote */}
-            <div className="relative pl-6 border-l-2 border-accent py-2">
-              <Quote className="absolute -left-3 -top-1 h-6 w-6 text-accent fill-accent" />
-              <p className="text-lg italic text-primary-foreground/90 leading-relaxed">
-                "{activeReview.quote}"
+            <blockquote className="relative py-4">
+              <p className="text-base md:text-lg italic text-primary-foreground/90 leading-relaxed">
+                <span className="text-accent text-2xl font-serif">"</span>
+                {activeReview.quote}
+                <span className="text-accent text-2xl font-serif">"</span>
               </p>
-              <p className="mt-4 text-sm text-primary-foreground/70">
-                <span className="font-semibold text-primary-foreground">{activeReview.reviewer}</span>
-                <span className="mx-2">—</span>
-                {activeReview.reviewerTitle}
-              </p>
-            </div>
+              <footer className="mt-4 text-sm text-primary-foreground/70">
+                <span className="font-semibold text-primary-foreground">– {activeReview.reviewer}</span>
+                <span className="block text-xs mt-1">{activeReview.reviewerTitle}</span>
+              </footer>
+            </blockquote>
 
-            <div className="pt-4">
+            <div className="pt-2">
               <Button 
                 asChild
-                className="bg-accent hover:bg-accent/90 text-accent-foreground"
+                className="bg-accent hover:bg-accent/90 text-accent-foreground font-medium px-6"
               >
-                <Link to={`/books/${activeReview.bookId}`}>View Book</Link>
+                <Link to={`/books/${activeReview.bookId}`}>View</Link>
               </Button>
             </div>
           </div>
 
-          {/* Book Image */}
-          <div className="relative flex justify-center lg:justify-end">
-            <div className="relative">
-              {/* Book mockup shadow */}
-              <div className="absolute inset-0 translate-x-4 translate-y-4 bg-black/20 rounded-lg blur-xl" />
-              
-              {/* Main Image */}
-              <div className="relative w-64 md:w-80 aspect-[3/4] rounded-lg overflow-hidden shadow-2xl">
-                <img
-                  src={activeReview.image}
-                  alt={activeReview.bookTitle}
-                  className="w-full h-full object-cover transition-all duration-700"
-                />
-              </div>
-
-              {/* Thumbnail navigation */}
-              <div className="absolute -left-4 md:-left-8 top-1/2 -translate-y-1/2 flex flex-col gap-2">
-                {featuredReviews.map((review, index) => (
-                  <button
-                    key={review.id}
-                    onClick={() => {
-                      setIsAutoPlaying(false);
-                      setActiveIndex(index);
-                    }}
-                    className={cn(
-                      "w-12 h-16 md:w-14 md:h-20 rounded overflow-hidden transition-all duration-300 border-2",
-                      activeIndex === index
-                        ? "border-accent scale-110 shadow-lg"
-                        : "border-transparent opacity-60 hover:opacity-100"
-                    )}
-                  >
-                    <img
-                      src={review.image}
-                      alt={review.bookTitle}
-                      className="w-full h-full object-cover"
-                    />
-                  </button>
-                ))}
-              </div>
+          {/* Book Image - Mockup style */}
+          <div className="relative flex justify-center lg:justify-end order-1 lg:order-2">
+            <div className="relative w-full max-w-md lg:max-w-lg xl:max-w-xl">
+              <img
+                src={activeReview.image}
+                alt={activeReview.bookTitle}
+                className="w-full h-auto object-contain transition-all duration-700 drop-shadow-2xl"
+              />
             </div>
           </div>
         </div>
 
         {/* Navigation */}
-        <div className="flex items-center justify-center gap-4 mt-12">
+        <div className="flex items-center justify-center gap-4 mt-8 md:mt-12">
           <Button
             variant="ghost"
             size="icon"
