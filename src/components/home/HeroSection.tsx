@@ -143,7 +143,7 @@ export function HeroSection() {
               <img
                 src={activeReview.image}
                 alt={activeReview.bookTitle}
-                className="w-full h-auto object-contain transition-all duration-700 drop-shadow-2xl"
+                className="w-full h-auto object-contain transition-all duration-700"
               />
             </div>
           </div>
