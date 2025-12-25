@@ -71,7 +71,7 @@ export function Header() {
         isScrolled ? "border-border bg-secondary/50" : "border-primary-foreground/10 bg-primary"
       )}>
         <div className="container-wide">
-          <div className="flex items-center justify-between h-10 text-xs">
+          <div className="flex items-center justify-between h-8 text-xs">
             <span className={cn(
               "transition-colors",
               isScrolled ? "text-muted-foreground" : "text-primary-foreground/70"
@@ -83,14 +83,14 @@ export function Header() {
                 variant="ghost"
                 size="sm"
                 className={cn(
-                  "h-6 px-2 text-xs transition-colors",
+                  "h-6 px-2 text-xs transition-colors gap-1",
                   isScrolled 
                     ? "text-muted-foreground hover:text-foreground" 
                     : "text-primary-foreground/70 hover:text-primary-foreground hover:bg-primary-foreground/10"
                 )}
                 onClick={() => setIsDark(!isDark)}
               >
-                {isDark ? <Sun className="h-3 w-3 mr-1" /> : <Moon className="h-3 w-3 mr-1" />}
+                {isDark ? <Sun className="h-3 w-3" /> : <Moon className="h-3 w-3" />}
                 {isDark ? "Light" : "Dark"}
               </Button>
             </div>
@@ -99,27 +99,24 @@ export function Header() {
       </div>
 
       <nav className="container-wide">
-        <div className="flex items-center justify-between h-16">
+        <div className="flex items-center justify-between h-14">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2 group">
-            <BookOpen className={cn(
-              "h-7 w-7 transition-colors duration-300",
-              isScrolled ? "text-accent" : "text-accent"
-            )} />
+            <BookOpen className="h-6 w-6 text-accent" />
             <div className="flex flex-col">
               <span className={cn(
-                "font-serif text-lg font-semibold leading-none transition-colors duration-300",
+                "font-serif text-base font-semibold leading-none transition-colors duration-300",
                 isScrolled ? "text-foreground" : "text-primary-foreground"
               )}>Cambridge Scholars</span>
               <span className={cn(
-                "text-[10px] uppercase tracking-widest transition-colors duration-300",
+                "text-[9px] uppercase tracking-[0.2em] transition-colors duration-300",
                 isScrolled ? "text-muted-foreground" : "text-primary-foreground/60"
               )}>Publishing</span>
             </div>
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center gap-6">
+          <div className="hidden lg:flex items-center gap-5">
             {navigation.map((item) => (
               <Link
                 key={item.name}
@@ -139,9 +136,9 @@ export function Header() {
           </div>
 
           {/* Desktop Actions */}
-          <div className="hidden lg:flex items-center gap-3">
+          <div className="hidden lg:flex items-center gap-2">
             {isSearchOpen ? (
-              <div className="w-64 animate-fade-in">
+              <div className="w-56 animate-fade-in">
                 <SearchAutocomplete onClose={() => setIsSearchOpen(false)} />
               </div>
             ) : (
@@ -149,7 +146,7 @@ export function Header() {
                 variant="ghost"
                 size="icon"
                 className={cn(
-                  "h-9 w-9 transition-colors duration-300",
+                  "h-8 w-8 transition-colors duration-300",
                   isScrolled ? "text-foreground hover:bg-secondary" : "text-primary-foreground hover:bg-primary-foreground/10"
                 )}
                 onClick={() => setIsSearchOpen(true)}
@@ -163,13 +160,13 @@ export function Header() {
                 variant="ghost" 
                 size="icon" 
                 className={cn(
-                  "h-9 w-9 transition-colors duration-300",
+                  "h-8 w-8 transition-colors duration-300",
                   isScrolled ? "text-foreground hover:bg-secondary" : "text-primary-foreground hover:bg-primary-foreground/10"
                 )}
               >
                 <ShoppingCart className="h-4 w-4" />
                 {cartCount > 0 && (
-                  <span className="absolute -top-1 -right-1 h-5 w-5 rounded-full bg-accent text-accent-foreground text-xs font-bold flex items-center justify-center">
+                  <span className="absolute -top-1 -right-1 h-4 w-4 rounded-full bg-accent text-accent-foreground text-[10px] font-bold flex items-center justify-center">
                     {cartCount}
                   </span>
                 )}
@@ -183,7 +180,7 @@ export function Header() {
                     variant="ghost" 
                     size="icon" 
                     className={cn(
-                      "h-9 w-9 transition-colors duration-300",
+                      "h-8 w-8 transition-colors duration-300",
                       isScrolled ? "text-foreground hover:bg-secondary" : "text-primary-foreground hover:bg-primary-foreground/10"
                     )}
                   >
@@ -214,7 +211,7 @@ export function Header() {
               <Button 
                 asChild 
                 size="sm"
-                className="bg-accent hover:bg-accent/90 text-accent-foreground"
+                className="h-8 bg-accent hover:bg-accent/90 text-accent-foreground text-xs px-4"
               >
                 <Link to="/auth">Sign In</Link>
               </Button>
@@ -227,7 +224,7 @@ export function Header() {
               variant="ghost"
               size="icon"
               className={cn(
-                "h-9 w-9",
+                "h-8 w-8",
                 isScrolled ? "text-foreground" : "text-primary-foreground"
               )}
               onClick={() => setIsSearchOpen(!isSearchOpen)}
@@ -239,13 +236,13 @@ export function Header() {
                 variant="ghost" 
                 size="icon" 
                 className={cn(
-                  "h-9 w-9",
+                  "h-8 w-8",
                   isScrolled ? "text-foreground" : "text-primary-foreground"
                 )}
               >
                 <ShoppingCart className="h-4 w-4" />
                 {cartCount > 0 && (
-                  <span className="absolute -top-1 -right-1 h-5 w-5 rounded-full bg-accent text-accent-foreground text-xs font-bold flex items-center justify-center">
+                  <span className="absolute -top-1 -right-1 h-4 w-4 rounded-full bg-accent text-accent-foreground text-[10px] font-bold flex items-center justify-center">
                     {cartCount}
                   </span>
                 )}
@@ -256,7 +253,7 @@ export function Header() {
               size="icon" 
               onClick={() => setIsMenuOpen(!isMenuOpen)} 
               className={cn(
-                "h-9 w-9",
+                "h-8 w-8",
                 isScrolled ? "text-foreground" : "text-primary-foreground"
               )}
             >
@@ -267,7 +264,7 @@ export function Header() {
 
         {/* Mobile Search */}
         {isSearchOpen && (
-          <div className="lg:hidden pb-4 animate-fade-in">
+          <div className="lg:hidden pb-3 animate-fade-in">
             <SearchAutocomplete onClose={() => setIsSearchOpen(false)} />
           </div>
         )}
@@ -275,9 +272,9 @@ export function Header() {
         {/* Mobile Menu */}
         <div className={cn(
           "lg:hidden overflow-hidden transition-all duration-300",
-          isMenuOpen ? "max-h-screen pb-6" : "max-h-0"
+          isMenuOpen ? "max-h-screen pb-4" : "max-h-0"
         )}>
-          <div className="flex flex-col gap-2 pt-4 border-t border-border">
+          <div className="flex flex-col gap-1 pt-3 border-t border-border">
             {navigation.map((item) => (
               <Link
                 key={item.name}
