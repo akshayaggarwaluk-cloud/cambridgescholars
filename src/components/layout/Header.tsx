@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X, ShoppingCart, Search, Moon, Sun, BookOpen, User, LogOut } from "lucide-react";
+import { Menu, X, ShoppingCart, Search, Moon, Sun, BookOpen, User, LogOut, PenLine } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useCart } from "@/contexts/CartContext";
@@ -17,6 +17,7 @@ import {
 const navigation = [
   { name: "Home", href: "/" },
   { name: "Books", href: "/books" },
+  { name: "Publish", href: "/publish" },
   { name: "About", href: "/about" },
   { name: "Contact", href: "/contact" },
 ];
