@@ -7,22 +7,22 @@ const services = [
     title: "Buy a Book",
     description: "Browse our collection of academic titles available in hardback, paperback and eBook formats.",
     link: "/books",
-    linkText: "READ MORE"
+    linkText: "READ MORE",
   },
   {
     icon: "https://camschl-wordpress-uploads.s3.eu-west-1.amazonaws.com/wp-content/uploads/2025/08/Icons_1-removebg-preview-1.png",
     title: "Publish a Book",
     description: "Discover how we collaborate with authors to bring their research to a global audience.",
     link: "/publish",
-    linkText: "READ MORE"
+    linkText: "READ MORE",
   },
   {
     icon: "https://camschl-wordpress-uploads.s3.eu-west-1.amazonaws.com/wp-content/uploads/2025/08/Frame-21.png",
     title: "News",
     description: "News, updates and stories from across our academic publishing community.",
     link: "/news",
-    linkText: "READ MORE"
-  }
+    linkText: "READ MORE",
+  },
 ];
 
 export function WelcomeSection() {
@@ -31,10 +31,10 @@ export function WelcomeSection() {
       <div className="container-wide">
         {/* Decorative Image */}
         <div className="flex justify-center mb-8">
-          <img 
-            src="https://camschl-wordpress-uploads.s3.eu-west-1.amazonaws.com/wp-content/uploads/2025/10/Line-drawing-green-door-cropped-e1759655768727.png" 
+          <img
+            src="https://camschl-wordpress-uploads.s3.eu-west-1.amazonaws.com/wp-content/uploads/2025/10/Line-drawing-green-door-cropped-e1759655768727.png"
             alt="Cambridge Scholars Publishing"
-            className="h-36 md:h-48 w-auto object-contain"
+            className="h-36 md:h-60 w-auto object-contain"
           />
         </div>
 
@@ -44,8 +44,8 @@ export function WelcomeSection() {
             Welcome to Cambridge Scholars Publishing
           </h6>
           <p className="text-base md:text-lg text-muted-foreground leading-relaxed">
-            We are an independent academic publisher committed to advancing original research across the humanities, 
-            social sciences, physical sciences, life science and health sciences. Our titles are authored by scholars 
+            We are an independent academic publisher committed to advancing original research across the humanities,
+            social sciences, physical sciences, life science and health sciences. Our titles are authored by scholars
             from around the world and are distributed globally in premium print and digital formats
           </p>
         </div>
@@ -59,21 +59,13 @@ export function WelcomeSection() {
               style={{ animationDelay: `${index * 0.1}s` }}
             >
               <div className="flex items-center justify-center h-20 mb-6">
-                <img 
-                  src={service.icon} 
-                  alt={service.title}
-                  className="h-16 w-auto object-contain"
-                />
+                <img src={service.icon} alt={service.title} className="h-16 w-auto object-contain" />
               </div>
-              
-              <h3 className="font-serif text-xl font-semibold text-foreground mb-4">
-                {service.title}
-              </h3>
-              
-              <p className="text-muted-foreground mb-6 leading-relaxed text-sm md:text-base">
-                {service.description}
-              </p>
-              
+
+              <h3 className="font-serif text-xl font-semibold text-foreground mb-4">{service.title}</h3>
+
+              <p className="text-muted-foreground mb-6 leading-relaxed text-sm md:text-base">{service.description}</p>
+
               <Link
                 to={service.link}
                 className="inline-flex items-center gap-2 text-accent font-medium text-sm uppercase tracking-wider hover:gap-3 transition-all"
