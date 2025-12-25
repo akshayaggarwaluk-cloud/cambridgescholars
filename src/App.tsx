@@ -18,6 +18,7 @@ import Profile from "./pages/Profile";
 import Orders from "./pages/Orders";
 import PublishBook from "./pages/PublishBook";
 import Wishlist from "./pages/Wishlist";
+import FAQ from "./pages/FAQ";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -44,6 +45,7 @@ const App = () => (
                 <Route path="/orders" element={<Orders />} />
                 <Route path="/publish" element={<PublishBook />} />
                 <Route path="/wishlist" element={<Wishlist />} />
+                <Route path="/faq" element={<FAQ />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </BrowserRouter>
