@@ -40,7 +40,7 @@ export function WelcomeSection() {
 
         {/* Welcome Message */}
         <div className="max-w-3xl mx-auto text-center mb-12 md:mb-16">
-          <h6 className="text-s font-semibold uppercase tracking-[0.15em] text-accent mb-4">
+          <h6 className="text-lg font-semibold uppercase tracking-[0.15em] text-accent mb-4">
             Welcome to Cambridge Scholars Publishing
           </h6>
           <p className="text-base md:text-lg text-muted-foreground leading-relaxed">
