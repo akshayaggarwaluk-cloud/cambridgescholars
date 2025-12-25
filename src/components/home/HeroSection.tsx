@@ -81,44 +81,44 @@ export function HeroSection() {
   };
 
   return (
-    <section className="relative bg-primary pt-28 pb-12 md:pt-32 md:pb-16 min-h-[85vh] flex items-center overflow-hidden">
+    <section className="relative bg-secondary pt-28 pb-12 md:pt-32 md:pb-16 min-h-[85vh] flex items-center overflow-hidden">
       {/* Background decorative elements */}
       <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute top-20 left-10 w-64 h-64 bg-accent/5 rounded-full blur-3xl" />
-        <div className="absolute bottom-20 right-10 w-96 h-96 bg-accent/5 rounded-full blur-3xl" />
+        <div className="absolute top-20 left-10 w-64 h-64 bg-accent/10 rounded-full blur-3xl" />
+        <div className="absolute bottom-20 right-10 w-96 h-96 bg-primary/5 rounded-full blur-3xl" />
       </div>
 
       <div className="container-wide relative z-10 w-full">
         <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center">
           {/* Content */}
-          <div className="text-primary-foreground space-y-5 order-2 lg:order-1">
+          <div className="text-foreground space-y-5 order-2 lg:order-1">
             <span className="inline-block text-accent text-xs font-semibold uppercase tracking-[0.2em]">
               {activeReview.label}
             </span>
             
-            <h1 className="font-serif text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold leading-[1.1] text-balance">
+            <h1 className="font-serif text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold leading-[1.1] text-balance text-primary">
               {activeReview.bookTitle}
             </h1>
             
             {activeReview.subtitle && (
-              <h2 className="text-lg md:text-xl lg:text-2xl text-primary-foreground/80 italic font-serif">
+              <h2 className="text-lg md:text-xl lg:text-2xl text-muted-foreground italic font-serif">
                 {activeReview.subtitle}
               </h2>
             )}
             
-            <p className="text-primary-foreground/70 text-sm md:text-base">
+            <p className="text-muted-foreground text-sm md:text-base">
               {activeReview.author}
             </p>
 
             {/* Quote */}
             <blockquote className="relative py-4">
-              <p className="text-base md:text-lg italic text-primary-foreground/90 leading-relaxed">
+              <p className="text-base md:text-lg italic text-foreground/90 leading-relaxed">
                 <span className="text-accent text-2xl font-serif">"</span>
                 {activeReview.quote}
                 <span className="text-accent text-2xl font-serif">"</span>
               </p>
-              <footer className="mt-4 text-sm text-primary-foreground/70">
-                <span className="font-semibold text-primary-foreground">– {activeReview.reviewer}</span>
+              <footer className="mt-4 text-sm text-muted-foreground">
+                <span className="font-semibold text-foreground">– {activeReview.reviewer}</span>
                 <span className="block text-xs mt-1">{activeReview.reviewerTitle}</span>
               </footer>
             </blockquote>
@@ -151,7 +151,7 @@ export function HeroSection() {
             variant="ghost"
             size="icon"
             onClick={goToPrev}
-            className="rounded-full border border-primary-foreground/20 text-primary-foreground hover:bg-primary-foreground/10 h-10 w-10"
+            className="rounded-full border border-border text-foreground hover:bg-muted h-10 w-10"
           >
             <ChevronLeft className="h-5 w-5" />
           </Button>
@@ -168,7 +168,7 @@ export function HeroSection() {
                   "h-2 rounded-full transition-all duration-300",
                   activeIndex === index
                     ? "w-8 bg-accent"
-                    : "w-2 bg-primary-foreground/30 hover:bg-primary-foreground/50"
+                    : "w-2 bg-muted-foreground/30 hover:bg-muted-foreground/50"
                 )}
               />
             ))}
@@ -178,7 +178,7 @@ export function HeroSection() {
             variant="ghost"
             size="icon"
             onClick={goToNext}
-            className="rounded-full border border-primary-foreground/20 text-primary-foreground hover:bg-primary-foreground/10 h-10 w-10"
+            className="rounded-full border border-border text-foreground hover:bg-muted h-10 w-10"
           >
             <ChevronRight className="h-5 w-5" />
           </Button>

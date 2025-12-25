@@ -51,22 +51,14 @@ export function Header() {
 
   return (
     <header className={cn(
-      "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
-      isScrolled 
-        ? "bg-background/98 backdrop-blur-sm shadow-sm border-b border-border" 
-        : "bg-primary"
+      "fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-background border-b border-border",
+      isScrolled && "shadow-sm"
     )}>
       {/* Top Bar */}
-      <div className={cn(
-        "border-b transition-colors duration-300",
-        isScrolled ? "border-border bg-secondary/50" : "border-primary-foreground/10 bg-primary"
-      )}>
+      <div className="border-b border-border bg-secondary/50">
         <div className="container-wide">
           <div className="flex items-center justify-between h-8 text-xs">
-            <span className={cn(
-              "transition-colors",
-              isScrolled ? "text-muted-foreground" : "text-primary-foreground/70"
-            )}>
+            <span className="text-muted-foreground">
               Independent Academic Publisher
             </span>
           </div>
@@ -79,14 +71,12 @@ export function Header() {
           <Link to="/" className="flex items-center gap-2 group">
             <BookOpen className="h-6 w-6 text-accent" />
             <div className="flex flex-col">
-              <span className={cn(
-                "font-serif text-base font-semibold leading-none transition-colors duration-300",
-                isScrolled ? "text-foreground" : "text-primary-foreground"
-              )}>Cambridge Scholars</span>
-              <span className={cn(
-                "text-[9px] uppercase tracking-[0.2em] transition-colors duration-300",
-                isScrolled ? "text-muted-foreground" : "text-primary-foreground/60"
-              )}>Publishing</span>
+              <span className="font-serif text-base font-semibold leading-none text-foreground">
+                Cambridge Scholars
+              </span>
+              <span className="text-[9px] uppercase tracking-[0.2em] text-muted-foreground">
+                Publishing
+              </span>
             </div>
           </Link>
 
@@ -98,11 +88,7 @@ export function Header() {
                 to={item.href}
                 className={cn(
                   "text-sm font-medium transition-colors duration-200 hover:text-accent",
-                  location.pathname === item.href 
-                    ? "text-accent" 
-                    : isScrolled 
-                      ? "text-foreground" 
-                      : "text-primary-foreground"
+                  location.pathname === item.href ? "text-accent" : "text-foreground"
                 )}
               >
                 {item.name}
@@ -120,10 +106,7 @@ export function Header() {
               <Button
                 variant="ghost"
                 size="icon"
-                className={cn(
-                  "h-8 w-8 transition-colors duration-300",
-                  isScrolled ? "text-foreground hover:bg-secondary" : "text-primary-foreground hover:bg-primary-foreground/10"
-                )}
+                className="h-8 w-8 text-foreground hover:bg-secondary"
                 onClick={() => setIsSearchOpen(true)}
               >
                 <Search className="h-4 w-4" />
@@ -134,10 +117,7 @@ export function Header() {
               <Button 
                 variant="ghost" 
                 size="icon" 
-                className={cn(
-                  "h-8 w-8 transition-colors duration-300",
-                  isScrolled ? "text-foreground hover:bg-secondary" : "text-primary-foreground hover:bg-primary-foreground/10"
-                )}
+                className="h-8 w-8 text-foreground hover:bg-secondary"
               >
                 <ShoppingCart className="h-4 w-4" />
                 {cartCount > 0 && (
@@ -154,10 +134,7 @@ export function Header() {
                   <Button 
                     variant="ghost" 
                     size="icon" 
-                    className={cn(
-                      "h-8 w-8 transition-colors duration-300",
-                      isScrolled ? "text-foreground hover:bg-secondary" : "text-primary-foreground hover:bg-primary-foreground/10"
-                    )}
+                    className="h-8 w-8 text-foreground hover:bg-secondary"
                   >
                     <User className="h-4 w-4" />
                   </Button>
@@ -198,10 +175,7 @@ export function Header() {
             <Button
               variant="ghost"
               size="icon"
-              className={cn(
-                "h-8 w-8",
-                isScrolled ? "text-foreground" : "text-primary-foreground"
-              )}
+              className="h-8 w-8 text-foreground"
               onClick={() => setIsSearchOpen(!isSearchOpen)}
             >
               <Search className="h-4 w-4" />
@@ -210,10 +184,7 @@ export function Header() {
               <Button 
                 variant="ghost" 
                 size="icon" 
-                className={cn(
-                  "h-8 w-8",
-                  isScrolled ? "text-foreground" : "text-primary-foreground"
-                )}
+                className="h-8 w-8 text-foreground"
               >
                 <ShoppingCart className="h-4 w-4" />
                 {cartCount > 0 && (
@@ -227,10 +198,7 @@ export function Header() {
               variant="ghost" 
               size="icon" 
               onClick={() => setIsMenuOpen(!isMenuOpen)} 
-              className={cn(
-                "h-8 w-8",
-                isScrolled ? "text-foreground" : "text-primary-foreground"
-              )}
+              className="h-8 w-8 text-foreground"
             >
               {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
             </Button>
