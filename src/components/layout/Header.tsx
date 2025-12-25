@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X, ShoppingCart, Search, Moon, Sun, BookOpen, User, LogOut } from "lucide-react";
+import { Menu, X, ShoppingCart, Search, BookOpen, User, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useCart } from "@/contexts/CartContext";
@@ -29,7 +29,6 @@ export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
-  const [isDark, setIsDark] = useState(false);
   const location = useLocation();
   const { cartCount } = useCart();
   const { user, signOut } = useAuth();
@@ -41,14 +40,6 @@ export function Header() {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
-
-  useEffect(() => {
-    if (isDark) {
-      document.documentElement.classList.add("dark");
-    } else {
-      document.documentElement.classList.remove("dark");
-    }
-  }, [isDark]);
 
   useEffect(() => {
     setIsSearchOpen(false);
@@ -78,22 +69,6 @@ export function Header() {
             )}>
               Independent Academic Publisher
             </span>
-            <div className="flex items-center gap-4">
-              <Button
-                variant="ghost"
-                size="sm"
-                className={cn(
-                  "h-6 px-2 text-xs transition-colors gap-1",
-                  isScrolled 
-                    ? "text-muted-foreground hover:text-foreground" 
-                    : "text-primary-foreground/70 hover:text-primary-foreground hover:bg-primary-foreground/10"
-                )}
-                onClick={() => setIsDark(!isDark)}
-              >
-                {isDark ? <Sun className="h-3 w-3" /> : <Moon className="h-3 w-3" />}
-                {isDark ? "Light" : "Dark"}
-              </Button>
-            </div>
           </div>
         </div>
       </div>
