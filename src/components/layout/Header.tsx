@@ -60,15 +60,23 @@ export function Header() {
     <header
       className={cn(
         "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
-        isScrolled ? "bg-card/95 backdrop-blur-md shadow-card" : "bg-transparent",
+        isScrolled 
+          ? "bg-card/95 backdrop-blur-md shadow-card" 
+          : "bg-gradient-to-b from-black/50 to-transparent",
       )}
     >
       <nav className="container-wide">
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2 group">
-            <BookOpen className="h-8 w-8 text-accent transition-transform duration-300 group-hover:scale-110" />
-            <span className="font-serif text-2xl font-semibold text-foreground">Biblioscape</span>
+            <BookOpen className={cn(
+              "h-8 w-8 transition-all duration-300 group-hover:scale-110",
+              isScrolled ? "text-accent" : "text-amber-400"
+            )} />
+            <span className={cn(
+              "font-serif text-2xl font-semibold transition-colors duration-300",
+              isScrolled ? "text-foreground" : "text-white"
+            )}>Biblioscape</span>
           </Link>
 
           {/* Desktop Navigation */}
@@ -78,8 +86,12 @@ export function Header() {
                 key={item.name}
                 to={item.href}
                 className={cn(
-                  "link-underline text-sm font-medium transition-colors duration-200 ",
-                  location.pathname === item.href ? "text-accent" : "text-muted-foreground hover:text-foreground",
+                  "link-underline text-sm font-medium transition-colors duration-200",
+                  location.pathname === item.href 
+                    ? "text-accent" 
+                    : isScrolled 
+                      ? "text-muted-foreground hover:text-foreground" 
+                      : "text-white/80 hover:text-white",
                 )}
               >
                 {item.name}
@@ -89,7 +101,7 @@ export function Header() {
 
           {/* Desktop Actions */}
           <div className="hidden md:flex items-center gap-4">
-            {/* Search Toggle / Autocomplete */}
+          {/* Search Toggle / Autocomplete */}
             {isSearchOpen ? (
               <div className="w-72 animate-fade-in">
                 <SearchAutocomplete onClose={() => setIsSearchOpen(false)} />
@@ -98,7 +110,10 @@ export function Header() {
               <Button
                 variant="ghost"
                 size="icon"
-                className="text-muted-foreground hover:text-foreground"
+                className={cn(
+                  "transition-colors duration-300",
+                  isScrolled ? "text-muted-foreground hover:text-foreground" : "text-white/80 hover:text-white"
+                )}
                 onClick={() => setIsSearchOpen(true)}
               >
                 <Search className="h-5 w-5" />
@@ -108,13 +123,23 @@ export function Header() {
             <Button
               variant="ghost"
               size="icon"
-              className="text-muted-foreground hover:text-foreground"
+              className={cn(
+                "transition-colors duration-300",
+                isScrolled ? "text-muted-foreground hover:text-foreground" : "text-white/80 hover:text-white"
+              )}
               onClick={() => setIsDark(!isDark)}
             >
               {isDark ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
             </Button>
             <Link to="/cart" className="relative">
-              <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-foreground">
+              <Button 
+                variant="ghost" 
+                size="icon" 
+                className={cn(
+                  "transition-colors duration-300",
+                  isScrolled ? "text-muted-foreground hover:text-foreground" : "text-white/80 hover:text-white"
+                )}
+              >
                 <ShoppingCart className="h-5 w-5" />
                 {cartCount > 0 && (
                   <span className="absolute -top-1 -right-1 h-5 w-5 rounded-full bg-accent text-primary text-xs font-bold flex items-center justify-center">
@@ -127,7 +152,14 @@ export function Header() {
             {user ? (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-foreground">
+                  <Button 
+                    variant="ghost" 
+                    size="icon" 
+                    className={cn(
+                      "transition-colors duration-300",
+                      isScrolled ? "text-muted-foreground hover:text-foreground" : "text-white/80 hover:text-white"
+                    )}
+                  >
                     <User className="h-5 w-5" />
                   </Button>
                 </DropdownMenuTrigger>
