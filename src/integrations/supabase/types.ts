@@ -208,6 +208,39 @@ export type Database = {
         }
         Relationships: []
       }
+      wishlist: {
+        Row: {
+          book_author: string
+          book_id: string
+          book_image: string | null
+          book_price: number
+          book_title: string
+          created_at: string
+          id: string
+          user_id: string
+        }
+        Insert: {
+          book_author: string
+          book_id: string
+          book_image?: string | null
+          book_price?: number
+          book_title: string
+          created_at?: string
+          id?: string
+          user_id: string
+        }
+        Update: {
+          book_author?: string
+          book_id?: string
+          book_image?: string | null
+          book_price?: number
+          book_title?: string
+          created_at?: string
+          id?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never

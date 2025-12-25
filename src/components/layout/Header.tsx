@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X, ShoppingCart, Search, Moon, Sun, BookOpen, User, LogOut, PenLine } from "lucide-react";
+import { Menu, X, ShoppingCart, Search, Moon, Sun, BookOpen, User, LogOut, Heart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useCart } from "@/contexts/CartContext";
 import { useAuth } from "@/contexts/AuthContext";
+import { useWishlist } from "@/contexts/WishlistContext";
 import { SearchAutocomplete } from "@/components/search/SearchAutocomplete";
 import {
   DropdownMenu,
@@ -30,6 +31,7 @@ export function Header() {
   const location = useLocation();
   const { cartCount } = useCart();
   const { user, signOut } = useAuth();
+  const { wishlistCount } = useWishlist();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -119,6 +121,16 @@ export function Header() {
             >
               {isDark ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
             </Button>
+            <Link to="/wishlist" className="relative">
+              <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-foreground">
+                <Heart className="h-5 w-5" />
+                {wishlistCount > 0 && (
+                  <span className="absolute -top-1 -right-1 h-5 w-5 rounded-full bg-accent text-primary text-xs font-bold flex items-center justify-center">
+                    {wishlistCount}
+                  </span>
+                )}
+              </Button>
+            </Link>
             <Link to="/cart" className="relative">
               <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-foreground">
                 <ShoppingCart className="h-5 w-5" />

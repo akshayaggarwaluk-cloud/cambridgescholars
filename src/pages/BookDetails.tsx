@@ -8,10 +8,13 @@ import { BookCard } from "@/components/books/BookCard";
 import { ReviewsSection } from "@/components/books/ReviewsSection";
 import { books } from "@/data/books";
 import { useCart, BookFormat } from "@/contexts/CartContext";
+import { useWishlist } from "@/contexts/WishlistContext";
 import { cn } from "@/lib/utils";
+
 export default function BookDetails() {
   const { id } = useParams<{ id: string }>();
   const { addToCart } = useCart();
+  const { isInWishlist, addToWishlist, removeFromWishlist } = useWishlist();
   const [selectedFormat, setSelectedFormat] = useState<BookFormat>("hardbook");
 
   const book = books.find((b) => b.id === id);
@@ -224,9 +227,13 @@ export default function BookDetails() {
                   <ShoppingCart className="mr-2 h-5 w-5" />
                   Add to Cart
                 </Button>
-                <Button variant="outline" size="xl">
-                  <Heart className="mr-2 h-5 w-5" />
-                  Wishlist
+                <Button 
+                  variant={isInWishlist(book.id) ? "gold" : "outline"} 
+                  size="xl"
+                  onClick={() => isInWishlist(book.id) ? removeFromWishlist(book.id) : addToWishlist(book)}
+                >
+                  <Heart className={cn("mr-2 h-5 w-5", isInWishlist(book.id) && "fill-current")} />
+                  {isInWishlist(book.id) ? "In Wishlist" : "Wishlist"}
                 </Button>
                 <Button variant="outline" size="icon" className="h-14 w-14">
                   <Share2 className="h-5 w-5" />
