@@ -5,10 +5,10 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { Button } from "@/components/ui/button";
 import { BookCard } from "@/components/books/BookCard";
+import { ReviewsSection } from "@/components/books/ReviewsSection";
 import { books } from "@/data/books";
 import { useCart, BookFormat } from "@/contexts/CartContext";
 import { cn } from "@/lib/utils";
-
 export default function BookDetails() {
   const { id } = useParams<{ id: string }>();
   const { addToCart } = useCart();
@@ -235,6 +235,9 @@ export default function BookDetails() {
             </div>
           </div>
         </section>
+
+        {/* Reviews Section */}
+        <ReviewsSection bookId={book.id} />
 
         {/* Related Books */}
         {relatedBooks.length > 0 && (
