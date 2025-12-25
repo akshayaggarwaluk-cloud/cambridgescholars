@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useCart } from "@/contexts/CartContext";
 import { useAuth } from "@/contexts/AuthContext";
+import { SearchAutocomplete } from "@/components/search/SearchAutocomplete";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -23,6 +24,7 @@ const navigation = [
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isDark, setIsDark] = useState(false);
   const location = useLocation();
   const { cartCount } = useCart();
@@ -43,6 +45,11 @@ export function Header() {
       document.documentElement.classList.remove("dark");
     }
   }, [isDark]);
+
+  // Close search on route change
+  useEffect(() => {
+    setIsSearchOpen(false);
+  }, [location.pathname]);
 
   const handleSignOut = async () => {
     await signOut();
@@ -87,9 +94,22 @@ export function Header() {
 
           {/* Desktop Actions */}
           <div className="hidden md:flex items-center gap-4">
-            <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-foreground">
-              <Search className="h-5 w-5" />
-            </Button>
+            {/* Search Toggle / Autocomplete */}
+            {isSearchOpen ? (
+              <div className="w-72 animate-fade-in">
+                <SearchAutocomplete onClose={() => setIsSearchOpen(false)} />
+              </div>
+            ) : (
+              <Button 
+                variant="ghost" 
+                size="icon" 
+                className="text-muted-foreground hover:text-foreground"
+                onClick={() => setIsSearchOpen(true)}
+              >
+                <Search className="h-5 w-5" />
+              </Button>
+            )}
+
             <Button
               variant="ghost"
               size="icon"
@@ -145,6 +165,14 @@ export function Header() {
 
           {/* Mobile Menu Button */}
           <div className="flex md:hidden items-center gap-2">
+            <Button 
+              variant="ghost" 
+              size="icon" 
+              className="text-muted-foreground"
+              onClick={() => setIsSearchOpen(!isSearchOpen)}
+            >
+              <Search className="h-5 w-5" />
+            </Button>
             <Link to="/cart" className="relative">
               <Button variant="ghost" size="icon" className="text-muted-foreground">
                 <ShoppingCart className="h-5 w-5" />
@@ -165,6 +193,13 @@ export function Header() {
             </Button>
           </div>
         </div>
+
+        {/* Mobile Search */}
+        {isSearchOpen && (
+          <div className="md:hidden pb-4 animate-fade-in">
+            <SearchAutocomplete onClose={() => setIsSearchOpen(false)} />
+          </div>
+        )}
 
         {/* Mobile Menu */}
         <div
