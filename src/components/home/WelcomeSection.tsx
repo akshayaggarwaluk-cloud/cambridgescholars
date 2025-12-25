@@ -34,7 +34,7 @@ export function WelcomeSection() {
           <img
             alt="Cambridge Scholars Publishing"
             src="/lovable-uploads/6a63ba27-44ab-44bd-a4af-b922c30c49cd.png"
-            className="h-48 md:h-96 w-auto object-contain"
+            className="h-48 md:h-96 w-50 object-contain"
           />
         </div>
 
