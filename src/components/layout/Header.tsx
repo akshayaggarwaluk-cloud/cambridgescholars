@@ -78,7 +78,7 @@ export function Header() {
                 key={item.name}
                 to={item.href}
                 className={cn(
-                  "link-underline text-sm font-medium transition-colors duration-200 text-white",
+                  "link-underline text-sm font-medium transition-colors duration-200 ",
                   location.pathname === item.href ? "text-accent" : "text-muted-foreground hover:text-foreground",
                 )}
               >
