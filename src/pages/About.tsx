@@ -1,5 +1,10 @@
+import { Header } from "@/components/layout/Header";
+import { Footer } from "@/components/layout/Footer";
+
 export default function AboutSection() {
-  return <>
+  return (
+    <>
+      <Header />
       <div className="bg-[#f9f7f2] py-10 px-6 md:px-16">
         <div className="max-w-7xl mx-auto flex justify-between items-center">
           {/* Page Title */}
@@ -115,5 +120,7 @@ export default function AboutSection() {
           </div>
         </div>
       </section>
-    </>;
+      <Footer />
+    </>
+  );
 }
