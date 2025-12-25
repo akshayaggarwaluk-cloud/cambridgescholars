@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { CoverImageUpload } from "@/components/books/CoverImageUpload";
 import { toast } from "sonner";
 import { BookPlus, ArrowLeft } from "lucide-react";
 import { Link } from "react-router-dom";
@@ -175,13 +176,11 @@ const PublishBook = () => {
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="cover_image">Cover Image URL</Label>
-            <Input
-              id="cover_image"
-              type="url"
+            <Label>Cover Image</Label>
+            <CoverImageUpload
+              userId={user.id}
               value={formData.cover_image}
-              onChange={(e) => setFormData({ ...formData, cover_image: e.target.value })}
-              placeholder="https://example.com/cover.jpg"
+              onChange={(url) => setFormData({ ...formData, cover_image: url })}
             />
           </div>
 

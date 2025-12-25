@@ -10,6 +10,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
+import { CoverImageUpload } from "@/components/books/CoverImageUpload";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
@@ -444,12 +445,11 @@ export default function Profile() {
                 </div>
               </div>
               <div className="space-y-2">
-                <Label htmlFor="edit-cover">Cover Image URL</Label>
-                <Input
-                  id="edit-cover"
+                <Label>Cover Image</Label>
+                <CoverImageUpload
+                  userId={user?.id || ""}
                   value={editingBook.cover_image || ""}
-                  onChange={(e) => setEditingBook({ ...editingBook, cover_image: e.target.value })}
-                  placeholder="https://example.com/cover.jpg"
+                  onChange={(url) => setEditingBook({ ...editingBook, cover_image: url })}
                 />
               </div>
             </div>
