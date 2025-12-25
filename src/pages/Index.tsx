@@ -1,24 +1,22 @@
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { HeroSection } from "@/components/home/HeroSection";
+import { WelcomeSection } from "@/components/home/WelcomeSection";
 import { CategoriesSection } from "@/components/home/CategoriesSection";
 import { FeaturedBooksSection } from "@/components/home/FeaturedBooksSection";
-import { BestsellersSection } from "@/components/home/BestsellersSection";
 import { NewArrivalsSection } from "@/components/home/NewArrivalsSection";
-import { TestimonialsSection } from "@/components/home/TestimonialsSection";
 import { NewsletterSection } from "@/components/home/NewsletterSection";
 
 const Index = () => {
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-background">
       <Header />
       <main>
         <HeroSection />
-        <CategoriesSection />
+        <WelcomeSection />
         <FeaturedBooksSection />
-        <BestsellersSection />
+        <CategoriesSection />
         <NewArrivalsSection />
-        <TestimonialsSection />
         <NewsletterSection />
       </main>
       <Footer />
