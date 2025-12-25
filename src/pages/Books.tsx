@@ -1,13 +1,15 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
-import { Search, SlidersHorizontal, X } from "lucide-react";
+import { Search, SlidersHorizontal, X, Loader2 } from "lucide-react";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { BookCard } from "@/components/books/BookCard";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { books, categories } from "@/data/books";
+import { books as staticBooks, categories } from "@/data/books";
 import { cn } from "@/lib/utils";
+import { supabase } from "@/integrations/supabase/client";
+import { Book } from "@/contexts/CartContext";
 
 const priceRanges = [
   { label: "All Prices", min: 0, max: Infinity },
@@ -34,9 +36,50 @@ export default function Books() {
   );
   const [selectedPriceRange, setSelectedPriceRange] = useState(0);
   const [selectedRating, setSelectedRating] = useState(0);
+  const [publishedBooks, setPublishedBooks] = useState<Book[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  // Fetch user-published books from database
+  useEffect(() => {
+    const fetchPublishedBooks = async () => {
+      try {
+        const { data, error } = await supabase
+          .from("published_books")
+          .select("*")
+          .order("created_at", { ascending: false });
+
+        if (error) throw error;
+
+        if (data) {
+          const formattedBooks: Book[] = data.map((book) => ({
+            id: `published_${book.id}`,
+            title: book.title,
+            author: book.author,
+            price: Number(book.price),
+            image: book.cover_image || "/placeholder.svg",
+            rating: 4.0, // Default rating for new books
+            category: book.category,
+            description: book.description || undefined,
+          }));
+          setPublishedBooks(formattedBooks);
+        }
+      } catch (error) {
+        console.error("Error fetching published books:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchPublishedBooks();
+  }, []);
+
+  // Combine static and published books
+  const allBooks = useMemo(() => {
+    return [...staticBooks, ...publishedBooks];
+  }, [publishedBooks]);
 
   const filteredBooks = useMemo(() => {
-    return books.filter((book) => {
+    return allBooks.filter((book) => {
       const matchesSearch =
         book.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
         book.author.toLowerCase().includes(searchQuery.toLowerCase());
@@ -54,7 +97,7 @@ export default function Books() {
 
       return matchesSearch && matchesCategory && matchesPrice && matchesRating;
     });
-  }, [searchQuery, selectedCategory, selectedPriceRange, selectedRating]);
+  }, [searchQuery, selectedCategory, selectedPriceRange, selectedRating, allBooks]);
 
   const clearFilters = () => {
     setSelectedCategory("all");
@@ -207,7 +250,14 @@ export default function Books() {
 
           {/* Results Count */}
           <p className="text-muted-foreground mb-6">
-            Showing {filteredBooks.length} of {books.length} books
+            {loading ? (
+              <span className="inline-flex items-center gap-2">
+                <Loader2 className="h-4 w-4 animate-spin" />
+                Loading books...
+              </span>
+            ) : (
+              <>Showing {filteredBooks.length} of {allBooks.length} books</>
+            )}
           </p>
 
           {/* Books Grid */}
