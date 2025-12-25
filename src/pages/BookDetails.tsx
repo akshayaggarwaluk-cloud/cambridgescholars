@@ -4,8 +4,8 @@ import { ArrowLeft, Star, ShoppingCart, Heart, Share2, BookOpen, Calendar, Build
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { Button } from "@/components/ui/button";
-import { BookCard } from "@/components/books/BookCard";
 import { ReviewsSection } from "@/components/books/ReviewsSection";
+import { RelatedBooksSection } from "@/components/books/RelatedBooksSection";
 import { books } from "@/data/books";
 import { useCart, BookFormat } from "@/contexts/CartContext";
 import { useWishlist } from "@/contexts/WishlistContext";
@@ -46,10 +46,6 @@ export default function BookDetails() {
       </div>
     );
   }
-
-  const relatedBooks = books
-    .filter((b) => b.category === book.category && b.id !== book.id)
-    .slice(0, 4);
 
   return (
     <div className="min-h-screen bg-background">
@@ -247,18 +243,9 @@ export default function BookDetails() {
         <ReviewsSection bookId={book.id} />
 
         {/* Related Books */}
-        {relatedBooks.length > 0 && (
-          <section className="container-wide mt-24">
-            <h2 className="font-serif text-3xl font-bold text-foreground mb-8">
-              You May Also Like
-            </h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-              {relatedBooks.map((relatedBook) => (
-                <BookCard key={relatedBook.id} book={relatedBook} />
-              ))}
-            </div>
-          </section>
-        )}
+        <div className="mt-24">
+          <RelatedBooksSection currentBook={book} />
+        </div>
       </main>
 
       <Footer />
