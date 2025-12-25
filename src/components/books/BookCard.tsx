@@ -27,21 +27,26 @@ export function BookCard({ book, className }: BookCardProps) {
   return (
     <div
       className={cn(
-        "group relative bg-card rounded-2xl overflow-hidden border border-border/50 transition-all duration-300 hover:border-accent/30 hover:shadow-card-hover",
+        "group relative bg-card rounded-2xl overflow-hidden transition-all duration-500",
+        "border border-border/50 hover:border-accent/30",
+        "shadow-card hover:shadow-card-hover hover:-translate-y-2",
         className
       )}
     >
+      {/* Subtle hover glow */}
+      <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-accent/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+
       {/* Wishlist Button */}
       <button
         onClick={handleWishlistClick}
         className={cn(
-          "absolute top-4 right-4 z-10 w-10 h-10 rounded-full flex items-center justify-center transition-all duration-200",
+          "absolute top-4 right-4 z-10 w-11 h-11 rounded-full flex items-center justify-center transition-all duration-300",
           inWishlist 
-            ? "bg-accent text-accent-foreground shadow-gold" 
-            : "bg-card/90 backdrop-blur-sm text-muted-foreground hover:bg-accent hover:text-accent-foreground"
+            ? "bg-accent text-accent-foreground shadow-gold scale-110" 
+            : "bg-card/95 backdrop-blur-sm text-muted-foreground hover:bg-accent hover:text-accent-foreground hover:scale-110 border border-border/50"
         )}
       >
-        <Heart className={cn("h-5 w-5", inWishlist && "fill-current")} />
+        <Heart className={cn("h-5 w-5 transition-transform", inWishlist && "fill-current")} />
       </button>
 
       <Link to={`/books/${book.id}`} className="block">
@@ -49,23 +54,25 @@ export function BookCard({ book, className }: BookCardProps) {
           <img
             src={book.image}
             alt={book.title}
-            className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
+            className="w-full h-full object-cover transition-all duration-700 ease-out group-hover:scale-105"
           />
+          
           {/* Sale Badge */}
           {book.originalPrice && (
             <div className="absolute top-4 left-4 bg-destructive text-destructive-foreground text-xs font-bold px-3 py-1.5 rounded-full shadow-lg">
               {Math.round((1 - book.price / book.originalPrice) * 100)}% OFF
             </div>
           )}
-          {/* Hover Overlay */}
-          <div className="absolute inset-0 bg-gradient-to-t from-foreground/80 via-foreground/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+          
+          {/* Premium gradient overlay on hover */}
+          <div className="absolute inset-0 bg-gradient-to-t from-foreground/90 via-foreground/30 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500" />
           
           {/* Quick Add Button */}
-          <div className="absolute bottom-4 left-4 right-4 opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300">
+          <div className="absolute bottom-5 left-5 right-5 opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-400 delay-100">
             <Button
               variant="gold"
               size="lg"
-              className="w-full rounded-xl shadow-gold gap-2 font-semibold"
+              className="w-full rounded-xl shadow-gold gap-2 font-semibold h-12"
               onClick={(e) => {
                 e.preventDefault();
                 addToCart(book);
@@ -78,15 +85,15 @@ export function BookCard({ book, className }: BookCardProps) {
         </div>
       </Link>
 
-      <div className="p-5">
+      <div className="p-6">
         <Link to={`/books/${book.id}`} className="block space-y-3">
           {/* Category Tag */}
-          <span className="inline-block text-xs font-semibold text-accent uppercase tracking-widest">
+          <span className="inline-block text-xs font-semibold text-accent uppercase tracking-[0.15em]">
             {book.category}
           </span>
           
           {/* Title */}
-          <h3 className="font-serif text-lg font-bold text-foreground line-clamp-2 leading-tight group-hover:text-accent transition-colors duration-200">
+          <h3 className="font-serif text-xl font-semibold text-foreground line-clamp-2 leading-tight group-hover:text-accent transition-colors duration-300">
             {book.title}
           </h3>
           
@@ -97,14 +104,14 @@ export function BookCard({ book, className }: BookCardProps) {
         </Link>
 
         {/* Rating & Price */}
-        <div className="flex items-center justify-between mt-4 pt-4 border-t border-border/50">
-          <div className="flex items-center gap-1.5">
+        <div className="flex items-center justify-between mt-5 pt-5 border-t border-border/50">
+          <div className="flex items-center gap-2">
             <div className="flex items-center gap-0.5">
               {[...Array(5)].map((_, i) => (
                 <Star 
                   key={i} 
                   className={cn(
-                    "h-4 w-4",
+                    "h-4 w-4 transition-colors",
                     i < Math.floor(book.rating) 
                       ? "fill-accent text-accent" 
                       : "fill-muted text-muted"
@@ -112,7 +119,7 @@ export function BookCard({ book, className }: BookCardProps) {
                 />
               ))}
             </div>
-            <span className="text-sm font-semibold text-foreground ml-1">{book.rating}</span>
+            <span className="text-sm font-semibold text-foreground">{book.rating}</span>
           </div>
           
           <div className="flex items-center gap-2">
