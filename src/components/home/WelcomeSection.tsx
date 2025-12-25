@@ -24,7 +24,7 @@ export function WelcomeSection() {
       <div className="container-wide">
         {/* Decorative Image */}
         <div className="flex justify-center mb-8">
-          <img alt="Cambridge Scholars Publishing" src="/lovable-uploads/6a63ba27-44ab-44bd-a4af-b922c30c49cd.png" className="h-24 md:h-50 w-auto object-contain" />
+          <img alt="Cambridge Scholars Publishing" src="/lovable-uploads/6a63ba27-44ab-44bd-a4af-b922c30c49cd.png" className="h-32 md:h-72 w-auto object-contain" />
         </div>
 
         {/* Welcome Message */}
