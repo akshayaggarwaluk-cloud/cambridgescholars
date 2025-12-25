@@ -1,8 +1,8 @@
-/**
- * AUTH API - Change BASE_URL to your API
- */
-
-const BASE_URL = "https://your-api.com/api"; // <-- Change this to your API URL
+// =============================================
+// 👇 ADD YOUR API URL HERE 👇
+// =============================================
+const BASE_URL = "https://your-api.com/api";
+// =============================================
 
 export interface User {
   id: string;
