@@ -11,7 +11,7 @@ interface RelatedBooksSectionProps {
 }
 
 export function RelatedBooksSection({ currentBook }: RelatedBooksSectionProps) {
-  const { sameCategory, sameAuthor } = useMemo(() => {
+  const { sameCategory, sameAuthor, recommended } = useMemo(() => {
     const categoryBooks = books
       .filter((b) => b.category === currentBook.category && b.id !== currentBook.id)
       .slice(0, 4);
@@ -20,10 +20,27 @@ export function RelatedBooksSection({ currentBook }: RelatedBooksSectionProps) {
       .filter((b) => b.author === currentBook.author && b.id !== currentBook.id)
       .slice(0, 4);
 
-    return { sameCategory: categoryBooks, sameAuthor: authorBooks };
+    // If not enough category books, fill with top-rated books from other categories
+    let recommendedBooks: typeof books = [];
+    if (categoryBooks.length < 4) {
+      const existingIds = new Set([currentBook.id, ...categoryBooks.map(b => b.id), ...authorBooks.map(b => b.id)]);
+      recommendedBooks = books
+        .filter((b) => !existingIds.has(b.id))
+        .sort((a, b) => b.rating - a.rating)
+        .slice(0, 4 - categoryBooks.length);
+    }
+
+    return { 
+      sameCategory: categoryBooks, 
+      sameAuthor: authorBooks,
+      recommended: recommendedBooks
+    };
   }, [currentBook]);
 
-  if (sameCategory.length === 0 && sameAuthor.length === 0) {
+  // Combine category books with recommendations to ensure 3-4 books
+  const similarBooks = [...sameCategory, ...recommended].slice(0, 4);
+
+  if (similarBooks.length === 0 && sameAuthor.length === 0) {
     return null;
   }
 
@@ -78,19 +95,19 @@ export function RelatedBooksSection({ currentBook }: RelatedBooksSectionProps) {
         </section>
       )}
 
-      {/* Same Category Section */}
-      {sameCategory.length > 0 && (
+      {/* Similar Books Section */}
+      {similarBooks.length > 0 && (
         <section className="container-wide">
           <div className="flex flex-col md:flex-row md:items-end md:justify-between mb-10">
             <div>
               <span className="text-accent text-sm font-semibold uppercase tracking-widest mb-2 block">
-                Similar Reads
+                You May Also Like
               </span>
               <h2 className="font-serif text-3xl md:text-4xl font-bold text-foreground">
-                More in {currentBook.category}
+                Similar Books
               </h2>
               <p className="text-muted-foreground mt-2 max-w-lg">
-                Discover other captivating titles in the {currentBook.category.toLowerCase()} category
+                Handpicked recommendations based on your interests
               </p>
             </div>
             <Button
@@ -98,15 +115,15 @@ export function RelatedBooksSection({ currentBook }: RelatedBooksSectionProps) {
               variant="outline"
               className="mt-4 md:mt-0 rounded-full"
             >
-              <Link to={`/books?category=${currentBook.category.toLowerCase()}`}>
-                Browse {currentBook.category}
+              <Link to="/books">
+                Browse All
                 <ChevronRight className="ml-1 h-4 w-4" />
               </Link>
             </Button>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
-            {sameCategory.map((book, index) => (
+            {similarBooks.map((book, index) => (
               <div
                 key={book.id}
                 className="animate-fade-up"
