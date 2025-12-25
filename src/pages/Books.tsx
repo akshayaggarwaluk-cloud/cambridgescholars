@@ -29,15 +29,22 @@ const ratingFilters = [
 export default function Books() {
   const [searchParams, setSearchParams] = useSearchParams();
   const initialSearch = searchParams.get("search") || "";
+  const initialCategory = searchParams.get("category") || "all";
   const [searchQuery, setSearchQuery] = useState(initialSearch);
   const [showFilters, setShowFilters] = useState(false);
-  const [selectedCategory, setSelectedCategory] = useState(
-    searchParams.get("category") || "all"
-  );
+  const [selectedCategory, setSelectedCategory] = useState(initialCategory);
   const [selectedPriceRange, setSelectedPriceRange] = useState(0);
   const [selectedRating, setSelectedRating] = useState(0);
   const [publishedBooks, setPublishedBooks] = useState<Book[]>([]);
   const [loading, setLoading] = useState(true);
+
+  // Sync with URL params
+  useEffect(() => {
+    const search = searchParams.get("search") || "";
+    const category = searchParams.get("category") || "all";
+    setSearchQuery(search);
+    setSelectedCategory(category);
+  }, [searchParams]);
 
   // Fetch user-published books from database
   useEffect(() => {
@@ -73,6 +80,13 @@ export default function Books() {
     fetchPublishedBooks();
   }, []);
 
+  // Get unique categories from all books
+  const allCategories = useMemo(() => {
+    const bookCategories = [...staticBooks, ...publishedBooks].map(b => b.category);
+    const uniqueCategories = [...new Set(bookCategories)];
+    return uniqueCategories.sort();
+  }, [publishedBooks]);
+
   // Combine static and published books
   const allBooks = useMemo(() => {
     return [...staticBooks, ...publishedBooks];
@@ -82,7 +96,8 @@ export default function Books() {
     return allBooks.filter((book) => {
       const matchesSearch =
         book.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        book.author.toLowerCase().includes(searchQuery.toLowerCase());
+        book.author.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        book.category.toLowerCase().includes(searchQuery.toLowerCase());
 
       const matchesCategory =
         selectedCategory === "all" ||
@@ -98,6 +113,28 @@ export default function Books() {
       return matchesSearch && matchesCategory && matchesPrice && matchesRating;
     });
   }, [searchQuery, selectedCategory, selectedPriceRange, selectedRating, allBooks]);
+
+  const handleCategoryChange = (category: string) => {
+    setSelectedCategory(category);
+    const params = new URLSearchParams(searchParams);
+    if (category === "all") {
+      params.delete("category");
+    } else {
+      params.set("category", category);
+    }
+    setSearchParams(params);
+  };
+
+  const handleSearchChange = (value: string) => {
+    setSearchQuery(value);
+    const params = new URLSearchParams(searchParams);
+    if (value) {
+      params.set("search", value);
+    } else {
+      params.delete("search");
+    }
+    setSearchParams(params);
+  };
 
   const clearFilters = () => {
     setSelectedCategory("all");
@@ -133,9 +170,9 @@ export default function Books() {
               <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
               <Input
                 type="text"
-                placeholder="Search by title or author..."
+                placeholder="Search by title, author, or category..."
                 value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
+                onChange={(e) => handleSearchChange(e.target.value)}
                 className="pl-12 h-12"
               />
             </div>
@@ -183,25 +220,22 @@ export default function Books() {
                     <Button
                       variant={selectedCategory === "all" ? "gold" : "outline"}
                       size="sm"
-                      onClick={() => setSelectedCategory("all")}
+                      onClick={() => handleCategoryChange("all")}
                     >
                       All
                     </Button>
-                    {categories.map((cat) => (
+                    {allCategories.map((cat) => (
                       <Button
-                        key={cat.name}
+                        key={cat}
                         variant={
-                          selectedCategory.toLowerCase() ===
-                          cat.name.toLowerCase()
+                          selectedCategory.toLowerCase() === cat.toLowerCase()
                             ? "gold"
                             : "outline"
                         }
                         size="sm"
-                        onClick={() =>
-                          setSelectedCategory(cat.name.toLowerCase())
-                        }
+                        onClick={() => handleCategoryChange(cat.toLowerCase())}
                       >
-                        {cat.name}
+                        {cat}
                       </Button>
                     ))}
                   </div>
