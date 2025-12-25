@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { CartProvider } from "@/contexts/CartContext";
 import { WishlistProvider } from "@/contexts/WishlistContext";
+import { LiveChatWidget } from "@/components/chat/LiveChatWidget";
 import Index from "./pages/Index";
 import Books from "./pages/Books";
 import BookDetails from "./pages/BookDetails";
@@ -48,6 +49,7 @@ const App = () => (
                 <Route path="/faq" element={<FAQ />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
+              <LiveChatWidget />
             </BrowserRouter>
           </WishlistProvider>
         </CartProvider>
