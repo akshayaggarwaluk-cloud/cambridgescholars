@@ -35,6 +35,7 @@ export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [isPublishDropdownOpen, setIsPublishDropdownOpen] = useState(false);
   const location = useLocation();
   const { cartCount } = useCart();
   const { wishlistCount } = useWishlist();
@@ -86,30 +87,38 @@ export function Header() {
             ))}
             
             {/* Publish a Book Dropdown */}
-            <DropdownMenu>
-              <DropdownMenuTrigger className={cn(
+            <div 
+              className="relative"
+              onMouseEnter={() => setIsPublishDropdownOpen(true)}
+              onMouseLeave={() => setIsPublishDropdownOpen(false)}
+            >
+              <button className={cn(
                 "text-lg font-medium transition-colors duration-200 hover:text-accent flex items-center gap-1",
                 publishDropdownItems.some(item => location.pathname === item.href) ? "text-accent" : "text-foreground",
               )}>
                 Publish a Book
-                <ChevronDown className="h-4 w-4" />
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="center" className="w-56 bg-background">
-                {publishDropdownItems.map((item) => (
-                  <DropdownMenuItem key={item.name} asChild>
-                    <Link 
-                      to={item.href}
-                      className={cn(
-                        "w-full cursor-pointer",
-                        location.pathname === item.href && "text-accent"
-                      )}
-                    >
-                      {item.name}
-                    </Link>
-                  </DropdownMenuItem>
-                ))}
-              </DropdownMenuContent>
-            </DropdownMenu>
+                <ChevronDown className={cn("h-4 w-4 transition-transform", isPublishDropdownOpen && "rotate-180")} />
+              </button>
+              
+              {isPublishDropdownOpen && (
+                <div className="absolute top-full left-1/2 -translate-x-1/2 pt-2 z-50">
+                  <div className="bg-background border border-border rounded-md shadow-lg py-2 w-56">
+                    {publishDropdownItems.map((item) => (
+                      <Link
+                        key={item.name}
+                        to={item.href}
+                        className={cn(
+                          "block px-4 py-2 text-sm hover:bg-secondary transition-colors",
+                          location.pathname === item.href ? "text-accent" : "text-foreground"
+                        )}
+                      >
+                        {item.name}
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
 
             {navigation.slice(3).map((item) => (
               <Link
