@@ -1,7 +1,7 @@
 // =============================================
 // 👇 ADD YOUR API URL HERE 👇
 // =============================================
-const BASE_URL = "https://your-api.com/api";
+const BASE_URL = "https://dummyjson.com/auth/login";
 // =============================================
 
 export interface User {
