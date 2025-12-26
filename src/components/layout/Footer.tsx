@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { BookOpen, Facebook, Twitter, Linkedin, Mail, Youtube } from "lucide-react";
+import { Facebook, Twitter, Linkedin, Mail, Youtube } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
@@ -37,17 +37,15 @@ export function Footer() {
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8 lg:gap-10">
           {/* Brand Column */}
           <div className="col-span-2 md:col-span-3 lg:col-span-2">
-            <Link to="/" className="flex items-center gap-2 mb-4">
-              <BookOpen className="h-6 w-6 text-black" />
-              <div className="flex flex-col">
-                <span className="font-serif text-base font-semibold leading-none">Cambridge Scholars</span>
-                <span className="text-[9px] uppercase tracking-[0.2em] text-black/60">Publishing</span>
-              </div>
+            <Link to="/" className="inline-block mb-4">
+              <img src="/YOUR_LOGO_PATH" alt="Logo" className="h-10 w-auto" />
             </Link>
+
             <p className="text-black/70 mb-4 text-sm leading-relaxed max-w-xs">
               Independent academic publisher committed to advancing original research across the humanities, social
               sciences, and STEM disciplines.
             </p>
+
             <div className="flex gap-2">
               {[Facebook, Twitter, Linkedin, Youtube, Mail].map((Icon, i) => (
                 <Button
