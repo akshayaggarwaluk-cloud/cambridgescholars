@@ -16,6 +16,10 @@ import Orders from "@/pages/Orders";
 import PublishBook from "@/pages/PublishBook";
 import Wishlist from "@/pages/Wishlist";
 import FAQ from "@/pages/FAQ";
+import HowToPublish from "@/pages/HowToPublish";
+import SubmitProposal from "@/pages/SubmitProposal";
+import Resources from "@/pages/Resources";
+import EndorsementSubmission from "@/pages/EndorsementSubmission";
 import NotFound from "@/pages/NotFound";
 
 export function AnimatedRoutes() {
@@ -37,6 +41,10 @@ export function AnimatedRoutes() {
         <Route path="/publish" element={<PageTransition><PublishBook /></PageTransition>} />
         <Route path="/wishlist" element={<PageTransition><Wishlist /></PageTransition>} />
         <Route path="/faq" element={<PageTransition><FAQ /></PageTransition>} />
+        <Route path="/how-to-publish" element={<PageTransition><HowToPublish /></PageTransition>} />
+        <Route path="/submit-proposal" element={<PageTransition><SubmitProposal /></PageTransition>} />
+        <Route path="/resources" element={<PageTransition><Resources /></PageTransition>} />
+        <Route path="/endorsement-submission" element={<PageTransition><EndorsementSubmission /></PageTransition>} />
         <Route path="*" element={<PageTransition><NotFound /></PageTransition>} />
       </Routes>
     </AnimatePresence>
