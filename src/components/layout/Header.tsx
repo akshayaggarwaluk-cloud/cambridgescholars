@@ -62,12 +62,6 @@ export function Header() {
           {/* Logo */}
           <Link to="/" className="flex items-center gap-3 group">
             <img src={logoImage} alt="Cambridge Scholars Publishing" className="h-12 w-auto" />
-            <div className="flex flex-col">
-              <span className="font-serif text-base font-semibold leading-none text-foreground">
-                Cambridge Scholars
-              </span>
-              <span className="text-[9px] uppercase tracking-[0.2em] text-muted-foreground">Publishing</span>
-            </div>
           </Link>
 
           {/* Desktop Navigation */}
