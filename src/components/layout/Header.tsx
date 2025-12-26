@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X, ShoppingCart, Search, User, LogOut, Heart } from "lucide-react";
+import { Menu, X, ShoppingCart, Search, User, LogOut, Heart, ChevronDown } from "lucide-react";
 import logoImage from "@/assets/logo.png";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -20,9 +20,15 @@ const navigation = [
   { name: "Home", href: "/" },
   { name: "About Us", href: "/about" },
   { name: "Buy a Book", href: "/books" },
-  { name: "Publish a Book", href: "/publish" },
   { name: "FAQs", href: "/faq" },
   { name: "Contact", href: "/contact" },
+];
+
+const publishDropdownItems = [
+  { name: "How to Publish", href: "/how-to-publish" },
+  { name: "Submit a Proposal", href: "/submit-proposal" },
+  { name: "Resources", href: "/resources" },
+  { name: "Endorsement Submission", href: "/endorsement-submission" },
 ];
 
 export function Header() {
@@ -66,7 +72,46 @@ export function Header() {
 
           {/* Desktop Navigation */}
           <div className="hidden lg:flex items-center gap-6">
-            {navigation.map((item) => (
+            {navigation.slice(0, 3).map((item) => (
+              <Link
+                key={item.name}
+                to={item.href}
+                className={cn(
+                  "text-lg font-medium transition-colors duration-200 hover:text-accent",
+                  location.pathname === item.href ? "text-accent" : "text-foreground",
+                )}
+              >
+                {item.name}
+              </Link>
+            ))}
+            
+            {/* Publish a Book Dropdown */}
+            <DropdownMenu>
+              <DropdownMenuTrigger className={cn(
+                "text-lg font-medium transition-colors duration-200 hover:text-accent flex items-center gap-1",
+                publishDropdownItems.some(item => location.pathname === item.href) ? "text-accent" : "text-foreground",
+              )}>
+                Publish a Book
+                <ChevronDown className="h-4 w-4" />
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="center" className="w-56 bg-background">
+                {publishDropdownItems.map((item) => (
+                  <DropdownMenuItem key={item.name} asChild>
+                    <Link 
+                      to={item.href}
+                      className={cn(
+                        "w-full cursor-pointer",
+                        location.pathname === item.href && "text-accent"
+                      )}
+                    >
+                      {item.name}
+                    </Link>
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
+
+            {navigation.slice(3).map((item) => (
               <Link
                 key={item.name}
                 to={item.href}
@@ -213,7 +258,41 @@ export function Header() {
           )}
         >
           <div className="flex flex-col gap-1 pt-3 border-t border-border">
-            {navigation.map((item) => (
+            {navigation.slice(0, 3).map((item) => (
+              <Link
+                key={item.name}
+                to={item.href}
+                onClick={() => setIsMenuOpen(false)}
+                className={cn(
+                  "text-sm font-medium py-2 transition-colors duration-200",
+                  location.pathname === item.href ? "text-accent" : "text-foreground hover:text-accent",
+                )}
+              >
+                {item.name}
+              </Link>
+            ))}
+            
+            {/* Publish a Book - Mobile */}
+            <div className="py-2">
+              <span className="text-sm font-medium text-foreground">Publish a Book</span>
+              <div className="ml-4 mt-1 flex flex-col gap-1">
+                {publishDropdownItems.map((item) => (
+                  <Link
+                    key={item.name}
+                    to={item.href}
+                    onClick={() => setIsMenuOpen(false)}
+                    className={cn(
+                      "text-sm py-1.5 transition-colors duration-200",
+                      location.pathname === item.href ? "text-accent" : "text-muted-foreground hover:text-accent",
+                    )}
+                  >
+                    {item.name}
+                  </Link>
+                ))}
+              </div>
+            </div>
+
+            {navigation.slice(3).map((item) => (
               <Link
                 key={item.name}
                 to={item.href}
