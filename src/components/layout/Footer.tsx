@@ -38,7 +38,7 @@ export function Footer() {
           {/* Brand Column */}
           <div className="col-span-2 md:col-span-3 lg:col-span-2">
             <Link to="/" className="inline-block mb-4">
-              <img src="/src/assets/logo.png" alt="Logo" className="h-20 w-auto" />
+              <img src="/src/assets/logo.png" alt="Logo" className="h-10 w-auto" />
             </Link>
 
             <p className="text-black/70 mb-4 text-sm leading-relaxed max-w-xs">
