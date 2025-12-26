@@ -16,19 +16,19 @@ export function NewsletterSection() {
   };
 
   return (
-    <section className="py-28 bg-[#f4f3ec] relative overflow-hidden">
+    <section className="py-28 bg-[#f4f3ec] relative overflow-hidden text-black">
       {/* Premium decorative elements */}
       <div className="absolute inset-0 pointer-events-none">
         {/* Gold accent orbs */}
-        <div className="absolute top-0 left-1/4 w-96 h-96 bg-accent/10 rounded-full blur-3xl" />
-        <div className="absolute bottom-0 right-1/3 w-80 h-80 bg-accent/5 rounded-full blur-3xl" />
+        <div className="absolute top-0 left-1/4 w-96 h-96 bg-black/5 rounded-full blur-3xl" />
+        <div className="absolute bottom-0 right-1/3 w-80 h-80 bg-black/5 rounded-full blur-3xl" />
 
         {/* Subtle grid overlay */}
         <div
-          className="absolute inset-0 opacity-[0.02]"
+          className="absolute inset-0 opacity-[0.03]"
           style={{
             backgroundImage:
-              "linear-gradient(hsl(var(--primary-foreground)) 1px, transparent 1px), linear-gradient(90deg, hsl(var(--primary-foreground)) 1px, transparent 1px)",
+              "linear-gradient(#000 1px, transparent 1px), linear-gradient(90deg, #000 1px, transparent 1px)",
             backgroundSize: "40px 40px",
           }}
         />
@@ -37,20 +37,21 @@ export function NewsletterSection() {
       <div className="container-wide relative z-10">
         <div className="max-w-3xl mx-auto text-center">
           {/* Premium icon container */}
-          <div className="inline-flex items-center justify-center w-20 h-20 rounded-2xl bg-accent/15 backdrop-blur-sm mb-8 border border-accent/20 shadow-gold-glow">
-            <Mail className="h-10 w-10 text-accent" />
+          <div className="inline-flex items-center justify-center w-20 h-20 rounded-2xl bg-black/10 backdrop-blur-sm mb-8 border border-black/20 shadow-gold-glow">
+            <Mail className="h-10 w-10 text-black" />
           </div>
 
           {/* Badge */}
-          <div className="inline-flex items-center gap-2 bg-primary-foreground/10 backdrop-blur-sm text-primary-foreground/80 px-4 py-2 rounded-full text-sm font-medium mb-6">
-            <Sparkles className="h-4 w-4" />
+          <div className="inline-flex items-center gap-2 bg-black/10 backdrop-blur-sm text-black/80 px-4 py-2 rounded-full text-sm font-medium mb-6">
+            <Sparkles className="h-4 w-4 text-black" />
             <span>Exclusive Member Benefits</span>
           </div>
 
-          <h2 className="font-serif text-4xl md:text-5xl lg:text-display-sm font-semibold text-primary-foreground mb-6 text-balance">
+          <h2 className="font-serif text-4xl md:text-5xl lg:text-display-sm font-semibold text-black mb-6 text-balance">
             Get Exclusive Book Deals
           </h2>
-          <p className="text-primary-foreground/70 text-lg md:text-xl mb-10 max-w-xl mx-auto leading-relaxed font-light">
+
+          <p className="text-black/70 text-lg md:text-xl mb-10 max-w-xl mx-auto leading-relaxed font-light">
             Subscribe to our newsletter for personalized recommendations, exclusive discounts, and early access to new
             releases.
           </p>
@@ -63,18 +64,24 @@ export function NewsletterSection() {
                 placeholder="Enter your email address"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="flex-1 bg-primary-foreground/10 border-primary-foreground/20 text-primary-foreground placeholder:text-primary-foreground/40 h-14 pl-5 pr-5 rounded-xl backdrop-blur-sm focus:border-accent focus:ring-accent/30"
+                className="flex-1 bg-black/5 border-black/20 text-black placeholder:text-black/40 h-14 pl-5 pr-5 rounded-xl backdrop-blur-sm focus:border-black focus:ring-black/30"
                 required
               />
             </div>
-            <Button type="submit" variant="gold" size="lg" className="h-14 px-8 rounded-xl group">
+
+            <Button
+              type="submit"
+              variant="gold"
+              size="lg"
+              className="h-14 px-8 rounded-xl group bg-black text-white hover:bg-black/90"
+            >
               Subscribe
               <Send className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
             </Button>
           </form>
 
           {/* Trust text */}
-          <p className="text-primary-foreground/40 text-sm mt-6 flex items-center justify-center gap-2">
+          <p className="text-black/50 text-sm mt-6 flex items-center justify-center gap-2">
             <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
               <path
                 fillRule="evenodd"
