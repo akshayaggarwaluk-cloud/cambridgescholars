@@ -104,19 +104,14 @@ export default function FAQ() {
       <div className="pt-32 bg-[#f9f7f2] py-10 px-6 md:px-16">
         <div className="max-w-7xl mx-auto flex justify-between items-center">
           {/* Page Title */}
-          <h1 className="text-3xl font-serif text-gray-800">About Us</h1>
+          <h1 className="text-3xl font-serif text-gray-800">FAQs</h1>
 
           {/* Breadcrumb */}
-          <PageBreadcrumb currentPage="About Us" />
+          <PageBreadcrumb currentPage="FAQs" />
         </div>
       </div>
 
       <main className="pt-24 pb-16">
-        {/* Breadcrumb */}
-        <div className="container-wide pt-4">
-          <PageBreadcrumb currentPage="FAQs" />
-        </div>
-
         {/* Hero */}
         <section className="relative bg-gradient-charcoal py-20 overflow-hidden mt-4">
           <div className="absolute inset-0 overflow-hidden">
