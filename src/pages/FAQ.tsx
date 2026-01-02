@@ -93,6 +93,25 @@ export default function FAQ() {
       <Header />
 
       <main className="pt-24 pb-16">
+        {/* Breadcrumb */}
+        <div className="container-wide py-4">
+          <nav className="text-sm text-muted-foreground">
+            <ol className="flex items-center space-x-2">
+              <li>
+                <a href="/" className="hover:text-accent transition-colors">
+                  Home
+                </a>
+              </li>
+              <li>
+                <span className="mx-1">/</span>
+              </li>
+              <li>
+                <span className="text-accent font-medium">FAQs</span>
+              </li>
+            </ol>
+          </nav>
+        </div>
+
         {/* Hero */}
         <section className="relative bg-gradient-charcoal py-20 overflow-hidden">
           <div className="absolute inset-0 overflow-hidden">
