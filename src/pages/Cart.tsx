@@ -1,7 +1,8 @@
 import { Link } from "react-router-dom";
-import { Minus, Plus, Trash2, ArrowLeft, ShoppingBag, Tablet, Book } from "lucide-react";
+import { Minus, Plus, Trash2, ShoppingBag, Tablet, Book } from "lucide-react";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import { PageBreadcrumb } from "@/components/layout/PageBreadcrumb";
 import { Button } from "@/components/ui/button";
 import { useCart } from "@/contexts/CartContext";
 
@@ -42,13 +43,7 @@ export default function Cart() {
         <div className="container-wide">
           {/* Breadcrumb */}
           <div className="py-6">
-            <Link
-              to="/books"
-              className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors"
-            >
-              <ArrowLeft className="h-4 w-4" />
-              Continue Shopping
-            </Link>
+            <PageBreadcrumb currentPage="Cart" />
           </div>
 
           <h1 className="font-serif text-4xl font-bold text-foreground mb-8">

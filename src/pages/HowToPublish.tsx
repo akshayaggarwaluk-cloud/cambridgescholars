@@ -1,5 +1,6 @@
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import { PageBreadcrumb } from "@/components/layout/PageBreadcrumb";
 import { FileText, CheckCircle, Send, Clock } from "lucide-react";
 
 const HowToPublish = () => {
@@ -30,8 +31,16 @@ const HowToPublish = () => {
     <div className="min-h-screen bg-background">
       <Header />
       <main className="pt-20">
+        {/* Breadcrumb */}
+        <div className="container-wide pt-4">
+          <PageBreadcrumb 
+            items={[{ label: "Publish a Book", href: "#" }]} 
+            currentPage="How to Publish" 
+          />
+        </div>
+
         {/* Hero Section */}
-        <section className="bg-primary py-16">
+        <section className="bg-primary py-16 mt-4">
           <div className="container-wide">
             <h1 className="text-4xl md:text-5xl font-display font-bold text-primary-foreground mb-4">
               How to Publish

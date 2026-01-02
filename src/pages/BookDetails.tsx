@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import { ArrowLeft, Star, ShoppingCart, Heart, Share2, BookOpen, Calendar, Building, FileText, Tablet, Book } from "lucide-react";
+import { Star, ShoppingCart, Heart, Share2, BookOpen, Calendar, Building, FileText, Tablet, Book } from "lucide-react";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import { PageBreadcrumb } from "@/components/layout/PageBreadcrumb";
 import { Button } from "@/components/ui/button";
 import { ReviewsSection } from "@/components/books/ReviewsSection";
 import { RelatedBooksSection } from "@/components/books/RelatedBooksSection";
@@ -54,13 +55,10 @@ export default function BookDetails() {
       <main className="pt-24 pb-16">
         {/* Breadcrumb */}
         <div className="container-wide py-6">
-          <Link
-            to="/books"
-            className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors"
-          >
-            <ArrowLeft className="h-4 w-4" />
-            Back to Books
-          </Link>
+          <PageBreadcrumb 
+            items={[{ label: "Books", href: "/books" }]} 
+            currentPage={book.title} 
+          />
         </div>
 
         {/* Book Details */}

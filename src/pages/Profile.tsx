@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { User, Package, LogOut, Camera, BookOpen, Pencil, Trash2, Loader2 } from "lucide-react";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import { PageBreadcrumb } from "@/components/layout/PageBreadcrumb";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -204,6 +205,11 @@ export default function Profile() {
 
       <main className="pt-24 pb-16">
         <div className="container-wide max-w-4xl">
+          {/* Breadcrumb */}
+          <div className="pb-4">
+            <PageBreadcrumb currentPage="Profile" />
+          </div>
+
           <h1 className="font-serif text-4xl font-bold text-foreground mb-8">
             My Profile
           </h1>

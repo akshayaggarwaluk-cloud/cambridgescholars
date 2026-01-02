@@ -1,5 +1,6 @@
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import { PageBreadcrumb } from "@/components/layout/PageBreadcrumb";
 
 export default function AboutSection() {
   return (
@@ -11,21 +12,7 @@ export default function AboutSection() {
           <h1 className="text-3xl font-serif text-gray-800">About Us</h1>
 
           {/* Breadcrumb */}
-          <nav className="text-sm text-gray-600">
-            <ol className="flex space-x-1 md:space-x-2">
-              <li>
-                <a href="/" className="hover:underline italic">
-                  Home
-                </a>
-              </li>
-              <li>
-                <span className="mx-1">/</span>
-              </li>
-              <li>
-                <span className="text-red-500 italic">About Us</span>
-              </li>
-            </ol>
-          </nav>
+          <PageBreadcrumb currentPage="About Us" />
         </div>
       </div>
       {/* FIRST SECTION */}

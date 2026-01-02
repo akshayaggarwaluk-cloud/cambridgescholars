@@ -1,5 +1,6 @@
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import { PageBreadcrumb } from "@/components/layout/PageBreadcrumb";
 import { HelpCircle, ChevronDown } from "lucide-react";
 import {
   Accordion,
@@ -93,8 +94,13 @@ export default function FAQ() {
       <Header />
 
       <main className="pt-24 pb-16">
+        {/* Breadcrumb */}
+        <div className="container-wide pt-4">
+          <PageBreadcrumb currentPage="FAQs" />
+        </div>
+
         {/* Hero */}
-        <section className="relative bg-gradient-charcoal py-20 overflow-hidden">
+        <section className="relative bg-gradient-charcoal py-20 overflow-hidden mt-4">
           <div className="absolute inset-0 overflow-hidden">
             <div className="absolute top-0 right-0 w-96 h-96 bg-accent/10 rounded-full blur-3xl" />
             <div className="absolute bottom-0 left-1/4 w-64 h-64 bg-accent/5 rounded-full blur-3xl" />
