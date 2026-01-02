@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Mail, Phone, MapPin, Clock, Send } from "lucide-react";
+import { Mail, MapPin, Clock, Send } from "lucide-react";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { PageBreadcrumb } from "@/components/layout/PageBreadcrumb";
@@ -11,28 +11,19 @@ import { toast } from "sonner";
 
 const contactInfo = [
   {
-    icon: Mail,
-    title: "Email",
-    content: "hello@biblioscape.com",
-    description: "We'll respond within 24 hours",
-  },
-  {
-    icon: Phone,
-    title: "Phone",
-    content: "+1 (555) 123-4567",
-    description: "Mon-Fri from 9am to 6pm",
-  },
-  {
     icon: MapPin,
-    title: "Location",
-    content: "123 Book Street, Literary District",
-    description: "New York, NY 10001",
+    title: "Address",
+    content: "Lady Stephenson Library, Newcastle upon Tyne NE6 2PA, United Kingdom",
+  },
+  {
+    icon: Mail,
+    title: "Contact",
+    content: "Mail: admin@cambridgescholars.com",
   },
   {
     icon: Clock,
-    title: "Store Hours",
-    content: "Mon-Sat: 9am - 9pm",
-    description: "Sunday: 10am - 6pm",
+    title: "Hours Of Operation",
+    content: "Monday – Friday: 09:00 – 17:00",
   },
 ];
 
@@ -67,25 +58,29 @@ export default function Contact() {
         </div>
       </div>
 
-      <main className="pt-24">
-        {/* Hero */}
-
-        {/* Contact Info Cards */}
-        <section className="py-16">
+      <main className="py-16">
+        {/* Keep In Touch Section */}
+        <section className="pb-16">
           <div className="container-wide">
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <h2 className="font-serif text-3xl md:text-4xl text-foreground mb-4">Keep In Touch With Us</h2>
+            <p className="text-muted-foreground max-w-5xl mb-12">
+              If you have any questions regarding proposal submissions, book purchases, or any aspect of our publication process, we would be happy to hear from you. Please use the contact details below to get in touch, and we will respond as promptly as possible.
+            </p>
+            
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {contactInfo.map((info, index) => (
                 <div
                   key={info.title}
-                  className="bg-card rounded-xl p-6 shadow-card text-center animate-fade-up"
+                  className="flex items-start gap-4 animate-fade-up"
                   style={{ animationDelay: `${index * 0.1}s` }}
                 >
-                  <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-accent/10 mb-4">
-                    <info.icon className="h-6 w-6 text-accent" />
+                  <div className="flex-shrink-0">
+                    <info.icon className="h-6 w-6 text-accent" strokeWidth={1.5} />
                   </div>
-                  <h3 className="font-semibold text-foreground mb-1">{info.title}</h3>
-                  <p className="text-foreground font-medium mb-1">{info.content}</p>
-                  <p className="text-muted-foreground text-sm">{info.description}</p>
+                  <div>
+                    <h3 className="font-semibold text-foreground mb-2">{info.title}</h3>
+                    <p className="text-muted-foreground text-sm leading-relaxed">{info.content}</p>
+                  </div>
                 </div>
               ))}
             </div>
