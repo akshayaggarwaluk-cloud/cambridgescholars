@@ -50,33 +50,32 @@ export default function Contact() {
     setFormData({ name: "", email: "", subject: "", message: "" });
   };
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData((prev) => ({ ...prev, [e.target.id]: e.target.value }));
   };
 
   return (
     <div className="min-h-screen bg-background">
       <Header />
+      <div className="pt-32 bg-[#f9f7f2] py-10 px-6 md:px-16">
+        <div className="max-w-7xl mx-auto flex justify-between items-center">
+          {/* Page Title */}
+          <h1 className="text-3xl font-serif text-gray-800">Contact Us</h1>
 
-      <main className="pt-24">
-        {/* Breadcrumb */}
-        <div className="container-wide pt-4">
+          {/* Breadcrumb */}
           <PageBreadcrumb currentPage="Contact" />
         </div>
+      </div>
 
+      <main className="pt-24">
         {/* Hero */}
         <section className="py-16 bg-secondary mt-4">
           <div className="container-wide">
             <div className="text-center max-w-2xl mx-auto">
               <p className="text-accent font-medium mb-2">Get in Touch</p>
-              <h1 className="font-serif text-4xl md:text-5xl font-bold text-foreground mb-4">
-                Contact Us
-              </h1>
+              <h1 className="font-serif text-4xl md:text-5xl font-bold text-foreground mb-4">Contact Us</h1>
               <p className="text-muted-foreground text-lg">
-                Have a question or want to share your reading experience? 
-                We'd love to hear from you.
+                Have a question or want to share your reading experience? We'd love to hear from you.
               </p>
             </div>
           </div>
@@ -95,15 +94,9 @@ export default function Contact() {
                   <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-accent/10 mb-4">
                     <info.icon className="h-6 w-6 text-accent" />
                   </div>
-                  <h3 className="font-semibold text-foreground mb-1">
-                    {info.title}
-                  </h3>
-                  <p className="text-foreground font-medium mb-1">
-                    {info.content}
-                  </p>
-                  <p className="text-muted-foreground text-sm">
-                    {info.description}
-                  </p>
+                  <h3 className="font-semibold text-foreground mb-1">{info.title}</h3>
+                  <p className="text-foreground font-medium mb-1">{info.content}</p>
+                  <p className="text-muted-foreground text-sm">{info.description}</p>
                 </div>
               ))}
             </div>
@@ -116,20 +109,12 @@ export default function Contact() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
               {/* Form */}
               <div className="bg-card rounded-2xl shadow-card p-8">
-                <h2 className="font-serif text-2xl font-semibold text-foreground mb-6">
-                  Send Us a Message
-                </h2>
+                <h2 className="font-serif text-2xl font-semibold text-foreground mb-6">Send Us a Message</h2>
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="space-y-2">
                       <Label htmlFor="name">Name</Label>
-                      <Input
-                        id="name"
-                        value={formData.name}
-                        onChange={handleChange}
-                        placeholder="Your name"
-                        required
-                      />
+                      <Input id="name" value={formData.name} onChange={handleChange} placeholder="Your name" required />
                     </div>
                     <div className="space-y-2">
                       <Label htmlFor="email">Email</Label>
@@ -175,15 +160,9 @@ export default function Contact() {
               <div className="bg-secondary rounded-2xl overflow-hidden flex items-center justify-center min-h-[500px]">
                 <div className="text-center p-8">
                   <MapPin className="h-16 w-16 text-accent mx-auto mb-4" />
-                  <h3 className="font-serif text-2xl font-semibold text-foreground mb-2">
-                    Visit Our Store
-                  </h3>
-                  <p className="text-muted-foreground mb-1">
-                    123 Book Street, Literary District
-                  </p>
-                  <p className="text-muted-foreground">
-                    New York, NY 10001
-                  </p>
+                  <h3 className="font-serif text-2xl font-semibold text-foreground mb-2">Visit Our Store</h3>
+                  <p className="text-muted-foreground mb-1">123 Book Street, Literary District</p>
+                  <p className="text-muted-foreground">New York, NY 10001</p>
                   <Button variant="outline" className="mt-6">
                     Get Directions
                   </Button>
