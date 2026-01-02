@@ -1,7 +1,10 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
+import { Header } from "@/components/layout/Header";
+import { Footer } from "@/components/layout/Footer";
+import { PageBreadcrumb } from "@/components/layout/PageBreadcrumb";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -9,8 +12,7 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { CoverImageUpload } from "@/components/books/CoverImageUpload";
 import { toast } from "sonner";
-import { BookPlus, ArrowLeft } from "lucide-react";
-import { Link } from "react-router-dom";
+import { BookPlus } from "lucide-react";
 
 const categories = [
   "Fiction",
@@ -41,15 +43,21 @@ const PublishBook = () => {
 
   if (!user) {
     return (
-      <div className="container mx-auto px-4 py-16 text-center">
-        <BookPlus className="h-16 w-16 mx-auto text-muted-foreground mb-4" />
-        <h1 className="text-2xl font-bold mb-4">Sign in to Publish</h1>
-        <p className="text-muted-foreground mb-6">
-          You need to be signed in to publish a book.
-        </p>
-        <Button asChild>
-          <Link to="/auth">Sign In</Link>
-        </Button>
+      <div className="min-h-screen bg-background">
+        <Header />
+        <main className="pt-32 pb-16">
+          <div className="container-wide text-center">
+            <BookPlus className="h-16 w-16 mx-auto text-muted-foreground mb-4" />
+            <h1 className="text-2xl font-bold mb-4">Sign in to Publish</h1>
+            <p className="text-muted-foreground mb-6">
+              You need to be signed in to publish a book.
+            </p>
+            <Button asChild>
+              <Link to="/auth">Sign In</Link>
+            </Button>
+          </div>
+        </main>
+        <Footer />
       </div>
     );
   }
@@ -93,19 +101,20 @@ const PublishBook = () => {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8 max-w-2xl">
-      <Button variant="ghost" asChild className="mb-6">
-        <Link to="/books">
-          <ArrowLeft className="h-4 w-4 mr-2" />
-          Back to Books
-        </Link>
-      </Button>
+    <div className="min-h-screen bg-background">
+      <Header />
+      <main className="pt-24 pb-16">
+        <div className="container-wide max-w-2xl">
+          {/* Breadcrumb */}
+          <div className="pb-4">
+            <PageBreadcrumb currentPage="Publish a Book" />
+          </div>
 
-      <div className="bg-card rounded-lg border p-6 md:p-8">
-        <div className="flex items-center gap-3 mb-6">
-          <BookPlus className="h-8 w-8 text-primary" />
-          <h1 className="text-2xl font-bold">Publish Your Book</h1>
-        </div>
+          <div className="bg-card rounded-lg border p-6 md:p-8">
+            <div className="flex items-center gap-3 mb-6">
+              <BookPlus className="h-8 w-8 text-primary" />
+              <h1 className="text-2xl font-bold">Publish Your Book</h1>
+            </div>
 
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="space-y-2">
@@ -184,12 +193,15 @@ const PublishBook = () => {
             />
           </div>
 
-          <Button type="submit" className="w-full" disabled={loading}>
-            {loading ? "Publishing..." : "Publish Book"}
-          </Button>
-        </form>
+            <Button type="submit" className="w-full" disabled={loading}>
+              {loading ? "Publishing..." : "Publish Book"}
+            </Button>
+          </form>
+        </div>
       </div>
-    </div>
+    </main>
+    <Footer />
+  </div>
   );
 };
 

@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { ArrowLeft, CheckCircle, AlertCircle } from "lucide-react";
+import { CheckCircle, AlertCircle } from "lucide-react";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import { PageBreadcrumb } from "@/components/layout/PageBreadcrumb";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -162,13 +163,10 @@ export default function Checkout() {
         <div className="container-wide">
           {/* Breadcrumb */}
           <div className="py-6">
-            <Link
-              to="/cart"
-              className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors"
-            >
-              <ArrowLeft className="h-4 w-4" />
-              Back to Cart
-            </Link>
+            <PageBreadcrumb 
+              items={[{ label: "Cart", href: "/cart" }]} 
+              currentPage="Checkout" 
+            />
           </div>
 
           <h1 className="font-serif text-4xl font-bold text-foreground mb-8">

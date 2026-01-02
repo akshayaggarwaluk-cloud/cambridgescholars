@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Mail, Phone, MapPin, Clock, Send } from "lucide-react";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import { PageBreadcrumb } from "@/components/layout/PageBreadcrumb";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -60,8 +61,13 @@ export default function Contact() {
       <Header />
 
       <main className="pt-24">
+        {/* Breadcrumb */}
+        <div className="container-wide pt-4">
+          <PageBreadcrumb currentPage="Contact" />
+        </div>
+
         {/* Hero */}
-        <section className="py-16 bg-secondary">
+        <section className="py-16 bg-secondary mt-4">
           <div className="container-wide">
             <div className="text-center max-w-2xl mx-auto">
               <p className="text-accent font-medium mb-2">Get in Touch</p>

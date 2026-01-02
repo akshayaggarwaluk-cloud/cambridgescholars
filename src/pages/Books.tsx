@@ -3,6 +3,7 @@ import { useSearchParams } from "react-router-dom";
 import { Search, SlidersHorizontal, X, Loader2 } from "lucide-react";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import { PageBreadcrumb } from "@/components/layout/PageBreadcrumb";
 import { BookCard } from "@/components/books/BookCard";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -149,8 +150,13 @@ export default function Books() {
       <Header />
 
       <main className="pt-24 pb-16">
-      {/* Hero */}
-        <section className="relative bg-gradient-charcoal py-20 overflow-hidden">
+        {/* Breadcrumb */}
+        <div className="container-wide pt-4">
+          <PageBreadcrumb currentPage="Books" />
+        </div>
+
+        {/* Hero */}
+        <section className="relative bg-gradient-charcoal py-20 overflow-hidden mt-4">
           <div className="absolute inset-0 opacity-10">
             <div className="absolute top-0 left-0 w-72 h-72 bg-accent rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2" />
             <div className="absolute bottom-0 right-0 w-96 h-96 bg-accent rounded-full blur-3xl translate-x-1/3 translate-y-1/3" />

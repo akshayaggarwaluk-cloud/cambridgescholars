@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { Heart, ShoppingCart, Trash2, Loader2 } from "lucide-react";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import { PageBreadcrumb } from "@/components/layout/PageBreadcrumb";
 import { Button } from "@/components/ui/button";
 import { useWishlist } from "@/contexts/WishlistContext";
 import { useCart } from "@/contexts/CartContext";
@@ -53,6 +54,11 @@ export default function Wishlist() {
 
       <main className="pt-24 pb-16">
         <div className="container-wide max-w-4xl">
+          {/* Breadcrumb */}
+          <div className="pb-4">
+            <PageBreadcrumb currentPage="Wishlist" />
+          </div>
+
           <div className="flex items-center gap-3 mb-8">
             <Heart className="h-8 w-8 text-accent" />
             <h1 className="font-serif text-4xl font-bold text-foreground">

@@ -1,5 +1,6 @@
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import { PageBreadcrumb } from "@/components/layout/PageBreadcrumb";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { FileText, Download, BookOpen, HelpCircle, ExternalLink } from "lucide-react";
@@ -55,8 +56,16 @@ const Resources = () => {
     <div className="min-h-screen bg-background">
       <Header />
       <main className="pt-20">
+        {/* Breadcrumb */}
+        <div className="container-wide pt-4">
+          <PageBreadcrumb 
+            items={[{ label: "Publish a Book", href: "#" }]} 
+            currentPage="Resources" 
+          />
+        </div>
+
         {/* Hero Section */}
-        <section className="bg-primary py-16">
+        <section className="bg-primary py-16 mt-4">
           <div className="container-wide">
             <h1 className="text-4xl md:text-5xl font-display font-bold text-primary-foreground mb-4">
               Resources

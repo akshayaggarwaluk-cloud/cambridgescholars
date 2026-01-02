@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { Package, Calendar, ChevronRight, ShoppingBag } from "lucide-react";
+import { Package, Calendar, ShoppingBag } from "lucide-react";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import { PageBreadcrumb } from "@/components/layout/PageBreadcrumb";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
@@ -99,6 +100,11 @@ export default function Orders() {
 
       <main className="pt-24 pb-16">
         <div className="container-wide">
+          {/* Breadcrumb */}
+          <div className="pb-4">
+            <PageBreadcrumb currentPage="Orders" />
+          </div>
+
           <h1 className="font-serif text-4xl font-bold text-foreground mb-8">
             Order History
           </h1>
