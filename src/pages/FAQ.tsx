@@ -94,11 +94,10 @@ export default function FAQ() {
 
       <main className="pt-24 pb-16">
         {/* Breadcrumb */}
-        <div className="container-wide py-4">
-          <nav className="text-sm text-muted-foreground">
-            <ol className="flex items-center space-x-2">
+          <nav className="text-sm text-gray-600">
+            <ol className="flex space-x-1 md:space-x-2">
               <li>
-                <a href="/" className="hover:text-accent transition-colors">
+                <a href="/" className="hover:underline italic">
                   Home
                 </a>
               </li>
@@ -106,12 +105,12 @@ export default function FAQ() {
                 <span className="mx-1">/</span>
               </li>
               <li>
-                <span className="text-accent font-medium">FAQs</span>
+                <span className="text-red-500 italic">About Us</span>
               </li>
             </ol>
           </nav>
         </div>
-
+      </div>
         {/* Hero */}
         <section className="relative bg-gradient-charcoal py-20 overflow-hidden">
           <div className="absolute inset-0 overflow-hidden">
