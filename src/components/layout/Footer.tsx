@@ -1,114 +1,95 @@
 import { Link } from "react-router-dom";
-import { Facebook, Twitter, Linkedin, Mail, Youtube } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 
 const footerLinks = {
-  shop: [
-    { name: "All Books", href: "/books" },
-    { name: "New Releases", href: "/books?sort=newest" },
-    { name: "Bestsellers", href: "/books?sort=popular" },
-    { name: "Categories", href: "/categories" },
-  ],
-  publish: [
-    { name: "Submit a Proposal", href: "/publish" },
-    { name: "Author Guidelines", href: "/publish#guidelines" },
-    { name: "Publication Process", href: "/publish#process" },
-    { name: "FAQ", href: "/faq" },
-  ],
-  company: [
-    { name: "About Us", href: "/about" },
+  pages: [
+    { name: "Home", href: "/" },
+    { name: "About us", href: "/about" },
+    { name: "Buy a Book", href: "/books" },
+    { name: "Publish a Book", href: "/how-to-publish" },
     { name: "News", href: "/news" },
-    { name: "Authors", href: "/authors" },
-    { name: "Contact", href: "/contact" },
+    { name: "FAQs", href: "/faq" },
   ],
-  support: [
-    { name: "Help Center", href: "/faq" },
-    { name: "Shipping", href: "/shipping" },
-    { name: "Returns", href: "/returns" },
+  otherLinks: [
     { name: "Privacy Policy", href: "/privacy" },
+    { name: "Cookies Policy", href: "/cookies" },
+    { name: "Terms and Conditions", href: "/terms" },
+    { name: "Accessibility Statement", href: "/accessibility" },
+    { name: "Refund and Returns", href: "/returns" },
   ],
 };
 
 export function Footer() {
   return (
-    <footer className="bg-white text-black">
-      <div className="container-wide py-12 md:py-16">
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8 lg:gap-10">
-          {/* Brand Column */}
-          <div className="col-span-2 md:col-span-3 lg:col-span-2">
-            <Link to="/" className="inline-block mb-4">
-              <img src="/src/assets/logo.png" alt="Logo" className="h-10 w-auto" />
-            </Link>
+    <footer className="bg-[#1e2a33] text-white/80">
+      <div className="container-wide py-16">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-8">
+          {/* Connect Column */}
+          <div>
+            <h3 className="font-semibold text-sm uppercase tracking-wider text-white mb-6">
+              Connect
+            </h3>
+            <div className="space-y-1 text-sm leading-relaxed">
+              <p>Lady Stephenson Library,</p>
+              <p>Newcastle upon Tyne</p>
+              <p>NE6 2PA, United Kingdom</p>
+            </div>
+            <p className="mt-6 text-sm">admin@cambridgescholars.com</p>
+          </div>
 
-            <p className="text-black/70 mb-4 text-sm leading-relaxed max-w-xs">
-              Independent academic publisher committed to advancing original research across the humanities, social
-              sciences, and STEM disciplines.
-            </p>
-
-            <div className="flex gap-2">
-              {[Facebook, Twitter, Linkedin, Youtube, Mail].map((Icon, i) => (
-                <Button
-                  key={i}
-                  variant="ghost"
-                  size="icon"
-                  className="h-8 w-8 text-black/70 hover:text-black hover:bg-black/10"
-                >
-                  <Icon className="h-4 w-4" />
-                </Button>
+          {/* Pages Column */}
+          <div>
+            <h3 className="font-semibold text-sm uppercase tracking-wider text-white mb-6">
+              Pages
+            </h3>
+            <ul className="space-y-3">
+              {footerLinks.pages.map((link) => (
+                <li key={link.name}>
+                  <Link
+                    to={link.href}
+                    className="text-sm hover:text-white hover:underline transition-colors"
+                  >
+                    {link.name}
+                  </Link>
+                </li>
               ))}
-            </div>
+            </ul>
           </div>
 
-          {/* Links Columns */}
-          {Object.entries(footerLinks).map(([section, links]) => (
-            <div key={section}>
-              <h3 className="font-semibold text-xs uppercase tracking-wider mb-3">{section}</h3>
-              <ul className="space-y-2">
-                {links.map((link) => (
-                  <li key={link.name}>
-                    <Link to={link.href} className="text-sm text-black/70 hover:text-black transition-colors">
-                      {link.name}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
-        </div>
-
-        {/* Newsletter */}
-        <div className="mt-10 pt-8 border-t border-black/10">
-          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-            <div>
-              <h3 className="font-semibold text-sm mb-1">Stay Updated</h3>
-              <p className="text-xs text-black/70">Subscribe to receive news about new publications and events.</p>
-            </div>
-            <div className="flex gap-2 max-w-sm w-full md:w-auto">
-              <Input
-                type="email"
-                placeholder="Enter your email"
-                className="h-9 text-sm bg-black/5 border-black/20 text-black placeholder:text-black/50 focus:border-black"
-              />
-              <Button className="h-9 bg-black hover:bg-black/90 text-white text-sm px-4">Subscribe</Button>
-            </div>
+          {/* Other Links Column */}
+          <div>
+            <h3 className="font-semibold text-sm uppercase tracking-wider text-white mb-6">
+              Other Links
+            </h3>
+            <ul className="space-y-3">
+              {footerLinks.otherLinks.map((link) => (
+                <li key={link.name}>
+                  <Link
+                    to={link.href}
+                    className="text-sm hover:text-white hover:underline transition-colors"
+                  >
+                    {link.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
 
-        {/* Bottom */}
-        <div className="mt-8 pt-6 border-t border-black/10 flex flex-col md:flex-row md:items-center md:justify-between gap-3">
-          <p className="text-xs text-black/50">© 2024 Cambridge Scholars Publishing. All rights reserved.</p>
-          <div className="flex flex-wrap gap-4 text-xs text-black/50">
-            <Link to="/privacy" className="hover:text-black transition-colors">
-              Privacy Policy
-            </Link>
-            <Link to="/terms" className="hover:text-black transition-colors">
-              Terms of Service
-            </Link>
-            <Link to="/cookies" className="hover:text-black transition-colors">
-              Cookie Policy
-            </Link>
-          </div>
+        {/* Registration */}
+        <div className="mt-12 pt-6 border-t border-white/10">
+          <p className="text-sm text-white/80">
+            Cambridge Scholars Publishing | Registration Number: 04333775
+          </p>
+        </div>
+
+        {/* Disclaimer & Copyright */}
+        <div className="mt-6 pt-6 border-t border-white/10 space-y-2">
+          <p className="text-sm text-white/80">
+            Please note that Cambridge Scholars Publishing Limited is not affiliated to or associated with Cambridge University Press or the University of Cambridge.
+          </p>
+          <p className="text-sm text-white/80">
+            Copyright © 2025 Cambridge Scholars Publishing. All rights reserved
+          </p>
         </div>
       </div>
     </footer>
