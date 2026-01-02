@@ -2,12 +2,7 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { PageBreadcrumb } from "@/components/layout/PageBreadcrumb";
 import { HelpCircle, ChevronDown } from "lucide-react";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 
 const faqCategories = [
   {
@@ -15,19 +10,23 @@ const faqCategories = [
     faqs: [
       {
         question: "How long does shipping take?",
-        answer: "Standard shipping typically takes 5-7 business days. Express shipping is available for 2-3 business day delivery. International orders may take 10-14 business days depending on the destination.",
+        answer:
+          "Standard shipping typically takes 5-7 business days. Express shipping is available for 2-3 business day delivery. International orders may take 10-14 business days depending on the destination.",
       },
       {
         question: "Can I track my order?",
-        answer: "Yes! Once your order ships, you'll receive an email with a tracking number. You can use this to track your package on our website or the carrier's site.",
+        answer:
+          "Yes! Once your order ships, you'll receive an email with a tracking number. You can use this to track your package on our website or the carrier's site.",
       },
       {
         question: "What is your return policy?",
-        answer: "We offer a 30-day return policy for all books in their original condition. Simply contact our support team to initiate a return. Refunds are processed within 5-7 business days after we receive the returned item.",
+        answer:
+          "We offer a 30-day return policy for all books in their original condition. Simply contact our support team to initiate a return. Refunds are processed within 5-7 business days after we receive the returned item.",
       },
       {
         question: "Do you offer free shipping?",
-        answer: "Yes! We offer free standard shipping on all orders over $35. Members of our loyalty program receive free shipping on all orders regardless of the total.",
+        answer:
+          "Yes! We offer free standard shipping on all orders over $35. Members of our loyalty program receive free shipping on all orders regardless of the total.",
       },
     ],
   },
@@ -36,15 +35,18 @@ const faqCategories = [
     faqs: [
       {
         question: "How do I access my eBooks?",
-        answer: "After purchase, your eBooks are available instantly in your account under 'My Library'. You can read them online or download them to your preferred device using our app.",
+        answer:
+          "After purchase, your eBooks are available instantly in your account under 'My Library'. You can read them online or download them to your preferred device using our app.",
       },
       {
         question: "What formats are available for eBooks?",
-        answer: "Our eBooks are available in EPUB and PDF formats, compatible with most e-readers, tablets, and smartphones. Some titles also support Kindle format.",
+        answer:
+          "Our eBooks are available in EPUB and PDF formats, compatible with most e-readers, tablets, and smartphones. Some titles also support Kindle format.",
       },
       {
         question: "Can I read eBooks offline?",
-        answer: "Yes! Download your eBooks through our mobile app to read offline anytime, anywhere. Your reading progress syncs automatically when you're back online.",
+        answer:
+          "Yes! Download your eBooks through our mobile app to read offline anytime, anywhere. Your reading progress syncs automatically when you're back online.",
       },
     ],
   },
@@ -53,19 +55,23 @@ const faqCategories = [
     faqs: [
       {
         question: "What payment methods do you accept?",
-        answer: "We accept all major credit cards (Visa, Mastercard, American Express), PayPal, Apple Pay, and Google Pay. Gift cards can also be used for purchases.",
+        answer:
+          "We accept all major credit cards (Visa, Mastercard, American Express), PayPal, Apple Pay, and Google Pay. Gift cards can also be used for purchases.",
       },
       {
         question: "Is my payment information secure?",
-        answer: "Absolutely. We use industry-standard SSL encryption to protect your data. We never store your full credit card information on our servers.",
+        answer:
+          "Absolutely. We use industry-standard SSL encryption to protect your data. We never store your full credit card information on our servers.",
       },
       {
         question: "How do I reset my password?",
-        answer: "Click 'Sign In' and then 'Forgot Password'. Enter your email address and we'll send you a link to reset your password within minutes.",
+        answer:
+          "Click 'Sign In' and then 'Forgot Password'. Enter your email address and we'll send you a link to reset your password within minutes.",
       },
       {
         question: "Can I save books for later?",
-        answer: "Yes! Use our Wishlist feature to save books you're interested in. Simply click the heart icon on any book to add it to your wishlist for easy access later.",
+        answer:
+          "Yes! Use our Wishlist feature to save books you're interested in. Simply click the heart icon on any book to add it to your wishlist for easy access later.",
       },
     ],
   },
@@ -74,15 +80,18 @@ const faqCategories = [
     faqs: [
       {
         question: "How can I publish my book on Biblioscape?",
-        answer: "We welcome independent authors! Visit our 'Publish' page to submit your manuscript. Our team reviews submissions within 2-3 weeks and will contact you with next steps.",
+        answer:
+          "We welcome independent authors! Visit our 'Publish' page to submit your manuscript. Our team reviews submissions within 2-3 weeks and will contact you with next steps.",
       },
       {
         question: "What royalties do authors receive?",
-        answer: "Authors receive competitive royalty rates starting at 35% for eBooks and 25% for print books. Higher rates are available based on sales volume and exclusive agreements.",
+        answer:
+          "Authors receive competitive royalty rates starting at 35% for eBooks and 25% for print books. Higher rates are available based on sales volume and exclusive agreements.",
       },
       {
         question: "Do you offer author support services?",
-        answer: "Yes! We offer editing, cover design, and marketing services for authors. Contact our author support team for a personalized consultation.",
+        answer:
+          "Yes! We offer editing, cover design, and marketing services for authors. Contact our author support team for a personalized consultation.",
       },
     ],
   },
@@ -92,6 +101,15 @@ export default function FAQ() {
   return (
     <div className="min-h-screen bg-background">
       <Header />
+      <div className="pt-32 bg-[#f9f7f2] py-10 px-6 md:px-16">
+        <div className="max-w-7xl mx-auto flex justify-between items-center">
+          {/* Page Title */}
+          <h1 className="text-3xl font-serif text-gray-800">About Us</h1>
+
+          {/* Breadcrumb */}
+          <PageBreadcrumb currentPage="About Us" />
+        </div>
+      </div>
 
       <main className="pt-24 pb-16">
         {/* Breadcrumb */}
@@ -124,14 +142,18 @@ export default function FAQ() {
         <section className="container-wide py-16">
           <div className="max-w-4xl mx-auto space-y-12">
             {faqCategories.map((category, categoryIndex) => (
-              <div key={category.title} className="animate-fade-up" style={{ animationDelay: `${categoryIndex * 0.1}s` }}>
+              <div
+                key={category.title}
+                className="animate-fade-up"
+                style={{ animationDelay: `${categoryIndex * 0.1}s` }}
+              >
                 <h2 className="font-serif text-2xl md:text-3xl font-bold text-foreground mb-6 flex items-center gap-3">
                   <span className="w-8 h-8 rounded-full bg-accent/10 flex items-center justify-center text-accent text-sm font-bold">
                     {categoryIndex + 1}
                   </span>
                   {category.title}
                 </h2>
-                
+
                 <Accordion type="single" collapsible className="space-y-4">
                   {category.faqs.map((faq, faqIndex) => (
                     <AccordionItem
@@ -155,9 +177,7 @@ export default function FAQ() {
           {/* Contact CTA */}
           <div className="max-w-4xl mx-auto mt-16">
             <div className="bg-secondary rounded-2xl p-8 md:p-12 text-center">
-              <h3 className="font-serif text-2xl font-bold text-foreground mb-3">
-                Still have questions?
-              </h3>
+              <h3 className="font-serif text-2xl font-bold text-foreground mb-3">Still have questions?</h3>
               <p className="text-muted-foreground mb-6 max-w-md mx-auto">
                 Can't find what you're looking for? Our support team is here to help.
               </p>
