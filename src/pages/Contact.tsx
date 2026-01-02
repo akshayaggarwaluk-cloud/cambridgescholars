@@ -69,17 +69,6 @@ export default function Contact() {
 
       <main className="pt-24">
         {/* Hero */}
-        <section className="py-16 bg-secondary mt-4">
-          <div className="container-wide">
-            <div className="text-center max-w-2xl mx-auto">
-              <p className="text-accent font-medium mb-2">Get in Touch</p>
-              <h1 className="font-serif text-4xl md:text-5xl font-bold text-foreground mb-4">Contact Us</h1>
-              <p className="text-muted-foreground text-lg">
-                Have a question or want to share your reading experience? We'd love to hear from you.
-              </p>
-            </div>
-          </div>
-        </section>
 
         {/* Contact Info Cards */}
         <section className="py-16">
