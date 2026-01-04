@@ -143,7 +143,7 @@ export function HeroSection() {
               <img
                 src={activeReview.image}
                 alt={activeReview.bookTitle}
-                className="w-full h-auto max-h-[300px] md:max-h-[400px] lg:max-h-[500px] object-contain transition-all duration-700 drop-shadow-2xl"
+                className="w-full h-auto max-h-[300px] md:max-h-[400px] lg:max-h-[500px] object-contain transition-all duration-700 mix-blend-multiply"
               />
             </div>
           </div>
