@@ -188,7 +188,7 @@ export function HeroSection() {
           </div>
 
           {/* Book Image - Mockup style */}
-          <div className="relative flex justify-center lg:justify-end order-1 lg:order-2 min-h-[300px] md:min-h-[400px] lg:min-h-[500px]">
+          <div className="relative order-1 lg:order-2 h-[300px] md:h-[400px] lg:h-[500px]">
             <AnimatePresence mode="wait">
               <motion.div
                 key={activeIndex}
@@ -197,12 +197,12 @@ export function HeroSection() {
                 animate="animate"
                 exit="exit"
                 transition={{ duration: 0.5, ease: "easeOut" }}
-                className="relative w-full max-w-md lg:max-w-lg xl:max-w-xl flex items-center justify-center"
+                className="absolute inset-0 flex items-center justify-center lg:justify-end"
               >
                 <img
                   src={activeReview.image}
                   alt={activeReview.bookTitle}
-                  className="w-full h-auto max-h-[300px] md:max-h-[400px] lg:max-h-[500px] object-contain mix-blend-multiply"
+                  className="h-full w-auto object-contain mix-blend-multiply"
                 />
               </motion.div>
             </AnimatePresence>
