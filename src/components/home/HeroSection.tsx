@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "framer-motion";
@@ -210,40 +209,20 @@ export function HeroSection() {
         </div>
 
         {/* Navigation */}
-        <div className="flex items-center justify-center gap-4 mt-8 md:mt-12">
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={goToPrev}
-            className="rounded-full border border-border text-foreground hover:bg-muted h-10 w-10"
-          >
-            <ChevronLeft className="h-5 w-5" />
-          </Button>
-
-          <div className="flex gap-2">
-            {featuredReviews.map((_, index) => (
-              <button
-                key={index}
-                onClick={() => {
-                  setIsAutoPlaying(false);
-                  setActiveIndex(index);
-                }}
-                className={cn(
-                  "h-2 rounded-full transition-all duration-300",
-                  activeIndex === index ? "w-8 bg-accent" : "w-2 bg-muted-foreground/30 hover:bg-muted-foreground/50",
-                )}
-              />
-            ))}
-          </div>
-
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={goToNext}
-            className="rounded-full border border-border text-foreground hover:bg-muted h-10 w-10"
-          >
-            <ChevronRight className="h-5 w-5" />
-          </Button>
+        <div className="flex items-center justify-center gap-2 mt-8 md:mt-12">
+          {featuredReviews.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => {
+                setIsAutoPlaying(false);
+                setActiveIndex(index);
+              }}
+              className={cn(
+                "h-2 rounded-full transition-all duration-300",
+                activeIndex === index ? "w-8 bg-accent" : "w-2 bg-muted-foreground/30 hover:bg-muted-foreground/50",
+              )}
+            />
+          ))}
         </div>
       </div>
     </section>
