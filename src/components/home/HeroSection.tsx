@@ -100,17 +100,17 @@ export function HeroSection() {
       <div className="container-wide relative z-10 w-full">
         <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center">
           {/* Content */}
-          <div className="text-foreground space-y-5 order-2 lg:order-1">
+          <div className="text-foreground space-y-5 order-2 lg:order-1 min-h-[400px] md:min-h-[450px]">
             <span className="inline-block text-accent text-xs font-semibold uppercase tracking-[0.2em]">
               {activeReview.label}
             </span>
 
-            <h1 className="font-serif text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold leading-[1.1] text-balance text-primary">
+            <h1 className="font-serif text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold leading-[1.1] text-balance text-primary min-h-[2.5em]">
               {activeReview.bookTitle}
             </h1>
 
             {activeReview.subtitle && (
-              <h2 className="text-lg md:text-xl lg:text-2xl text-muted-foreground italic font-serif">
+              <h2 className="text-lg md:text-xl lg:text-2xl text-muted-foreground italic font-serif min-h-[1.5em]">
                 {activeReview.subtitle}
               </h2>
             )}
@@ -118,8 +118,8 @@ export function HeroSection() {
             <p className="text-muted-foreground text-sm md:text-base">{activeReview.author}</p>
 
             {/* Quote */}
-            <blockquote className="relative py-4">
-              <p className="text-base md:text-lg italic text-foreground/90 leading-relaxed">
+            <blockquote className="relative py-4 min-h-[180px]">
+              <p className="text-base md:text-lg italic text-foreground/90 leading-relaxed line-clamp-6">
                 <span className="text-accent text-2xl font-serif">"</span>
                 {activeReview.quote}
                 <span className="text-accent text-2xl font-serif">"</span>
@@ -138,12 +138,12 @@ export function HeroSection() {
           </div>
 
           {/* Book Image - Mockup style */}
-          <div className="relative flex justify-center lg:justify-end order-1 lg:order-2">
-            <div className="relative w-full max-w-md lg:max-w-lg xl:max-w-xl">
+          <div className="relative flex justify-center lg:justify-end order-1 lg:order-2 min-h-[300px] md:min-h-[400px] lg:min-h-[500px]">
+            <div className="relative w-full max-w-md lg:max-w-lg xl:max-w-xl flex items-center justify-center">
               <img
                 src={activeReview.image}
                 alt={activeReview.bookTitle}
-                className="w-full h-auto object-contain transition-all duration-700 drop-shadow-2xl"
+                className="w-full h-auto max-h-[300px] md:max-h-[400px] lg:max-h-[500px] object-contain transition-all duration-700 drop-shadow-2xl"
               />
             </div>
           </div>
