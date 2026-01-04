@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { motion, AnimatePresence } from "framer-motion";
 
 // Featured reviews similar to Cambridge Scholars
 const featuredReviews = [
@@ -65,6 +66,18 @@ const featuredReviews = [
   },
 ];
 
+const textVariants = {
+  initial: { opacity: 0, y: -30 },
+  animate: { opacity: 1, y: 0 },
+  exit: { opacity: 0, y: 30 },
+};
+
+const imageVariants = {
+  initial: { opacity: 0, x: 100 },
+  animate: { opacity: 1, x: 0 },
+  exit: { opacity: 0, x: -100 },
+};
+
 export function HeroSection() {
   const [activeIndex, setActiveIndex] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
@@ -100,52 +113,99 @@ export function HeroSection() {
       <div className="container-wide relative z-10 w-full">
         <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center">
           {/* Content */}
-          <div className="text-foreground space-y-5 order-2 lg:order-1 min-h-[400px] md:min-h-[450px]">
-            <span className="inline-block text-accent text-xs font-semibold uppercase tracking-[0.2em]">
-              {activeReview.label}
-            </span>
+          <div className="text-foreground order-2 lg:order-1 min-h-[400px] md:min-h-[450px]">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activeIndex}
+                className="space-y-5"
+                initial="initial"
+                animate="animate"
+                exit="exit"
+                transition={{ duration: 0.5, ease: "easeOut" }}
+              >
+                <motion.span
+                  variants={textVariants}
+                  transition={{ duration: 0.4, delay: 0 }}
+                  className="inline-block text-accent text-xs font-semibold uppercase tracking-[0.2em]"
+                >
+                  {activeReview.label}
+                </motion.span>
 
-            <h1 className="font-serif text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold leading-[1.1] text-balance text-primary min-h-[2.5em]">
-              {activeReview.bookTitle}
-            </h1>
+                <motion.h1
+                  variants={textVariants}
+                  transition={{ duration: 0.4, delay: 0.1 }}
+                  className="font-serif text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold leading-[1.1] text-balance text-primary"
+                >
+                  {activeReview.bookTitle}
+                </motion.h1>
 
-            {activeReview.subtitle && (
-              <h2 className="text-lg md:text-xl lg:text-2xl text-muted-foreground italic font-serif min-h-[1.5em]">
-                {activeReview.subtitle}
-              </h2>
-            )}
+                {activeReview.subtitle && (
+                  <motion.h2
+                    variants={textVariants}
+                    transition={{ duration: 0.4, delay: 0.2 }}
+                    className="text-lg md:text-xl lg:text-2xl text-muted-foreground italic font-serif"
+                  >
+                    {activeReview.subtitle}
+                  </motion.h2>
+                )}
 
-            <p className="text-muted-foreground text-sm md:text-base">{activeReview.author}</p>
+                <motion.p
+                  variants={textVariants}
+                  transition={{ duration: 0.4, delay: 0.3 }}
+                  className="text-muted-foreground text-sm md:text-base"
+                >
+                  {activeReview.author}
+                </motion.p>
 
-            {/* Quote */}
-            <blockquote className="relative py-4 min-h-[180px]">
-              <p className="text-base md:text-lg italic text-foreground/90 leading-relaxed line-clamp-6">
-                <span className="text-accent text-2xl font-serif">"</span>
-                {activeReview.quote}
-                <span className="text-accent text-2xl font-serif">"</span>
-              </p>
-              <footer className="mt-4 text-sm text-muted-foreground">
-                <span className="font-semibold text-foreground">– {activeReview.reviewer}</span>
-                <span className="block text-xs mt-1">{activeReview.reviewerTitle}</span>
-              </footer>
-            </blockquote>
+                {/* Quote */}
+                <motion.blockquote
+                  variants={textVariants}
+                  transition={{ duration: 0.4, delay: 0.4 }}
+                  className="relative py-4"
+                >
+                  <p className="text-base md:text-lg italic text-foreground/90 leading-relaxed line-clamp-6">
+                    <span className="text-accent text-2xl font-serif">"</span>
+                    {activeReview.quote}
+                    <span className="text-accent text-2xl font-serif">"</span>
+                  </p>
+                  <footer className="mt-4 text-sm text-muted-foreground">
+                    <span className="font-semibold text-foreground">– {activeReview.reviewer}</span>
+                    <span className="block text-xs mt-1">{activeReview.reviewerTitle}</span>
+                  </footer>
+                </motion.blockquote>
 
-            <div className="pt-2">
-              <Button asChild className="bg-accent hover:bg-accent/90 text-accent-foreground font-medium px-6">
-                <Link to={`/books/${activeReview.bookId}`}>View</Link>
-              </Button>
-            </div>
+                <motion.div
+                  variants={textVariants}
+                  transition={{ duration: 0.4, delay: 0.5 }}
+                  className="pt-2"
+                >
+                  <Button asChild className="bg-accent hover:bg-accent/90 text-accent-foreground font-medium px-6">
+                    <Link to={`/books/${activeReview.bookId}`}>View</Link>
+                  </Button>
+                </motion.div>
+              </motion.div>
+            </AnimatePresence>
           </div>
 
           {/* Book Image - Mockup style */}
           <div className="relative flex justify-center lg:justify-end order-1 lg:order-2 min-h-[300px] md:min-h-[400px] lg:min-h-[500px]">
-            <div className="relative w-full max-w-md lg:max-w-lg xl:max-w-xl flex items-center justify-center">
-              <img
-                src={activeReview.image}
-                alt={activeReview.bookTitle}
-                className="w-full h-auto max-h-[300px] md:max-h-[400px] lg:max-h-[500px] object-contain transition-all duration-700 mix-blend-multiply"
-              />
-            </div>
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activeIndex}
+                variants={imageVariants}
+                initial="initial"
+                animate="animate"
+                exit="exit"
+                transition={{ duration: 0.5, ease: "easeOut" }}
+                className="relative w-full max-w-md lg:max-w-lg xl:max-w-xl flex items-center justify-center"
+              >
+                <img
+                  src={activeReview.image}
+                  alt={activeReview.bookTitle}
+                  className="w-full h-auto max-h-[300px] md:max-h-[400px] lg:max-h-[500px] object-contain mix-blend-multiply"
+                />
+              </motion.div>
+            </AnimatePresence>
           </div>
         </div>
 
