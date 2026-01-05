@@ -72,13 +72,13 @@ export function Header() {
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center gap-6">
+          <div className="hidden lg:flex items-center gap-10">
             {navigation.slice(0, 3).map((item) => (
               <Link
                 key={item.name}
                 to={item.href}
                 className={cn(
-                  "text-lg font-medium transition-colors duration-200 hover:text-accent",
+                  "text-lg font-bold transition-colors duration-200 hover:text-accent",
                   location.pathname === item.href ? "text-accent" : "text-foreground",
                 )}
               >
@@ -93,7 +93,7 @@ export function Header() {
               onMouseLeave={() => setIsPublishDropdownOpen(false)}
             >
               <button className={cn(
-                "text-lg font-medium transition-colors duration-200 hover:text-accent flex items-center gap-1",
+                "text-lg font-bold transition-colors duration-200 hover:text-accent flex items-center gap-1",
                 publishDropdownItems.some(item => location.pathname === item.href) ? "text-accent" : "text-foreground",
               )}>
                 Publish a Book
@@ -125,7 +125,7 @@ export function Header() {
                 key={item.name}
                 to={item.href}
                 className={cn(
-                  "text-lg font-medium transition-colors duration-200 hover:text-accent",
+                  "text-lg font-bold transition-colors duration-200 hover:text-accent",
                   location.pathname === item.href ? "text-accent" : "text-foreground",
                 )}
               >
