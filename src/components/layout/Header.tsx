@@ -78,7 +78,7 @@ export function Header() {
                 key={item.name}
                 to={item.href}
                 className={cn(
-                  "text-lg transition-colors duration-200 hover:text-accent",
+                  "text-lg  transition-colors duration-200 hover:text-accent",
                   location.pathname === item.href ? "text-accent" : "text-foreground",
                 )}
               >
