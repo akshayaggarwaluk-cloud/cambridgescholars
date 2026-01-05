@@ -78,28 +78,32 @@ export function Header() {
                 key={item.name}
                 to={item.href}
                 className={cn(
-                  "text-lg font-bold transition-colors duration-200 hover:text-accent",
+                  "text-lg  transition-colors duration-200 hover:text-accent",
                   location.pathname === item.href ? "text-accent" : "text-foreground",
                 )}
               >
                 {item.name}
               </Link>
             ))}
-            
+
             {/* Publish a Book Dropdown */}
-            <div 
+            <div
               className="relative"
               onMouseEnter={() => setIsPublishDropdownOpen(true)}
               onMouseLeave={() => setIsPublishDropdownOpen(false)}
             >
-              <button className={cn(
-                "text-lg font-bold transition-colors duration-200 hover:text-accent flex items-center gap-1",
-                publishDropdownItems.some(item => location.pathname === item.href) ? "text-accent" : "text-foreground",
-              )}>
+              <button
+                className={cn(
+                  "text-lg font-bold transition-colors duration-200 hover:text-accent flex items-center gap-1",
+                  publishDropdownItems.some((item) => location.pathname === item.href)
+                    ? "text-accent"
+                    : "text-foreground",
+                )}
+              >
                 Publish a Book
                 <ChevronDown className={cn("h-4 w-4 transition-transform", isPublishDropdownOpen && "rotate-180")} />
               </button>
-              
+
               {isPublishDropdownOpen && (
                 <div className="absolute top-full left-1/2 -translate-x-1/2 pt-2 z-50">
                   <div className="bg-background border border-border rounded-md shadow-lg py-2 w-56">
@@ -109,7 +113,7 @@ export function Header() {
                         to={item.href}
                         className={cn(
                           "block px-4 py-2 text-sm hover:bg-secondary transition-colors",
-                          location.pathname === item.href ? "text-accent" : "text-foreground"
+                          location.pathname === item.href ? "text-accent" : "text-foreground",
                         )}
                       >
                         {item.name}
@@ -280,7 +284,7 @@ export function Header() {
                 {item.name}
               </Link>
             ))}
-            
+
             {/* Publish a Book - Mobile */}
             <div className="py-2">
               <span className="text-sm font-medium text-foreground">Publish a Book</span>
