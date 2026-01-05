@@ -78,8 +78,10 @@ export function Header() {
                 key={item.name}
                 to={item.href}
                 className={cn(
-                  "text-lg transition-colors duration-200 hover:text-accent",
-                  location.pathname === item.href ? "text-accent" : "text-foreground",
+                  "text-lg transition-colors duration-200 hover:text-accent relative py-1",
+                  location.pathname === item.href 
+                    ? "text-accent after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-accent" 
+                    : "text-foreground",
                 )}
               >
                 {item.name}
@@ -94,9 +96,9 @@ export function Header() {
             >
               <button
                 className={cn(
-                  "text-lg transition-colors duration-200 hover:text-accent flex items-center gap-1",
+                  "text-lg transition-colors duration-200 hover:text-accent flex items-center gap-1 relative py-1",
                   publishDropdownItems.some((item) => location.pathname === item.href)
-                    ? "text-accent"
+                    ? "text-accent after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-accent"
                     : "text-foreground",
                 )}
               >
@@ -129,8 +131,10 @@ export function Header() {
                 key={item.name}
                 to={item.href}
                 className={cn(
-                  "text-lg transition-colors duration-200 hover:text-accent",
-                  location.pathname === item.href ? "text-accent" : "text-foreground",
+                  "text-lg transition-colors duration-200 hover:text-accent relative py-1",
+                  location.pathname === item.href 
+                    ? "text-accent after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-accent" 
+                    : "text-foreground",
                 )}
               >
                 {item.name}
