@@ -20,6 +20,8 @@ import HowToPublish from "@/pages/HowToPublish";
 import SubmitProposal from "@/pages/SubmitProposal";
 import Resources from "@/pages/Resources";
 import EndorsementSubmission from "@/pages/EndorsementSubmission";
+import News from "@/pages/News";
+import NewsArticle from "@/pages/NewsArticle";
 import NotFound from "@/pages/NotFound";
 
 export function AnimatedRoutes() {
@@ -45,6 +47,8 @@ export function AnimatedRoutes() {
         <Route path="/submit-proposal" element={<PageTransition><SubmitProposal /></PageTransition>} />
         <Route path="/resources" element={<PageTransition><Resources /></PageTransition>} />
         <Route path="/endorsement-submission" element={<PageTransition><EndorsementSubmission /></PageTransition>} />
+        <Route path="/news" element={<PageTransition><News /></PageTransition>} />
+        <Route path="/news/:slug" element={<PageTransition><NewsArticle /></PageTransition>} />
         <Route path="*" element={<PageTransition><NotFound /></PageTransition>} />
       </Routes>
     </AnimatePresence>
