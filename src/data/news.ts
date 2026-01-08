@@ -3,9 +3,10 @@ import { NewsArticle } from "@/services/api";
 export const newsArticles: NewsArticle[] = [
   {
     id: "1",
-    title: "New Academic Publishing Standards for 2024",
-    slug: "new-academic-publishing-standards-2024",
-    excerpt: "The academic publishing landscape is evolving with new standards for open access, peer review, and digital distribution.",
+    title: "Doing Simple Things Well",
+    slug: "Something of a shockwave ran through the publishing world in Spring 2019 when Stanford University announced it could no longer support its University Press, and that the venerable and high-prestige...",
+    excerpt:
+      "The academic publishing landscape is evolving with new standards for open access, peer review, and digital distribution.",
     content: `
       <p>The academic publishing industry is undergoing significant transformations as we enter 2024. New standards are being implemented across the board to improve accessibility, transparency, and the overall quality of scholarly communication.</p>
       
@@ -23,13 +24,14 @@ export const newsArticles: NewsArticle[] = [
     author: "Editorial Team",
     publishedAt: "2024-01-15T10:00:00Z",
     tags: ["Publishing", "Open Access", "Academic Standards"],
-    featured: true
+    featured: true,
   },
   {
     id: "2",
-    title: "Cambridge Scholars Announces Spring 2024 Catalog",
-    slug: "spring-2024-catalog-announcement",
-    excerpt: "Our spring catalog features over 150 new titles across humanities, social sciences, and STEM disciplines.",
+    title: "The Issues That Matter",
+    slug: "No Shelf Required published three articles written by John Peters, an experienced publishing professional, currently an advisor to Cambridge Scholars Publishing in the UK who previously held executive roles at...",
+    excerpt:
+      "Our spring catalog features over 150 new titles across humanities, social sciences, and STEM disciplines.",
     content: `
       <p>We are thrilled to announce the release of our Spring 2024 catalog, featuring an exceptional collection of scholarly works from leading academics worldwide.</p>
       
@@ -44,13 +46,14 @@ export const newsArticles: NewsArticle[] = [
     author: "Publishing Team",
     publishedAt: "2024-01-10T09:00:00Z",
     tags: ["Catalog", "New Releases", "Spring 2024"],
-    featured: true
+    featured: true,
   },
   {
     id: "3",
-    title: "Interview with Award-Winning Historian Dr. Sarah Mitchell",
-    slug: "interview-dr-sarah-mitchell",
-    excerpt: "Dr. Mitchell discusses her latest book on 20th-century European transformations and the importance of historical perspective.",
+    title: "The Last Invention",
+    slug: "Michael T. Nietzel, senior education correspondent for Forbes, wrote in his 2019 article: “…the precipitous drop in education graduates – led by an exodus of women from the field – comes at the...",
+    excerpt:
+      "Dr. Mitchell discusses her latest book on 20th-century European transformations and the importance of historical perspective.",
     content: `
       <p>In this exclusive interview, we speak with Dr. Sarah Mitchell about her award-winning research and her approach to making history accessible to broader audiences.</p>
       
@@ -65,13 +68,14 @@ export const newsArticles: NewsArticle[] = [
     author: "Interview by James Wilson",
     publishedAt: "2024-01-05T14:00:00Z",
     tags: ["Interview", "History", "Author Spotlight"],
-    featured: true
+    featured: true,
   },
   {
     id: "4",
     title: "The Future of Academic Libraries in the Digital Age",
     slug: "future-academic-libraries-digital-age",
-    excerpt: "How libraries are adapting to serve researchers and students in an increasingly digital academic environment.",
+    excerpt:
+      "How libraries are adapting to serve researchers and students in an increasingly digital academic environment.",
     content: `
       <p>Academic libraries are undergoing a fundamental transformation as they adapt to the digital age. This article explores the trends shaping the future of scholarly resources and services.</p>
       
@@ -85,7 +89,7 @@ export const newsArticles: NewsArticle[] = [
     category: "Life Sciences",
     author: "Dr. Emma Richardson",
     publishedAt: "2024-01-03T11:00:00Z",
-    tags: ["Libraries", "Digital Transformation", "Research"]
+    tags: ["Libraries", "Digital Transformation", "Research"],
   },
   {
     id: "5",
@@ -108,7 +112,7 @@ export const newsArticles: NewsArticle[] = [
     category: "Health Science",
     author: "Academic Services Team",
     publishedAt: "2023-12-28T10:00:00Z",
-    tags: ["Grant Writing", "Funding", "Academic Writing"]
+    tags: ["Grant Writing", "Funding", "Academic Writing"],
   },
   {
     id: "6",
@@ -128,7 +132,7 @@ export const newsArticles: NewsArticle[] = [
     category: "Physical Sciences",
     author: "Events Team",
     publishedAt: "2023-12-20T15:00:00Z",
-    tags: ["Awards", "Recognition", "Academic Excellence"]
+    tags: ["Awards", "Recognition", "Academic Excellence"],
   },
   {
     id: "7",
@@ -148,7 +152,7 @@ export const newsArticles: NewsArticle[] = [
     category: "Life Sciences",
     author: "Dr. Michael Torres",
     publishedAt: "2023-12-15T09:00:00Z",
-    tags: ["Metrics", "Citation", "Research Impact"]
+    tags: ["Metrics", "Citation", "Research Impact"],
   },
   {
     id: "8",
@@ -171,8 +175,8 @@ export const newsArticles: NewsArticle[] = [
     category: "Health Science",
     author: "Sustainability Team",
     publishedAt: "2023-12-10T12:00:00Z",
-    tags: ["Sustainability", "Environment", "Publishing"]
-  }
+    tags: ["Sustainability", "Environment", "Publishing"],
+  },
 ];
 
 export const newsCategories = [
