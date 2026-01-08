@@ -9,20 +9,20 @@ import { newsArticles, newsCategories } from "@/data/news";
 
 const News = () => {
   const [searchQuery, setSearchQuery] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("All");
+  const [selectedCategory, setSelectedCategory] = useState("All Categories");
 
   const filteredArticles = newsArticles.filter((article) => {
     const matchesSearch =
       article.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
       article.excerpt.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesCategory =
-      selectedCategory === "All" || article.category === selectedCategory;
+      selectedCategory === "All Categories" || article.category === selectedCategory;
     return matchesSearch && matchesCategory;
   });
 
   // Count articles per category
   const categoryCounts = newsCategories.reduce((acc, category) => {
-    if (category === "All") {
+    if (category === "All Categories") {
       acc[category] = newsArticles.length;
     } else {
       acc[category] = newsArticles.filter((a) => a.category === category).length;
