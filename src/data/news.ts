@@ -9,7 +9,7 @@ export const newsArticles: NewsArticle[] = [
       "Something of a shockwave ran through the publishing world in Spring 2019 when Stanford University announced it could no longer support its University Press, and that the venerable and high-prestige...",
     content: `
       <p>Something of a shockwave ran through the publishing world in Spring 2019 when Stanford University announced it could no longer support its University Press, and that the venerable and high-prestige Stanford University Press (founded in 1892) would be closing. A shock, but for many, no real surprise, as a chilly wind had been blowing through the academic monograph publishing industry for several years. Outside of a shelter under the wing of a giant multinational (Routledge, Wiley), or life as a tiny niche labor-of-love press, is there a future? The Stanford story, despite its subsequent temporary stay of execution, said – maybe not.
-
+ 
 So we were intrigued to hear of an independent scholarly monograph publisher who wasn’t complaining about the chill. One which was expanding, not consolidating; was broadening its publishing horizons, not narrowing them; and that was staying – solidly and defiantly – rooted in publishing academic books for a university market. That led us to learn the story of Cambridge Scholars Publishing (CSP) and seeing a publisher taking the refreshing approach of doing simple things, well.</p>
       <br>
       <h2>Surprising Things</h2>
@@ -105,13 +105,66 @@ William Stephenson also outlived his daughter Charlotte, and died at the age of 
     excerpt:
       "No Shelf Required published three articles written by John Peters, an experienced publishing professional, currently an advisor to Cambridge Scholars Publishing in the UK who previously held executive roles at...",
     content: `
-      <p>We are thrilled to announce the release of our Spring 2024 catalog, featuring an exceptional collection of scholarly works from leading academics worldwide.</p>
-      
-      <h2>Highlights</h2>
-      <p>This season's catalog includes groundbreaking works in artificial intelligence ethics, climate policy, contemporary literature, and global health. Each title has undergone our rigorous peer review process to ensure the highest scholarly standards.</p>
-      
-      <h2>Featured Authors</h2>
-      <p>We are honored to publish works by several distinguished scholars, including multiple award-winning researchers from prestigious institutions across North America, Europe, and Asia.</p>
+      <p>No Shelf Required published three articles written by John Peters, an experienced publishing professional, currently an advisor to Cambridge Scholars Publishing in the UK who previously held executive roles at Emerald Publishing and Greenleaf Publishing, among other scholarly engagements. In these articles, Peters tackled some of the key issues that independent scholarly publishers are facing in an era of rapid technological advances, emerging new business models, and an increasingly career-driven education world.
+
+How do independent publishers thrive in a world that needs them to follow research trends more than ever before while maintaining their livelihood? How do they stay committed to publishing long-form scholarship (i.e., monographs) at a time when the humanities are struggling, library budgets are shrinking, and the sustainability of niche academic publishing is called into question?
+
+These three articles give a range of perspectives on these and related issues.</p>
+      <br>
+      <h2>Should Academic Publishing Intersect With Social Justice Issues?</h2><br>
+      <p>“It’s a conversation many of us who have been mentored in our professional lives may have had, as young practitioners: Be careful about mixing the personal and the professional. Make sure there are boundaries. Try and be a bit more detached. But in more recent years, the advent of postmodern thought has given rise to what people call ‘mesearch’ (or, more academically, autoethnography) – when a researcher uses their personal experiences to tackle academic questions. I want to explore some of the issues of detachment as they relate to a publisher’s work. And, particularly in the context of ‘social justice’ issues such as race, gender, equality, diversity, and inclusion…
+
+As publishers, we are schooled to select, curate, and collate material based on its intellectual rigor and closeness of fit with our publishing mission and likely market demand. So how should we respond to social justice issues in selecting and curating? Should we respond at all? Should we engage? Should we actively ‘lean in’?…
+
+As publishers, our question is: Do we wait for a natural flow of material covering social justice to emerge and consider it on its merits, if and when it does? Do we anticipate, and actively solicit, and seek ways to include it, if we can, when we do find it?
+
+…Should we look for ‘a publishing of the heart’? Should our decisions as to who gets through the gate into the body of published knowledge be just governed by break-even analyses and preserving reputations for quality based on exclusivity? Or by an intention to build a more inclusive and diverse body of knowledge?…”</p>
+<br>
+      <h2>The Last Invention: An Appeal on Behalf of Arts, Humanities and Social Sciences in an Increasingly Career-Driven Education World</h2><br>
+      <p>“Michael T. Nietzel, senior education correspondent for Forbes, wrote in his 2019 article: “…the precipitous drop in education graduates – led by an exodus of women from the field – comes at the very time the U.S. faces a teacher shortage, a problem that is growing because of the accelerating number of teachers leaving the profession…..as has been recognized by many in the academy, the humanities are struggling. Fewer graduates are majoring in English, history, foreign language, or liberal arts now versus ten years ago. Whether these declines reflect student concerns about employability, a lack of clear purpose or direction for these majors, or the malaise that has gripped the humanities for years is not clear, but the student flight from these fields is unmistakable.”
+
+Publishers, please don’t consign AHSS monographs to the back room. Keep publishing them and keep encouraging others to publish them. If you want to publish them Open Access, do so by relying on realistic business models that work for all sides of the publishing ecosystem. Whatever path you choose, don’t neglect your book programmes. Long-form research is the ‘natural’ form for AHSS.
+
+Research funders and university administrators, please don’t withhold funding from AHSS. Keep it provisioned.
+
+Librarians, please fight for a share of the budget for AHSS titles. They play a part in promoting an ecosystem that develops divergent thinkers. A search for truth and meaning is not only scientific but also philosophical, emotional, artistic, and aesthetic.
+
+Finally, don’t neglect the power of imagination in the battle for a sustainable future, and a future where humanity flourishes in the coming AI revolution. As Einstein said, “Imagination encircles the world.”</p>
+<br>
+      <h2>The University Press That Isn’t a University Press</h2><br>
+      <p>“Publishing is changing and evolving, but scholarly publishing remains an industry with deep roots and is sometimes resistant to change. As I used to say to colleagues – you need to remember that academic publishing is a 500-year-old industry serving a 1000-year-old industry (the university), so it’s likely to be quite change-resistant…
+
+…There is often a monolithic approach to profitability, which will drive out knowledge-expanding but uncommercial titles. But some newer entrants to this venerable industry are surviving and thriving with a University Press-like approach to niche publishing…
+
+…Over the years, the scholarly publishing industry has accreted, piece by piece, into larger and larger blocks, through mergers and acquisitions. This means that most of the industry is today owned by multi-billion dollar multinational corporations. This is a continuing trend. And very large corporations naturally favour conformity and efficiency. They set rules based on return on capital employed, contribution to stock values, and economies of scale.
+
+University Presses, by and large, sit outside the reach of corporate acquisitions teams. However, the largest and most successful UPs are approaching a comparable size and scale to the multinational corporation. And smaller UPs are, by and large, constrained by their University parent and their required subsidies….
+
+Is it independence that allows publishers to operate outside ‘the lanes’? Is it independence that allows a publisher to follow the direction of emerging research; to be ‘customer oriented’? Is it independence that naturally encourages gravitation to service quality moments of truth? To be a University Press, without being a University Press?…
+
+…True independence is hard to find. When independence is able to flower, it often does interesting things…”</p>
+<br>
+      <h2></h2><br>
+      <p></p>
+<br>
+      <h2></h2><br>
+      <p></p>
+<br>
+      <h2></h2><br>
+      <p></p>
+<br>
+      <h2></h2><br>
+      <p></p>
+<br>
+      <h2></h2><br>
+      <p></p>
+<br>
+      <h2></h2><br>
+      <p></p>
+<br>
+      <h2></h2><br>
+      <p></p>
+
     `,
     image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&h=400&fit=crop",
     category: "Physical Sciences",
@@ -127,14 +180,76 @@ William Stephenson also outlived his daughter Charlotte, and died at the age of 
     excerpt:
       "Michael T. Nietzel, senior education correspondent for Forbes, wrote in his 2019 article: “…the precipitous drop in education graduates – led by an exodus of women from the field – comes at the...",
     content: `
-      <p>In this exclusive interview, we speak with Dr. Sarah Mitchell about her award-winning research and her approach to making history accessible to broader audiences.</p>
-      
-      <h2>On Her Latest Work</h2>
-      <p>"I wanted to show how interconnected European history is with global events. The transformations of the 20th century didn't happen in isolation—they were shaped by colonialism, migration, and technological change."</p>
-      
-      <h2>Advice for Aspiring Historians</h2>
-      <p>"Read widely, beyond your specialization. The best historical insights often come from unexpected connections between different fields and periods."</p>
-    `,
+      <p>Michael T. Nietzel, senior education correspondent for Forbes, wrote in his 2019 article: “…the precipitous drop in education graduates – led by an exodus of women from the field – comes at the very time the U.S. faces a teacher shortage, a problem that is growing because of the accelerating number of teachers leaving the profession…..as has been recognized by many in the academy, the humanities are struggling. Fewer graduates are majoring in English, history, foreign language, or liberal arts now versus ten years ago. Whether these declines reflect student concerns about employability, a lack of clear purpose or direction for these majors or the malaise that has gripped the humanities for years is not clear, but the student flight from these fields is unmistakable.”
+
+Alan Sears and Penney Clark wrote in Australia’s The Conversation: ”The government of Australia announced in June a reform package that would lower fees for what are considered “job-relevant” university courses while raising the cost of some humanities courses. Under the proposed changes, “a three-year humanities degree would more than double in cost.”
+
+From Conservative Home (the party which forms the UK Government) site, Education Secretary Gavin Williamson: “The record number of people taking up science and engineering demonstrates that many are already starting to pivot away from dead-end courses that leave young people with nothing but debt…” Which interestingly ignores the fact that Williamson’s boss, UK Prime Minister Boris Johnson, is a Classics graduate, and he himself, a Social Sciences graduate of Bradford University.
+
+Tracy Jan in the Boston Globe: “At college campuses around the world, the humanities are hurting. Students are flocking to majors more closely linked to their career ambitions. Grant money and philanthropy are flowing to the sciences. And university presidents are worried about the future of subjects once at the heart of a liberal arts education.”
+
+You get the picture.
+
+There used to be a joke going around in the 70s, when I was a student (English Language and Literature, University of Manchester). “What do you say if you meet a Sociology graduate? Could I get fries with that, please.” The downgrading of Arts, Humanities and Social Sciences (AHSS) isn’t a new phenomenon. But it is a trend which has, over the years, been institutionally encouraged, from popular press stigmatization of ‘Mickey Mouse degrees,’ to the unceasing clamour for STEM (Science Technology Engineering Maths) graduates, to the cutting of funding for Arts & Humanities, to the Australian example quoted above, of ‘taxing’ Humanities, like we might tax cigarettes or diesel fuel.
+
+Yet, to quote another authority (Albert Einstein): “Imagination is more important than knowledge. Knowledge is limited. Imagination circles the world.” And to continue Michael Nietzel’s exploration in Forbes: “Preparing students for the careers of the future requires more than job training. We don’t need more engineers who know nothing about the Civil War, police officers who believe Churchill was a fictional character, or nurses who have never been moved by a great novel. A grounding in the humanities and social sciences is indispensable, regardless of college major.”
+
+These issues about rounded knowledge, and of engagement with history and culture, underpin some of the recent discussions on social justice. I wrote about the importance of the positive encouragement of social justice issues of diversity and inclusivity in a publisher’s portfolio in a previous NSR article. And the questions of ‘fake news’ and ‘culture wars,’ and the very real challenges of misinformation (from vaccines to election results) can in part be mitigated by the development of critical thinking skills. Which are further arguments in favour of an education that values the liberal arts.</p>
+<br>
+      <h2>The AHSS Book</h2><br>
+      <p>The academic unit of currency in the Sciences is the peer-reviewed article, preferably published in a high-prestige journal. That is how you build a research track record, and that is how your institution builds status and research funding. There is a well-developed system, built around citation statistics (counting how many times your article appears in reference lists in other peer-reviewed journal articles), and journal rankings (normally linked to citation indices).
+
+In AHSS, the unit of currency is the monograph – the scholarly book, normally somewhere around the length of a PhD thesis (80,000 words or so). Scholars need long-form scholarship to secure tenure, build reputations, and to develop thorough arguments that require months, sometimes years, to build. Monographs matter, and they matter most in AHSS fields. If they didn’t matter, PhD students would not need to write lengthy dissertations.
+
+But the monograph as a published entity is under some challenge. I’ve compared the scholarly book business to ‘running up a down escalator’ – you need to work pretty hard just to stand still, and if you stop running, you go backwards.
+
+University presses have been a traditional safe haven for monographs, where – unlike stock-market listed publishers – there is less pressure on a return on capital employed. But universities are increasingly corporate in approach, and on more than one occasion we have seen loss-making university presses sold off or cut back.
+
+Scholarly monographs are important for AHSS scholars. Therefore, I would argue, they are important for the health of scholarly disciplines. And furthermore, AHSS disciplines are important for the health of society, and for us all. Combining scholar and publisher perspectives in the discussion of the future of the monograph makes the most sense because they are intertwined, and difficult to separate. They feed off one other. So, what’s to be done?
+
+I have spent much time latterly as a policy advisor to a publisher of scholarly monographs and edited collections, Cambridge Scholars Publishing (CSP). For me, this is a publisher worthy of some discussion, because it has embraced long-form publishing, and continues to succeed with it.
+
+CSP operates as an independent, owner-managed publisher. They deliberately embrace a position of diversity and inclusivity. They offer a fee-free publishing opportunity to scholars from any discipline – largely but not exclusively AHSS – to have a shot at getting a book published. So long as students continue to study in these areas, researchers continue to research – and write – and libraries continue to stock AHSS titles, publishers like CSP should be able to continue to serve this constituency.</p>
+<br>
+      <h2>The Last Invention</h2><br>
+      <p>Alan Turing is remembered as the ‘father’ of artificial intelligence (AI), and as the mathematical genius who decrypted the German military codes at Bletchley Park during World War II. I.J. ‘Jack’ Good, who was on Turing’s Bletchley Park team, also explored AI at Manchester University and Virginia Tech (and acted as consultant to Stanley Kubrick in the iconic 2001: A Space Odyssey).
+
+In 1965, Good wrote the following in the Advances in Computers journal:
+
+“Let an ultra-intelligent machine be defined as a machine that can far surpass all the intellectual activities of any man however clever. Since the design of machines is one of these intellectual activities, an ultra-intelligent machine could design even better machines; there would then unquestionably be an ‘intelligence explosion,’ and the intelligence of man would be left far behind…
+
+Thus, the first ultra-intelligent machine is the last invention that man need ever make, provided that the machine is docile enough to tell us how to keep it under control.”
+
+How close are we to Good’s Last Invention? Today we make robots to drive our cars, clean our streets and our homes, perform surgery, fight our wars, and defuse the left-over munitions of these wars.
+
+We will – inevitably – build AI which builds other AI, and which does our science – our ‘last invention.’
+
+Then what do we need? And what does our AI need? An understanding of history, culture, ethics, judgement, kindness, emotional intelligence, social justice. That’s how we can make a better, fairer, more sustainable world.
+
+And, so…
+
+Let me address a plea to likely readers of this piece: librarians, academics, publishers, students, researchers. Please don’t neglect our Arts, Humanities and Social Sciences. Please don’t stop learning how to code, how to build, and how to invent, but don’t stop reading novels, learning history, or thinking about ethics.
+There must not be a false division between arts and sciences, or between subjects which ‘get you a job’ and those which ‘don’t get you a job.’ AHSS fields help develop rounded, divergent thinkers. Employers like divergent thinkers, who cannot be replaced by robots. Parents, please don’t push your kids to only study STEM subjects. Help keep them engaged with AHSS. They will be more complete human beings.
+On a similar note, let’s not encourage this false division by separating the two worlds. STEM subjects don’t exist in a vacuum. They are shaped by culture and belief. Ethics belongs as much in engineering and banking and medicine, as it does in philosophy and law.
+
+Publishers, please don’t consign AHSS monographs to the back room. Keep publishing them and keep encouraging others to publish them. If you want to publish them Open Access, do so by relying on realistic business models that work for all sides of the publishing ecosystem. Whatever path you choose, don’t neglect your book programmes. Long-form research is the ‘natural’ form for AHSS.
+Research funders and university administrators, please don’t withhold funding from AHSS. Keep it provisioned.
+
+Librarians, please fight for a share of the budget for AHSS titles. They play a part in promoting an ecosystem that develops divergent thinkers. A search for truth and meaning is not only scientific but also philosophical, emotional, artistic, and aesthetic.
+
+Finally, don’t neglect the power of imagination in the battle for a sustainable future, and a future where humanity flourishes in the coming AI revolution. As Einstein said, “Imagination encircles the world.”</p>
+<br>
+      <h2>References</h2><br>
+      <p>https://www.forbes.com/sites/michaeltnietzel/2019/01/07/whither-the-humanities-the-ten-year-trend-in-college-majors/
+https://theconversation.com/stop-telling-students-to-study-stem-instead-of-humanities-for-the-post-coronavirus-world-145813
+https://www.conservativehome.com/platform/2021/05/gavin-williamson-skills-jobs-and-freedom-my-priorities-for-this-weeks-queens-speech-and-the-year-ahead.html
+http://archive.boston.com/news/local/massachusetts/articles/2010/11/08/college_leaders_work_to_increase_interest_in_humanities/
+https://vtspecialcollections.wordpress.com/2015/01/15/i-j-jack-good-virginia-techs-own-bletchley-park-connection/
+https://www.sciencedirect.com/science/article/pii/S0065245808604180</p>
+<br>
+      <p>John Peters works as a senior advisor to Cambridge Scholars Publishing in the UK. He has previously held roles including Chief Executive of Emerald Publishing, and CEO of Greenleaf Publishing, along with a range of visiting academic posts worldwide. He is currently a Director of Wainstalls Partnership in Yorkshire, England.</p>
+
+       `,
     image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=800&h=400&fit=crop",
     category: "Social Sciences",
     author: "Interview by James Wilson",
