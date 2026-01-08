@@ -19,7 +19,7 @@ export const newsArticles: NewsArticle[] = [
       <p>Publishers are increasingly adopting digital-first strategies, with print becoming secondary. This approach allows for richer multimedia content and faster dissemination.</p>
     `,
     image: "https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?w=800&h=400&fit=crop",
-    category: "Industry News",
+    category: "Social Sciences",
     author: "Editorial Team",
     publishedAt: "2024-01-15T10:00:00Z",
     tags: ["Publishing", "Open Access", "Academic Standards"],
@@ -40,7 +40,7 @@ export const newsArticles: NewsArticle[] = [
       <p>We are honored to publish works by several distinguished scholars, including multiple award-winning researchers from prestigious institutions across North America, Europe, and Asia.</p>
     `,
     image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&h=400&fit=crop",
-    category: "Announcements",
+    category: "Physical Sciences",
     author: "Publishing Team",
     publishedAt: "2024-01-10T09:00:00Z",
     tags: ["Catalog", "New Releases", "Spring 2024"],
@@ -61,7 +61,7 @@ export const newsArticles: NewsArticle[] = [
       <p>"Read widely, beyond your specialization. The best historical insights often come from unexpected connections between different fields and periods."</p>
     `,
     image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=800&h=400&fit=crop",
-    category: "Author Spotlight",
+    category: "Social Sciences",
     author: "Interview by James Wilson",
     publishedAt: "2024-01-05T14:00:00Z",
     tags: ["Interview", "History", "Author Spotlight"],
@@ -82,7 +82,7 @@ export const newsArticles: NewsArticle[] = [
       <p>Beyond housing collections, libraries are becoming hubs for research support, offering data management services, publishing assistance, and specialized research consultations.</p>
     `,
     image: "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=800&h=400&fit=crop",
-    category: "Industry Insights",
+    category: "Life Sciences",
     author: "Dr. Emma Richardson",
     publishedAt: "2024-01-03T11:00:00Z",
     tags: ["Libraries", "Digital Transformation", "Research"]
@@ -105,7 +105,7 @@ export const newsArticles: NewsArticle[] = [
       <p>Be realistic and detailed in your budget. Reviewers appreciate proposals that show careful financial planning and cost-effectiveness.</p>
     `,
     image: "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=800&h=400&fit=crop",
-    category: "Resources",
+    category: "Health Science",
     author: "Academic Services Team",
     publishedAt: "2023-12-28T10:00:00Z",
     tags: ["Grant Writing", "Funding", "Academic Writing"]
@@ -125,7 +125,7 @@ export const newsArticles: NewsArticle[] = [
       <p>Congratulations to all winners, whose work exemplifies the highest standards of scholarly excellence and innovation.</p>
     `,
     image: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=800&h=400&fit=crop",
-    category: "Events",
+    category: "Physical Sciences",
     author: "Events Team",
     publishedAt: "2023-12-20T15:00:00Z",
     tags: ["Awards", "Recognition", "Academic Excellence"]
@@ -145,7 +145,7 @@ export const newsArticles: NewsArticle[] = [
       <p>New metrics like h-index, Altmetric scores, and download statistics provide additional perspectives on research impact and reach.</p>
     `,
     image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=400&fit=crop",
-    category: "Research",
+    category: "Life Sciences",
     author: "Dr. Michael Torres",
     publishedAt: "2023-12-15T09:00:00Z",
     tags: ["Metrics", "Citation", "Research Impact"]
@@ -168,7 +168,7 @@ export const newsArticles: NewsArticle[] = [
       <p>We offset our carbon emissions through verified environmental projects and continue to seek ways to further reduce our footprint.</p>
     `,
     image: "https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?w=800&h=400&fit=crop",
-    category: "Company News",
+    category: "Health Science",
     author: "Sustainability Team",
     publishedAt: "2023-12-10T12:00:00Z",
     tags: ["Sustainability", "Environment", "Publishing"]
@@ -176,13 +176,9 @@ export const newsArticles: NewsArticle[] = [
 ];
 
 export const newsCategories = [
-  "All",
-  "Industry News",
-  "Announcements",
-  "Author Spotlight",
-  "Industry Insights",
-  "Resources",
-  "Events",
-  "Research",
-  "Company News"
+  "All Categories",
+  "Social Sciences",
+  "Physical Sciences",
+  "Health Science",
+  "Life Sciences",
 ];
