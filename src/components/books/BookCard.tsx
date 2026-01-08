@@ -57,12 +57,6 @@ export function BookCard({ book, className }: BookCardProps) {
             className="w-full h-full object-cover transition-all duration-700 ease-out group-hover:scale-105"
           />
           
-          {/* Sale Badge */}
-          {book.originalPrice && (
-            <div className="absolute top-4 left-4 bg-destructive text-destructive-foreground text-xs font-bold px-3 py-1.5 rounded-full shadow-lg">
-              {Math.round((1 - book.price / book.originalPrice) * 100)}% OFF
-            </div>
-          )}
           
           {/* Premium gradient overlay on hover */}
           <div className="absolute inset-0 bg-gradient-to-t from-foreground/90 via-foreground/30 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500" />
@@ -123,11 +117,6 @@ export function BookCard({ book, className }: BookCardProps) {
           </div>
           
           <div className="flex items-center gap-2">
-            {book.originalPrice && (
-              <span className="text-sm text-muted-foreground line-through">
-                ${book.originalPrice.toFixed(2)}
-              </span>
-            )}
             <span className="font-serif text-xl font-bold text-foreground">
               ${book.price.toFixed(2)}
             </span>

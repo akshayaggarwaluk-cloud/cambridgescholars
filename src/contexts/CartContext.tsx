@@ -11,7 +11,6 @@ export interface Book {
   title: string;
   author: string;
   price: number;
-  originalPrice?: number;
   image: string;
   rating: number;
   category: string;
