@@ -209,13 +209,11 @@ export function Header() {
                 </DropdownMenuContent>
               </DropdownMenu>
             ) : (
-              <Button
-                asChild
-                size="sm"
-                className="h-8 bg-accent hover:bg-accent/90 text-accent-foreground text-xs px-4"
-              >
-                <Link to="/auth">Sign In</Link>
-              </Button>
+              <Link to="/auth">
+                <Button variant="ghost" size="icon" className="h-8 w-8 text-foreground hover:bg-secondary">
+                  <User className="h-4 w-4" />
+                </Button>
+              </Link>
             )}
           </div>
 
