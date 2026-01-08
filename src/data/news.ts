@@ -6,7 +6,7 @@ export const newsArticles: NewsArticle[] = [
     title: "Doing Simple Things Well",
     slug: "Something of a shockwave ran through the publishing world in Spring 2019 when Stanford University announced it could no longer support its University Press, and that the venerable and high-prestige...",
     excerpt:
-      "The academic publishing landscape is evolving with new standards for open access, peer review, and digital distribution.",
+      "Something of a shockwave ran through the publishing world in Spring 2019 when Stanford University announced it could no longer support its University Press, and that the venerable and high-prestige...",
     content: `
       <p>The academic publishing industry is undergoing significant transformations as we enter 2024. New standards are being implemented across the board to improve accessibility, transparency, and the overall quality of scholarly communication.</p>
       
@@ -31,7 +31,7 @@ export const newsArticles: NewsArticle[] = [
     title: "The Issues That Matter",
     slug: "No Shelf Required published three articles written by John Peters, an experienced publishing professional, currently an advisor to Cambridge Scholars Publishing in the UK who previously held executive roles at...",
     excerpt:
-      "Our spring catalog features over 150 new titles across humanities, social sciences, and STEM disciplines.",
+      "No Shelf Required published three articles written by John Peters, an experienced publishing professional, currently an advisor to Cambridge Scholars Publishing in the UK who previously held executive roles at...",
     content: `
       <p>We are thrilled to announce the release of our Spring 2024 catalog, featuring an exceptional collection of scholarly works from leading academics worldwide.</p>
       
@@ -53,7 +53,7 @@ export const newsArticles: NewsArticle[] = [
     title: "The Last Invention",
     slug: "Michael T. Nietzel, senior education correspondent for Forbes, wrote in his 2019 article: “…the precipitous drop in education graduates – led by an exodus of women from the field – comes at the...",
     excerpt:
-      "Dr. Mitchell discusses her latest book on 20th-century European transformations and the importance of historical perspective.",
+      "Michael T. Nietzel, senior education correspondent for Forbes, wrote in his 2019 article: “…the precipitous drop in education graduates – led by an exodus of women from the field – comes at the...",
     content: `
       <p>In this exclusive interview, we speak with Dr. Sarah Mitchell about her award-winning research and her approach to making history accessible to broader audiences.</p>
       
