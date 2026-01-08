@@ -19,7 +19,6 @@ export interface Book {
   author: string;
   authorId?: string;
   price: number;
-  originalPrice?: number;
   image: string;
   rating: number;
   category: string;

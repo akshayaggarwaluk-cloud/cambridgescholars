@@ -73,11 +73,6 @@ export default function BookDetails() {
                   className="w-full h-full object-cover"
                 />
               </div>
-              {book.originalPrice && (
-                <div className="absolute top-4 left-4 bg-accent text-primary font-bold px-4 py-2 rounded-lg">
-                  {Math.round((1 - book.price / book.originalPrice) * 100)}% OFF
-                </div>
-              )}
             </div>
 
             {/* Book Info */}
@@ -156,11 +151,6 @@ export default function BookDetails() {
                 <span className="font-serif text-4xl font-bold text-foreground">
                   ${getPrice(selectedFormat).toFixed(2)}
                 </span>
-                {book.originalPrice && selectedFormat === "hardbook" && (
-                  <span className="text-xl text-muted-foreground line-through">
-                    ${book.originalPrice.toFixed(2)}
-                  </span>
-                )}
               </div>
 
               {/* Description */}
