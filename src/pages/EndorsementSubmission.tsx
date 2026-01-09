@@ -14,20 +14,20 @@ const EndorsementSubmission = () => {
   const handleVerify = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsVerifying(true);
-    
+
     // Simulate verification
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    
+    await new Promise((resolve) => setTimeout(resolve, 1500));
+
     toast({
       title: "Code Verified",
       description: "You can now proceed to submit your endorsement.",
     });
-    
+
     setIsVerifying(false);
   };
 
   return (
-    <div className="min-h-screen bg-background flex flex-col">
+    <div className="min-h-screen bg-[#f9f7f2] flex flex-col">
       <Header />
       <main className="flex-1 pt-20">
         {/* Hero Section */}
@@ -52,30 +52,31 @@ const EndorsementSubmission = () => {
             <div className="w-full max-w-2xl bg-card border border-border rounded-lg p-8 md:p-12">
               <form onSubmit={handleVerify} className="space-y-6 text-center">
                 <p className="text-foreground text-lg">
-                  To add potential endorsers, enter the verification code emailed at the time of your book's publication.
+                  To add potential endorsers, enter the verification code emailed at the time of your book's
+                  publication.
                 </p>
-                
-                <Input 
+
+                <Input
                   value={code}
                   onChange={(e) => setCode(e.target.value)}
                   placeholder="Enter code"
                   className="bg-secondary/50 border-border text-center text-lg py-6"
                   required
                 />
-                
+
                 <p className="text-muted-foreground">
                   If you have lost your code or experience difficulties accessing your form, please contact{" "}
-                  <a 
-                    href="mailto:admin@cambridgescholars.com" 
+                  <a
+                    href="mailto:admin@cambridgescholars.com"
                     className="text-foreground font-semibold hover:text-accent transition-colors"
                   >
                     admin@cambridgescholars.com
                   </a>
                 </p>
-                
-                <Button 
-                  type="submit" 
-                  size="lg" 
+
+                <Button
+                  type="submit"
+                  size="lg"
                   className="bg-accent hover:bg-accent/90 text-accent-foreground px-12 py-6 text-lg"
                   disabled={isVerifying}
                 >
