@@ -94,17 +94,18 @@ export function Header() {
               onMouseEnter={() => setIsPublishDropdownOpen(true)}
               onMouseLeave={() => setIsPublishDropdownOpen(false)}
             >
-              <button
+              <Link
+                to="/publish-a-book"
                 className={cn(
                   "text-lg transition-colors duration-200 hover:text-accent flex items-center gap-1 relative py-1",
-                  publishDropdownItems.some((item) => location.pathname === item.href)
+                  location.pathname === "/publish-a-book" || publishDropdownItems.some((item) => location.pathname === item.href)
                     ? "text-accent after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-accent"
                     : "text-foreground",
                 )}
               >
                 Publish a Book
                 <ChevronDown className={cn("h-4 w-4 transition-transform", isPublishDropdownOpen && "rotate-180")} />
-              </button>
+              </Link>
 
               {isPublishDropdownOpen && (
                 <div className="absolute top-full left-1/2 -translate-x-1/2 pt-2 z-50">
@@ -289,7 +290,16 @@ export function Header() {
 
             {/* Publish a Book - Mobile */}
             <div className="py-2">
-              <span className="text-sm font-medium text-foreground">Publish a Book</span>
+              <Link
+                to="/publish-a-book"
+                onClick={() => setIsMenuOpen(false)}
+                className={cn(
+                  "text-sm font-medium transition-colors duration-200",
+                  location.pathname === "/publish-a-book" ? "text-accent" : "text-foreground hover:text-accent",
+                )}
+              >
+                Publish a Book
+              </Link>
               <div className="ml-4 mt-1 flex flex-col gap-1">
                 {publishDropdownItems.map((item) => (
                   <Link

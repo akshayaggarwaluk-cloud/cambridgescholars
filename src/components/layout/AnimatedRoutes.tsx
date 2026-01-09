@@ -14,6 +14,7 @@ import Auth from "@/pages/Auth";
 import Profile from "@/pages/Profile";
 import Orders from "@/pages/Orders";
 import PublishBook from "@/pages/PublishBook";
+import PublishABook from "@/pages/PublishABook";
 import Wishlist from "@/pages/Wishlist";
 import FAQ from "@/pages/FAQ";
 import HowToPublish from "@/pages/HowToPublish";
@@ -41,6 +42,7 @@ export function AnimatedRoutes() {
         <Route path="/profile" element={<PageTransition><Profile /></PageTransition>} />
         <Route path="/orders" element={<PageTransition><Orders /></PageTransition>} />
         <Route path="/publish" element={<PageTransition><PublishBook /></PageTransition>} />
+        <Route path="/publish-a-book" element={<PageTransition><PublishABook /></PageTransition>} />
         <Route path="/wishlist" element={<PageTransition><Wishlist /></PageTransition>} />
         <Route path="/faq" element={<PageTransition><FAQ /></PageTransition>} />
         <Route path="/how-to-publish" element={<PageTransition><HowToPublish /></PageTransition>} />
