@@ -27,11 +27,11 @@ const EndorsementSubmission = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#f9f7f2] flex flex-col">
+    <div className="min-h-screen bg-background flex flex-col">
       <Header />
       <main className="flex-1 pt-20">
         {/* Hero Section */}
-        <section className="bg-primary py-12">
+        <section className="bg-[#f9f7f2] py-12">
           <div className="container-wide flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <h1 className="text-4xl md:text-5xl font-display font-normal text-primary-foreground">
               Endorsement Submission
