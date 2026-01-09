@@ -2,37 +2,29 @@ import { Link } from "react-router-dom";
 import { FileText, Send, Download, ChevronRight } from "lucide-react";
 import { PageBreadcrumb } from "@/components/layout/PageBreadcrumb";
 import heroImage from "@/assets/hero-bookstore.jpg";
-
-const publishCards = [
-  {
-    icon: FileText,
-    title: "How to publish",
-    description: "Understand our publication process",
-    href: "/how-to-publish",
-  },
-  {
-    icon: Send,
-    title: "Submit a proposal",
-    description: "Send us your application",
-    href: "/submit-proposal",
-  },
-  {
-    icon: Download,
-    title: "Resources",
-    description: "Download all the necessary forms and guidelines",
-    href: "/resources",
-  },
-];
-
+const publishCards = [{
+  icon: FileText,
+  title: "How to publish",
+  description: "Understand our publication process",
+  href: "/how-to-publish"
+}, {
+  icon: Send,
+  title: "Submit a proposal",
+  description: "Send us your application",
+  href: "/submit-proposal"
+}, {
+  icon: Download,
+  title: "Resources",
+  description: "Download all the necessary forms and guidelines",
+  href: "/resources"
+}];
 export default function PublishABook() {
-  return (
-    <div className="min-h-screen bg-background">
+  return <div className="min-h-screen bg-background">
       {/* Hero Section */}
       <section className="relative h-[350px] flex items-center justify-center">
-        <div
-          className="absolute inset-0 bg-cover bg-center"
-          style={{ backgroundImage: `url(${heroImage})` }}
-        >
+        <div className="absolute inset-0 bg-cover bg-center" style={{
+        backgroundImage: `url(${heroImage})`
+      }}>
           <div className="absolute inset-0 bg-primary/70" />
         </div>
         <div className="relative z-10 text-center">
@@ -43,14 +35,7 @@ export default function PublishABook() {
       </section>
 
       {/* Breadcrumb */}
-      <div className="container-wide py-4 border-b border-border">
-        <PageBreadcrumb
-          items={[
-            { label: "Home", href: "/" },
-            { label: "Publish a Book" },
-          ]}
-        />
-      </div>
+      
 
       {/* Content Section */}
       <section className="container-wide py-16">
@@ -69,8 +54,7 @@ export default function PublishABook() {
 
         {/* Cards Grid */}
         <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-          {publishCards.map((card) => (
-            <div key={card.title} className="group">
+          {publishCards.map(card => <div key={card.title} className="group">
               <div className="flex items-start gap-4 mb-4">
                 <div className="p-3 rounded-lg bg-secondary">
                   <card.icon className="h-8 w-8 text-primary" strokeWidth={1.5} />
@@ -84,18 +68,13 @@ export default function PublishABook() {
                   </p>
                 </div>
               </div>
-              <Link
-                to={card.href}
-                className="inline-flex items-center gap-2 text-accent hover:text-accent/80 transition-colors text-sm font-medium uppercase tracking-wide group-hover:gap-3"
-              >
+              <Link to={card.href} className="inline-flex items-center gap-2 text-accent hover:text-accent/80 transition-colors text-sm font-medium uppercase tracking-wide group-hover:gap-3">
                 View More
                 <ChevronRight className="h-4 w-4" />
                 <ChevronRight className="h-4 w-4 -ml-3" />
               </Link>
-            </div>
-          ))}
+            </div>)}
         </div>
       </section>
-    </div>
-  );
+    </div>;
 }
