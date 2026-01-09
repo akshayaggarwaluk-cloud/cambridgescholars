@@ -33,15 +33,14 @@ const EndorsementSubmission = () => {
         {/* Hero Section */}
         <section className="bg-[#f9f7f2] py-12">
           <div className="container-wide flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-            <h1 className="text-4xl md:text-5xl font-display font-normal text-primary-foreground text-black">
-              Endorsement Submission
-            </h1>
-            <nav className="flex items-center gap-2 text-primary-foreground/80">
-              <Link to="/" className="hover:text-primary-foreground transition-colors">
+            <h1 className="text-4xl md:text-5xl font-display font-normal text-black">Endorsement Submission</h1>
+
+            <nav className="flex items-center gap-2 text-black/80">
+              <Link to="/" className="text-black hover:text-black transition-colors">
                 Home
               </Link>
-              <span>/</span>
-              <span className="text-accent">Endorsement Submission</span>
+              <span className="text-black/60">/</span>
+              <span className="text-black font-medium">Endorsement Submission</span>
             </nav>
           </div>
         </section>
