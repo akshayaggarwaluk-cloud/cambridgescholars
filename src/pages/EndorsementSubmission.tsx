@@ -31,19 +31,15 @@ const EndorsementSubmission = () => {
       <Header />
       <main className="flex-1 pt-20">
         {/* Hero Section */}
-        <section className="bg-[#f9f7f2] py-12">
-          <div className="container-wide flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-            <h1 className="text-4xl md:text-5xl font-display font-normal text-black">Endorsement Submission</h1>
+        <div className="pt-32 bg-[#f9f7f2] py-10 px-6 md:px-16">
+          <div className="max-w-7xl mx-auto flex justify-between items-center">
+            {/* Page Title */}
+            <h1 className="text-3xl font-serif text-gray-800">Endorsement Submission</h1>
 
-            <nav className="flex items-center gap-2 text-black/80">
-              <Link to="/" className="text-black hover:text-black transition-colors">
-                Home
-              </Link>
-              <span className="text-black/60">/</span>
-              <span className="text-black ">Endorsement Submission</span>
-            </nav>
+            {/* Breadcrumb */}
+            <PageBreadcrumb currentPage="Endorsement Submission" />
           </div>
-        </section>
+        </div>
 
         {/* Verification Form Section */}
         <section className="py-16 md:py-24">
