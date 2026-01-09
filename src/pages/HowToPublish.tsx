@@ -1,39 +1,93 @@
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { Link } from "react-router-dom";
-import { FileText, CheckCircle, Send, Clock, BookOpen, Globe } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { 
+  FileText, 
+  Search, 
+  FileCheck, 
+  PenTool, 
+  Settings, 
+  BookOpen, 
+  Globe, 
+  BarChart3, 
+  MessageCircle 
+} from "lucide-react";
+
+interface TimelineStep {
+  icon: React.ComponentType<{ className?: string }>;
+  title: string;
+  description?: string;
+  bullets?: string[];
+  additionalText?: string;
+}
 
 const HowToPublish = () => {
-  const steps = [
-    {
-      icon: Send,
-      title: "Proposal Submission",
-      description: "Submit your book proposal through our online form. Include a synopsis, table of contents, sample chapter, and your CV.",
-    },
+  const timelineSteps: TimelineStep[] = [
     {
       icon: FileText,
-      title: "Peer Review",
-      description: "Your proposal will undergo rigorous peer review by experts in your field to ensure academic quality and relevance.",
+      title: "Submit a Proposal",
+      description: "Begin by completing our proposal form, available online or as a downloadable Word document. Please include at least one sample chapter and an academic CV. The more detailed your submission, the more effectively our team can assess it.",
     },
     {
-      icon: Clock,
-      title: "Editorial Assessment",
-      description: "Our editorial team evaluates the proposal alongside reviewer feedback to make a publishing decision.",
+      icon: Search,
+      title: "Editorial Review",
+      description: "Your proposal will be reviewed by our editorial panel. We aim to provide a decision within four to six weeks. If successful, you will receive a publishing contract and begin the onboarding process.",
     },
     {
-      icon: CheckCircle,
-      title: "Contract & Production",
-      description: "Upon acceptance, we issue a publishing contract and begin the production process with professional copyediting and typesetting.",
+      icon: FileCheck,
+      title: "Contract and Onboarding",
+      description: "Upon signing the contract, you will receive all the necessary forms, templates and style guidelines. A dedicated member of our team will be assigned to support you through the next stages of the process.",
+    },
+    {
+      icon: PenTool,
+      title: "Manuscript Preparation",
+      description: "You will submit your complete manuscript in accordance with our formatting and referencing guidelines. If your work includes third-party materials, it is your responsibility to secure the appropriate permissions. Our team is ready to assist at any point in the process.",
+    },
+    {
+      icon: Settings,
+      title: "Production",
+      description: "Your manuscript will undergo a comprehensive production process, including:",
+      bullets: [
+        "Professional copyediting",
+        "Typesetting and layout",
+        "Proof review and author approval",
+        "Final cover design",
+      ],
+      additionalText: "You will be closely consulted throughout to ensure your work is presented with accuracy and professionalism.",
     },
     {
       icon: BookOpen,
       title: "Publication",
-      description: "Your book is published in print and digital formats, with ISBNs assigned and cataloguing completed.",
+      description: "Your book will be published in both hardback and eBook formats. Titles are made available through major academic and commercial channels, including Amazon, ProQuest, EBSCO and Ingram.",
     },
     {
       icon: Globe,
-      title: "Global Distribution",
-      description: "Your work is distributed globally through major retailers, libraries, and academic institutions worldwide.",
+      title: "Distribution and Royalties",
+      description: "We operate a Print-on-Time model, ensuring your title is always available and never out of stock. Royalties are paid from the first sale, and increase with volume. Authors also benefit from generous discounts on their own titles.",
+    },
+    {
+      icon: BarChart3,
+      title: "Post-Publication Marketing and Promotion",
+      description: "Following publication, your book will be promoted through our global distribution partners and academic channels. Marketing support includes:",
+      bullets: [
+        "Metadata distribution to libraries and retailers",
+        "Online listing and feature on our website",
+        "Author discounts and conference materials",
+        "Opportunities to share news and reviews via our blog and newsletters",
+      ],
+      additionalText: "We also encourage authors to promote their work through their networks and at academic events. Our team is available to provide guidance on outreach strategies.",
+    },
+    {
+      icon: MessageCircle,
+      title: "Ongoing Author Support",
+      description: "Our relationship with authors continues beyond publication. You will have access to:",
+      bullets: [
+        "Regular royalty statements and sales data",
+        "Promotional opportunities",
+        "Discussions about future publishing projects",
+      ],
+      additionalText: "At Cambridge Scholars Publishing, we view publishing as a long-term partnership grounded in transparency, trust, and a shared commitment to scholarly excellence.",
     },
   ];
 
@@ -74,66 +128,61 @@ const HowToPublish = () => {
               </p>
             </div>
 
-            {/* Timeline Steps */}
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {steps.map((step, index) => (
-                <div key={index} className="flex gap-4">
-                  <div className="flex-shrink-0">
-                    <div className="w-12 h-12 rounded-full border-2 border-accent/30 flex items-center justify-center text-accent">
-                      <step.icon className="w-5 h-5" />
+            {/* Vertical Timeline */}
+            <div className="max-w-4xl mx-auto">
+              <div className="relative">
+                {timelineSteps.map((step, index) => (
+                  <div key={index} className="relative flex gap-6 pb-12 last:pb-0">
+                    {/* Vertical Line */}
+                    {index < timelineSteps.length - 1 && (
+                      <div className="absolute left-7 top-14 w-0.5 h-[calc(100%-3.5rem)] bg-border" />
+                    )}
+                    
+                    {/* Icon */}
+                    <div className="relative z-10 flex-shrink-0">
+                      <div className="w-14 h-14 rounded-full border-2 border-foreground/80 bg-background flex items-center justify-center">
+                        <step.icon className="w-6 h-6 text-foreground/80" />
+                      </div>
+                    </div>
+                    
+                    {/* Content */}
+                    <div className="flex-1 pt-2">
+                      <h3 className="text-2xl font-display font-normal text-foreground mb-3">
+                        {step.title}
+                      </h3>
+                      {step.description && (
+                        <p className="text-muted-foreground leading-relaxed mb-3">
+                          {step.description}
+                        </p>
+                      )}
+                      {step.bullets && (
+                        <ul className="list-disc list-inside text-muted-foreground space-y-1 mb-3 ml-1">
+                          {step.bullets.map((bullet, bulletIndex) => (
+                            <li key={bulletIndex}>{bullet}</li>
+                          ))}
+                        </ul>
+                      )}
+                      {step.additionalText && (
+                        <p className="text-muted-foreground leading-relaxed">
+                          {step.additionalText}
+                        </p>
+                      )}
                     </div>
                   </div>
-                  <div>
-                    <h3 className="text-lg font-display font-semibold text-foreground mb-2">
-                      {index + 1}. {step.title}
-                    </h3>
-                    <p className="text-muted-foreground text-sm leading-relaxed">
-                      {step.description}
-                    </p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* Guidelines Section */}
-        <section className="py-16 bg-secondary/30">
-          <div className="container-wide">
-            <div className="max-w-3xl mx-auto">
-              <h2 className="text-3xl font-display font-normal text-foreground mb-8 text-center">
-                Submission Guidelines
-              </h2>
-              <div className="space-y-6 text-muted-foreground">
-                <p className="text-center">
-                  Cambridge Scholars Publishing welcomes proposals for academic monographs, edited 
-                  collections, and textbooks across all disciplines in the humanities and social sciences.
-                </p>
-                <div className="grid md:grid-cols-2 gap-8 mt-8">
-                  <div>
-                    <h3 className="text-xl font-display font-semibold text-foreground mb-4">
-                      What We Look For
-                    </h3>
-                    <ul className="list-disc list-inside space-y-2 text-sm">
-                      <li>Original, high-quality academic research</li>
-                      <li>Clear and accessible writing style</li>
-                      <li>Contribution to the field of study</li>
-                      <li>Well-organized structure and argument</li>
-                    </ul>
-                  </div>
-                  <div>
-                    <h3 className="text-xl font-display font-semibold text-foreground mb-4">
-                      Manuscript Requirements
-                    </h3>
-                    <ul className="list-disc list-inside space-y-2 text-sm">
-                      <li>Minimum 60,000 words for monographs</li>
-                      <li>Microsoft Word format preferred</li>
-                      <li>Chicago or Harvard referencing style</li>
-                      <li>High-resolution images (300 DPI minimum)</li>
-                    </ul>
-                  </div>
-                </div>
+                ))}
               </div>
+            </div>
+
+            {/* CTA Button */}
+            <div className="text-center mt-16">
+              <Button 
+                asChild 
+                variant="outline" 
+                size="lg"
+                className="px-12 py-6 text-accent border-accent hover:bg-accent hover:text-accent-foreground"
+              >
+                <Link to="/submit-proposal">GET STARTED</Link>
+              </Button>
             </div>
           </div>
         </section>
