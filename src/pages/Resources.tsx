@@ -49,7 +49,7 @@ export default function Resources() {
 
       <main className="py-16">
         <section className="container-wide">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 max-w-6xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-16 max-w-7xl mx-auto">
             {resources.map((item, index) => (
               <div key={index} className="group">
                 {/* Image */}
