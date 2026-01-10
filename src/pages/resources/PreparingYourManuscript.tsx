@@ -20,7 +20,7 @@ export default function PreparingYourManuscript() {
       </div>
 
       <main className="py-16">
-        <section className="container-wide max-w-4xl mx-auto px-6">
+        <section className="container-wide max-w-7xl mx-auto px-6">
           <p className="text-muted-foreground leading-relaxed mb-10">
             When your proposal has been approved, the next step is to prepare your manuscript for submission. Here you
             will find guidance on formatting, referencing, permissions, and best practices to ensure your work meets
