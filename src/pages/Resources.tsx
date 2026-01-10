@@ -1,163 +1,85 @@
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { PageBreadcrumb } from "@/components/layout/PageBreadcrumb";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { FileText, Download, BookOpen, HelpCircle, ExternalLink } from "lucide-react";
 
-const Resources = () => {
-  const resources = [
-    {
-      icon: FileText,
-      title: "Style Guide",
-      description: "Comprehensive guidelines for manuscript formatting, citations, and academic writing standards.",
-      downloadable: true,
-    },
-    {
-      icon: BookOpen,
-      title: "Author Handbook",
-      description: "Everything you need to know about the publishing process, from submission to publication.",
-      downloadable: true,
-    },
-    {
-      icon: FileText,
-      title: "Manuscript Template",
-      description: "A pre-formatted Word template to help you structure your manuscript correctly.",
-      downloadable: true,
-    },
-    {
-      icon: HelpCircle,
-      title: "FAQ for Authors",
-      description: "Answers to commonly asked questions about publishing with Cambridge Scholars.",
-      downloadable: false,
-    },
-  ];
+const resources = [
+  {
+    title: "Proposal and Publishing Forms",
+    description:
+      "Guidance and templates for submitting your book proposal and formalising the publishing agreement – used at the start of the process.",
+    image: "https://images.unsplash.com/photo-1512820790803-83ca734da794",
+    link: "/resources/proposal-and-publishing-forms",
+  },
+  {
+    title: "Preparing Your Manuscript",
+    description:
+      "Instructions on formatting, style, and submission requirements – needed when finalising your manuscript for production.",
+    image: "https://images.unsplash.com/photo-1519682337058-a94d519337bc",
+    link: "/resources/preparing-your-manuscript",
+  },
+  {
+    title: "Preparing Your Book Cover",
+    description:
+      "Guidelines for cover design elements, including images and author information – completed before the book enters production.",
+    image: "https://images.unsplash.com/photo-1516979187457-637abb4f9353",
+    link: "/resources/preparing-your-book-cover",
+  },
+  {
+    title: "Post Publication",
+    description:
+      "Resources on marketing, author discounts, and how to promote your book – used once your title is published.",
+    image: "https://images.unsplash.com/photo-1509021436665-8f07dbf5bf1d",
+    link: "/resources/post-publication",
+  },
+];
 
-  const guides = [
-    {
-      title: "Writing an Effective Abstract",
-      description: "Learn how to write a compelling abstract that captures the essence of your research.",
-    },
-    {
-      title: "Preparing Your Manuscript",
-      description: "Step-by-step guide to preparing your manuscript for submission.",
-    },
-    {
-      title: "Copyright and Permissions",
-      description: "Understanding copyright requirements and how to obtain necessary permissions.",
-    },
-    {
-      title: "Working with Images and Tables",
-      description: "Best practices for including visual elements in your academic work.",
-    },
-  ];
-
+export default function Resources() {
   return (
     <div className="min-h-screen bg-background">
       <Header />
-      <main className="pt-20">
-        {/* Breadcrumb */}
-        <div className="container-wide pt-4">
-          <PageBreadcrumb 
-            items={[{ label: "Publish a Book", href: "#" }]} 
-            currentPage="Resources" 
-          />
+
+      {/* Top Banner */}
+      <div className="pt-32 bg-[#f9f7f2] py-10 px-6 md:px-16">
+        <div className="max-w-7xl mx-auto flex justify-between items-center">
+          <h1 className="text-3xl font-serif text-gray-800">Resources</h1>
+          <PageBreadcrumb currentPage="Resources" />
         </div>
+      </div>
 
-        {/* Hero Section */}
-        <section className="bg-primary py-16 mt-4">
-          <div className="container-wide">
-            <h1 className="text-4xl md:text-5xl font-display font-bold text-primary-foreground mb-4">
-              Resources
-            </h1>
-            <p className="text-xl text-primary-foreground/80 max-w-2xl">
-              Helpful materials and guides for authors
-            </p>
-          </div>
-        </section>
-
-        {/* Downloads Section */}
-        <section className="py-16">
-          <div className="container-wide">
-            <h2 className="text-3xl font-display font-bold text-foreground mb-8">
-              Downloadable Resources
-            </h2>
-            <div className="grid md:grid-cols-2 gap-6">
-              {resources.map((resource, index) => (
-                <Card key={index} className="hover:shadow-lg transition-shadow">
-                  <CardHeader>
-                    <div className="flex items-start gap-4">
-                      <div className="p-3 rounded-lg bg-accent/10 text-accent">
-                        <resource.icon className="w-6 h-6" />
-                      </div>
-                      <div className="flex-1">
-                        <CardTitle className="text-xl">{resource.title}</CardTitle>
-                        <CardDescription className="mt-2">{resource.description}</CardDescription>
-                      </div>
-                    </div>
-                  </CardHeader>
-                  <CardContent>
-                    <Button variant={resource.downloadable ? "default" : "outline"} className="w-full">
-                      {resource.downloadable ? (
-                        <>
-                          <Download className="w-4 h-4 mr-2" />
-                          Download PDF
-                        </>
-                      ) : (
-                        <>
-                          <ExternalLink className="w-4 h-4 mr-2" />
-                          View Resource
-                        </>
-                      )}
-                    </Button>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* Guides Section */}
-        <section className="py-16 bg-secondary/30">
-          <div className="container-wide">
-            <h2 className="text-3xl font-display font-bold text-foreground mb-8">
-              Author Guides
-            </h2>
-            <div className="grid md:grid-cols-2 gap-6">
-              {guides.map((guide, index) => (
-                <div 
-                  key={index} 
-                  className="p-6 bg-background rounded-lg border border-border hover:border-accent/50 transition-colors cursor-pointer"
-                >
-                  <h3 className="text-lg font-display font-semibold text-foreground mb-2">
-                    {guide.title}
-                  </h3>
-                  <p className="text-muted-foreground">{guide.description}</p>
+      <main className="py-16">
+        <section className="container-wide">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 max-w-6xl mx-auto">
+            {resources.map((item, index) => (
+              <div key={index} className="group">
+                {/* Image */}
+                <div className="overflow-hidden">
+                  <img
+                    src={item.image}
+                    alt={item.title}
+                    className="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
                 </div>
-              ))}
-            </div>
-          </div>
-        </section>
 
-        {/* Contact Section */}
-        <section className="py-16">
-          <div className="container-wide text-center">
-            <h2 className="text-3xl font-display font-bold text-foreground mb-4">
-              Need More Help?
-            </h2>
-            <p className="text-muted-foreground mb-8 max-w-xl mx-auto">
-              Our editorial team is here to assist you throughout the publishing process. 
-              Don't hesitate to reach out if you have any questions.
-            </p>
-            <Button size="lg" asChild>
-              <a href="/contact">Contact Us</a>
-            </Button>
+                {/* Content */}
+                <div className="mt-6">
+                  <h2 className="font-serif text-xl text-foreground mb-2">{item.title}</h2>
+                  <p className="text-sm text-muted-foreground leading-relaxed mb-4 max-w-md">{item.description}</p>
+
+                  <a
+                    href={item.link}
+                    className="inline-flex items-center text-xs font-semibold tracking-widest text-red-500 hover:underline"
+                  >
+                    READ MORE
+                    <span className="ml-1">›</span>
+                  </a>
+                </div>
+              </div>
+            ))}
           </div>
         </section>
       </main>
+
       <Footer />
     </div>
   );
-};
-
-export default Resources;
+}
