@@ -84,6 +84,9 @@ export default function FAQ() {
               ))}
             </Accordion>
           </div>
+          <p className="text-muted-foreground mb-6 max-w-md mx-auto">
+            Can't find what you're looking for? Our support team is here to help.
+          </p>
 
           {/* Contact CTA */}
           <div className="max-w-4xl mx-auto mt-16">
