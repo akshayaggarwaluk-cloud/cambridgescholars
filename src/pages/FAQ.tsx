@@ -72,16 +72,11 @@ export default function FAQ() {
         <section className="container-wide py-16">
           <div className="max-w-4xl mx-auto space-y-12">
             {faqCategories.map((category, categoryIndex) => (
-              <div
-                key={category.title}
-                className="animate-fade-up"
-                style={{ animationDelay: `${categoryIndex * 0.1}s` }}
-              >
+              
                 <h2 className="font-serif text-2xl md:text-3xl font-bold text-foreground mb-6 flex items-center gap-3">
                   <span className="w-8 h-8 rounded-full bg-accent/10 flex items-center justify-center text-accent text-sm font-bold">
                     {categoryIndex + 1}
                   </span>
-                  {category.title}
                 </h2>
 
                 <Accordion type="single" collapsible className="space-y-4">
