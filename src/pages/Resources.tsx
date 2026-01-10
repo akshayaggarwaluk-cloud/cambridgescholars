@@ -1,6 +1,7 @@
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { PageBreadcrumb } from "@/components/layout/PageBreadcrumb";
+import { Link } from "react-router-dom";
 
 const resources = [
   {
@@ -65,13 +66,13 @@ export default function Resources() {
                   <h2 className="font-serif text-xl text-foreground mb-2">{item.title}</h2>
                   <p className="text-sm text-muted-foreground leading-relaxed mb-4 max-w-md">{item.description}</p>
 
-                  <a
-                    href={item.link}
+                  <Link
+                    to={item.link}
                     className="inline-flex items-center text-xs font-semibold tracking-widest text-red-500 hover:underline"
                   >
                     READ MORE
                     <span className="ml-1">›</span>
-                  </a>
+                  </Link>
                 </div>
               </div>
             ))}
