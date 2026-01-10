@@ -54,6 +54,8 @@ const FAQ = () => {
 
   return (
     <>
+      <Header />
+
       {/* ---------------- SECTION 1: TOP BANNER ---------------- */}
       <div className="bg-[#f9f7f2] py-10 px-6 md:px-16 border-b border-gray-300">
         <div className="max-w-7xl mx-auto flex justify-between items-center">
@@ -120,6 +122,7 @@ const FAQ = () => {
           })}
         </div>
       </div>
+      <Footer />
     </>
   );
 };
