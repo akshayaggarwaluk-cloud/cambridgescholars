@@ -53,18 +53,15 @@ export default function FAQ() {
     <div className="min-h-screen bg-background">
       <Header />
 
-      {/* Top Banner (Breadcrumb only) */}
+      {/* Top Banner */}
       <div className="pt-32 bg-[#f9f7f2] py-10 px-6 md:px-16">
         <div className="max-w-7xl mx-auto flex justify-between items-center">
-          {/* Page Title */}
           <h1 className="text-3xl font-serif text-gray-800">FAQS</h1>
-
-          {/* Breadcrumb */}
           <PageBreadcrumb currentPage="FAQs" />
         </div>
       </div>
 
-      <main className=" pb-16">
+      <main className="pb-16">
         <section className="container-wide py-16">
           <div className="max-w-4xl mx-auto">
             <Accordion type="single" collapsible className="space-y-4">
@@ -84,11 +81,12 @@ export default function FAQ() {
               ))}
             </Accordion>
           </div>
-          {/* ✅ Final line exactly like reference */}
+
+          {/* Final line after FAQs */}
           <div className="max-w-4xl mx-auto mt-12 text-center">
-            <p className="text-sm md:text-base text-muted-foreground">
+            <p className="text-muted-foreground text-sm md:text-base">
               If your question is not addressed here, please do not hesitate to contact us at{" "}
-              <a href="mailto:admin@cambridgescholars.com" className="text-red-500 font-medium hover:underline">
+              <a href="mailto:admin@cambridgescholars.com" className="text-red-500 hover:underline">
                 admin@cambridgescholars.com
               </a>
             </p>
