@@ -20,7 +20,7 @@ export default function PreparingYourBookCover() {
       </div>
 
       <main className="py-16">
-        <section className="container-wide max-w-4xl mx-auto px-6">
+        <section className="max-w-7xl mx-auto px-6 md:px-16">
           <p className="text-muted-foreground leading-relaxed mb-10">
             A strong book cover is essential for both professional presentation and wider visibility. In this section,
             you will find the specifications and permissions guidance needed to design and submit your cover in line
@@ -30,39 +30,23 @@ export default function PreparingYourBookCover() {
           <ul className="space-y-4 list-disc list-inside text-foreground">
             <li>
               <span className="font-medium">3.1</span>{" "}
-              <Link to="#" className="text-primary hover:underline font-medium">
-                Cover Guidelines and Specifications
-              </Link>
-              <span className="text-muted-foreground">
-                – Advice on selecting and preparing images suitable for your book cover.
-              </span>
+              <Link to="#" className="text-primary hover:underline font-medium">Cover Guidelines and Specifications</Link>
+              <span className="text-muted-foreground"> – Advice on selecting and preparing images suitable for your book cover.</span>
             </li>
             <li>
               <span className="font-medium">3.2</span>{" "}
-              <Link to="#" className="text-primary hover:underline font-medium">
-                External Permissions
-              </Link>
-              <span className="text-muted-foreground">
-                - Technical requirements and standards for designing and submitting a book cover.
-              </span>
+              <Link to="#" className="text-primary hover:underline font-medium">External Permissions</Link>
+              <span className="text-muted-foreground"> - Technical requirements and standards for designing and submitting a book cover.</span>
             </li>
             <li>
               <span className="font-medium">3.3</span>{" "}
-              <Link to="#" className="text-primary hover:underline font-medium">
-                Cover Image Permissions
-              </Link>
-              <span className="text-muted-foreground">
-                - Forms and instructions for obtaining legal permissions to use images in your book.
-              </span>
+              <Link to="#" className="text-primary hover:underline font-medium">Cover Image Permissions</Link>
+              <span className="text-muted-foreground"> - Forms and instructions for obtaining legal permissions to use images in your book.</span>
             </li>
             <li>
               <span className="font-medium">3.4</span>{" "}
-              <Link to="#" className="text-primary hover:underline font-medium">
-                Cover Image Permissions - Parental Consent Form
-              </Link>
-              <span className="text-muted-foreground">
-                - Parental consent and copyright clearance for cover images featuring children.
-              </span>
+              <Link to="#" className="text-primary hover:underline font-medium">Cover Image Permissions - Parental Consent Form</Link>
+              <span className="text-muted-foreground"> - Parental consent and copyright clearance for cover images featuring children.</span>
             </li>
           </ul>
         </section>

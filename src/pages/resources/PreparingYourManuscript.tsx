@@ -20,7 +20,7 @@ export default function PreparingYourManuscript() {
       </div>
 
       <main className="py-16">
-        <section className="container-wide max-w-7xl mx-auto px-6">
+        <section className="max-w-7xl mx-auto px-6 md:px-16">
           <p className="text-muted-foreground leading-relaxed mb-10">
             When your proposal has been approved, the next step is to prepare your manuscript for submission. Here you
             will find guidance on formatting, referencing, permissions, and best practices to ensure your work meets
@@ -30,59 +30,33 @@ export default function PreparingYourManuscript() {
           <ul className="space-y-4 list-disc list-inside text-foreground">
             <li>
               <span className="font-medium">2.1</span>{" "}
-              <Link to="#" className="text-primary hover:underline font-medium">
-                Submission Checklist
-              </Link>
-              <span className="text-muted-foreground">
-                - To ensure all necessary materials and requirements are completed before submitting a manuscript.
-              </span>
+              <Link to="#" className="text-primary hover:underline font-medium">Submission Checklist</Link>
+              <span className="text-muted-foreground"> - To ensure all necessary materials and requirements are completed before submitting a manuscript.</span>
             </li>
             <li>
               <span className="font-medium">2.2</span>{" "}
-              <Link to="#" className="text-primary hover:underline font-medium">
-                Manuscript Guidelines
-              </Link>
-              <span className="text-muted-foreground">
-                {" "}
-                - Instructions and a sample layout for preparing manuscripts according to our publishing standards.
-              </span>
+              <Link to="#" className="text-primary hover:underline font-medium">Manuscript Guidelines</Link>
+              <span className="text-muted-foreground"> - Instructions and a sample layout for preparing manuscripts according to our publishing standards.</span>
             </li>
             <li>
               <span className="font-medium">2.3</span>{" "}
-              <Link to="#" className="text-primary hover:underline font-medium">
-                Referencing and Proofreading Guide
-              </Link>
-              <span className="text-muted-foreground">
-                {" "}
-                - Guidance on proper citation, referencing, and best practices for thorough proofreading.
-              </span>
+              <Link to="#" className="text-primary hover:underline font-medium">Referencing and Proofreading Guide</Link>
+              <span className="text-muted-foreground"> - Guidance on proper citation, referencing, and best practices for thorough proofreading.</span>
             </li>
             <li>
               <span className="font-medium">2.4</span>{" "}
-              <Link to="#" className="text-primary hover:underline font-medium">
-                Marketing Your Book: Guidelines
-              </Link>
-              <span className="text-muted-foreground">
-                {" "}
-                – Advice and strategies for promoting and marketing your book effectively.
-              </span>
+              <Link to="#" className="text-primary hover:underline font-medium">Marketing Your Book: Guidelines</Link>
+              <span className="text-muted-foreground"> – Advice and strategies for promoting and marketing your book effectively.</span>
             </li>
             <li>
               <span className="font-medium">2.5</span>{" "}
-              <Link to="#" className="text-primary hover:underline font-medium">
-                Copyright and Permissions Pack{" "}
-              </Link>
-              <span className="text-muted-foreground">
-                {" "}
-                - Information and forms for securing copyright and permissions for content used in your book.
-              </span>
+              <Link to="#" className="text-primary hover:underline font-medium">Copyright and Permissions Pack</Link>
+              <span className="text-muted-foreground"> - Information and forms for securing copyright and permissions for content used in your book.</span>
             </li>
             <li>
               <span className="font-medium">2.6</span>{" "}
-              <Link to="#" className="text-primary hover:underline font-medium">
-                BIC Codes
-              </Link>
-              <span className="text-muted-foreground">- BIC codes to classify your book</span>
+              <Link to="#" className="text-primary hover:underline font-medium">BIC Codes</Link>
+              <span className="text-muted-foreground"> - BIC codes to classify your book</span>
             </li>
           </ul>
         </section>
