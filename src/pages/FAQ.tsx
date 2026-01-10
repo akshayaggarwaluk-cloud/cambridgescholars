@@ -55,9 +55,11 @@ export default function FAQ() {
 
       {/* Top Banner (Breadcrumb only) */}
       <div className="pt-32 bg-[#f9f7f2] py-10 px-6 md:px-16">
-        <div className="max-w-7xl mx-auto flex justify-end">
-          <h1 className="text-3xl font-serif text-gray-800">FAQs</h1>
+        <div className="max-w-7xl mx-auto flex justify-between items-center">
+          {/* Page Title */}
+          <h1 className="text-3xl font-serif text-gray-800">FAQS</h1>
 
+          {/* Breadcrumb */}
           <PageBreadcrumb currentPage="FAQs" />
         </div>
       </div>
