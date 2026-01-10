@@ -28,7 +28,7 @@ export default function PostPublication() {
             <li>
               <span className="font-medium">4.1</span>{" "}
               <Link to="#" className="text-primary hover:underline font-medium">
-                4.1 Promotion Information Form
+                Promotion Information Form
               </Link>
               <span className="text-muted-foreground"> - Promotion Information Form</span>
             </li>
