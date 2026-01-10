@@ -84,28 +84,11 @@ export default function FAQ() {
               ))}
             </Accordion>
           </div>
-          <p className="text-muted-foreground mb-6 max-w-md mx-auto">
-            Can't find what you're looking for? Our support team is here to help.
-          </p>
-
-          {/* Contact CTA */}
-          <div className="max-w-4xl mx-auto mt-16">
-            <div className="bg-secondary rounded-2xl p-8 md:p-12 text-center">
-              <h3 className="font-serif text-2xl font-bold text-foreground mb-3">Still have questions?</h3>
-              <p className="text-muted-foreground mb-6 max-w-md mx-auto">
-                Can't find what you're looking for? Our support team is here to help.
-              </p>
-              <a
-                href="/contact"
-                className="inline-flex items-center justify-center px-8 py-3 rounded-full bg-accent text-accent-foreground font-semibold shadow-gold hover:shadow-lg transition-all duration-200"
-              >
-                Contact Support
-              </a>
-            </div>
-          </div>
         </section>
       </main>
-
+      <p className="text-muted-foreground mb-6 max-w-md mx-auto">
+        If your question is not addressed here, please do not hesitate to contact us at admin@cambridgescholars.com
+      </p>
       <Footer />
     </div>
   );
