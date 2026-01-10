@@ -1,4 +1,6 @@
 import { useState } from "react";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 
 const FAQ = () => {
   const [openIndex, setOpenIndex] = useState(null);
@@ -54,13 +56,14 @@ const FAQ = () => {
 
   return (
     <>
+      {/* HEADER */}
+      <Header />
+
       {/* ---------------- SECTION 1: TOP BANNER ---------------- */}
       <div className="bg-[#f9f7f2] py-10 px-6 md:px-16 border-b border-gray-300">
         <div className="max-w-7xl mx-auto flex justify-between items-center">
-          {/* Page Title */}
           <h1 className="text-3xl font-serif text-gray-800 tracking-wide">FAQ</h1>
 
-          {/* Breadcrumb */}
           <nav className="text-sm text-gray-600">
             <ol className="flex space-x-1 md:space-x-2">
               <li>
@@ -68,12 +71,8 @@ const FAQ = () => {
                   Home
                 </a>
               </li>
-              <li>
-                <span className="mx-1">/</span>
-              </li>
-              <li>
-                <span className="text-red-500 italic">FAQ</span>
-              </li>
+              <li>/</li>
+              <li className="text-red-500 italic">FAQ</li>
             </ol>
           </nav>
         </div>
@@ -100,14 +99,13 @@ const FAQ = () => {
 
                   <span
                     className={`text-2xl font-bold text-red-500 transition-transform duration-300 ${
-                      isOpen ? "rotate-180" : "rotate-0"
+                      isOpen ? "rotate-180" : ""
                     }`}
                   >
                     ▼
                   </span>
                 </div>
 
-                {/* Animated dropdown answer */}
                 <div
                   className={`overflow-hidden transition-all duration-300 ${
                     isOpen ? "max-h-40 mt-3 opacity-100" : "max-h-0 opacity-0"
@@ -120,6 +118,9 @@ const FAQ = () => {
           })}
         </div>
       </div>
+
+      {/* FOOTER */}
+      <Footer />
     </>
   );
 };
