@@ -108,7 +108,7 @@ const HowToPublish = () => {
         {/* Hero Section with Breadcrumb */}
         <section className="bg-[#f9f7f2] py-12">
           <div className="container-wide flex flex-col md:flex-row md:items-center md:justify-between">
-            <h1 className="text-4xl md:text-5xl font-display font-normal text-foreground">How to Publish</h1>
+            <h1 className="text-5xl md:text-5xl font-display font-normal text-foreground">How to Publish</h1>
             <nav className="mt-4 md:mt-0 text-sm">
               <ol className="flex items-center gap-2">
                 <li>

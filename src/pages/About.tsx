@@ -9,7 +9,7 @@ export default function AboutSection() {
       <div className="pt-32 bg-[#f9f7f2] py-10 px-6 md:px-16">
         <div className="max-w-7xl mx-auto flex justify-between items-center">
           {/* Page Title */}
-          <h1 className="text-3xl font-serif text-gray-800">About Us</h1>
+          <h1 className="text-5xl font-serif text-gray-800">About Us</h1>
 
           {/* Breadcrumb */}
           <PageBreadcrumb currentPage="About Us" />
@@ -59,7 +59,11 @@ export default function AboutSection() {
 
           {/* RIGHT SIDE — IMAGE */}
           <div className="flex justify-center ">
-            <img alt="Decorative" className="w-80 h-auto md:h-[700px] object-cover rounded-lg shadow" src="/lovable-uploads/d53bdc66-5423-4a11-8c1d-a9166b55ead1.png" />
+            <img
+              alt="Decorative"
+              className="w-80 h-auto md:h-[700px] object-cover rounded-lg shadow"
+              src="/lovable-uploads/d53bdc66-5423-4a11-8c1d-a9166b55ead1.png"
+            />
           </div>
         </div>
       </section>
@@ -69,7 +73,11 @@ export default function AboutSection() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
           {/* LEFT SIDE IMAGE */}
           <div className="flex justify-center">
-            <img alt="Green Door" className="w-full md:w-[420px] h-full rounded shadow" src="/lovable-uploads/3f1259fa-8061-4dd4-9451-dcb25fd9cc8d.png" />
+            <img
+              alt="Green Door"
+              className="w-full md:w-[420px] h-full rounded shadow"
+              src="/lovable-uploads/3f1259fa-8061-4dd4-9451-dcb25fd9cc8d.png"
+            />
           </div>
 
           {/* RIGHT SIDE TEXT */}
