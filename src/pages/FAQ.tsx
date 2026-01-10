@@ -6,92 +6,48 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 
 const faqCategories = [
   {
-    title: "Orders & Shipping",
     faqs: [
       {
-        question: "How long does shipping take?",
+        question: "Do authors incur any charges when publishing with Cambridge Scholars?",
         answer:
-          "Standard shipping typically takes 5-7 business days. Express shipping is available for 2-3 business day delivery. International orders may take 10-14 business days depending on the destination.",
+          "There are no publishing fees for authors, either explicit or hidden. We do not charge for the review, editing, or publication of accepted manuscripts. All commercial risk associated with an author’s title is borne entirely by ourselves.",
       },
       {
-        question: "Can I track my order?",
+        question: "What kinds of books are considered for publication?",
         answer:
-          "Yes! Once your order ships, you'll receive an email with a tracking number. You can use this to track your package on our website or the carrier's site.",
+          "We publish academic monographs, edited collections, and works developed from doctoral research. We do not publish journals at this time.",
       },
       {
-        question: "What is your return policy?",
-        answer:
-          "We offer a 30-day return policy for all books in their original condition. Simply contact our support team to initiate a return. Refunds are processed within 5-7 business days after we receive the returned item.",
+        question: "Can I submit a book proposal if my manuscript isn’t finished?",
+        answer: "Yes, we accept proposals for works in progress as well as completed manuscripts.",
       },
       {
-        question: "Do you offer free shipping?",
-        answer:
-          "Yes! We offer free standard shipping on all orders over $35. Members of our loyalty program receive free shipping on all orders regardless of the total.",
-      },
-    ],
-  },
-  {
-    title: "eBooks & Digital Content",
-    faqs: [
-      {
-        question: "How do I access my eBooks?",
-        answer:
-          "After purchase, your eBooks are available instantly in your account under 'My Library'. You can read them online or download them to your preferred device using our app.",
+        question: "How long does the publishing process take?",
+        answer: "The complete publishing process typically takes around 4 to 6 months.",
       },
       {
-        question: "What formats are available for eBooks?",
-        answer:
-          "Our eBooks are available in EPUB and PDF formats, compatible with most e-readers, tablets, and smartphones. Some titles also support Kindle format.",
+        question: "Will I receive royalties?",
+        answer: "Yes, royalties are provided from the first sale, with increasing rates at sales milestones.",
       },
       {
-        question: "Can I read eBooks offline?",
-        answer:
-          "Yes! Download your eBooks through our mobile app to read offline anytime, anywhere. Your reading progress syncs automatically when you're back online.",
-      },
-    ],
-  },
-  {
-    title: "Account & Payments",
-    faqs: [
-      {
-        question: "What payment methods do you accept?",
-        answer:
-          "We accept all major credit cards (Visa, Mastercard, American Express), PayPal, Apple Pay, and Google Pay. Gift cards can also be used for purchases.",
+        question: "Where are your books sold?",
+        answer: "Our books are available globally across libraries, distributors, and online platforms.",
       },
       {
-        question: "Is my payment information secure?",
-        answer:
-          "Absolutely. We use industry-standard SSL encryption to protect your data. We never store your full credit card information on our servers.",
+        question: "I ordered a book. How long will delivery take?",
+        answer: "Orders are dispatched within two weeks. Delivery time depends on location.",
       },
       {
-        question: "How do I reset my password?",
-        answer:
-          "Click 'Sign In' and then 'Forgot Password'. Enter your email address and we'll send you a link to reset your password within minutes.",
+        question: "Do you accept proposals from first-time authors?",
+        answer: "Absolutely — first-time authors and early career researchers are welcome.",
       },
       {
-        question: "Can I save books for later?",
-        answer:
-          "Yes! Use our Wishlist feature to save books you're interested in. Simply click the heart icon on any book to add it to your wishlist for easy access later.",
-      },
-    ],
-  },
-  {
-    title: "Publishing & Authors",
-    faqs: [
-      {
-        question: "How can I publish my book on Biblioscape?",
-        answer:
-          "We welcome independent authors! Visit our 'Publish' page to submit your manuscript. Our team reviews submissions within 2-3 weeks and will contact you with next steps.",
+        question: "Do I keep copyright of my work?",
+        answer: "Yes. You retain copyright while granting us rights to publish and distribute.",
       },
       {
-        question: "What royalties do authors receive?",
-        answer:
-          "Authors receive competitive royalty rates starting at 35% for eBooks and 25% for print books. Higher rates are available based on sales volume and exclusive agreements.",
-      },
-      {
-        question: "Do you offer author support services?",
-        answer:
-          "Yes! We offer editing, cover design, and marketing services for authors. Contact our author support team for a personalized consultation.",
+        question: "I submitted a proposal. When will I hear back?",
+        answer: "We typically respond within 4–6 weeks. If delayed, feel free to follow up.",
       },
     ],
   },
