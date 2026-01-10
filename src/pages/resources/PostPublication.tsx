@@ -17,9 +17,9 @@ export default function PostPublication() {
       </div>
 
       <main className="py-16">
-        <section className="container-wide max-w-4xl mx-auto px-6">
+        <section className="max-w-7xl mx-auto px-6 md:px-16">
           <p className="text-muted-foreground leading-relaxed mb-10">
-            Publication marks the beginning of the next stage in your book’s journey. This section provides resources to
+            Publication marks the beginning of the next stage in your book's journey. This section provides resources to
             help you promote your work, extend its reach, and ensure it has the greatest possible impact with your
             intended readership.
           </p>
@@ -27,9 +27,7 @@ export default function PostPublication() {
           <ul className="space-y-4 list-disc list-inside text-foreground">
             <li>
               <span className="font-medium">4.1</span>{" "}
-              <Link to="#" className="text-primary hover:underline font-medium">
-                Promotion Information Form
-              </Link>
+              <Link to="#" className="text-primary hover:underline font-medium">Promotion Information Form</Link>
               <span className="text-muted-foreground"> - Promotion Information Form</span>
             </li>
           </ul>
