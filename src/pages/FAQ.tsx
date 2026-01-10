@@ -112,27 +112,6 @@ export default function FAQ() {
       </div>
 
       <main className="pt-24 pb-16">
-        {/* Hero */}
-        <section className="relative bg-gradient-charcoal py-20 overflow-hidden mt-4">
-          <div className="absolute inset-0 overflow-hidden">
-            <div className="absolute top-0 right-0 w-96 h-96 bg-accent/10 rounded-full blur-3xl" />
-            <div className="absolute bottom-0 left-1/4 w-64 h-64 bg-accent/5 rounded-full blur-3xl" />
-          </div>
-          <div className="container-wide relative z-10">
-            <div className="max-w-3xl mx-auto text-center">
-              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-accent/10 mb-6">
-                <HelpCircle className="h-8 w-8 text-accent" />
-              </div>
-              <h1 className="font-serif text-4xl md:text-5xl font-bold text-primary-foreground mb-4">
-                Frequently Asked Questions
-              </h1>
-              <p className="text-primary-foreground/80 text-lg">
-                Find answers to common questions about orders, shipping, eBooks, and more.
-              </p>
-            </div>
-          </div>
-        </section>
-
         {/* FAQ Content */}
         <section className="container-wide py-16">
           <div className="max-w-4xl mx-auto space-y-12">
