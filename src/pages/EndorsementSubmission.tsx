@@ -40,7 +40,7 @@ const EndorsementSubmission = () => {
                 Home
               </Link>
               <span className="text-black/60">/</span>
-              <span className="text-black ">Endorsement Submission</span>
+              <span className="text-red-500">Endorsement Submission</span>
             </nav>
           </div>
         </section>
