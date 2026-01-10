@@ -57,7 +57,7 @@ export default function Resources() {
                   <img
                     src={item.image}
                     alt={item.title}
-                    className="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-105"
+                    className="w-full h-80 md:h-96 object-cover transition-transform duration-500 group-hover:scale-105"
                   />
                 </div>
 
