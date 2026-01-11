@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
+import DOMPurify from "dompurify";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { PageBreadcrumb } from "@/components/layout/PageBreadcrumb";
 import { Input } from "@/components/ui/input";
 import { Search, ChevronRight } from "lucide-react";
 import { newsArticles, newsCategories } from "@/data/news";
-
 const NewsArticle = () => {
   const { slug } = useParams<{ slug: string }>();
   const navigate = useNavigate();
@@ -143,7 +143,7 @@ const NewsArticle = () => {
             {/* Article Content */}
             <div
               className="prose prose-lg max-w-none text-foreground leading-relaxed text-justify"
-              dangerouslySetInnerHTML={{ __html: article.content }}
+              dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(article.content) }}
             />
 
             {/* Tags */}
