@@ -29,8 +29,8 @@ export interface CartItem extends Book {
 interface CartContextType {
   items: CartItem[];
   addToCart: (book: Book, format?: BookFormat) => void;
-  removeFromCart: (bookId: string) => void;
-  updateQuantity: (bookId: string, quantity: number) => void;
+  removeFromCart: (bookId: string, format?: BookFormat) => void;
+  updateQuantity: (bookId: string, format: BookFormat, quantity: number) => void;
   clearCart: () => void;
   cartCount: number;
   cartTotal: number;
@@ -69,7 +69,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
         const cartItems: CartItem[] = data.map((item) => {
           const book = books.find((b) => b.id === item.book_id);
           if (book) {
-            return { ...book, quantity: item.quantity };
+            return { ...book, quantity: item.quantity, format: (item.format as BookFormat) || "hardbook" };
           }
           return null;
         }).filter(Boolean) as CartItem[];
@@ -83,7 +83,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
     }
   };
 
-  const syncCartToDatabase = async (bookId: string, quantity: number) => {
+  const syncCartToDatabase = async (bookId: string, format: BookFormat, quantity: number) => {
     if (!user) return;
 
     try {
@@ -92,15 +92,17 @@ export function CartProvider({ children }: { children: ReactNode }) {
           .from("cart_items")
           .delete()
           .eq("user_id", user.id)
-          .eq("book_id", bookId);
+          .eq("book_id", bookId)
+          .eq("format", format);
       } else {
         await supabase
           .from("cart_items")
           .upsert({
             user_id: user.id,
             book_id: bookId,
+            format,
             quantity,
-          }, { onConflict: "user_id,book_id" });
+          }, { onConflict: "user_id,book_id,format" });
       }
     } catch (error) {
       if (import.meta.env.DEV) console.error("Error syncing cart:", error);
@@ -113,8 +115,8 @@ export function CartProvider({ children }: { children: ReactNode }) {
       const existing = prev.find((item) => item.id === book.id && item.format === format);
       const newQuantity = existing ? existing.quantity + 1 : 1;
       
-      // Sync to database (using book_id with format suffix for uniqueness)
-      syncCartToDatabase(`${book.id}_${format}`, newQuantity);
+      // Sync to database with proper book_id and format columns
+      syncCartToDatabase(book.id, format, newQuantity);
       
       if (existing) {
         toast.success(`Added another ${format === "ebook" ? "eBook" : "Hardbook"} of "${book.title}"`);
@@ -129,34 +131,26 @@ export function CartProvider({ children }: { children: ReactNode }) {
     });
   };
 
-  const removeFromCart = (cartItemId: string) => {
-    syncCartToDatabase(cartItemId, 0);
-    // cartItemId format: "bookId_format"
-    const [bookId, format] = cartItemId.includes("_") 
-      ? [cartItemId.substring(0, cartItemId.lastIndexOf("_")), cartItemId.substring(cartItemId.lastIndexOf("_") + 1)]
-      : [cartItemId, null];
+  const removeFromCart = (bookId: string, format: BookFormat = "hardbook") => {
+    syncCartToDatabase(bookId, format, 0);
     
     setItems((prev) => prev.filter((item) => 
-      format ? !(item.id === bookId && item.format === format) : item.id !== bookId
+      !(item.id === bookId && item.format === format)
     ));
     toast.info("Item removed from cart");
   };
 
-  const updateQuantity = (cartItemId: string, quantity: number) => {
+  const updateQuantity = (bookId: string, format: BookFormat, quantity: number) => {
     if (quantity <= 0) {
-      removeFromCart(cartItemId);
+      removeFromCart(bookId, format);
       return;
     }
     
-    syncCartToDatabase(cartItemId, quantity);
-    // cartItemId format: "bookId_format"
-    const [bookId, format] = cartItemId.includes("_") 
-      ? [cartItemId.substring(0, cartItemId.lastIndexOf("_")), cartItemId.substring(cartItemId.lastIndexOf("_") + 1)]
-      : [cartItemId, null];
+    syncCartToDatabase(bookId, format, quantity);
     
     setItems((prev) =>
       prev.map((item) =>
-        (format ? item.id === bookId && item.format === format : item.id === bookId)
+        (item.id === bookId && item.format === format)
           ? { ...item, quantity }
           : item
       )

@@ -18,6 +18,7 @@ export type Database = {
         Row: {
           book_id: string
           created_at: string
+          format: string
           id: string
           quantity: number
           updated_at: string
@@ -26,6 +27,7 @@ export type Database = {
         Insert: {
           book_id: string
           created_at?: string
+          format?: string
           id?: string
           quantity?: number
           updated_at?: string
@@ -34,6 +36,7 @@ export type Database = {
         Update: {
           book_id?: string
           created_at?: string
+          format?: string
           id?: string
           quantity?: number
           updated_at?: string
