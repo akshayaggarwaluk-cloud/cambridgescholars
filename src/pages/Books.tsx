@@ -122,8 +122,25 @@ export default function Books() {
     <div className="min-h-screen bg-background">
       <Header />
 
-      <main className="container mx-auto px-4 py-8 pt-24">
-        <PageBreadcrumb currentPage="Books" />
+      {/* Page Header Banner */}
+      <div className="bg-secondary pt-32 pb-8">
+        <div className="container mx-auto px-4">
+          <div className="flex items-center justify-between">
+            <h1 className="text-3xl md:text-4xl font-serif text-foreground">
+              Bookshop
+            </h1>
+            <nav className="hidden md:flex items-center text-sm">
+              <Link to="/" className="text-muted-foreground hover:text-accent transition-colors">
+                Home
+              </Link>
+              <span className="mx-2 text-muted-foreground">/</span>
+              <span className="text-accent">Bookshop</span>
+            </nav>
+          </div>
+        </div>
+      </div>
+
+      <main className="container mx-auto px-4 py-8">
 
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 mt-8">
           {/* Sidebar */}
