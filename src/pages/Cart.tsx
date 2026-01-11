@@ -105,7 +105,7 @@ export default function Cart() {
                           size="icon"
                           className="h-8 w-8"
                           onClick={() =>
-                            updateQuantity(`${item.id}_${item.format}`, item.quantity - 1)
+                            updateQuantity(item.id, item.format, item.quantity - 1)
                           }
                         >
                           <Minus className="h-4 w-4" />
@@ -118,7 +118,7 @@ export default function Cart() {
                           size="icon"
                           className="h-8 w-8"
                           onClick={() =>
-                            updateQuantity(`${item.id}_${item.format}`, item.quantity + 1)
+                            updateQuantity(item.id, item.format, item.quantity + 1)
                           }
                         >
                           <Plus className="h-4 w-4" />
@@ -133,7 +133,7 @@ export default function Cart() {
                           variant="ghost"
                           size="icon"
                           className="text-muted-foreground hover:text-destructive"
-                          onClick={() => removeFromCart(`${item.id}_${item.format}`)}
+                          onClick={() => removeFromCart(item.id, item.format)}
                         >
                           <Trash2 className="h-4 w-4" />
                         </Button>
