@@ -77,7 +77,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
         setItems(cartItems);
       }
     } catch (error) {
-      console.error("Error loading cart:", error);
+      if (import.meta.env.DEV) console.error("Error loading cart:", error);
     } finally {
       setLoading(false);
     }
@@ -103,7 +103,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
           }, { onConflict: "user_id,book_id" });
       }
     } catch (error) {
-      console.error("Error syncing cart:", error);
+      if (import.meta.env.DEV) console.error("Error syncing cart:", error);
     }
   };
 
@@ -171,7 +171,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
           .delete()
           .eq("user_id", user.id);
       } catch (error) {
-        console.error("Error clearing cart:", error);
+        if (import.meta.env.DEV) console.error("Error clearing cart:", error);
       }
     }
     setItems([]);

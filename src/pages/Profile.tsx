@@ -73,7 +73,7 @@ export default function Profile() {
         setFullName(data.full_name || "");
       }
     } catch (error) {
-      console.error("Error loading profile:", error);
+      if (import.meta.env.DEV) console.error("Error loading profile:", error);
     } finally {
       setLoading(false);
     }
@@ -92,7 +92,7 @@ export default function Profile() {
       if (error) throw error;
       setPublishedBooks(data || []);
     } catch (error) {
-      console.error("Error loading published books:", error);
+      if (import.meta.env.DEV) console.error("Error loading published books:", error);
     } finally {
       setBooksLoading(false);
     }
@@ -111,7 +111,7 @@ export default function Profile() {
       if (error) throw error;
       toast.success("Profile updated successfully!");
     } catch (error) {
-      console.error("Error updating profile:", error);
+      if (import.meta.env.DEV) console.error("Error updating profile:", error);
       toast.error("Failed to update profile");
     } finally {
       setSaving(false);
@@ -146,7 +146,7 @@ export default function Profile() {
       setEditDialogOpen(false);
       loadPublishedBooks();
     } catch (error) {
-      console.error("Error updating book:", error);
+      if (import.meta.env.DEV) console.error("Error updating book:", error);
       toast.error("Failed to update book");
     } finally {
       setEditSaving(false);
@@ -165,7 +165,7 @@ export default function Profile() {
       toast.success("Book deleted successfully!");
       setPublishedBooks(prev => prev.filter(b => b.id !== bookId));
     } catch (error) {
-      console.error("Error deleting book:", error);
+      if (import.meta.env.DEV) console.error("Error deleting book:", error);
       toast.error("Failed to delete book");
     }
   };

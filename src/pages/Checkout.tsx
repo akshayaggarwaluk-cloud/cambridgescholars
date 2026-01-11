@@ -87,7 +87,7 @@ export default function Checkout() {
       setIsComplete(true);
       toast.success("Order placed successfully!");
     } catch (error) {
-      console.error("Error creating order:", error);
+      if (import.meta.env.DEV) console.error("Error creating order:", error);
       toast.error("Failed to place order. Please try again.");
     } finally {
       setLoading(false);
