@@ -101,19 +101,31 @@ export default function Auth() {
     setRegisterLoading(true);
 
     try {
-      // Generate a temporary password - user will set their own via email link
-      const tempPassword = Math.random().toString(36).slice(-12) + "A1!";
-      const { error } = await signUp(registerEmail, tempPassword, "");
-      if (error) {
-        if (error.message.includes("User already registered")) {
+      const response = await fetch("http://localhost:5000/api/auth/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: registerEmail,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        if (data.message?.includes("already registered") || data.message?.includes("already exists")) {
           toast.error("This email is already registered. Please sign in instead.");
         } else {
-          toast.error(error.message);
+          toast.error(data.message || "Registration failed. Please try again.");
         }
         return;
       }
+
       toast.success("A link to set your password has been sent to your email address.");
       setRegisterEmail("");
+    } catch (error) {
+      toast.error("Unable to connect to server. Please try again later.");
     } finally {
       setRegisterLoading(false);
     }
