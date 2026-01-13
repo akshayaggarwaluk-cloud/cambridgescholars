@@ -11,6 +11,7 @@ import Checkout from "@/pages/Checkout";
 import About from "@/pages/About";
 import Contact from "@/pages/Contact";
 import Auth from "@/pages/Auth";
+import SetPassword from "@/pages/SetPassword";
 import Profile from "@/pages/Profile";
 import Orders from "@/pages/Orders";
 import PublishBook from "@/pages/PublishBook";
@@ -43,6 +44,7 @@ export function AnimatedRoutes() {
         <Route path="/about" element={<PageTransition><About /></PageTransition>} />
         <Route path="/contact" element={<PageTransition><Contact /></PageTransition>} />
         <Route path="/auth" element={<PageTransition><Auth /></PageTransition>} />
+        <Route path="/set-password" element={<PageTransition><SetPassword /></PageTransition>} />
         <Route path="/profile" element={<PageTransition><Profile /></PageTransition>} />
         <Route path="/orders" element={<PageTransition><Orders /></PageTransition>} />
         <Route path="/publish" element={<PageTransition><PublishBook /></PageTransition>} />

@@ -77,17 +77,37 @@ export default function Auth() {
     setLoginLoading(true);
 
     try {
-      const { error } = await signIn(loginEmail, loginPassword);
-      if (error) {
-        if (error.message.includes("Invalid login credentials")) {
+      const response = await fetch("http://localhost:5000/api/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: loginEmail,
+          password: loginPassword,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        if (data.message?.includes("Invalid") || data.message?.includes("incorrect")) {
           toast.error("Invalid email or password. Please try again.");
         } else {
-          toast.error(error.message);
+          toast.error(data.message || "Login failed. Please try again.");
         }
         return;
       }
+
+      // Store token if returned
+      if (data.token) {
+        localStorage.setItem("authToken", data.token);
+      }
+
       toast.success("Welcome back!");
       navigate("/");
+    } catch (error) {
+      toast.error("Unable to connect to server. Please try again later.");
     } finally {
       setLoginLoading(false);
     }
