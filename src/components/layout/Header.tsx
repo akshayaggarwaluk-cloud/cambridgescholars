@@ -153,16 +153,16 @@ export function Header() {
               <Button
                 variant="ghost"
                 size="icon"
-                className="h-8 w-8 text-foreground hover:bg-secondary"
+                className="h-9 w-9 text-foreground hover:bg-secondary"
                 onClick={() => setIsSearchOpen(true)}
               >
-                <Search className="h-4 w-4" />
+                <Search className="h-5 w-5" />
               </Button>
             )}
 
             <Link to="/wishlist" className="relative">
-              <Button variant="ghost" size="icon" className="h-8 w-8 text-foreground hover:bg-secondary">
-                <Heart className="h-4 w-4" />
+              <Button variant="ghost" size="icon" className="h-9 w-9 text-foreground hover:bg-secondary">
+                <Heart className="h-5 w-5" />
                 {wishlistCount > 0 && (
                   <span className="absolute -top-1 -right-1 h-4 w-4 rounded-full bg-accent text-accent-foreground text-[10px] font-bold flex items-center justify-center">
                     {wishlistCount}
@@ -172,8 +172,8 @@ export function Header() {
             </Link>
 
             <Link to="/cart" className="relative">
-              <Button variant="ghost" size="icon" className="h-8 w-8 text-foreground hover:bg-secondary">
-                <ShoppingCart className="h-4 w-4" />
+              <Button variant="ghost" size="icon" className="h-9 w-9 text-foreground hover:bg-secondary">
+                <ShoppingCart className="h-5 w-5" />
                 {cartCount > 0 && (
                   <span className="absolute -top-1 -right-1 h-4 w-4 rounded-full bg-accent text-accent-foreground text-[10px] font-bold flex items-center justify-center">
                     {cartCount}
@@ -185,8 +185,8 @@ export function Header() {
             {user ? (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" size="icon" className="h-8 w-8 text-foreground hover:bg-secondary">
-                    <User className="h-4 w-4" />
+                  <Button variant="ghost" size="icon" className="h-9 w-9 text-foreground hover:bg-secondary">
+                    <User className="h-5 w-5" />
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end" className="w-48">
@@ -211,8 +211,8 @@ export function Header() {
               </DropdownMenu>
             ) : (
               <Link to="/auth">
-                <Button variant="ghost" size="icon" className="h-8 w-8 text-foreground hover:bg-secondary">
-                  <User className="h-4 w-4" />
+                <Button variant="ghost" size="icon" className="h-9 w-9 text-foreground hover:bg-secondary">
+                  <User className="h-5 w-5" />
                 </Button>
               </Link>
             )}
@@ -223,14 +223,14 @@ export function Header() {
             <Button
               variant="ghost"
               size="icon"
-              className="h-8 w-8 text-foreground"
+              className="h-9 w-9 text-foreground"
               onClick={() => setIsSearchOpen(!isSearchOpen)}
             >
-              <Search className="h-4 w-4" />
+              <Search className="h-5 w-5" />
             </Button>
             <Link to="/wishlist" className="relative">
-              <Button variant="ghost" size="icon" className="h-8 w-8 text-foreground">
-                <Heart className="h-4 w-4" />
+              <Button variant="ghost" size="icon" className="h-9 w-9 text-foreground">
+                <Heart className="h-5 w-5" />
                 {wishlistCount > 0 && (
                   <span className="absolute -top-1 -right-1 h-4 w-4 rounded-full bg-accent text-accent-foreground text-[10px] font-bold flex items-center justify-center">
                     {wishlistCount}
@@ -239,8 +239,8 @@ export function Header() {
               </Button>
             </Link>
             <Link to="/cart" className="relative">
-              <Button variant="ghost" size="icon" className="h-8 w-8 text-foreground">
-                <ShoppingCart className="h-4 w-4" />
+              <Button variant="ghost" size="icon" className="h-9 w-9 text-foreground">
+                <ShoppingCart className="h-5 w-5" />
                 {cartCount > 0 && (
                   <span className="absolute -top-1 -right-1 h-4 w-4 rounded-full bg-accent text-accent-foreground text-[10px] font-bold flex items-center justify-center">
                     {cartCount}
@@ -252,9 +252,9 @@ export function Header() {
               variant="ghost"
               size="icon"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="h-8 w-8 text-foreground"
+              className="h-9 w-9 text-foreground"
             >
-              {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+              {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
             </Button>
           </div>
         </div>
