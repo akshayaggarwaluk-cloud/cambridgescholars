@@ -60,25 +60,25 @@ export function Header() {
   return (
     <header
       className={cn(
-        "fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-background ",
-        isScrolled && "shadow-sm",
+        "fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-background border-b border-border/50",
+        isScrolled && "shadow-md bg-background/95 backdrop-blur-sm",
       )}
     >
       <nav className="container-wide">
-        <div className="flex items-center justify-between h-20">
+        <div className="flex items-center justify-between h-24">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-3 group">
-            <img src={logoImage} alt="Cambridge Scholars Publishing" className="h-12 w-auto" />
+            <img src={logoImage} alt="Cambridge Scholars Publishing" className="h-14 w-auto" />
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center gap-10">
+          <div className="hidden lg:flex items-center gap-8 xl:gap-12">
             {navigation.slice(0, 3).map((item) => (
               <Link
                 key={item.name}
                 to={item.href}
                 className={cn(
-                  "text-lg transition-colors duration-200 hover:text-accent relative py-1",
+                  "text-base xl:text-lg font-medium transition-colors duration-200 hover:text-accent relative py-2",
                   location.pathname === item.href 
                     ? "text-accent after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-accent" 
                     : "text-foreground",
@@ -97,26 +97,26 @@ export function Header() {
               <Link
                 to="/publish-a-book"
                 className={cn(
-                  "text-lg transition-colors duration-200 hover:text-accent flex items-center gap-1 relative py-1",
+                  "text-base xl:text-lg font-medium transition-colors duration-200 hover:text-accent flex items-center gap-1.5 relative py-2",
                   location.pathname === "/publish-a-book" || publishDropdownItems.some((item) => location.pathname === item.href)
                     ? "text-accent after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-accent"
                     : "text-foreground",
                 )}
               >
                 Publish a Book
-                <ChevronDown className={cn("h-4 w-4 transition-transform", isPublishDropdownOpen && "rotate-180")} />
+                <ChevronDown className={cn("h-4 w-4 xl:h-5 xl:w-5 transition-transform", isPublishDropdownOpen && "rotate-180")} />
               </Link>
 
               {isPublishDropdownOpen && (
-                <div className="absolute top-full left-1/2 -translate-x-1/2 pt-2 z-50">
-                  <div className="bg-background border border-border rounded-md shadow-lg py-2 w-56">
+                <div className="absolute top-full left-1/2 -translate-x-1/2 pt-3 z-50">
+                  <div className="bg-background border border-border rounded-lg shadow-xl py-2 w-60">
                     {publishDropdownItems.map((item) => (
                       <Link
                         key={item.name}
                         to={item.href}
                         className={cn(
-                          "block px-4 py-2 text-sm hover:bg-secondary transition-colors",
-                          location.pathname === item.href ? "text-accent" : "text-foreground",
+                          "block px-5 py-2.5 text-base hover:bg-secondary transition-colors",
+                          location.pathname === item.href ? "text-accent font-medium" : "text-foreground",
                         )}
                       >
                         {item.name}
@@ -132,7 +132,7 @@ export function Header() {
                 key={item.name}
                 to={item.href}
                 className={cn(
-                  "text-lg transition-colors duration-200 hover:text-accent relative py-1",
+                  "text-base xl:text-lg font-medium transition-colors duration-200 hover:text-accent relative py-2",
                   location.pathname === item.href 
                     ? "text-accent after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-accent" 
                     : "text-foreground",
@@ -144,27 +144,27 @@ export function Header() {
           </div>
 
           {/* Desktop Actions */}
-          <div className="hidden lg:flex items-center gap-2">
+          <div className="hidden lg:flex items-center gap-1 xl:gap-2">
             {isSearchOpen ? (
-              <div className="w-56 animate-fade-in">
+              <div className="w-64 animate-fade-in">
                 <SearchAutocomplete onClose={() => setIsSearchOpen(false)} />
               </div>
             ) : (
               <Button
                 variant="ghost"
                 size="icon"
-                className="h-9 w-9 text-foreground hover:bg-secondary"
+                className="h-11 w-11 text-foreground hover:bg-secondary hover:text-accent transition-colors"
                 onClick={() => setIsSearchOpen(true)}
               >
-                <Search className="h-5 w-5" />
+                <Search className="h-6 w-6" />
               </Button>
             )}
 
             <Link to="/wishlist" className="relative">
-              <Button variant="ghost" size="icon" className="h-9 w-9 text-foreground hover:bg-secondary">
-                <Heart className="h-5 w-5" />
+              <Button variant="ghost" size="icon" className="h-11 w-11 text-foreground hover:bg-secondary hover:text-accent transition-colors">
+                <Heart className="h-6 w-6" />
                 {wishlistCount > 0 && (
-                  <span className="absolute -top-1 -right-1 h-4 w-4 rounded-full bg-accent text-accent-foreground text-[10px] font-bold flex items-center justify-center">
+                  <span className="absolute -top-0.5 -right-0.5 h-5 w-5 rounded-full bg-accent text-accent-foreground text-xs font-bold flex items-center justify-center">
                     {wishlistCount}
                   </span>
                 )}
@@ -172,10 +172,10 @@ export function Header() {
             </Link>
 
             <Link to="/cart" className="relative">
-              <Button variant="ghost" size="icon" className="h-9 w-9 text-foreground hover:bg-secondary">
-                <ShoppingCart className="h-5 w-5" />
+              <Button variant="ghost" size="icon" className="h-11 w-11 text-foreground hover:bg-secondary hover:text-accent transition-colors">
+                <ShoppingCart className="h-6 w-6" />
                 {cartCount > 0 && (
-                  <span className="absolute -top-1 -right-1 h-4 w-4 rounded-full bg-accent text-accent-foreground text-[10px] font-bold flex items-center justify-center">
+                  <span className="absolute -top-0.5 -right-0.5 h-5 w-5 rounded-full bg-accent text-accent-foreground text-xs font-bold flex items-center justify-center">
                     {cartCount}
                   </span>
                 )}
@@ -185,64 +185,64 @@ export function Header() {
             {user ? (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" size="icon" className="h-9 w-9 text-foreground hover:bg-secondary">
-                    <User className="h-5 w-5" />
+                  <Button variant="ghost" size="icon" className="h-11 w-11 text-foreground hover:bg-secondary hover:text-accent transition-colors">
+                    <User className="h-6 w-6" />
                   </Button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent align="end" className="w-48">
+                <DropdownMenuContent align="end" className="w-52">
                   <DropdownMenuItem asChild>
-                    <Link to="/profile" className="flex items-center gap-2">
-                      <User className="h-4 w-4" />
-                      Profile
+                    <Link to="/profile" className="flex items-center gap-3 py-2">
+                      <User className="h-5 w-5" />
+                      <span className="text-base">Profile</span>
                     </Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem asChild>
-                    <Link to="/orders" className="flex items-center gap-2">
-                      <ShoppingCart className="h-4 w-4" />
-                      Orders
+                    <Link to="/orders" className="flex items-center gap-3 py-2">
+                      <ShoppingCart className="h-5 w-5" />
+                      <span className="text-base">Orders</span>
                     </Link>
                   </DropdownMenuItem>
                   <DropdownMenuSeparator />
-                  <DropdownMenuItem onClick={handleSignOut} className="flex items-center gap-2">
-                    <LogOut className="h-4 w-4" />
-                    Sign Out
+                  <DropdownMenuItem onClick={handleSignOut} className="flex items-center gap-3 py-2">
+                    <LogOut className="h-5 w-5" />
+                    <span className="text-base">Sign Out</span>
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
             ) : (
               <Link to="/auth">
-                <Button variant="ghost" size="icon" className="h-9 w-9 text-foreground hover:bg-secondary">
-                  <User className="h-5 w-5" />
+                <Button variant="ghost" size="icon" className="h-11 w-11 text-foreground hover:bg-secondary hover:text-accent transition-colors">
+                  <User className="h-6 w-6" />
                 </Button>
               </Link>
             )}
           </div>
 
           {/* Mobile Menu Button */}
-          <div className="flex lg:hidden items-center gap-2">
+          <div className="flex lg:hidden items-center gap-1">
             <Button
               variant="ghost"
               size="icon"
-              className="h-9 w-9 text-foreground"
+              className="h-11 w-11 text-foreground"
               onClick={() => setIsSearchOpen(!isSearchOpen)}
             >
-              <Search className="h-5 w-5" />
+              <Search className="h-6 w-6" />
             </Button>
             <Link to="/wishlist" className="relative">
-              <Button variant="ghost" size="icon" className="h-9 w-9 text-foreground">
-                <Heart className="h-5 w-5" />
+              <Button variant="ghost" size="icon" className="h-11 w-11 text-foreground">
+                <Heart className="h-6 w-6" />
                 {wishlistCount > 0 && (
-                  <span className="absolute -top-1 -right-1 h-4 w-4 rounded-full bg-accent text-accent-foreground text-[10px] font-bold flex items-center justify-center">
+                  <span className="absolute -top-0.5 -right-0.5 h-5 w-5 rounded-full bg-accent text-accent-foreground text-xs font-bold flex items-center justify-center">
                     {wishlistCount}
                   </span>
                 )}
               </Button>
             </Link>
             <Link to="/cart" className="relative">
-              <Button variant="ghost" size="icon" className="h-9 w-9 text-foreground">
-                <ShoppingCart className="h-5 w-5" />
+              <Button variant="ghost" size="icon" className="h-11 w-11 text-foreground">
+                <ShoppingCart className="h-6 w-6" />
                 {cartCount > 0 && (
-                  <span className="absolute -top-1 -right-1 h-4 w-4 rounded-full bg-accent text-accent-foreground text-[10px] font-bold flex items-center justify-center">
+                  <span className="absolute -top-0.5 -right-0.5 h-5 w-5 rounded-full bg-accent text-accent-foreground text-xs font-bold flex items-center justify-center">
                     {cartCount}
                   </span>
                 )}
@@ -252,9 +252,9 @@ export function Header() {
               variant="ghost"
               size="icon"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="h-9 w-9 text-foreground"
+              className="h-11 w-11 text-foreground"
             >
-              {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+              {isMenuOpen ? <X className="h-7 w-7" /> : <Menu className="h-7 w-7" />}
             </Button>
           </div>
         </div>
