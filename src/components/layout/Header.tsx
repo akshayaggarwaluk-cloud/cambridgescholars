@@ -153,29 +153,29 @@ export function Header() {
               <Button
                 variant="ghost"
                 size="icon"
-                className="h-11 w-11 text-foreground hover:bg-secondary hover:text-accent transition-colors"
+                className="h-11 w-11 text-foreground hover:bg-secondary/80 hover:text-accent transition-all duration-200 hover:scale-110 active:scale-95"
                 onClick={() => setIsSearchOpen(true)}
               >
-                <Search className="h-6 w-6" />
+                <Search className="h-6 w-6 transition-transform duration-200" />
               </Button>
             )}
 
-            <Link to="/wishlist" className="relative">
-              <Button variant="ghost" size="icon" className="h-11 w-11 text-foreground hover:bg-secondary hover:text-accent transition-colors">
-                <Heart className="h-6 w-6" />
+            <Link to="/wishlist" className="relative group">
+              <Button variant="ghost" size="icon" className="h-11 w-11 text-foreground hover:bg-secondary/80 hover:text-accent transition-all duration-200 hover:scale-110 active:scale-95">
+                <Heart className="h-6 w-6 transition-transform duration-200 group-hover:fill-accent/20" />
                 {wishlistCount > 0 && (
-                  <span className="absolute -top-0.5 -right-0.5 h-5 w-5 rounded-full bg-accent text-accent-foreground text-xs font-bold flex items-center justify-center">
+                  <span className="absolute -top-0.5 -right-0.5 h-5 w-5 rounded-full bg-accent text-accent-foreground text-xs font-bold flex items-center justify-center animate-scale-in">
                     {wishlistCount}
                   </span>
                 )}
               </Button>
             </Link>
 
-            <Link to="/cart" className="relative">
-              <Button variant="ghost" size="icon" className="h-11 w-11 text-foreground hover:bg-secondary hover:text-accent transition-colors">
-                <ShoppingCart className="h-6 w-6" />
+            <Link to="/cart" className="relative group">
+              <Button variant="ghost" size="icon" className="h-11 w-11 text-foreground hover:bg-secondary/80 hover:text-accent transition-all duration-200 hover:scale-110 active:scale-95">
+                <ShoppingCart className="h-6 w-6 transition-transform duration-200" />
                 {cartCount > 0 && (
-                  <span className="absolute -top-0.5 -right-0.5 h-5 w-5 rounded-full bg-accent text-accent-foreground text-xs font-bold flex items-center justify-center">
+                  <span className="absolute -top-0.5 -right-0.5 h-5 w-5 rounded-full bg-accent text-accent-foreground text-xs font-bold flex items-center justify-center animate-scale-in">
                     {cartCount}
                   </span>
                 )}
@@ -185,25 +185,25 @@ export function Header() {
             {user ? (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" size="icon" className="h-11 w-11 text-foreground hover:bg-secondary hover:text-accent transition-colors">
-                    <User className="h-6 w-6" />
+                  <Button variant="ghost" size="icon" className="h-11 w-11 text-foreground hover:bg-secondary/80 hover:text-accent transition-all duration-200 hover:scale-110 active:scale-95">
+                    <User className="h-6 w-6 transition-transform duration-200" />
                   </Button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent align="end" className="w-52">
+                <DropdownMenuContent align="end" className="w-52 animate-scale-in">
                   <DropdownMenuItem asChild>
-                    <Link to="/profile" className="flex items-center gap-3 py-2">
+                    <Link to="/profile" className="flex items-center gap-3 py-2 transition-colors hover:text-accent">
                       <User className="h-5 w-5" />
                       <span className="text-base">Profile</span>
                     </Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem asChild>
-                    <Link to="/orders" className="flex items-center gap-3 py-2">
+                    <Link to="/orders" className="flex items-center gap-3 py-2 transition-colors hover:text-accent">
                       <ShoppingCart className="h-5 w-5" />
                       <span className="text-base">Orders</span>
                     </Link>
                   </DropdownMenuItem>
                   <DropdownMenuSeparator />
-                  <DropdownMenuItem onClick={handleSignOut} className="flex items-center gap-3 py-2">
+                  <DropdownMenuItem onClick={handleSignOut} className="flex items-center gap-3 py-2 transition-colors hover:text-accent">
                     <LogOut className="h-5 w-5" />
                     <span className="text-base">Sign Out</span>
                   </DropdownMenuItem>
@@ -211,8 +211,8 @@ export function Header() {
               </DropdownMenu>
             ) : (
               <Link to="/auth">
-                <Button variant="ghost" size="icon" className="h-11 w-11 text-foreground hover:bg-secondary hover:text-accent transition-colors">
-                  <User className="h-6 w-6" />
+                <Button variant="ghost" size="icon" className="h-11 w-11 text-foreground hover:bg-secondary/80 hover:text-accent transition-all duration-200 hover:scale-110 active:scale-95">
+                  <User className="h-6 w-6 transition-transform duration-200" />
                 </Button>
               </Link>
             )}
@@ -223,26 +223,26 @@ export function Header() {
             <Button
               variant="ghost"
               size="icon"
-              className="h-11 w-11 text-foreground"
+              className="h-11 w-11 text-foreground transition-all duration-200 hover:scale-110 active:scale-95 hover:text-accent"
               onClick={() => setIsSearchOpen(!isSearchOpen)}
             >
               <Search className="h-6 w-6" />
             </Button>
-            <Link to="/wishlist" className="relative">
-              <Button variant="ghost" size="icon" className="h-11 w-11 text-foreground">
-                <Heart className="h-6 w-6" />
+            <Link to="/wishlist" className="relative group">
+              <Button variant="ghost" size="icon" className="h-11 w-11 text-foreground transition-all duration-200 hover:scale-110 active:scale-95 hover:text-accent">
+                <Heart className="h-6 w-6 group-hover:fill-accent/20" />
                 {wishlistCount > 0 && (
-                  <span className="absolute -top-0.5 -right-0.5 h-5 w-5 rounded-full bg-accent text-accent-foreground text-xs font-bold flex items-center justify-center">
+                  <span className="absolute -top-0.5 -right-0.5 h-5 w-5 rounded-full bg-accent text-accent-foreground text-xs font-bold flex items-center justify-center animate-scale-in">
                     {wishlistCount}
                   </span>
                 )}
               </Button>
             </Link>
-            <Link to="/cart" className="relative">
-              <Button variant="ghost" size="icon" className="h-11 w-11 text-foreground">
+            <Link to="/cart" className="relative group">
+              <Button variant="ghost" size="icon" className="h-11 w-11 text-foreground transition-all duration-200 hover:scale-110 active:scale-95 hover:text-accent">
                 <ShoppingCart className="h-6 w-6" />
                 {cartCount > 0 && (
-                  <span className="absolute -top-0.5 -right-0.5 h-5 w-5 rounded-full bg-accent text-accent-foreground text-xs font-bold flex items-center justify-center">
+                  <span className="absolute -top-0.5 -right-0.5 h-5 w-5 rounded-full bg-accent text-accent-foreground text-xs font-bold flex items-center justify-center animate-scale-in">
                     {cartCount}
                   </span>
                 )}
@@ -252,7 +252,7 @@ export function Header() {
               variant="ghost"
               size="icon"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="h-11 w-11 text-foreground"
+              className="h-11 w-11 text-foreground transition-all duration-200 hover:scale-110 active:scale-95 hover:text-accent"
             >
               {isMenuOpen ? <X className="h-7 w-7" /> : <Menu className="h-7 w-7" />}
             </Button>
