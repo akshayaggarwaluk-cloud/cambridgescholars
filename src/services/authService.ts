@@ -1,11 +1,10 @@
 /**
  * CSP Auth Service
  * 
- * Authentication API endpoints for the CSP Auth Service
- * Base URL: http://54.253.4.186:8001
+ * Authentication API endpoints proxied through edge function to avoid CORS
  */
 
-const AUTH_API_BASE = "http://54.253.4.186:8001/api/auth";
+import { supabase } from "@/integrations/supabase/client";
 
 // =============================================================================
 // TYPE DEFINITIONS
@@ -33,6 +32,41 @@ export interface UserExistsResponse {
 }
 
 // =============================================================================
+// HELPER FUNCTION
+// =============================================================================
+
+async function callAuthEndpoint(endpoint: string, body: Record<string, unknown>) {
+  const { data, error } = await supabase.functions.invoke("auth-proxy", {
+    body,
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  // Add endpoint as query param workaround - invoke doesn't support query params directly
+  // So we'll pass it in the body instead
+  const response = await fetch(
+    `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/auth-proxy?endpoint=${endpoint}`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "apikey": import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY,
+      },
+      body: JSON.stringify(body),
+    }
+  );
+
+  const responseData = await response.json();
+
+  if (!response.ok) {
+    throw new Error(responseData.message || responseData.error || "Request failed");
+  }
+
+  return responseData;
+}
+
+// =============================================================================
 // AUTH API FUNCTIONS
 // =============================================================================
 
@@ -41,21 +75,7 @@ export interface UserExistsResponse {
  * Register a new user with email
  */
 export async function register(email: string): Promise<AuthResponse> {
-  const response = await fetch(`${AUTH_API_BASE}/register`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ email }),
-  });
-
-  const data = await response.json();
-
-  if (!response.ok) {
-    throw new Error(data.message || "Registration failed");
-  }
-
-  return data;
+  return callAuthEndpoint("register", { email });
 }
 
 /**
@@ -63,21 +83,7 @@ export async function register(email: string): Promise<AuthResponse> {
  * Login with email and password
  */
 export async function login(email: string, password: string): Promise<AuthResponse> {
-  const response = await fetch(`${AUTH_API_BASE}/login`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ email, password }),
-  });
-
-  const data = await response.json();
-
-  if (!response.ok) {
-    throw new Error(data.message || "Login failed");
-  }
-
-  return data;
+  return callAuthEndpoint("login", { email, password });
 }
 
 /**
@@ -85,21 +91,7 @@ export async function login(email: string, password: string): Promise<AuthRespon
  * Check if a user exists by email
  */
 export async function checkUserExists(email: string): Promise<UserExistsResponse> {
-  const response = await fetch(`${AUTH_API_BASE}/user-exist`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ email }),
-  });
-
-  const data = await response.json();
-
-  if (!response.ok) {
-    throw new Error(data.message || "Failed to check user");
-  }
-
-  return data;
+  return callAuthEndpoint("user-exist", { email });
 }
 
 /**
@@ -107,21 +99,7 @@ export async function checkUserExists(email: string): Promise<UserExistsResponse
  * Send OTP to email for verification
  */
 export async function sendOtp(email: string): Promise<OtpResponse> {
-  const response = await fetch(`${AUTH_API_BASE}/send-otp`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ email }),
-  });
-
-  const data = await response.json();
-
-  if (!response.ok) {
-    throw new Error(data.message || "Failed to send OTP");
-  }
-
-  return data;
+  return callAuthEndpoint("send-otp", { email });
 }
 
 /**
@@ -129,21 +107,7 @@ export async function sendOtp(email: string): Promise<OtpResponse> {
  * Validate the OTP entered by user
  */
 export async function validateOtp(email: string, otp: string): Promise<OtpResponse> {
-  const response = await fetch(`${AUTH_API_BASE}/validate-otp`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ email, otp }),
-  });
-
-  const data = await response.json();
-
-  if (!response.ok) {
-    throw new Error(data.message || "Invalid OTP");
-  }
-
-  return data;
+  return callAuthEndpoint("validate-otp", { email, otp });
 }
 
 /**
@@ -151,21 +115,7 @@ export async function validateOtp(email: string, otp: string): Promise<OtpRespon
  * Request password reset link/OTP
  */
 export async function forgotPassword(email: string): Promise<OtpResponse> {
-  const response = await fetch(`${AUTH_API_BASE}/forgot-password`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ email }),
-  });
-
-  const data = await response.json();
-
-  if (!response.ok) {
-    throw new Error(data.message || "Failed to send reset link");
-  }
-
-  return data;
+  return callAuthEndpoint("forgot-password", { email });
 }
 
 /**
@@ -177,21 +127,7 @@ export async function resetPassword(
   otp: string, 
   newPassword: string
 ): Promise<AuthResponse> {
-  const response = await fetch(`${AUTH_API_BASE}/reset-password`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ email, otp, password: newPassword }),
-  });
-
-  const data = await response.json();
-
-  if (!response.ok) {
-    throw new Error(data.message || "Failed to reset password");
-  }
-
-  return data;
+  return callAuthEndpoint("reset-password", { email, otp, password: newPassword });
 }
 
 // =============================================================================
