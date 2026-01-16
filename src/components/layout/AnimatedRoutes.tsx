@@ -2,6 +2,7 @@ import { ReactNode } from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
 import { PageTransition } from "./PageTransition";
+import ProtectedRoute from "./ProtectedRoute";
 
 import Index from "@/pages/Index";
 import Books from "@/pages/Books";
@@ -40,16 +41,16 @@ export function AnimatedRoutes() {
         <Route path="/books" element={<PageTransition><Books /></PageTransition>} />
         <Route path="/books/:id" element={<PageTransition><BookDetails /></PageTransition>} />
         <Route path="/cart" element={<PageTransition><Cart /></PageTransition>} />
-        <Route path="/checkout" element={<PageTransition><Checkout /></PageTransition>} />
+        <Route path="/checkout" element={<PageTransition><ProtectedRoute><Checkout /></ProtectedRoute></PageTransition>} />
         <Route path="/about" element={<PageTransition><About /></PageTransition>} />
         <Route path="/contact" element={<PageTransition><Contact /></PageTransition>} />
         <Route path="/auth" element={<PageTransition><Auth /></PageTransition>} />
         <Route path="/set-password" element={<PageTransition><SetPassword /></PageTransition>} />
-        <Route path="/profile" element={<PageTransition><ExternalProfile /></PageTransition>} />
-        <Route path="/orders" element={<PageTransition><Orders /></PageTransition>} />
+        <Route path="/profile" element={<PageTransition><ProtectedRoute><ExternalProfile /></ProtectedRoute></PageTransition>} />
+        <Route path="/orders" element={<PageTransition><ProtectedRoute><Orders /></ProtectedRoute></PageTransition>} />
         <Route path="/publish" element={<PageTransition><PublishBook /></PageTransition>} />
         <Route path="/publish-a-book" element={<PageTransition><PublishABook /></PageTransition>} />
-        <Route path="/wishlist" element={<PageTransition><Wishlist /></PageTransition>} />
+        <Route path="/wishlist" element={<PageTransition><ProtectedRoute><Wishlist /></ProtectedRoute></PageTransition>} />
         <Route path="/faq" element={<PageTransition><FAQ /></PageTransition>} />
         <Route path="/how-to-publish" element={<PageTransition><HowToPublish /></PageTransition>} />
         <Route path="/submit-proposal" element={<PageTransition><SubmitProposal /></PageTransition>} />
