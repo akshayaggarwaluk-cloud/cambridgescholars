@@ -39,7 +39,7 @@ type AuthStep =
 export default function Auth() {
   // Current step in auth flow
   const [step, setStep] = useState<AuthStep>("login");
-  
+  const [passwordFlow, setPasswordFlow] = useState<"register" | "reset">("register");
   // Login form state
   const [loginEmail, setLoginEmail] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
@@ -166,9 +166,10 @@ export default function Auth() {
     setRegisterLoading(true);
 
     try {
-      await register(registerEmail);
+      setPasswordFlow("register");
+      // Registration OTP flow: first send OTP, then after verification we create the account.
       await sendOtp(registerEmail);
-      
+
       toast.success("OTP sent to your email address");
       setStep("verify-otp");
     } catch (error) {
@@ -238,10 +239,16 @@ export default function Auth() {
     setPasswordLoading(true);
 
     try {
-      const email = forgotEmail || registerEmail;
-      await resetPassword(email, otp, newPassword);
-      
-      toast.success("Password set successfully! Please login.");
+      if (passwordFlow === "reset") {
+        // Forgot password flow
+        await resetPassword(forgotEmail, otp, newPassword);
+        toast.success("Password reset successfully! Please login.");
+      } else {
+        // Registration flow (OTP already validated)
+        await register(registerEmail, newPassword, registerEmail);
+        toast.success("Account created successfully! Please login.");
+      }
+
       resetForms();
       setStep("login");
     } catch (error) {
@@ -269,6 +276,7 @@ export default function Auth() {
     setForgotLoading(true);
 
     try {
+      setPasswordFlow("reset");
       await forgotPassword(forgotEmail);
       await sendOtp(forgotEmail);
       

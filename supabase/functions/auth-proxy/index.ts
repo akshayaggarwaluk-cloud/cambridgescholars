@@ -16,7 +16,15 @@ serve(async (req) => {
 
   try {
     const url = new URL(req.url);
-    const endpoint = url.searchParams.get("endpoint");
+
+    // Allow endpoint to be passed either as a query param OR in the JSON body.
+    // supabase.functions.invoke() does not support query params, so the client
+    // passes endpoint in the body.
+    const rawBody = await req.json().catch(() => ({} as Record<string, unknown>));
+
+    const endpointFromQuery = url.searchParams.get("endpoint");
+    const endpointFromBody = typeof rawBody?.endpoint === "string" ? rawBody.endpoint : null;
+    const endpoint = endpointFromQuery ?? endpointFromBody;
 
     if (!endpoint) {
       return new Response(
@@ -42,7 +50,9 @@ serve(async (req) => {
       );
     }
 
-    const body = await req.json();
+    // Remove 'endpoint' from the forwarded body so the upstream API receives only
+    // the fields it expects.
+    const { endpoint: _ignored, ...body } = rawBody as Record<string, unknown>;
 
     console.log(`Proxying request to: ${AUTH_API_BASE}/${endpoint}`);
 

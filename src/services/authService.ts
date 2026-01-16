@@ -37,33 +37,17 @@ export interface UserExistsResponse {
 
 async function callAuthEndpoint(endpoint: string, body: Record<string, unknown>) {
   const { data, error } = await supabase.functions.invoke("auth-proxy", {
-    body,
-    headers: {
-      "Content-Type": "application/json",
+    body: {
+      endpoint,
+      ...body,
     },
   });
 
-  // Add endpoint as query param workaround - invoke doesn't support query params directly
-  // So we'll pass it in the body instead
-  const response = await fetch(
-    `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/auth-proxy?endpoint=${endpoint}`,
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "apikey": import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY,
-      },
-      body: JSON.stringify(body),
-    }
-  );
-
-  const responseData = await response.json();
-
-  if (!response.ok) {
-    throw new Error(responseData.message || responseData.error || "Request failed");
+  if (error) {
+    throw new Error(error.message || "Request failed");
   }
 
-  return responseData;
+  return data;
 }
 
 // =============================================================================
@@ -72,10 +56,18 @@ async function callAuthEndpoint(endpoint: string, body: Record<string, unknown>)
 
 /**
  * POST /api/auth/register
- * Register a new user with email
+ * Register a new user (OTP must already be validated if required)
  */
-export async function register(email: string): Promise<AuthResponse> {
-  return callAuthEndpoint("register", { email });
+export async function register(
+  email: string,
+  password: string,
+  username?: string
+): Promise<AuthResponse> {
+  return callAuthEndpoint("register", {
+    email,
+    password,
+    username: username ?? email,
+  });
 }
 
 /**
