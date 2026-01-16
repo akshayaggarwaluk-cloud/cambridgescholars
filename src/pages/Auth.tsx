@@ -168,7 +168,7 @@ export default function Auth() {
     try {
       setPasswordFlow("register");
       // Registration OTP flow: first send OTP, then after verification we create the account.
-      await sendOtp(registerEmail);
+      await sendOtp(registerEmail, "registration");
 
       toast.success("OTP sent to your email address");
       setStep("verify-otp");
@@ -220,8 +220,9 @@ export default function Auth() {
     setResendLoading(true);
 
     try {
-      const email = step === "reset-password" || forgotEmail ? forgotEmail : registerEmail;
-      await sendOtp(email);
+      const email = passwordFlow === "reset" ? forgotEmail : registerEmail;
+      const purpose = passwordFlow === "reset" ? "password_reset" : "registration";
+      await sendOtp(email, purpose);
       toast.success("OTP resent to your email");
     } catch (error) {
       const message = error instanceof Error ? error.message : "Failed to resend OTP";
@@ -278,7 +279,7 @@ export default function Auth() {
     try {
       setPasswordFlow("reset");
       await forgotPassword(forgotEmail);
-      await sendOtp(forgotEmail);
+      await sendOtp(forgotEmail, "password_reset");
       
       toast.success("OTP sent to your email address");
       setStep("reset-password");
