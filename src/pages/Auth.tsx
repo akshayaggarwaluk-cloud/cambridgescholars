@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Eye, EyeOff, ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -9,14 +9,14 @@ import { toast } from "sonner";
 import { z } from "zod";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import { useExternalAuth } from "@/contexts/ExternalAuthContext";
 import { 
-  login, 
-  register, 
+  login as apiLogin, 
+  register as apiRegister, 
   sendOtp, 
   validateOtp, 
   forgotPassword, 
   resetPassword,
-  setAuthToken 
 } from "@/services/authService";
 import {
   InputOTP,
@@ -37,10 +37,19 @@ type AuthStep =
   | "reset-password";
 
 export default function Auth() {
+  const { login: authLogin, isAuthenticated } = useExternalAuth();
+  const navigate = useNavigate();
+
+  // Redirect if already authenticated
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate("/profile");
+    }
+  }, [isAuthenticated, navigate]);
+
   // Current step in auth flow
   const [step, setStep] = useState<AuthStep>("login");
   const [passwordFlow, setPasswordFlow] = useState<"register" | "reset">("register");
-  // Login form state
   const [loginEmail, setLoginEmail] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -71,7 +80,7 @@ export default function Auth() {
   const [forgotLoading, setForgotLoading] = useState(false);
   const [forgotErrors, setForgotErrors] = useState<{ email?: string }>({});
 
-  const navigate = useNavigate();
+  // navigate is already declared at top
 
   const validateLoginForm = () => {
     const newErrors: { email?: string; password?: string } = {};
@@ -138,14 +147,20 @@ export default function Auth() {
     setLoginLoading(true);
 
     try {
-      const data = await login(loginEmail, loginPassword);
+      const data = await apiLogin(loginEmail, loginPassword);
 
       if (data.token) {
-        setAuthToken(data.token);
+        // Store user session in ExternalAuthContext
+        authLogin(data.token, {
+          id: data.user?.id || "",
+          email: data.user?.email || loginEmail,
+          username: data.user?.name || loginEmail,
+          name: data.user?.name,
+        });
       }
 
       toast.success("Welcome back!");
-      navigate("/");
+      navigate("/profile");
     } catch (error) {
       const message = error instanceof Error ? error.message : "Login failed";
       if (message.includes("Invalid") || message.includes("incorrect")) {
@@ -247,7 +262,7 @@ export default function Auth() {
         toast.success("Password reset successfully! Please login.");
       } else {
         // Registration flow (OTP already validated)
-        await register(registerEmail, newPassword, registerEmail);
+        await apiRegister(registerEmail, newPassword, registerEmail);
         toast.success("Account created successfully! Please login.");
       }
 
