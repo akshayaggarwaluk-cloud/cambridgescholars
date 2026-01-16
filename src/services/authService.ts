@@ -89,9 +89,13 @@ export async function checkUserExists(email: string): Promise<UserExistsResponse
 /**
  * POST /api/auth/send-otp
  * Send OTP to email for verification
+ * @param purpose - "registration" or "password_reset"
  */
-export async function sendOtp(email: string): Promise<OtpResponse> {
-  return callAuthEndpoint("send-otp", { email });
+export async function sendOtp(
+  email: string,
+  purpose: "registration" | "password_reset" = "registration"
+): Promise<OtpResponse> {
+  return callAuthEndpoint("send-otp", { email, purpose });
 }
 
 /**
