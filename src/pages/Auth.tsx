@@ -197,8 +197,9 @@ export default function Auth() {
     setOtpLoading(true);
 
     try {
-      const email = step === "reset-password" ? forgotEmail : registerEmail;
-      await validateOtp(email, otp);
+      const email = passwordFlow === "reset" ? forgotEmail : registerEmail;
+      const purpose = passwordFlow === "reset" ? "password_reset" : "registration";
+      await validateOtp(email, otp, purpose);
       
       toast.success("Email verified successfully!");
       
