@@ -101,9 +101,14 @@ export async function sendOtp(
 /**
  * POST /api/auth/validate-otp
  * Validate the OTP entered by user
+ * API expects: otp_code + purpose
  */
-export async function validateOtp(email: string, otp: string): Promise<OtpResponse> {
-  return callAuthEndpoint("validate-otp", { email, otp });
+export async function validateOtp(
+  email: string,
+  otp: string,
+  purpose: "registration" | "password_reset" = "registration"
+): Promise<OtpResponse> {
+  return callAuthEndpoint("validate-otp", { email, otp_code: otp, purpose });
 }
 
 /**
