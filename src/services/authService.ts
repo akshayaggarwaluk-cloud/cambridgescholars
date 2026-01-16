@@ -10,14 +10,30 @@ import { supabase } from "@/integrations/supabase/client";
 // TYPE DEFINITIONS
 // =============================================================================
 
+export interface AuthUserData {
+  id: number | string;
+  email: string;
+  username?: string;
+  full_name?: string | null;
+  name?: string;
+  phone?: string | null;
+  is_active?: boolean;
+  is_verified?: boolean;
+  created_at?: string;
+}
+
 export interface AuthResponse {
   success: boolean;
   message?: string;
+  error?: string | null;
+  // Direct token (legacy format)
   token?: string;
-  user?: {
-    id: string;
-    email: string;
-    name?: string;
+  user?: AuthUserData;
+  // Nested data format (current API)
+  data?: {
+    access_token?: string;
+    token_type?: string;
+    user?: AuthUserData;
   };
 }
 

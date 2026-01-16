@@ -147,20 +147,26 @@ export default function Auth() {
     setLoginLoading(true);
 
     try {
-      const data = await apiLogin(loginEmail, loginPassword);
+      const response = await apiLogin(loginEmail, loginPassword);
 
-      if (data.token) {
+      // API returns: { success, message, data: { access_token, user: {...} } }
+      const token = response.data?.access_token || response.token;
+      const userData = response.data?.user || response.user;
+
+      if (token && userData) {
         // Store user session in ExternalAuthContext
-        authLogin(data.token, {
-          id: data.user?.id || "",
-          email: data.user?.email || loginEmail,
-          username: data.user?.name || loginEmail,
-          name: data.user?.name,
+        authLogin(token, {
+          id: String(userData.id || ""),
+          email: userData.email || loginEmail,
+          username: userData.username || loginEmail,
+          name: userData.full_name || userData.name,
         });
+        
+        toast.success("Welcome back!");
+        navigate("/profile");
+      } else {
+        toast.error("Login failed: Invalid response from server");
       }
-
-      toast.success("Welcome back!");
-      navigate("/profile");
     } catch (error) {
       const message = error instanceof Error ? error.message : "Login failed";
       if (message.includes("Invalid") || message.includes("incorrect")) {
