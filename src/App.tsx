@@ -12,25 +12,27 @@ import { AnimatedRoutes } from "@/components/layout/AnimatedRoutes";
 
 const queryClient = new QueryClient();
 
-const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <AuthProvider>
-        <ExternalAuthProvider>
-          <CartProvider>
-            <WishlistProvider>
-              <Toaster />
-              <Sonner />
-              <BrowserRouter>
-                <AnimatedRoutes />
-                <LiveChatWidget />
-              </BrowserRouter>
-            </WishlistProvider>
-          </CartProvider>
-        </ExternalAuthProvider>
-      </AuthProvider>
-    </TooltipProvider>
-  </QueryClientProvider>
-);
+function App() {
+  return (
+    <QueryClientProvider client={queryClient}>
+      <TooltipProvider>
+        <BrowserRouter>
+          <AuthProvider>
+            <ExternalAuthProvider>
+              <CartProvider>
+                <WishlistProvider>
+                  <Toaster />
+                  <Sonner />
+                  <AnimatedRoutes />
+                  <LiveChatWidget />
+                </WishlistProvider>
+              </CartProvider>
+            </ExternalAuthProvider>
+          </AuthProvider>
+        </BrowserRouter>
+      </TooltipProvider>
+    </QueryClientProvider>
+  );
+}
 
 export default App;
