@@ -44,14 +44,18 @@ export default function Checkout() {
     setLoading(true);
     
     try {
-      // Create order
-      const { data: order, error: orderError } = await supabase
-        .from("orders")
-        .insert({
-          user_id: user.id,
-          total: cartTotal,
-          status: "completed",
-          shipping_address: {
+      // Use secure edge function that calculates total server-side
+      const { data, error } = await supabase.functions.invoke("create-order", {
+        body: {
+          items: items.map((item) => ({
+            id: item.id,
+            title: item.title,
+            author: item.author,
+            image: item.image,
+            quantity: item.quantity,
+            format: item.format,
+          })),
+          shippingAddress: {
             firstName: formData.firstName,
             lastName: formData.lastName,
             address: formData.address,
@@ -59,28 +63,14 @@ export default function Checkout() {
             zip: formData.zip,
             phone: formData.phone,
           },
-        })
-        .select()
-        .single();
+        },
+      });
 
-      if (orderError) throw orderError;
-
-      // Create order items
-      const orderItems = items.map((item) => ({
-        order_id: order.id,
-        book_id: item.id,
-        book_title: item.title,
-        book_author: item.author,
-        book_image: item.image,
-        price: item.price,
-        quantity: item.quantity,
-      }));
-
-      const { error: itemsError } = await supabase
-        .from("order_items")
-        .insert(orderItems);
-
-      if (itemsError) throw itemsError;
+      if (error) throw error;
+      
+      if (!data?.success) {
+        throw new Error(data?.error || "Failed to create order");
+      }
 
       // Clear cart
       await clearCart();
