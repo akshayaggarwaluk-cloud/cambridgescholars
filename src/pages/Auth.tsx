@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Eye, EyeOff, ArrowLeft } from "lucide-react";
+import { Eye, EyeOff, ArrowLeft, AlertTriangle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -17,6 +17,7 @@ import {
   validateOtp, 
   forgotPassword, 
   resetPassword,
+  checkUserExists,
 } from "@/services/authService";
 import {
   InputOTP,
@@ -61,6 +62,7 @@ export default function Auth() {
   const [registerEmail, setRegisterEmail] = useState("");
   const [registerLoading, setRegisterLoading] = useState(false);
   const [registerErrors, setRegisterErrors] = useState<{ email?: string }>({});
+  const [registrationError, setRegistrationError] = useState<string | null>(null);
 
   // OTP verification state
   const [otp, setOtp] = useState("");
@@ -185,8 +187,18 @@ export default function Auth() {
     if (!validateRegisterForm()) return;
 
     setRegisterLoading(true);
+    setRegistrationError(null);
 
     try {
+      // First check if user already exists before sending OTP
+      const userExistsResult = await checkUserExists(registerEmail);
+      
+      if (userExistsResult.exists) {
+        setRegistrationError(`An account is already registered with ${registerEmail}. Please log in or use a different email address.`);
+        setRegisterLoading(false);
+        return;
+      }
+
       setPasswordFlow("register");
       // Registration OTP flow: first send OTP, then after verification we create the account.
       await sendOtp(registerEmail, "registration");
@@ -196,7 +208,7 @@ export default function Auth() {
     } catch (error) {
       const message = error instanceof Error ? error.message : "Registration failed";
       if (message.includes("already registered") || message.includes("already exists")) {
-        toast.error(`An account is already registered with ${registerEmail}. Please log in or use a different email address.`);
+        setRegistrationError(`An account is already registered with ${registerEmail}. Please log in or use a different email address.`);
       } else {
         toast.error(message);
       }
@@ -643,7 +655,19 @@ export default function Auth() {
   );
 
   const renderLoginRegister = () => (
-    <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16">
+    <div className="space-y-8">
+      {/* Error Banner */}
+      {registrationError && (
+        <div className="bg-red-50 border-l-4 border-red-500 p-4 flex items-start gap-3">
+          <AlertTriangle className="h-5 w-5 text-red-500 flex-shrink-0 mt-0.5" />
+          <p className="text-foreground">
+            <span className="font-semibold text-red-600">Error:</span>{" "}
+            {registrationError}
+          </p>
+        </div>
+      )}
+      
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16">
       {/* Login Section */}
       <div className="space-y-6">
         <h2 className="font-serif text-2xl md:text-3xl font-normal text-foreground">
@@ -801,6 +825,7 @@ export default function Auth() {
             )}
           </Button>
         </form>
+      </div>
       </div>
     </div>
   );
