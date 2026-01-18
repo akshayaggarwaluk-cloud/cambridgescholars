@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { Package, Calendar, ShoppingBag } from "lucide-react";
+import { Package, Calendar, ShoppingBag, ArrowRight, Info } from "lucide-react";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { PageBreadcrumb } from "@/components/layout/PageBreadcrumb";
 import { Button } from "@/components/ui/button";
-import { useAuth } from "@/contexts/AuthContext";
+import { useExternalAuth } from "@/contexts/ExternalAuthContext";
 import { supabase } from "@/integrations/supabase/client";
 
 interface OrderItem {
@@ -26,15 +26,15 @@ interface Order {
 }
 
 export default function Orders() {
-  const { user } = useAuth();
+  const { user, isAuthenticated } = useExternalAuth();
   const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (user) {
+    if (isAuthenticated && user) {
       loadOrders();
     }
-  }, [user]);
+  }, [isAuthenticated, user]);
 
   const loadOrders = async () => {
     if (!user) return;
@@ -61,17 +61,17 @@ export default function Orders() {
   const getStatusColor = (status: string) => {
     switch (status) {
       case "completed":
-        return "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200";
+        return "bg-green-100 text-green-800";
       case "processing":
-        return "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200";
+        return "bg-blue-100 text-blue-800";
       case "pending":
-        return "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200";
+        return "bg-yellow-100 text-yellow-800";
       default:
         return "bg-muted text-muted-foreground";
     }
   };
 
-  if (!user) {
+  if (!isAuthenticated) {
     return (
       <div className="min-h-screen bg-background">
         <Header />
@@ -114,17 +114,14 @@ export default function Orders() {
               <p className="text-muted-foreground">Loading orders...</p>
             </div>
           ) : orders.length === 0 ? (
-            <div className="text-center py-16">
-              <ShoppingBag className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
-              <h2 className="font-serif text-2xl font-bold text-foreground mb-4">
-                No orders yet
-              </h2>
-              <p className="text-muted-foreground mb-8">
-                Start shopping to see your orders here.
-              </p>
-              <Button asChild variant="gold" size="lg">
-                <Link to="/books">Browse Books</Link>
-              </Button>
+            <div className="bg-teal-600 text-white p-4 rounded flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <Info className="h-5 w-5" />
+                <span>No order has been made yet.</span>
+              </div>
+              <Link to="/books" className="flex items-center gap-2 hover:underline">
+                Browse products <ArrowRight className="h-4 w-4" />
+              </Link>
             </div>
           ) : (
             <div className="space-y-6">
