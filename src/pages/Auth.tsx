@@ -196,7 +196,7 @@ export default function Auth() {
     } catch (error) {
       const message = error instanceof Error ? error.message : "Registration failed";
       if (message.includes("already registered") || message.includes("already exists")) {
-        toast.error("This email is already registered. Please sign in instead.");
+        toast.error(`An account is already registered with ${registerEmail}. Please log in or use a different email address.`);
       } else {
         toast.error(message);
       }

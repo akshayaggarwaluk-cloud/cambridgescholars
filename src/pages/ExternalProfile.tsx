@@ -79,40 +79,6 @@ export default function ExternalProfile() {
         </button>
         .
       </p>
-
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 pt-2">
-        <Link
-          to="/orders"
-          className="flex items-center gap-3 p-4 rounded-lg bg-secondary hover:bg-secondary/80 transition-colors"
-        >
-          <ShoppingBag className="h-5 w-5 text-accent" />
-          <span className="text-foreground font-medium">Orders</span>
-        </Link>
-
-        <Link
-          to="/wishlist"
-          className="flex items-center gap-3 p-4 rounded-lg bg-secondary hover:bg-secondary/80 transition-colors"
-        >
-          <Heart className="h-5 w-5 text-accent" />
-          <span className="text-foreground font-medium">Wishlist</span>
-        </Link>
-
-        <Link
-          to="/books"
-          className="flex items-center gap-3 p-4 rounded-lg bg-secondary hover:bg-secondary/80 transition-colors"
-        >
-          <BookOpen className="h-5 w-5 text-accent" />
-          <span className="text-foreground font-medium">Browse Books</span>
-        </Link>
-
-        <Link
-          to="/publish"
-          className="flex items-center gap-3 p-4 rounded-lg bg-secondary hover:bg-secondary/80 transition-colors"
-        >
-          <Clock className="h-5 w-5 text-accent" />
-          <span className="text-foreground font-medium">Publish</span>
-        </Link>
-      </div>
     </div>
   );
 
