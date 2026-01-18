@@ -6,20 +6,20 @@ export default function AboutSection() {
   return (
     <>
       <Header />
+
+      {/* PAGE HEADER */}
       <div className="pt-32 bg-[#f9f7f2] py-10 px-6 md:px-16">
         <div className="max-w-8xl mx-auto flex justify-between items-center">
-          {/* Page Title */}
           <h1 className="text-5xl font-serif text-gray-800">About Us</h1>
-
-          {/* Breadcrumb */}
           <PageBreadcrumb currentPage="About Us" />
         </div>
       </div>
+
       {/* FIRST SECTION */}
       <section className="w-full px-6 md:px-20 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-start">
-          {/* LEFT SIDE — TEXT CONTENT */}
-          <div className="space-y-6 leading-relaxed ">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-stretch">
+          {/* LEFT — TEXT */}
+          <div className="space-y-6 leading-relaxed h-full">
             <p>
               Founded in 2001 by a group of academics, Cambridge Scholars Publishing is an independent academic
               publisher with a strong commitment to original scholarship and academic excellence. We are based in
@@ -28,8 +28,8 @@ export default function AboutSection() {
             </p>
 
             <p>
-              We specialise in publishing <strong>monographs, edited collections, and thesis-based works</strong>
-              across a broad range of disciplines.
+              We specialise in publishing <strong>monographs, edited collections, and thesis-based works</strong> across
+              a broad range of disciplines.
             </p>
 
             <h2 className="text-2xl font-semibold">What We Do</h2>
@@ -57,12 +57,12 @@ export default function AboutSection() {
             </p>
           </div>
 
-          {/* RIGHT SIDE — IMAGE */}
-          <div className="flex justify-center ">
+          {/* RIGHT — IMAGE */}
+          <div className="h-full">
             <img
-              alt="Decorative"
-              className="w-80 h-auto md:h-[700px] object-cover rounded-lg shadow"
               src="/lovable-uploads/d53bdc66-5423-4a11-8c1d-a9166b55ead1.png"
+              alt="Decorative"
+              className="w-full h-full object-cover rounded-lg shadow"
             />
           </div>
         </div>
@@ -70,18 +70,18 @@ export default function AboutSection() {
 
       {/* SECOND SECTION */}
       <section className="w-full px-6 md:px-20 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-          {/* LEFT SIDE IMAGE */}
-          <div className="flex justify-center">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-stretch">
+          {/* LEFT — IMAGE */}
+          <div className="h-full">
             <img
-              alt="Green Door"
-              className="w-full md:w-[420px] h-full rounded shadow"
               src="/lovable-uploads/3f1259fa-8061-4dd4-9451-dcb25fd9cc8d.png"
+              alt="Green Door"
+              className="w-full h-full object-cover rounded shadow"
             />
           </div>
 
-          {/* RIGHT SIDE TEXT */}
-          <div className="text-gray-800 space-y-8 leading-relaxed">
+          {/* RIGHT — TEXT */}
+          <div className="space-y-8 leading-relaxed h-full text-gray-800">
             <h2 className="text-3xl md:text-4xl font-semibold">Why Publish With Us</h2>
 
             <p className="text-base md:text-lg">
@@ -107,14 +107,13 @@ export default function AboutSection() {
               Our headquarters are located in the historic Lady Stephenson Library.
             </p>
 
-            <p className="text-base md:text-lg">We proudly support a diverse global academic community.</p>
-
             <p className="text-base md:text-lg font-semibold">
               Cambridge Scholars Publishing Limited is not affiliated with Cambridge University Press.
             </p>
           </div>
         </div>
       </section>
+
       <Footer />
     </>
   );
