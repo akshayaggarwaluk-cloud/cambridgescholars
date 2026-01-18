@@ -63,6 +63,16 @@ async function callAuthEndpoint(endpoint: string, body: Record<string, unknown>)
     throw new Error(error.message || "Request failed");
   }
 
+  // Check if the API returned an error in the data
+  if (data?.error) {
+    throw new Error(data.error);
+  }
+  
+  if (data?.detail && !data?.success) {
+    // Some endpoints return { detail: "error message" } for errors
+    throw new Error(data.detail);
+  }
+
   return data;
 }
 
@@ -97,9 +107,38 @@ export async function login(email: string, password: string): Promise<AuthRespon
 /**
  * POST /api/auth/user-exist
  * Check if a user exists by email
+ * Returns { exists: boolean } - handles various API response formats
  */
 export async function checkUserExists(email: string): Promise<UserExistsResponse> {
-  return callAuthEndpoint("user-exist", { email });
+  try {
+    const data = await callAuthEndpoint("user-exist", { email });
+    
+    // Handle different response formats from the API
+    // The API might return: { exists: true/false } or { detail: "..." } or other formats
+    if (data?.exists !== undefined) {
+      return { exists: Boolean(data.exists), message: data.message };
+    }
+    
+    // If the API returns a detail field indicating user exists
+    if (data?.detail?.toLowerCase().includes("exist") || 
+        data?.detail?.toLowerCase().includes("registered") ||
+        data?.detail?.toLowerCase().includes("found")) {
+      return { exists: true, message: data.detail };
+    }
+    
+    // If we got a response without exists field, assume user doesn't exist
+    return { exists: false, message: data?.message };
+  } catch (error) {
+    // If the API throws an error indicating user exists
+    const message = error instanceof Error ? error.message : String(error);
+    if (message.toLowerCase().includes("exist") || 
+        message.toLowerCase().includes("registered") ||
+        message.toLowerCase().includes("found")) {
+      return { exists: true, message };
+    }
+    // For other errors, re-throw
+    throw error;
+  }
 }
 
 /**
