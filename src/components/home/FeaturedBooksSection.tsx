@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
-// Featured books data
 const featuredBooks = [
   {
     id: "1",
@@ -47,8 +46,6 @@ export function FeaturedBooksSection() {
   const [activeIndex, setActiveIndex] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
 
-  const activeBook = featuredBooks[activeIndex];
-
   useEffect(() => {
     if (!isAutoPlaying) return;
     const interval = setInterval(() => {
@@ -60,8 +57,8 @@ export function FeaturedBooksSection() {
   return (
     <section className="py-12 md:py-16 bg-secondary overflow-hidden">
       <div className="container-wide">
-        <div className="grid lg:grid-cols-2 gap-10 lg:gap-14 items-start">
-          {/* LEFT – Book list */}
+        <div className="grid lg:grid-cols-2 gap-12 items-start">
+          {/* LEFT LIST */}
           <div className="order-2 lg:order-1">
             <div className="relative h-[420px] lg:h-[500px] overflow-hidden">
               <div
@@ -87,59 +84,48 @@ export function FeaturedBooksSection() {
                       alt={book.title}
                       className="w-16 h-24 object-cover rounded shadow-sm shrink-0"
                     />
-                    <div className="min-w-0">
-                      <p className="text-xs text-accent font-medium uppercase tracking-wide mb-1">{book.label}</p>
-                      <h4 className="font-serif font-semibold text-foreground text-sm line-clamp-2">{book.title}</h4>
-                      <p className="text-xs text-muted-foreground italic line-clamp-1 mt-1">
-                        {book.subtitle ?? "\u00A0"}
-                      </p>
+                    <div>
+                      <p className="text-xs text-accent uppercase tracking-wide">{book.label}</p>
+                      <h4 className="font-serif text-sm font-semibold line-clamp-2">{book.title}</h4>
+                      <p className="text-xs italic text-muted-foreground">{book.subtitle ?? "\u00A0"}</p>
                     </div>
                   </button>
                 ))}
               </div>
-
-              {/* Gradient fade */}
-              <div className="absolute top-0 left-0 right-0 h-12 bg-gradient-to-b from-secondary to-transparent z-10" />
-              <div className="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-secondary to-transparent z-10" />
             </div>
           </div>
 
-          {/* RIGHT – Fixed content */}
-          <div className="order-1 lg:order-2 flex flex-col">
-            <div key={activeBook.id} className="space-y-4 flex-1 min-h-[300px] transition-opacity duration-300">
-              <span className="inline-block text-accent text-xs font-semibold uppercase tracking-[0.15em]">
-                {activeBook.label}
-              </span>
+          {/* RIGHT CONTENT – ABSOLUTE STACK */}
+          <div className="order-1 lg:order-2 relative min-h-[560px]">
+            {featuredBooks.map((book, index) => (
+              <div
+                key={book.id}
+                className={cn(
+                  "absolute inset-0 transition-opacity duration-500",
+                  index === activeIndex ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none",
+                )}
+              >
+                <div className="flex flex-col h-full">
+                  <div className="space-y-4 flex-1">
+                    <span className="text-accent text-xs uppercase tracking-[0.15em]">{book.label}</span>
 
-              <h2 className="font-serif text-2xl md:text-3xl lg:text-4xl font-bold leading-tight">
-                {activeBook.title}
-              </h2>
+                    <h2 className="font-serif text-3xl lg:text-4xl font-bold">{book.title}</h2>
 
-              {/* Subtitle space always reserved */}
-              <h3 className="text-base md:text-lg text-muted-foreground italic font-serif min-h-[28px]">
-                {activeBook.subtitle ?? "\u00A0"}
-              </h3>
+                    <h3 className="italic text-muted-foreground min-h-[28px]">{book.subtitle ?? "\u00A0"}</h3>
 
-              {/* Fixed height description */}
-              <p className="text-muted-foreground leading-relaxed text-sm md:text-base line-clamp-4 min-h-[96px]">
-                {activeBook.description}
-              </p>
+                    <p className="text-muted-foreground line-clamp-4 min-h-[96px]">{book.description}</p>
 
-              <div className="pt-4">
-                <Button asChild className="bg-accent hover:bg-accent/90 text-accent-foreground">
-                  <Link to={`/books/${activeBook.id}`}>View</Link>
-                </Button>
+                    <Button asChild className="bg-accent">
+                      <Link to={`/books/${book.id}`}>View</Link>
+                    </Button>
+                  </div>
+
+                  <div className="mt-8 flex justify-end">
+                    <img src={book.image} alt={book.title} className="w-48 shadow-xl rounded-sm" />
+                  </div>
+                </div>
               </div>
-            </div>
-
-            {/* Fixed image container */}
-            <div className="mt-8 flex justify-center lg:justify-end min-h-[260px]">
-              <img
-                src={activeBook.image}
-                alt={activeBook.title}
-                className="w-40 md:w-48 lg:w-56 shadow-xl rounded-sm transition-opacity duration-500"
-              />
-            </div>
+            ))}
           </div>
         </div>
       </div>
