@@ -118,7 +118,7 @@ export default function Contact() {
                 <Textarea
                   id="message"
                   rows={6}
-                  placeholder="message"
+                  placeholder="Message"
                   value={formData.message}
                   onChange={handleChange}
                   required
