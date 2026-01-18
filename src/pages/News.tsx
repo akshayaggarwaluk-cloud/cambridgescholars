@@ -15,40 +15,35 @@ const News = () => {
     const matchesSearch =
       article.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
       article.excerpt.toLowerCase().includes(searchQuery.toLowerCase());
-    const matchesCategory =
-      selectedCategory === "All Categories" || article.category === selectedCategory;
+    const matchesCategory = selectedCategory === "All Categories" || article.category === selectedCategory;
     return matchesSearch && matchesCategory;
   });
 
   // Count articles per category
-  const categoryCounts = newsCategories.reduce((acc, category) => {
-    if (category === "All Categories") {
-      acc[category] = newsArticles.length;
-    } else {
-      acc[category] = newsArticles.filter((a) => a.category === category).length;
-    }
-    return acc;
-  }, {} as Record<string, number>);
+  const categoryCounts = newsCategories.reduce(
+    (acc, category) => {
+      if (category === "All Categories") {
+        acc[category] = newsArticles.length;
+      } else {
+        acc[category] = newsArticles.filter((a) => a.category === category).length;
+      }
+      return acc;
+    },
+    {} as Record<string, number>,
+  );
 
   return (
     <div className="min-h-screen bg-background">
       <Header />
       <main className="container mx-auto px-4 py-8">
-        <PageBreadcrumb
-          items={[
-            { label: "Home", href: "/" },
-            { label: "News" },
-          ]}
-        />
+        <PageBreadcrumb items={[{ label: "Home", href: "/" }, { label: "News" }]} />
 
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 mt-8">
           {/* Sidebar */}
           <aside className="lg:col-span-1">
             {/* Search */}
             <div className="mb-8">
-              <h3 className="text-lg font-serif text-foreground mb-4 pb-2 border-b border-border">
-                Search
-              </h3>
+              <h3 className="text-lg font-serif text-foreground mb-4 pb-2 border-b border-border">Search</h3>
               <div className="relative">
                 <Input
                   type="text"
@@ -63,9 +58,7 @@ const News = () => {
 
             {/* Categories */}
             <div>
-              <h3 className="text-lg font-serif text-foreground mb-4 pb-2 border-b border-border">
-                Categories
-              </h3>
+              <h3 className="text-lg font-serif text-foreground mb-4 pb-2 border-b border-border">Categories</h3>
               <ul className="space-y-2">
                 {newsCategories.map((category) => (
                   <li key={category}>
@@ -91,9 +84,7 @@ const News = () => {
 
           {/* News Grid */}
           <div className="lg:col-span-3">
-            <h1 className="text-3xl md:text-4xl font-serif text-foreground mb-8">
-              News
-            </h1>
+            <h1 className="text-3xl md:text-4xl font-serif text-foreground mb-8">News</h1>
 
             {filteredArticles.length === 0 ? (
               <p className="text-muted-foreground">No articles found.</p>
@@ -113,12 +104,10 @@ const News = () => {
                     <h2 className="text-xl font-serif text-foreground mb-3 group-hover:text-accent transition-colors">
                       <Link to={`/news/${article.slug}`}>{article.title}</Link>
                     </h2>
-                    <p className="text-muted-foreground text-sm leading-relaxed mb-4 line-clamp-3">
-                      {article.excerpt}
-                    </p>
+                    <p className="text-muted-foreground text-sm leading-relaxed mb-4 line-clamp-3">{article.excerpt}</p>
                     <Link
                       to={`/news/${article.slug}`}
-                      className="inline-flex items-center text-accent font-medium text-sm hover:text-accent/80 transition-colors"
+                      className="inline-flex items-center text-[#E4573D] font-medium text-sm hover:text-[#E4573D]/80 transition-colors"
                     >
                       READ MORE
                       <ChevronRight className="h-4 w-4 ml-1" />
