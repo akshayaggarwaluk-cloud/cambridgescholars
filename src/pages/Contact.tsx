@@ -115,7 +115,14 @@ export default function Contact() {
                 </select>
 
                 {/* Message */}
-                <Textarea id="message" rows={6} value={formData.message} onChange={handleChange} required />
+                <Textarea
+                  id="message"
+                  rows={6}
+                  placeholder="message"
+                  value={formData.message}
+                  onChange={handleChange}
+                  required
+                />
 
                 {/* Submit */}
                 <Button type="submit" className="bg-orange-600 hover:bg-orange-700 text-white px-12 py-3 rounded-none">
