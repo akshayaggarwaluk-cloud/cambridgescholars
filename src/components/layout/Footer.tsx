@@ -20,14 +20,13 @@ const footerLinks = {
 
 export function Footer() {
   return (
-    <footer className="bg-[#1e2a33] text-white/80">
-      <div className="container-wide py-16">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-8">
-          {/* Connect Column */}
+    <footer className="bg-[#222222] text-[#cfcfcf]">
+      <div className="max-w-7xl mx-auto px-6 py-20">
+        {/* Top Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-16">
+          {/* Connect */}
           <div>
-            <h3 className="font-semibold text-sm uppercase tracking-wider text-white mb-6">
-              Connect
-            </h3>
+            <h3 className="text-white text-sm tracking-widest uppercase mb-6">Connect</h3>
             <div className="space-y-1 text-sm leading-relaxed">
               <p>Lady Stephenson Library,</p>
               <p>Newcastle upon Tyne</p>
@@ -36,18 +35,13 @@ export function Footer() {
             <p className="mt-6 text-sm">admin@cambridgescholars.com</p>
           </div>
 
-          {/* Pages Column */}
+          {/* Pages */}
           <div>
-            <h3 className="font-semibold text-sm uppercase tracking-wider text-white mb-6">
-              Pages
-            </h3>
+            <h3 className="text-white text-sm tracking-widest uppercase mb-6">Pages</h3>
             <ul className="space-y-3">
               {footerLinks.pages.map((link) => (
                 <li key={link.name}>
-                  <Link
-                    to={link.href}
-                    className="text-sm hover:text-white hover:underline transition-colors"
-                  >
+                  <Link to={link.href} className="italic text-sm hover:text-white transition-colors">
                     {link.name}
                   </Link>
                 </li>
@@ -55,18 +49,13 @@ export function Footer() {
             </ul>
           </div>
 
-          {/* Other Links Column */}
+          {/* Other Links */}
           <div>
-            <h3 className="font-semibold text-sm uppercase tracking-wider text-white mb-6">
-              Other Links
-            </h3>
+            <h3 className="text-white text-sm tracking-widest uppercase mb-6">Other Links</h3>
             <ul className="space-y-3">
               {footerLinks.otherLinks.map((link) => (
                 <li key={link.name}>
-                  <Link
-                    to={link.href}
-                    className="text-sm hover:text-white hover:underline transition-colors"
-                  >
+                  <Link to={link.href} className="italic text-sm hover:text-white transition-colors">
                     {link.name}
                   </Link>
                 </li>
@@ -76,20 +65,17 @@ export function Footer() {
         </div>
 
         {/* Registration */}
-        <div className="mt-12 pt-6 border-t border-white/10">
-          <p className="text-sm text-white/80">
-            Cambridge Scholars Publishing | Registration Number: 04333775
-          </p>
+        <div className="mt-16 pt-8 border-t border-white/10">
+          <p className="text-sm">Cambridge Scholars Publishing | Registration Number: 04333775</p>
         </div>
 
-        {/* Disclaimer & Copyright */}
-        <div className="mt-6 pt-6 border-t border-white/10 space-y-2">
-          <p className="text-sm text-white/80">
-            Please note that Cambridge Scholars Publishing Limited is not affiliated to or associated with Cambridge University Press or the University of Cambridge.
+        {/* Disclaimer */}
+        <div className="mt-6 space-y-2 text-sm">
+          <p>
+            Please note that Cambridge Scholars Publishing Limited is not affiliated to or associated with Cambridge
+            University Press or the University of Cambridge.
           </p>
-          <p className="text-sm text-white/80">
-            Copyright © 2025 Cambridge Scholars Publishing. All rights reserved
-          </p>
+          <p>Copyright © 2025 Cambridge Scholars Publishing. All rights reserved</p>
         </div>
       </div>
     </footer>
