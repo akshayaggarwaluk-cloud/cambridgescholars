@@ -6,7 +6,6 @@ import { PageBreadcrumb } from "@/components/layout/PageBreadcrumb";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 
 const contactInfo = [
@@ -35,13 +34,13 @@ export default function Contact() {
     message: "",
   });
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    toast.success("Message sent successfully! We'll get back to you soon.");
+    toast.success("Message sent successfully!");
     setFormData({ name: "", email: "", subject: "", message: "" });
   };
 
-  const handleChange = (e) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setFormData((prev) => ({ ...prev, [e.target.id]: e.target.value }));
   };
 
@@ -58,26 +57,22 @@ export default function Contact() {
       </div>
 
       <main className="py-16">
-        {/* Keep In Touch */}
-        <section className="pb-16">
+        {/* Contact Info */}
+        <section className="pb-20">
           <div className="container-wide">
-            <h2 className="font-serif text-3xl md:text-4xl text-foreground mb-4">Keep In Touch With Us</h2>
+            <h2 className="font-serif text-4xl text-foreground mb-4">Keep In Touch With Us</h2>
             <p className="text-muted-foreground max-w-5xl mb-12">
               If you have any questions regarding proposal submissions, book purchases, or any aspect of our publication
               process, we would be happy to hear from you.
             </p>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {contactInfo.map((info, index) => (
-                <div
-                  key={info.title}
-                  className="flex items-start gap-4 animate-fade-up"
-                  style={{ animationDelay: `${index * 0.1}s` }}
-                >
-                  <info.icon className="h-6 w-6 text-accent" strokeWidth={1.5} />
+              {contactInfo.map((info) => (
+                <div key={info.title} className="flex items-start gap-4">
+                  <info.icon className="h-6 w-6 text-accent" />
                   <div>
-                    <h3 className="font-semibold text-foreground mb-2">{info.title}</h3>
-                    <p className="text-muted-foreground text-sm leading-relaxed">{info.content}</p>
+                    <h3 className="font-semibold mb-2">{info.title}</h3>
+                    <p className="text-muted-foreground text-sm">{info.content}</p>
                   </div>
                 </div>
               ))}
@@ -85,61 +80,48 @@ export default function Contact() {
           </div>
         </section>
 
-        {/* Contact Form (Centered) */}
+        {/* Centered Contact Form */}
         <section className="pb-24">
           <div className="container-wide">
-            <div className="max-w-3xl mx-auto">
-              <div className="bg-card rounded-2xl shadow-card p-8">
-                <h2 className="font-serif text-2xl font-semibold text-foreground mb-6">Send Us a Message</h2>
+            <div className="max-w-2xl mx-auto">
+              <h2 className="font-serif text-4xl text-center mb-12">Send A Message</h2>
 
-                <form onSubmit={handleSubmit} className="space-y-6">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="space-y-2">
-                      <Label htmlFor="name">Name</Label>
-                      <Input id="name" value={formData.name} onChange={handleChange} placeholder="Your name" required />
-                    </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="email">Email</Label>
-                      <Input
-                        id="email"
-                        type="email"
-                        value={formData.email}
-                        onChange={handleChange}
-                        placeholder="your@email.com"
-                        required
-                      />
-                    </div>
-                  </div>
+              <form onSubmit={handleSubmit} className="space-y-6">
+                {/* Name + Email */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <Input id="name" placeholder="Name" value={formData.name} onChange={handleChange} required />
+                  <Input
+                    id="email"
+                    type="email"
+                    placeholder="Email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    required
+                  />
+                </div>
 
-                  <div className="space-y-2">
-                    <Label htmlFor="subject">Subject</Label>
-                    <Input
-                      id="subject"
-                      value={formData.subject}
-                      onChange={handleChange}
-                      placeholder="What is this about?"
-                      required
-                    />
-                  </div>
+                {/* Subject */}
+                <select
+                  id="subject"
+                  value={formData.subject}
+                  onChange={handleChange}
+                  className="w-full h-12 border border-input rounded-md px-3 text-muted-foreground focus:outline-none focus:ring-2 focus:ring-accent"
+                  required
+                >
+                  <option value="">Select Purpose</option>
+                  <option value="Proposals">Proposals</option>
+                  <option value="Mailing">Mailing</option>
+                  <option value="Queries">Queries</option>
+                </select>
 
-                  <div className="space-y-2">
-                    <Label htmlFor="message">Message</Label>
-                    <Textarea
-                      id="message"
-                      value={formData.message}
-                      onChange={handleChange}
-                      placeholder="Your message..."
-                      rows={6}
-                      required
-                    />
-                  </div>
+                {/* Message */}
+                <Textarea id="message" rows={6} value={formData.message} onChange={handleChange} required />
 
-                  <Button type="submit" variant="gold" size="lg" className="w-full">
-                    Send Message
-                    <Send className="ml-2 h-4 w-4" />
-                  </Button>
-                </form>
-              </div>
+                {/* Submit */}
+                <Button type="submit" className="bg-orange-600 hover:bg-orange-700 text-white px-12 py-3 rounded-none">
+                  SUBMIT
+                </Button>
+              </form>
             </div>
           </div>
         </section>
