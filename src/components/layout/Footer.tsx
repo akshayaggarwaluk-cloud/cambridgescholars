@@ -26,22 +26,22 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-16">
           {/* Connect */}
           <div>
-            <h3 className="text-white text-sm tracking-widest uppercase mb-6">Connect</h3>
-            <div className="space-y-1 text-sm leading-relaxed">
+            <h3 className="text-white text-m tracking-widest uppercase mb-6">Connect</h3>
+            <div className="space-y-1 text-m leading-relaxed">
               <p>Lady Stephenson Library,</p>
               <p>Newcastle upon Tyne</p>
               <p>NE6 2PA, United Kingdom</p>
             </div>
-            <p className="mt-6 text-sm">admin@cambridgescholars.com</p>
+            <p className="mt-6 text-m">admin@cambridgescholars.com</p>
           </div>
 
           {/* Pages */}
           <div>
-            <h3 className="text-white text-sm tracking-widest uppercase mb-6">Pages</h3>
+            <h3 className="text-white text-m tracking-widest uppercase mb-6">Pages</h3>
             <ul className="space-y-3">
               {footerLinks.pages.map((link) => (
                 <li key={link.name}>
-                  <Link to={link.href} className="italic text-sm hover:text-white transition-colors">
+                  <Link to={link.href} className="italic text-m hover:text-white transition-colors">
                     {link.name}
                   </Link>
                 </li>
@@ -51,11 +51,11 @@ export function Footer() {
 
           {/* Other Links */}
           <div>
-            <h3 className="text-white text-sm tracking-widest uppercase mb-6">Other Links</h3>
+            <h3 className="text-white text-m tracking-widest uppercase mb-6">Other Links</h3>
             <ul className="space-y-3">
               {footerLinks.otherLinks.map((link) => (
                 <li key={link.name}>
-                  <Link to={link.href} className="italic text-sm hover:text-white transition-colors">
+                  <Link to={link.href} className="italic text-m hover:text-white transition-colors">
                     {link.name}
                   </Link>
                 </li>
