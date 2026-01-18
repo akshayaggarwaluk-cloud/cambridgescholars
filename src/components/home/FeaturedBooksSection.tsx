@@ -11,7 +11,6 @@ const featuredBooks = [
     subtitle: "By Nuria Chinchilla Albiol and Pilar García Lombardía",
     description:
       "“An invaluable gem as a guide to the human condition, which is so lost and without reference points in today’s world.”",
-    description:"— Isabel Tocino, Vice President of the Board of Directors of Banco Santander, former Minister of the Environment of Spain"
     image: "https://cspcontents.s3.eu-west-1.amazonaws.com/master/croppedcovers/9781036401924.jpg",
   },
   {
