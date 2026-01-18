@@ -14,6 +14,63 @@ export type Database = {
   }
   public: {
     Tables: {
+      addresses: {
+        Row: {
+          address_type: string
+          city: string
+          company: string | null
+          country: string
+          created_at: string
+          first_name: string
+          id: string
+          is_default: boolean | null
+          last_name: string
+          phone: string
+          postcode: string
+          state: string
+          street_address: string
+          street_address_2: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          address_type: string
+          city: string
+          company?: string | null
+          country: string
+          created_at?: string
+          first_name: string
+          id?: string
+          is_default?: boolean | null
+          last_name: string
+          phone: string
+          postcode: string
+          state: string
+          street_address: string
+          street_address_2?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          address_type?: string
+          city?: string
+          company?: string | null
+          country?: string
+          created_at?: string
+          first_name?: string
+          id?: string
+          is_default?: boolean | null
+          last_name?: string
+          phone?: string
+          postcode?: string
+          state?: string
+          street_address?: string
+          street_address_2?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       cart_items: {
         Row: {
           book_id: string
