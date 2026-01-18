@@ -108,26 +108,31 @@ export async function login(email: string, password: string): Promise<AuthRespon
  * POST /api/auth/user-exist
  * Check if a user exists by email
  * Returns { exists: boolean } - handles various API response formats
+ * API response format: { success: true, data: { exists: true/false, email, username } }
  */
 export async function checkUserExists(email: string): Promise<UserExistsResponse> {
   try {
-    const data = await callAuthEndpoint("user-exist", { email });
+    const response = await callAuthEndpoint("user-exist", { email });
     
-    // Handle different response formats from the API
-    // The API might return: { exists: true/false } or { detail: "..." } or other formats
-    if (data?.exists !== undefined) {
-      return { exists: Boolean(data.exists), message: data.message };
+    // Handle nested response format: { success: true, data: { exists: true } }
+    if (response?.data?.exists !== undefined) {
+      return { exists: Boolean(response.data.exists), message: response.message };
+    }
+    
+    // Handle flat response format: { exists: true/false }
+    if (response?.exists !== undefined) {
+      return { exists: Boolean(response.exists), message: response.message };
     }
     
     // If the API returns a detail field indicating user exists
-    if (data?.detail?.toLowerCase().includes("exist") || 
-        data?.detail?.toLowerCase().includes("registered") ||
-        data?.detail?.toLowerCase().includes("found")) {
-      return { exists: true, message: data.detail };
+    if (response?.detail?.toLowerCase().includes("exist") || 
+        response?.detail?.toLowerCase().includes("registered") ||
+        response?.detail?.toLowerCase().includes("found")) {
+      return { exists: true, message: response.detail };
     }
     
     // If we got a response without exists field, assume user doesn't exist
-    return { exists: false, message: data?.message };
+    return { exists: false, message: response?.message };
   } catch (error) {
     // If the API throws an error indicating user exists
     const message = error instanceof Error ? error.message : String(error);
