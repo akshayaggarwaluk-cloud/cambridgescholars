@@ -7,10 +7,10 @@ const featuredBooks = [
   {
     id: "1",
     label: "Featured Book",
-    title: "Fundamentals of Human Ecology as a Paradigm for a More Sustainable Economy",
-    subtitle: "By Nuria Chinchilla Albiol and Pilar García Lombardía",
+    title: "Faith and Fortune in the Creation of Our Modern World",
+    subtitle: null,
     description:
-      "“An invaluable gem as a guide to the human condition, which is so lost and without reference points in today’s world.”",
+      "Modern industrial society is a fluke of history. This book argues our world is the result of accidental events, not inherent European values. Our advanced civilization is an unexpected explosion, unique and unlikely to be found anywhere else in the universe.",
     image: "https://cspcontents.s3.eu-west-1.amazonaws.com/master/croppedcovers/9781036401924.jpg",
   },
   {
@@ -31,21 +31,17 @@ const featuredBooks = [
       "This book challenges the popular view that all Byzantines linked faith, Hellenic culture, and Roman rule. It explores the resistance of St. Maximus the Confessor to the emperor's power in the church, revealing that many did not recognise the office of the emperor as holy.",
     image: "https://cspcontents.s3.eu-west-1.amazonaws.com/master/croppedcovers/9781036410988.jpg",
   },
-  {
-    id: "4",
-    label: "Featured Book",
-    title: "Gender Identity in International Law",
-    subtitle: "A Certain Inconvenience",
-    description:
-      "This book challenges prevailing narratives by refashioning gender identity as a belief. This reframing protects the conflicting rights of women, children, and LGB people, as well as the right of people to express a gender identity incongruent with their sex.",
-    image: "https://cspcontents.s3.eu-west-1.amazonaws.com/master/croppedcovers/9781036405502.jpg",
-  },
 ];
 
 export function FeaturedBooksSection() {
   const [activeIndex, setActiveIndex] = useState(0);
+  const [displayIndex, setDisplayIndex] = useState(0);
+  const [isFading, setIsFading] = useState(false);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
 
+  const activeBook = featuredBooks[displayIndex];
+
+  // Auto play
   useEffect(() => {
     if (!isAutoPlaying) return;
     const interval = setInterval(() => {
@@ -54,15 +50,29 @@ export function FeaturedBooksSection() {
     return () => clearInterval(interval);
   }, [isAutoPlaying]);
 
+  // Smooth transition controller
+  useEffect(() => {
+    if (activeIndex === displayIndex) return;
+
+    setIsFading(true);
+
+    const timeout = setTimeout(() => {
+      setDisplayIndex(activeIndex);
+      setIsFading(false);
+    }, 250);
+
+    return () => clearTimeout(timeout);
+  }, [activeIndex]);
+
   return (
     <section className="py-12 md:py-16 bg-secondary overflow-hidden">
       <div className="container-wide">
         <div className="grid lg:grid-cols-2 gap-12 items-start">
-          {/* LEFT LIST */}
-          <div className="order-2 lg:order-1">
-            <div className="relative h-[420px] lg:h-[500px] overflow-hidden">
+          {/* LEFT – List */}
+          <div>
+            <div className="relative h-[420px] overflow-hidden">
               <div
-                className="flex flex-col gap-4 absolute w-full transition-transform duration-700 ease-out"
+                className="absolute w-full transition-transform duration-700 ease-out"
                 style={{
                   transform: `translateY(-${activeIndex * 200}px)`,
                 }}
@@ -75,19 +85,15 @@ export function FeaturedBooksSection() {
                       setActiveIndex(index);
                     }}
                     className={cn(
-                      "flex items-center gap-4 p-3 rounded-lg transition-all duration-300 text-left",
+                      "flex gap-4 p-3 rounded-lg transition-all duration-300 text-left",
                       activeIndex === index ? "bg-card shadow-md" : "opacity-50 hover:opacity-80",
                     )}
                   >
-                    <img
-                      src={book.image}
-                      alt={book.title}
-                      className="w-16 h-24 object-cover rounded shadow-sm shrink-0"
-                    />
+                    <img src={book.image} alt={book.title} className="w-16 h-24 object-cover rounded" />
                     <div>
-                      <p className="text-xs text-accent uppercase tracking-wide">{book.label}</p>
-                      <h4 className="font-serif text-sm font-semibold line-clamp-2">{book.title}</h4>
-                      <p className="text-xs italic text-muted-foreground">{book.subtitle ?? "\u00A0"}</p>
+                      <p className="text-xs uppercase text-accent">{book.label}</p>
+                      <h4 className="text-sm font-serif font-semibold line-clamp-2">{book.title}</h4>
+                      <p className="text-xs italic text-muted-foreground min-h-[16px]">{book.subtitle ?? "\u00A0"}</p>
                     </div>
                   </button>
                 ))}
@@ -95,37 +101,36 @@ export function FeaturedBooksSection() {
             </div>
           </div>
 
-          {/* RIGHT CONTENT – ABSOLUTE STACK */}
-          <div className="order-1 lg:order-2 relative min-h-[560px]">
-            {featuredBooks.map((book, index) => (
-              <div
-                key={book.id}
-                className={cn(
-                  "absolute inset-0 transition-opacity duration-500",
-                  index === activeIndex ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none",
-                )}
-              >
-                <div className="flex flex-col h-full">
-                  <div className="space-y-4 flex-1">
-                    <span className="text-accent text-xs uppercase tracking-[0.15em]">{book.label}</span>
+          {/* RIGHT – Cross-fade content */}
+          <div className="flex flex-col">
+            <div
+              className={cn(
+                "space-y-4 min-h-[320px] transition-all duration-300",
+                isFading ? "opacity-0 translate-y-2" : "opacity-100 translate-y-0",
+              )}
+            >
+              <span className="text-xs uppercase tracking-wide text-accent">{activeBook.label}</span>
 
-                    <h2 className="font-serif text-3xl lg:text-4xl font-bold">{book.title}</h2>
+              <h2 className="font-serif text-3xl font-bold leading-tight">{activeBook.title}</h2>
 
-                    <h3 className="italic text-muted-foreground min-h-[28px]">{book.subtitle ?? "\u00A0"}</h3>
+              <h3 className="italic text-muted-foreground min-h-[28px]">{activeBook.subtitle ?? "\u00A0"}</h3>
 
-                    <p className="text-muted-foreground line-clamp-4 min-h-[96px]">{book.description}</p>
+              <p className="text-muted-foreground line-clamp-4 min-h-[96px]">{activeBook.description}</p>
 
-                    <Button asChild className="bg-accent">
-                      <Link to={`/books/${book.id}`}>View</Link>
-                    </Button>
-                  </div>
+              <Button asChild className="bg-accent">
+                <Link to={`/books/${activeBook.id}`}>View</Link>
+              </Button>
+            </div>
 
-                  <div className="mt-8 flex justify-end">
-                    <img src={book.image} alt={book.title} className="w-48 shadow-xl rounded-sm" />
-                  </div>
-                </div>
-              </div>
-            ))}
+            {/* Image cross-fade */}
+            <div
+              className={cn(
+                "mt-8 flex justify-end min-h-[260px] transition-all duration-300",
+                isFading ? "opacity-0" : "opacity-100",
+              )}
+            >
+              <img src={activeBook.image} alt={activeBook.title} className="w-52 shadow-xl" />
+            </div>
           </div>
         </div>
       </div>
