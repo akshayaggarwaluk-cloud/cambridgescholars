@@ -9,7 +9,8 @@ const featuredBooks = [
     label: "Featured Book",
     title: "Faith and Fortune in the Creation of Our Modern World",
     subtitle: null,
-    description: "Modern industrial society is a fluke of history...",
+    description:
+      "Modern industrial society is a fluke of history. This book argues our world is the result of accidental events, not inherent European values.",
     image: "https://cspcontents.s3.eu-west-1.amazonaws.com/master/croppedcovers/9781036401924.jpg",
   },
   {
@@ -17,7 +18,8 @@ const featuredBooks = [
     label: "Featured Book",
     title: "Japanese Sensibility and Oriental Wisdom",
     subtitle: "In Search of a New Lifestyle in the New Era",
-    description: "Drawing on a 40-year career as a diplomat...",
+    description:
+      "Drawing on a 40-year career as a diplomat, this book demystifies Japanese culture and explores Japanese sensibility.",
     image: "https://cspcontents.s3.eu-west-1.amazonaws.com/master/croppedcovers/9781036413484.jpg",
   },
   {
@@ -25,50 +27,32 @@ const featuredBooks = [
     label: "Featured Book",
     title: "Exploring Christian Identity from Late Antiquity to the Middle Ages",
     subtitle: "Neither Greek nor Roman",
-    description: "This book challenges the popular view...",
+    description:
+      "This book challenges the popular view that all Byzantines linked faith, Hellenic culture, and Roman rule.",
     image: "https://cspcontents.s3.eu-west-1.amazonaws.com/master/croppedcovers/9781036410988.jpg",
   },
 ];
 
 export function FeaturedBooksSection() {
-  const [activeIndex, setActiveIndex] = useState(0); // LEFT SLIDE
-  const [displayIndex, setDisplayIndex] = useState(0); // RIGHT CONTENT
-  const [pendingIndex, setPendingIndex] = useState(0);
-  const [isFading, setIsFading] = useState(false);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [prevIndex, setPrevIndex] = useState(0);
+  const [isTransitioning, setIsTransitioning] = useState(false);
 
-  const book = featuredBooks[displayIndex];
-
-  // Auto play
+  // autoplay
   useEffect(() => {
     const interval = setInterval(() => {
-      setPendingIndex((prev) => (prev + 1) % featuredBooks.length);
+      changeSlide((activeIndex + 1) % featuredBooks.length);
     }, 5000);
     return () => clearInterval(interval);
-  }, []);
+  }, [activeIndex]);
 
-  // Transition orchestrator
-  useEffect(() => {
-    if (pendingIndex === displayIndex) return;
-
-    // 1️⃣ Fade OUT content
-    setIsFading(true);
-
-    // 2️⃣ After fade-out, slide list + swap content
-    const mid = setTimeout(() => {
-      setActiveIndex(pendingIndex);
-      setDisplayIndex(pendingIndex);
-    }, 250);
-
-    // 3️⃣ Fade IN
-    const end = setTimeout(() => {
-      setIsFading(false);
-    }, 500);
-
-    return () => {
-      clearTimeout(mid);
-      clearTimeout(end);
-    };
-  }, [pendingIndex]);
+  const changeSlide = (nextIndex) => {
+    if (nextIndex === activeIndex) return;
+    setPrevIndex(activeIndex);
+    setActiveIndex(nextIndex);
+    setIsTransitioning(true);
+    setTimeout(() => setIsTransitioning(false), 400);
+  };
 
   return (
     <section className="py-16 bg-secondary overflow-hidden">
@@ -82,10 +66,10 @@ export function FeaturedBooksSection() {
             {featuredBooks.map((b, i) => (
               <button
                 key={b.id}
-                onClick={() => setPendingIndex(i)}
+                onClick={() => changeSlide(i)}
                 className={cn(
                   "flex gap-4 p-3 rounded-lg text-left transition-opacity",
-                  activeIndex === i ? "bg-card shadow" : "opacity-50",
+                  activeIndex === i ? "bg-card shadow opacity-100" : "opacity-50 hover:opacity-80",
                 )}
               >
                 <img src={b.image} className="w-16 h-24 object-cover" />
@@ -98,34 +82,52 @@ export function FeaturedBooksSection() {
           </div>
         </div>
 
-        {/* RIGHT CONTENT */}
-        <div className="flex flex-col">
+        {/* RIGHT CONTENT – ABSOLUTE STACK */}
+        <div className="relative min-h-[360px]">
+          {/* PREVIOUS */}
           <div
             className={cn(
-              "space-y-4 min-h-[320px] transition-all duration-250",
-              isFading ? "opacity-0 translate-y-2" : "opacity-100 translate-y-0",
+              "absolute inset-0 space-y-4 transition-opacity duration-400",
+              isTransitioning ? "opacity-0" : "opacity-0",
             )}
           >
-            <span className="text-xs uppercase tracking-wide text-accent">{book.label}</span>
-
-            <h2 className="font-serif text-3xl font-bold">{book.title}</h2>
-
-            <h3 className="italic text-muted-foreground min-h-[28px]">{book.subtitle ?? "\u00A0"}</h3>
-
-            <p className="text-muted-foreground line-clamp-4 min-h-[96px]">{book.description}</p>
-
-            <Button asChild className="bg-accent">
-              <Link to={`/books/${book.id}`}>View</Link>
-            </Button>
+            <Content book={featuredBooks[prevIndex]} />
           </div>
 
+          {/* CURRENT */}
           <div
-            className={cn("mt-8 min-h-[260px] transition-opacity duration-250", isFading ? "opacity-0" : "opacity-100")}
+            className={cn(
+              "absolute inset-0 space-y-4 transition-opacity duration-400",
+              isTransitioning ? "opacity-100" : "opacity-100",
+            )}
           >
-            <img src={book.image} className="w-52 shadow-xl" />
+            <Content book={featuredBooks[activeIndex]} />
           </div>
         </div>
       </div>
     </section>
+  );
+}
+
+/* CONTENT BLOCK */
+function Content({ book }) {
+  return (
+    <>
+      <span className="text-xs uppercase tracking-wide text-accent">{book.label}</span>
+
+      <h2 className="font-serif text-3xl font-bold leading-tight">{book.title}</h2>
+
+      <h3 className="italic text-muted-foreground min-h-[28px]">{book.subtitle ?? "\u00A0"}</h3>
+
+      <p className="text-muted-foreground line-clamp-4 min-h-[96px]">{book.description}</p>
+
+      <Button asChild className="bg-accent">
+        <Link to={`/books/${book.id}`}>View</Link>
+      </Button>
+
+      <div className="pt-6">
+        <img src={book.image} className="w-52 shadow-xl" />
+      </div>
+    </>
   );
 }
