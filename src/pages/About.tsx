@@ -7,18 +7,18 @@ export default function AboutSection() {
     <>
       <Header />
 
-      {/* HERO */}
+      {/* PAGE HEADER */}
       <div className="pt-32 bg-[#f9f7f2] py-10 px-6 md:px-16">
-        <div className="max-w-8xl mx-auto flex justify-between items-center">
+        <div className="max-w-7xl mx-auto flex justify-between items-center">
           <h1 className="text-5xl font-serif text-gray-800">About Us</h1>
           <PageBreadcrumb currentPage="About Us" />
         </div>
       </div>
 
       {/* FIRST SECTION */}
-      <section className="w-full px-6 md:px-20 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-stretch">
-          {/* LEFT — TEXT */}
+      <section className="w-full px-6 md:px-20 py-16">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-[65%_35%] gap-16 items-stretch">
+          {/* TEXT */}
           <div className="space-y-6 leading-relaxed text-gray-800">
             <p>
               Founded in 2001 by a group of academics, Cambridge Scholars Publishing is an independent academic
@@ -28,11 +28,12 @@ export default function AboutSection() {
             </p>
 
             <p>
-              We specialise in publishing monographs, edited collections, and thesis-based works across a broad range of
-              disciplines, including the humanities, social sciences, life sciences, and health and physical sciences.
+              We specialise in publishing <strong>monographs, edited collections, and thesis-based works</strong> across
+              a broad range of disciplines, including the humanities, social sciences, life sciences, and health and
+              physical sciences.
             </p>
 
-            <h2 className="text-2xl font-semibold">What We Do</h2>
+            <h2 className="text-3xl font-serif mt-8">What We Do</h2>
 
             <p>
               At Cambridge Scholars, we support authors at every stage of the publishing journey. Whether you are an
@@ -56,7 +57,7 @@ export default function AboutSection() {
               </li>
             </ul>
 
-            <h2 className="text-2xl font-semibold">Global Distribution</h2>
+            <h2 className="text-3xl font-serif mt-10">Global Distribution</h2>
 
             <p>
               Our titles are distributed globally to readers and libraries through an extensive network of academic and
@@ -65,44 +66,44 @@ export default function AboutSection() {
             </p>
 
             <p>
-              We also offer a unique Print-on-Time system, which ensures titles remain continuously available without
-              the need for warehousing or distribution delays.
+              We also offer a unique <strong>Print-on-Time</strong> system, which ensures titles remain continuously
+              available without the need for warehousing or distribution delays.
             </p>
           </div>
 
-          {/* RIGHT — IMAGE */}
-          <div className="relative min-h-[480px] md:min-h-full">
+          {/* IMAGE */}
+          <div className="relative min-h-[600px]">
             <img
               src="/lovable-uploads/d53bdc66-5423-4a11-8c1d-a9166b55ead1.png"
-              alt="Decorative"
-              className="absolute inset-0 w-full h-full object-cover rounded-lg shadow transition-all duration-300"
+              alt="Lady Stephenson Library"
+              className="absolute inset-0 w-full h-full object-cover rounded shadow"
             />
           </div>
         </div>
       </section>
 
-      {/* SECOND SECTION (UNCHANGED – ALREADY GOOD) */}
+      {/* SECOND SECTION */}
       <section className="w-full px-6 md:px-20 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-stretch">
-          {/* LEFT IMAGE */}
-          <div className="relative min-h-[420px]">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-[35%_65%] gap-16 items-stretch">
+          {/* IMAGE */}
+          <div className="relative min-h-[600px]">
             <img
               src="/lovable-uploads/3f1259fa-8061-4dd4-9451-dcb25fd9cc8d.png"
-              alt="Green Door"
+              alt="Our Space"
               className="absolute inset-0 w-full h-full object-cover rounded shadow"
             />
           </div>
 
-          {/* RIGHT TEXT */}
-          <div className="text-gray-800 space-y-8 leading-relaxed">
-            <h2 className="text-3xl md:text-4xl font-semibold">Why Publish With Us</h2>
+          {/* TEXT */}
+          <div className="space-y-8 leading-relaxed text-gray-800">
+            <h2 className="text-4xl font-serif">Why Publish With Us</h2>
 
-            <p className="text-base md:text-lg">
+            <p>
               We understand the academic publishing process and the importance of having your work presented with
               clarity, professionalism, and attention to detail. Authors choose Cambridge Scholars for our:
             </p>
 
-            <ul className="list-disc pl-6 space-y-2 text-base md:text-lg">
+            <ul className="list-disc pl-6 space-y-2">
               <li>Responsive and personalised approach</li>
               <li>Transparent and collaborative publishing process</li>
               <li>Commitment to editorial excellence</li>
@@ -110,27 +111,27 @@ export default function AboutSection() {
               <li>Established relationships with universities, libraries, and key distributors</li>
             </ul>
 
-            <p className="text-base md:text-lg">
+            <p>
               Click <span className="text-blue-600 cursor-pointer">here</span> to read more about our author
               commitments.
             </p>
 
-            <h2 className="text-3xl md:text-4xl font-semibold">Our Space</h2>
+            <h2 className="text-4xl font-serif mt-10">Our Space</h2>
 
-            <p className="text-base md:text-lg">
+            <p>
               Our headquarters are located in the historic Lady Stephenson Library – a restored Victorian public library
               that provides a fitting setting for our mission to advance knowledge and learning.
             </p>
 
-            <p className="text-base md:text-lg">
+            <p>
               Whether you are submitting a proposal, purchasing a title, or exploring new research in your field,
               Cambridge Scholars Publishing is proud to support a diverse and expanding international academic
               community.
             </p>
 
-            <p className="text-base md:text-lg font-semibold">
-              Please note that Cambridge Scholars Publishing Limited is not affiliated to, or associated with, Cambridge
-              University Press or the University of Cambridge.
+            <p className="font-semibold">
+              Cambridge Scholars Publishing Limited is not affiliated to, or associated with, Cambridge University Press
+              or the University of Cambridge.
             </p>
           </div>
         </div>
