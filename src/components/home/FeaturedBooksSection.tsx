@@ -7,10 +7,11 @@ const featuredBooks = [
   {
     id: "1",
     label: "Featured Book",
-    title: "Faith and Fortune in the Creation of Our Modern World",
-    subtitle: null,
+    title: "Fundamentals of Human Ecology as a Paradigm for a More Sustainable Economy",
+    subtitle: "By Nuria Chinchilla Albiol and Pilar García Lombardía",
     description:
-      "Modern industrial society is a fluke of history. This book argues our world is the result of accidental events, not inherent European values. Our advanced civilization is an unexpected explosion, unique and unlikely to be found anywhere else in the universe.",
+      "“An invaluable gem as a guide to the human condition, which is so lost and without reference points in today’s world.”",
+    description:"— Isabel Tocino, Vice President of the Board of Directors of Banco Santander, former Minister of the Environment of Spain"
     image: "https://cspcontents.s3.eu-west-1.amazonaws.com/master/croppedcovers/9781036401924.jpg",
   },
   {
