@@ -252,7 +252,22 @@ export function HeroSection() {
                   <Button
                     asChild
                     size="lg"
-                    className="bg-accent hover:bg-accent/90 text-accent-foreground font-medium px-8  shadow-accent transition-all duration-300 hover:shadow-lg hover:scale-105 group"
+                    className="
+    bg-[#E4573D]
+    text-white
+    hover:bg-white
+    hover:text-[#E4573D]
+    border border-[#E4573D]
+    font-medium
+    px-8
+    rounded-full
+    shadow-accent
+    transition-all
+    duration-300
+    hover:shadow-lg
+    hover:scale-105
+    group
+  "
                   >
                     <Link to={`/books/${activeReview.bookId}`} className="flex items-center gap-2">
                       View Book
