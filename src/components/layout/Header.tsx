@@ -97,7 +97,7 @@ export function Header() {
                 </div>}
             </div>
 
-            {navigation.slice(3).map(item => <Link key={item.name} to={item.href} className={cn("text-base xl:text-lg font-medium transition-colors duration-200 hover:text-accent relative py-2", location.pathname === item.href ? "text-accent after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-accent" : "text-foreground")}>
+            {navigation.slice(3).map(item => <Link key={item.name} to={item.href} className={cn("text-base xl:text-lg font-medium transition-colors duration-200 hover:text-[#E4573D] relative py-2", location.pathname === item.href ? "text-accent after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-accent" : "text-foreground")}>
                 {item.name}
               </Link>)}
           </div>
