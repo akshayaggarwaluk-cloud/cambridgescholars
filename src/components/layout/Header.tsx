@@ -100,7 +100,7 @@ export function Header() {
                 className={cn(
                   "xl:text-lg font-medium  duration-200 hover:text-[#E4573D] relative py-2 text-lg",
                   location.pathname === item.href
-                    ? "text-accent after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-accent"
+                    ? "text-[#E4573D] after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-accent"
                     : "text-foreground",
                 )}
               >
@@ -120,7 +120,7 @@ export function Header() {
                   "xl:text-lg font-medium duration-200 flex items-center gap-1.5 relative py-2 text-lg hover-text-[E4573D]",
                   location.pathname === "/publish-a-book" ||
                     publishDropdownItems.some((item) => location.pathname === item.href)
-                    ? "text-accent after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-accent"
+                    ? "text-[#E4573D] after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-accent"
                     : "text-foreground",
                 )}
               >
@@ -157,7 +157,7 @@ export function Header() {
                 className={cn(
                   "xl:text-lg font-medium transition-colors duration-200 relative py-2 text-black text-lg hover:text-[#E4573D]",
                   location.pathname === item.href
-                    ? "text-accent after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-accent"
+                    ? "text-[#E4573D] after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-[#E4573D]"
                     : "text-foreground",
                 )}
               >
@@ -176,7 +176,7 @@ export function Header() {
               <Button
                 variant="ghost"
                 size="icon"
-                className="h-11 w-11 text-foreground hover:bg-secondary/80 hover:text-accent transition-all duration-200 hover:scale-110 active:scale-95"
+                className="h-11 w-11 text-foreground hover:bg-secondary/80 hover:text-[#E4573D] transition-all duration-200 hover:scale-110 active:scale-95"
                 onClick={() => setIsSearchOpen(true)}
               >
                 <Search className="transition-transform duration-200 w-[26px] h-[26px]" />
