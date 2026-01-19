@@ -41,10 +41,10 @@ export function WelcomeSection() {
 
         {/* Welcome Message */}
         <ScrollAnimation type="fadeUp" delay={0.1} className="max-w-3xl mx-auto text-center mb-12 md:mb-16">
-          <h6 className="text-lg font-semibold uppercase tracking-[0.15em] text-accent mb-4">
+          <h6 className="font-semibold uppercase tracking-[0.15em] mb-4 text-black text-xl">
             Welcome to Cambridge Scholars Publishing
           </h6>
-          <p className="text-base md:text-lg text-muted-foreground leading-relaxed">
+          <p className="text-base md:text-lg leading-relaxed text-black">
             We are an independent academic publisher committed to advancing original research across the humanities,
             social sciences, physical sciences, life science and health sciences. Our titles are authored by scholars
             from around the world and are distributed globally in premium print and digital formats
