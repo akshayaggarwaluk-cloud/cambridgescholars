@@ -96,7 +96,7 @@ function FloatingShapes() {
           ease: "easeInOut",
         }}
       />
-      
+
       {/* Primary color blob */}
       <motion.div
         className="absolute bottom-0 -left-40 w-[400px] h-[400px] bg-primary/5 rounded-full blur-3xl"
@@ -249,10 +249,10 @@ export function HeroSection() {
                   transition={{ duration: 0.4, delay: 0.5 }}
                   className="pt-2 flex gap-4"
                 >
-                  <Button 
-  asChild 
-  size="lg"
-  className="
+                  <Button
+                    asChild
+                    size="lg"
+                    className="
     bg-[#E4573D]
     text-white
     hover:bg-white
@@ -268,14 +268,14 @@ export function HeroSection() {
     hover:scale-105
     group
   "
->
-  <Link to={`/books/${activeReview.bookId}`} className="flex items-center gap-2">
-    View Book
-    <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-  </Link>
-</Button>
-
-                    asChild 
+                  >
+                    <Link to={`/books/${activeReview.bookId}`} className="flex items-center gap-2">
+                      View Book
+                      <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                    </Link>
+                  </Button>
+                  <Button
+                    asChild
                     variant="outline"
                     size="lg"
                     className="rounded-full border-accent/30 text-accent hover:bg-accent hover:text-accent-foreground transition-all duration-300"
@@ -303,7 +303,7 @@ export function HeroSection() {
                 <div className="absolute inset-0 flex items-center justify-center lg:justify-end lg:-mr-8 xl:-mr-12">
                   <div className="w-64 h-64 bg-accent/10 rounded-full blur-3xl animate-pulse" />
                 </div>
-                
+
                 <motion.img
                   src={activeReview.image}
                   alt={activeReview.bookTitle}
@@ -327,9 +327,9 @@ export function HeroSection() {
               }}
               className={cn(
                 "relative h-2.5 rounded-full transition-all duration-500 overflow-hidden",
-                activeIndex === index 
-                  ? "w-10 bg-accent shadow-accent" 
-                  : "w-2.5 bg-muted-foreground/20 hover:bg-muted-foreground/40"
+                activeIndex === index
+                  ? "w-10 bg-accent shadow-accent"
+                  : "w-2.5 bg-muted-foreground/20 hover:bg-muted-foreground/40",
               )}
             >
               {activeIndex === index && (
