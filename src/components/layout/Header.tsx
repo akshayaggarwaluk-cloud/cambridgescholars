@@ -78,9 +78,7 @@ export function Header() {
                 to={item.href}
                 className={cn(
                   "text-lg font-medium py-2 transition-colors hover:text-[#E4573D]",
-                  location.pathname === item.href
-                    ? "text-[#E4573D] after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-[#E4573D]"
-                    : "text-foreground",
+                  location.pathname === item.href ? "text-[#E4573D]" : "text-foreground",
                 )}
               >
                 {item.name}
