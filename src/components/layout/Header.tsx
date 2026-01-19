@@ -83,7 +83,7 @@ export function Header() {
 
             {/* Publish a Book Dropdown */}
             <div className="relative" onMouseEnter={() => setIsPublishDropdownOpen(true)} onMouseLeave={() => setIsPublishDropdownOpen(false)}>
-              <Link to="/publish-a-book" className={cn("text-base xl:text-lg font-medium  duration-200 hover:text-[E4573D] flex items-center gap-1.5 relative py-2", location.pathname === "/publish-a-book" || publishDropdownItems.some(item => location.pathname === item.href) ? "text-accent after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-accent" : "text-foreground")}>
+              <Link to="/publish-a-book" className={cn("xl:text-lg font-medium duration-200 flex items-center gap-1.5 relative py-2 text-lg", location.pathname === "/publish-a-book" || publishDropdownItems.some(item => location.pathname === item.href) ? "text-accent after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-accent" : "text-foreground")}>
                 Publish a Book
                 <ChevronDown className={cn("h-4 w-4 xl:h-5 xl:w-5 transition-transform", isPublishDropdownOpen && "rotate-180")} />
               </Link>
