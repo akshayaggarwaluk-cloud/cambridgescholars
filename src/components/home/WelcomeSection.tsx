@@ -77,7 +77,7 @@ export function WelcomeSection() {
                     <img src={service.icon} alt={service.title} className="h-16 w-auto object-contain" />
                   </motion.div>
 
-                  <h3 className="font-serif text-xl font-semibold text-foreground mb-4 group- transition-colors duration-300">
+                  <h3 className="font-serif text-xl font-semibold text-foreground mb-4 group-  duration-300">
                     {service.title}
                   </h3>
 
