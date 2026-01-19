@@ -121,7 +121,7 @@ function Content({ book }) {
 
       <p className="text-muted-foreground line-clamp-4 min-h-[96px]">{book.description}</p>
 
-      <Button asChild className="bg-[#E4573D]">
+      <Button asChild className="bg-[#E4573D] text-white hover:bg-white hover:text-[#E4573D] border border-[#E4573D]">
         <Link to={`/books/${book.id}`}>View</Link>
       </Button>
 
