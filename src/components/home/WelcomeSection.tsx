@@ -81,7 +81,7 @@ export function WelcomeSection() {
                     {service.title}
                   </h3>
 
-                  <p className="text-muted-foreground mb-6 leading-relaxed text-sm md:text-base">
+                  <p className="mb-6 leading-relaxed text-sm md:text-base text-black">
                     {service.description}
                   </p>
 
