@@ -80,7 +80,7 @@ export default function Profile() {
   const [addresses, setAddresses] = useState<Address[]>([]);
   const [addressesLoading, setAddressesLoading] = useState(true);
   const [editingAddress, setEditingAddress] = useState<Partial<Address> | null>(null);
-  const [addressDialogOpen, setAddressDialogOpen] = useState(false);
+  const [addressFormMode, setAddressFormMode] = useState<'view' | 'billing' | 'shipping'>('view');
   const [addressSaving, setAddressSaving] = useState(false);
 
   useEffect(() => {
@@ -224,12 +224,17 @@ export default function Profile() {
       phone: "",
       is_default: true,
     });
-    setAddressDialogOpen(true);
+    setAddressFormMode(type);
   };
 
   const handleEditAddress = (address: Address) => {
     setEditingAddress({ ...address });
-    setAddressDialogOpen(true);
+    setAddressFormMode(address.address_type as 'billing' | 'shipping');
+  };
+
+  const handleCancelAddressForm = () => {
+    setEditingAddress(null);
+    setAddressFormMode('view');
   };
 
   const handleSaveAddress = async () => {
@@ -290,7 +295,8 @@ export default function Profile() {
         toast.success("Address saved successfully!");
       }
 
-      setAddressDialogOpen(false);
+      setAddressFormMode('view');
+      setEditingAddress(null);
       loadAddresses();
     } catch (error) {
       if (import.meta.env.DEV) console.error("Error saving address:", error);
@@ -516,7 +522,163 @@ export default function Profile() {
     );
   };
 
+  const renderAddressForm = () => {
+    if (!editingAddress) return null;
+
+    const isEditing = !!editingAddress.id;
+    const title = `${editingAddress.address_type === 'billing' ? 'Billing' : 'Shipping'} address`;
+
+    return (
+      <div className="space-y-6">
+        <h2 className="font-serif text-3xl font-semibold text-foreground">{title}</h2>
+        
+        <div className="space-y-4 max-w-2xl">
+          <div className="space-y-2">
+            <Label htmlFor="addr-firstName" className="uppercase text-xs font-medium">First Name *</Label>
+            <Input
+              id="addr-firstName"
+              value={editingAddress.first_name || ""}
+              onChange={(e) => setEditingAddress({ ...editingAddress, first_name: e.target.value })}
+            />
+          </div>
+          
+          <div className="space-y-2">
+            <Label htmlFor="addr-lastName" className="uppercase text-xs font-medium">Last Name *</Label>
+            <Input
+              id="addr-lastName"
+              value={editingAddress.last_name || ""}
+              onChange={(e) => setEditingAddress({ ...editingAddress, last_name: e.target.value })}
+            />
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="addr-company" className="uppercase text-xs font-medium">Company Name (optional)</Label>
+            <Input
+              id="addr-company"
+              value={editingAddress.company || ""}
+              onChange={(e) => setEditingAddress({ ...editingAddress, company: e.target.value })}
+            />
+          </div>
+          
+          <div className="space-y-2">
+            <Label htmlFor="addr-country" className="uppercase text-xs font-medium">Country / Region *</Label>
+            <Select
+              value={editingAddress.country || ""}
+              onValueChange={(value) => setEditingAddress({ ...editingAddress, country: value })}
+            >
+              <SelectTrigger>
+                <SelectValue placeholder="Select a country / region..." />
+              </SelectTrigger>
+              <SelectContent>
+                {COUNTRIES.map((country) => (
+                  <SelectItem key={country} value={country}>{country}</SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+          
+          <div className="space-y-2">
+            <Label htmlFor="addr-street" className="uppercase text-xs font-medium">Street Address *</Label>
+            <Input
+              id="addr-street"
+              value={editingAddress.street_address || ""}
+              onChange={(e) => setEditingAddress({ ...editingAddress, street_address: e.target.value })}
+              placeholder="House number and street name"
+            />
+            <Input
+              id="addr-street2"
+              value={editingAddress.street_address_2 || ""}
+              onChange={(e) => setEditingAddress({ ...editingAddress, street_address_2: e.target.value })}
+              placeholder="Apartment, suite, unit, etc. (optional)"
+              className="mt-2"
+            />
+          </div>
+          
+          <div className="space-y-2">
+            <Label htmlFor="addr-city" className="uppercase text-xs font-medium">Town / City *</Label>
+            <Input
+              id="addr-city"
+              value={editingAddress.city || ""}
+              onChange={(e) => setEditingAddress({ ...editingAddress, city: e.target.value })}
+            />
+          </div>
+          
+          <div className="space-y-2">
+            <Label htmlFor="addr-state" className="uppercase text-xs font-medium">State / County *</Label>
+            <Select
+              value={editingAddress.state || ""}
+              onValueChange={(value) => setEditingAddress({ ...editingAddress, state: value })}
+            >
+              <SelectTrigger>
+                <SelectValue placeholder="Select an option..." />
+              </SelectTrigger>
+              <SelectContent>
+                {/* Common states/regions */}
+                <SelectItem value="Alabama">Alabama</SelectItem>
+                <SelectItem value="Alaska">Alaska</SelectItem>
+                <SelectItem value="Arizona">Arizona</SelectItem>
+                <SelectItem value="California">California</SelectItem>
+                <SelectItem value="Colorado">Colorado</SelectItem>
+                <SelectItem value="Florida">Florida</SelectItem>
+                <SelectItem value="Georgia">Georgia</SelectItem>
+                <SelectItem value="Illinois">Illinois</SelectItem>
+                <SelectItem value="New York">New York</SelectItem>
+                <SelectItem value="Texas">Texas</SelectItem>
+                <SelectItem value="Washington">Washington</SelectItem>
+                <SelectItem value="Haryana">Haryana</SelectItem>
+                <SelectItem value="Maharashtra">Maharashtra</SelectItem>
+                <SelectItem value="Karnataka">Karnataka</SelectItem>
+                <SelectItem value="Tamil Nadu">Tamil Nadu</SelectItem>
+                <SelectItem value="Delhi">Delhi</SelectItem>
+                <SelectItem value="Other">Other</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+          
+          <div className="space-y-2">
+            <Label htmlFor="addr-postcode" className="uppercase text-xs font-medium">Postcode / ZIP *</Label>
+            <Input
+              id="addr-postcode"
+              value={editingAddress.postcode || ""}
+              onChange={(e) => setEditingAddress({ ...editingAddress, postcode: e.target.value })}
+            />
+          </div>
+          
+          <div className="space-y-2">
+            <Label htmlFor="addr-phone" className="uppercase text-xs font-medium">Phone *</Label>
+            <Input
+              id="addr-phone"
+              value={editingAddress.phone || ""}
+              onChange={(e) => setEditingAddress({ ...editingAddress, phone: e.target.value })}
+            />
+          </div>
+
+          <div className="flex gap-4 pt-4">
+            <Button 
+              onClick={handleSaveAddress} 
+              disabled={addressSaving}
+              className="bg-red-500 hover:bg-red-600 text-white"
+            >
+              {addressSaving ? "Saving..." : "SAVE ADDRESS"}
+            </Button>
+            <Button 
+              variant="outline" 
+              onClick={handleCancelAddressForm}
+            >
+              Cancel
+            </Button>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
   const renderAddressesContent = () => {
+    // If we're in form mode, show the form
+    if (addressFormMode !== 'view' && editingAddress) {
+      return renderAddressForm();
+    }
+
     const billingAddress = addresses.find(a => a.address_type === 'billing');
     const shippingAddress = addresses.find(a => a.address_type === 'shipping');
 
@@ -536,20 +698,24 @@ export default function Profile() {
             <div>
               <h3 className="font-serif text-2xl font-semibold text-foreground mb-4">Billing address</h3>
               {billingAddress ? (
-                <div className="space-y-2">
-                  <p>{billingAddress.first_name} {billingAddress.last_name}</p>
-                  {billingAddress.company && <p>{billingAddress.company}</p>}
-                  <p>{billingAddress.street_address}</p>
-                  {billingAddress.street_address_2 && <p>{billingAddress.street_address_2}</p>}
-                  <p>{billingAddress.city}, {billingAddress.state} {billingAddress.postcode}</p>
-                  <p>{billingAddress.country}</p>
-                  <p>{billingAddress.phone}</p>
+                <div className="space-y-1 text-muted-foreground">
                   <button
                     onClick={() => handleEditAddress(billingAddress)}
-                    className="text-red-500 hover:text-red-600 transition-colors mt-2 uppercase text-sm font-medium"
+                    className="text-red-500 hover:text-red-600 transition-colors uppercase text-sm font-medium mb-4 block"
                   >
                     Edit Billing Address
                   </button>
+                  <p>{billingAddress.first_name}</p>
+                  <p>{billingAddress.last_name}</p>
+                  {billingAddress.company && <p>{billingAddress.company}</p>}
+                  <p>{billingAddress.country}</p>
+                  <p>{billingAddress.street_address}</p>
+                  {billingAddress.street_address_2 && <p>{billingAddress.street_address_2}</p>}
+                  <p>{billingAddress.city}</p>
+                  <p>{billingAddress.state}</p>
+                  <p>{billingAddress.postcode}</p>
+                  <p>{billingAddress.phone}</p>
+                  <p>{user?.email}</p>
                 </div>
               ) : (
                 <div>
@@ -570,20 +736,24 @@ export default function Profile() {
             <div>
               <h3 className="font-serif text-2xl font-semibold text-foreground mb-4">Shipping address</h3>
               {shippingAddress ? (
-                <div className="space-y-2">
-                  <p>{shippingAddress.first_name} {shippingAddress.last_name}</p>
-                  {shippingAddress.company && <p>{shippingAddress.company}</p>}
-                  <p>{shippingAddress.street_address}</p>
-                  {shippingAddress.street_address_2 && <p>{shippingAddress.street_address_2}</p>}
-                  <p>{shippingAddress.city}, {shippingAddress.state} {shippingAddress.postcode}</p>
-                  <p>{shippingAddress.country}</p>
-                  <p>{shippingAddress.phone}</p>
+                <div className="space-y-1 text-muted-foreground">
                   <button
                     onClick={() => handleEditAddress(shippingAddress)}
-                    className="text-red-500 hover:text-red-600 transition-colors mt-2 uppercase text-sm font-medium"
+                    className="text-red-500 hover:text-red-600 transition-colors uppercase text-sm font-medium mb-4 block"
                   >
                     Edit Shipping Address
                   </button>
+                  <p>{shippingAddress.first_name}</p>
+                  <p>{shippingAddress.last_name}</p>
+                  {shippingAddress.company && <p>{shippingAddress.company}</p>}
+                  <p>{shippingAddress.country}</p>
+                  <p>{shippingAddress.street_address}</p>
+                  {shippingAddress.street_address_2 && <p>{shippingAddress.street_address_2}</p>}
+                  <p>{shippingAddress.city}</p>
+                  <p>{shippingAddress.state}</p>
+                  <p>{shippingAddress.postcode}</p>
+                  <p>{shippingAddress.phone}</p>
+                  <p>{user?.email}</p>
                 </div>
               ) : (
                 <div>
@@ -864,114 +1034,6 @@ export default function Profile() {
             </Button>
             <Button variant="gold" onClick={handleSaveBook} disabled={editSaving}>
               {editSaving ? "Saving..." : "Save Changes"}
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
-
-      {/* Address Dialog */}
-      <Dialog open={addressDialogOpen} onOpenChange={setAddressDialogOpen}>
-        <DialogContent className="max-w-lg max-h-[90vh] overflow-y-auto">
-          <DialogHeader>
-            <DialogTitle className="font-serif text-xl">
-              {editingAddress?.address_type === 'billing' ? 'Billing' : 'Shipping'} address
-            </DialogTitle>
-          </DialogHeader>
-          {editingAddress && (
-            <div className="space-y-4">
-              <div className="space-y-2">
-                <Label htmlFor="addr-firstName" className="uppercase text-xs font-medium">First Name *</Label>
-                <Input
-                  id="addr-firstName"
-                  value={editingAddress.first_name || ""}
-                  onChange={(e) => setEditingAddress({ ...editingAddress, first_name: e.target.value })}
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="addr-lastName" className="uppercase text-xs font-medium">Last Name *</Label>
-                <Input
-                  id="addr-lastName"
-                  value={editingAddress.last_name || ""}
-                  onChange={(e) => setEditingAddress({ ...editingAddress, last_name: e.target.value })}
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="addr-country" className="uppercase text-xs font-medium">Country / Region *</Label>
-                <Select
-                  value={editingAddress.country || ""}
-                  onValueChange={(value) => setEditingAddress({ ...editingAddress, country: value })}
-                >
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select a country / region..." />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {COUNTRIES.map((country) => (
-                      <SelectItem key={country} value={country}>{country}</SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="addr-street" className="uppercase text-xs font-medium">Street Address *</Label>
-                <Input
-                  id="addr-street"
-                  value={editingAddress.street_address || ""}
-                  onChange={(e) => setEditingAddress({ ...editingAddress, street_address: e.target.value })}
-                  placeholder="House number and street name"
-                />
-                <Input
-                  id="addr-street2"
-                  value={editingAddress.street_address_2 || ""}
-                  onChange={(e) => setEditingAddress({ ...editingAddress, street_address_2: e.target.value })}
-                  placeholder="Apartment, suite, unit, etc. (optional)"
-                  className="mt-2"
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="addr-city" className="uppercase text-xs font-medium">Town / City *</Label>
-                <Input
-                  id="addr-city"
-                  value={editingAddress.city || ""}
-                  onChange={(e) => setEditingAddress({ ...editingAddress, city: e.target.value })}
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="addr-state" className="uppercase text-xs font-medium">State / County *</Label>
-                <Input
-                  id="addr-state"
-                  value={editingAddress.state || ""}
-                  onChange={(e) => setEditingAddress({ ...editingAddress, state: e.target.value })}
-                  placeholder="Select an option..."
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="addr-postcode" className="uppercase text-xs font-medium">Postcode / ZIP *</Label>
-                <Input
-                  id="addr-postcode"
-                  value={editingAddress.postcode || ""}
-                  onChange={(e) => setEditingAddress({ ...editingAddress, postcode: e.target.value })}
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="addr-phone" className="uppercase text-xs font-medium">Phone *</Label>
-                <Input
-                  id="addr-phone"
-                  value={editingAddress.phone || ""}
-                  onChange={(e) => setEditingAddress({ ...editingAddress, phone: e.target.value })}
-                />
-              </div>
-            </div>
-          )}
-          <DialogFooter>
-            <Button variant="outline" onClick={() => setAddressDialogOpen(false)}>
-              Cancel
-            </Button>
-            <Button 
-              onClick={handleSaveAddress} 
-              disabled={addressSaving}
-              className="bg-red-500 hover:bg-red-600 text-white"
-            >
-              {addressSaving ? "Saving..." : "SAVE ADDRESS"}
             </Button>
           </DialogFooter>
         </DialogContent>
