@@ -10,9 +10,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { useExternalAuth } from "@/contexts/ExternalAuthContext";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
-
 type TabType = "dashboard" | "orders" | "addresses" | "account";
-
 interface Address {
   id: string;
   address_type: 'billing' | 'shipping';
@@ -28,27 +26,20 @@ interface Address {
   phone: string;
   is_default: boolean;
 }
-
 interface Order {
   id: string;
   status: string;
   total: number;
   created_at: string;
 }
-
-const COUNTRIES = [
-  "United States", "United Kingdom", "Canada", "Australia", "Germany", 
-  "France", "India", "Japan", "Brazil", "Mexico", "Other"
-];
-
-const STATES = [
-  "Alabama", "Alaska", "Arizona", "California", "Colorado", "Florida", 
-  "Georgia", "Illinois", "New York", "Texas", "Washington",
-  "Haryana", "Maharashtra", "Karnataka", "Tamil Nadu", "Delhi", "Other"
-];
-
+const COUNTRIES = ["United States", "United Kingdom", "Canada", "Australia", "Germany", "France", "India", "Japan", "Brazil", "Mexico", "Other"];
+const STATES = ["Alabama", "Alaska", "Arizona", "California", "Colorado", "Florida", "Georgia", "Illinois", "New York", "Texas", "Washington", "Haryana", "Maharashtra", "Karnataka", "Tamil Nadu", "Delhi", "Other"];
 export default function ExternalProfile() {
-  const { user, isAuthenticated, logout } = useExternalAuth();
+  const {
+    user,
+    isAuthenticated,
+    logout
+  } = useExternalAuth();
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState<TabType>("dashboard");
 
@@ -62,7 +53,6 @@ export default function ExternalProfile() {
   // Orders state
   const [orders, setOrders] = useState<Order[]>([]);
   const [ordersLoading, setOrdersLoading] = useState(true);
-
   useEffect(() => {
     if (isAuthenticated && user && activeTab === "addresses") {
       loadAddresses();
@@ -71,17 +61,16 @@ export default function ExternalProfile() {
       loadOrders();
     }
   }, [activeTab, isAuthenticated, user]);
-
   const loadAddresses = async () => {
     if (!user) return;
     setAddressesLoading(true);
     try {
-      const { data, error } = await supabase
-        .from("addresses")
-        .select("*")
-        .eq("user_id", user.id)
-        .order("created_at", { ascending: false });
-
+      const {
+        data,
+        error
+      } = await supabase.from("addresses").select("*").eq("user_id", user.id).order("created_at", {
+        ascending: false
+      });
       if (error) throw error;
       setAddresses((data || []) as Address[]);
     } catch (error) {
@@ -90,17 +79,16 @@ export default function ExternalProfile() {
       setAddressesLoading(false);
     }
   };
-
   const loadOrders = async () => {
     if (!user) return;
     setOrdersLoading(true);
     try {
-      const { data, error } = await supabase
-        .from("orders")
-        .select("id, status, total, created_at")
-        .eq("user_id", user.id)
-        .order("created_at", { ascending: false });
-
+      const {
+        data,
+        error
+      } = await supabase.from("orders").select("id, status, total, created_at").eq("user_id", user.id).order("created_at", {
+        ascending: false
+      });
       if (error) throw error;
       setOrders(data || []);
     } catch (error) {
@@ -109,7 +97,6 @@ export default function ExternalProfile() {
       setOrdersLoading(false);
     }
   };
-
   const handleAddAddress = (type: 'billing' | 'shipping') => {
     setEditingAddress({
       address_type: type,
@@ -123,79 +110,70 @@ export default function ExternalProfile() {
       state: "",
       postcode: "",
       phone: "",
-      is_default: true,
+      is_default: true
     });
     setAddressFormMode(type);
   };
-
   const handleEditAddress = (address: Address) => {
-    setEditingAddress({ ...address });
+    setEditingAddress({
+      ...address
+    });
     setAddressFormMode(address.address_type as 'billing' | 'shipping');
   };
-
   const handleCancelAddressForm = () => {
     setEditingAddress(null);
     setAddressFormMode('view');
   };
-
   const handleSaveAddress = async () => {
     if (!editingAddress || !user) return;
 
     // Validate required fields
-    if (!editingAddress.first_name || !editingAddress.last_name || 
-        !editingAddress.country || !editingAddress.street_address || 
-        !editingAddress.city || !editingAddress.state || 
-        !editingAddress.postcode || !editingAddress.phone) {
+    if (!editingAddress.first_name || !editingAddress.last_name || !editingAddress.country || !editingAddress.street_address || !editingAddress.city || !editingAddress.state || !editingAddress.postcode || !editingAddress.phone) {
       toast.error("Please fill in all required fields");
       return;
     }
-
     setAddressSaving(true);
     try {
       if (editingAddress.id) {
         // Update existing
-        const { error } = await supabase
-          .from("addresses")
-          .update({
-            first_name: editingAddress.first_name,
-            last_name: editingAddress.last_name,
-            company: editingAddress.company || null,
-            country: editingAddress.country,
-            street_address: editingAddress.street_address,
-            street_address_2: editingAddress.street_address_2 || null,
-            city: editingAddress.city,
-            state: editingAddress.state,
-            postcode: editingAddress.postcode,
-            phone: editingAddress.phone,
-          })
-          .eq("id", editingAddress.id);
-
+        const {
+          error
+        } = await supabase.from("addresses").update({
+          first_name: editingAddress.first_name,
+          last_name: editingAddress.last_name,
+          company: editingAddress.company || null,
+          country: editingAddress.country,
+          street_address: editingAddress.street_address,
+          street_address_2: editingAddress.street_address_2 || null,
+          city: editingAddress.city,
+          state: editingAddress.state,
+          postcode: editingAddress.postcode,
+          phone: editingAddress.phone
+        }).eq("id", editingAddress.id);
         if (error) throw error;
         toast.success("Address updated successfully!");
       } else {
         // Create new
-        const { error } = await supabase
-          .from("addresses")
-          .insert({
-            user_id: user.id,
-            address_type: editingAddress.address_type,
-            first_name: editingAddress.first_name,
-            last_name: editingAddress.last_name,
-            company: editingAddress.company || null,
-            country: editingAddress.country,
-            street_address: editingAddress.street_address,
-            street_address_2: editingAddress.street_address_2 || null,
-            city: editingAddress.city,
-            state: editingAddress.state,
-            postcode: editingAddress.postcode,
-            phone: editingAddress.phone,
-            is_default: true,
-          });
-
+        const {
+          error
+        } = await supabase.from("addresses").insert({
+          user_id: user.id,
+          address_type: editingAddress.address_type,
+          first_name: editingAddress.first_name,
+          last_name: editingAddress.last_name,
+          company: editingAddress.company || null,
+          country: editingAddress.country,
+          street_address: editingAddress.street_address,
+          street_address_2: editingAddress.street_address_2 || null,
+          city: editingAddress.city,
+          state: editingAddress.state,
+          postcode: editingAddress.postcode,
+          phone: editingAddress.phone,
+          is_default: true
+        });
         if (error) throw error;
         toast.success("Address saved successfully!");
       }
-
       setAddressFormMode('view');
       setEditingAddress(null);
       loadAddresses();
@@ -206,16 +184,13 @@ export default function ExternalProfile() {
       setAddressSaving(false);
     }
   };
-
   const handleLogout = () => {
     logout();
     toast.success("Signed out successfully");
     navigate("/");
   };
-
   if (!isAuthenticated || !user) {
-    return (
-      <div className="min-h-screen bg-background">
+    return <div className="min-h-screen bg-background">
         <Header />
         <main className="pt-32 pb-16">
           <div className="container-wide text-center">
@@ -228,21 +203,27 @@ export default function ExternalProfile() {
           </div>
         </main>
         <Footer />
-      </div>
-    );
+      </div>;
   }
-
   const displayName = user.name || user.username || user.email?.split("@")[0] || "User";
-
-  const sidebarItems = [
-    { id: "dashboard" as TabType, label: "DASHBOARD", icon: User },
-    { id: "orders" as TabType, label: "ORDERS", icon: Package },
-    { id: "addresses" as TabType, label: "ADDRESSES", icon: MapPin },
-    { id: "account" as TabType, label: "ACCOUNT DETAILS", icon: Settings },
-  ];
-
-  const renderDashboard = () => (
-    <div className="space-y-6">
+  const sidebarItems = [{
+    id: "dashboard" as TabType,
+    label: "DASHBOARD",
+    icon: User
+  }, {
+    id: "orders" as TabType,
+    label: "ORDERS",
+    icon: Package
+  }, {
+    id: "addresses" as TabType,
+    label: "ADDRESSES",
+    icon: MapPin
+  }, {
+    id: "account" as TabType,
+    label: "ACCOUNT DETAILS",
+    icon: Settings
+  }];
+  const renderDashboard = () => <div className="space-y-6">
       <p className="text-foreground text-lg">
         Hello <span className="font-semibold">{displayName}</span>{" "}
         <span className="text-muted-foreground">
@@ -260,10 +241,7 @@ export default function ExternalProfile() {
           recent orders
         </button>
         , manage your{" "}
-        <button
-          onClick={() => setActiveTab("addresses")}
-          className="text-red-500 hover:text-red-600 transition-colors"
-        >
+        <button onClick={() => setActiveTab("addresses")} className="text-red-500 hover:text-red-600 transition-colors">
           shipping and billing addresses
         </button>
         , and{" "}
@@ -272,17 +250,11 @@ export default function ExternalProfile() {
         </button>
         .
       </p>
-    </div>
-  );
-
-  const renderOrders = () => (
-    <div className="space-y-6">
-      {ordersLoading ? (
-        <div className="flex items-center justify-center py-8">
+    </div>;
+  const renderOrders = () => <div className="space-y-6">
+      {ordersLoading ? <div className="flex items-center justify-center py-8">
           <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
-        </div>
-      ) : orders.length === 0 ? (
-        <div className="bg-teal-600 text-white p-4 rounded flex items-center justify-between">
+        </div> : orders.length === 0 ? <div className="bg-teal-600 text-white p-4 rounded flex items-center justify-between">
           <div className="flex items-center gap-3">
             <Info className="h-5 w-5" />
             <span>No order has been made yet.</span>
@@ -290,11 +262,8 @@ export default function ExternalProfile() {
           <Link to="/books" className="flex items-center gap-2 hover:underline">
             Browse products <ArrowRight className="h-4 w-4" />
           </Link>
-        </div>
-      ) : (
-        <div className="space-y-4">
-          {orders.map((order) => (
-            <div key={order.id} className="border rounded-lg p-4">
+        </div> : <div className="space-y-4">
+          {orders.map(order => <div key={order.id} className="border rounded-lg p-4">
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-sm text-muted-foreground">Order #{order.id.slice(0, 8).toUpperCase()}</p>
@@ -303,188 +272,143 @@ export default function ExternalProfile() {
                   </p>
                 </div>
                 <div className="text-right">
-                  <span className={`px-3 py-1 rounded-full text-xs font-medium capitalize ${
-                    order.status === 'completed' ? 'bg-green-100 text-green-800' :
-                    order.status === 'processing' ? 'bg-blue-100 text-blue-800' :
-                    'bg-yellow-100 text-yellow-800'
-                  }`}>
+                  <span className={`px-3 py-1 rounded-full text-xs font-medium capitalize ${order.status === 'completed' ? 'bg-green-100 text-green-800' : order.status === 'processing' ? 'bg-blue-100 text-blue-800' : 'bg-yellow-100 text-yellow-800'}`}>
                     {order.status}
                   </span>
                   <p className="font-semibold mt-1">${order.total.toFixed(2)}</p>
                 </div>
               </div>
-            </div>
-          ))}
-        </div>
-      )}
-    </div>
-  );
-
+            </div>)}
+        </div>}
+    </div>;
   const renderAddressForm = () => {
     if (!editingAddress) return null;
-
     const title = `${editingAddress.address_type === 'billing' ? 'Billing' : 'Shipping'} address`;
-
-    return (
-      <div className="space-y-6">
+    return <div className="space-y-6">
         <h2 className="font-serif text-3xl font-semibold text-foreground">{title}</h2>
         
         <div className="space-y-4 max-w-2xl">
           <div className="space-y-2">
             <Label htmlFor="addr-firstName" className="uppercase text-xs font-medium">First Name *</Label>
-            <Input
-              id="addr-firstName"
-              value={editingAddress.first_name || ""}
-              onChange={(e) => setEditingAddress({ ...editingAddress, first_name: e.target.value })}
-            />
+            <Input id="addr-firstName" value={editingAddress.first_name || ""} onChange={e => setEditingAddress({
+            ...editingAddress,
+            first_name: e.target.value
+          })} />
           </div>
           
           <div className="space-y-2">
             <Label htmlFor="addr-lastName" className="uppercase text-xs font-medium">Last Name *</Label>
-            <Input
-              id="addr-lastName"
-              value={editingAddress.last_name || ""}
-              onChange={(e) => setEditingAddress({ ...editingAddress, last_name: e.target.value })}
-            />
+            <Input id="addr-lastName" value={editingAddress.last_name || ""} onChange={e => setEditingAddress({
+            ...editingAddress,
+            last_name: e.target.value
+          })} />
           </div>
 
           <div className="space-y-2">
             <Label htmlFor="addr-company" className="uppercase text-xs font-medium">Company Name (optional)</Label>
-            <Input
-              id="addr-company"
-              value={editingAddress.company || ""}
-              onChange={(e) => setEditingAddress({ ...editingAddress, company: e.target.value })}
-            />
+            <Input id="addr-company" value={editingAddress.company || ""} onChange={e => setEditingAddress({
+            ...editingAddress,
+            company: e.target.value
+          })} />
           </div>
           
           <div className="space-y-2">
             <Label htmlFor="addr-country" className="uppercase text-xs font-medium">Country / Region *</Label>
-            <Select
-              value={editingAddress.country || ""}
-              onValueChange={(value) => setEditingAddress({ ...editingAddress, country: value })}
-            >
+            <Select value={editingAddress.country || ""} onValueChange={value => setEditingAddress({
+            ...editingAddress,
+            country: value
+          })}>
               <SelectTrigger>
                 <SelectValue placeholder="Select a country / region..." />
               </SelectTrigger>
               <SelectContent>
-                {COUNTRIES.map((country) => (
-                  <SelectItem key={country} value={country}>{country}</SelectItem>
-                ))}
+                {COUNTRIES.map(country => <SelectItem key={country} value={country}>{country}</SelectItem>)}
               </SelectContent>
             </Select>
           </div>
           
           <div className="space-y-2">
             <Label htmlFor="addr-street" className="uppercase text-xs font-medium">Street Address *</Label>
-            <Input
-              id="addr-street"
-              value={editingAddress.street_address || ""}
-              onChange={(e) => setEditingAddress({ ...editingAddress, street_address: e.target.value })}
-              placeholder="House number and street name"
-            />
-            <Input
-              id="addr-street2"
-              value={editingAddress.street_address_2 || ""}
-              onChange={(e) => setEditingAddress({ ...editingAddress, street_address_2: e.target.value })}
-              placeholder="Apartment, suite, unit, etc. (optional)"
-              className="mt-2"
-            />
+            <Input id="addr-street" value={editingAddress.street_address || ""} onChange={e => setEditingAddress({
+            ...editingAddress,
+            street_address: e.target.value
+          })} placeholder="House number and street name" />
+            <Input id="addr-street2" value={editingAddress.street_address_2 || ""} onChange={e => setEditingAddress({
+            ...editingAddress,
+            street_address_2: e.target.value
+          })} placeholder="Apartment, suite, unit, etc. (optional)" className="mt-2" />
           </div>
           
           <div className="space-y-2">
             <Label htmlFor="addr-city" className="uppercase text-xs font-medium">Town / City *</Label>
-            <Input
-              id="addr-city"
-              value={editingAddress.city || ""}
-              onChange={(e) => setEditingAddress({ ...editingAddress, city: e.target.value })}
-            />
+            <Input id="addr-city" value={editingAddress.city || ""} onChange={e => setEditingAddress({
+            ...editingAddress,
+            city: e.target.value
+          })} />
           </div>
           
           <div className="space-y-2">
             <Label htmlFor="addr-state" className="uppercase text-xs font-medium">State / County *</Label>
-            <Select
-              value={editingAddress.state || ""}
-              onValueChange={(value) => setEditingAddress({ ...editingAddress, state: value })}
-            >
+            <Select value={editingAddress.state || ""} onValueChange={value => setEditingAddress({
+            ...editingAddress,
+            state: value
+          })}>
               <SelectTrigger>
                 <SelectValue placeholder="Select an option..." />
               </SelectTrigger>
               <SelectContent>
-                {STATES.map((state) => (
-                  <SelectItem key={state} value={state}>{state}</SelectItem>
-                ))}
+                {STATES.map(state => <SelectItem key={state} value={state}>{state}</SelectItem>)}
               </SelectContent>
             </Select>
           </div>
           
           <div className="space-y-2">
             <Label htmlFor="addr-postcode" className="uppercase text-xs font-medium">Postcode / ZIP *</Label>
-            <Input
-              id="addr-postcode"
-              value={editingAddress.postcode || ""}
-              onChange={(e) => setEditingAddress({ ...editingAddress, postcode: e.target.value })}
-            />
+            <Input id="addr-postcode" value={editingAddress.postcode || ""} onChange={e => setEditingAddress({
+            ...editingAddress,
+            postcode: e.target.value
+          })} />
           </div>
           
           <div className="space-y-2">
             <Label htmlFor="addr-phone" className="uppercase text-xs font-medium">Phone *</Label>
-            <Input
-              id="addr-phone"
-              value={editingAddress.phone || ""}
-              onChange={(e) => setEditingAddress({ ...editingAddress, phone: e.target.value })}
-            />
+            <Input id="addr-phone" value={editingAddress.phone || ""} onChange={e => setEditingAddress({
+            ...editingAddress,
+            phone: e.target.value
+          })} />
           </div>
 
           <div className="flex gap-4 pt-4">
-            <Button 
-              onClick={handleSaveAddress} 
-              disabled={addressSaving}
-              className="bg-red-500 hover:bg-red-600 text-white"
-            >
+            <Button onClick={handleSaveAddress} disabled={addressSaving} className="bg-red-500 hover:bg-red-600 text-white">
               {addressSaving ? "Saving..." : "SAVE ADDRESS"}
             </Button>
-            <Button 
-              variant="outline" 
-              onClick={handleCancelAddressForm}
-            >
+            <Button variant="outline" onClick={handleCancelAddressForm}>
               Cancel
             </Button>
           </div>
         </div>
-      </div>
-    );
+      </div>;
   };
-
   const renderAddresses = () => {
     // If we're in form mode, show the form
     if (addressFormMode !== 'view' && editingAddress) {
       return renderAddressForm();
     }
-
     const billingAddress = addresses.find(a => a.address_type === 'billing');
     const shippingAddress = addresses.find(a => a.address_type === 'shipping');
-
-    return (
-      <div className="space-y-6">
+    return <div className="space-y-6">
         <p className="text-muted-foreground">
           The following addresses will be used on the checkout page by default.
         </p>
         
-        {addressesLoading ? (
-          <div className="flex items-center justify-center py-8">
+        {addressesLoading ? <div className="flex items-center justify-center py-8">
             <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
-          </div>
-        ) : (
-          <div className="grid md:grid-cols-2 gap-8">
+          </div> : <div className="grid md:grid-cols-2 gap-8">
             {/* Billing Address */}
             <div>
               <h3 className="font-serif text-2xl font-semibold text-foreground mb-4">Billing address</h3>
-              {billingAddress ? (
-                <div className="space-y-1 text-muted-foreground">
-                  <button
-                    onClick={() => handleEditAddress(billingAddress)}
-                    className="text-red-500 hover:text-red-600 transition-colors uppercase text-sm font-medium mb-4 block"
-                  >
+              {billingAddress ? <div className="space-y-1 text-muted-foreground">
+                  <button onClick={() => handleEditAddress(billingAddress)} className="text-red-500 hover:text-red-600 transition-colors uppercase text-sm font-medium mb-4 block">
                     Edit Billing Address
                   </button>
                   <p>{billingAddress.first_name}</p>
@@ -498,31 +422,21 @@ export default function ExternalProfile() {
                   <p>{billingAddress.postcode}</p>
                   <p>{billingAddress.phone}</p>
                   <p>{user?.email}</p>
-                </div>
-              ) : (
-                <div>
-                  <button
-                    onClick={() => handleAddAddress('billing')}
-                    className="text-red-500 hover:text-red-600 transition-colors uppercase text-sm font-medium"
-                  >
+                </div> : <div>
+                  <button onClick={() => handleAddAddress('billing')} className="text-red-500 hover:text-red-600 transition-colors uppercase text-sm font-medium">
                     Add Billing Address
                   </button>
                   <p className="text-muted-foreground text-sm mt-2">
                     You have not set up this type of address yet.
                   </p>
-                </div>
-              )}
+                </div>}
             </div>
 
             {/* Shipping Address */}
             <div>
               <h3 className="font-serif text-2xl font-semibold text-foreground mb-4">Shipping address</h3>
-              {shippingAddress ? (
-                <div className="space-y-1 text-muted-foreground">
-                  <button
-                    onClick={() => handleEditAddress(shippingAddress)}
-                    className="text-red-500 hover:text-red-600 transition-colors uppercase text-sm font-medium mb-4 block"
-                  >
+              {shippingAddress ? <div className="space-y-1 text-muted-foreground">
+                  <button onClick={() => handleEditAddress(shippingAddress)} className="text-red-500 hover:text-red-600 transition-colors uppercase text-sm font-medium mb-4 block">
                     Edit Shipping Address
                   </button>
                   <p>{shippingAddress.first_name}</p>
@@ -536,29 +450,19 @@ export default function ExternalProfile() {
                   <p>{shippingAddress.postcode}</p>
                   <p>{shippingAddress.phone}</p>
                   <p>{user?.email}</p>
-                </div>
-              ) : (
-                <div>
-                  <button
-                    onClick={() => handleAddAddress('shipping')}
-                    className="text-red-500 hover:text-red-600 transition-colors uppercase text-sm font-medium"
-                  >
+                </div> : <div>
+                  <button onClick={() => handleAddAddress('shipping')} className="text-red-500 hover:text-red-600 transition-colors uppercase text-sm font-medium">
                     Add Shipping Address
                   </button>
                   <p className="text-muted-foreground text-sm mt-2">
                     You have not set up this type of address yet.
                   </p>
-                </div>
-              )}
+                </div>}
             </div>
-          </div>
-        )}
-      </div>
-    );
+          </div>}
+      </div>;
   };
-
-  const renderAccount = () => (
-    <div className="space-y-6">
+  const renderAccount = () => <div className="space-y-6">
       <h2 className="font-serif text-2xl font-semibold text-foreground">Account Details</h2>
 
       <div className="space-y-4">
@@ -581,12 +485,10 @@ export default function ExternalProfile() {
             <p className="text-foreground bg-secondary px-3 py-2 rounded">{user.email || "—"}</p>
           </div>
 
-          {user.name && (
-            <div className="space-y-1 md:col-span-2">
+          {user.name && <div className="space-y-1 md:col-span-2">
               <p className="text-xs font-medium tracking-wider uppercase text-muted-foreground">Full Name</p>
               <p className="text-foreground bg-secondary px-3 py-2 rounded">{user.name}</p>
-            </div>
-          )}
+            </div>}
         </div>
 
         <div className="pt-2">
@@ -595,9 +497,7 @@ export default function ExternalProfile() {
           </Button>
         </div>
       </div>
-    </div>
-  );
-
+    </div>;
   const renderContent = () => {
     switch (activeTab) {
       case "dashboard":
@@ -612,26 +512,24 @@ export default function ExternalProfile() {
         return renderDashboard();
     }
   };
-
-  return (
-    <div className="min-h-screen bg-background">
+  return <div className="min-h-screen bg-background">
       <Header />
 
       <main className="pt-24">
         {/* Header Banner */}
-        <div className="bg-primary text-primary-foreground py-12">
+        <div className="text-primary-foreground py-12 bg-[#f4f3ec]">
           <div className="container-wide">
             <div className="flex items-center justify-between">
-              <h1 className="font-serif text-4xl font-bold">My account</h1>
+              <h1 className="font-serif text-4xl font-bold text-black">My account</h1>
               <nav className="text-sm">
-                <Link to="/" className="hover:text-accent transition-colors">
+                <Link to="/" className="transition-colors text-black">
                   Home
                 </Link>
-                <span className="mx-2">/</span>
-                <Link to="/books" className="hover:text-accent transition-colors">
+                <span className="mx-2 text-black bg-inherit">/</span>
+                <Link to="/books" className="transition-colors text-black">
                   Bookshop
                 </Link>
-                <span className="mx-2">/</span>
+                <span className="mx-2 text-black">/</span>
                 <span className="text-red-500">My account</span>
               </nav>
             </div>
@@ -642,24 +540,11 @@ export default function ExternalProfile() {
           <div className="grid lg:grid-cols-[280px_1fr] gap-12">
             {/* Sidebar */}
             <nav className="space-y-0">
-              {sidebarItems.map((item) => (
-                <button
-                  key={item.id}
-                  onClick={() => setActiveTab(item.id)}
-                  className={`w-full text-left px-4 py-4 border-b border-border transition-colors flex items-center gap-3 ${
-                    activeTab === item.id
-                      ? "bg-red-500 text-white border-red-500"
-                      : "hover:bg-secondary text-foreground"
-                  }`}
-                >
+              {sidebarItems.map(item => <button key={item.id} onClick={() => setActiveTab(item.id)} className={`w-full text-left px-4 py-4 border-b border-border transition-colors flex items-center gap-3 ${activeTab === item.id ? "bg-red-500 text-white border-red-500" : "hover:bg-secondary text-foreground"}`}>
                   <item.icon className="h-4 w-4" />
                   {item.label}
-                </button>
-              ))}
-              <button
-                onClick={handleLogout}
-                className="w-full text-left px-4 py-4 border-b border-border transition-colors flex items-center gap-3 hover:bg-secondary text-foreground"
-              >
+                </button>)}
+              <button onClick={handleLogout} className="w-full text-left px-4 py-4 border-b border-border transition-colors flex items-center gap-3 hover:bg-secondary text-foreground">
                 <LogOut className="h-4 w-4" />
                 LOG OUT
               </button>
@@ -672,6 +557,5 @@ export default function ExternalProfile() {
       </main>
 
       <Footer />
-    </div>
-  );
+    </div>;
 }
