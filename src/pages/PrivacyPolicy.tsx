@@ -91,13 +91,21 @@ const PrivacyPolicy = () => {
 
           <Separator className="my-8" />
 
-          {/* Data Security */}
+          {/* Cookies */}
           <section className="mb-8">
-            <h2 className="font-playfair text-2xl font-semibold text-primary mb-4">Data Security</h2>
+            <h2 className="font-playfair text-2xl font-semibold text-primary mb-4">Cookies</h2>
             <p className="text-muted-foreground leading-relaxed">
-              We take appropriate security measures to protect your personal data against unauthorized access,
-              alteration, disclosure or destruction. All personal data is stored on secure servers and we use encryption
-              technology to protect sensitive information transmitted online.
+              Our website uses cookies to improve your browsing experience. Cookies help us to:
+            </p>
+            <ul className="list-disc list-inside space-y-2 text-muted-foreground">
+              <li>Estimate visitor numbers and usage patterns</li>
+              <li>Store information about your preferences</li>
+              <li>Speed up searches</li>
+              <li>Recognise you when you return to the site</li>
+            </ul>
+            <p>
+              You can disable cookies in your browser settings but some parts of the site may not function properly if
+              you do so. For more information please see our Cookie Policy.
             </p>
           </section>
 
