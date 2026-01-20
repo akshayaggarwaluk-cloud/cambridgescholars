@@ -9,17 +9,10 @@ const PrivacyPolicy = () => {
       <Header />
 
       {/* Header Banner */}
-      <div className="bg-[#f9f7f2] py-8">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center">
-            <h1
-              className="text-[40px]
- md:text-4xl font-bold text-black"
-            >
-              Privacy Policy
-            </h1>
-            <PageBreadcrumb items={[{ label: "Home" }, { label: "Privacy Policy" }]} />
-          </div>
+      <div className="pt-32 bg-[#f9f7f2] py-10 px-6 md:px-16">
+        <div className="max-w-7xl mx-auto flex justify-between items-center">
+          <h1 className="text-5xl font-serif text-gray-800">Privacy Policy</h1>
+          <PageBreadcrumb currentPage="Privacy Policy" />
         </div>
       </div>
 
