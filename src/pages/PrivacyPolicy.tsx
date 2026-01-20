@@ -9,7 +9,7 @@ const PrivacyPolicy = () => {
       <Header />
 
       {/* Header Banner */}
-      <div className="bg-[#f4f3ec] py-8">
+      <div className="bg-[#f9f7f2] py-8">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center">
             <h1 className="font-playfair text-3xl md:text-4xl font-bold text-primary">Privacy Policy</h1>
