@@ -111,34 +111,30 @@ const PrivacyPolicy = () => {
 
           <Separator className="my-8" />
 
-          {/* Your Rights */}
+          {/* Where We Store Your Data */}
           <section className="mb-8">
-            <h2 className="font-playfair text-2xl font-semibold text-primary mb-4">Your Rights</h2>
+            <h2 className="font-playfair text-2xl font-semibold text-primary mb-4">Where We Store Your Data</h2>
             <p className="text-muted-foreground leading-relaxed mb-4">
-              Under data protection law, you have the right to:
+              Your information may be transferred to and stored in locations outside the UK or European Economic Area.
+              We will take all necessary steps to ensure that your data is processed securely and in line with this
+              policy.
             </p>
-            <ul className="list-disc list-inside space-y-2 text-muted-foreground">
-              <li>Access your personal data</li>
-              <li>Request correction of inaccurate data</li>
-              <li>Request deletion of your data</li>
-              <li>Object to processing of your data</li>
-              <li>Request restriction of processing</li>
-              <li>Data portability</li>
-              <li>Withdraw consent at any time</li>
-            </ul>
+            <p>
+              All information is stored on secure servers. Payment transactions are encrypted. Where you are given a
+              password to access certain areas of the site you are responsible for keeping it confidential.
+            </p>
           </section>
 
           <Separator className="my-8" />
 
-          {/* Contact Us */}
+          {/* Data Security */}
           <section className="mb-8">
-            <h2 className="font-playfair text-2xl font-semibold text-primary mb-4">Contact Us</h2>
+            <h2 className="font-playfair text-2xl font-semibold text-primary mb-4">Data Security</h2>
             <p className="text-muted-foreground leading-relaxed">
-              If you have any questions about this privacy policy or wish to exercise any of your rights, please contact
-              us at{" "}
-              <a href="mailto:admin@cambridgescholars.com" className="text-red-500 hover:underline">
-                admin@cambridgescholars.com
-              </a>
+              While we take all reasonable measures to protect your data, transmission over the internet is not
+              completely secure. We cannot guarantee the security of data transmitted to our site and any transmission
+              is at your own risk. Once we have received your information we use strict procedures and security measures
+              to prevent unauthorised access.
             </p>
           </section>
         </div>
