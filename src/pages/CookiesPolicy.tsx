@@ -38,7 +38,7 @@ const CookiesPolicy = () => {
 
           {/* How We Use Cookies */}
           <section className="mb-8">
-            <h2 className="font-playfair text-2xl font-semibold text-primary mb-4">How We Use Cookies</h2>
+            <h2 className="font-playfair text-2xl font-semibold text-primary mb-4">We use cookies to:</h2>
             <p className="text-muted-foreground leading-relaxed mb-4">We use cookies to:</p>
             <ul className="list-disc list-inside space-y-2 text-muted-foreground">
               <li>Analyse website traffic and understand how visitors use our site</li>
@@ -82,30 +82,6 @@ const CookiesPolicy = () => {
             </p>
             <p className="text-muted-foreground leading-relaxed mt-4">
               Please note that disabling cookies may limit the functionality of the website.
-            </p>
-          </section>
-
-          <Separator className="my-8" />
-
-          {/* Third-Party Cookies */}
-          <section className="mb-8">
-            <h2 className="font-playfair text-2xl font-semibold text-primary mb-4">Third-Party Cookies</h2>
-            <p className="text-muted-foreground leading-relaxed">
-              We may also use third-party cookies from services like Google Analytics to help us analyse website
-              traffic. These cookies are governed by the privacy policies of the respective third parties.
-            </p>
-          </section>
-
-          <Separator className="my-8" />
-
-          {/* Contact Us */}
-          <section className="mb-8">
-            <h2 className="font-playfair text-2xl font-semibold text-primary mb-4">Contact Us</h2>
-            <p className="text-muted-foreground leading-relaxed">
-              If you have any questions about our use of cookies, please contact us at{" "}
-              <a href="mailto:admin@cambridgescholars.com" className="text-red-500 hover:underline">
-                admin@cambridgescholars.com
-              </a>
             </p>
           </section>
         </div>
