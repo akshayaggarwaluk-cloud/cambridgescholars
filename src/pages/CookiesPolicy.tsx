@@ -22,7 +22,7 @@ const CookiesPolicy = () => {
       <main className="flex-1 py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Introduction */}
-          <div className="mb-8">
+          <div className="mb-8 text-black">
             <p className="text-muted-foreground leading-relaxed">
               Cambridge Scholars Publishing uses cookies to improve your browsing experience and to understand how our
               website is used.
