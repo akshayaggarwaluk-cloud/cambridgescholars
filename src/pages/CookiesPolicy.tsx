@@ -37,7 +37,7 @@ const CookiesPolicy = () => {
           <Separator className="my-8" />
 
           {/* How We Use Cookies */}
-          <section className="mb-8">
+          <section className="mb-8 text-black">
             <h2 className="text-black font-playfair text-2xl font-semibold text-primary mb-4">How We Use Cookies</h2>
             <p className="text-black text-muted-foreground leading-relaxed mb-4">We use cookies to:</p>
             <ul className="text-black list-disc list-inside space-y-2 text-muted-foreground">
