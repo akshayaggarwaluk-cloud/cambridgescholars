@@ -137,6 +137,82 @@ const PrivacyPolicy = () => {
               to prevent unauthorised access.
             </p>
           </section>
+          <Separator className="my-8" />
+
+          {/* Sharing Your Information */}
+          <section className="mb-8">
+            <h2 className="font-playfair text-2xl font-semibold text-primary mb-4">Sharing Your Information</h2>
+            <p className="text-muted-foreground leading-relaxed">
+              We may share your personal data in the following situations:
+            </p>
+            <ul className="list-disc list-inside space-y-2 text-muted-foreground">
+              <li>Where we are required to do so by law</li>
+              <li>In connection with a business transfer such as the sale of assets</li>
+              <li>
+                With trusted third-party service providers who help us deliver ourservices such as payment processors or
+                delivery partners
+              </li>
+            </ul>
+            <p>We do not sell your personal data to third parties.</p>
+          </section>
+          <Separator className="my-8" />
+
+          {/*Your Rights */}
+          <section className="mb-8">
+            <h2 className="font-playfair text-2xl font-semibold text-primary mb-4">Your Rights</h2>
+            <p className="text-muted-foreground leading-relaxed">Under UK GDPR you have the right to:</p>
+            <ul className="list-disc list-inside space-y-2 text-muted-foreground">
+              <li>Access the personal data we hold about you</li>
+              <li>Request correction or deletion of your data</li>
+              <li>Object to certain types of processing including direct marketing</li>
+              <li>Withdraw consent where processing is based on consent</li>
+            </ul>
+            <p>To exercise your rights please contact us using the details below.</p>
+          </section>
+          <Separator className="my-8" />
+
+          {/* Marketing Communications and Legitimate Interest */}
+          <section className="mb-8">
+            <h2 className="font-playfair text-2xl font-semibold text-primary mb-4">
+              Marketing Communications and Legitimate Interest
+            </h2>
+            <p className="text-muted-foreground leading-relaxed">
+              We may contact you where we have a legitimate business interest, for example to provide information
+              relevant to your professional work, invite you to publish with us or notify you of new titles.
+            </p>
+            <p>
+              You can opt out of marketing communications at any time by using the unsubscribe link in emails or by
+              contacting us directly.
+            </p>
+            <p>
+              Our legitimate interests do not override your rights. We will not process your data where the impact on
+              you outweighs our interest.
+            </p>
+          </section>
+          <Separator className="my-8" />
+
+          {/* Data Security */}
+          <section className="mb-8">
+            <h2 className="font-playfair text-2xl font-semibold text-primary mb-4">Data Security</h2>
+            <p className="text-muted-foreground leading-relaxed">
+              While we take all reasonable measures to protect your data, transmission over the internet is not
+              completely secure. We cannot guarantee the security of data transmitted to our site and any transmission
+              is at your own risk. Once we have received your information we use strict procedures and security measures
+              to prevent unauthorised access.
+            </p>
+          </section>
+          <Separator className="my-8" />
+
+          {/* Data Security */}
+          <section className="mb-8">
+            <h2 className="font-playfair text-2xl font-semibold text-primary mb-4">Data Security</h2>
+            <p className="text-muted-foreground leading-relaxed">
+              While we take all reasonable measures to protect your data, transmission over the internet is not
+              completely secure. We cannot guarantee the security of data transmitted to our site and any transmission
+              is at your own risk. Once we have received your information we use strict procedures and security measures
+              to prevent unauthorised access.
+            </p>
+          </section>
         </div>
       </main>
 
