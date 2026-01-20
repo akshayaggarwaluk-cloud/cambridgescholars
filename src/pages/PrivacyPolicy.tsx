@@ -191,8 +191,7 @@ const PrivacyPolicy = () => {
           </section>
           <Separator className="my-8" />
 
-          {/* Changes to This Policy
-           */}
+          {/* Changes to This Policy */}
           <section className="mb-8">
             <h2 className="font-playfair text-2xl font-semibold text-primary mb-4">Changes to This Policy</h2>
             <p className="text-muted-foreground leading-relaxed">
@@ -202,9 +201,9 @@ const PrivacyPolicy = () => {
           </section>
           <Separator className="my-8" />
 
-          {/* Data Security */}
+          {/* Contact Us */}
           <section className="mb-8">
-            <h2 className="font-playfair text-2xl font-semibold text-primary mb-4">Data Security</h2>
+            <h2 className="font-playfair text-2xl font-semibold text-primary mb-4">Contact Us</h2>
             <p className="text-muted-foreground leading-relaxed">
               If you have any questions about this policy or how we process your data, please contact:
             </p>
