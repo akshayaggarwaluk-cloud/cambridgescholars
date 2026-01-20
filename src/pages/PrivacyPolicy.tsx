@@ -5,7 +5,7 @@ import { Separator } from "@/components/ui/separator";
 
 const PrivacyPolicy = () => {
   return (
-    <div className="min-h-screen flex flex-col pt-24">
+    <div className="min-h-screen flex flex-col pt-32">
       <Header />
       
       {/* Header Banner */}

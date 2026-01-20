@@ -13,7 +13,7 @@ import {
 
 const RefundAndReturns = () => {
   return (
-    <div className="min-h-screen flex flex-col pt-24">
+    <div className="min-h-screen flex flex-col pt-32">
       <Header />
       
       {/* Header Banner */}
