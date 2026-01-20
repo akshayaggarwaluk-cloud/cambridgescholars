@@ -193,7 +193,6 @@ const PrivacyPolicy = () => {
                 or delivery partners
               </li>
             </ul>
-            <br>
             <p
               className="text-black text-[15px]
 "
@@ -222,7 +221,6 @@ const PrivacyPolicy = () => {
               <li>Object to certain types of processing including direct marketing</li>
               <li>Withdraw consent where processing is based on consent</li>
             </ul>
-            <br>
             <p
               className="text-black text-[15px]
 "
@@ -245,7 +243,6 @@ const PrivacyPolicy = () => {
               We may contact you where we have a legitimate business interest, for example to provide information
               relevant to your professional work, invite you to publish with us or notify you of new titles.
             </p>
-            <br>
             <p
               className="text-black text-[15px]
 "
@@ -253,7 +250,6 @@ const PrivacyPolicy = () => {
               You can opt out of marketing communications at any time by using the unsubscribe link in emails or by
               contacting us directly.
             </p>
-              <br>
             <p
               className="text-black text-[15px]
 "
