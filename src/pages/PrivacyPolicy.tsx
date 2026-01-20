@@ -191,14 +191,13 @@ const PrivacyPolicy = () => {
           </section>
           <Separator className="my-8" />
 
-          {/* Data Security */}
+          {/* Changes to This Policy
+           */}
           <section className="mb-8">
-            <h2 className="font-playfair text-2xl font-semibold text-primary mb-4">Data Security</h2>
+            <h2 className="font-playfair text-2xl font-semibold text-primary mb-4">Changes to This Policy</h2>
             <p className="text-muted-foreground leading-relaxed">
-              While we take all reasonable measures to protect your data, transmission over the internet is not
-              completely secure. We cannot guarantee the security of data transmitted to our site and any transmission
-              is at your own risk. Once we have received your information we use strict procedures and security measures
-              to prevent unauthorised access.
+              We may update this privacy policy from time to time. Any changes will be published on this page and we
+              encourage you to review it regularly.
             </p>
           </section>
           <Separator className="my-8" />
@@ -207,11 +206,17 @@ const PrivacyPolicy = () => {
           <section className="mb-8">
             <h2 className="font-playfair text-2xl font-semibold text-primary mb-4">Data Security</h2>
             <p className="text-muted-foreground leading-relaxed">
-              While we take all reasonable measures to protect your data, transmission over the internet is not
-              completely secure. We cannot guarantee the security of data transmitted to our site and any transmission
-              is at your own risk. Once we have received your information we use strict procedures and security measures
-              to prevent unauthorised access.
+              If you have any questions about this policy or how we process your data, please contact:
             </p>
+            <p>Cambridge Scholars Publishing</p>
+            <p>Lady Stephenson Library</p>
+
+            <p>Welbeck Road</p>
+
+            <p>Newcastle upon Tyne</p>
+
+            <p>NE6 2PA</p>
+            <p>Email: admin@cambridgescholars.com</p>
           </section>
         </div>
       </main>
