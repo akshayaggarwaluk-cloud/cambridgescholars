@@ -40,7 +40,7 @@ const PrivacyPolicy = () => {
 
           {/* Who We Are */}
           <section className="mb-8">
-            <h2 className="font-playfair text-2xl font-semibold text-black mb-4">Who We Are</h2>
+            <h2 className="font-playfair text-[26px] font-semibold text-black mb-4">Who We Are</h2>
             <p className="leading-relaxed text-black">
               For the purposes of data protection law, the data controller is Cambridge Scholars Publishing, Lady
               Stephenson Library, Welbeck Road, Newcastle upon Tyne, NE6 2PA, company registration number 4333775.
@@ -51,7 +51,7 @@ const PrivacyPolicy = () => {
 
           {/* Information We Collect */}
           <section className="mb-8">
-            <h2 className="font-playfair text-2xl font-semibold text-black mb-4">Information We Collect</h2>
+            <h2 className="font-playfair text-[26px] font-semibold text-black mb-4">Information We Collect</h2>
             <p className="leading-relaxed mb-4 text-black">
               We may collect and process the following information about you:
             </p>
@@ -73,7 +73,7 @@ const PrivacyPolicy = () => {
 
           {/* How We Use Your Information */}
           <section className="mb-8">
-            <h2 className="font-playfair text-2xl font-semibold text-black mb-4">How We Use Your Information</h2>
+            <h2 className="font-playfair text-[26px] font-semibold text-black mb-4">How We Use Your Information</h2>
             <p className="leading-relaxed mb-4 text-black">We process personal data for the following purposes:</p>
             <ul className="list-disc list-inside space-y-2 text-black">
               <li>To provide information, products or services that you request from us</li>
@@ -91,7 +91,7 @@ const PrivacyPolicy = () => {
 
           {/* Cookies */}
           <section className="mb-8">
-            <h2 className="font-playfair text-2xl font-semibold text-black mb-4">Cookies</h2>
+            <h2 className="font-playfair text-[26px] font-semibold text-black mb-4">Cookies</h2>
             <p className="leading-relaxed text-black">
               Our website uses cookies to improve your browsing experience. Cookies help us to:
             </p>
@@ -111,7 +111,7 @@ const PrivacyPolicy = () => {
 
           {/* Where We Store Your Data */}
           <section className="mb-8">
-            <h2 className="font-playfair text-2xl font-semibold text-black mb-4">Where We Store Your Data</h2>
+            <h2 className="font-playfair text-[26px] font-semibold text-black mb-4">Where We Store Your Data</h2>
             <p className="leading-relaxed mb-4 text-black">
               Your information may be transferred to and stored in locations outside the UK or European Economic Area.
               We will take all necessary steps to ensure that your data is processed securely and in line with this
@@ -127,7 +127,7 @@ const PrivacyPolicy = () => {
 
           {/* Data Security */}
           <section className="mb-8">
-            <h2 className="font-playfair text-2xl font-semibold text-black mb-4">Data Security</h2>
+            <h2 className="font-playfair text-[26px] font-semibold text-black mb-4">Data Security</h2>
             <p className="leading-relaxed text-black">
               While we take all reasonable measures to protect your data, transmission over the internet is not
               completely secure. We cannot guarantee the security of data transmitted to our site and any transmission
@@ -140,7 +140,7 @@ const PrivacyPolicy = () => {
 
           {/* Sharing Your Information */}
           <section className="mb-8">
-            <h2 className="font-playfair text-2xl font-semibold text-black mb-4">Sharing Your Information</h2>
+            <h2 className="font-playfair text-[26px] font-semibold text-black mb-4">Sharing Your Information</h2>
             <p className="leading-relaxed text-black">We may share your personal data in the following situations:</p>
             <ul className="list-disc list-inside space-y-2 text-black">
               <li>Where we are required to do so by law</li>
@@ -157,7 +157,7 @@ const PrivacyPolicy = () => {
 
           {/* Your Rights */}
           <section className="mb-8">
-            <h2 className="font-playfair text-2xl font-semibold text-black mb-4">Your Rights</h2>
+            <h2 className="font-playfair text-[26px] font-semibold text-black mb-4">Your Rights</h2>
             <p className="leading-relaxed text-black">Under UK GDPR you have the right to:</p>
             <ul className="list-disc list-inside space-y-2 text-black">
               <li>Access the personal data we hold about you</li>
@@ -172,7 +172,7 @@ const PrivacyPolicy = () => {
 
           {/* Marketing Communications */}
           <section className="mb-8">
-            <h2 className="font-playfair text-2xl font-semibold text-black mb-4">
+            <h2 className="font-playfair text-[26px] font-semibold text-black mb-4">
               Marketing Communications and Legitimate Interest
             </h2>
             <p className="leading-relaxed text-black">
@@ -193,7 +193,7 @@ const PrivacyPolicy = () => {
 
           {/* Changes */}
           <section className="mb-8">
-            <h2 className="font-playfair text-2xl font-semibold text-black mb-4">Changes to This Policy</h2>
+            <h2 className="font-playfair text-[26px] font-semibold text-black mb-4">Changes to This Policy</h2>
             <p className="leading-relaxed text-black">
               We may update this privacy policy from time to time. Any changes will be published on this page and we
               encourage you to review it regularly.
@@ -204,7 +204,7 @@ const PrivacyPolicy = () => {
 
           {/* Contact */}
           <section className="mb-8">
-            <h2 className="font-playfair text-2xl font-semibold text-black mb-4">Contact Us</h2>
+            <h2 className="font-playfair text-[26px] font-semibold text-black mb-4">Contact Us</h2>
             <p className="leading-relaxed text-black">
               If you have any questions about this policy or how we process your data, please contact:
             </p>
