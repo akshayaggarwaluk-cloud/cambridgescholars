@@ -30,6 +30,11 @@ import EndorsementSubmission from "@/pages/EndorsementSubmission";
 import News from "@/pages/News";
 import NewsArticle from "@/pages/NewsArticle";
 import NotFound from "@/pages/NotFound";
+import PrivacyPolicy from "@/pages/PrivacyPolicy";
+import CookiesPolicy from "@/pages/CookiesPolicy";
+import TermsAndConditions from "@/pages/TermsAndConditions";
+import AccessibilityPolicy from "@/pages/AccessibilityPolicy";
+import RefundAndReturns from "@/pages/RefundAndReturns";
 
 export function AnimatedRoutes() {
   const location = useLocation();
@@ -62,6 +67,11 @@ export function AnimatedRoutes() {
         <Route path="/endorsement-submission" element={<PageTransition><EndorsementSubmission /></PageTransition>} />
         <Route path="/news" element={<PageTransition><News /></PageTransition>} />
         <Route path="/news/:slug" element={<PageTransition><NewsArticle /></PageTransition>} />
+        <Route path="/privacy" element={<PageTransition><PrivacyPolicy /></PageTransition>} />
+        <Route path="/cookies" element={<PageTransition><CookiesPolicy /></PageTransition>} />
+        <Route path="/terms" element={<PageTransition><TermsAndConditions /></PageTransition>} />
+        <Route path="/accessibility" element={<PageTransition><AccessibilityPolicy /></PageTransition>} />
+        <Route path="/returns" element={<PageTransition><RefundAndReturns /></PageTransition>} />
         <Route path="*" element={<PageTransition><NotFound /></PageTransition>} />
       </Routes>
     </AnimatePresence>
