@@ -123,7 +123,7 @@ const PrivacyPolicy = () => {
               <li>Speed up searches</li>
               <li>Recognise you when you return to the site</li>
             </ul>
-
+            <br></br>
             <p
               className="text-black text-[15px]
 "
