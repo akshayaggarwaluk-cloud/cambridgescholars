@@ -74,13 +74,18 @@ const PrivacyPolicy = () => {
           {/* How We Use Your Information */}
           <section className="mb-8">
             <h2 className="font-playfair text-2xl font-semibold text-primary mb-4">How We Use Your Information</h2>
-            <p className="text-muted-foreground leading-relaxed mb-4">We use the information we collect to:</p>
+            <p className="text-muted-foreground leading-relaxed mb-4">
+              We process personal data for the following purposes:
+            </p>
             <ul className="list-disc list-inside space-y-2 text-muted-foreground">
-              <li>Process your orders and manage your account</li>
-              <li>Send you information about our products, services and promotions (where you have opted in)</li>
-              <li>Respond to your queries and provide customer support</li>
-              <li>Improve our website and services</li>
-              <li>Comply with legal obligations</li>
+              <li>To provide information, products or services that you request from us</li>
+              <li>To fulfil our contractual obligations such as processing and delivering book orders</li>
+              <li>To communicate important updates about our services</li>
+              <li>To improve our website and tailor content to your preferences</li>
+              <li>
+                To send marketing communications where you have given consent or where we have a legitimate business
+                interest
+              </li>
             </ul>
           </section>
 
