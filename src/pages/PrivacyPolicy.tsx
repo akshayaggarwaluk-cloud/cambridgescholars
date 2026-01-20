@@ -18,7 +18,7 @@ const PrivacyPolicy = () => {
             >
               Privacy Policy
             </h1>
-            <PageBreadcrumb items={[{ label: "Home", href: "/" }, { label: "Privacy Policy" }]} />
+            <PageBreadcrumb items={[{ href: "/" }, { label: "Privacy Policy" }]} />
           </div>
         </div>
       </div>
