@@ -27,15 +27,15 @@ const PrivacyPolicy = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-black">
           {/* Introduction */}
           <div className="mb-8">
-            <p className="leading-relaxed text-black">
+            <p className="leading-relaxed text-black text-[15px]">
               Cambridge Scholars Publishing is committed to protecting your privacy and ensuring that your personal
               information is handled securely and responsibly.
             </p>
-            <p className="leading-relaxed mt-4 text-black">
+            <p className="leading-relaxed mt-4 text-black text-[15px]">
               This policy, together with our Terms and Conditions of Sale and any other referenced documents, explains
               how we collect, use and store your personal data when you use our website or interact with us.
             </p>
-            <p className="leading-relaxed mt-4 text-black">
+            <p className="leading-relaxed mt-4 text-black text-[15px]">
               We encourage you to read this policy carefully so that you understand how we process your information and
               your rights under the UK General Data Protection Regulation (UK GDPR) and the Data Protection Act 2018.
             </p>
