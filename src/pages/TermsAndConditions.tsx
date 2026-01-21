@@ -17,9 +17,9 @@ const TermsAndConditions = () => {
       </div>
 
       <main className="flex-1 py-12">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-black">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Introduction */}
-          <div className="mb-8">
+          <div className="mb-8 text-black">
             <p className=" leading-relaxed text-black">
               These Terms and Conditions govern the direct sale of Cambridge Scholars Publishing titles to consumers.
             </p>
