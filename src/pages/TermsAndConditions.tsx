@@ -5,7 +5,7 @@ import { Separator } from "@/components/ui/separator";
 
 const TermsAndConditions = () => {
   return (
-    <div className="min-h-screen flex flex-col pt-20">
+    <div className="min-h-screen flex flex-col pt-20 text-black">
       <Header />
 
       {/* Header Banner */}
@@ -19,8 +19,8 @@ const TermsAndConditions = () => {
       <main className="flex-1 py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Introduction */}
-          <div className="mb-8 text-black">
-            <p className=" leading-relaxed text-black">
+          <div className="mb-8">
+            <p className="leading-relaxed text-black">
               These Terms and Conditions govern the direct sale of Cambridge Scholars Publishing titles to consumers.
             </p>
           </div>
@@ -29,16 +29,16 @@ const TermsAndConditions = () => {
 
           {/* 1. Definitions */}
           <section className="mb-8">
-            <h2 className="font-playfair text-black text-2xl font-semibold text-primary mb-4">1. Definitions</h2>
-            <p className="text-muted-foreground leading-relaxed mb-4">
-              <strong className="text-black">The Company</strong> refers to Cambridge Scholars Publishing Ltd, a company
-              registered in England and Wales, company registration number 04333775, VAT number 108280727. Registered
-              address: Lady Stephenson Library, Welbeck Road, Newcastle upon Tyne, NE6 2PA, United Kingdom.
+            <h2 className="font-playfair text-2xl font-semibold mb-4 text-black">1. Definitions</h2>
+            <p className="leading-relaxed mb-4 text-black">
+              <strong>The Company</strong> refers to Cambridge Scholars Publishing Ltd, a company registered in England
+              and Wales, company registration number 04333775, VAT number 108280727. Registered address: Lady Stephenson
+              Library, Welbeck Road, Newcastle upon Tyne, NE6 2PA, United Kingdom.
             </p>
-            <p className="text-muted-foreground leading-relaxed">
-              <strong className="text-black">The Customer</strong> refers to the person placing an order by any of the
-              methods made available by the Company. These terms apply only to individuals purchasing for personal use
-              as defined under UK consumer law.
+            <p className="leading-relaxed text-black">
+              <strong>The Customer</strong> refers to the person placing an order by any of the methods made available
+              by the Company. These terms apply only to individuals purchasing for personal use as defined under UK
+              consumer law.
             </p>
           </section>
 
@@ -46,12 +46,10 @@ const TermsAndConditions = () => {
 
           {/* 2. Description of Items */}
           <section className="mb-8">
-            <h2 className="font-playfair text-2xl font-semibold text-primary mb-4 text-black">
-              2. Description of Items
-            </h2>
-            <p className="text-black leading-relaxed">
+            <h2 className="font-playfair text-2xl font-semibold mb-4 text-black">2. Description of Items</h2>
+            <p className="leading-relaxed text-black">
               The books and other products available for sale are as described on the relevant pages of our website at{" "}
-              <a href="https://www.cambridgescholars.com" className="text-red-500 hover:underline">
+              <a href="https://www.cambridgescholars.com" className="text-black underline">
                 www.cambridgescholars.com
               </a>
               .
@@ -62,7 +60,7 @@ const TermsAndConditions = () => {
 
           {/* 3. Pricing and Taxes */}
           <section className="mb-8">
-            <h2 className="font-playfair text-2xl font-semibold text-primary mb-4 text-black">3. Pricing and Taxes</h2>
+            <h2 className="font-playfair text-2xl font-semibold mb-4 text-black">3. Pricing and Taxes</h2>
             <ul className="list-disc list-inside space-y-2 text-black">
               <li>
                 All prices include applicable taxes. Books are currently zero rated for VAT in the UK so tax is not
@@ -75,7 +73,7 @@ const TermsAndConditions = () => {
               </li>
               <li>Prices are subject to change without notice.</li>
             </ul>
-            <p className="text-black leading-relaxed mt-4">
+            <p className="leading-relaxed mt-4 text-black">
               When ordering from outside the UK you are considered the importer and must comply with the laws of the
               country where you receive the goods. Customs policies vary so we advise checking with your local customs
               office for further information.
@@ -86,8 +84,8 @@ const TermsAndConditions = () => {
 
           {/* 4. Delivery */}
           <section className="mb-8">
-            <h2 className="font-playfair text-2xl font-semibold text-primary mb-4 text-black">4. Delivery</h2>
-            <p className="text-black leading-relaxed">
+            <h2 className="font-playfair text-2xl font-semibold mb-4 text-black">4. Delivery</h2>
+            <p className="leading-relaxed text-black">
               Delivery costs are shown during the checkout process and on the ordering information page of our website.
               For large orders, the Company may be able to offer a reduced shipping rate but is not obliged to do so. A
               delivery date cannot be guaranteed. Postage charges will not be refunded for late deliveries.
@@ -98,11 +96,11 @@ const TermsAndConditions = () => {
 
           {/* 5. Payment */}
           <section className="mb-8">
-            <h2 className="font-playfair text-2xl font-semibold text-primary mb-4 text-black">5. Payment</h2>
-            <p className="text-black leading-relaxed">
+            <h2 className="font-playfair text-2xl font-semibold mb-4 text-black">5. Payment</h2>
+            <p className="leading-relaxed text-black">
               Payment can be made by credit card, bank transfer or cheque in Pounds Sterling or US Dollars.
             </p>
-            <ul className="list-disc list-inside space-y-2 ttext-black">
+            <ul className="list-disc list-inside space-y-2 text-black">
               <li>
                 For card payments, the Company stores payment details securely at the time of order and charges the card
                 when the books are ready to be dispatched. Invoices are issued when payment is taken.
@@ -121,12 +119,10 @@ const TermsAndConditions = () => {
 
           <Separator className="my-8" />
 
-          {/* 6. Cancellations and Returns*/}
+          {/* 6. Cancellations and Returns */}
           <section className="mb-8">
-            <h2 className="font-playfair text-2xl font-semibold text-primary mb-4 text-black">
-              6. Cancellations and Returns
-            </h2>
-            <p className="text-black leading-relaxed">
+            <h2 className="font-playfair text-2xl font-semibold mb-4 text-black">6. Cancellations and Returns</h2>
+            <p className="leading-relaxed text-black">
               Customers have the right to cancel their order in accordance with the UK Consumer Contracts Regulations.
               You can cancel within 14 days of receiving your order by contacting us in writing.
             </p>
@@ -143,17 +139,16 @@ const TermsAndConditions = () => {
               <li>Emailing orders@cambridgescholars.com</li>
               <li>Posting a letter to the Orders Department at our registered address</li>
             </ul>
-            <br></br>
-            <p>Until the books are returned, you must take reasonable care of them.</p>
+            <br />
+            <p className="text-black">Until the books are returned, you must take reasonable care of them.</p>
           </section>
 
           <Separator className="my-8" />
 
-          {/*7. Complaints
-           */}
+          {/* 7. Complaints */}
           <section className="mb-8">
-            <h2 className="text-black font-playfair text-2xl font-semibold text-primary mb-4">7. Complaints</h2>
-            <p className="text-black leading-relaxed">
+            <h2 className="font-playfair text-2xl font-semibold mb-4 text-black">7. Complaints</h2>
+            <p className="leading-relaxed text-black">
               Complaints can be addressed in writing to Cambridge Scholars Publishing at the registered address above or
               by email to orders@cambridgescholars.com.
             </p>
