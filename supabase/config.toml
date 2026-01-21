@@ -9,5 +9,5 @@ verify_jwt = false
 [functions.live-chat]
 verify_jwt = false
 
-[functions.live-chat]
+[functions.manage-addresses]
 verify_jwt = false

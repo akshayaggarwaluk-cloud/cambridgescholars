@@ -10,6 +10,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { useExternalAuth } from "@/contexts/ExternalAuthContext";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
+import { listAddresses, createAddress, updateAddress, Address as AddressType, AddressInput } from "@/services/addressService";
 type TabType = "dashboard" | "orders" | "addresses" | "account";
 interface Address {
   id: string;
@@ -65,14 +66,12 @@ export default function ExternalProfile() {
     if (!user) return;
     setAddressesLoading(true);
     try {
-      const {
-        data,
-        error
-      } = await supabase.from("addresses").select("*").eq("user_id", user.id).order("created_at", {
-        ascending: false
-      });
-      if (error) throw error;
-      setAddresses((data || []) as Address[]);
+      const result = await listAddresses(user.id);
+      if (result.error) {
+        if (import.meta.env.DEV) console.error("Error loading addresses:", result.error);
+        return;
+      }
+      setAddresses((result.data || []) as Address[]);
     } catch (error) {
       if (import.meta.env.DEV) console.error("Error loading addresses:", error);
     } finally {
@@ -134,44 +133,36 @@ export default function ExternalProfile() {
     }
     setAddressSaving(true);
     try {
+      const addressInput: AddressInput = {
+        address_type: editingAddress.address_type as 'billing' | 'shipping',
+        first_name: editingAddress.first_name,
+        last_name: editingAddress.last_name,
+        company: editingAddress.company || null,
+        country: editingAddress.country,
+        street_address: editingAddress.street_address,
+        street_address_2: editingAddress.street_address_2 || null,
+        city: editingAddress.city,
+        state: editingAddress.state,
+        postcode: editingAddress.postcode,
+        phone: editingAddress.phone,
+        is_default: true,
+      };
+
       if (editingAddress.id) {
         // Update existing
-        const {
-          error
-        } = await supabase.from("addresses").update({
-          first_name: editingAddress.first_name,
-          last_name: editingAddress.last_name,
-          company: editingAddress.company || null,
-          country: editingAddress.country,
-          street_address: editingAddress.street_address,
-          street_address_2: editingAddress.street_address_2 || null,
-          city: editingAddress.city,
-          state: editingAddress.state,
-          postcode: editingAddress.postcode,
-          phone: editingAddress.phone
-        }).eq("id", editingAddress.id);
-        if (error) throw error;
+        const result = await updateAddress(user.id, editingAddress.id, addressInput);
+        if (result.error) {
+          toast.error(result.error);
+          return;
+        }
         toast.success("Address updated successfully!");
       } else {
         // Create new
-        const {
-          error
-        } = await supabase.from("addresses").insert({
-          user_id: user.id,
-          address_type: editingAddress.address_type,
-          first_name: editingAddress.first_name,
-          last_name: editingAddress.last_name,
-          company: editingAddress.company || null,
-          country: editingAddress.country,
-          street_address: editingAddress.street_address,
-          street_address_2: editingAddress.street_address_2 || null,
-          city: editingAddress.city,
-          state: editingAddress.state,
-          postcode: editingAddress.postcode,
-          phone: editingAddress.phone,
-          is_default: true
-        });
-        if (error) throw error;
+        const result = await createAddress(user.id, addressInput);
+        if (result.error) {
+          toast.error(result.error);
+          return;
+        }
         toast.success("Address saved successfully!");
       }
       setAddressFormMode('view');
