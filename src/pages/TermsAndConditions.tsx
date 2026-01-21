@@ -10,14 +10,14 @@ const TermsAndConditions = () => {
 
       {/* Header Banner */}
       <div className="bg-[#f9f7f2] py-10 px-6 md:px-16">
-        <div className="max-w-7xl mx-auto flex justify-between items-center  text-black">
+        <div className="max-w-7xl mx-auto flex justify-between items-center">
           <h1 className="text-5xl font-serif text-black">Terms and Conditions</h1>
           <PageBreadcrumb currentPage="Terms and Conditions" />
         </div>
       </div>
 
       <main className="flex-1 py-12">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-black">
           {/* Introduction */}
           <div className="mb-8">
             <p className=" leading-relaxed text-black">
