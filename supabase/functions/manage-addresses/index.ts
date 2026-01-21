@@ -1,11 +1,81 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.1";
 
+// External auth API configuration
+const AUTH_API_BASE = Deno.env.get("AUTH_API_BASE") || "http://54.253.4.186:8001/api/auth";
+
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
   "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
 };
+
+// Token validation cache to reduce external API calls
+const tokenCache = new Map<string, { userId: string; expiry: number }>();
+const TOKEN_CACHE_TTL = 5 * 60 * 1000; // 5 minutes
+
+/**
+ * Validates the external auth token and returns the authenticated user's ID.
+ * This ensures that operations are only performed for the actual token owner.
+ */
+async function validateTokenAndGetUserId(token: string): Promise<string | null> {
+  // Check cache first
+  const cached = tokenCache.get(token);
+  if (cached && Date.now() < cached.expiry) {
+    return cached.userId;
+  }
+
+  try {
+    // Call external auth API to validate token and get user info
+    // The external API should have an endpoint to verify tokens
+    const response = await fetch(`${AUTH_API_BASE}/me`, {
+      method: "GET",
+      headers: {
+        "Authorization": `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!response.ok) {
+      console.error("Token validation failed:", response.status);
+      return null;
+    }
+
+    const data = await response.json();
+    
+    // Extract user_id from response - handle different response formats
+    let userId: string | null = null;
+    
+    if (data?.data?.id) {
+      userId = String(data.data.id);
+    } else if (data?.user?.id) {
+      userId = String(data.user.id);
+    } else if (data?.id) {
+      userId = String(data.id);
+    }
+
+    if (userId) {
+      // Cache the validated token
+      tokenCache.set(token, { userId, expiry: Date.now() + TOKEN_CACHE_TTL });
+      return userId;
+    }
+
+    return null;
+  } catch (error) {
+    console.error("Token validation error:", error);
+    return null;
+  }
+}
+
+// Clean up expired cache entries periodically
+setInterval(() => {
+  const now = Date.now();
+  for (const [token, entry] of tokenCache.entries()) {
+    if (now > entry.expiry) {
+      tokenCache.delete(token);
+    }
+  }
+}, TOKEN_CACHE_TTL);
 
 // Rate limiting
 const rateLimitMap = new Map<string, { count: number; resetTime: number }>();
@@ -170,17 +240,23 @@ serve(async (req) => {
       );
     }
 
-    // Parse the request body to get action and user_id
-    const body = await req.json().catch(() => ({}));
-    const action = body.action;
-    const user_id = sanitizeString(body.user_id, 100);
-
-    if (!user_id) {
+    // CRITICAL: Validate token with external auth API and extract the REAL user_id
+    // This prevents attackers from specifying a different user_id in the request body
+    const validatedUserId = await validateTokenAndGetUserId(token);
+    if (!validatedUserId) {
       return new Response(
-        JSON.stringify({ error: "User ID is required" }),
-        { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+        JSON.stringify({ error: "Unauthorized - token validation failed" }),
+        { status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" } }
       );
     }
+
+    // Parse the request body to get action (user_id from body is IGNORED for security)
+    const body = await req.json().catch(() => ({}));
+    const action = body.action;
+    
+    // Use the validated user_id from the token, NOT from the request body
+    // This ensures users can only access their own addresses
+    const user_id = validatedUserId;
 
     // Create Supabase admin client with service role key
     const supabaseAdmin = createClient(
