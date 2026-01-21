@@ -9,7 +9,6 @@ import { CartProvider } from "@/contexts/CartContext";
 import { WishlistProvider } from "@/contexts/WishlistContext";
 import { LiveChatWidget } from "@/components/chat/LiveChatWidget";
 import { AnimatedRoutes } from "@/components/layout/AnimatedRoutes";
-import { ScrollToTop } from "@/components/layout/ScrollToTop";
 
 const queryClient = new QueryClient();
 
@@ -18,7 +17,6 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
         <BrowserRouter>
-          <ScrollToTop />
           <AuthProvider>
             <ExternalAuthProvider>
               <CartProvider>
