@@ -2,20 +2,13 @@ import { PageBreadcrumb } from "@/components/layout/PageBreadcrumb";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { Separator } from "@/components/ui/separator";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 
 const RefundAndReturns = () => {
   return (
     <div className="min-h-screen flex flex-col pt-20 text-black">
       <Header />
-      
+
       {/* Header Banner */}
       <div className="bg-[#f9f7f2] py-10 px-6 md:px-16">
         <div className="max-w-7xl mx-auto flex justify-between items-center">
@@ -29,7 +22,8 @@ const RefundAndReturns = () => {
           {/* Introduction */}
           <div className="mb-8">
             <p className="text-black leading-relaxed text-[15px]">
-              We want you to be completely satisfied with your purchase. This policy explains how to return books and request a refund or replacement.
+              We want you to be completely satisfied with your purchase. This policy explains how to return books and
+              request a refund or replacement.
             </p>
           </div>
 
@@ -45,9 +39,13 @@ const RefundAndReturns = () => {
                 <a href="mailto:orders@cambridgescholars.com" className="text-red-500 hover:underline">
                   orders@cambridgescholars.com
                 </a>{" "}
-                within <strong className="text-black">7 days of receiving your book</strong>, quoting the invoice number included with your order.
+                within <strong className="text-black">7 days of receiving your book</strong>, quoting the invoice number
+                included with your order.
               </li>
-              <li>We will refund the postage charged for sending you the book, plus £4.50 to cover the cost of returning it to us.</li>
+              <li>
+                We will refund the postage charged for sending you the book, plus £4.50 to cover the cost of returning
+                it to us.
+              </li>
               <li>If you request a replacement, we will send you a replacement copy free of charge.</li>
             </ul>
           </section>
@@ -63,7 +61,8 @@ const RefundAndReturns = () => {
                 <strong className="text-black">14 days of receipt</strong> for a refund.
               </li>
               <li>
-                Refunds for non-faulty books <strong className="text-black">exclude both our postage costs and your return postage costs</strong>.
+                Refunds for non-faulty books{" "}
+                <strong className="text-black">exclude both our postage costs and your return postage costs</strong>.
               </li>
               <li>
                 A refund will only be given if the books are returned in{" "}
@@ -71,11 +70,13 @@ const RefundAndReturns = () => {
               </li>
               <li>
                 For orders over <strong className="text-black">£100</strong>, an{" "}
-                <strong className="text-black">administrative fee of 10%</strong> will be applied unless a prior agreement has been made.
+                <strong className="text-black">administrative fee of 10%</strong> will be applied unless a prior
+                agreement has been made.
               </li>
             </ul>
             <p className="text-black leading-relaxed mt-4 text-[15px]">
-              Books purchased for <strong className="text-black">resale</strong> are not normally returnable unless agreed in advance at the time of purchase.
+              Books purchased for <strong className="text-black">resale</strong> are not normally returnable unless
+              agreed in advance at the time of purchase.
             </p>
           </section>
 
@@ -84,15 +85,18 @@ const RefundAndReturns = () => {
           {/* How to Return Books */}
           <section className="mb-8">
             <h2 className="font-playfair text-[26px] font-semibold text-black mb-4">How to Return Books</h2>
-            <p className="text-black leading-relaxed mb-4 text-[15px]">
-              Please send all returns to:
-            </p>
+            <p className="text-black leading-relaxed mb-4 text-[15px]">Please send all returns to:</p>
             <address className="text-black not-italic leading-relaxed text-[15px]">
-              Cambridge Scholars Publishing<br />
-              Lady Stephenson Library<br />
-              Welbeck Road<br />
-              Newcastle upon Tyne<br />
-              NE6 2PA<br />
+              Cambridge Scholars Publishing
+              <br />
+              Lady Stephenson Library
+              <br />
+              Welbeck Road
+              <br />
+              Newcastle upon Tyne
+              <br />
+              NE6 2PA
+              <br />
               United Kingdom
             </address>
           </section>
@@ -194,9 +198,14 @@ const RefundAndReturns = () => {
                   <TableCell className="text-black text-[15px]">2-3 weeks</TableCell>
                 </TableRow>
                 <TableRow>
-                  <TableCell className="text-black text-[15px]">Rest of World</TableCell>
+                  <TableCell className="text-black text-[15px]">North America</TableCell>
                   <TableCell className="text-black text-[15px]">3-5 days</TableCell>
                   <TableCell className="text-black text-[15px]">2-5 weeks</TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell className="text-black text-[15px]">Rest of the World</TableCell>
+                  <TableCell className="text-black text-[15px]">Up to 7 days</TableCell>
+                  <TableCell className="text-black text-[15px]">4–5 weeks</TableCell>
                 </TableRow>
               </TableBody>
             </Table>
