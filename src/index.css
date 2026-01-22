@@ -18,8 +18,9 @@
     --secondary: 210 20% 96%;
     --secondary-foreground: 220 20% 20%;
     
-    /* Accent - Academic Teal/Green */
-    --accent: 168 65% 35%;
+    /* Accent - Brand Coral */
+    /* #E4573D */
+    --accent: 9 75% 57%;
     --accent-foreground: 0 0% 100%;
     
     /* Muted */
@@ -37,7 +38,7 @@
     /* Border */
     --border: 210 15% 88%;
     --input: 210 15% 88%;
-    --ring: 168 65% 35%;
+    --ring: 9 75% 57%;
     
     /* Destructive */
     --destructive: 0 72% 51%;
@@ -104,8 +105,8 @@
   }
 
   ::selection {
-    background-color: #E4573D;
-    color: white;
+    background-color: hsl(var(--accent));
+    color: hsl(var(--accent-foreground));
   }
 }
 
