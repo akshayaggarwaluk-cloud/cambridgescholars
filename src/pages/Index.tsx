@@ -1,5 +1,5 @@
 import { Header } from "@/components/layout/Header";
-import { Footer } from "@/components/layout/Footer";
+import { HomeFooter } from "@/components/layout/HomeFooter";
 import { HeroSection } from "@/components/home/HeroSection";
 import { WelcomeSection } from "@/components/home/WelcomeSection";
 import { FeaturedBookSpotlight } from "@/components/home/FeaturedBookSpotlight";
@@ -19,7 +19,7 @@ const Index = () => {
         <NewsSection />
         <NewsletterSection />
       </main>
-      <Footer />
+      <HomeFooter />
     </div>
   );
 };
