@@ -7,7 +7,7 @@ import { AuthProvider } from "@/contexts/AuthContext";
 import { ExternalAuthProvider } from "@/contexts/ExternalAuthContext";
 import { CartProvider } from "@/contexts/CartContext";
 import { WishlistProvider } from "@/contexts/WishlistContext";
-import { LiveChatWidget } from "@/components/chat/LiveChatWidget";
+
 import { AnimatedRoutes } from "@/components/layout/AnimatedRoutes";
 import { ScrollToTop } from "@/components/layout/ScrollToTop";
 
@@ -26,7 +26,7 @@ function App() {
                   <Toaster />
                   <Sonner />
                   <AnimatedRoutes />
-                  <LiveChatWidget />
+                  
                 </WishlistProvider>
               </CartProvider>
             </ExternalAuthProvider>
