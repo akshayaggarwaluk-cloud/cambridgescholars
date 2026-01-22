@@ -9,17 +9,20 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: "bg-[#E4573D] text-white hover:bg-[#d14a32] shadow-sm hover:shadow-md",
+        default: "bg-accent text-accent-foreground hover:bg-accent/90 shadow-sm hover:shadow-md",
         destructive: "bg-destructive text-destructive-foreground hover:bg-destructive/90 shadow-sm",
-        outline: "border-2 border-[#E4573D] bg-transparent text-[#E4573D] hover:bg-[#E4573D] hover:text-white",
+        outline:
+          "border-2 border-accent bg-transparent text-accent hover:bg-accent hover:text-accent-foreground",
         secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/80",
         ghost: "hover:bg-accent/10 hover:text-foreground",
-        link: "text-[#E4573D] underline-offset-4 hover:underline",
+        link: "text-accent underline-offset-4 hover:underline",
         gold: "bg-gradient-to-r from-accent via-gold-light to-accent bg-[length:200%_100%] text-primary font-semibold shadow-gold hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] hover:bg-right transition-all duration-500",
         "gold-outline": "border-2 border-accent text-accent hover:bg-accent hover:text-primary font-semibold transition-all duration-300",
-        hero: "bg-[#E4573D] text-white font-semibold text-base shadow-md hover:bg-[#d14a32] hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] transition-all duration-500",
+        hero:
+          "bg-accent text-accent-foreground font-semibold text-base shadow-md hover:bg-accent/90 hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] transition-all duration-500",
         "hero-outline": "border-2 border-white/30 text-white hover:bg-white/10 hover:border-white/50 font-semibold text-base backdrop-blur-sm transition-all duration-300",
-        premium: "bg-[#E4573D] text-white font-semibold shadow-md hover:bg-[#d14a32] hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] transition-all duration-300",
+        premium:
+          "bg-accent text-accent-foreground font-semibold shadow-md hover:bg-accent/90 hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] transition-all duration-300",
       },
       size: {
         default: "h-11 px-6 py-2.5",
