@@ -104,7 +104,8 @@
   }
 
   ::selection {
-    @apply bg-accent/20 text-foreground;
+    background-color: #E4573D;
+    color: white;
   }
 }
 
