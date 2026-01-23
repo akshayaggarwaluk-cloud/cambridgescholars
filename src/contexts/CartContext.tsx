@@ -6,6 +6,12 @@ import { books } from "@/data/books";
 
 export type BookFormat = "ebook" | "hardbook";
 
+export interface BookFormatInfo {
+  isbn?: string;
+  isbn13?: string;
+  publicationDate?: string;
+}
+
 export interface Book {
   id: string;
   title: string;
@@ -19,6 +25,18 @@ export interface Book {
   pages?: number;
   publisher?: string;
   publishDate?: string;
+  // New fields for tabbed content
+  blurb?: string;
+  biography?: string;
+  hardbackInfo?: BookFormatInfo;
+  paperbackInfo?: BookFormatInfo;
+  ebookInfo?: BookFormatInfo;
+  categories?: string[];
+  subjectCodes?: {
+    bic?: string[];
+    bisac?: string[];
+    thema?: string[];
+  };
 }
 
 export interface CartItem extends Book {

@@ -7,6 +7,7 @@ import { PageBreadcrumb } from "@/components/layout/PageBreadcrumb";
 import { Button } from "@/components/ui/button";
 import { ReviewsSection } from "@/components/books/ReviewsSection";
 import { RelatedBooksSection } from "@/components/books/RelatedBooksSection";
+import { BookDetailsTabs } from "@/components/books/BookDetailsTabs";
 import { books } from "@/data/books";
 import { useCart, BookFormat } from "@/contexts/CartContext";
 import { useWishlist } from "@/contexts/WishlistContext";
@@ -153,10 +154,12 @@ export default function BookDetails() {
                 </span>
               </div>
 
-              {/* Description */}
-              <p className="text-foreground/80 leading-relaxed mb-8">
-                {book.description}
-              </p>
+              {/* Short Description - only show if no blurb */}
+              {!book.blurb && book.description && (
+                <p className="text-foreground/80 leading-relaxed mb-8">
+                  {book.description}
+                </p>
+              )}
 
               {/* Details */}
               <div className="grid grid-cols-2 gap-4 mb-8 p-6 bg-secondary rounded-xl">
@@ -226,6 +229,9 @@ export default function BookDetails() {
             </div>
           </div>
         </section>
+
+        {/* Book Details Tabs - Blurb, Biography, Book Information */}
+        <BookDetailsTabs book={book} />
 
         {/* Reviews Section */}
         <ReviewsSection bookId={book.id} />
