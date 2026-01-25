@@ -66,10 +66,10 @@ export default function BookDetails() {
 
         {/* Book Details */}
         <section className="container-wide">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-stretch">
             {/* Book Cover */}
-            <div className="relative h-fit">
-              <div className="aspect-[3/4] max-h-[600px] overflow-hidden bg-secondary">
+            <div className="relative">
+              <div className="h-full overflow-hidden bg-secondary">
                 <img
                   src={book.image}
                   alt={book.title}
