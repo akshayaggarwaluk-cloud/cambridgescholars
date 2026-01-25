@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import { Star, ShoppingCart, Heart, BookOpen, Calendar, Building, FileText, Tablet, Book, Eye } from "lucide-react";
+import { Star, ShoppingCart, Heart, Tablet, Book, Eye } from "lucide-react";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { PageBreadcrumb } from "@/components/layout/PageBreadcrumb";
@@ -154,54 +154,13 @@ export default function BookDetails() {
                 </span>
               </div>
 
+
               {/* Short Description - only show if no blurb */}
               {!book.blurb && book.description && (
                 <p className="text-foreground/80 leading-relaxed mb-8">
                   {book.description}
                 </p>
               )}
-
-              {/* Details */}
-              <div className="grid grid-cols-2 gap-4 mb-8 p-6 bg-secondary rounded-xl">
-                {book.pages && (
-                  <div className="flex items-center gap-3">
-                    <BookOpen className="h-5 w-5 text-accent" />
-                    <div>
-                      <p className="text-sm text-muted-foreground">Pages</p>
-                      <p className="font-medium text-foreground">{book.pages}</p>
-                    </div>
-                  </div>
-                )}
-                {book.publishDate && (
-                  <div className="flex items-center gap-3">
-                    <Calendar className="h-5 w-5 text-accent" />
-                    <div>
-                      <p className="text-sm text-muted-foreground">Published</p>
-                      <p className="font-medium text-foreground">
-                        {new Date(book.publishDate).toLocaleDateString()}
-                      </p>
-                    </div>
-                  </div>
-                )}
-                {book.publisher && (
-                  <div className="flex items-center gap-3">
-                    <Building className="h-5 w-5 text-accent" />
-                    <div>
-                      <p className="text-sm text-muted-foreground">Publisher</p>
-                      <p className="font-medium text-foreground">{book.publisher}</p>
-                    </div>
-                  </div>
-                )}
-                {book.isbn && (
-                  <div className="flex items-center gap-3">
-                    <FileText className="h-5 w-5 text-accent" />
-                    <div>
-                      <p className="text-sm text-muted-foreground">ISBN</p>
-                      <p className="font-medium text-foreground">{book.isbn}</p>
-                    </div>
-                  </div>
-                )}
-              </div>
 
               {/* Actions */}
               <div className="flex flex-col sm:flex-row gap-4 mt-auto">
