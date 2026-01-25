@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import { Star, ShoppingCart, Heart, Share2, BookOpen, Calendar, Building, FileText, Tablet, Book, Eye } from "lucide-react";
+import { Star, ShoppingCart, Heart, BookOpen, Calendar, Building, FileText, Tablet, Book, Eye, Facebook, Twitter, Linkedin } from "lucide-react";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { PageBreadcrumb } from "@/components/layout/PageBreadcrumb";
@@ -222,8 +222,32 @@ export default function BookDetails() {
                   <Heart className={cn("mr-2 h-5 w-5", isInWishlist(book.id) && "fill-current")} />
                   {isInWishlist(book.id) ? "In Wishlist" : "Wishlist"}
                 </Button>
-                <Button variant="outline" size="icon" className="h-14 w-14">
-                  <Share2 className="h-5 w-5" />
+                <Button 
+                  variant="outline" 
+                  size="icon" 
+                  className="h-14 w-14"
+                  onClick={() => window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}`, '_blank')}
+                  title="Share on Facebook"
+                >
+                  <Facebook className="h-5 w-5" />
+                </Button>
+                <Button 
+                  variant="outline" 
+                  size="icon" 
+                  className="h-14 w-14"
+                  onClick={() => window.open(`https://twitter.com/intent/tweet?url=${encodeURIComponent(window.location.href)}&text=${encodeURIComponent(`Check out "${book.title}" by ${book.author}`)}`, '_blank')}
+                  title="Share on Twitter"
+                >
+                  <Twitter className="h-5 w-5" />
+                </Button>
+                <Button 
+                  variant="outline" 
+                  size="icon" 
+                  className="h-14 w-14"
+                  onClick={() => window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(window.location.href)}`, '_blank')}
+                  title="Share on LinkedIn"
+                >
+                  <Linkedin className="h-5 w-5" />
                 </Button>
               </div>
 
