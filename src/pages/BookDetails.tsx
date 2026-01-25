@@ -75,10 +75,10 @@ export default function BookDetails() {
 
         {/* Book Details */}
         <section className="container-wide">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-            {/* Book Cover */}
-            <div className="relative">
-              <div className="aspect-[3/4] rounded-2xl overflow-hidden shadow-card-hover bg-secondary">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+            {/* Book Cover - matches content height */}
+            <div className="relative h-fit">
+              <div className="aspect-[3/4] max-h-[500px] overflow-hidden bg-secondary">
                 <img
                   src={book.image}
                   alt={book.title}
