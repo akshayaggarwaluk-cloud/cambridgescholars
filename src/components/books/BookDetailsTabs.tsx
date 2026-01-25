@@ -1,5 +1,6 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Book } from "@/contexts/CartContext";
+import { Facebook, Twitter, Linkedin } from "lucide-react";
 
 interface BookDetailsTabsProps {
   book: Book;
@@ -154,6 +155,34 @@ export function BookDetailsTabs({ book }: BookDetailsTabsProps) {
           </TabsContent>
         )}
       </Tabs>
+
+      {/* Share this book section */}
+      <div className="mt-16 pt-8 border-t border-border text-center">
+        <p className="text-foreground font-medium mb-4">Share this book:</p>
+        <div className="flex justify-center gap-4">
+          <button
+            onClick={() => window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}`, '_blank')}
+            className="text-muted-foreground hover:text-accent transition-colors"
+            aria-label="Share on Facebook"
+          >
+            <Facebook className="h-6 w-6" />
+          </button>
+          <button
+            onClick={() => window.open(`https://twitter.com/intent/tweet?url=${encodeURIComponent(window.location.href)}&text=${encodeURIComponent(`Check out "${book.title}" by ${book.author}`)}`, '_blank')}
+            className="text-muted-foreground hover:text-accent transition-colors"
+            aria-label="Share on Twitter"
+          >
+            <Twitter className="h-6 w-6" />
+          </button>
+          <button
+            onClick={() => window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(window.location.href)}`, '_blank')}
+            className="text-muted-foreground hover:text-accent transition-colors"
+            aria-label="Share on LinkedIn"
+          >
+            <Linkedin className="h-6 w-6" />
+          </button>
+        </div>
+      </div>
     </section>
   );
 }
