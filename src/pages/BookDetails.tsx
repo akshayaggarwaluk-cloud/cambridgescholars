@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import { Star, ShoppingCart, Heart, Share2, BookOpen, Calendar, Building, FileText, Tablet, Book } from "lucide-react";
+import { Star, ShoppingCart, Heart, Share2, BookOpen, Calendar, Building, FileText, Tablet, Book, Eye } from "lucide-react";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { PageBreadcrumb } from "@/components/layout/PageBreadcrumb";
@@ -226,6 +226,19 @@ export default function BookDetails() {
                   <Share2 className="h-5 w-5" />
                 </Button>
               </div>
+
+              {/* Read Sample Button */}
+              {book.samplePdfUrl && (
+                <Button
+                  variant="outline"
+                  size="lg"
+                  className="mt-4 w-full sm:w-auto"
+                  onClick={() => window.open(book.samplePdfUrl, '_blank')}
+                >
+                  <Eye className="mr-2 h-5 w-5" />
+                  Read Sample
+                </Button>
+              )}
             </div>
           </div>
         </section>

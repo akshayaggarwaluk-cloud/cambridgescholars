@@ -37,6 +37,7 @@ export interface Book {
     bisac?: string[];
     thema?: string[];
   };
+  samplePdfUrl?: string;
 }
 
 export interface CartItem extends Book {
