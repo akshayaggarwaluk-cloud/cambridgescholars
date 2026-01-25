@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import { Star, Heart, Tablet, Book, ShoppingCart } from "lucide-react";
+import { Star, Heart, Tablet, Book, BookOpen, ShoppingCart } from "lucide-react";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { PageBreadcrumb } from "@/components/layout/PageBreadcrumb";
@@ -21,10 +21,12 @@ export default function BookDetails() {
 
   const book = books.find((b) => b.id === id);
   
-  // eBook is typically cheaper
-  const getPrice = (format: BookFormat) => {
+  // Pricing based on format
+  const getPrice = (format: BookFormat | "paperback") => {
     if (!book) return 0;
-    return format === "ebook" ? book.price * 0.6 : book.price;
+    if (format === "ebook") return book.price * 0.6;
+    if (format === "paperback") return book.price * 0.8;
+    return book.price; // hardbook
   };
 
   if (!book) {
@@ -119,7 +121,7 @@ export default function BookDetails() {
               {/* Select Format */}
               <div className="mb-6">
                 <p className="text-sm text-muted-foreground mb-3">Select Format</p>
-                <div className="flex gap-3">
+                <div className="flex flex-wrap gap-3">
                   <button
                     onClick={() => setSelectedFormat("ebook")}
                     className={cn(
@@ -160,9 +162,26 @@ export default function BookDetails() {
                       <p className={cn(
                         "font-medium",
                         selectedFormat === "hardbook" ? "text-accent" : "text-foreground"
-                      )}>Hardbook</p>
+                      )}>Hardback</p>
                       <p className="text-sm text-muted-foreground">
                         £{getPrice("hardbook").toFixed(2)}
+                      </p>
+                    </div>
+                  </button>
+                  <button
+                    onClick={() => setSelectedFormat("hardbook")}
+                    className={cn(
+                      "flex items-center gap-3 px-5 py-4 border-2 transition-all min-w-[140px]",
+                      false // Paperback uses same cart format as hardbook for now
+                        ? "border-accent bg-accent/5"
+                        : "border-border hover:border-accent/50"
+                    )}
+                  >
+                    <BookOpen className="h-5 w-5 text-muted-foreground" />
+                    <div className="text-left">
+                      <p className="font-medium text-foreground">Paperback</p>
+                      <p className="text-sm text-muted-foreground">
+                        £{getPrice("paperback").toFixed(2)}
                       </p>
                     </div>
                   </button>
