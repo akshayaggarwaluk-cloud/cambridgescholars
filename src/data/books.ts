@@ -36,7 +36,8 @@ export const books: Book[] = [
       bic: ["FA", "FM"],
       bisac: ["FIC045000", "FIC031000"],
       thema: ["FB", "FBA"]
-    }
+    },
+    samplePdfUrl: "https://www.w3.org/WAI/WCAG21/Techniques/pdf/img/table-word.pdf"
   },
   {
     id: "2",
@@ -68,7 +69,8 @@ export const books: Book[] = [
       bic: ["VS", "VSC"],
       bisac: ["SEL027000", "BUS107000"],
       thema: ["VS", "VSC"]
-    }
+    },
+    samplePdfUrl: "https://www.w3.org/WAI/WCAG21/Techniques/pdf/img/table-word.pdf"
   },
   {
     id: "3",
