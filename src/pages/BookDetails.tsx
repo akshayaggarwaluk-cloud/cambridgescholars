@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import { Heart, Plus, Minus } from "lucide-react";
+import { Star, Heart, Tablet, Book, ShoppingCart } from "lucide-react";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { PageBreadcrumb } from "@/components/layout/PageBreadcrumb";
@@ -13,39 +13,19 @@ import { useCart, BookFormat } from "@/contexts/CartContext";
 import { useWishlist } from "@/contexts/WishlistContext";
 import { cn } from "@/lib/utils";
 
-type BindingFormat = "hardback" | "paperback" | "ebook";
-
 export default function BookDetails() {
   const { id } = useParams<{ id: string }>();
   const { addToCart } = useCart();
   const { isInWishlist, addToWishlist, removeFromWishlist } = useWishlist();
-  const [selectedBinding, setSelectedBinding] = useState<BindingFormat>("hardback");
-  const [quantity, setQuantity] = useState(1);
+  const [selectedFormat, setSelectedFormat] = useState<BookFormat>("hardbook");
 
   const book = books.find((b) => b.id === id);
   
-  // Pricing based on binding type
-  const getPrice = (binding: BindingFormat) => {
+  // eBook is typically cheaper
+  const getPrice = (format: BookFormat) => {
     if (!book) return 0;
-    switch (binding) {
-      case "ebook":
-        return book.price * 0.6;
-      case "paperback":
-        return book.price * 0.8;
-      case "hardback":
-      default:
-        return book.price;
-    }
+    return format === "ebook" ? book.price * 0.6 : book.price;
   };
-
-  // Map binding to cart format
-  const getCartFormat = (binding: BindingFormat): BookFormat => {
-    return binding === "ebook" ? "ebook" : "hardbook";
-  };
-
-  const incrementQuantity = () => setQuantity(prev => prev + 1);
-  const decrementQuantity = () => setQuantity(prev => prev > 1 ? prev - 1 : 1);
-
 
   if (!book) {
     return (
@@ -85,9 +65,9 @@ export default function BookDetails() {
         {/* Book Details */}
         <section className="container-wide">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
-            {/* Book Cover - matches content height */}
+            {/* Book Cover */}
             <div className="relative h-fit">
-              <div className="aspect-[3/4] max-h-[500px] overflow-hidden bg-secondary">
+              <div className="aspect-[3/4] max-h-[600px] overflow-hidden bg-secondary">
                 <img
                   src={book.image}
                   alt={book.title}
@@ -98,91 +78,113 @@ export default function BookDetails() {
 
             {/* Book Info */}
             <div className="flex flex-col">
-              <h1 className="font-serif text-3xl md:text-4xl font-bold text-foreground mb-3">
+              {/* Category */}
+              <p className="text-accent font-semibold uppercase tracking-wider mb-2">
+                {book.category}
+              </p>
+              
+              {/* Title */}
+              <h1 className="font-serif text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-3">
                 {book.title}
               </h1>
               
-              {/* Subtitle - show blurb as subtitle if available, otherwise description */}
-              {(book.blurb || book.description) && (
-                <p className="font-serif text-lg italic text-foreground/80 mb-4">
-                  {book.blurb ? book.blurb.substring(0, 100) + (book.blurb.length > 100 ? '...' : '') : book.description?.substring(0, 100) + (book.description && book.description.length > 100 ? '...' : '')}
-                </p>
-              )}
-
-              <p className="text-lg text-foreground mb-6">
-                <span className="font-medium">By:</span> {book.author}
+              {/* Author */}
+              <p className="text-lg text-muted-foreground mb-6">
+                by {book.author}
               </p>
 
-              {/* Full Description */}
-              {book.description && (
-                <p className="text-foreground/80 leading-relaxed mb-8">
-                  {book.description}
-                </p>
-              )}
-
-              {/* Binding Selection - Box Options */}
-              <div className="mb-6">
-                <span className="text-sm font-medium uppercase tracking-wider text-foreground block mb-3">
-                  Binding
-                </span>
-                <div className="flex flex-wrap gap-3">
-                  {(["hardback", "paperback", "ebook"] as BindingFormat[]).map((binding) => (
-                    <button
-                      key={binding}
-                      onClick={() => setSelectedBinding(binding)}
+              {/* Rating */}
+              <div className="flex items-center gap-2 mb-8">
+                <div className="flex">
+                  {Array.from({ length: 5 }).map((_, i) => (
+                    <Star
+                      key={i}
                       className={cn(
-                        "px-6 py-3 border-2 transition-all text-sm font-medium uppercase tracking-wide",
-                        selectedBinding === binding
-                          ? "border-accent bg-accent text-white"
-                          : "border-border bg-background text-foreground hover:border-accent"
+                        "h-5 w-5",
+                        i < Math.floor(book.rating)
+                          ? "fill-accent text-accent"
+                          : "text-muted"
                       )}
-                    >
-                      {binding === "ebook" ? "eBook" : binding.charAt(0).toUpperCase() + binding.slice(1)} - £{getPrice(binding).toFixed(2)}
-                    </button>
+                    />
                   ))}
                 </div>
+                <span className="font-semibold text-foreground">
+                  {book.rating}
+                </span>
+                <span className="text-muted-foreground">
+                  (Based on 247 reviews)
+                </span>
               </div>
 
-              {/* Quantity Selector */}
-              <div className="flex items-center gap-6 mb-8">
-                <span className="text-sm font-medium uppercase tracking-wider text-foreground min-w-[80px]">
-                  Quantity
-                </span>
-                <div className="flex items-center border border-border">
+              {/* Select Format */}
+              <div className="mb-6">
+                <p className="text-sm text-muted-foreground mb-3">Select Format</p>
+                <div className="flex gap-3">
                   <button
-                    onClick={decrementQuantity}
-                    className="px-4 py-2 hover:bg-secondary transition-colors border-r border-border"
+                    onClick={() => setSelectedFormat("ebook")}
+                    className={cn(
+                      "flex items-center gap-3 px-5 py-4 border-2 transition-all min-w-[140px]",
+                      selectedFormat === "ebook"
+                        ? "border-accent bg-accent/5"
+                        : "border-border hover:border-accent/50"
+                    )}
                   >
-                    <Minus className="h-4 w-4" />
+                    <Tablet className={cn(
+                      "h-5 w-5",
+                      selectedFormat === "ebook" ? "text-accent" : "text-muted-foreground"
+                    )} />
+                    <div className="text-left">
+                      <p className={cn(
+                        "font-medium",
+                        selectedFormat === "ebook" ? "text-accent" : "text-foreground"
+                      )}>eBook</p>
+                      <p className="text-sm text-muted-foreground">
+                        £{getPrice("ebook").toFixed(2)}
+                      </p>
+                    </div>
                   </button>
-                  <span className="px-6 py-2 font-medium min-w-[60px] text-center">
-                    {quantity}
-                  </span>
                   <button
-                    onClick={incrementQuantity}
-                    className="px-4 py-2 hover:bg-secondary transition-colors border-l border-border"
+                    onClick={() => setSelectedFormat("hardbook")}
+                    className={cn(
+                      "flex items-center gap-3 px-5 py-4 border-2 transition-all min-w-[140px]",
+                      selectedFormat === "hardbook"
+                        ? "border-accent bg-accent/5"
+                        : "border-border hover:border-accent/50"
+                    )}
                   >
-                    <Plus className="h-4 w-4" />
+                    <Book className={cn(
+                      "h-5 w-5",
+                      selectedFormat === "hardbook" ? "text-accent" : "text-muted-foreground"
+                    )} />
+                    <div className="text-left">
+                      <p className={cn(
+                        "font-medium",
+                        selectedFormat === "hardbook" ? "text-accent" : "text-foreground"
+                      )}>Hardbook</p>
+                      <p className="text-sm text-muted-foreground">
+                        £{getPrice("hardbook").toFixed(2)}
+                      </p>
+                    </div>
                   </button>
                 </div>
               </div>
 
-              {/* Price and Actions Row */}
-              <div className="flex items-center gap-4 flex-wrap">
-                <span className="font-serif text-2xl text-foreground">
-                  From £{getPrice("ebook").toFixed(2)}
+              {/* Price */}
+              <div className="mb-8">
+                <span className="font-serif text-4xl font-bold text-foreground">
+                  £{getPrice(selectedFormat).toFixed(2)}
                 </span>
-                
+              </div>
+
+              {/* Actions */}
+              <div className="flex items-center gap-3">
                 <Button
                   variant="gold"
                   size="lg"
                   className="px-8"
-                  onClick={() => {
-                    for (let i = 0; i < quantity; i++) {
-                      addToCart({ ...book, price: getPrice(selectedBinding) }, getCartFormat(selectedBinding));
-                    }
-                  }}
+                  onClick={() => addToCart({ ...book, price: getPrice(selectedFormat) }, selectedFormat)}
                 >
+                  <ShoppingCart className="mr-2 h-5 w-5" />
                   ADD TO CART
                 </Button>
                 
