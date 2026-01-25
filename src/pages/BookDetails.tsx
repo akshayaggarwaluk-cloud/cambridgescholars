@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import { Heart, Eye, Plus, Minus } from "lucide-react";
+import { Heart, Plus, Minus } from "lucide-react";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { PageBreadcrumb } from "@/components/layout/PageBreadcrumb";
@@ -12,31 +12,40 @@ import { books } from "@/data/books";
 import { useCart, BookFormat } from "@/contexts/CartContext";
 import { useWishlist } from "@/contexts/WishlistContext";
 import { cn } from "@/lib/utils";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+
+type BindingFormat = "hardback" | "paperback" | "ebook";
 
 export default function BookDetails() {
   const { id } = useParams<{ id: string }>();
   const { addToCart } = useCart();
   const { isInWishlist, addToWishlist, removeFromWishlist } = useWishlist();
-  const [selectedFormat, setSelectedFormat] = useState<BookFormat>("hardbook");
+  const [selectedBinding, setSelectedBinding] = useState<BindingFormat>("hardback");
   const [quantity, setQuantity] = useState(1);
 
   const book = books.find((b) => b.id === id);
   
-  // eBook is typically cheaper
-  const getPrice = (format: BookFormat) => {
+  // Pricing based on binding type
+  const getPrice = (binding: BindingFormat) => {
     if (!book) return 0;
-    return format === "ebook" ? book.price * 0.6 : book.price;
+    switch (binding) {
+      case "ebook":
+        return book.price * 0.6;
+      case "paperback":
+        return book.price * 0.8;
+      case "hardback":
+      default:
+        return book.price;
+    }
+  };
+
+  // Map binding to cart format
+  const getCartFormat = (binding: BindingFormat): BookFormat => {
+    return binding === "ebook" ? "ebook" : "hardbook";
   };
 
   const incrementQuantity = () => setQuantity(prev => prev + 1);
   const decrementQuantity = () => setQuantity(prev => prev > 1 ? prev - 1 : 1);
+
 
   if (!book) {
     return (
@@ -111,23 +120,27 @@ export default function BookDetails() {
                 </p>
               )}
 
-              {/* Binding Selection */}
-              <div className="flex items-center gap-6 mb-6">
-                <span className="text-sm font-medium uppercase tracking-wider text-foreground min-w-[80px]">
+              {/* Binding Selection - Box Options */}
+              <div className="mb-6">
+                <span className="text-sm font-medium uppercase tracking-wider text-foreground block mb-3">
                   Binding
                 </span>
-                <Select 
-                  value={selectedFormat} 
-                  onValueChange={(value: BookFormat) => setSelectedFormat(value)}
-                >
-                  <SelectTrigger className="w-[280px] border-border">
-                    <SelectValue placeholder="Choose an option" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="hardbook">Hardback - £{getPrice("hardbook").toFixed(2)}</SelectItem>
-                    <SelectItem value="ebook">eBook - £{getPrice("ebook").toFixed(2)}</SelectItem>
-                  </SelectContent>
-                </Select>
+                <div className="flex flex-wrap gap-3">
+                  {(["hardback", "paperback", "ebook"] as BindingFormat[]).map((binding) => (
+                    <button
+                      key={binding}
+                      onClick={() => setSelectedBinding(binding)}
+                      className={cn(
+                        "px-6 py-3 border-2 transition-all text-sm font-medium uppercase tracking-wide",
+                        selectedBinding === binding
+                          ? "border-accent bg-accent text-white"
+                          : "border-border bg-background text-foreground hover:border-accent"
+                      )}
+                    >
+                      {binding === "ebook" ? "eBook" : binding.charAt(0).toUpperCase() + binding.slice(1)} - £{getPrice(binding).toFixed(2)}
+                    </button>
+                  ))}
+                </div>
               </div>
 
               {/* Quantity Selector */}
@@ -166,7 +179,7 @@ export default function BookDetails() {
                   className="px-8"
                   onClick={() => {
                     for (let i = 0; i < quantity; i++) {
-                      addToCart({ ...book, price: getPrice(selectedFormat) }, selectedFormat);
+                      addToCart({ ...book, price: getPrice(selectedBinding) }, getCartFormat(selectedBinding));
                     }
                   }}
                 >
