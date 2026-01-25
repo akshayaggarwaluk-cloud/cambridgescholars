@@ -26,22 +26,26 @@ export default function BookDetails() {
     if (!book) return 0;
     if (format === "ebook") return book.price * 0.6;
     if (format === "paperback") return book.price * 0.8;
-    return book.price; // hardbook
+    return book.price;
   };
 
   if (!book) {
     return (
       <div className="min-h-screen bg-background">
         <Header />
+
         <main className="pt-32 pb-16">
           <div className="container-wide text-center">
             <h1 className="font-serif text-4xl font-bold text-foreground mb-4">Book Not Found</h1>
+
             <p className="text-muted-foreground mb-8">Sorry, we couldn't find the book you're looking for.</p>
+
             <Button asChild variant="gold">
               <Link to="/books">Browse All Books</Link>
             </Button>
           </div>
         </main>
+
         <Footer />
       </div>
     );
@@ -58,10 +62,10 @@ export default function BookDetails() {
         </div>
 
         {/* Book Details */}
-        <section className="container-wide">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-stretch">
+        <section className="container-wide min-h-[650px]">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-stretch h-full">
             {/* Book Cover */}
-            <div className="relative">
+            <div className="relative h-full">
               <div className="mx-auto lg:mx-0 w-full max-w-[520px] h-full overflow-hidden bg-secondary rounded-xl">
                 <img src={book.image} alt={book.title} className="w-full h-full object-cover" />
               </div>
@@ -69,6 +73,7 @@ export default function BookDetails() {
 
             {/* Book Info */}
             <div className="flex flex-col h-full justify-between">
+              {/* Top Content */}
               <div>
                 {/* Category */}
                 <p className="text-accent font-semibold uppercase tracking-wider mb-2">{book.category}</p>
@@ -94,7 +99,9 @@ export default function BookDetails() {
                       />
                     ))}
                   </div>
+
                   <span className="font-semibold text-foreground">{book.rating}</span>
+
                   <span className="text-muted-foreground">(Based on 247 reviews)</span>
                 </div>
 
@@ -186,7 +193,7 @@ export default function BookDetails() {
                 </div>
               </div>
 
-              {/* Actions */}
+              {/* Actions Bottom */}
               <div className="flex items-center gap-3">
                 <Button
                   variant="gold"
