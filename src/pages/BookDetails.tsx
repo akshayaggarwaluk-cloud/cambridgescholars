@@ -62,17 +62,17 @@ export default function BookDetails() {
         </div>
 
         {/* Book Details */}
-        <section className="container-wide min-h-[650px]">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-stretch h-full">
+        <section className="container-wide">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-stretch">
             {/* Book Cover */}
-            <div className="relative h-full">
-              <div className="mx-auto lg:mx-0 w-full max-w-[520px] h-full overflow-hidden bg-secondary rounded-xl">
+            <div className="relative">
+              <div className="mx-auto lg:mx-0 w-full max-w-[480px] overflow-hidden bg-secondary rounded-xl h-full">
                 <img src={book.image} alt={book.title} className="w-full h-full object-cover" />
               </div>
             </div>
 
             {/* Book Info */}
-            <div className="flex flex-col h-full justify-between">
+            <div className="flex flex-col justify-between py-4">
               {/* Top Content */}
               <div>
                 {/* Category */}
