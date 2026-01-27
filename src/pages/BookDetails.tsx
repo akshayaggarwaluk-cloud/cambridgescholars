@@ -64,61 +64,61 @@ export default function BookDetails() {
 
         {/* Book Details */}
         <section className="container-wide">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
             {/* Book Cover */}
             <div className="relative">
-              <div className="mx-auto lg:mx-0 w-full max-w-[420px]">
+              <div className="mx-auto lg:mx-0 w-full max-w-[320px]">
                 <img src={book.image} alt={book.title} className="w-full h-auto object-contain" />
               </div>
             </div>
 
             {/* Book Info */}
-            <div className="flex flex-col justify-between py-4">
+            <div className="flex flex-col justify-between">
               {/* Top Content */}
               <div>
                 {/* Title */}
-                <h1 className="font-serif text-3xl md:text-4xl font-bold text-foreground mb-3">
+                <h1 className="font-serif text-2xl md:text-3xl font-bold text-foreground mb-2">
                   {book.title}
                 </h1>
 
                 {/* Subtitle/Description */}
-                <p className="font-serif text-lg italic text-foreground mb-4">
+                <p className="font-serif text-base italic text-foreground mb-3">
                   {book.description}
                 </p>
 
                 {/* Author */}
-                <p className="text-base text-foreground mb-6">
+                <p className="text-sm text-foreground mb-4">
                   <span className="font-semibold">By:</span> {book.author}
                 </p>
 
                 {/* Blurb */}
-                <p className="text-muted-foreground leading-relaxed mb-8">
-                  {book.blurb?.slice(0, 250)}{book.blurb && book.blurb.length > 250 ? '...' : ''}
+                <p className="text-sm text-muted-foreground leading-relaxed mb-4">
+                  {book.blurb?.slice(0, 180)}{book.blurb && book.blurb.length > 180 ? '...' : ''}
                 </p>
 
                 {/* Select Format */}
-                <div className="mb-6">
-                  <p className="text-sm text-muted-foreground mb-3">Select Format</p>
+                <div className="mb-4">
+                  <p className="text-xs text-muted-foreground mb-2">Select Format</p>
 
-                  <div className="flex flex-wrap gap-3">
+                  <div className="flex flex-wrap gap-2">
                     {/* Ebook */}
                     <button
                       onClick={() => setSelectedFormat("ebook")}
                       className={cn(
-                        "flex items-center gap-3 px-5 py-4 border-2 transition-all min-w-[140px]",
+                        "flex items-center gap-2 px-3 py-2 border-2 transition-all min-w-[110px]",
                         selectedFormat === "ebook"
                           ? "border-accent bg-accent/5"
                           : "border-border hover:border-accent/50",
                       )}
                     >
                       <Tablet
-                        className={cn("h-5 w-5", selectedFormat === "ebook" ? "text-accent" : "text-muted-foreground")}
+                        className={cn("h-4 w-4", selectedFormat === "ebook" ? "text-accent" : "text-muted-foreground")}
                       />
                       <div className="text-left">
-                        <p className={cn("font-medium", selectedFormat === "ebook" ? "text-accent" : "text-foreground")}>
+                        <p className={cn("text-sm font-medium", selectedFormat === "ebook" ? "text-accent" : "text-foreground")}>
                           eBook
                         </p>
-                        <p className="text-sm text-muted-foreground">£{getPrice("ebook").toFixed(2)}</p>
+                        <p className="text-xs text-muted-foreground">£{getPrice("ebook").toFixed(2)}</p>
                       </div>
                     </button>
 
@@ -126,20 +126,20 @@ export default function BookDetails() {
                     <button
                       onClick={() => setSelectedFormat("hardbook")}
                       className={cn(
-                        "flex items-center gap-3 px-5 py-4 border-2 transition-all min-w-[140px]",
+                        "flex items-center gap-2 px-3 py-2 border-2 transition-all min-w-[110px]",
                         selectedFormat === "hardbook"
                           ? "border-accent bg-accent/5"
                           : "border-border hover:border-accent/50",
                       )}
                     >
                       <Book
-                        className={cn("h-5 w-5", selectedFormat === "hardbook" ? "text-accent" : "text-muted-foreground")}
+                        className={cn("h-4 w-4", selectedFormat === "hardbook" ? "text-accent" : "text-muted-foreground")}
                       />
                       <div className="text-left">
-                        <p className={cn("font-medium", selectedFormat === "hardbook" ? "text-accent" : "text-foreground")}>
+                        <p className={cn("text-sm font-medium", selectedFormat === "hardbook" ? "text-accent" : "text-foreground")}>
                           Hardback
                         </p>
-                        <p className="text-sm text-muted-foreground">£{getPrice("hardbook").toFixed(2)}</p>
+                        <p className="text-xs text-muted-foreground">£{getPrice("hardbook").toFixed(2)}</p>
                       </div>
                     </button>
 
@@ -147,85 +147,86 @@ export default function BookDetails() {
                     <button
                       onClick={() => setSelectedFormat("paperback")}
                       className={cn(
-                        "flex items-center gap-3 px-5 py-4 border-2 transition-all min-w-[140px]",
+                        "flex items-center gap-2 px-3 py-2 border-2 transition-all min-w-[110px]",
                         selectedFormat === "paperback"
                           ? "border-accent bg-accent/5"
                           : "border-border hover:border-accent/50",
                       )}
                     >
                       <BookOpen
-                        className={cn("h-5 w-5", selectedFormat === "paperback" ? "text-accent" : "text-muted-foreground")}
+                        className={cn("h-4 w-4", selectedFormat === "paperback" ? "text-accent" : "text-muted-foreground")}
                       />
                       <div className="text-left">
-                        <p className={cn("font-medium", selectedFormat === "paperback" ? "text-accent" : "text-foreground")}>
+                        <p className={cn("text-sm font-medium", selectedFormat === "paperback" ? "text-accent" : "text-foreground")}>
                           Paperback
                         </p>
-                        <p className="text-sm text-muted-foreground">£{getPrice("paperback").toFixed(2)}</p>
+                        <p className="text-xs text-muted-foreground">£{getPrice("paperback").toFixed(2)}</p>
                       </div>
                     </button>
                   </div>
                 </div>
 
                 {/* QUANTITY */}
-                <div className="flex items-center gap-8 mb-8">
-                  <span className="text-sm font-semibold uppercase tracking-wider text-foreground">Quantity</span>
+                <div className="flex items-center gap-6 mb-4">
+                  <span className="text-xs font-semibold uppercase tracking-wider text-foreground">Quantity</span>
                   <div className="flex items-center border border-border">
                     <button
                       onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                      className="px-3 py-2 hover:bg-muted transition-colors"
+                      className="px-2 py-1 hover:bg-muted transition-colors"
                     >
-                      <Minus className="h-4 w-4" />
+                      <Minus className="h-3 w-3" />
                     </button>
-                    <span className="px-4 py-2 min-w-[50px] text-center font-medium">{quantity}</span>
+                    <span className="px-3 py-1 min-w-[40px] text-center text-sm font-medium">{quantity}</span>
                     <button
                       onClick={() => setQuantity(quantity + 1)}
-                      className="px-3 py-2 hover:bg-muted transition-colors"
+                      className="px-2 py-1 hover:bg-muted transition-colors"
                     >
-                      <Plus className="h-4 w-4" />
+                      <Plus className="h-3 w-3" />
                     </button>
                   </div>
                 </div>
-              </div>
 
-              {/* Actions Bottom */}
-              <div className="flex items-center gap-4 flex-wrap">
-                {/* Price */}
-                <span className="text-xl text-muted-foreground">
-                  From <span className="font-semibold text-foreground">£{getPrice(selectedFormat).toFixed(2)}</span>
-                </span>
+                {/* Actions */}
+                {/* Actions */}
+                <div className="flex items-center gap-3 flex-wrap">
+                  {/* Price */}
+                  <span className="text-lg text-muted-foreground">
+                    From <span className="font-semibold text-foreground">£{getPrice(selectedFormat).toFixed(2)}</span>
+                  </span>
 
-                <Button
-                  variant="default"
-                  size="lg"
-                  className="px-8"
-                  onClick={() => {
-                    for (let i = 0; i < quantity; i++) {
-                      addToCart({ ...book, price: getPrice(selectedFormat) }, selectedFormat);
-                    }
-                  }}
-                >
-                  ADD TO CART
-                </Button>
+                  <Button
+                    variant="default"
+                    size="default"
+                    className="px-6"
+                    onClick={() => {
+                      for (let i = 0; i < quantity; i++) {
+                        addToCart({ ...book, price: getPrice(selectedFormat) }, selectedFormat);
+                      }
+                    }}
+                  >
+                    ADD TO CART
+                  </Button>
 
-                <Button
-                  variant="outline"
-                  size="lg"
-                  className="px-4"
-                  onClick={() => (isInWishlist(book.id) ? removeFromWishlist(book.id) : addToWishlist(book))}
-                >
-                  <Heart className={cn("h-5 w-5", isInWishlist(book.id) && "fill-accent text-accent")} />
-                </Button>
-
-                {book.samplePdfUrl && (
                   <Button
                     variant="outline"
-                    size="lg"
-                    className="px-6"
-                    onClick={() => window.open(book.samplePdfUrl, "_blank")}
+                    size="default"
+                    className="px-3"
+                    onClick={() => (isInWishlist(book.id) ? removeFromWishlist(book.id) : addToWishlist(book))}
                   >
-                    READ SAMPLE
+                    <Heart className={cn("h-4 w-4", isInWishlist(book.id) && "fill-accent text-accent")} />
                   </Button>
-                )}
+
+                  {book.samplePdfUrl && (
+                    <Button
+                      variant="outline"
+                      size="default"
+                      className="px-4"
+                      onClick={() => window.open(book.samplePdfUrl, "_blank")}
+                    >
+                      READ SAMPLE
+                    </Button>
+                  )}
+                </div>
               </div>
             </div>
           </div>
