@@ -64,11 +64,11 @@ export default function BookDetails() {
 
         {/* Book Details */}
         <section className="container-wide">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-stretch">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
             {/* Book Cover */}
             <div className="relative">
-              <div className="mx-auto lg:mx-0 w-full max-w-[480px] h-full">
-                <img src={book.image} alt={book.title} className="w-full h-full object-contain" />
+              <div className="mx-auto lg:mx-0 w-full max-w-[420px]">
+                <img src={book.image} alt={book.title} className="w-full h-auto object-contain" />
               </div>
             </div>
 
