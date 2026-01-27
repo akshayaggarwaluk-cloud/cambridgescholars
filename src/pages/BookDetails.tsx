@@ -75,16 +75,20 @@ export default function BookDetails() {
             <div className="flex flex-col justify-between py-4">
               {/* Top Content */}
               <div>
-                {/* Category */}
-                <p className="text-accent font-semibold uppercase tracking-wider mb-2">{book.category}</p>
-
                 {/* Title */}
-                <h1 className="font-serif text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-3">
+                <h1 className="font-serif text-3xl md:text-4xl font-bold text-foreground mb-3">
                   {book.title}
                 </h1>
 
+                {/* Subtitle/Description */}
+                <p className="font-serif text-lg italic text-foreground mb-4">
+                  {book.description}
+                </p>
+
                 {/* Author */}
-                <p className="text-lg text-muted-foreground mb-6">by {book.author}</p>
+                <p className="text-base text-muted-foreground mb-6">
+                  <span className="font-semibold">By:</span> {book.author}
+                </p>
 
                 {/* Rating */}
                 <div className="flex items-center gap-2 mb-8">
