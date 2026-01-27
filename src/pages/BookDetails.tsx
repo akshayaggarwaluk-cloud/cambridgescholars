@@ -67,8 +67,8 @@ export default function BookDetails() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-stretch">
             {/* Book Cover */}
             <div className="relative">
-              <div className="mx-auto lg:mx-0 w-full max-w-[480px] overflow-hidden bg-secondary rounded-xl h-full">
-                <img src={book.image} alt={book.title} className="w-full h-full object-cover" />
+              <div className="mx-auto lg:mx-0 w-full max-w-[480px] h-full">
+                <img src={book.image} alt={book.title} className="w-full h-full object-contain" />
               </div>
             </div>
 
