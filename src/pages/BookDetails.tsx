@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import { Heart, Minus, Plus, ChevronDown } from "lucide-react";
+import { Heart, Minus, Plus, Tablet, Book, BookOpen } from "lucide-react";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { PageBreadcrumb } from "@/components/layout/PageBreadcrumb";
@@ -8,7 +8,6 @@ import { Button } from "@/components/ui/button";
 import { ReviewsSection } from "@/components/books/ReviewsSection";
 import { RelatedBooksSection } from "@/components/books/RelatedBooksSection";
 import { BookDetailsTabs } from "@/components/books/BookDetailsTabs";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { books } from "@/data/books";
 import { useCart, BookFormat } from "@/contexts/CartContext";
 import { useWishlist } from "@/contexts/WishlistContext";
@@ -18,7 +17,7 @@ export default function BookDetails() {
   const { id } = useParams<{ id: string }>();
   const { addToCart } = useCart();
   const { isInWishlist, addToWishlist, removeFromWishlist } = useWishlist();
-  const [selectedFormat, setSelectedFormat] = useState<BookFormat | "">("");
+  const [selectedFormat, setSelectedFormat] = useState<BookFormat>("hardbook");
   const [quantity, setQuantity] = useState(1);
 
   const book = books.find((b) => b.id === id);
@@ -97,22 +96,74 @@ export default function BookDetails() {
                   {book.blurb?.slice(0, 250)}{book.blurb && book.blurb.length > 250 ? '...' : ''}
                 </p>
 
-                {/* BINDING Dropdown */}
-                <div className="flex items-center gap-8 mb-6">
-                  <span className="text-sm font-semibold uppercase tracking-wider text-foreground">Binding</span>
-                  <Select 
-                    value={selectedFormat} 
-                    onValueChange={(value) => setSelectedFormat(value as BookFormat)}
-                  >
-                    <SelectTrigger className="w-[280px] bg-background border-border">
-                      <SelectValue placeholder="Choose an option" />
-                    </SelectTrigger>
-                    <SelectContent className="bg-background">
-                      <SelectItem value="ebook">eBook - £{getPrice("ebook").toFixed(2)}</SelectItem>
-                      <SelectItem value="hardbook">Hardback - £{getPrice("hardbook").toFixed(2)}</SelectItem>
-                      <SelectItem value="paperback">Paperback - £{getPrice("paperback").toFixed(2)}</SelectItem>
-                    </SelectContent>
-                  </Select>
+                {/* Select Format */}
+                <div className="mb-6">
+                  <p className="text-sm text-muted-foreground mb-3">Select Format</p>
+
+                  <div className="flex flex-wrap gap-3">
+                    {/* Ebook */}
+                    <button
+                      onClick={() => setSelectedFormat("ebook")}
+                      className={cn(
+                        "flex items-center gap-3 px-5 py-4 border-2 transition-all min-w-[140px]",
+                        selectedFormat === "ebook"
+                          ? "border-accent bg-accent/5"
+                          : "border-border hover:border-accent/50",
+                      )}
+                    >
+                      <Tablet
+                        className={cn("h-5 w-5", selectedFormat === "ebook" ? "text-accent" : "text-muted-foreground")}
+                      />
+                      <div className="text-left">
+                        <p className={cn("font-medium", selectedFormat === "ebook" ? "text-accent" : "text-foreground")}>
+                          eBook
+                        </p>
+                        <p className="text-sm text-muted-foreground">£{getPrice("ebook").toFixed(2)}</p>
+                      </div>
+                    </button>
+
+                    {/* Hardback */}
+                    <button
+                      onClick={() => setSelectedFormat("hardbook")}
+                      className={cn(
+                        "flex items-center gap-3 px-5 py-4 border-2 transition-all min-w-[140px]",
+                        selectedFormat === "hardbook"
+                          ? "border-accent bg-accent/5"
+                          : "border-border hover:border-accent/50",
+                      )}
+                    >
+                      <Book
+                        className={cn("h-5 w-5", selectedFormat === "hardbook" ? "text-accent" : "text-muted-foreground")}
+                      />
+                      <div className="text-left">
+                        <p className={cn("font-medium", selectedFormat === "hardbook" ? "text-accent" : "text-foreground")}>
+                          Hardback
+                        </p>
+                        <p className="text-sm text-muted-foreground">£{getPrice("hardbook").toFixed(2)}</p>
+                      </div>
+                    </button>
+
+                    {/* Paperback */}
+                    <button
+                      onClick={() => setSelectedFormat("paperback")}
+                      className={cn(
+                        "flex items-center gap-3 px-5 py-4 border-2 transition-all min-w-[140px]",
+                        selectedFormat === "paperback"
+                          ? "border-accent bg-accent/5"
+                          : "border-border hover:border-accent/50",
+                      )}
+                    >
+                      <BookOpen
+                        className={cn("h-5 w-5", selectedFormat === "paperback" ? "text-accent" : "text-muted-foreground")}
+                      />
+                      <div className="text-left">
+                        <p className={cn("font-medium", selectedFormat === "paperback" ? "text-accent" : "text-foreground")}>
+                          Paperback
+                        </p>
+                        <p className="text-sm text-muted-foreground">£{getPrice("paperback").toFixed(2)}</p>
+                      </div>
+                    </button>
+                  </div>
                 </div>
 
                 {/* QUANTITY */}
@@ -140,19 +191,16 @@ export default function BookDetails() {
               <div className="flex items-center gap-4 flex-wrap">
                 {/* Price */}
                 <span className="text-xl text-muted-foreground">
-                  From <span className="font-semibold text-foreground">£{getPrice(selectedFormat || "ebook").toFixed(2)}</span>
+                  From <span className="font-semibold text-foreground">£{getPrice(selectedFormat).toFixed(2)}</span>
                 </span>
 
                 <Button
                   variant="default"
                   size="lg"
                   className="px-8"
-                  disabled={!selectedFormat}
                   onClick={() => {
-                    if (selectedFormat) {
-                      for (let i = 0; i < quantity; i++) {
-                        addToCart({ ...book, price: getPrice(selectedFormat) }, selectedFormat as BookFormat);
-                      }
+                    for (let i = 0; i < quantity; i++) {
+                      addToCart({ ...book, price: getPrice(selectedFormat) }, selectedFormat);
                     }
                   }}
                 >

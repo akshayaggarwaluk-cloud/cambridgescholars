@@ -4,7 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "./AuthContext";
 import { books } from "@/data/books";
 
-export type BookFormat = "ebook" | "hardbook";
+export type BookFormat = "ebook" | "hardbook" | "paperback";
 
 export interface BookFormatInfo {
   isbn?: string;
@@ -138,14 +138,14 @@ export function CartProvider({ children }: { children: ReactNode }) {
       syncCartToDatabase(book.id, format, newQuantity);
       
       if (existing) {
-        toast.success(`Added another ${format === "ebook" ? "eBook" : "Hardbook"} of "${book.title}"`);
+        toast.success(`Added another ${format === "ebook" ? "eBook" : format === "paperback" ? "Paperback" : "Hardback"} of "${book.title}"`);
         return prev.map((item) =>
           item.id === book.id && item.format === format
             ? { ...item, quantity: item.quantity + 1 }
             : item
         );
       }
-      toast.success(`"${book.title}" (${format === "ebook" ? "eBook" : "Hardbook"}) added to cart`);
+      toast.success(`"${book.title}" (${format === "ebook" ? "eBook" : format === "paperback" ? "Paperback" : "Hardback"}) added to cart`);
       return [...prev, { ...book, quantity: 1, format }];
     });
   };
