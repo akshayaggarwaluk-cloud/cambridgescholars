@@ -40,5 +40,49 @@ export function PageBreadcrumb({
   // Auto-generate breadcrumb items if not provided
   const breadcrumbItems: BreadcrumbItem[] = items || [];
   const finalPage = currentPage || routeLabels[location.pathname] || "Page";
-  return;
+  
+  return (
+    <Breadcrumb className={className}>
+      <BreadcrumbList>
+        <BreadcrumbItem>
+          <BreadcrumbLink asChild>
+            <Link to="/" className="flex items-center gap-1 text-red-500 hover:text-red-600">
+              <Home className="h-4 w-4" />
+              <span>Home</span>
+            </Link>
+          </BreadcrumbLink>
+        </BreadcrumbItem>
+        
+        {breadcrumbItems.map((item, index) => (
+          <div key={index} className="flex items-center">
+            <BreadcrumbSeparator>
+              <ChevronRight className="h-4 w-4 text-muted-foreground" />
+            </BreadcrumbSeparator>
+            <BreadcrumbItem>
+              {item.href ? (
+                <BreadcrumbLink asChild>
+                  <Link to={item.href} className="text-red-500 hover:text-red-600">
+                    {item.label}
+                  </Link>
+                </BreadcrumbLink>
+              ) : (
+                <BreadcrumbPage className="text-muted-foreground">
+                  {item.label}
+                </BreadcrumbPage>
+              )}
+            </BreadcrumbItem>
+          </div>
+        ))}
+        
+        <BreadcrumbSeparator>
+          <ChevronRight className="h-4 w-4 text-muted-foreground" />
+        </BreadcrumbSeparator>
+        <BreadcrumbItem>
+          <BreadcrumbPage className="text-muted-foreground font-medium">
+            {finalPage}
+          </BreadcrumbPage>
+        </BreadcrumbItem>
+      </BreadcrumbList>
+    </Breadcrumb>
+  );
 }
