@@ -1,6 +1,7 @@
-import { useState, useRef, useEffect } from "react";
+import { useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { Heart, Minus, Plus, Tablet, Book, BookOpen } from "lucide-react";
+
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { PageBreadcrumb } from "@/components/layout/PageBreadcrumb";
@@ -8,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { ReviewsSection } from "@/components/books/ReviewsSection";
 import { RelatedBooksSection } from "@/components/books/RelatedBooksSection";
 import { BookDetailsTabs } from "@/components/books/BookDetailsTabs";
+
 import { books } from "@/data/books";
 import { useCart, BookFormat } from "@/contexts/CartContext";
 import { useWishlist } from "@/contexts/WishlistContext";
@@ -15,36 +17,26 @@ import { cn } from "@/lib/utils";
 
 export default function BookDetails() {
   const { id } = useParams<{ id: string }>();
+
   const { addToCart } = useCart();
   const { isInWishlist, addToWishlist, removeFromWishlist } = useWishlist();
+
   const [selectedFormat, setSelectedFormat] = useState<BookFormat>("hardbook");
   const [quantity, setQuantity] = useState(1);
-  const [contentHeight, setContentHeight] = useState<number | undefined>(undefined);
-  const imageRef = useRef<HTMLImageElement>(null);
 
   const book = books.find((b) => b.id === id);
 
-  // Measure image height and apply to content column
-  useEffect(() => {
-    const updateHeight = () => {
-      if (imageRef.current) {
-        setContentHeight(imageRef.current.offsetHeight);
-      }
-    };
-
-    updateHeight();
-    window.addEventListener('resize', updateHeight);
-    return () => window.removeEventListener('resize', updateHeight);
-  }, [book]);
-
-  // Pricing based on format
+  /* Price Calculation */
   const getPrice = (format: BookFormat | "paperback") => {
     if (!book) return 0;
+
     if (format === "ebook") return book.price * 0.6;
     if (format === "paperback") return book.price * 0.8;
+
     return book.price;
   };
 
+  /* Not Found */
   if (!book) {
     return (
       <div className="min-h-screen bg-background">
@@ -52,7 +44,7 @@ export default function BookDetails() {
 
         <main className="pt-32 pb-16">
           <div className="container-wide text-center">
-            <h1 className="font-serif text-4xl font-bold text-foreground mb-4">Book Not Found</h1>
+            <h1 className="font-serif text-4xl font-bold mb-4">Book Not Found</h1>
 
             <p className="text-muted-foreground mb-8">Sorry, we couldn't find the book you're looking for.</p>
 
@@ -71,189 +63,185 @@ export default function BookDetails() {
     <div className="min-h-screen bg-background">
       <Header />
 
-      <main className="pt-20 md:pt-24 pb-8 md:pb-16">
+      <main className="pt-24 pb-16">
         {/* Breadcrumb */}
-        <div className="container-wide py-3 md:py-6">
+        <div className="container-wide py-6">
           <PageBreadcrumb items={[{ label: "Books", href: "/books" }]} currentPage={book.title} />
         </div>
 
-        {/* Book Details */}
+        {/* Main Section */}
         <section className="container-wide">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 lg:gap-8 items-start">
-            {/* Book Cover */}
-            <div className="relative">
-              <div className="mx-auto md:mx-0 w-full max-w-[200px] sm:max-w-[240px] md:max-w-[280px] lg:max-w-[320px]">
-                <img 
-                  ref={imageRef}
-                  src={book.image} 
-                  alt={book.title} 
-                  className="w-full h-auto object-contain"
-                  onLoad={() => {
-                    if (imageRef.current) {
-                      setContentHeight(imageRef.current.offsetHeight);
-                    }
-                  }}
-                />
+          <div className="grid grid-cols-1 md:grid-cols-[1fr_2fr] gap-12 items-start">
+            {/* Book Image */}
+            <div className="flex justify-center md:justify-start">
+              <div className="w-full max-w-[350px] lg:max-w-[400px]">
+                <img src={book.image} alt={book.title} className="w-full h-auto object-contain" />
               </div>
             </div>
 
             {/* Book Info */}
-            <div 
-              className="flex flex-col justify-start overflow-hidden"
-              style={{ maxHeight: contentHeight ? `${contentHeight}px` : undefined }}
-            >
-              {/* Top Content */}
-              <div>
-                {/* Title */}
-                <h1 className="font-serif text-xl sm:text-2xl md:text-2xl lg:text-3xl font-bold text-foreground mb-1 md:mb-2">
-                  {book.title}
-                </h1>
+            <div className="flex flex-col">
+              {/* Title */}
+              <h1 className="font-serif text-2xl sm:text-3xl lg:text-4xl font-bold mb-3">{book.title}</h1>
 
-                {/* Subtitle/Description */}
-                <p className="font-serif text-sm md:text-base italic text-foreground mb-2 md:mb-3">
-                  {book.description}
-                </p>
+              {/* Subtitle */}
+              <p className="font-serif text-base italic mb-4">{book.description}</p>
 
-                {/* Author */}
-                <p className="text-xs md:text-sm text-foreground mb-2 md:mb-4">
-                  <span className="font-semibold">By:</span> {book.author}
-                </p>
+              {/* Author */}
+              <p className="text-sm mb-4">
+                <span className="font-semibold">By:</span> {book.author}
+              </p>
 
-                {/* Blurb - hidden on mobile, truncated on tablet, longer on desktop */}
-                <p className="hidden sm:block text-xs md:text-sm text-muted-foreground leading-relaxed mb-3 md:mb-4">
-                  {book.blurb?.slice(0, 120)}{book.blurb && book.blurb.length > 120 ? '...' : ''}
-                </p>
+              {/* Blurb */}
+              <p className="hidden sm:block text-sm text-muted-foreground leading-relaxed max-w-2xl mb-6">
+                {book.blurb?.slice(0, 200)}
+                {book.blurb && book.blurb.length > 200 ? "..." : ""}
+              </p>
 
-                {/* Select Format */}
-                <div className="mb-3 md:mb-4">
-                  <p className="text-xs text-muted-foreground mb-1.5 md:mb-2">Select Format</p>
+              {/* Format */}
+              <div className="mb-6">
+                <p className="text-sm font-medium mb-2">Select Format</p>
 
-                  <div className="flex flex-wrap gap-1.5 md:gap-2">
-                    {/* Ebook */}
-                    <button
-                      onClick={() => setSelectedFormat("ebook")}
-                      className={cn(
-                        "flex items-center gap-1.5 md:gap-2 px-2 md:px-3 py-1.5 md:py-2 border-2 transition-all min-w-[90px] md:min-w-[110px]",
-                        selectedFormat === "ebook"
-                          ? "border-accent bg-accent/5"
-                          : "border-border hover:border-accent/50",
-                      )}
-                    >
-                      <Tablet
-                        className={cn("h-3 w-3 md:h-4 md:w-4", selectedFormat === "ebook" ? "text-accent" : "text-muted-foreground")}
-                      />
-                      <div className="text-left">
-                        <p className={cn("text-xs md:text-sm font-medium", selectedFormat === "ebook" ? "text-accent" : "text-foreground")}>
-                          eBook
-                        </p>
-                        <p className="text-[10px] md:text-xs text-muted-foreground">£{getPrice("ebook").toFixed(2)}</p>
-                      </div>
-                    </button>
-
-                    {/* Hardback */}
-                    <button
-                      onClick={() => setSelectedFormat("hardbook")}
-                      className={cn(
-                        "flex items-center gap-1.5 md:gap-2 px-2 md:px-3 py-1.5 md:py-2 border-2 transition-all min-w-[90px] md:min-w-[110px]",
-                        selectedFormat === "hardbook"
-                          ? "border-accent bg-accent/5"
-                          : "border-border hover:border-accent/50",
-                      )}
-                    >
-                      <Book
-                        className={cn("h-3 w-3 md:h-4 md:w-4", selectedFormat === "hardbook" ? "text-accent" : "text-muted-foreground")}
-                      />
-                      <div className="text-left">
-                        <p className={cn("text-xs md:text-sm font-medium", selectedFormat === "hardbook" ? "text-accent" : "text-foreground")}>
-                          Hardback
-                        </p>
-                        <p className="text-[10px] md:text-xs text-muted-foreground">£{getPrice("hardbook").toFixed(2)}</p>
-                      </div>
-                    </button>
-
-                    {/* Paperback */}
-                    <button
-                      onClick={() => setSelectedFormat("paperback")}
-                      className={cn(
-                        "flex items-center gap-1.5 md:gap-2 px-2 md:px-3 py-1.5 md:py-2 border-2 transition-all min-w-[90px] md:min-w-[110px]",
-                        selectedFormat === "paperback"
-                          ? "border-accent bg-accent/5"
-                          : "border-border hover:border-accent/50",
-                      )}
-                    >
-                      <BookOpen
-                        className={cn("h-3 w-3 md:h-4 md:w-4", selectedFormat === "paperback" ? "text-accent" : "text-muted-foreground")}
-                      />
-                      <div className="text-left">
-                        <p className={cn("text-xs md:text-sm font-medium", selectedFormat === "paperback" ? "text-accent" : "text-foreground")}>
-                          Paperback
-                        </p>
-                        <p className="text-[10px] md:text-xs text-muted-foreground">£{getPrice("paperback").toFixed(2)}</p>
-                      </div>
-                    </button>
-                  </div>
-                </div>
-
-                {/* QUANTITY */}
-                <div className="flex items-center gap-4 md:gap-6 mb-3 md:mb-4">
-                  <span className="text-[10px] md:text-xs font-semibold uppercase tracking-wider text-foreground">Quantity</span>
-                  <div className="flex items-center border border-border">
-                    <button
-                      onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                      className="px-1.5 md:px-2 py-1 hover:bg-muted transition-colors"
-                    >
-                      <Minus className="h-3 w-3" />
-                    </button>
-                    <span className="px-2 md:px-3 py-1 min-w-[32px] md:min-w-[40px] text-center text-xs md:text-sm font-medium">{quantity}</span>
-                    <button
-                      onClick={() => setQuantity(quantity + 1)}
-                      className="px-1.5 md:px-2 py-1 hover:bg-muted transition-colors"
-                    >
-                      <Plus className="h-3 w-3" />
-                    </button>
-                  </div>
-                </div>
-
-                {/* Actions */}
-                <div className="flex items-center gap-2 md:gap-3 flex-wrap">
-                  {/* Price */}
-                  <span className="text-sm md:text-lg text-muted-foreground">
-                    From <span className="font-semibold text-foreground">£{getPrice(selectedFormat).toFixed(2)}</span>
-                  </span>
-
-                  <Button
-                    variant="default"
-                    size="sm"
-                    className="px-3 md:px-6 text-xs md:text-sm md:h-10"
-                    onClick={() => {
-                      for (let i = 0; i < quantity; i++) {
-                        addToCart({ ...book, price: getPrice(selectedFormat) }, selectedFormat);
-                      }
-                    }}
+                <div className="flex flex-wrap gap-3">
+                  {/* Ebook */}
+                  <button
+                    onClick={() => setSelectedFormat("ebook")}
+                    className={cn(
+                      "flex items-center gap-2 px-4 py-2 border-2 transition min-w-[120px]",
+                      selectedFormat === "ebook" ? "border-accent bg-accent/5" : "border-border hover:border-accent/50",
+                    )}
                   >
-                    ADD TO CART
-                  </Button>
+                    <Tablet
+                      className={cn("h-4 w-4", selectedFormat === "ebook" ? "text-accent" : "text-muted-foreground")}
+                    />
 
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    className="px-2 md:px-3 md:h-10"
-                    onClick={() => (isInWishlist(book.id) ? removeFromWishlist(book.id) : addToWishlist(book))}
+                    <div>
+                      <p
+                        className={cn(
+                          "text-sm font-medium",
+                          selectedFormat === "ebook" ? "text-accent" : "text-foreground",
+                        )}
+                      >
+                        eBook
+                      </p>
+
+                      <p className="text-xs text-muted-foreground">£{getPrice("ebook").toFixed(2)}</p>
+                    </div>
+                  </button>
+
+                  {/* Hardback */}
+                  <button
+                    onClick={() => setSelectedFormat("hardbook")}
+                    className={cn(
+                      "flex items-center gap-2 px-4 py-2 border-2 transition min-w-[120px]",
+                      selectedFormat === "hardbook"
+                        ? "border-accent bg-accent/5"
+                        : "border-border hover:border-accent/50",
+                    )}
                   >
-                    <Heart className={cn("h-3 w-3 md:h-4 md:w-4", isInWishlist(book.id) && "fill-accent text-accent")} />
-                  </Button>
+                    <Book
+                      className={cn("h-4 w-4", selectedFormat === "hardbook" ? "text-accent" : "text-muted-foreground")}
+                    />
 
-                  {book.samplePdfUrl && (
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      className="px-2 md:px-4 text-xs md:text-sm md:h-10"
-                      onClick={() => window.open(book.samplePdfUrl, "_blank")}
-                    >
-                      READ SAMPLE
-                    </Button>
-                  )}
+                    <div>
+                      <p
+                        className={cn(
+                          "text-sm font-medium",
+                          selectedFormat === "hardbook" ? "text-accent" : "text-foreground",
+                        )}
+                      >
+                        Hardback
+                      </p>
+
+                      <p className="text-xs text-muted-foreground">£{getPrice("hardbook").toFixed(2)}</p>
+                    </div>
+                  </button>
+
+                  {/* Paperback */}
+                  <button
+                    onClick={() => setSelectedFormat("paperback")}
+                    className={cn(
+                      "flex items-center gap-2 px-4 py-2 border-2 transition min-w-[120px]",
+                      selectedFormat === "paperback"
+                        ? "border-accent bg-accent/5"
+                        : "border-border hover:border-accent/50",
+                    )}
+                  >
+                    <BookOpen
+                      className={cn(
+                        "h-4 w-4",
+                        selectedFormat === "paperback" ? "text-accent" : "text-muted-foreground",
+                      )}
+                    />
+
+                    <div>
+                      <p
+                        className={cn(
+                          "text-sm font-medium",
+                          selectedFormat === "paperback" ? "text-accent" : "text-foreground",
+                        )}
+                      >
+                        Paperback
+                      </p>
+
+                      <p className="text-xs text-muted-foreground">£{getPrice("paperback").toFixed(2)}</p>
+                    </div>
+                  </button>
                 </div>
+              </div>
+
+              {/* Quantity */}
+              <div className="flex items-center gap-6 mb-6">
+                <span className="text-sm font-semibold uppercase tracking-wide">Quantity</span>
+
+                <div className="flex items-center border">
+                  <button onClick={() => setQuantity(Math.max(1, quantity - 1))} className="px-3 py-2 hover:bg-muted">
+                    <Minus className="h-4 w-4" />
+                  </button>
+
+                  <span className="px-4 py-2 min-w-[50px] text-center font-medium">{quantity}</span>
+
+                  <button onClick={() => setQuantity(quantity + 1)} className="px-3 py-2 hover:bg-muted">
+                    <Plus className="h-4 w-4" />
+                  </button>
+                </div>
+              </div>
+
+              {/* Actions */}
+              <div className="flex items-center gap-4 flex-wrap mt-4">
+                {/* Price */}
+                <span className="text-lg text-muted-foreground">
+                  From <span className="font-semibold text-foreground">£{getPrice(selectedFormat).toFixed(2)}</span>
+                </span>
+
+                {/* Cart */}
+                <Button
+                  size="lg"
+                  className="px-8"
+                  onClick={() => {
+                    for (let i = 0; i < quantity; i++) {
+                      addToCart({ ...book, price: getPrice(selectedFormat) }, selectedFormat);
+                    }
+                  }}
+                >
+                  ADD TO CART
+                </Button>
+
+                {/* Wishlist */}
+                <Button
+                  variant="outline"
+                  size="lg"
+                  onClick={() => (isInWishlist(book.id) ? removeFromWishlist(book.id) : addToWishlist(book))}
+                >
+                  <Heart className={cn("h-5 w-5", isInWishlist(book.id) && "fill-accent text-accent")} />
+                </Button>
+
+                {/* Sample */}
+                {book.samplePdfUrl && (
+                  <Button variant="outline" size="lg" onClick={() => window.open(book.samplePdfUrl, "_blank")}>
+                    READ SAMPLE
+                  </Button>
+                )}
               </div>
             </div>
           </div>
@@ -266,7 +254,7 @@ export default function BookDetails() {
         <ReviewsSection bookId={book.id} />
 
         {/* Related */}
-        <div className="mt-12 md:mt-24">
+        <div className="mt-24">
           <RelatedBooksSection currentBook={book} />
         </div>
       </main>
