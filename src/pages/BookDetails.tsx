@@ -103,7 +103,7 @@ export default function BookDetails() {
                 </p>
 
                 {/* Blurb */}
-                <p className="hidden sm:block text-sm text-muted-foreground leading-relaxed max-w-2xl mb-6">
+                <p className="hidden sm:block text-base text-muted-foreground leading-relaxed max-w-2xl mb-6">
                   {book.blurb?.slice(0, 200)}
                   {book.blurb && book.blurb.length > 200 ? "..." : ""}
                 </p>
