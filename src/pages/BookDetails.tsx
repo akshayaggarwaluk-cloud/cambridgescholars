@@ -196,7 +196,7 @@ export default function BookDetails() {
                 </div>
 
                 {/* QUANTITY */}
-                <div className="flex items-center gap-4 md:gap-6 mb-1 md:mb-2">
+                <div className="flex items-center gap-4 md:gap-6 mb-3 md:mb-4">
                   <span className="text-[10px] md:text-xs font-semibold uppercase tracking-wider text-foreground">
                     Quantity
                   </span>
