@@ -108,7 +108,7 @@ export default function BookDetails() {
                 <div className="mb-6">
                   <p className="text-sm font-medium mb-2">Select Format</p>
 
-                  <div className="flex flex-wrap gap-3">
+                  <div className="flex flex-wrap gap-[10px]">
                     {/* Ebook */}
                     <button onClick={() => setSelectedFormat("ebook")} className={cn("flex items-center gap-2 px-4 py-2 border-2 transition min-w-[120px]", selectedFormat === "ebook" ? "border-accent bg-accent/5" : "border-border hover:border-accent/50")}>
                       <Tablet className={cn("h-4 w-4", selectedFormat === "ebook" ? "text-accent" : "text-muted-foreground")} />
