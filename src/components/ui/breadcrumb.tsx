@@ -6,12 +6,12 @@ const Breadcrumb = React.forwardRef<HTMLElement, React.ComponentPropsWithoutRef<
   separator?: React.ReactNode;
 }>(({
   ...props
-}, ref) => {});
+}, ref) => <nav ref={ref} aria-label="breadcrumb" {...props} />);
 Breadcrumb.displayName = "Breadcrumb";
 const BreadcrumbList = React.forwardRef<HTMLOListElement, React.ComponentPropsWithoutRef<"ol">>(({
   className,
   ...props
-}, ref) => {});
+}, ref) => <ol ref={ref} className={cn("flex flex-wrap items-center gap-1.5 break-words text-sm text-muted-foreground sm:gap-2.5", className)} {...props} />);
 BreadcrumbList.displayName = "BreadcrumbList";
 const BreadcrumbItem = React.forwardRef<HTMLLIElement, React.ComponentPropsWithoutRef<"li">>(({
   className,

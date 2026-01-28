@@ -16,6 +16,7 @@ export default {
       fontFamily: {
         serif: ['Playfair Display', 'Georgia', 'serif'],
         sans: ['Source Sans 3', 'system-ui', 'sans-serif'],
+        nav: ['Nunito Sans', 'system-ui', 'sans-serif'],
       },
       fontSize: {
         'display': ['4rem', { lineHeight: '1.1', letterSpacing: '-0.02em' }],
