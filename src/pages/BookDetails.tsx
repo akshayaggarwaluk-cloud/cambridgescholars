@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { Heart, Minus, Plus, Tablet, Book, BookOpen } from "lucide-react";
-
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { PageBreadcrumb } from "@/components/layout/PageBreadcrumb";
@@ -9,38 +8,39 @@ import { Button } from "@/components/ui/button";
 import { ReviewsSection } from "@/components/books/ReviewsSection";
 import { RelatedBooksSection } from "@/components/books/RelatedBooksSection";
 import { BookDetailsTabs } from "@/components/books/BookDetailsTabs";
-
 import { books } from "@/data/books";
 import { useCart, BookFormat } from "@/contexts/CartContext";
 import { useWishlist } from "@/contexts/WishlistContext";
 import { cn } from "@/lib/utils";
-
 export default function BookDetails() {
-  const { id } = useParams<{ id: string }>();
-
-  const { addToCart } = useCart();
-  const { isInWishlist, addToWishlist, removeFromWishlist } = useWishlist();
-
+  const {
+    id
+  } = useParams<{
+    id: string;
+  }>();
+  const {
+    addToCart
+  } = useCart();
+  const {
+    isInWishlist,
+    addToWishlist,
+    removeFromWishlist
+  } = useWishlist();
   const [selectedFormat, setSelectedFormat] = useState<BookFormat>("hardbook");
-
   const [quantity, setQuantity] = useState(1);
-
-  const book = books.find((b) => b.id === id);
+  const book = books.find(b => b.id === id);
 
   /* Price Calculation */
   const getPrice = (format: BookFormat | "paperback") => {
     if (!book) return 0;
-
     if (format === "ebook") return book.price * 0.6;
     if (format === "paperback") return book.price * 0.8;
-
     return book.price;
   };
 
   /* Not Found */
   if (!book) {
-    return (
-      <div className="min-h-screen bg-background">
+    return <div className="min-h-screen bg-background">
         <Header />
 
         <main className="pt-32 pb-16">
@@ -56,18 +56,18 @@ export default function BookDetails() {
         </main>
 
         <Footer />
-      </div>
-    );
+      </div>;
   }
-
-  return (
-    <div className="min-h-screen bg-background">
+  return <div className="min-h-screen bg-background">
       <Header />
 
       <main className="pt-24 pb-16">
         {/* Breadcrumb */}
         <div className="container-wide py-6">
-          <PageBreadcrumb items={[{ label: "Books", href: "/books" }]} currentPage={book.title} />
+          <PageBreadcrumb items={[{
+          label: "Books",
+          href: "/books"
+        }]} currentPage={book.title} />
         </div>
 
         {/* Main Section */}
@@ -76,15 +76,11 @@ export default function BookDetails() {
             {/* Image Section */}
             <div className="flex justify-center md:justify-start">
               <div className="w-full max-w-[340px] lg:max-w-[380px]">
-                <img
-                  src={book.image}
-                  alt={book.title}
-                  className="
+                <img src={book.image} alt={book.title} className="
                     w-full
                     max-h-[520px]
                     object-contain
-                  "
-                />
+                  " />
               </div>
             </div>
 
@@ -114,26 +110,11 @@ export default function BookDetails() {
 
                   <div className="flex flex-wrap gap-3">
                     {/* Ebook */}
-                    <button
-                      onClick={() => setSelectedFormat("ebook")}
-                      className={cn(
-                        "flex items-center gap-2 px-4 py-2 border-2 transition min-w-[120px]",
-                        selectedFormat === "ebook"
-                          ? "border-accent bg-accent/5"
-                          : "border-border hover:border-accent/50",
-                      )}
-                    >
-                      <Tablet
-                        className={cn("h-4 w-4", selectedFormat === "ebook" ? "text-accent" : "text-muted-foreground")}
-                      />
+                    <button onClick={() => setSelectedFormat("ebook")} className={cn("flex items-center gap-2 px-4 py-2 border-2 transition min-w-[120px]", selectedFormat === "ebook" ? "border-accent bg-accent/5" : "border-border hover:border-accent/50")}>
+                      <Tablet className={cn("h-4 w-4", selectedFormat === "ebook" ? "text-accent" : "text-muted-foreground")} />
 
                       <div>
-                        <p
-                          className={cn(
-                            "text-sm font-medium",
-                            selectedFormat === "ebook" ? "text-accent" : "text-foreground",
-                          )}
-                        >
+                        <p className={cn("text-sm font-medium", selectedFormat === "ebook" ? "text-accent" : "text-foreground")}>
                           eBook
                         </p>
 
@@ -142,29 +123,11 @@ export default function BookDetails() {
                     </button>
 
                     {/* Hardback */}
-                    <button
-                      onClick={() => setSelectedFormat("hardbook")}
-                      className={cn(
-                        "flex items-center gap-2 px-4 py-2 border-2 transition min-w-[120px]",
-                        selectedFormat === "hardbook"
-                          ? "border-accent bg-accent/5"
-                          : "border-border hover:border-accent/50",
-                      )}
-                    >
-                      <Book
-                        className={cn(
-                          "h-4 w-4",
-                          selectedFormat === "hardbook" ? "text-accent" : "text-muted-foreground",
-                        )}
-                      />
+                    <button onClick={() => setSelectedFormat("hardbook")} className={cn("flex items-center gap-2 px-4 py-2 border-2 transition min-w-[120px]", selectedFormat === "hardbook" ? "border-accent bg-accent/5" : "border-border hover:border-accent/50")}>
+                      <Book className={cn("h-4 w-4", selectedFormat === "hardbook" ? "text-accent" : "text-muted-foreground")} />
 
                       <div>
-                        <p
-                          className={cn(
-                            "text-sm font-medium",
-                            selectedFormat === "hardbook" ? "text-accent" : "text-foreground",
-                          )}
-                        >
+                        <p className={cn("text-sm font-medium", selectedFormat === "hardbook" ? "text-accent" : "text-foreground")}>
                           Hardback
                         </p>
 
@@ -173,29 +136,11 @@ export default function BookDetails() {
                     </button>
 
                     {/* Paperback */}
-                    <button
-                      onClick={() => setSelectedFormat("paperback")}
-                      className={cn(
-                        "flex items-center gap-2 px-4 py-2 border-2 transition min-w-[120px]",
-                        selectedFormat === "paperback"
-                          ? "border-accent bg-accent/5"
-                          : "border-border hover:border-accent/50",
-                      )}
-                    >
-                      <BookOpen
-                        className={cn(
-                          "h-4 w-4",
-                          selectedFormat === "paperback" ? "text-accent" : "text-muted-foreground",
-                        )}
-                      />
+                    <button onClick={() => setSelectedFormat("paperback")} className={cn("flex items-center gap-2 px-4 py-2 border-2 transition min-w-[120px]", selectedFormat === "paperback" ? "border-accent bg-accent/5" : "border-border hover:border-accent/50")}>
+                      <BookOpen className={cn("h-4 w-4", selectedFormat === "paperback" ? "text-accent" : "text-muted-foreground")} />
 
                       <div>
-                        <p
-                          className={cn(
-                            "text-sm font-medium",
-                            selectedFormat === "paperback" ? "text-accent" : "text-foreground",
-                          )}
-                        >
+                        <p className={cn("text-sm font-medium", selectedFormat === "paperback" ? "text-accent" : "text-foreground")}>
                           Paperback
                         </p>
 
@@ -224,46 +169,33 @@ export default function BookDetails() {
               </div>
 
               {/* Actions */}
-              <div className="flex items-center gap-4 flex-wrap mt-6">
+              <div className="flex items-center gap-4 flex-wrap mt-6 my-[30px]">
                 {/* Price */}
                 <span className="text-lg text-muted-foreground">
                   From <span className="font-semibold text-foreground">£{getPrice(selectedFormat).toFixed(2)}</span>
                 </span>
 
                 {/* Add to Cart */}
-                <Button
-                  size="lg"
-                  className="px-8"
-                  onClick={() => {
-                    for (let i = 0; i < quantity; i++) {
-                      addToCart(
-                        {
-                          ...book,
-                          price: getPrice(selectedFormat),
-                        },
-                        selectedFormat,
-                      );
-                    }
-                  }}
-                >
+                <Button size="lg" className="px-8" onClick={() => {
+                for (let i = 0; i < quantity; i++) {
+                  addToCart({
+                    ...book,
+                    price: getPrice(selectedFormat)
+                  }, selectedFormat);
+                }
+              }}>
                   ADD TO CART
                 </Button>
 
                 {/* Wishlist */}
-                <Button
-                  variant="outline"
-                  size="lg"
-                  onClick={() => (isInWishlist(book.id) ? removeFromWishlist(book.id) : addToWishlist(book))}
-                >
+                <Button variant="outline" size="lg" onClick={() => isInWishlist(book.id) ? removeFromWishlist(book.id) : addToWishlist(book)}>
                   <Heart className={cn("h-5 w-5", isInWishlist(book.id) && "fill-accent text-accent")} />
                 </Button>
 
                 {/* Sample */}
-                {book.samplePdfUrl && (
-                  <Button variant="outline" size="lg" onClick={() => window.open(book.samplePdfUrl, "_blank")}>
+                {book.samplePdfUrl && <Button variant="outline" size="lg" onClick={() => window.open(book.samplePdfUrl, "_blank")}>
                     READ SAMPLE
-                  </Button>
-                )}
+                  </Button>}
               </div>
             </div>
           </div>
@@ -282,6 +214,5 @@ export default function BookDetails() {
       </main>
 
       <Footer />
-    </div>
-  );
+    </div>;
 }
