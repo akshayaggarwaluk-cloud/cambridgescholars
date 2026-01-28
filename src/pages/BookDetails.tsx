@@ -64,16 +64,14 @@ export default function BookDetails() {
 
         {/* Book Details */}
         <section className="container-wide">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 lg:gap-8 items-start">
+          <div className="flex flex-col md:flex-row gap-4 md:gap-6 lg:gap-8 items-start">
             {/* Book Cover */}
-            <div className="relative">
-              <div className="mx-auto md:mx-0 w-full max-w-[200px] sm:max-w-[240px] md:max-w-[280px] lg:max-w-[320px]">
-                <img src={book.image} alt={book.title} className="w-full h-auto object-contain" />
-              </div>
+            <div className="relative flex-shrink-0 mx-auto md:mx-0">
+              <img src={book.image} alt={book.title} className="w-[200px] sm:w-[240px] md:w-[280px] lg:w-[320px] h-auto object-contain" />
             </div>
 
             {/* Book Info */}
-            <div className="flex flex-col justify-between">
+            <div className="flex flex-col justify-start flex-1 md:max-h-[420px] lg:max-h-[480px] overflow-hidden">
               {/* Top Content */}
               <div>
                 {/* Title */}
