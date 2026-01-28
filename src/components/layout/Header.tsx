@@ -70,7 +70,7 @@ export function Header() {
         <div className="flex items-center justify-between h-24 text-[#696969]">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-3">
-            <img src={logoImage} alt="Logo" className="h-14 w-auto" />
+            <img src={logoImage} alt="Logo" className="h-14 w-auto text-[#696969]" />
           </Link>
 
           {/* Desktop Navigation */}
