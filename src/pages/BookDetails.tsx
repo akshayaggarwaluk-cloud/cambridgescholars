@@ -94,7 +94,7 @@ export default function BookDetails() {
                 <p className="font-serif text-base italic mb-4">{book.description}</p>
 
                 {/* Author */}
-                <p className="text-sm mb-4">
+                <p className="mb-4 text-lg">
                   <span className="font-semibold">By:</span> {book.author}
                 </p>
 
