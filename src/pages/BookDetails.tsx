@@ -56,18 +56,18 @@ export default function BookDetails() {
     <div className="min-h-screen bg-background">
       <Header />
 
-      <main className="pt-24 pb-16">
+      <main className="pt-20 md:pt-24 pb-8 md:pb-16">
         {/* Breadcrumb */}
-        <div className="container-wide py-6">
+        <div className="container-wide py-3 md:py-6">
           <PageBreadcrumb items={[{ label: "Books", href: "/books" }]} currentPage={book.title} />
         </div>
 
         {/* Book Details */}
         <section className="container-wide">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 lg:gap-8 items-start">
             {/* Book Cover */}
             <div className="relative">
-              <div className="mx-auto lg:mx-0 w-full max-w-[320px]">
+              <div className="mx-auto md:mx-0 w-full max-w-[200px] sm:max-w-[240px] md:max-w-[280px] lg:max-w-[320px]">
                 <img src={book.image} alt={book.title} className="w-full h-auto object-contain" />
               </div>
             </div>
@@ -77,48 +77,48 @@ export default function BookDetails() {
               {/* Top Content */}
               <div>
                 {/* Title */}
-                <h1 className="font-serif text-2xl md:text-3xl font-bold text-foreground mb-2">
+                <h1 className="font-serif text-xl sm:text-2xl md:text-2xl lg:text-3xl font-bold text-foreground mb-1 md:mb-2">
                   {book.title}
                 </h1>
 
                 {/* Subtitle/Description */}
-                <p className="font-serif text-base italic text-foreground mb-3">
+                <p className="font-serif text-sm md:text-base italic text-foreground mb-2 md:mb-3">
                   {book.description}
                 </p>
 
                 {/* Author */}
-                <p className="text-sm text-foreground mb-4">
+                <p className="text-xs md:text-sm text-foreground mb-2 md:mb-4">
                   <span className="font-semibold">By:</span> {book.author}
                 </p>
 
-                {/* Blurb */}
-                <p className="text-sm text-muted-foreground leading-relaxed mb-4">
-                  {book.blurb?.slice(0, 180)}{book.blurb && book.blurb.length > 180 ? '...' : ''}
+                {/* Blurb - hidden on mobile, truncated on tablet, longer on desktop */}
+                <p className="hidden sm:block text-xs md:text-sm text-muted-foreground leading-relaxed mb-3 md:mb-4">
+                  {book.blurb?.slice(0, 120)}{book.blurb && book.blurb.length > 120 ? '...' : ''}
                 </p>
 
                 {/* Select Format */}
-                <div className="mb-4">
-                  <p className="text-xs text-muted-foreground mb-2">Select Format</p>
+                <div className="mb-3 md:mb-4">
+                  <p className="text-xs text-muted-foreground mb-1.5 md:mb-2">Select Format</p>
 
-                  <div className="flex flex-wrap gap-2">
+                  <div className="flex flex-wrap gap-1.5 md:gap-2">
                     {/* Ebook */}
                     <button
                       onClick={() => setSelectedFormat("ebook")}
                       className={cn(
-                        "flex items-center gap-2 px-3 py-2 border-2 transition-all min-w-[110px]",
+                        "flex items-center gap-1.5 md:gap-2 px-2 md:px-3 py-1.5 md:py-2 border-2 transition-all min-w-[90px] md:min-w-[110px]",
                         selectedFormat === "ebook"
                           ? "border-accent bg-accent/5"
                           : "border-border hover:border-accent/50",
                       )}
                     >
                       <Tablet
-                        className={cn("h-4 w-4", selectedFormat === "ebook" ? "text-accent" : "text-muted-foreground")}
+                        className={cn("h-3 w-3 md:h-4 md:w-4", selectedFormat === "ebook" ? "text-accent" : "text-muted-foreground")}
                       />
                       <div className="text-left">
-                        <p className={cn("text-sm font-medium", selectedFormat === "ebook" ? "text-accent" : "text-foreground")}>
+                        <p className={cn("text-xs md:text-sm font-medium", selectedFormat === "ebook" ? "text-accent" : "text-foreground")}>
                           eBook
                         </p>
-                        <p className="text-xs text-muted-foreground">£{getPrice("ebook").toFixed(2)}</p>
+                        <p className="text-[10px] md:text-xs text-muted-foreground">£{getPrice("ebook").toFixed(2)}</p>
                       </div>
                     </button>
 
@@ -126,20 +126,20 @@ export default function BookDetails() {
                     <button
                       onClick={() => setSelectedFormat("hardbook")}
                       className={cn(
-                        "flex items-center gap-2 px-3 py-2 border-2 transition-all min-w-[110px]",
+                        "flex items-center gap-1.5 md:gap-2 px-2 md:px-3 py-1.5 md:py-2 border-2 transition-all min-w-[90px] md:min-w-[110px]",
                         selectedFormat === "hardbook"
                           ? "border-accent bg-accent/5"
                           : "border-border hover:border-accent/50",
                       )}
                     >
                       <Book
-                        className={cn("h-4 w-4", selectedFormat === "hardbook" ? "text-accent" : "text-muted-foreground")}
+                        className={cn("h-3 w-3 md:h-4 md:w-4", selectedFormat === "hardbook" ? "text-accent" : "text-muted-foreground")}
                       />
                       <div className="text-left">
-                        <p className={cn("text-sm font-medium", selectedFormat === "hardbook" ? "text-accent" : "text-foreground")}>
+                        <p className={cn("text-xs md:text-sm font-medium", selectedFormat === "hardbook" ? "text-accent" : "text-foreground")}>
                           Hardback
                         </p>
-                        <p className="text-xs text-muted-foreground">£{getPrice("hardbook").toFixed(2)}</p>
+                        <p className="text-[10px] md:text-xs text-muted-foreground">£{getPrice("hardbook").toFixed(2)}</p>
                       </div>
                     </button>
 
@@ -147,39 +147,39 @@ export default function BookDetails() {
                     <button
                       onClick={() => setSelectedFormat("paperback")}
                       className={cn(
-                        "flex items-center gap-2 px-3 py-2 border-2 transition-all min-w-[110px]",
+                        "flex items-center gap-1.5 md:gap-2 px-2 md:px-3 py-1.5 md:py-2 border-2 transition-all min-w-[90px] md:min-w-[110px]",
                         selectedFormat === "paperback"
                           ? "border-accent bg-accent/5"
                           : "border-border hover:border-accent/50",
                       )}
                     >
                       <BookOpen
-                        className={cn("h-4 w-4", selectedFormat === "paperback" ? "text-accent" : "text-muted-foreground")}
+                        className={cn("h-3 w-3 md:h-4 md:w-4", selectedFormat === "paperback" ? "text-accent" : "text-muted-foreground")}
                       />
                       <div className="text-left">
-                        <p className={cn("text-sm font-medium", selectedFormat === "paperback" ? "text-accent" : "text-foreground")}>
+                        <p className={cn("text-xs md:text-sm font-medium", selectedFormat === "paperback" ? "text-accent" : "text-foreground")}>
                           Paperback
                         </p>
-                        <p className="text-xs text-muted-foreground">£{getPrice("paperback").toFixed(2)}</p>
+                        <p className="text-[10px] md:text-xs text-muted-foreground">£{getPrice("paperback").toFixed(2)}</p>
                       </div>
                     </button>
                   </div>
                 </div>
 
                 {/* QUANTITY */}
-                <div className="flex items-center gap-6 mb-4">
-                  <span className="text-xs font-semibold uppercase tracking-wider text-foreground">Quantity</span>
+                <div className="flex items-center gap-4 md:gap-6 mb-3 md:mb-4">
+                  <span className="text-[10px] md:text-xs font-semibold uppercase tracking-wider text-foreground">Quantity</span>
                   <div className="flex items-center border border-border">
                     <button
                       onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                      className="px-2 py-1 hover:bg-muted transition-colors"
+                      className="px-1.5 md:px-2 py-1 hover:bg-muted transition-colors"
                     >
                       <Minus className="h-3 w-3" />
                     </button>
-                    <span className="px-3 py-1 min-w-[40px] text-center text-sm font-medium">{quantity}</span>
+                    <span className="px-2 md:px-3 py-1 min-w-[32px] md:min-w-[40px] text-center text-xs md:text-sm font-medium">{quantity}</span>
                     <button
                       onClick={() => setQuantity(quantity + 1)}
-                      className="px-2 py-1 hover:bg-muted transition-colors"
+                      className="px-1.5 md:px-2 py-1 hover:bg-muted transition-colors"
                     >
                       <Plus className="h-3 w-3" />
                     </button>
@@ -187,17 +187,16 @@ export default function BookDetails() {
                 </div>
 
                 {/* Actions */}
-                {/* Actions */}
-                <div className="flex items-center gap-3 flex-wrap">
+                <div className="flex items-center gap-2 md:gap-3 flex-wrap">
                   {/* Price */}
-                  <span className="text-lg text-muted-foreground">
+                  <span className="text-sm md:text-lg text-muted-foreground">
                     From <span className="font-semibold text-foreground">£{getPrice(selectedFormat).toFixed(2)}</span>
                   </span>
 
                   <Button
                     variant="default"
-                    size="default"
-                    className="px-6"
+                    size="sm"
+                    className="px-3 md:px-6 text-xs md:text-sm md:h-10"
                     onClick={() => {
                       for (let i = 0; i < quantity; i++) {
                         addToCart({ ...book, price: getPrice(selectedFormat) }, selectedFormat);
@@ -209,18 +208,18 @@ export default function BookDetails() {
 
                   <Button
                     variant="outline"
-                    size="default"
-                    className="px-3"
+                    size="sm"
+                    className="px-2 md:px-3 md:h-10"
                     onClick={() => (isInWishlist(book.id) ? removeFromWishlist(book.id) : addToWishlist(book))}
                   >
-                    <Heart className={cn("h-4 w-4", isInWishlist(book.id) && "fill-accent text-accent")} />
+                    <Heart className={cn("h-3 w-3 md:h-4 md:w-4", isInWishlist(book.id) && "fill-accent text-accent")} />
                   </Button>
 
                   {book.samplePdfUrl && (
                     <Button
                       variant="outline"
-                      size="default"
-                      className="px-4"
+                      size="sm"
+                      className="px-2 md:px-4 text-xs md:text-sm md:h-10"
                       onClick={() => window.open(book.samplePdfUrl, "_blank")}
                     >
                       READ SAMPLE
@@ -239,7 +238,7 @@ export default function BookDetails() {
         <ReviewsSection bookId={book.id} />
 
         {/* Related */}
-        <div className="mt-24">
+        <div className="mt-12 md:mt-24">
           <RelatedBooksSection currentBook={book} />
         </div>
       </main>
