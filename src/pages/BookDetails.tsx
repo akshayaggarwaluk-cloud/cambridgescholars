@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { Heart, Minus, Plus, Tablet, Book, BookOpen } from "lucide-react";
 import { Header } from "@/components/layout/Header";
@@ -19,8 +19,23 @@ export default function BookDetails() {
   const { isInWishlist, addToWishlist, removeFromWishlist } = useWishlist();
   const [selectedFormat, setSelectedFormat] = useState<BookFormat>("hardbook");
   const [quantity, setQuantity] = useState(1);
+  const [contentHeight, setContentHeight] = useState<number | undefined>(undefined);
+  const imageRef = useRef<HTMLImageElement>(null);
 
   const book = books.find((b) => b.id === id);
+
+  // Measure image height and apply to content column
+  useEffect(() => {
+    const updateHeight = () => {
+      if (imageRef.current) {
+        setContentHeight(imageRef.current.offsetHeight);
+      }
+    };
+
+    updateHeight();
+    window.addEventListener('resize', updateHeight);
+    return () => window.removeEventListener('resize', updateHeight);
+  }, [book]);
 
   // Pricing based on format
   const getPrice = (format: BookFormat | "paperback") => {
@@ -68,12 +83,25 @@ export default function BookDetails() {
             {/* Book Cover */}
             <div className="relative">
               <div className="mx-auto md:mx-0 w-full max-w-[200px] sm:max-w-[240px] md:max-w-[280px] lg:max-w-[320px]">
-                <img src={book.image} alt={book.title} className="w-full h-auto object-contain" />
+                <img 
+                  ref={imageRef}
+                  src={book.image} 
+                  alt={book.title} 
+                  className="w-full h-auto object-contain"
+                  onLoad={() => {
+                    if (imageRef.current) {
+                      setContentHeight(imageRef.current.offsetHeight);
+                    }
+                  }}
+                />
               </div>
             </div>
 
             {/* Book Info */}
-            <div className="flex flex-col justify-start md:max-h-[420px] lg:max-h-[480px] overflow-hidden">
+            <div 
+              className="flex flex-col justify-start overflow-hidden"
+              style={{ maxHeight: contentHeight ? `${contentHeight}px` : undefined }}
+            >
               {/* Top Content */}
               <div>
                 {/* Title */}
