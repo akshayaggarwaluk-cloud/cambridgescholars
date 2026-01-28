@@ -99,7 +99,7 @@ export default function BookDetails() {
                 </p>
 
                 {/* Blurb */}
-                <p className="hidden sm:block text-base text-muted-foreground leading-relaxed max-w-2xl mb-6">
+                <p className="hidden sm:block text-muted-foreground leading-relaxed max-w-2xl mb-6 text-lg">
                   {book.blurb?.slice(0, 200)}
                   {book.blurb && book.blurb.length > 200 ? "..." : ""}
                 </p>
@@ -151,7 +151,7 @@ export default function BookDetails() {
                 </div>
 
                 {/* Quantity */}
-                <div className="flex items-center gap-6 mb-6">
+                <div className="flex items-center gap-6 mb-[20px] mt-0 my-0">
                   <span className="text-sm font-semibold uppercase tracking-wide">Quantity</span>
 
                   <div className="flex items-center border">
