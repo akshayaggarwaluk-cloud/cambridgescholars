@@ -92,7 +92,7 @@ export default function BookDetails() {
             <div className="flex flex-col justify-between min-h-[520px]">
               <div>
                 {/* Title */}
-                <h1 className="font-serif text-2xl sm:text-3xl lg:text-4xl font-bold mb-3">{book.title}</h1>
+                <h1 className="font-serif text-[22px] font-bold mb-3">{book.title}</h1>
 
                 {/* Subtitle */}
                 <p className="font-serif text-base italic mb-4">{book.description}</p>
