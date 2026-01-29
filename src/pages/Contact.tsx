@@ -80,7 +80,7 @@ export default function Contact() {
               {contactInfo.map(info => <div key={info.title} className="flex items-start gap-4">
                   <info.icon className="h-6 w-6 text-accent" />
                   <div>
-                    <h3 className=" mb-2 text-2xl">{info.title}</h3>
+                    <h3 className="mb-2 text-2xl font-semibold">{info.title}</h3>
                     <p className="text-muted-foreground text-lg">{info.content}</p>
                   </div>
                 </div>)}
