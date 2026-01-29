@@ -6,6 +6,7 @@ import { PageBreadcrumb } from "@/components/layout/PageBreadcrumb";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { Checkbox } from "@/components/ui/checkbox";
 import { toast } from "sonner";
 const contactInfo = [{
   icon: MapPin,
@@ -27,8 +28,13 @@ export default function Contact() {
     subject: "",
     message: ""
   });
+  const [isNotRobot, setIsNotRobot] = useState(false);
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    if (!isNotRobot) {
+      toast.error("Please verify that you're not a robot");
+      return;
+    }
     toast.success("Message sent successfully!");
     setFormData({
       name: "",
@@ -36,6 +42,7 @@ export default function Contact() {
       subject: "",
       message: ""
     });
+    setIsNotRobot(false);
   };
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setFormData(prev => ({
@@ -99,6 +106,19 @@ export default function Contact() {
 
                 {/* Message */}
                 <Textarea id="message" rows={6} placeholder="Message" value={formData.message} onChange={handleChange} required />
+
+                {/* I'm not a robot */}
+                <div className="flex items-center gap-4 p-4 border border-input rounded-md bg-muted/30 w-fit">
+                  <Checkbox 
+                    id="not-robot" 
+                    checked={isNotRobot}
+                    onCheckedChange={(checked) => setIsNotRobot(checked === true)}
+                    className="h-6 w-6"
+                  />
+                  <label htmlFor="not-robot" className="text-sm font-medium cursor-pointer select-none">
+                    I'm not a robot
+                  </label>
+                </div>
 
                 {/* Submit */}
                 <Button type="submit" className="bg-orange-600 hover:bg-orange-700 text-white px-12 py-3 rounded-none">
