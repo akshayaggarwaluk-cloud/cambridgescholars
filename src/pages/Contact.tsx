@@ -80,7 +80,7 @@ export default function Contact() {
               {contactInfo.map(info => <div key={info.title} className="flex items-start gap-4">
                   <info.icon className="h-6 w-6 text-accent" />
                   <div>
-                    <h3 className="font-semibold mb-2 text-2xl">{info.title}</h3>
+                    <h3 className=" mb-2 text-2xl">{info.title}</h3>
                     <p className="text-muted-foreground text-lg">{info.content}</p>
                   </div>
                 </div>)}
@@ -114,12 +114,7 @@ export default function Contact() {
 
                 {/* reCAPTCHA */}
                 <div className="py-2">
-                  <ReCAPTCHA
-                    ref={recaptchaRef}
-                    sitekey={RECAPTCHA_SITE_KEY}
-                    onChange={(value) => setCaptchaValue(value)}
-                    onExpired={() => setCaptchaValue(null)}
-                  />
+                  <ReCAPTCHA ref={recaptchaRef} sitekey={RECAPTCHA_SITE_KEY} onChange={value => setCaptchaValue(value)} onExpired={() => setCaptchaValue(null)} />
                 </div>
 
                 {/* Submit */}
