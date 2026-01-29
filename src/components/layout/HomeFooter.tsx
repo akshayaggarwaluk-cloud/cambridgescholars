@@ -54,7 +54,7 @@ export function HomeFooter() {
 
         {/* Navigation Links */}
         <nav className="flex flex-wrap justify-center gap-6 mb-8 px-0 md:gap-[60px]">
-          {navLinks.map(link => <Link key={link.name} to={link.href} className="text-[#555555] text-sm tracking-wider hover:text-[#333333] transition-colors font-semibold">
+          {navLinks.map(link => <Link key={link.name} to={link.href} className="text-[#555555] tracking-wider hover:text-[#333333] transition-colors font-semibold text-base">
               {link.name}
             </Link>)}
         </nav>
