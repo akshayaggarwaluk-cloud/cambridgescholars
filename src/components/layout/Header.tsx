@@ -75,13 +75,13 @@ export function Header() {
 
           {/* Desktop Navigation */}
           <div className="hidden lg:flex items-center gap-8 xl:gap-12">
-            {navigation.slice(0, 3).map(item => <Link key={item.name} to={item.href} className={cn("text-lg font-medium py-2 transition-colors hover:text-[#E4573D]", location.pathname === item.href ? "text-[#E4573D]" : "text-foreground")}>
+            {navigation.slice(0, 3).map(item => <Link key={item.name} to={item.href} className={cn("text-lg py-2 transition-colors hover:text-[#E4573D] font-semibold", location.pathname === item.href ? "text-[#E4573D]" : "text-foreground")}>
                 {item.name}
               </Link>)}
 
             {/* Publish Dropdown */}
             <div className="relative" onMouseEnter={() => setIsPublishDropdownOpen(true)} onMouseLeave={() => setIsPublishDropdownOpen(false)}>
-              <Link to="/publish-a-book" className={cn("text-lg font-medium flex items-center gap-1.5 py-2 hover:text-[#E4573D]", location.pathname === "/publish-a-book" || publishDropdownItems.some(i => location.pathname === i.href) ? "text-[#E4573D]" : "text-foreground")}>
+              <Link to="/publish-a-book" className={cn("text-lg flex items-center gap-1.5 py-2 hover:text-[#E4573D] font-semibold", location.pathname === "/publish-a-book" || publishDropdownItems.some(i => location.pathname === i.href) ? "text-[#E4573D]" : "text-foreground")}>
                 Publish a Book
                 <ChevronDown className={cn("h-4 w-4 transition-transform", isPublishDropdownOpen && "rotate-180")} />
               </Link>
@@ -95,7 +95,7 @@ export function Header() {
                 </div>}
             </div>
 
-            {navigation.slice(3).map(item => <Link key={item.name} to={item.href} className={cn("text-lg font-medium py-2 hover:text-[#E4573D]", location.pathname === item.href ? "text-[#E4573D]" : "text-foreground")}>
+            {navigation.slice(3).map(item => <Link key={item.name} to={item.href} className={cn("text-lg py-2 hover:text-[#E4573D] font-semibold", location.pathname === item.href ? "text-[#E4573D]" : "text-foreground")}>
                 {item.name}
               </Link>)}
           </div>
