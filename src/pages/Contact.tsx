@@ -1,13 +1,16 @@
-import { useState } from "react";
-import { Mail, MapPin, Clock, Send } from "lucide-react";
+import { useState, useRef } from "react";
+import { Mail, MapPin, Clock } from "lucide-react";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { PageBreadcrumb } from "@/components/layout/PageBreadcrumb";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Checkbox } from "@/components/ui/checkbox";
 import { toast } from "sonner";
+import ReCAPTCHA from "react-google-recaptcha";
+
+// Google's test site key - replace with your own for production
+const RECAPTCHA_SITE_KEY = "6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI";
 const contactInfo = [{
   icon: MapPin,
   title: "Address",
@@ -28,10 +31,11 @@ export default function Contact() {
     subject: "",
     message: ""
   });
-  const [isNotRobot, setIsNotRobot] = useState(false);
+  const [captchaValue, setCaptchaValue] = useState<string | null>(null);
+  const recaptchaRef = useRef<ReCAPTCHA>(null);
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!isNotRobot) {
+    if (!captchaValue) {
       toast.error("Please verify that you're not a robot");
       return;
     }
@@ -42,7 +46,8 @@ export default function Contact() {
       subject: "",
       message: ""
     });
-    setIsNotRobot(false);
+    setCaptchaValue(null);
+    recaptchaRef.current?.reset();
   };
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setFormData(prev => ({
@@ -107,17 +112,14 @@ export default function Contact() {
                 {/* Message */}
                 <Textarea id="message" rows={6} placeholder="Message" value={formData.message} onChange={handleChange} required />
 
-                {/* I'm not a robot */}
-                <div className="flex items-center gap-4 p-4 border border-input rounded-md bg-muted/30 w-fit">
-                  <Checkbox 
-                    id="not-robot" 
-                    checked={isNotRobot}
-                    onCheckedChange={(checked) => setIsNotRobot(checked === true)}
-                    className="h-6 w-6"
+                {/* reCAPTCHA */}
+                <div className="py-2">
+                  <ReCAPTCHA
+                    ref={recaptchaRef}
+                    sitekey={RECAPTCHA_SITE_KEY}
+                    onChange={(value) => setCaptchaValue(value)}
+                    onExpired={() => setCaptchaValue(null)}
                   />
-                  <label htmlFor="not-robot" className="text-sm font-medium cursor-pointer select-none">
-                    I'm not a robot
-                  </label>
                 </div>
 
                 {/* Submit */}
