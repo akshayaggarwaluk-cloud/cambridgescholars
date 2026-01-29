@@ -1,6 +1,8 @@
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { Link } from "react-router-dom";
+import { PageBreadcrumb } from "@/components/layout/PageBreadcrumb";
+
 import { Button } from "@/components/ui/button";
 import {
   FileText,
