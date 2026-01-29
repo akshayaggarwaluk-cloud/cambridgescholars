@@ -110,11 +110,7 @@ const HowToPublish = () => {
       <div className="bg-[#f9f7f2] min-h-[280px] pt-24 px-6 md:px-16 flex items-center">
         <div className="max-w-7xl mx-auto flex justify-between items-center w-full">
           <h1 className="text-5xl font-serif text-gray-800">How to Publish</h1>
-          <PageBreadcrumb
-            currentPage="How to Publish
-
-"
-          />
+          <PageBreadcrumb currentPage="How to Publish" />
         </div>
       </div>
 
