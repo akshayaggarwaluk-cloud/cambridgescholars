@@ -11,25 +11,29 @@ import ReCAPTCHA from "react-google-recaptcha";
 
 // Google's test site key - replace with your own for production
 const RECAPTCHA_SITE_KEY = "6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI";
-const contactInfo = [{
-  icon: MapPin,
-  title: "Address",
-  content: "Lady Stephenson Library, Newcastle upon Tyne NE6 2PA, United Kingdom"
-}, {
-  icon: Mail,
-  title: "Contact",
-  content: "Mail: admin@cambridgescholars.com"
-}, {
-  icon: Clock,
-  title: "Hours Of Operation",
-  content: "Monday – Friday: 09:00 – 17:00"
-}];
+const contactInfo = [
+  {
+    icon: MapPin,
+    title: "Address",
+    content: "Lady Stephenson Library, Newcastle upon Tyne NE6 2PA, United Kingdom",
+  },
+  {
+    icon: Mail,
+    title: "Contact",
+    content: "Mail: admin@cambridgescholars.com",
+  },
+  {
+    icon: Clock,
+    title: "Hours Of Operation",
+    content: "Monday – Friday: 09:00 – 17:00",
+  },
+];
 export default function Contact() {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     subject: "",
-    message: ""
+    message: "",
   });
   const [captchaValue, setCaptchaValue] = useState<string | null>(null);
   const recaptchaRef = useRef<ReCAPTCHA>(null);
@@ -44,24 +48,25 @@ export default function Contact() {
       name: "",
       email: "",
       subject: "",
-      message: ""
+      message: "",
     });
     setCaptchaValue(null);
     recaptchaRef.current?.reset();
   };
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [e.target.id]: e.target.value
+      [e.target.id]: e.target.value,
     }));
   };
-  return <div className="min-h-screen bg-background">
+  return (
+    <div className="min-h-screen bg-background">
       <Header />
 
       {/* Page Header */}
       <div className="pt-32 bg-[#f9f7f2] py-10 px-6 md:px-16">
         <div className="max-w-7xl mx-auto flex justify-between items-center">
-          <h1 className="text-3xl font-serif text-gray-800">Contact Us</h1>
+          <h1 className="text-5xl font-serif text-gray-800">Contact Us</h1>
           <PageBreadcrumb currentPage="Contact" />
         </div>
       </div>
@@ -72,18 +77,21 @@ export default function Contact() {
           <div className="container-wide">
             <h2 className="font-serif text-foreground mb-4 text-5xl">Keep In Touch With Us</h2>
             <p className="text-muted-foreground max-w-5xl mb-12 text-lg">
-              If you have any questions regarding proposal submissions, book purchases, or any aspect of our publication process, we would be happy to hear from you. Please use the contact details below to get in touch, and we will respond as promptly as possible.
-
+              If you have any questions regarding proposal submissions, book purchases, or any aspect of our publication
+              process, we would be happy to hear from you. Please use the contact details below to get in touch, and we
+              will respond as promptly as possible.
             </p>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {contactInfo.map(info => <div key={info.title} className="flex items-start gap-4">
+              {contactInfo.map((info) => (
+                <div key={info.title} className="flex items-start gap-4">
                   <info.icon className="h-6 w-6 text-accent" />
                   <div>
                     <h3 className="mb-2 text-2xl font-semibold">{info.title}</h3>
                     <p className="text-muted-foreground text-lg">{info.content}</p>
                   </div>
-                </div>)}
+                </div>
+              ))}
             </div>
           </div>
         </section>
@@ -98,11 +106,24 @@ export default function Contact() {
                 {/* Name + Email */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <Input id="name" placeholder="Name" value={formData.name} onChange={handleChange} required />
-                  <Input id="email" type="email" placeholder="Email" value={formData.email} onChange={handleChange} required />
+                  <Input
+                    id="email"
+                    type="email"
+                    placeholder="Email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    required
+                  />
                 </div>
 
                 {/* Subject */}
-                <select id="subject" value={formData.subject} onChange={handleChange} className="w-full h-12 border border-input rounded-md px-3 text-muted-foreground focus:outline-none focus:ring-2 focus:ring-accent" required>
+                <select
+                  id="subject"
+                  value={formData.subject}
+                  onChange={handleChange}
+                  className="w-full h-12 border border-input rounded-md px-3 text-muted-foreground focus:outline-none focus:ring-2 focus:ring-accent"
+                  required
+                >
                   <option value="">Select Purpose</option>
                   <option value="Proposals">Proposals</option>
                   <option value="Mailing">Mailing</option>
@@ -110,11 +131,23 @@ export default function Contact() {
                 </select>
 
                 {/* Message */}
-                <Textarea id="message" rows={6} placeholder="Message" value={formData.message} onChange={handleChange} required />
+                <Textarea
+                  id="message"
+                  rows={6}
+                  placeholder="Message"
+                  value={formData.message}
+                  onChange={handleChange}
+                  required
+                />
 
                 {/* reCAPTCHA */}
                 <div className="py-2">
-                  <ReCAPTCHA ref={recaptchaRef} sitekey={RECAPTCHA_SITE_KEY} onChange={value => setCaptchaValue(value)} onExpired={() => setCaptchaValue(null)} />
+                  <ReCAPTCHA
+                    ref={recaptchaRef}
+                    sitekey={RECAPTCHA_SITE_KEY}
+                    onChange={(value) => setCaptchaValue(value)}
+                    onExpired={() => setCaptchaValue(null)}
+                  />
                 </div>
 
                 {/* Submit */}
@@ -128,5 +161,6 @@ export default function Contact() {
       </main>
 
       <Footer />
-    </div>;
+    </div>
+  );
 }
