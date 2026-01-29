@@ -62,7 +62,7 @@ export default function FAQ() {
 
           {/* Final line after FAQs */}
           <div className="max-w-7xl mx-auto mt-12 text-center">
-            <p className="text-muted-foreground text-lg md:text-lg text-justify">
+            <p className="text-lg md:text-lg text-justify text-black">
               If your question is not addressed here, please do not hesitate to contact us at{" "}
               <a href="mailto:admin@cambridgescholars.com" className="text-red-500 hover:underline">
                 admin@cambridgescholars.com
