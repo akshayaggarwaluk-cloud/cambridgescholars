@@ -9,10 +9,14 @@ const TermsAndConditions = () => {
       <Header />
 
       {/* Header Banner */}
-      <div className="bg-[#f9f7f2] py-10 px-6 md:px-16">
-        <div className="max-w-7xl mx-auto flex justify-between items-center">
-          <h1 className="text-5xl font-serif text-black">Terms and Conditions</h1>
-          <PageBreadcrumb currentPage="Terms and Conditions" />
+      <div className="bg-[#f9f7f2] min-h-[280px] pt-24 px-6 md:px-16 flex items-center">
+        <div className="max-w-7xl mx-auto flex justify-between items-center w-full">
+          <h1 className="text-5xl font-serif text-gray-800">Terms and Conditions</h1>
+          <PageBreadcrumb
+            currentPage="Terms and Conditions
+
+"
+          />
         </div>
       </div>
 
@@ -140,7 +144,9 @@ const TermsAndConditions = () => {
               <li>Posting a letter to the Orders Department at our registered address</li>
             </ul>
             <br />
-            <p className="text-black text-[15px]">Until the books are returned, you must take reasonable care of them.</p>
+            <p className="text-black text-[15px]">
+              Until the books are returned, you must take reasonable care of them.
+            </p>
           </section>
 
           <Separator className="my-8" />
