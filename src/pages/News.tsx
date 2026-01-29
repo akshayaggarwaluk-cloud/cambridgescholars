@@ -37,7 +37,7 @@ const News = () => {
       <Header />
 
       <div className="bg-[#f9f7f2] min-h-[280px] pt-24 px-6 md:px-16 flex items-center">
-        <div className="max-w-7xl mx-auto flex justify-between items-center w-full">
+        <div className="max-w-7xl mx-auto flex flex-col md:flex-row md:justify-between md:items-center gap-4 w-full">
           <h1 className="text-5xl font-serif text-gray-800">News</h1>
           <PageBreadcrumb
             currentPage="News
