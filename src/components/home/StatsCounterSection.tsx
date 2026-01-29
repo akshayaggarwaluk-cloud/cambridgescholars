@@ -83,7 +83,7 @@ function AnimatedCounter({
 }
 export function StatsCounterSection() {
   return <section className="py-20 bg-background md:py-0 pt-0 pb-[50px] text-white">
-      <div className="container-wide">
+      <div className="container-wide pb-[40px]">
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12">
           {stats.map((stat, index) => <div key={index} className="text-center">
               <AnimatedCounter value={stat.value} suffix={stat.suffix} format={stat.format} />

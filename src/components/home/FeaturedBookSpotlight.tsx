@@ -7,7 +7,7 @@ import { ArrowRight, Eye } from "lucide-react";
 export function FeaturedBookSpotlight() {
   // Get the first book as featured
   const featuredBook = books[0];
-  return <section className="py-16 md:py-20 bg-background relative overflow-hidden">
+  return <section className="py-16 bg-background relative overflow-hidden md:py-[40px]">
       {/* Decorative background elements */}
       <div className="absolute top-0 right-0 w-1/3 h-full bg-gradient-to-l from-accent/3 to-transparent" />
       <div className="absolute bottom-0 left-0 w-64 h-64 bg-primary/5 rounded-full blur-3xl" />
