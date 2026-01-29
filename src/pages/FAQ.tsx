@@ -74,7 +74,7 @@ export default function FAQ() {
                   <AccordionTrigger className="text-left font-medium text-foreground hover:text-accent py-5 [&[data-state=open]>svg]:rotate-180">
                     {faq.question}
                   </AccordionTrigger>
-                  <AccordionContent className="text-muted-foreground leading-relaxed pb-5">
+                  <AccordionContent className="text-muted-foreground font-base leading-relaxed pb-5">
                     {faq.answer}
                   </AccordionContent>
                 </AccordionItem>
