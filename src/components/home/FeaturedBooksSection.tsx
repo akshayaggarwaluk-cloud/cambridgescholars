@@ -43,7 +43,51 @@ export function FeaturedBooksSection() {
     setIsTransitioning(true);
     setTimeout(() => setIsTransitioning(false), 400);
   };
-  return;
+  const currentBook = featuredBooks[activeIndex];
+
+  return (
+    <section className="py-16 bg-background">
+      <div className="container-wide">
+        <div className="grid md:grid-cols-2 gap-12 items-center">
+          {/* Image */}
+          <div className="relative flex justify-center">
+            <img 
+              src={currentBook.image} 
+              alt={currentBook.title}
+              className="w-64 md:w-80 shadow-2xl transition-opacity duration-400"
+            />
+          </div>
+
+          {/* Content */}
+          <div className="space-y-4">
+            <span className="text-xs uppercase tracking-wide text-accent">{currentBook.label}</span>
+            <h2 className="font-serif text-3xl font-bold leading-tight">{currentBook.title}</h2>
+            {currentBook.subtitle && (
+              <h3 className="italic text-muted-foreground">{currentBook.subtitle}</h3>
+            )}
+            <p className="text-muted-foreground line-clamp-4">{currentBook.description}</p>
+            <Button asChild className="bg-accent text-accent-foreground hover:bg-accent/90 border border-accent">
+              <Link to={`/books/${currentBook.id}`}>View</Link>
+            </Button>
+
+            {/* Dots */}
+            <div className="flex gap-2 pt-4">
+              {featuredBooks.map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => changeSlide(index)}
+                  className={cn(
+                    "w-3 h-3 rounded-full transition-colors",
+                    index === activeIndex ? "bg-accent" : "bg-muted-foreground/30"
+                  )}
+                />
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
 }
 
 /* CONTENT BLOCK */
