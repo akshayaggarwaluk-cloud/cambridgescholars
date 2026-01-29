@@ -5,7 +5,7 @@ import { Separator } from "@/components/ui/separator";
 
 const TermsAndConditions = () => {
   return (
-    <div className="min-h-screen flex flex-col pt-20 text-black">
+    <div className="min-h-screen flex flex-col text-black">
       <Header />
 
       {/* Header Banner */}
