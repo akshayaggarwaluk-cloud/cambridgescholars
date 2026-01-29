@@ -58,7 +58,7 @@ export default function Contact() {
         {/* Contact Info */}
         <section className="pb-20">
           <div className="container-wide">
-            <h2 className="font-serif text-4xl text-foreground mb-4">Keep In Touch With Us</h2>
+            <h2 className="font-serif text-foreground mb-4 text-5xl">Keep In Touch With Us</h2>
             <p className="text-muted-foreground max-w-5xl mb-12">
               If you have any questions regarding proposal submissions, book purchases, or any aspect of our publication process, we would be happy to hear from you. Please use the contact details below to get in touch, and we will respond as promptly as possible.
 
@@ -68,8 +68,8 @@ export default function Contact() {
               {contactInfo.map(info => <div key={info.title} className="flex items-start gap-4">
                   <info.icon className="h-6 w-6 text-accent" />
                   <div>
-                    <h3 className="font-semibold mb-2">{info.title}</h3>
-                    <p className="text-muted-foreground text-sm">{info.content}</p>
+                    <h3 className="font-semibold mb-2 text-2xl">{info.title}</h3>
+                    <p className="text-muted-foreground text-lg">{info.content}</p>
                   </div>
                 </div>)}
             </div>
@@ -80,7 +80,7 @@ export default function Contact() {
         <section className="pb-24">
           <div className="container-wide">
             <div className="max-w-2xl mx-auto">
-              <h2 className="font-serif text-4xl text-center mb-12">Send A Message</h2>
+              <h2 className="font-serif text-center mb-12 text-5xl">Send A Message</h2>
 
               <form onSubmit={handleSubmit} className="space-y-6">
                 {/* Name + Email */}
