@@ -63,7 +63,7 @@ export default function FAQ() {
 
       <main className="pb-16">
         <section className="container-wide py-16">
-          <div className="max-w-4xl mx-auto">
+          <div className="max-w-7xl mx-auto">
             <Accordion type="single" collapsible className="space-y-4">
               {faqs.map((faq, index) => (
                 <AccordionItem
