@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 export const NewsSection = () => {
   // Get first 3 featured articles
   const featuredNews = newsArticles.filter(article => article.featured).slice(0, 3);
-  return <section className="py-16 bg-background">
+  return <section className="bg-background py-[50px] pb-0">
       <div className="container mx-auto px-4">
         {/* Section Title */}
         <h2 className="text-4xl md:text-5xl font-serif text-center text-foreground mb-12">
