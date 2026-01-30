@@ -208,11 +208,11 @@ export default function Books() {
             ) : (
               <div className="divide-y divide-border">
                 {filteredBooks.map((book) => (
-                  <article key={book.id} className="py-8 first:pt-0">
-                    <div className="flex flex-col md:flex-row gap-8">
-                      {/* Book Cover */}
-                      <Link to={`/books/${book.id}`} className="flex-shrink-0 w-full md:w-44">
-                        <div className="aspect-[2/3] overflow-hidden shadow-lg">
+                  <article key={book.id} className="py-10 first:pt-0">
+                    <div className="flex flex-col md:flex-row gap-10">
+                      {/* Book Cover - Larger size */}
+                      <Link to={`/books/${book.id}`} className="flex-shrink-0 w-full md:w-56">
+                        <div className="aspect-[2/3] overflow-hidden shadow-xl">
                           <img
                             src={book.image}
                             alt={book.title}
@@ -221,41 +221,41 @@ export default function Books() {
                         </div>
                       </Link>
 
-                      {/* Book Details */}
-                      <div className="flex-1">
+                      {/* Book Details - Scaled up to match */}
+                      <div className="flex-1 flex flex-col justify-center">
                         {/* Title */}
                         <Link to={`/books/${book.id}`}>
-                          <h2 className="text-2xl font-serif text-foreground hover:text-[#E4573D] transition-colors leading-tight">
+                          <h2 className="text-3xl font-serif text-foreground hover:text-[#E4573D] transition-colors leading-tight">
                             {book.title}
                           </h2>
                         </Link>
 
                         {/* Subtitle - using description as subtitle */}
                         {book.description && (
-                          <p className="text-lg italic text-foreground/80 mt-2 leading-snug">
-                            {book.description.length > 60 
-                              ? book.description.substring(0, 60) + "..."
+                          <p className="text-xl italic text-foreground/80 mt-3 leading-snug">
+                            {book.description.length > 80 
+                              ? book.description.substring(0, 80) + "..."
                               : book.description}
                           </p>
                         )}
 
                         {/* Author */}
-                        <p className="text-base text-muted-foreground mt-3">
+                        <p className="text-lg text-muted-foreground mt-4">
                           By: <span className="text-foreground">{book.author}</span>
                         </p>
 
                         {/* Description/Blurb */}
                         {book.description && (
-                          <p className="text-base text-muted-foreground mt-4 leading-relaxed line-clamp-4">
+                          <p className="text-base text-muted-foreground mt-5 leading-relaxed line-clamp-4">
                             {book.description}
                           </p>
                         )}
 
                         {/* Actions */}
-                        <div className="flex items-center gap-3 mt-6">
+                        <div className="flex items-center gap-4 mt-8">
                           <Button 
                             asChild 
-                            className="bg-[#E4573D] hover:bg-[#c94a32] text-white px-8 h-12 text-base font-medium rounded-sm"
+                            className="bg-[#E4573D] hover:bg-[#c94a32] text-white px-10 h-14 text-lg font-medium rounded-sm"
                           >
                             <Link to={`/books/${book.id}`}>VIEW MORE</Link>
                           </Button>
@@ -278,11 +278,11 @@ export default function Books() {
                               }
                             }}
                             className={cn(
-                              "h-12 w-12 rounded-sm border-border",
+                              "h-14 w-14 rounded-sm border-border",
                               isInWishlist(book.id) && "text-red-500 border-red-500 bg-red-50"
                             )}
                           >
-                            <Heart className={cn("h-5 w-5", isInWishlist(book.id) && "fill-current")} />
+                            <Heart className={cn("h-6 w-6", isInWishlist(book.id) && "fill-current")} />
                           </Button>
                         </div>
                       </div>
