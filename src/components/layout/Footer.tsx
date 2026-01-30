@@ -1,32 +1,49 @@
 import { Link } from "react-router-dom";
-
 const footerLinks = {
-  pages: [
-    { name: "Home", href: "/" },
-    { name: "About us", href: "/about" },
-    { name: "Buy a Book", href: "/books" },
-    { name: "Publish a Book", href: "/how-to-publish" },
-    { name: "News", href: "/news" },
-    { name: "FAQs", href: "/faq" },
-  ],
-  otherLinks: [
-    { name: "Privacy Policy", href: "/privacy" },
-    { name: "Cookies Policy", href: "/cookies" },
-    { name: "Terms and Conditions", href: "/terms" },
-    { name: "Accessibility Statement", href: "/accessibility" },
-    { name: "Refund and Returns", href: "/returns" },
-  ],
+  pages: [{
+    name: "Home",
+    href: "/"
+  }, {
+    name: "About us",
+    href: "/about"
+  }, {
+    name: "Buy a Book",
+    href: "/books"
+  }, {
+    name: "Publish a Book",
+    href: "/how-to-publish"
+  }, {
+    name: "News",
+    href: "/news"
+  }, {
+    name: "FAQs",
+    href: "/faq"
+  }],
+  otherLinks: [{
+    name: "Privacy Policy",
+    href: "/privacy"
+  }, {
+    name: "Cookies Policy",
+    href: "/cookies"
+  }, {
+    name: "Terms and Conditions",
+    href: "/terms"
+  }, {
+    name: "Accessibility Statement",
+    href: "/accessibility"
+  }, {
+    name: "Refund and Returns",
+    href: "/returns"
+  }]
 };
-
 export function Footer() {
-  return (
-    <footer className="bg-[#222222] text-[#cfcfcf]">
+  return <footer className="bg-[#222222] text-[#cfcfcf]">
       <div className="max-w-6xl mx-auto px-6 py-20">
         {/* Top Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-16">
           {/* Connect */}
           <div>
-            <h3 className="text-white text-m tracking-widest uppercase mb-6">Connect</h3>
+            <h3 className="text-white text-m tracking-widest uppercase mb-6 text-lg font-semibold">Connect</h3>
             <div className="space-y-1 text-m leading-relaxed">
               <p>Lady Stephenson Library,</p>
               <p>Newcastle upon Tyne</p>
@@ -37,29 +54,25 @@ export function Footer() {
 
           {/* Pages */}
           <div>
-            <h3 className="text-white text-m tracking-widest uppercase mb-6">Pages</h3>
+            <h3 className="text-white text-m tracking-widest uppercase mb-6 text-lg font-semibold">Pages</h3>
             <ul className="space-y-3">
-              {footerLinks.pages.map((link) => (
-                <li key={link.name}>
+              {footerLinks.pages.map(link => <li key={link.name}>
                   <Link to={link.href} className="italic text-m hover:text-white transition-colors">
                     {link.name}
                   </Link>
-                </li>
-              ))}
+                </li>)}
             </ul>
           </div>
 
           {/* Other Links */}
           <div>
-            <h3 className="text-white text-m tracking-widest uppercase mb-6">Other Links</h3>
+            <h3 className="text-white text-m tracking-widest uppercase mb-6 text-lg font-semibold">Other Links</h3>
             <ul className="space-y-3">
-              {footerLinks.otherLinks.map((link) => (
-                <li key={link.name}>
+              {footerLinks.otherLinks.map(link => <li key={link.name}>
                   <Link to={link.href} className="italic text-m hover:text-white transition-colors">
                     {link.name}
                   </Link>
-                </li>
-              ))}
+                </li>)}
             </ul>
           </div>
         </div>
@@ -79,6 +92,5 @@ export function Footer() {
           <p>Copyright © 2025 Cambridge Scholars Publishing. All rights reserved</p>
         </div>
       </div>
-    </footer>
-  );
+    </footer>;
 }
