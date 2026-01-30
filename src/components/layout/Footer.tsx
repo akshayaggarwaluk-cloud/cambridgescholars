@@ -68,6 +68,7 @@ export function Footer() {
         <div className="mt-16 pt-8 border-t border-white/10">
           <p className="text-sm">Cambridge Scholars Publishing | Registration Number: 04333775</p>
         </div>
+        <br></br>
 
         {/* Disclaimer */}
         <div className="mt-6 space-y-2 text-sm">
