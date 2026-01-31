@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useCart } from "@/contexts/CartContext";
 import { useWishlist } from "@/contexts/WishlistContext";
-import { useAuth } from "@/contexts/AuthContext";
+import { useExternalAuth } from "@/contexts/ExternalAuthContext";
 import { SearchAutocomplete } from "@/components/search/SearchAutocomplete";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 const navigation = [{
@@ -52,8 +52,8 @@ export function Header() {
   } = useWishlist();
   const {
     user,
-    signOut
-  } = useAuth();
+    logout
+  } = useExternalAuth();
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 10);
     window.addEventListener("scroll", handleScroll);
@@ -63,7 +63,7 @@ export function Header() {
     setIsSearchOpen(false);
   }, [location.pathname]);
   const handleSignOut = async () => {
-    await signOut();
+    logout();
   };
   return <header className={cn("fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-background", isScrolled && "shadow-md bg-background/95 backdrop-blur-sm")}>
       <nav className="container-wide">

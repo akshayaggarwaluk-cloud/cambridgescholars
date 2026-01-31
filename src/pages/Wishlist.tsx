@@ -6,10 +6,10 @@ import { PageBreadcrumb } from "@/components/layout/PageBreadcrumb";
 import { Button } from "@/components/ui/button";
 import { useWishlist } from "@/contexts/WishlistContext";
 import { useCart } from "@/contexts/CartContext";
-import { useAuth } from "@/contexts/AuthContext";
+import { useExternalAuth } from "@/contexts/ExternalAuthContext";
 
 export default function Wishlist() {
-  const { user } = useAuth();
+  const { user } = useExternalAuth();
   const { wishlistItems, removeFromWishlist, loading } = useWishlist();
   const { addToCart } = useCart();
 
