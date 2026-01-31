@@ -1,7 +1,7 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from "react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
-import { useAuth } from "./AuthContext";
+import { useExternalAuth } from "./ExternalAuthContext";
 import { books } from "@/data/books";
 
 export type BookFormat = "ebook" | "hardbook" | "paperback";
@@ -61,7 +61,7 @@ const CartContext = createContext<CartContextType | undefined>(undefined);
 export function CartProvider({ children }: { children: ReactNode }) {
   const [items, setItems] = useState<CartItem[]>([]);
   const [loading, setLoading] = useState(false);
-  const { user } = useAuth();
+  const { user } = useExternalAuth();
 
   // Load cart from database when user logs in
   useEffect(() => {

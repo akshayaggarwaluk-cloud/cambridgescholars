@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { useAuth } from "@/contexts/AuthContext";
+import { useExternalAuth } from "@/contexts/ExternalAuthContext";
 import { supabase } from "@/integrations/supabase/client";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
@@ -29,7 +29,7 @@ const categories = [
 ];
 
 const PublishBook = () => {
-  const { user } = useAuth();
+  const { user } = useExternalAuth();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
