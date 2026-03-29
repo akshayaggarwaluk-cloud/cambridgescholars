@@ -80,7 +80,7 @@ export function WelcomeSection() {
                 </h3>
 
                 {/* Description */}
-                <p className="mb-6 leading-relaxed text-sm md:text-base text-foreground/80">
+                <p className="mb-6 leading-relaxed text-sm md:text-base text-muted-foreground">
                   {service.description}
                 </p>
 

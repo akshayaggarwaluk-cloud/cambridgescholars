@@ -81,7 +81,7 @@ export function AuthorReviewsSection() {
                 </p>
                 <p className="text-sm">
                   <span className="font-bold text-accent">{exp.author}</span>
-                  <span className="text-foreground/70"> – {exp.authorTitle}</span>
+                  <span className="text-muted-foreground"> – {exp.authorTitle}</span>
                 </p>
               </div>
             </div>

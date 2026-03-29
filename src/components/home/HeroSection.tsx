@@ -137,7 +137,7 @@ export function HeroSection() {
                 <motion.p
                   variants={textVariants}
                   transition={{ duration: 0.4, delay: 0.15 }}
-                  className="text-foreground/80 text-sm md:text-base italic leading-relaxed"
+                  className="text-muted-foreground text-sm md:text-base italic leading-relaxed"
                 >
                   "{activeReview.quote}"
                 </motion.p>

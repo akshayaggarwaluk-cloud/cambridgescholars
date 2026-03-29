@@ -34,7 +34,7 @@ export const NewsSection = () => {
               </h3>
 
               {/* Excerpt */}
-              <p className="text-sm leading-relaxed text-foreground/70 mb-5 text-justify line-clamp-4">
+              <p className="text-sm leading-relaxed text-muted-foreground mb-5 text-justify line-clamp-4">
                 {article.excerpt}
               </p>
 
