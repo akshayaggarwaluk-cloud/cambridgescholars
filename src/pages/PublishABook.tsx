@@ -87,6 +87,7 @@ export default function PublishABook() {
           ))}
         </div>
       </section>
+      <Footer />
     </div>
   );
 }
