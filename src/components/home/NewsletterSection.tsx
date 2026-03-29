@@ -48,7 +48,7 @@ function AnimatedCounter({ value, suffix, format, duration = 2000 }: {
   };
 
   return (
-    <span ref={ref} className="font-serif text-5xl md:text-6xl lg:text-7xl font-light text-foreground/40">
+    <span ref={ref} className="font-serif text-5xl md:text-6xl lg:text-7xl font-light text-muted-foreground">
       {formatValue()}{suffix}
     </span>
   );
