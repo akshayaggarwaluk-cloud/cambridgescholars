@@ -18,10 +18,10 @@ const navLinks = [
 ];
 
 const socialLinks = [
-  { icon: Facebook, href: "https://www.facebook.com/CambridgeScholarsPublishing", label: "Facebook" },
-  { icon: XIcon, href: "https://twitter.com/CSPPublishing", label: "X (Twitter)" },
-  { icon: Linkedin, href: "https://www.linkedin.com/company/cambridge-scholars-publishing", label: "LinkedIn" },
-  { icon: Instagram, href: "https://www.instagram.com/cambridgescholarspublishing", label: "Instagram" },
+  { icon: Facebook, href: "https://www.facebook.com/cambridgescholarspublishing/", label: "Facebook" },
+  { icon: XIcon, href: "https://x.com/camscholars", label: "X (Twitter)" },
+  { icon: Linkedin, href: "https://www.linkedin.com/company/cambridgescholarspublishing/", label: "LinkedIn" },
+  { icon: Instagram, href: "https://www.instagram.com/cambridgescholarsofficial/", label: "Instagram" },
 ];
 
 export function HomeFooter() {
