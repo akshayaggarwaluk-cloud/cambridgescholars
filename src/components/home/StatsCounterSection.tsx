@@ -75,7 +75,7 @@ function AnimatedCounter({
   return (
     <span
       ref={ref}
-      className="font-serif text-4xl md:text-5xl lg:text-6xl font-light text-muted-foreground/70"
+      className="font-serif text-5xl md:text-6xl lg:text-7xl font-light text-foreground/40"
     >
       {formatValue()}
       {suffix}
@@ -95,7 +95,7 @@ export function StatsCounterSection() {
                 suffix={stat.suffix}
                 format={stat.format}
               />
-              <p className="mt-4 text-xs md:text-sm tracking-[0.15em] text-muted-foreground/50 font-medium uppercase">
+              <p className="mt-5 text-[10px] md:text-xs tracking-[0.2em] text-foreground/30 font-medium uppercase leading-relaxed">
                 {stat.label}
               </p>
             </div>
