@@ -146,17 +146,6 @@ export function FeaturedBooksSection() {
 
         {/* Dot Navigation with Pause/Play */}
         <div className="flex items-center justify-center gap-3 mt-12">
-          <button
-            onClick={() => setIsAutoPlaying(!isAutoPlaying)}
-            aria-label={isAutoPlaying ? "Pause carousel" : "Play carousel"}
-            className="w-8 h-8 flex items-center justify-center rounded-full border border-muted-foreground/30 text-muted-foreground hover:text-foreground hover:border-foreground transition-colors"
-          >
-            {isAutoPlaying ? (
-              <svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor" aria-hidden="true"><rect x="1" y="1" width="4" height="10" /><rect x="7" y="1" width="4" height="10" /></svg>
-            ) : (
-              <svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor" aria-hidden="true"><polygon points="2,0 12,6 2,12" /></svg>
-            )}
-          </button>
           {featuredBooks.map((_, index) => (
             <button
               key={index}
