@@ -19,10 +19,10 @@ const Index = () => {
         <WelcomeSection />
         {/* 3. Featured Books (Forthcoming Titles) */}
         <FeaturedBooksSection />
-        {/* 4. News preview */}
-        <NewsSection />
-        {/* 5. Author Reviews */}
+        {/* 4. Author Reviews */}
         <AuthorReviewsSection />
+        {/* 5. News preview */}
+        <NewsSection />
         {/* 6. Sign Up for Mailing List */}
         <NewsletterSection />
         {/* 7. Statistics */}
