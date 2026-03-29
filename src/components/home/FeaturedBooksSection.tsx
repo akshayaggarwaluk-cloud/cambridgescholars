@@ -81,13 +81,15 @@ const featuredBooks = [
 
 export function FeaturedBooksSection() {
   const [activeIndex, setActiveIndex] = useState(0);
+  const [isAutoPlaying, setIsAutoPlaying] = useState(true);
 
   useEffect(() => {
+    if (!isAutoPlaying) return;
     const interval = setInterval(() => {
       setActiveIndex((prev) => (prev + 1) % featuredBooks.length);
     }, 6000);
     return () => clearInterval(interval);
-  }, [activeIndex]);
+  }, [activeIndex, isAutoPlaying]);
 
   const book = featuredBooks[activeIndex];
 
