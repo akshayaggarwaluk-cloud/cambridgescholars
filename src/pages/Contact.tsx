@@ -66,7 +66,7 @@ export default function Contact() {
       {/* Page Header */}
       <div className="pt-32 bg-[#f4f3ec] py-10 px-6 md:px-16">
         <div className="max-w-7xl mx-auto flex justify-between items-center">
-          <h1 className="text-5xl font-serif text-gray-800">Contact Us</h1>
+          <h1 className="text-5xl font-serif text-foreground">Contact Us</h1>
           <PageBreadcrumb currentPage="Contact" />
         </div>
       </div>
@@ -105,40 +105,52 @@ export default function Contact() {
               <form onSubmit={handleSubmit} className="space-y-6">
                 {/* Name + Email */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <Input id="name" placeholder="Name" value={formData.name} onChange={handleChange} required />
-                  <Input
-                    id="email"
-                    type="email"
-                    placeholder="Email"
-                    value={formData.email}
+                  <div>
+                    <label htmlFor="name" className="block text-sm font-medium text-foreground mb-1">Name</label>
+                    <Input id="name" placeholder="Your name" value={formData.name} onChange={handleChange} required />
+                  </div>
+                  <div>
+                    <label htmlFor="email" className="block text-sm font-medium text-foreground mb-1">Email</label>
+                    <Input
+                      id="email"
+                      type="email"
+                      placeholder="Your email"
+                      value={formData.email}
+                      onChange={handleChange}
+                      required
+                    />
+                  </div>
+                </div>
+
+                {/* Subject */}
+                <div>
+                  <label htmlFor="subject" className="block text-sm font-medium text-foreground mb-1">Subject</label>
+                  <select
+                    id="subject"
+                    value={formData.subject}
+                    onChange={handleChange}
+                    className="w-full h-12 border border-input rounded-md px-3 text-foreground focus:outline-none focus:ring-2 focus:ring-accent"
+                    required
+                  >
+                    <option value="">Select Purpose</option>
+                    <option value="Proposals">Proposals</option>
+                    <option value="Mailing">Mailing</option>
+                    <option value="Queries">Queries</option>
+                  </select>
+                </div>
+
+                {/* Message */}
+                <div>
+                  <label htmlFor="message" className="block text-sm font-medium text-foreground mb-1">Message</label>
+                  <Textarea
+                    id="message"
+                    rows={6}
+                    placeholder="Your message"
+                    value={formData.message}
                     onChange={handleChange}
                     required
                   />
                 </div>
-
-                {/* Subject */}
-                <select
-                  id="subject"
-                  value={formData.subject}
-                  onChange={handleChange}
-                  className="w-full h-12 border border-input rounded-md px-3 text-muted-foreground focus:outline-none focus:ring-2 focus:ring-accent"
-                  required
-                >
-                  <option value="">Select Purpose</option>
-                  <option value="Proposals">Proposals</option>
-                  <option value="Mailing">Mailing</option>
-                  <option value="Queries">Queries</option>
-                </select>
-
-                {/* Message */}
-                <Textarea
-                  id="message"
-                  rows={6}
-                  placeholder="Message"
-                  value={formData.message}
-                  onChange={handleChange}
-                  required
-                />
 
                 {/* reCAPTCHA */}
                 <div className="py-2">
@@ -151,7 +163,7 @@ export default function Contact() {
                 </div>
 
                 {/* Submit */}
-                <Button type="submit" className="bg-orange-600 hover:bg-orange-700 text-white px-12 py-3 rounded-none">
+                <Button type="submit" className="bg-accent hover:bg-accent/90 text-accent-foreground px-12 py-3 rounded-none">
                   SUBMIT
                 </Button>
               </form>

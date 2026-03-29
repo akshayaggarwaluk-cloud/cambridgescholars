@@ -48,7 +48,7 @@ function AnimatedCounter({ value, suffix, format, duration = 2000 }: {
   };
 
   return (
-    <span ref={ref} className="font-serif text-5xl md:text-6xl lg:text-7xl font-light text-foreground/40">
+    <span ref={ref} className="font-serif text-5xl md:text-6xl lg:text-7xl font-light text-muted-foreground">
       {formatValue()}{suffix}
     </span>
   );
@@ -101,7 +101,7 @@ export function NewsletterSection() {
           {stats.map((stat, index) => (
             <div key={index} className="text-center">
               <AnimatedCounter value={stat.value} suffix={stat.suffix} format={stat.format} />
-              <p className="mt-5 text-[10px] md:text-xs tracking-[0.2em] text-foreground/30 font-medium uppercase leading-relaxed">
+              <p className="mt-5 text-xs md:text-sm tracking-[0.2em] text-muted-foreground font-medium uppercase leading-relaxed">
                 {stat.label}
               </p>
             </div>

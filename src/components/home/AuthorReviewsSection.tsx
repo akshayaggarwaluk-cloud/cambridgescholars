@@ -76,12 +76,12 @@ export function AuthorReviewsSection() {
 
               {/* Quote & Attribution */}
               <div className="flex-1 min-w-0">
-                <p className="text-foreground/80 text-sm leading-relaxed mb-4 text-justify">
+                <p className="text-foreground text-sm leading-relaxed mb-4 text-justify">
                   "{exp.quote}"
                 </p>
                 <p className="text-sm">
                   <span className="font-bold text-accent">{exp.author}</span>
-                  <span className="text-foreground/70"> – {exp.authorTitle}</span>
+                  <span className="text-muted-foreground"> – {exp.authorTitle}</span>
                 </p>
               </div>
             </div>

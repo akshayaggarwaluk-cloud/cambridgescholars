@@ -48,7 +48,7 @@ export function WelcomeSection() {
           <h6 className="font-semibold uppercase tracking-[0.12em] mb-4 text-foreground text-lg">
             Welcome to Cambridge Scholars Publishing
           </h6>
-          <p className="text-base md:text-lg leading-relaxed text-foreground/80">
+          <p className="text-base md:text-lg leading-relaxed text-muted-foreground">
             We are an independent academic publisher committed to advancing
             original research across the humanities, social sciences, physical
             sciences, life sciences and health sciences. Our titles are authored
@@ -80,7 +80,7 @@ export function WelcomeSection() {
                 </h3>
 
                 {/* Description */}
-                <p className="mb-6 leading-relaxed text-sm md:text-base text-foreground/80">
+                <p className="mb-6 leading-relaxed text-sm md:text-base text-muted-foreground">
                   {service.description}
                 </p>
 
