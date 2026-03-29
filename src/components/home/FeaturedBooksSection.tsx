@@ -8,30 +8,74 @@ const featuredBooks = [
   {
     id: "978-1-0364-4496-9",
     title: "Quantum Science and Yijing Theory",
-    description:
-      "What did the creators of the ancient Yijing (Book of Changes) think about the mind and the universe? This book explores the connections between modern quantum science and the Yijing.",
+    description: "What did the creators of the ancient Yijing (Book of Changes) think about the mind and the universe? This book explores the connections between modern quantum science and the Yijing.",
     image: "https://cspcontents.s3.eu-west-1.amazonaws.com/master/croppedcovers/9781036444969.jpg",
   },
   {
     id: "978-1-0364-5065-6",
     title: "A Brief History of Philosophy and Science",
-    description:
-      "This book traces the relationship between science and philosophy from the Ancient Greeks to the Enlightenment.",
+    description: "This book traces the relationship between science and philosophy from the Ancient Greeks to the Enlightenment.",
     image: "https://cspcontents.s3.eu-west-1.amazonaws.com/master/croppedcovers/9781036450656.jpg",
   },
   {
     id: "978-1-0364-5309-1",
     title: "Understanding Non-Ordinary Mental Expressions and their Capabilities",
-    description:
-      "Near-death experiences, mystical states, and lucid dreaming have long been dismissed as dysfunctional phenomena. This book presents a transdisciplinary scientific approach.",
+    description: "Near-death experiences, mystical states, and lucid dreaming have long been dismissed as dysfunctional phenomena. This book presents a transdisciplinary scientific approach.",
     image: "https://cspcontents.s3.eu-west-1.amazonaws.com/master/croppedcovers/9781036453091.jpg",
   },
   {
     id: "978-1-0364-0357-7",
     title: "A History of Poets' Reception of Mark Twain, 1863-1936",
-    description:
-      "This collection of 350 poems about Mark Twain explores a neglected dimension of his popular reception.",
+    description: "This collection of 350 poems about Mark Twain explores a neglected dimension of his popular reception.",
     image: "https://cspcontents.s3.eu-west-1.amazonaws.com/master/croppedcovers/9781036403577.jpg",
+  },
+  {
+    id: "978-1-0364-6222-2",
+    title: "From Missiles to Microbes",
+    description: "A masterful journey through the world of an innovative chemist. It is a highly readable overview of the fascinating world of an inventor.",
+    image: "https://cspcontents.s3.eu-west-1.amazonaws.com/master/croppedcovers/9781036462222.jpg",
+  },
+  {
+    id: "978-1-0364-1807-6",
+    title: "Twenty Years in Ukraine",
+    description: "This remarkable book is a most readable guide to the roller-coaster ride of modern Ukrainian politics.",
+    image: "https://cspcontents.s3.eu-west-1.amazonaws.com/master/croppedcovers/9781036418076.jpg",
+  },
+  {
+    id: "978-1-0364-6134-8",
+    title: "The Fraught Balance of Politics and Bureaucrats in American Public Service",
+    description: "The author brilliantly explains how and why our public service often seems in turmoil, turbulence, chaos, and constant reform.",
+    image: "https://cspcontents.s3.eu-west-1.amazonaws.com/master/croppedcovers/9781036461348.jpg",
+  },
+  {
+    id: "978-1-0364-0291-4",
+    title: "Computational Modeling by Case Study",
+    description: "This is a book you'll want to read and re-read. The world is complicated enough that we must use models that we know are wrong.",
+    image: "https://cspcontents.s3.eu-west-1.amazonaws.com/master/croppedcovers/9781036402914.jpg",
+  },
+  {
+    id: "978-1-0364-5709-9",
+    title: "What is Success?",
+    description: "A Kaleidoscope of Possibilities from Women in the World Around the World. The revolutionary love and transformative power of feminism.",
+    image: "https://cspcontents.s3.eu-west-1.amazonaws.com/master/croppedcovers/9781036457099.jpg",
+  },
+  {
+    id: "978-1-0364-3825-8",
+    title: "The Ethics of Artificial Intelligence",
+    description: "A comprehensive exploration of the moral and philosophical challenges posed by the rise of artificial intelligence in modern society.",
+    image: "https://cspcontents.s3.eu-west-1.amazonaws.com/master/croppedcovers/9781036438258.jpg",
+  },
+  {
+    id: "978-1-0364-2910-2",
+    title: "Climate Change and Global Policy",
+    description: "An in-depth analysis of international climate agreements and their impact on environmental governance worldwide.",
+    image: "https://cspcontents.s3.eu-west-1.amazonaws.com/master/croppedcovers/9781036429102.jpg",
+  },
+  {
+    id: "978-1-0364-3156-3",
+    title: "Modern Approaches to Linguistics",
+    description: "This volume brings together leading scholars to examine contemporary developments in linguistic theory and practice.",
+    image: "https://cspcontents.s3.eu-west-1.amazonaws.com/master/croppedcovers/9781036431563.jpg",
   },
 ];
 
