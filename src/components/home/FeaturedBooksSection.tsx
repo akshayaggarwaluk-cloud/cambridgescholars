@@ -1,14 +1,13 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "framer-motion";
 
 const featuredBooks = [
   {
     id: "978-1-0364-4496-9",
     title: "Quantum Science and Yijing Theory",
-    subtitle: null,
     description:
       "What did the creators of the ancient Yijing (Book of Changes) think about the mind and the universe? This book explores the connections between modern quantum science and the Yijing.",
     image: "https://cspcontents.s3.eu-west-1.amazonaws.com/master/croppedcovers/9781036444969.jpg",
@@ -16,7 +15,6 @@ const featuredBooks = [
   {
     id: "978-1-0364-5065-6",
     title: "A Brief History of Philosophy and Science",
-    subtitle: "Imagining our World",
     description:
       "This book traces the relationship between science and philosophy from the Ancient Greeks to the Enlightenment.",
     image: "https://cspcontents.s3.eu-west-1.amazonaws.com/master/croppedcovers/9781036450656.jpg",
@@ -24,7 +22,6 @@ const featuredBooks = [
   {
     id: "978-1-0364-5309-1",
     title: "Understanding Non-Ordinary Mental Expressions and their Capabilities",
-    subtitle: null,
     description:
       "Near-death experiences, mystical states, and lucid dreaming have long been dismissed as dysfunctional phenomena. This book presents a transdisciplinary scientific approach.",
     image: "https://cspcontents.s3.eu-west-1.amazonaws.com/master/croppedcovers/9781036453091.jpg",
@@ -32,7 +29,6 @@ const featuredBooks = [
   {
     id: "978-1-0364-0357-7",
     title: "A History of Poets' Reception of Mark Twain, 1863-1936",
-    subtitle: null,
     description:
       "This collection of 350 poems about Mark Twain explores a neglected dimension of his popular reception.",
     image: "https://cspcontents.s3.eu-west-1.amazonaws.com/master/croppedcovers/9781036403577.jpg",
@@ -49,94 +45,74 @@ export function FeaturedBooksSection() {
     return () => clearInterval(interval);
   }, [activeIndex]);
 
-  const goTo = (dir: "prev" | "next") => {
-    setActiveIndex((prev) =>
-      dir === "next"
-        ? (prev + 1) % featuredBooks.length
-        : (prev - 1 + featuredBooks.length) % featuredBooks.length
-    );
-  };
-
   const book = featuredBooks[activeIndex];
 
   return (
-    <section className="py-16 md:py-20 bg-background">
+    <section className="py-20 md:py-28 bg-background">
       <div className="container-wide">
-        {/* Section Label */}
-        <p className="text-accent text-xs font-semibold uppercase tracking-[0.25em] text-center mb-2">
-          Featured Book
-        </p>
-
-        <div className="grid md:grid-cols-2 gap-10 md:gap-16 items-center mt-8">
-          {/* Book Cover - Left */}
-          <div className="flex justify-center">
-            <AnimatePresence mode="wait">
-              <motion.img
-                key={activeIndex}
-                src={book.image}
-                alt={book.title}
-                className="w-56 md:w-72 shadow-2xl"
-                initial={{ opacity: 0, x: -40 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: 40 }}
-                transition={{ duration: 0.4 }}
-              />
-            </AnimatePresence>
-          </div>
-
-          {/* Content - Right */}
-          <div className="space-y-4">
+        <div className="grid md:grid-cols-2 gap-12 md:gap-20 items-center">
+          {/* Content - Left */}
+          <div className="order-2 md:order-1">
             <AnimatePresence mode="wait">
               <motion.div
                 key={activeIndex}
-                className="space-y-4"
+                className="space-y-6"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
                 transition={{ duration: 0.4 }}
               >
-                <p className="text-accent text-xs font-semibold uppercase tracking-[0.2em]">
+                <p className="text-accent text-xs font-semibold uppercase tracking-[0.3em]">
                   Featured Book
                 </p>
-                <h2 className="font-serif text-2xl md:text-3xl lg:text-4xl font-normal leading-tight text-foreground">
+                <h2 className="font-serif text-3xl md:text-4xl lg:text-[2.6rem] font-normal leading-[1.15] text-foreground">
                   {book.title}
                 </h2>
-                {book.subtitle && (
-                  <h3 className="font-serif italic text-lg text-muted-foreground">
-                    {book.subtitle}
-                  </h3>
-                )}
-                <p className="text-foreground/70 leading-relaxed text-base">
+                <p className="text-muted-foreground leading-relaxed text-base max-w-lg">
                   {book.description}
                 </p>
                 <Button
                   asChild
-                  className="bg-accent hover:bg-accent/90 text-accent-foreground px-8 text-sm tracking-wider"
+                  className="bg-accent hover:bg-accent/90 text-accent-foreground px-12 py-3 text-sm tracking-wider rounded-none uppercase"
                 >
                   <Link to={`/books/${book.id}`}>View</Link>
                 </Button>
               </motion.div>
             </AnimatePresence>
-
-            {/* Prev / Next arrows */}
-            <div className="flex items-center gap-4 pt-6">
-              <button
-                onClick={() => goTo("prev")}
-                className="text-muted-foreground hover:text-foreground transition-colors"
-                aria-label="Previous featured book"
-              >
-                <span className="text-sm tracking-wider">prev</span>
-              </button>
-              <span className="text-muted-foreground/30">|</span>
-              <button
-                onClick={() => goTo("next")}
-                className="text-muted-foreground hover:text-foreground transition-colors"
-                aria-label="Next featured book"
-              >
-                <span className="text-sm tracking-wider">next</span>
-              </button>
-            </div>
           </div>
+
+          {/* Book Cover - Right (large) */}
+          <div className="order-1 md:order-2 flex justify-center md:justify-end">
+            <AnimatePresence mode="wait">
+              <motion.img
+                key={activeIndex}
+                src={book.image}
+                alt={book.title}
+                className="w-64 md:w-80 lg:w-[360px] shadow-2xl"
+                initial={{ opacity: 0, x: 60 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -60 }}
+                transition={{ duration: 0.5 }}
+              />
+            </AnimatePresence>
+          </div>
+        </div>
+
+        {/* Dot Navigation */}
+        <div className="flex items-center justify-center gap-3 mt-12">
+          {featuredBooks.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => setActiveIndex(index)}
+              aria-label={`Go to featured book ${index + 1}`}
+              className={cn(
+                "w-3 h-3 rounded-full transition-all duration-300 border",
+                activeIndex === index
+                  ? "border-accent bg-transparent scale-110"
+                  : "border-transparent bg-muted-foreground/30 hover:bg-muted-foreground/50"
+              )}
+            />
+          ))}
         </div>
       </div>
     </section>
