@@ -52,7 +52,7 @@ const authorExperiences = [
 export function AuthorReviewsSection() {
   return (
     <section className="py-8 md:py-12">
-      <div className="container-wide bg-white border border-border rounded-sm py-10 md:py-14 px-6 sm:px-10 lg:px-16">
+      <div className="container-wide bg-white rounded-sm py-10 md:py-14 px-6 sm:px-10 lg:px-16">
         {/* Section Title */}
         <h2 className="font-serif text-3xl md:text-4xl lg:text-[2.6rem] font-normal text-center text-foreground mb-14">
           Author Experiences
