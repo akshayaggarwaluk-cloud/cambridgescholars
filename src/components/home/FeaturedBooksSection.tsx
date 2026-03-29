@@ -48,7 +48,7 @@ export function FeaturedBooksSection() {
   const book = featuredBooks[activeIndex];
 
   return (
-    <section className="py-20 md:py-28 bg-background">
+    <section className="py-20 md:py-28 bg-[#f4f3ec]">
       <div className="container-wide">
         <div className="grid md:grid-cols-2 gap-12 md:gap-20 items-center">
           {/* Content - Left */}
