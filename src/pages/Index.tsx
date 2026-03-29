@@ -10,7 +10,7 @@ import { StatsCounterSection } from "@/components/home/StatsCounterSection";
 
 const Index = () => {
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-[#f4f3ec]">
       <Header />
       <main>
         {/* 1. Featured Reviews Carousel */}

@@ -28,7 +28,7 @@ const services = [
 
 export function WelcomeSection() {
   return (
-    <section className="py-16 md:py-24 bg-background">
+    <section className="py-16 md:py-24 bg-white border-y border-border">
       <div className="container-wide">
         {/* Building Illustration */}
         <ScrollAnimation type="scale" className="flex justify-center mb-8">

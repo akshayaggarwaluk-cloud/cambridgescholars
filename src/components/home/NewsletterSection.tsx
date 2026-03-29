@@ -15,7 +15,7 @@ export function NewsletterSection() {
   };
 
   return (
-    <section className="py-16 md:py-20 bg-white">
+    <section className="py-16 md:py-20 bg-white border-y border-border">
       <div className="container-wide">
         <div className="max-w-2xl mx-auto text-center">
           <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl font-normal text-foreground mb-4">
