@@ -101,10 +101,10 @@ export function FeaturedBooksSection() {
               <motion.div
                 key={activeIndex}
                 className="space-y-6"
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                transition={{ duration: 0.4 }}
+                exit={{ opacity: 0, y: -15 }}
+                transition={{ duration: 0.7, ease: [0.25, 0.4, 0.25, 1] }}
               >
                 <p className="text-accent text-xs font-semibold uppercase tracking-[0.3em]">
                   Featured Book
@@ -133,10 +133,10 @@ export function FeaturedBooksSection() {
                 src={book.image}
                 alt={book.title}
                 className="w-64 md:w-80 lg:w-[360px] shadow-2xl"
-                initial={{ opacity: 0, x: 60 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -60 }}
-                transition={{ duration: 0.5 }}
+                initial={{ opacity: 0, scale: 0.95, x: 40 }}
+                animate={{ opacity: 1, scale: 1, x: 0 }}
+                exit={{ opacity: 0, scale: 0.95, x: -40 }}
+                transition={{ duration: 0.8, ease: [0.25, 0.4, 0.25, 1] }}
               />
             </AnimatePresence>
           </div>
