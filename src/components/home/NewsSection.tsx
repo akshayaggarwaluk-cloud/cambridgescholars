@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 import { newsArticles } from "@/data/news";
-import { ChevronRight } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { ChevronsRight } from "lucide-react";
 
 export const NewsSection = () => {
   const featuredNews = newsArticles
@@ -12,7 +11,7 @@ export const NewsSection = () => {
     <section className="py-8 md:py-12">
       <div className="container-wide bg-white border border-border rounded-sm py-10 md:py-14 px-6 sm:px-10 lg:px-16">
         {/* Section Title */}
-        <h2 className="text-3xl md:text-4xl font-serif text-center text-foreground mb-12">
+        <h2 className="text-3xl md:text-4xl font-serif italic text-center text-foreground mb-12">
           News
         </h2>
 
@@ -21,7 +20,7 @@ export const NewsSection = () => {
           {featuredNews.map((article) => (
             <article key={article.id} className="group">
               {/* Image */}
-              <div className="aspect-[4/3] overflow-hidden mb-4">
+              <div className="aspect-[16/10] overflow-hidden mb-6">
                 <img
                   src={article.image}
                   alt={article.title}
@@ -30,35 +29,25 @@ export const NewsSection = () => {
               </div>
 
               {/* Title */}
-              <h3 className="text-lg font-serif text-foreground mb-3 leading-snug">
+              <h3 className="text-xl md:text-2xl font-serif font-normal text-foreground mb-4 leading-snug">
                 {article.title}
               </h3>
 
-              {/* Excerpt - no views/likes/comments/tags per spec */}
-              <p className="text-sm leading-relaxed text-foreground/70 mb-4 line-clamp-3">
+              {/* Excerpt */}
+              <p className="text-sm leading-relaxed text-foreground/70 mb-5 text-justify line-clamp-4">
                 {article.excerpt}
               </p>
 
               {/* Read More */}
               <Link
                 to={`/news/${article.slug}`}
-                className="inline-flex items-center font-medium text-sm transition-colors text-accent hover:text-accent/80"
+                className="inline-flex items-center gap-1 font-semibold text-xs uppercase tracking-[0.15em] text-accent hover:text-accent/80 transition-colors"
               >
-                Read More
-                <ChevronRight className="h-4 w-4 ml-0.5" />
+                READ MORE
+                <ChevronsRight className="h-4 w-4" />
               </Link>
             </article>
           ))}
-        </div>
-
-        {/* View All */}
-        <div className="flex justify-center mt-12">
-          <Button
-            asChild
-            className="bg-accent hover:bg-accent/90 text-accent-foreground px-12 py-6 text-sm tracking-wider"
-          >
-            <Link to="/news">VIEW</Link>
-          </Button>
         </div>
       </div>
     </section>
