@@ -66,11 +66,11 @@ export function Footer() {
                   aria-label={social.label}
                   className="w-10 h-10 rounded-full border border-[#555] flex items-center justify-center text-[#cfcfcf] hover:text-white hover:border-white transition-colors"
                 >
-                  {typeof social.icon === "function" && social.icon.toString().includes("svg") ? (
-                    <social.icon />
-                  ) : (
-                    <social.icon className="w-4 h-4" />
-                  )}
+              {social.label === "X (Twitter)" ? (
+                <XIcon />
+              ) : (
+                <social.icon className="w-4 h-4" />
+              )}
                 </a>
               ))}
             </div>

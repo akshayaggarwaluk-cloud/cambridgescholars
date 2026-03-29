@@ -65,8 +65,8 @@ export function HomeFooter() {
               aria-label={social.label}
               className="w-10 h-10 rounded-full border border-[#cccccc] flex items-center justify-center text-[#666666] hover:text-foreground hover:border-[#999999] transition-colors"
             >
-              {typeof social.icon === "function" && social.icon.toString().includes("svg") ? (
-                <social.icon />
+              {social.label === "X (Twitter)" ? (
+                <XIcon />
               ) : (
                 <social.icon className="w-4 h-4" />
               )}
