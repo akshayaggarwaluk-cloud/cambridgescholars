@@ -9,7 +9,7 @@ export const NewsSection = () => {
     .slice(0, 3);
 
   return (
-    <section className="bg-background py-16 md:py-20">
+    <section className="bg-white py-16 md:py-20 border-y border-border">
       <div className="container-wide">
         {/* Section Title */}
         <h2 className="text-3xl md:text-4xl font-serif text-center text-foreground mb-12">
