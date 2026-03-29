@@ -7,9 +7,9 @@ const AccessibilityPolicy = () => {
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
-      
+
       {/* Header Banner */}
-      <div className="bg-[#f9f7f2] min-h-[280px] pt-24 px-6 md:px-16 flex items-center">
+      <div className="bg-[#f4f3ec] min-h-[280px] pt-24 px-6 md:px-16 flex items-center">
         <div className="max-w-7xl mx-auto flex justify-between items-center w-full">
           <h1 className="text-5xl font-serif text-gray-800">Accessibility Policy</h1>
           <PageBreadcrumb currentPage="Accessibility Policy" />
@@ -21,7 +21,9 @@ const AccessibilityPolicy = () => {
           {/* Introduction */}
           <div className="mb-8">
             <p className="text-black leading-relaxed text-[15px]">
-              At Cambridge Scholars Publishing we are committed to making our website and digital content accessible to everyone, including people with disabilities. We aim to provide an inclusive online experience that allows all users to access our academic publications and resources without barriers.
+              At Cambridge Scholars Publishing we are committed to making our website and digital content accessible to
+              everyone, including people with disabilities. We aim to provide an inclusive online experience that allows
+              all users to access our academic publications and resources without barriers.
             </p>
           </div>
 
@@ -31,7 +33,11 @@ const AccessibilityPolicy = () => {
           <section className="mb-8">
             <h2 className="font-playfair text-[26px] font-semibold text-black mb-4">Our Legal Commitment</h2>
             <p className="text-black leading-relaxed text-[15px]">
-              As a private company operating in the United Kingdom we comply with the Equality Act 2010. This requires us to make reasonable adjustments to ensure that people with disabilities are not placed at a substantial disadvantage when using our services. Although the Public Sector Accessibility Regulations do not legally apply to us, we follow the recognised international standard known as the Web Content Accessibility Guidelines (WCAG) 2.1 Level AA to ensure our website meets accessibility best practice.
+              As a private company operating in the United Kingdom we comply with the Equality Act 2010. This requires
+              us to make reasonable adjustments to ensure that people with disabilities are not placed at a substantial
+              disadvantage when using our services. Although the Public Sector Accessibility Regulations do not legally
+              apply to us, we follow the recognised international standard known as the Web Content Accessibility
+              Guidelines (WCAG) 2.1 Level AA to ensure our website meets accessibility best practice.
             </p>
           </section>
 
@@ -43,10 +49,14 @@ const AccessibilityPolicy = () => {
             <ul className="list-disc list-inside space-y-2 text-black text-[15px]">
               <li>Academic publishing services</li>
               <li>Sale of books and eBooks to individuals and institutions</li>
-              <li>Downloadable content such as PDFs and eBooks through third party platforms including Google Play and FlixRocket</li>
+              <li>
+                Downloadable content such as PDFs and eBooks through third party platforms including Google Play and
+                FlixRocket
+              </li>
             </ul>
             <p className="text-black leading-relaxed mt-4 text-[15px]">
-              We aim to ensure that all our digital content, including web pages and downloadable files, is accessible to as many users as possible.
+              We aim to ensure that all our digital content, including web pages and downloadable files, is accessible
+              to as many users as possible.
             </p>
           </section>
 
@@ -60,16 +70,20 @@ const AccessibilityPolicy = () => {
             </p>
             <ul className="space-y-3 text-black text-[15px]">
               <li>
-                <strong className="text-black">Perceivable:</strong> Text alternatives are provided for images and multimedia, captions are included for videos and content is clear and readable.
+                <strong className="text-black">Perceivable:</strong> Text alternatives are provided for images and
+                multimedia, captions are included for videos and content is clear and readable.
               </li>
               <li>
-                <strong className="text-black">Operable:</strong> The website can be fully navigated using a keyboard and the interface is user friendly.
+                <strong className="text-black">Operable:</strong> The website can be fully navigated using a keyboard
+                and the interface is user friendly.
               </li>
               <li>
-                <strong className="text-black">Understandable:</strong> Content is written in clear language and follows a consistent layout.
+                <strong className="text-black">Understandable:</strong> Content is written in clear language and follows
+                a consistent layout.
               </li>
               <li>
-                <strong className="text-black">Robust:</strong> Our content is compatible with screen readers and other assistive technologies.
+                <strong className="text-black">Robust:</strong> Our content is compatible with screen readers and other
+                assistive technologies.
               </li>
             </ul>
           </section>
@@ -78,9 +92,13 @@ const AccessibilityPolicy = () => {
 
           {/* Ongoing Improvements and Testing */}
           <section className="mb-8">
-            <h2 className="font-playfair text-[26px] font-semibold text-black mb-4">Ongoing Improvements and Testing</h2>
+            <h2 className="font-playfair text-[26px] font-semibold text-black mb-4">
+              Ongoing Improvements and Testing
+            </h2>
             <p className="text-black leading-relaxed text-[15px]">
-              Accessibility is an ongoing priority for us. We test our website using both automated tools and manual checks, including keyboard navigation and screen readers, to identify and fix any issues. We plan to carry out regular audits to maintain and improve our accessibility standards.
+              Accessibility is an ongoing priority for us. We test our website using both automated tools and manual
+              checks, including keyboard navigation and screen readers, to identify and fix any issues. We plan to carry
+              out regular audits to maintain and improve our accessibility standards.
             </p>
           </section>
 
@@ -90,7 +108,8 @@ const AccessibilityPolicy = () => {
           <section className="mb-8">
             <h2 className="font-playfair text-[26px] font-semibold text-black mb-4">Feedback and Assistance</h2>
             <p className="text-black leading-relaxed mb-4 text-[15px]">
-              If you experience any difficulty accessing any part of our website or digital content, or if you require materials in an alternative format, please contact us:
+              If you experience any difficulty accessing any part of our website or digital content, or if you require
+              materials in an alternative format, please contact us:
             </p>
             <ul className="list-disc list-inside space-y-2 text-black text-[15px]">
               <li>

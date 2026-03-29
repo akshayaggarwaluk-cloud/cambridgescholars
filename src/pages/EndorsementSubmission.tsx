@@ -31,7 +31,7 @@ const EndorsementSubmission = () => {
       <Header />
       <main className="flex-1 pt-20">
         {/* Hero Section */}
-        <section className="bg-[#f9f7f2] py-12">
+        <section className="bg-[#f4f3ec] py-12">
           <div className="container-wide flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <h1 className="text-5xl md:text-3xl font-display font-normal text-black">Endorsement Submission</h1>
 

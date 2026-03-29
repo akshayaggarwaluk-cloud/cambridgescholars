@@ -116,7 +116,7 @@ export default function Books() {
       <Header />
 
       {/* Page Header Banner */}
-      <div className="bg-[#f9f7f2] min-h-[280px] pt-24 px-6 md:px-16 flex items-center">
+      <div className="bg-[#f4f3ec] min-h-[280px] pt-24 px-6 md:px-16 flex items-center">
         <div className="max-w-7xl mx-auto flex justify-between items-center w-full">
           <h1 className="text-5xl font-serif text-gray-800">Bookshop</h1>
           <PageBreadcrumb currentPage="Bookshop" />
@@ -129,9 +129,7 @@ export default function Books() {
           <aside className="lg:w-72 flex-shrink-0">
             {/* Search Section */}
             <div className="mb-10">
-              <h3 className="text-2xl font-serif text-foreground mb-6 pb-3 border-b-2 border-foreground/20">
-                Search
-              </h3>
+              <h3 className="text-2xl font-serif text-foreground mb-6 pb-3 border-b-2 border-foreground/20">Search</h3>
               <div className="relative">
                 <Input
                   type="text"
@@ -160,7 +158,7 @@ export default function Books() {
                         "w-full flex items-center justify-between py-2 text-base transition-colors group",
                         selectedCategory === category.slug
                           ? "text-[#E4573D] font-medium"
-                          : "text-[#E4573D] hover:text-[#c94a32]"
+                          : "text-[#E4573D] hover:text-[#c94a32]",
                       )}
                     >
                       <span>{category.name}</span>
@@ -176,9 +174,7 @@ export default function Books() {
                     onClick={() => handleCategoryChange("all")}
                     className={cn(
                       "w-full flex items-center justify-between py-2 text-base transition-colors",
-                      selectedCategory === "all"
-                        ? "text-[#E4573D] font-medium"
-                        : "text-[#E4573D] hover:text-[#c94a32]"
+                      selectedCategory === "all" ? "text-[#E4573D] font-medium" : "text-[#E4573D] hover:text-[#c94a32]",
                     )}
                   >
                     <span>All Categories</span>
@@ -233,7 +229,7 @@ export default function Books() {
                         {/* Subtitle - using description as subtitle */}
                         {book.description && (
                           <p className="text-xl italic text-foreground/80 mt-3 leading-snug">
-                            {book.description.length > 80 
+                            {book.description.length > 80
                               ? book.description.substring(0, 80) + "..."
                               : book.description}
                           </p>
@@ -253,8 +249,8 @@ export default function Books() {
 
                         {/* Actions */}
                         <div className="flex items-center gap-4 mt-8">
-                          <Button 
-                            asChild 
+                          <Button
+                            asChild
                             className="bg-[#E4573D] hover:bg-[#c94a32] text-white px-10 h-14 text-lg font-medium rounded-sm"
                           >
                             <Link to={`/books/${book.id}`}>VIEW MORE</Link>
@@ -279,7 +275,7 @@ export default function Books() {
                             }}
                             className={cn(
                               "h-14 w-14 rounded-sm border-border",
-                              isInWishlist(book.id) && "text-red-500 border-red-500 bg-red-50"
+                              isInWishlist(book.id) && "text-red-500 border-red-500 bg-red-50",
                             )}
                           >
                             <Heart className={cn("h-6 w-6", isInWishlist(book.id) && "fill-current")} />

@@ -9,7 +9,7 @@ const CookiesPolicy = () => {
       <Header />
 
       {/* Header Banner */}
-      <div className="bg-[#f9f7f2] min-h-[280px] pt-24 px-6 md:px-16 flex items-center">
+      <div className="bg-[#f4f3ec] min-h-[280px] pt-24 px-6 md:px-16 flex items-center">
         <div className="max-w-7xl mx-auto flex justify-between items-center w-full">
           <h1 className="text-5xl font-serif text-gray-800">Cookies Policy</h1>
           <PageBreadcrumb
