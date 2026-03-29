@@ -2,49 +2,65 @@ import { Link } from "react-router-dom";
 import { newsArticles } from "@/data/news";
 import { ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
+
 export const NewsSection = () => {
-  // Get first 3 featured articles
-  const featuredNews = newsArticles.filter(article => article.featured).slice(0, 3);
-  return <section className="bg-background py-[50px] pb-0">
-      <div className="container mx-auto px-4">
+  const featuredNews = newsArticles
+    .filter((article) => article.featured)
+    .slice(0, 3);
+
+  return (
+    <section className="bg-background py-16 md:py-20">
+      <div className="container-wide">
         {/* Section Title */}
-        <h2 className="text-4xl md:text-5xl font-serif text-center text-foreground mb-12">
+        <h2 className="text-3xl md:text-4xl font-serif text-center text-foreground mb-12">
           News
         </h2>
 
-        {/* News Grid */}
+        {/* News Grid - 3 cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {featuredNews.map(article => <article key={article.id} className="group">
+          {featuredNews.map((article) => (
+            <article key={article.id} className="group">
               {/* Image */}
               <div className="aspect-[4/3] overflow-hidden mb-4">
-                <img src={article.image} alt={article.title} className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" />
+                <img
+                  src={article.image}
+                  alt={article.title}
+                  className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                />
               </div>
 
               {/* Title */}
-              <h3 className="text-xl font-serif text-foreground mb-3">
+              <h3 className="text-lg font-serif text-foreground mb-3 leading-snug">
                 {article.title}
               </h3>
 
-              {/* Excerpt */}
-              <p className="text-sm leading-relaxed text-justify mb-4 line-clamp-3 text-black">
+              {/* Excerpt - no views/likes/comments/tags per spec */}
+              <p className="text-sm leading-relaxed text-foreground/70 mb-4 line-clamp-3">
                 {article.excerpt}
               </p>
 
-              {/* Read More Link */}
-              <Link to={`/news/${article.slug}`} className="inline-flex items-center font-medium text-sm transition-colors text-[#e5573e]">
-                READ MORE
-                <ChevronRight className="h-4 w-4 ml-1" />
-                <ChevronRight className="h-4 w-4 -ml-2" />
+              {/* Read More */}
+              <Link
+                to={`/news/${article.slug}`}
+                className="inline-flex items-center font-medium text-sm transition-colors text-accent hover:text-accent/80"
+              >
+                Read More
+                <ChevronRight className="h-4 w-4 ml-0.5" />
               </Link>
-            </article>)}
+            </article>
+          ))}
         </div>
 
-        {/* View All Button */}
+        {/* View All */}
         <div className="flex justify-center mt-12">
-          <Button asChild className="bg-accent hover:bg-accent/90 text-accent-foreground px-12 py-6 text-base">
+          <Button
+            asChild
+            className="bg-accent hover:bg-accent/90 text-accent-foreground px-12 py-6 text-sm tracking-wider"
+          >
             <Link to="/news">VIEW</Link>
           </Button>
         </div>
       </div>
-    </section>;
+    </section>
+  );
 };
