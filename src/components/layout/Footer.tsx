@@ -124,7 +124,7 @@ export function Footer() {
             University of Cambridge.
           </p>
           <p>
-            Copyright © {new Date().getFullYear()} Cambridge Scholars Publishing.
+            Copyright © 2025 Cambridge Scholars Publishing.
             All rights reserved
           </p>
         </div>
