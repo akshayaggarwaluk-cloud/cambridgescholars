@@ -85,8 +85,8 @@ function AnimatedCounter({
 
 export function StatsCounterSection() {
   return (
-    <section className="py-8 md:py-12">
-      <div className="container-wide bg-white rounded-sm py-10 md:py-14 px-6 sm:px-10 lg:px-16">
+    <section className="py-14 md:py-20 border-b border-border">
+      <div className="container-wide">
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12">
           {stats.map((stat, index) => (
             <div key={index} className="text-center">
@@ -95,7 +95,7 @@ export function StatsCounterSection() {
                 suffix={stat.suffix}
                 format={stat.format}
               />
-              <p className="mt-4 text-xs md:text-sm tracking-[0.15em] text-muted-foreground/60 font-medium uppercase">
+              <p className="mt-4 text-xs md:text-sm tracking-[0.15em] text-muted-foreground/50 font-medium uppercase">
                 {stat.label}
               </p>
             </div>
