@@ -1,7 +1,58 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { ArrowRight } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
+import { useInView } from "framer-motion";
+
+interface StatItem {
+  value: number;
+  suffix: string;
+  label: string;
+  format?: "k" | "m" | "default";
+}
+
+const stats: StatItem[] = [
+  { value: 11.7, suffix: "+", label: "Total titles published", format: "k" },
+  { value: 3.7, suffix: "+", label: "Total pages", format: "m" },
+  { value: 867, suffix: "", label: "Books published in the last 12 months", format: "default" },
+  { value: 178, suffix: "", label: "Countries our books are sold in", format: "default" },
+];
+
+function AnimatedCounter({ value, suffix, format, duration = 2000 }: {
+  value: number; suffix: string; format?: "k" | "m" | "default"; duration?: number;
+}) {
+  const [count, setCount] = useState(0);
+  const [hasAnimated, setHasAnimated] = useState(false);
+  const ref = useRef<HTMLSpanElement>(null);
+  const isInView = useInView(ref, { once: true, margin: "-100px" });
+
+  useEffect(() => {
+    if (isInView && !hasAnimated) {
+      setHasAnimated(true);
+      const startTime = Date.now();
+      const animate = () => {
+        const progress = Math.min((Date.now() - startTime) / duration, 1);
+        const easeOutQuart = 1 - Math.pow(1 - progress, 4);
+        setCount(value * easeOutQuart);
+        if (progress < 1) requestAnimationFrame(animate);
+        else setCount(value);
+      };
+      requestAnimationFrame(animate);
+    }
+  }, [isInView, hasAnimated, value, duration]);
+
+  const formatValue = () => {
+    if (format === "k") return `${count.toFixed(1)}K`;
+    if (format === "m") return `${count.toFixed(1)}M`;
+    return Math.round(count).toString();
+  };
+
+  return (
+    <span ref={ref} className="font-serif text-5xl md:text-6xl lg:text-7xl font-light text-foreground/40">
+      {formatValue()}{suffix}
+    </span>
+  );
+}
 
 export function NewsletterSection() {
   const [email, setEmail] = useState("");
@@ -16,15 +67,13 @@ export function NewsletterSection() {
 
   return (
     <section className="py-8 md:py-12">
-      <div className="container-wide bg-white border border-border py-10 md:py-14 px-6 sm:px-10 lg:px-16">
+      {/* Mailing List - White Card */}
+      <div className="container-wide bg-white border border-border py-10 md:py-14 px-6 sm:px-10 lg:px-16 mb-10 md:mb-14">
         <div className="max-w-2xl mx-auto text-center">
           <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl font-normal text-foreground mb-4">
             Sign Up for Mailing List.
           </h2>
-
           <p className="text-muted-foreground text-base mb-10">Stay up to date</p>
-
-          {/* Email Form */}
           <form onSubmit={handleSubmit} className="max-w-md mx-auto">
             <div className="relative border-b border-muted-foreground/30 focus-within:border-foreground transition-colors">
               <Input
@@ -45,6 +94,20 @@ export function NewsletterSection() {
               </button>
             </div>
           </form>
+        </div>
+      </div>
+
+      {/* Stats Counter */}
+      <div className="container-wide py-10 md:py-14 border-b border-border">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12">
+          {stats.map((stat, index) => (
+            <div key={index} className="text-center">
+              <AnimatedCounter value={stat.value} suffix={stat.suffix} format={stat.format} />
+              <p className="mt-5 text-[10px] md:text-xs tracking-[0.2em] text-foreground/30 font-medium uppercase leading-relaxed">
+                {stat.label}
+              </p>
+            </div>
+          ))}
         </div>
       </div>
     </section>
