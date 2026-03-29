@@ -66,7 +66,7 @@ export default function Contact() {
       {/* Page Header */}
       <div className="pt-32 bg-[#f4f3ec] py-10 px-6 md:px-16">
         <div className="max-w-7xl mx-auto flex justify-between items-center">
-          <h1 className="text-5xl font-serif text-gray-800">Contact Us</h1>
+          <h1 className="text-5xl font-serif text-foreground">Contact Us</h1>
           <PageBreadcrumb currentPage="Contact" />
         </div>
       </div>
