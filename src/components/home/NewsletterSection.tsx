@@ -15,8 +15,8 @@ export function NewsletterSection() {
   };
 
   return (
-    <section className="py-16 md:py-20 bg-white border-y border-border">
-      <div className="container-wide">
+    <section className="py-8 md:py-12">
+      <div className="container-wide bg-white border border-border rounded-sm py-10 md:py-14 px-6 sm:px-10 lg:px-16">
         <div className="max-w-2xl mx-auto text-center">
           <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl font-normal text-foreground mb-4">
             Sign Up for Mailing List.
