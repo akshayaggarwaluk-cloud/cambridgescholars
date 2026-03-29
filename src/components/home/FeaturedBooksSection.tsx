@@ -97,7 +97,19 @@ export function FeaturedBooksSection() {
   return (
     <section className="py-20 md:py-28 bg-[#f4f3ec]">
       <div className="container-wide">
-        <div className="grid md:grid-cols-2 gap-12 md:gap-20 items-center">
+        <div className="relative grid md:grid-cols-2 gap-12 md:gap-20 items-center">
+          {/* Previous Arrow */}
+          <button
+            onClick={() => {
+              setIsAutoPlaying(false);
+              setActiveIndex((prev) => (prev - 1 + featuredBooks.length) % featuredBooks.length);
+            }}
+            aria-label="Previous book"
+            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 md:-translate-x-8 z-10 w-10 h-10 rounded-full border border-muted-foreground/30 bg-background/80 backdrop-blur-sm flex items-center justify-center text-muted-foreground hover:text-foreground hover:border-foreground transition-colors"
+          >
+            <ChevronLeft className="w-5 h-5" />
+          </button>
+
           {/* Content - Left */}
           <div className="order-2 md:order-1">
             <AnimatePresence mode="wait">
@@ -143,10 +155,33 @@ export function FeaturedBooksSection() {
               />
             </AnimatePresence>
           </div>
+
+          {/* Next Arrow */}
+          <button
+            onClick={() => {
+              setIsAutoPlaying(false);
+              setActiveIndex((prev) => (prev + 1) % featuredBooks.length);
+            }}
+            aria-label="Next book"
+            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 md:translate-x-8 z-10 w-10 h-10 rounded-full border border-muted-foreground/30 bg-background/80 backdrop-blur-sm flex items-center justify-center text-muted-foreground hover:text-foreground hover:border-foreground transition-colors"
+          >
+            <ChevronRight className="w-5 h-5" />
+          </button>
         </div>
 
         {/* Dot Navigation with Pause/Play */}
         <div className="flex items-center justify-center gap-3 mt-12">
+          <button
+            onClick={() => setIsAutoPlaying(!isAutoPlaying)}
+            aria-label={isAutoPlaying ? "Pause carousel" : "Play carousel"}
+            className="w-8 h-8 flex items-center justify-center rounded-full border border-muted-foreground/30 text-muted-foreground hover:text-foreground hover:border-foreground transition-colors"
+          >
+            {isAutoPlaying ? (
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor" aria-hidden="true"><rect x="1" y="1" width="4" height="10" /><rect x="7" y="1" width="4" height="10" /></svg>
+            ) : (
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor" aria-hidden="true"><polygon points="2,0 12,6 2,12" /></svg>
+            )}
+          </button>
           {featuredBooks.map((_, index) => (
             <button
               key={index}
