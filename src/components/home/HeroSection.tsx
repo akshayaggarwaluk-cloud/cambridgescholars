@@ -3,268 +3,217 @@ import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowRight, Sparkles } from "lucide-react";
 
-// Featured reviews similar to Cambridge Scholars
-const featuredReviews = [{
-  id: 1,
-  label: "Featured Review",
-  bookTitle: "Fundamentals of Human Ecology",
-  subtitle: "A Paradigm for a More Sustainable Economy",
-  author: "By Nuria Chinchilla Albiol and Pilar García Lombardía",
-  quote: "An invaluable gem as a guide to the human condition, which is so lost and without reference points in today's world.",
-  reviewer: "Isabel Tocino",
-  reviewerTitle: "Vice President of the Board of Directors of Banco Santander, former Minister of the Environment of Spain",
-  image: "https://camschl-wordpress-uploads.s3.eu-west-1.amazonaws.com/wp-content/uploads/2021/12/fundamental-mockup-1-scaled.png",
-  bookId: "1"
-}, {
-  id: 2,
-  label: "Featured Review",
-  bookTitle: "Instinct, Tradition and Reason",
-  subtitle: "The Moral Philosophy of F.A. Hayek",
-  author: "By Jules Goddard",
-  quote: "This remarkable book traces how human morality has evolved, using the insights of F.A. Hayek. At the same time, it looks ahead to a future where AI may shape—and be shaped by—its own forms of moral reasoning. It offers a powerful reminder that our ethical frameworks may soon need to change. Thoughtful, timely, and deeply relevant.",
-  reviewer: "François Ortalo-Magné",
-  reviewerTitle: "Dean & CEO, 2017-2024, London Business School, UK",
-  image: "https://camschl-wordpress-uploads.s3.eu-west-1.amazonaws.com/wp-content/uploads/2021/12/Instinct-mockup-scaled.png",
-  bookId: "2"
-}, {
-  id: 3,
-  label: "Featured Review",
-  bookTitle: "Caribbean Men in the Arts",
-  subtitle: "Demystifying Masculinities with Essays, Interviews, Poetry and Stories",
-  author: "By Keino Senior and Opal Palmer Adisa",
-  quote: "From every angle and through many genres, Opal Palmer Adisa and Keino Senior, explore masculinity and manhood throughout the Caribbean. This collection of essays, poems and artists' statements makes this the first anthology of its kind. It is impossible to read this book without learning a little more about yourself, whether you are man, woman, or nonbinary!",
-  reviewer: "Jericho Brown",
-  reviewerTitle: "Pulitzer Prize Winner for 'The Tradition'",
-  image: "https://camschl-wordpress-uploads.s3.eu-west-1.amazonaws.com/wp-content/uploads/2021/12/carribean-mockup-scaled.png",
-  bookId: "3"
-}, {
-  id: 4,
-  label: "Featured Review",
-  bookTitle: "Rescuing the Social Function of the Economy",
-  subtitle: "Brazil is Back",
-  author: "By Ladislau Dowbor",
-  quote: "With special focus on Brazil, this lucid study offers concrete guidelines for escape from the tragedy of hunger in the midst of plenty, underused resources, idle hands with so much work that should be done to benefit the larger society, while the global economy regresses from creating capital for production to bestowing wealth on a few – all the result of policies that can be reversed by an informed and engaged public. A most valuable contribution in these troubled times.",
-  reviewer: "Noam Chomsky",
-  reviewerTitle: "Massachusetts Institute of Technology, USA",
-  image: "https://camschl-wordpress-uploads.s3.eu-west-1.amazonaws.com/wp-content/uploads/2021/12/unnamed-1-scaled.png",
-  bookId: "4"
-}];
+const featuredReviews = [
+  {
+    id: 1,
+    bookTitle: "Twenty Years in Ukraine",
+    author: "By Dennis Ougrin, Anastasia Ougrin and Sophie Vounder",
+    quote: "This remarkable book is a most readable guide to the roller-coaster ride of modern Ukrainian politics.",
+    reviewer: "Roald Hoffman",
+    reviewerTitle: "Frank H. T. Rhodes Professor of Humane Letters Emeritus at Cornell University, 1981 Chemistry Nobel Prize winner",
+    image: "https://camschl-wordpress-uploads.s3.eu-west-1.amazonaws.com/wp-content/uploads/2021/12/Twenty-Years-in-Ukraine.png",
+    bookId: "978-1-0364-1807-6",
+  },
+  {
+    id: 2,
+    bookTitle: "From Missiles to Microbes",
+    author: "By Solomon Rosenblatt",
+    quote: "a masterful journey through the world of an innovative chemist. It is a highly readable overview of the fascinating world of an inventor.",
+    reviewer: "Dr Philip M. Tierno, Jr",
+    reviewerTitle: "Professor of Microbiology and Pathology, NYU (New York University) Grossman School of Medicine",
+    image: "https://camschl-wordpress-uploads.s3.eu-west-1.amazonaws.com/wp-content/uploads/2021/12/From-Missiles-to-Microbes.png",
+    bookId: "978-1-0364-6222-2",
+  },
+  {
+    id: 3,
+    bookTitle: "The Fraught Balance of Politics and Bureaucrats in American Public Service",
+    author: "By Mordecai Lee",
+    quote: "The author brilliantly explains how and why our public service often seems in turmoil, turbulence, chaos, and constant reform.",
+    reviewer: "David H. Rosenbloom",
+    reviewerTitle: "Distinguished Professor Emeritus, American University, US",
+    image: "https://camschl-wordpress-uploads.s3.eu-west-1.amazonaws.com/wp-content/uploads/2021/12/The-Fraught-Balance.png",
+    bookId: "978-1-0364-6134-8",
+  },
+  {
+    id: 4,
+    bookTitle: "Computational Modeling by Case Study",
+    subtitle: "All Models Are Uncertain",
+    author: "By Zachary del Rosario and Gianluca Iaccarino",
+    quote: "This is a book you'll want to read and re-read. The world is complicated enough that we must use models that we know are wrong.",
+    reviewer: "Art B. Owen",
+    reviewerTitle: "Professor of Statistics, Stanford University",
+    image: "https://camschl-wordpress-uploads.s3.eu-west-1.amazonaws.com/wp-content/uploads/2021/12/Computational-Modeling-by-Case-Study.png",
+    bookId: "978-1-0364-0291-4",
+  },
+  {
+    id: 5,
+    bookTitle: "What is Success?",
+    subtitle: "A Kaleidoscope of Possibilities from Women in the World Around the World",
+    author: "By Rana Dajani",
+    quote: "The revolutionary love and transformative power of feminism as a world view and political ideology has often been diminished by misleading creation stories.",
+    reviewer: "Kavita Ramdas",
+    reviewerTitle: "Richard von Weisäcker Fellow of the Robert Bosch Academy, Berlin, Germany",
+    image: "https://camschl-wordpress-uploads.s3.eu-west-1.amazonaws.com/wp-content/uploads/2021/12/What-is-success.png",
+    bookId: "978-1-0364-5709-9",
+  },
+];
+
 const textVariants = {
-  initial: {
-    opacity: 0,
-    y: -30
-  },
-  animate: {
-    opacity: 1,
-    y: 0
-  },
-  exit: {
-    opacity: 0,
-    y: 30
-  }
+  initial: { opacity: 0, y: -20 },
+  animate: { opacity: 1, y: 0 },
+  exit: { opacity: 0, y: 20 },
 };
+
 const imageVariants = {
-  initial: {
-    opacity: 0,
-    x: 100,
-    scale: 0.95
-  },
-  animate: {
-    opacity: 1,
-    x: 0,
-    scale: 1
-  },
-  exit: {
-    opacity: 0,
-    x: -100,
-    scale: 0.95
-  }
+  initial: { opacity: 0, x: 80, scale: 0.95 },
+  animate: { opacity: 1, x: 0, scale: 1 },
+  exit: { opacity: 0, x: -80, scale: 0.95 },
 };
 
-// Floating decorative shapes
-function FloatingShapes() {
-  return <div className="absolute inset-0 overflow-hidden pointer-events-none">
-      {/* Large accent blob */}
-      <motion.div className="absolute -top-20 -right-20 w-[500px] h-[500px] bg-accent/10 rounded-full blur-3xl" animate={{
-      scale: [1, 1.1, 1],
-      x: [0, 20, 0],
-      y: [0, -20, 0]
-    }} transition={{
-      duration: 8,
-      repeat: Infinity,
-      ease: "easeInOut"
-    }} />
-
-      {/* Primary color blob */}
-      <motion.div className="absolute bottom-0 -left-40 w-[400px] h-[400px] bg-primary/5 rounded-full blur-3xl" animate={{
-      scale: [1, 1.15, 1],
-      x: [0, 30, 0]
-    }} transition={{
-      duration: 10,
-      repeat: Infinity,
-      ease: "easeInOut"
-    }} />
-
-      {/* Small floating circles */}
-      <motion.div className="absolute top-1/4 left-1/4 w-3 h-3 bg-accent/30 rounded-full" animate={{
-      y: [0, -20, 0],
-      opacity: [0.3, 0.6, 0.3]
-    }} transition={{
-      duration: 4,
-      repeat: Infinity,
-      ease: "easeInOut"
-    }} />
-      <motion.div className="absolute top-1/3 right-1/3 w-2 h-2 bg-accent/40 rounded-full" animate={{
-      y: [0, -15, 0],
-      opacity: [0.4, 0.7, 0.4]
-    }} transition={{
-      duration: 3,
-      repeat: Infinity,
-      ease: "easeInOut",
-      delay: 1
-    }} />
-      <motion.div className="absolute bottom-1/3 left-1/3 w-4 h-4 bg-primary/20 rounded-full" animate={{
-      y: [0, -25, 0],
-      x: [0, 10, 0]
-    }} transition={{
-      duration: 5,
-      repeat: Infinity,
-      ease: "easeInOut",
-      delay: 0.5
-    }} />
-
-      {/* Decorative lines */}
-      <div className="absolute top-20 right-40 w-32 h-px bg-gradient-to-r from-transparent via-accent/20 to-transparent" />
-      <div className="absolute bottom-40 left-20 w-24 h-px bg-gradient-to-r from-transparent via-accent/20 to-transparent" />
-    </div>;
-}
 export function HeroSection() {
   const [activeIndex, setActiveIndex] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
   const activeReview = featuredReviews[activeIndex];
+
   useEffect(() => {
     if (!isAutoPlaying) return;
     const interval = setInterval(() => {
-      setActiveIndex(prev => (prev + 1) % featuredReviews.length);
+      setActiveIndex((prev) => (prev + 1) % featuredReviews.length);
     }, 8000);
     return () => clearInterval(interval);
   }, [isAutoPlaying]);
-  return <section className="relative bg-[#f4f3ec] pt-28 pb-12 md:pt-32 md:pb-16 min-h-[85vh] flex items-center overflow-hidden">
-      <FloatingShapes />
 
-      {/* Subtle pattern overlay */}
-      <div className="absolute inset-0 dots-pattern opacity-30" />
+  const handleMouseEnter = () => setIsAutoPlaying(false);
+  const handleMouseLeave = () => setIsAutoPlaying(true);
 
+  return (
+    <section
+      className="relative bg-[#f4f3ec] pt-28 pb-8 md:pt-32 md:pb-12 min-h-[80vh] flex items-center overflow-hidden"
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+    >
       <div className="container-wide relative z-10 w-full">
         <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center">
-          {/* Content */}
-          <div className="text-foreground order-2 lg:order-1 min-h-[400px] md:min-h-[450px]">
+          {/* Content - Left Side */}
+          <div className="text-foreground order-2 lg:order-1 min-h-[380px] md:min-h-[420px] flex flex-col justify-center">
             <AnimatePresence mode="wait">
-              <motion.div key={activeIndex} className="space-y-5" initial="initial" animate="animate" exit="exit" transition={{
-              duration: 0.5,
-              ease: "easeOut"
-            }}>
-                <motion.span variants={textVariants} transition={{
-                duration: 0.4,
-                delay: 0
-              }} className="inline-flex items-center gap-2 text-accent text-xs font-semibold uppercase tracking-[0.2em] bg-accent/10 px-4 py-2 rounded-full">
-                  <Sparkles className="h-3 w-3" />
-                  {activeReview.label}
-                </motion.span>
+              <motion.div
+                key={activeIndex}
+                className="space-y-5"
+                initial="initial"
+                animate="animate"
+                exit="exit"
+                transition={{ duration: 0.5, ease: "easeOut" }}
+              >
+                {/* Label */}
+                <motion.p
+                  variants={textVariants}
+                  transition={{ duration: 0.4 }}
+                  className="text-accent text-xs font-semibold uppercase tracking-[0.25em]"
+                >
+                  Featured Review
+                </motion.p>
 
-                <motion.h1 variants={textVariants} transition={{
-                duration: 0.4,
-                delay: 0.1
-              }} className="font-serif text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold leading-[1.1] text-balance text-black">
+                {/* Book Title */}
+                <motion.h1
+                  variants={textVariants}
+                  transition={{ duration: 0.4, delay: 0.05 }}
+                  className="font-serif text-3xl md:text-4xl lg:text-[2.8rem] font-normal leading-[1.15] text-foreground"
+                >
                   {activeReview.bookTitle}
                 </motion.h1>
 
-                {activeReview.subtitle && <motion.h2 variants={textVariants} transition={{
-                duration: 0.4,
-                delay: 0.2
-              }} className="text-lg md:text-xl lg:text-2xl text-muted-foreground italic font-serif">
-                    {activeReview.subtitle}
-                  </motion.h2>}
-
-                <motion.p variants={textVariants} transition={{
-                duration: 0.4,
-                delay: 0.3
-              }} className="text-muted-foreground text-sm md:text-base">
+                {/* Author */}
+                <motion.p
+                  variants={textVariants}
+                  transition={{ duration: 0.4, delay: 0.1 }}
+                  className="text-foreground text-base font-medium"
+                >
                   {activeReview.author}
                 </motion.p>
 
-                {/* Quote with enhanced styling */}
-                <motion.blockquote variants={textVariants} transition={{
-                duration: 0.4,
-                delay: 0.4
-              }} className="relative py-4 pl-6 border-l-2 border-accent/30">
-                  <p className="text-base md:text-lg italic text-foreground/90 leading-relaxed line-clamp-4">
-                    <span className="text-accent text-3xl font-serif leading-none">"</span>
-                    {activeReview.quote}
-                    <span className="text-accent text-3xl font-serif leading-none">"</span>
-                  </p>
-                  <footer className="mt-4 text-sm text-muted-foreground">
-                    <span className="font-semibold text-foreground">– {activeReview.reviewer}</span>
-                    <span className="block text-xs mt-1 text-muted-foreground/80">{activeReview.reviewerTitle}</span>
-                  </footer>
-                </motion.blockquote>
+                {/* Quote */}
+                <motion.p
+                  variants={textVariants}
+                  transition={{ duration: 0.4, delay: 0.15 }}
+                  className="text-foreground/80 text-sm md:text-base italic leading-relaxed"
+                >
+                  "{activeReview.quote}"
+                </motion.p>
 
-                <motion.div variants={textVariants} transition={{
-                duration: 0.4,
-                delay: 0.5
-              }} className="pt-2 flex gap-4">
-                  <Button asChild size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground font-medium px-8 rounded-full shadow-accent transition-all duration-300 hover:shadow-lg hover:scale-105 group">
-                    <Link to={`/books/${activeReview.bookId}`} className="flex items-center gap-2">
-                      View Book
-                      <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-                    </Link>
+                {/* Reviewer Credit */}
+                <motion.p
+                  variants={textVariants}
+                  transition={{ duration: 0.4, delay: 0.2 }}
+                  className="text-foreground text-sm font-semibold"
+                >
+                  – ⁠{activeReview.reviewer},{" "}
+                  <span className="font-normal">{activeReview.reviewerTitle}</span>
+                </motion.p>
+
+                {/* View Button */}
+                <motion.div
+                  variants={textVariants}
+                  transition={{ duration: 0.4, delay: 0.25 }}
+                  className="pt-2"
+                >
+                  <Button
+                    asChild
+                    className="bg-accent hover:bg-accent/90 text-accent-foreground px-10 py-3 text-sm tracking-wider"
+                  >
+                    <Link to={`/books/${activeReview.bookId}`}>VIEW</Link>
                   </Button>
                 </motion.div>
               </motion.div>
             </AnimatePresence>
           </div>
 
-          {/* Book Image - Mockup style with enhanced animation */}
-          <div className="relative order-1 lg:order-2 h-[320px] md:h-[400px] lg:h-[480px]">
+          {/* Book Cover - Right Side with tilt and shadow */}
+          <div className="relative order-1 lg:order-2 h-[300px] md:h-[380px] lg:h-[460px]">
             <AnimatePresence mode="wait">
-              <motion.div key={activeIndex} variants={imageVariants} initial="initial" animate="animate" exit="exit" transition={{
-              duration: 0.6,
-              ease: [0.25, 0.4, 0.25, 1]
-            }} className="absolute inset-0 flex items-center justify-center lg:justify-end lg:-mr-8 xl:-mr-12">
-                {/* Glow effect behind book */}
-                <div className="absolute inset-0 flex items-center justify-center lg:justify-end lg:-mr-8 xl:-mr-12">
-                  <div className="w-64 h-64 bg-accent/10 rounded-full blur-3xl animate-pulse" />
-                </div>
-
-                <motion.img src={activeReview.image} alt={activeReview.bookTitle} className="h-full w-auto max-w-none object-contain mix-blend-multiply scale-100 lg:scale-110 relative z-10" whileHover={{
-                scale: 1.15
-              }} transition={{
-                duration: 0.4
-              }} />
+              <motion.div
+                key={activeIndex}
+                variants={imageVariants}
+                initial="initial"
+                animate="animate"
+                exit="exit"
+                transition={{ duration: 0.6, ease: [0.25, 0.4, 0.25, 1] }}
+                className="absolute inset-0 flex items-center justify-center lg:justify-end"
+              >
+                <img
+                  src={activeReview.image}
+                  alt={activeReview.bookTitle}
+                  className="h-full w-auto max-w-none object-contain mix-blend-multiply drop-shadow-2xl"
+                  style={{
+                    filter: "drop-shadow(8px 12px 20px rgba(0,0,0,0.15))",
+                  }}
+                />
               </motion.div>
             </AnimatePresence>
           </div>
         </div>
 
-        {/* Enhanced Navigation */}
-        <div className="flex items-center justify-center gap-3 mt-8 md:mt-12">
-          {featuredReviews.map((_, index) => <button key={index} onClick={() => {
-          setIsAutoPlaying(false);
-          setActiveIndex(index);
-        }} className={cn("relative h-2.5 rounded-full transition-all duration-500 overflow-hidden", activeIndex === index ? "w-10 bg-accent shadow-accent" : "w-2.5 bg-muted-foreground/20 hover:bg-muted-foreground/40")}>
-              {activeIndex === index && <motion.div className="absolute inset-0 bg-accent/50" initial={{
-            x: "-100%"
-          }} animate={{
-            x: "100%"
-          }} transition={{
-            duration: 8,
-            ease: "linear",
-            repeat: Infinity
-          }} />}
-            </button>)}
+        {/* Dot Navigation */}
+        <div className="flex items-center justify-center gap-3 mt-8 md:mt-10">
+          {featuredReviews.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => {
+                setIsAutoPlaying(false);
+                setActiveIndex(index);
+              }}
+              aria-label={`Go to slide ${index + 1}`}
+              className={cn(
+                "w-2.5 h-2.5 rounded-full transition-all duration-300",
+                activeIndex === index
+                  ? "bg-accent scale-110"
+                  : "bg-muted-foreground/25 hover:bg-muted-foreground/40"
+              )}
+            />
+          ))}
         </div>
       </div>
-    </section>;
+    </section>
+  );
 }

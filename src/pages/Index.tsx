@@ -2,9 +2,9 @@ import { Header } from "@/components/layout/Header";
 import { HomeFooter } from "@/components/layout/HomeFooter";
 import { HeroSection } from "@/components/home/HeroSection";
 import { WelcomeSection } from "@/components/home/WelcomeSection";
-import { FeaturedBookSpotlight } from "@/components/home/FeaturedBookSpotlight";
 import { FeaturedBooksSection } from "@/components/home/FeaturedBooksSection";
 import { NewsSection } from "@/components/home/NewsSection";
+import { AuthorReviewsSection } from "@/components/home/AuthorReviewsSection";
 import { NewsletterSection } from "@/components/home/NewsletterSection";
 import { StatsCounterSection } from "@/components/home/StatsCounterSection";
 
@@ -13,12 +13,19 @@ const Index = () => {
     <div className="min-h-screen bg-background">
       <Header />
       <main>
+        {/* 1. Featured Reviews Carousel */}
         <HeroSection />
+        {/* 2. Welcome / Logo section with 3 CTAs */}
         <WelcomeSection />
-        <FeaturedBookSpotlight />
+        {/* 3. Featured Books (Forthcoming Titles) */}
         <FeaturedBooksSection />
+        {/* 4. News preview */}
         <NewsSection />
+        {/* 5. Author Reviews */}
+        <AuthorReviewsSection />
+        {/* 6. Sign Up for Mailing List */}
         <NewsletterSection />
+        {/* 7. Statistics */}
         <StatsCounterSection />
       </main>
       <HomeFooter />
