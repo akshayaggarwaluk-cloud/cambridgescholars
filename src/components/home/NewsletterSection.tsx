@@ -67,9 +67,9 @@ export function NewsletterSection() {
 
   return (
     <section className="py-8 md:py-12">
-      {/* Mailing List - White Card */}
-      <div className="container-wide bg-white border border-border py-10 md:py-14 px-6 sm:px-10 lg:px-16 mb-10 md:mb-14">
-        <div className="max-w-2xl mx-auto text-center">
+      <div className="container-wide bg-white py-10 md:py-14 px-6 sm:px-10 lg:px-16">
+        {/* Mailing List */}
+        <div className="max-w-2xl mx-auto text-center mb-14 md:mb-20">
           <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl font-normal text-foreground mb-4">
             Sign Up for Mailing List.
           </h2>
@@ -95,10 +95,8 @@ export function NewsletterSection() {
             </div>
           </form>
         </div>
-      </div>
 
-      {/* Stats Counter */}
-      <div className="container-wide py-10 md:py-14 border-b border-border">
+        {/* Stats Counter */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12">
           {stats.map((stat, index) => (
             <div key={index} className="text-center">
