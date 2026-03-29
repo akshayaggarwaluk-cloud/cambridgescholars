@@ -1,7 +1,10 @@
 import { Link } from "react-router-dom";
 import { FileText, Send, Download, ChevronRight } from "lucide-react";
+import { Header } from "@/components/layout/Header";
+import { Footer } from "@/components/layout/Footer";
 import { PageBreadcrumb } from "@/components/layout/PageBreadcrumb";
 import heroImage from "@/assets/hero-bookstore.jpg";
+
 const publishCards = [
   {
     icon: FileText,
@@ -22,9 +25,11 @@ const publishCards = [
     href: "/resources",
   },
 ];
+
 export default function PublishABook() {
   return (
     <div className="min-h-screen bg-background">
+      <Header />
       {/* Hero Section */}
       <section className="relative h-[350px] flex items-center justify-center">
         <div
