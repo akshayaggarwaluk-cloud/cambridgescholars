@@ -24,6 +24,8 @@ const publishCards = [
 ];
 export default function PublishABook() {
   return (
+          <Header />
+
     <div className="min-h-screen bg-background">
       {/* Hero Section */}
       <section className="relative h-[350px] flex items-center justify-center">
