@@ -77,7 +77,7 @@ export function HomeFooter() {
         {/* Copyright */}
         <div className="text-center text-lg">
           <p>
-            © {new Date().getFullYear()} Cambridge Scholars Publishing |{" "}
+            © 2025 Cambridge Scholars Publishing |{" "}
             <a
               href="mailto:admin@cambridgescholars.com"
               className="hover:text-foreground transition-colors"
