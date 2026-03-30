@@ -119,7 +119,7 @@ export function HeroSection() {
                 <motion.h1
                   variants={textVariants}
                   transition={{ duration: 0.4, delay: 0.05 }}
-                  className="font-serif text-3xl md:text-4xl lg:text-[2.8rem] font-normal leading-[1.5] text-foreground"
+                  className="font-serif text-3xl md:text-4xl lg:text-[2.8rem] font-normal leading-[1.65] text-foreground"
                 >
                   {activeReview.bookTitle}
                 </motion.h1>
