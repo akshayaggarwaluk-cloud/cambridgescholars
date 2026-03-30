@@ -141,7 +141,7 @@ export function FeaturedBooksSection() {
           </div>
 
           {/* Book Cover - Right (large) */}
-          <div className="order-1 md:order-2 flex justify-center md:justify-end">
+          <div className="order-1 md:order-2 flex justify-center md:justify-end bg-[#f4f3ec]">
             <AnimatePresence mode="wait">
               <motion.img
                 key={activeIndex}
