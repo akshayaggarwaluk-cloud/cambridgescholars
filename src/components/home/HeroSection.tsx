@@ -179,7 +179,7 @@ export function HeroSection() {
                 animate="animate"
                 exit="exit"
                 transition={{ duration: 0.6, ease: [0.25, 0.4, 0.25, 1] }}
-                className="absolute inset-0 flex items-center justify-center lg:justify-end"
+                className="absolute inset-0 flex items-center justify-end"
               >
                 <img
                   src={activeReview.image}
