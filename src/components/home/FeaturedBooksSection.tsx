@@ -95,7 +95,7 @@ export function FeaturedBooksSection() {
   const book = featuredBooks[activeIndex];
 
   return (
-    <section className="py-20 md:py-32 bg-[#f4f3ec] overflow-hidden">
+    <section className="py-20 bg-[#f4f3ec] overflow-hidden md:py-[20px]">
       <div className="container-wide">
         <div className="relative grid md:grid-cols-[1.4fr_0.6fr] gap-8 items-center min-h-[500px]">
           {/* Content - Left */}
