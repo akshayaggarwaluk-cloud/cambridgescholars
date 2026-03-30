@@ -170,7 +170,7 @@ export function HeroSection() {
           </div>
 
           {/* Book Cover - Right Side with tilt and shadow */}
-          <div className="relative order-1 lg:order-2 h-[300px] md:h-[380px] lg:h-[460px]">
+          <div className="relative order-1 lg:order-2 h-[350px] md:h-[440px] lg:h-[540px]">
             <AnimatePresence mode="wait">
               <motion.div
                 key={activeIndex}
