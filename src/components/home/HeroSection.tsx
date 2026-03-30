@@ -100,7 +100,7 @@ export function HeroSection() {
             <AnimatePresence mode="wait">
               <motion.div
                 key={activeIndex}
-                className="space-y-5"
+                className="space-y-7"
                 initial="initial"
                 animate="animate"
                 exit="exit"
