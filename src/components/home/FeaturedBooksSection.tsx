@@ -97,13 +97,13 @@ export function FeaturedBooksSection() {
   return (
     <section className="py-20 md:py-32 bg-[#f4f3ec] overflow-hidden">
       <div className="container-wide">
-        <div className="relative grid md:grid-cols-[1.2fr_1fr] gap-6 md:gap-4 items-center min-h-[500px]">
-          {/* Content - Left, pushed closer to the image */}
-          <div className="order-2 md:order-1 flex items-center justify-end">
+        <div className="relative grid md:grid-cols-[1.4fr_0.6fr] gap-8 items-center min-h-[500px]">
+          {/* Content - Left */}
+          <div className="order-2 md:order-1">
             <AnimatePresence mode="wait">
               <motion.div
                 key={activeIndex}
-                className="space-y-6 max-w-lg"
+                className="space-y-6"
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -15 }}
