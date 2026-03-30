@@ -95,36 +95,24 @@ export function FeaturedBooksSection() {
   const book = featuredBooks[activeIndex];
 
   return (
-    <section className="py-20 md:py-28 bg-[#f4f3ec] overflow-hidden">
+    <section className="py-20 md:py-32 bg-[#f4f3ec] overflow-hidden">
       <div className="container-wide">
-        <div className="relative grid md:grid-cols-[1fr_auto] gap-12 md:gap-8 items-center">
-          {/* Previous Arrow */}
-          <button
-            onClick={() => {
-              setIsAutoPlaying(false);
-              setActiveIndex((prev) => (prev - 1 + featuredBooks.length) % featuredBooks.length);
-            }}
-            aria-label="Previous book"
-            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 md:-translate-x-8 z-10 w-10 h-10 rounded-full border border-muted-foreground/30 bg-background/80 backdrop-blur-sm flex items-center justify-center text-muted-foreground hover:text-foreground hover:border-foreground transition-colors"
-          >
-            <ChevronLeft className="w-5 h-5" />
-          </button>
-
+        <div className="relative grid md:grid-cols-[1fr_auto] gap-12 md:gap-8 items-center min-h-[500px]">
           {/* Content - Left */}
           <div className="order-2 md:order-1">
             <AnimatePresence mode="wait">
               <motion.div
                 key={activeIndex}
-                className="space-y-6"
+                className="space-y-8"
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -15 }}
                 transition={{ duration: 0.7, ease: [0.25, 0.4, 0.25, 1] }}
               >
                 <p className="text-accent text-xs font-semibold uppercase tracking-[0.3em]">
-                  Featured Review
+                  Featured Book
                 </p>
-                <h2 className="font-serif text-3xl md:text-4xl lg:text-[2.6rem] font-normal leading-[1.15] text-foreground">
+                <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl font-normal leading-[1.15] text-foreground max-w-xl">
                   {book.title}
                 </h2>
                 <p className="text-muted-foreground leading-relaxed text-base max-w-lg">
@@ -132,7 +120,7 @@ export function FeaturedBooksSection() {
                 </p>
                 <Button
                   asChild
-                  className="bg-accent hover:bg-accent/90 text-accent-foreground px-12 py-3 text-sm tracking-wider rounded-none uppercase"
+                  className="bg-accent hover:bg-accent/90 text-accent-foreground px-16 py-3.5 text-sm tracking-[0.2em] rounded-none uppercase"
                 >
                   <Link to={`/books/${book.id}`}>View</Link>
                 </Button>
@@ -140,14 +128,14 @@ export function FeaturedBooksSection() {
             </AnimatePresence>
           </div>
 
-          {/* Book Cover - Right, overflowing edge */}
-          <div className="order-1 md:order-2 flex justify-center md:justify-end md:-mr-16 lg:-mr-24">
+          {/* Book Cover - Right, large and overflowing */}
+          <div className="order-1 md:order-2 flex justify-center md:justify-end md:-mr-24 lg:-mr-32">
             <AnimatePresence mode="wait">
               <motion.img
                 key={activeIndex}
                 src={book.image}
                 alt={book.title}
-                className="w-64 md:w-80 lg:w-[420px] xl:w-[480px] mix-blend-multiply"
+                className="w-72 md:w-80 lg:w-[420px] xl:w-[500px]"
                 initial={{ opacity: 0, scale: 0.95, x: 40 }}
                 animate={{ opacity: 1, scale: 1, x: 0 }}
                 exit={{ opacity: 0, scale: 0.95, x: -40 }}
@@ -155,33 +143,10 @@ export function FeaturedBooksSection() {
               />
             </AnimatePresence>
           </div>
-
-          {/* Next Arrow */}
-          <button
-            onClick={() => {
-              setIsAutoPlaying(false);
-              setActiveIndex((prev) => (prev + 1) % featuredBooks.length);
-            }}
-            aria-label="Next book"
-            className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full border border-muted-foreground/30 bg-background/80 backdrop-blur-sm flex items-center justify-center text-muted-foreground hover:text-foreground hover:border-foreground transition-colors"
-          >
-            <ChevronRight className="w-5 h-5" />
-          </button>
         </div>
 
-        {/* Dot Navigation with Pause/Play */}
-        <div className="flex items-center justify-center gap-3 mt-12">
-          <button
-            onClick={() => setIsAutoPlaying(!isAutoPlaying)}
-            aria-label={isAutoPlaying ? "Pause carousel" : "Play carousel"}
-            className="w-8 h-8 flex items-center justify-center rounded-full border border-muted-foreground/30 text-muted-foreground hover:text-foreground hover:border-foreground transition-colors"
-          >
-            {isAutoPlaying ? (
-              <svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor" aria-hidden="true"><rect x="1" y="1" width="4" height="10" /><rect x="7" y="1" width="4" height="10" /></svg>
-            ) : (
-              <svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor" aria-hidden="true"><polygon points="2,0 12,6 2,12" /></svg>
-            )}
-          </button>
+        {/* Dot Navigation */}
+        <div className="flex items-center justify-center gap-3 mt-16">
           {featuredBooks.map((_, index) => (
             <button
               key={index}
