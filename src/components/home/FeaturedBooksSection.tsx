@@ -95,9 +95,9 @@ export function FeaturedBooksSection() {
   const book = featuredBooks[activeIndex];
 
   return (
-    <section className="py-20 md:py-28 bg-[#f4f3ec]">
+    <section className="py-20 md:py-28 bg-[#f4f3ec] overflow-hidden">
       <div className="container-wide">
-        <div className="relative grid md:grid-cols-2 gap-12 md:gap-20 items-center">
+        <div className="relative grid md:grid-cols-[1fr_auto] gap-12 md:gap-8 items-center">
           {/* Previous Arrow */}
           <button
             onClick={() => {
@@ -122,7 +122,7 @@ export function FeaturedBooksSection() {
                 transition={{ duration: 0.7, ease: [0.25, 0.4, 0.25, 1] }}
               >
                 <p className="text-accent text-xs font-semibold uppercase tracking-[0.3em]">
-                  Featured Book
+                  Featured Review
                 </p>
                 <h2 className="font-serif text-3xl md:text-4xl lg:text-[2.6rem] font-normal leading-[1.15] text-foreground">
                   {book.title}
@@ -140,14 +140,14 @@ export function FeaturedBooksSection() {
             </AnimatePresence>
           </div>
 
-          {/* Book Cover - Right (large) */}
-          <div className="order-1 md:order-2 flex justify-center md:justify-end bg-[#f4f3ec]">
+          {/* Book Cover - Right, overflowing edge */}
+          <div className="order-1 md:order-2 flex justify-center md:justify-end md:-mr-16 lg:-mr-24">
             <AnimatePresence mode="wait">
               <motion.img
                 key={activeIndex}
                 src={book.image}
                 alt={book.title}
-                className="w-64 md:w-80 lg:w-[360px] mix-blend-multiply"
+                className="w-64 md:w-80 lg:w-[420px] xl:w-[480px] mix-blend-multiply"
                 initial={{ opacity: 0, scale: 0.95, x: 40 }}
                 animate={{ opacity: 1, scale: 1, x: 0 }}
                 exit={{ opacity: 0, scale: 0.95, x: -40 }}
@@ -163,7 +163,7 @@ export function FeaturedBooksSection() {
               setActiveIndex((prev) => (prev + 1) % featuredBooks.length);
             }}
             aria-label="Next book"
-            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 md:translate-x-8 z-10 w-10 h-10 rounded-full border border-muted-foreground/30 bg-background/80 backdrop-blur-sm flex items-center justify-center text-muted-foreground hover:text-foreground hover:border-foreground transition-colors"
+            className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full border border-muted-foreground/30 bg-background/80 backdrop-blur-sm flex items-center justify-center text-muted-foreground hover:text-foreground hover:border-foreground transition-colors"
           >
             <ChevronRight className="w-5 h-5" />
           </button>
