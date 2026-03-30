@@ -147,7 +147,7 @@ export function FeaturedBooksSection() {
                 key={activeIndex}
                 src={book.image}
                 alt={book.title}
-                className="w-64 md:w-80 lg:w-[420px] xl:w-[480px] mix-blend-multiply"
+                className="w-72 md:w-96 lg:w-[500px] xl:w-[560px] mix-blend-multiply"
                 initial={{ opacity: 0, scale: 0.95, x: 40 }}
                 animate={{ opacity: 1, scale: 1, x: 0 }}
                 exit={{ opacity: 0, scale: 0.95, x: -40 }}
