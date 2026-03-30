@@ -97,13 +97,13 @@ export function FeaturedBooksSection() {
   return (
     <section className="py-20 md:py-32 bg-[#f4f3ec] overflow-hidden">
       <div className="container-wide">
-        <div className="relative grid md:grid-cols-[1fr_auto] gap-12 md:gap-8 items-center min-h-[500px]">
-          {/* Content - Left */}
-          <div className="order-2 md:order-1">
+        <div className="relative grid md:grid-cols-[1.2fr_1fr] gap-6 md:gap-4 items-center min-h-[500px]">
+          {/* Content - Left, pushed closer to the image */}
+          <div className="order-2 md:order-1 flex items-center justify-end">
             <AnimatePresence mode="wait">
               <motion.div
                 key={activeIndex}
-                className="space-y-8"
+                className="space-y-6 max-w-lg"
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -15 }}
@@ -112,10 +112,10 @@ export function FeaturedBooksSection() {
                 <p className="text-accent text-xs font-semibold uppercase tracking-[0.3em]">
                   Featured Book
                 </p>
-                <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl font-normal leading-[1.15] text-foreground max-w-xl">
+                <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl font-normal leading-[1.15] text-foreground">
                   {book.title}
                 </h2>
-                <p className="text-muted-foreground leading-relaxed text-base max-w-lg">
+                <p className="text-muted-foreground leading-relaxed text-base">
                   {book.description}
                 </p>
                 <Button
@@ -128,14 +128,14 @@ export function FeaturedBooksSection() {
             </AnimatePresence>
           </div>
 
-          {/* Book Cover - Right, large and overflowing */}
-          <div className="order-1 md:order-2 flex justify-center md:justify-end">
+          {/* Book Cover - Right */}
+          <div className="order-1 md:order-2 flex justify-center md:justify-start md:pl-8">
             <AnimatePresence mode="wait">
               <motion.img
                 key={activeIndex}
                 src={book.image}
                 alt={book.title}
-                className="w-56 md:w-64 lg:w-[300px] xl:w-[350px]"
+                className="w-56 md:w-64 lg:w-[300px] xl:w-[340px]"
                 initial={{ opacity: 0, scale: 0.95, x: 40 }}
                 animate={{ opacity: 1, scale: 1, x: 0 }}
                 exit={{ opacity: 0, scale: 0.95, x: -40 }}
