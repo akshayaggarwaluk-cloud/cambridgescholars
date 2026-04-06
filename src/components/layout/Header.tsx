@@ -27,11 +27,6 @@ const navigation = [
   { name: "About Us", href: "/about" },
 ];
 
-const buyABookDropdownItems = [
-  { name: "Browse All", href: "/books" },
-  { name: "Browse by Subject", href: "/books/subjects" },
-  { name: "Browse by Series", href: "/books/series" },
-];
 
 const publishDropdownItems = [
   { name: "How to Publish", href: "/how-to-publish" },
@@ -49,7 +44,7 @@ export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
-  const [isBuyDropdownOpen, setIsBuyDropdownOpen] = useState(false);
+  
   const [isPublishDropdownOpen, setIsPublishDropdownOpen] = useState(false);
   const location = useLocation();
   const { cartCount } = useCart();
@@ -72,7 +67,7 @@ export function Header() {
   };
 
   const isActiveRoute = (href: string) => location.pathname === href;
-  const isBuyActive = buyABookDropdownItems.some((i) => isActiveRoute(i.href));
+  
   const isPublishActive =
     isActiveRoute("/publish-a-book") ||
     publishDropdownItems.some((i) => isActiveRoute(i.href));
@@ -111,49 +106,16 @@ export function Header() {
                 </Link>
               ))}
 
-              {/* Buy a Book Dropdown */}
-              <div
-                className="relative"
-                onMouseEnter={() => setIsBuyDropdownOpen(true)}
-                onMouseLeave={() => setIsBuyDropdownOpen(false)}
-              >
-                <Link
-                  to="/books"
-                  className={cn(
-                    "text-base flex items-center gap-1.5 py-2 hover:text-accent font-semibold",
-                    isBuyActive ? "text-accent" : "text-foreground"
-                  )}
-                >
-                  Buy a Book
-                  <ChevronDown
-                    className={cn(
-                      "h-4 w-4 transition-transform",
-                      isBuyDropdownOpen && "rotate-180"
-                    )}
-                  />
-                </Link>
-
-                {isBuyDropdownOpen && (
-                  <div className="absolute top-full left-1/2 -translate-x-1/2 pt-3 z-50">
-                    <div className="bg-background border rounded-lg shadow-xl py-2 w-60">
-                      {buyABookDropdownItems.map((item) => (
-                        <Link
-                          key={item.name}
-                          to={item.href}
-                          className={cn(
-                            "block px-5 py-2.5 text-base font-semibold capitalize hover:bg-secondary transition-colors",
-                            isActiveRoute(item.href)
-                              ? "text-accent"
-                              : "text-foreground"
-                          )}
-                        >
-                          {item.name}
-                        </Link>
-                      ))}
-                    </div>
-                  </div>
+              {/* Buy a Book */}
+              <Link
+                to="/books"
+                className={cn(
+                  "text-base py-2 transition-colors hover:text-accent font-semibold",
+                  isActiveRoute("/books") ? "text-accent" : "text-foreground"
                 )}
-              </div>
+              >
+                Buy a Book
+              </Link>
 
               {/* Publish a Book Dropdown */}
               <div
@@ -372,22 +334,18 @@ export function Header() {
                 </Link>
               ))}
 
-              {/* Buy a Book mobile section */}
-              <div className="px-4 py-3 font-medium text-foreground">Buy a Book</div>
-              {buyABookDropdownItems.map((item) => (
-                <Link
-                  key={item.name}
-                  to={item.href}
-                  className={cn(
-                    "block px-8 py-2.5 rounded-lg text-sm transition-colors",
-                    isActiveRoute(item.href)
-                      ? "text-accent bg-accent/5"
-                      : "text-muted-foreground hover:bg-secondary"
-                  )}
-                >
-                  {item.name}
-                </Link>
-              ))}
+              {/* Buy a Book mobile */}
+              <Link
+                to="/books"
+                className={cn(
+                  "block px-4 py-3 rounded-lg font-medium transition-colors",
+                  isActiveRoute("/books")
+                    ? "text-accent bg-accent/5"
+                    : "text-foreground hover:bg-secondary"
+                )}
+              >
+                Buy a Book
+              </Link>
 
               {/* Publish a Book mobile section */}
               <div className="px-4 py-3 font-medium text-foreground">Publish a Book</div>
