@@ -61,7 +61,7 @@ export default function BookDetails() {
   return <div className="min-h-screen bg-background">
       <Header />
 
-      <main className="pt-24 pb-16">
+      <main className="pt-32 pb-16">
 
         {/* Main Section */}
         <section className="container-wide bg-white">
