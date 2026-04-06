@@ -70,7 +70,7 @@ export default function PublishABook() {
                 </div>
                 <div>
                   <h3 className="font-serif text-2xl text-foreground mb-2">{card.title}</h3>
-                  <p className="text-sm text-[#333333]">{card.description}</p>
+                  <p className="text-sm text-[#333333] whitespace-nowrap">{card.description}</p>
                 </div>
               </div>
               <Link
