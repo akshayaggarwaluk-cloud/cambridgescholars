@@ -27,11 +27,6 @@ const navigation = [
   { name: "About Us", href: "/about" },
 ];
 
-const buyABookDropdownItems = [
-  { name: "Browse All", href: "/books" },
-  { name: "Browse by Subject", href: "/books/subjects" },
-  { name: "Browse by Series", href: "/books/series" },
-];
 
 const publishDropdownItems = [
   { name: "How to Publish", href: "/how-to-publish" },
@@ -49,7 +44,7 @@ export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
-  const [isBuyDropdownOpen, setIsBuyDropdownOpen] = useState(false);
+  
   const [isPublishDropdownOpen, setIsPublishDropdownOpen] = useState(false);
   const location = useLocation();
   const { cartCount } = useCart();
@@ -72,7 +67,7 @@ export function Header() {
   };
 
   const isActiveRoute = (href: string) => location.pathname === href;
-  const isBuyActive = buyABookDropdownItems.some((i) => isActiveRoute(i.href));
+  
   const isPublishActive =
     isActiveRoute("/publish-a-book") ||
     publishDropdownItems.some((i) => isActiveRoute(i.href));
