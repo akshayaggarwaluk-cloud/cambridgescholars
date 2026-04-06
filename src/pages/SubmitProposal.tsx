@@ -198,182 +198,52 @@ const SubmitProposal = () => {
 
               {currentStep === 2 && (
                 <>
-                  <h2 className="text-xl font-semibold text-foreground border-b border-border pb-2">Mailing</h2>
-                  <div className="space-y-1">
-                    <Label className="text-foreground font-semibold">
-                      Country <span className="text-accent font-normal">(Required)</span>
-                    </Label>
-                    <Select value={country} onValueChange={setCountry}>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Please Select Country" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {[
-                          "Afghanistan",
-                          "Albania",
-                          "Algeria",
-                          "Argentina",
-                          "Armenia",
-                          "Australia",
-                          "Austria",
-                          "Azerbaijan",
-                          "Bahamas",
-                          "Bahrain",
-                          "Bangladesh",
-                          "Barbados",
-                          "Belarus",
-                          "Belgium",
-                          "Belize",
-                          "Benin",
-                          "Bhutan",
-                          "Bolivia",
-                          "Bosnia and Herzegovina",
-                          "Botswana",
-                          "Brazil",
-                          "Brunei Darussalam",
-                          "Bulgaria",
-                          "Burkina Faso",
-                          "Burundi",
-                          "Cambodia",
-                          "Cameroon",
-                          "Canada",
-                          "Chad",
-                          "Chile",
-                          "China",
-                          "Colombia",
-                          "Congo",
-                          "Costa Rica",
-                          "Croatia",
-                          "Cuba",
-                          "Cyprus",
-                          "Czechia",
-                          "Denmark",
-                          "Djibouti",
-                          "Dominican Republic",
-                          "Ecuador",
-                          "Egypt",
-                          "El Salvador",
-                          "Estonia",
-                          "Ethiopia",
-                          "Fiji",
-                          "Finland",
-                          "France",
-                          "Gabon",
-                          "Gambia",
-                          "Georgia",
-                          "Germany",
-                          "Ghana",
-                          "Greece",
-                          "Guatemala",
-                          "Guinea",
-                          "Haiti",
-                          "Honduras",
-                          "Hong Kong",
-                          "Hungary",
-                          "Iceland",
-                          "India",
-                          "Indonesia",
-                          "Iran",
-                          "Iraq",
-                          "Ireland",
-                          "Israel",
-                          "Italy",
-                          "Jamaica",
-                          "Japan",
-                          "Jordan",
-                          "Kazakhstan",
-                          "Kenya",
-                          "Kuwait",
-                          "Kyrgyzstan",
-                          "Latvia",
-                          "Lebanon",
-                          "Liberia",
-                          "Libya",
-                          "Lithuania",
-                          "Luxembourg",
-                          "Madagascar",
-                          "Malawi",
-                          "Malaysia",
-                          "Maldives",
-                          "Mali",
-                          "Malta",
-                          "Mexico",
-                          "Moldova",
-                          "Monaco",
-                          "Mongolia",
-                          "Montenegro",
-                          "Morocco",
-                          "Mozambique",
-                          "Myanmar",
-                          "Namibia",
-                          "Nepal",
-                          "Netherlands",
-                          "New Zealand",
-                          "Nicaragua",
-                          "Niger",
-                          "Nigeria",
-                          "North Macedonia",
-                          "Norway",
-                          "Oman",
-                          "Pakistan",
-                          "Panama",
-                          "Papua New Guinea",
-                          "Paraguay",
-                          "Peru",
-                          "Philippines",
-                          "Poland",
-                          "Portugal",
-                          "Qatar",
-                          "Romania",
-                          "Russian Federation",
-                          "Rwanda",
-                          "Saudi Arabia",
-                          "Senegal",
-                          "Serbia",
-                          "Sierra Leone",
-                          "Singapore",
-                          "Slovakia",
-                          "Slovenia",
-                          "Somalia",
-                          "South Africa",
-                          "South Sudan",
-                          "Spain",
-                          "Sri Lanka",
-                          "Sudan",
-                          "Sweden",
-                          "Switzerland",
-                          "Taiwan",
-                          "Tajikistan",
-                          "Tanzania",
-                          "Thailand",
-                          "Togo",
-                          "Trinidad and Tobago",
-                          "Tunisia",
-                          "Türkiye",
-                          "Uganda",
-                          "Ukraine",
-                          "United Arab Emirates",
-                          "United Kingdom",
-                          "United States",
-                          "Uruguay",
-                          "Uzbekistan",
-                          "Venezuela",
-                          "Viet Nam",
-                          "Yemen",
-                          "Zambia",
-                          "Zimbabwe",
-                        ].map((c) => (
-                          <SelectItem key={c} value={c}>
-                            {c}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
+                  <h2 className="text-2xl font-serif text-foreground pb-2">Mailing</h2>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
+                    <div className="space-y-1">
+                      <Label className="text-foreground font-semibold">
+                        Country <span className="text-accent font-normal">(Required)</span>
+                      </Label>
+                      <Select value={country} onValueChange={setCountry}>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Please Select Country" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {[
+                            "Afghanistan","Albania","Algeria","Argentina","Armenia","Australia","Austria","Azerbaijan",
+                            "Bahamas","Bahrain","Bangladesh","Barbados","Belarus","Belgium","Belize","Benin","Bhutan",
+                            "Bolivia","Bosnia and Herzegovina","Botswana","Brazil","Brunei Darussalam","Bulgaria",
+                            "Burkina Faso","Burundi","Cambodia","Cameroon","Canada","Chad","Chile","China","Colombia",
+                            "Congo","Costa Rica","Croatia","Cuba","Cyprus","Czechia","Denmark","Djibouti",
+                            "Dominican Republic","Ecuador","Egypt","El Salvador","Estonia","Ethiopia","Fiji","Finland",
+                            "France","Gabon","Gambia","Georgia","Germany","Ghana","Greece","Guatemala","Guinea","Haiti",
+                            "Honduras","Hong Kong","Hungary","Iceland","India","Indonesia","Iran","Iraq","Ireland",
+                            "Israel","Italy","Jamaica","Japan","Jordan","Kazakhstan","Kenya","Kuwait","Kyrgyzstan",
+                            "Latvia","Lebanon","Liberia","Libya","Lithuania","Luxembourg","Madagascar","Malawi",
+                            "Malaysia","Maldives","Mali","Malta","Mexico","Moldova","Monaco","Mongolia","Montenegro",
+                            "Morocco","Mozambique","Myanmar","Namibia","Nepal","Netherlands","New Zealand","Nicaragua",
+                            "Niger","Nigeria","North Macedonia","Norway","Oman","Pakistan","Panama","Papua New Guinea",
+                            "Paraguay","Peru","Philippines","Poland","Portugal","Qatar","Romania","Russian Federation",
+                            "Rwanda","Saudi Arabia","Senegal","Serbia","Sierra Leone","Singapore","Slovakia","Slovenia",
+                            "Somalia","South Africa","South Sudan","Spain","Sri Lanka","Sudan","Sweden","Switzerland",
+                            "Taiwan","Tajikistan","Tanzania","Thailand","Togo","Trinidad and Tobago","Tunisia",
+                            "Türkiye","Uganda","Ukraine","United Arab Emirates","United Kingdom","United States",
+                            "Uruguay","Uzbekistan","Venezuela","Viet Nam","Yemen","Zambia","Zimbabwe",
+                          ].map((c) => (
+                            <SelectItem key={c} value={c}>
+                              {c}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    <FieldInput label="State / Province / Region / County" required />
+                    <FieldInput label="City" required />
+                    <FieldInput label="Address" required />
+                    <div className="md:col-span-1">
+                      <FieldInput label="ZIP / Postal Code" required />
+                    </div>
                   </div>
-                  <FieldInput label="State / Province / Region" required />
-                  <FieldInput label="City" required />
-                  <FieldInput label="Address" required />
-                  <FieldInput label="ZIP / Postal Code" required />
                 </>
               )}
 
