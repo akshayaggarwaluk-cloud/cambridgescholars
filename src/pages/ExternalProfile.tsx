@@ -510,9 +510,10 @@ export default function ExternalProfile() {
         <div className="max-w-7xl mx-auto flex justify-between items-center w-full">
           <h1 className="text-5xl font-serif text-gray-800">My Account</h1>
           <PageBreadcrumb items={[{ label: "Bookshop", href: "/books" }]} currentPage="My Account" />
-            </div>
-          </div>
         </div>
+      </div>
+
+      <main>
 
         <div className="container-wide py-12">
           <div className="grid lg:grid-cols-[280px_1fr] gap-12">
