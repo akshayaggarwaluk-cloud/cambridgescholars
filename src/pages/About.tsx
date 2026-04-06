@@ -86,7 +86,7 @@ export default function AboutSection() {
       </section>
 
       {/* SECOND SECTION */}
-      <section className="w-full px-6 md:px-20 py-16">
+      <section className="w-full px-6 md:px-20 py-16 bg-white">
         <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-[35%_65%] gap-16 items-stretch">
           {/* IMAGE */}
           <div className="relative min-h-[600px]">
