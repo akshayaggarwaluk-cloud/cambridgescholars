@@ -62,13 +62,6 @@ export default function BookDetails() {
       <Header />
 
       <main className="pt-24 pb-16">
-        {/* Breadcrumb */}
-        <div className="container-wide py-6">
-          <PageBreadcrumb items={[{
-          label: "Books",
-          href: "/books"
-        }]} currentPage={book.title} />
-        </div>
 
         {/* Main Section */}
         <section className="container-wide bg-white">
