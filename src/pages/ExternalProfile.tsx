@@ -506,23 +506,10 @@ export default function ExternalProfile() {
   return <div className="min-h-screen bg-background">
       <Header />
 
-      <main className="pt-24">
-        {/* Header Banner */}
-        <div className="text-primary-foreground py-12 bg-[#f4f3ec]">
-          <div className="container-wide">
-            <div className="flex items-center justify-between">
-              <h1 className="font-serif text-4xl font-bold text-black">My account</h1>
-              <nav className="text-sm">
-                <Link to="/" className="transition-colors text-black">
-                  Home
-                </Link>
-                <span className="mx-2 text-black bg-inherit">/</span>
-                <Link to="/books" className="transition-colors text-black">
-                  Bookshop
-                </Link>
-                <span className="mx-2 text-black">/</span>
-                <span className="text-red-500">My account</span>
-              </nav>
+      <div className="bg-[#f4f3ec] min-h-[280px] pt-24 px-6 md:px-16 flex items-center">
+        <div className="max-w-7xl mx-auto flex justify-between items-center w-full">
+          <h1 className="text-5xl font-serif text-gray-800">My Account</h1>
+          <PageBreadcrumb items={[{ label: "Bookshop", href: "/books" }]} currentPage="My Account" />
             </div>
           </div>
         </div>
