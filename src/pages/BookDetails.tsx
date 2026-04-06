@@ -197,8 +197,7 @@ export default function BookDetails() {
         {/* Tabs */}
         <BookDetailsTabs book={book} />
 
-        {/* Reviews */}
-        <ReviewsSection bookId={book.id} />
+        {/* Reviews section removed */}
 
         {/* Related */}
         <div className="mt-24">
