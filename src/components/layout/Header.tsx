@@ -103,7 +103,7 @@ export function Header() {
                   key={item.name}
                   to={item.href}
                   className={cn(
-                    "text-lg py-2 transition-colors hover:text-accent font-semibold",
+                    "text-base py-2 transition-colors hover:text-accent font-semibold",
                     isActiveRoute(item.href) ? "text-accent" : "text-foreground"
                   )}
                 >
@@ -120,7 +120,7 @@ export function Header() {
                 <Link
                   to="/books"
                   className={cn(
-                    "text-lg flex items-center gap-1.5 py-2 hover:text-accent font-semibold",
+                    "text-base flex items-center gap-1.5 py-2 hover:text-accent font-semibold",
                     isBuyActive ? "text-accent" : "text-foreground"
                   )}
                 >
@@ -164,7 +164,7 @@ export function Header() {
                 <Link
                   to="/publish-a-book"
                   className={cn(
-                    "text-lg flex items-center gap-1.5 py-2 hover:text-accent font-semibold",
+                    "text-base flex items-center gap-1.5 py-2 hover:text-accent font-semibold",
                     isPublishActive ? "text-accent" : "text-foreground"
                   )}
                 >
@@ -204,7 +204,7 @@ export function Header() {
                   key={item.name}
                   to={item.href}
                   className={cn(
-                    "text-lg py-2 hover:text-accent font-semibold",
+                    "text-base py-2 hover:text-accent font-semibold",
                     isActiveRoute(item.href) ? "text-accent" : "text-foreground"
                   )}
                 >
