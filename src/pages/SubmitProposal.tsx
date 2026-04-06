@@ -45,7 +45,7 @@ const SubmitProposal = () => {
 
   const handleSubmit = async () => {
     setIsSubmitting(true);
-    await new Promise(resolve => setTimeout(resolve, 1500));
+    await new Promise((resolve) => setTimeout(resolve, 1500));
     toast({
       title: "Proposal Submitted",
       description: "Thank you for your submission. We'll review it and get back to you within 4-6 weeks.",
@@ -65,10 +65,12 @@ const SubmitProposal = () => {
             Role <span className="text-accent font-normal">(Required)</span>
           </Label>
           <RadioGroup className="flex flex-wrap gap-4 pt-1">
-            {["Co-authors", "Editors", "Contributors", "Translators"].map(role => (
+            {["Co-authors", "Editors", "Contributors", "Translators"].map((role) => (
               <div key={role} className="flex items-center space-x-2">
                 <RadioGroupItem value={role.toLowerCase()} id={`role-${i}-${role}`} />
-                <Label htmlFor={`role-${i}-${role}`} className="font-normal cursor-pointer">{role}</Label>
+                <Label htmlFor={`role-${i}-${role}`} className="font-normal cursor-pointer">
+                  {role}
+                </Label>
               </div>
             ))}
           </RadioGroup>
@@ -87,30 +89,31 @@ const SubmitProposal = () => {
         {/* Hero / Breadcrumb Section */}
         <section className="bg-[#f4f3ec] py-12 mt-0">
           <div className="container-wide flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-            <h1 className="text-3xl md:text-4xl font-display text-black">
-              Book Proposal Form
-            </h1>
-            <PageBreadcrumb
-              items={[{ label: "Home", href: "/" }]}
-              currentPage="Book Proposal Form"
-            />
+            <h1 className="text-3xl md:text-4xl font-display text-black">Book Proposal Form</h1>
+            <PageBreadcrumb items={[{ label: "Home", href: "/" }]} currentPage="Book Proposal Form" />
           </div>
         </section>
 
         {/* Form Section */}
-        <section className="py-12 bg-background">
+        <section className="py-12 bg-white">
           <div className="container-wide max-w-4xl mx-auto">
             {/* Notice */}
             <p className="text-muted-foreground mb-8 text-sm md:text-base">
-              Please note that we publish in English only and do not provide translation services at this time. Submissions in languages other than English will not be considered for publication.
+              Please note that we publish in English only and do not provide translation services at this time.
+              Submissions in languages other than English will not be considered for publication.
             </p>
 
             {/* Progress */}
             <div className="mb-8">
-              <p className="text-sm text-muted-foreground mb-2">Step {currentStep} of {TOTAL_STEPS}</p>
+              <p className="text-sm text-muted-foreground mb-2">
+                Step {currentStep} of {TOTAL_STEPS}
+              </p>
               <div className="relative w-full">
                 <Progress value={progress} className="h-6 bg-muted" />
-                <span className="absolute inset-0 flex items-center justify-start pl-2 text-xs font-semibold text-primary-foreground" style={{ width: `${progress}%` }}>
+                <span
+                  className="absolute inset-0 flex items-center justify-start pl-2 text-xs font-semibold text-primary-foreground"
+                  style={{ width: `${progress}%` }}
+                >
                   {progress}%
                 </span>
               </div>
@@ -142,25 +145,28 @@ const SubmitProposal = () => {
                           onChange={(e) => setCvFile(e.target.files?.[0] || null)}
                         />
                       </label>
-                      <span className="text-sm text-muted-foreground">
-                        {cvFile ? cvFile.name : "No file chosen"}
-                      </span>
+                      <span className="text-sm text-muted-foreground">{cvFile ? cvFile.name : "No file chosen"}</span>
                     </div>
                     <p className="text-xs text-muted-foreground">Max. file size: 10 MB.</p>
                   </div>
 
                   <div className="space-y-1">
                     <Label className="text-foreground font-semibold">
-                      Co-authors / Editors / Contributors / Translators <span className="text-accent font-normal">(Required)</span>
+                      Co-authors / Editors / Contributors / Translators{" "}
+                      <span className="text-accent font-normal">(Required)</span>
                     </Label>
                     <RadioGroup value={hasCoAuthors} onValueChange={setHasCoAuthors} className="flex gap-6 pt-1">
                       <div className="flex items-center space-x-2">
                         <RadioGroupItem value="yes" id="coauthors-yes" />
-                        <Label htmlFor="coauthors-yes" className="font-normal cursor-pointer">Yes</Label>
+                        <Label htmlFor="coauthors-yes" className="font-normal cursor-pointer">
+                          Yes
+                        </Label>
                       </div>
                       <div className="flex items-center space-x-2">
                         <RadioGroupItem value="no" id="coauthors-no" />
-                        <Label htmlFor="coauthors-no" className="font-normal cursor-pointer">No</Label>
+                        <Label htmlFor="coauthors-no" className="font-normal cursor-pointer">
+                          No
+                        </Label>
                       </div>
                     </RadioGroup>
                   </div>
@@ -169,7 +175,8 @@ const SubmitProposal = () => {
                     <>
                       <div className="space-y-1">
                         <Label className="text-foreground font-semibold">
-                          How many Co-authors / Editors / Contributors / Translators <span className="text-accent font-normal">(Required)</span>
+                          How many Co-authors / Editors / Contributors / Translators{" "}
+                          <span className="text-accent font-normal">(Required)</span>
                         </Label>
                         <Select value={coAuthorCount} onValueChange={setCoAuthorCount}>
                           <SelectTrigger className="max-w-[200px]">
@@ -177,7 +184,9 @@ const SubmitProposal = () => {
                           </SelectTrigger>
                           <SelectContent>
                             {Array.from({ length: 10 }, (_, i) => (
-                              <SelectItem key={i + 1} value={String(i + 1)}>{i + 1}</SelectItem>
+                              <SelectItem key={i + 1} value={String(i + 1)}>
+                                {i + 1}
+                              </SelectItem>
                             ))}
                           </SelectContent>
                         </Select>
@@ -200,8 +209,164 @@ const SubmitProposal = () => {
                         <SelectValue placeholder="Please Select Country" />
                       </SelectTrigger>
                       <SelectContent>
-                        {["Afghanistan","Albania","Algeria","Argentina","Armenia","Australia","Austria","Azerbaijan","Bahamas","Bahrain","Bangladesh","Barbados","Belarus","Belgium","Belize","Benin","Bhutan","Bolivia","Bosnia and Herzegovina","Botswana","Brazil","Brunei Darussalam","Bulgaria","Burkina Faso","Burundi","Cambodia","Cameroon","Canada","Chad","Chile","China","Colombia","Congo","Costa Rica","Croatia","Cuba","Cyprus","Czechia","Denmark","Djibouti","Dominican Republic","Ecuador","Egypt","El Salvador","Estonia","Ethiopia","Fiji","Finland","France","Gabon","Gambia","Georgia","Germany","Ghana","Greece","Guatemala","Guinea","Haiti","Honduras","Hong Kong","Hungary","Iceland","India","Indonesia","Iran","Iraq","Ireland","Israel","Italy","Jamaica","Japan","Jordan","Kazakhstan","Kenya","Kuwait","Kyrgyzstan","Latvia","Lebanon","Liberia","Libya","Lithuania","Luxembourg","Madagascar","Malawi","Malaysia","Maldives","Mali","Malta","Mexico","Moldova","Monaco","Mongolia","Montenegro","Morocco","Mozambique","Myanmar","Namibia","Nepal","Netherlands","New Zealand","Nicaragua","Niger","Nigeria","North Macedonia","Norway","Oman","Pakistan","Panama","Papua New Guinea","Paraguay","Peru","Philippines","Poland","Portugal","Qatar","Romania","Russian Federation","Rwanda","Saudi Arabia","Senegal","Serbia","Sierra Leone","Singapore","Slovakia","Slovenia","Somalia","South Africa","South Sudan","Spain","Sri Lanka","Sudan","Sweden","Switzerland","Taiwan","Tajikistan","Tanzania","Thailand","Togo","Trinidad and Tobago","Tunisia","Türkiye","Uganda","Ukraine","United Arab Emirates","United Kingdom","United States","Uruguay","Uzbekistan","Venezuela","Viet Nam","Yemen","Zambia","Zimbabwe"].map(c => (
-                          <SelectItem key={c} value={c}>{c}</SelectItem>
+                        {[
+                          "Afghanistan",
+                          "Albania",
+                          "Algeria",
+                          "Argentina",
+                          "Armenia",
+                          "Australia",
+                          "Austria",
+                          "Azerbaijan",
+                          "Bahamas",
+                          "Bahrain",
+                          "Bangladesh",
+                          "Barbados",
+                          "Belarus",
+                          "Belgium",
+                          "Belize",
+                          "Benin",
+                          "Bhutan",
+                          "Bolivia",
+                          "Bosnia and Herzegovina",
+                          "Botswana",
+                          "Brazil",
+                          "Brunei Darussalam",
+                          "Bulgaria",
+                          "Burkina Faso",
+                          "Burundi",
+                          "Cambodia",
+                          "Cameroon",
+                          "Canada",
+                          "Chad",
+                          "Chile",
+                          "China",
+                          "Colombia",
+                          "Congo",
+                          "Costa Rica",
+                          "Croatia",
+                          "Cuba",
+                          "Cyprus",
+                          "Czechia",
+                          "Denmark",
+                          "Djibouti",
+                          "Dominican Republic",
+                          "Ecuador",
+                          "Egypt",
+                          "El Salvador",
+                          "Estonia",
+                          "Ethiopia",
+                          "Fiji",
+                          "Finland",
+                          "France",
+                          "Gabon",
+                          "Gambia",
+                          "Georgia",
+                          "Germany",
+                          "Ghana",
+                          "Greece",
+                          "Guatemala",
+                          "Guinea",
+                          "Haiti",
+                          "Honduras",
+                          "Hong Kong",
+                          "Hungary",
+                          "Iceland",
+                          "India",
+                          "Indonesia",
+                          "Iran",
+                          "Iraq",
+                          "Ireland",
+                          "Israel",
+                          "Italy",
+                          "Jamaica",
+                          "Japan",
+                          "Jordan",
+                          "Kazakhstan",
+                          "Kenya",
+                          "Kuwait",
+                          "Kyrgyzstan",
+                          "Latvia",
+                          "Lebanon",
+                          "Liberia",
+                          "Libya",
+                          "Lithuania",
+                          "Luxembourg",
+                          "Madagascar",
+                          "Malawi",
+                          "Malaysia",
+                          "Maldives",
+                          "Mali",
+                          "Malta",
+                          "Mexico",
+                          "Moldova",
+                          "Monaco",
+                          "Mongolia",
+                          "Montenegro",
+                          "Morocco",
+                          "Mozambique",
+                          "Myanmar",
+                          "Namibia",
+                          "Nepal",
+                          "Netherlands",
+                          "New Zealand",
+                          "Nicaragua",
+                          "Niger",
+                          "Nigeria",
+                          "North Macedonia",
+                          "Norway",
+                          "Oman",
+                          "Pakistan",
+                          "Panama",
+                          "Papua New Guinea",
+                          "Paraguay",
+                          "Peru",
+                          "Philippines",
+                          "Poland",
+                          "Portugal",
+                          "Qatar",
+                          "Romania",
+                          "Russian Federation",
+                          "Rwanda",
+                          "Saudi Arabia",
+                          "Senegal",
+                          "Serbia",
+                          "Sierra Leone",
+                          "Singapore",
+                          "Slovakia",
+                          "Slovenia",
+                          "Somalia",
+                          "South Africa",
+                          "South Sudan",
+                          "Spain",
+                          "Sri Lanka",
+                          "Sudan",
+                          "Sweden",
+                          "Switzerland",
+                          "Taiwan",
+                          "Tajikistan",
+                          "Tanzania",
+                          "Thailand",
+                          "Togo",
+                          "Trinidad and Tobago",
+                          "Tunisia",
+                          "Türkiye",
+                          "Uganda",
+                          "Ukraine",
+                          "United Arab Emirates",
+                          "United Kingdom",
+                          "United States",
+                          "Uruguay",
+                          "Uzbekistan",
+                          "Venezuela",
+                          "Viet Nam",
+                          "Yemen",
+                          "Zambia",
+                          "Zimbabwe",
+                        ].map((c) => (
+                          <SelectItem key={c} value={c}>
+                            {c}
+                          </SelectItem>
                         ))}
                       </SelectContent>
                     </Select>
@@ -225,11 +390,15 @@ const SubmitProposal = () => {
                     <RadioGroup value={bookType} onValueChange={setBookType} className="flex gap-6 pt-1">
                       <div className="flex items-center space-x-2">
                         <RadioGroupItem value="monograph" id="type-monograph" />
-                        <Label htmlFor="type-monograph" className="font-normal cursor-pointer">Monograph</Label>
+                        <Label htmlFor="type-monograph" className="font-normal cursor-pointer">
+                          Monograph
+                        </Label>
                       </div>
                       <div className="flex items-center space-x-2">
                         <RadioGroupItem value="edited" id="type-edited" />
-                        <Label htmlFor="type-edited" className="font-normal cursor-pointer">Edited Collection</Label>
+                        <Label htmlFor="type-edited" className="font-normal cursor-pointer">
+                          Edited Collection
+                        </Label>
                       </div>
                     </RadioGroup>
                   </div>
@@ -238,7 +407,9 @@ const SubmitProposal = () => {
 
               {currentStep === 4 && (
                 <>
-                  <h2 className="text-xl font-semibold text-foreground border-b border-border pb-2">Book Description</h2>
+                  <h2 className="text-xl font-semibold text-foreground border-b border-border pb-2">
+                    Book Description
+                  </h2>
                   <FieldTextarea label="Brief Summary of the Book (approx. 200–500 words)" required rows={6} />
                   <FieldTextarea label="Key Features or Selling Points" required rows={4} />
                   <FieldTextarea label="Intended Audience" required rows={3} />
@@ -250,15 +421,27 @@ const SubmitProposal = () => {
 
               {currentStep === 5 && (
                 <>
-                  <h2 className="text-xl font-semibold text-foreground border-b border-border pb-2">Marketing and Promotion</h2>
-                  <FieldTextarea label="Competing Titles (minimum two examples with author, title, and publisher)" required rows={4} />
-                  <FieldTextarea label="What unique contribution does your book make compared to these existing titles?" required rows={4} />
+                  <h2 className="text-xl font-semibold text-foreground border-b border-border pb-2">
+                    Marketing and Promotion
+                  </h2>
+                  <FieldTextarea
+                    label="Competing Titles (minimum two examples with author, title, and publisher)"
+                    required
+                    rows={4}
+                  />
+                  <FieldTextarea
+                    label="What unique contribution does your book make compared to these existing titles?"
+                    required
+                    rows={4}
+                  />
                 </>
               )}
 
               {currentStep === 6 && (
                 <>
-                  <h2 className="text-xl font-semibold text-foreground border-b border-border pb-2">Manuscript Status</h2>
+                  <h2 className="text-xl font-semibold text-foreground border-b border-border pb-2">
+                    Manuscript Status
+                  </h2>
                   <div className="space-y-1">
                     <Label className="text-foreground font-semibold">
                       Current stage of the manuscript <span className="text-accent font-normal">(Required)</span>
@@ -299,7 +482,7 @@ const SubmitProposal = () => {
                         />
                       </label>
                       <span className="text-sm text-muted-foreground">
-                        {sampleFiles.length > 0 ? sampleFiles.map(f => f.name).join(", ") : "No files chosen"}
+                        {sampleFiles.length > 0 ? sampleFiles.map((f) => f.name).join(", ") : "No files chosen"}
                       </span>
                     </div>
                     <p className="text-xs text-muted-foreground">Max. file size: 2 GB.</p>
@@ -321,15 +504,21 @@ const SubmitProposal = () => {
                         />
                       </label>
                       <span className="text-sm text-muted-foreground">
-                        {supportingFiles.length > 0 ? supportingFiles.map(f => f.name).join(", ") : "No files chosen"}
+                        {supportingFiles.length > 0 ? supportingFiles.map((f) => f.name).join(", ") : "No files chosen"}
                       </span>
                     </div>
                     <p className="text-xs text-muted-foreground">Max. file size: 2 GB.</p>
                   </div>
 
-                  <h2 className="text-xl font-semibold text-foreground border-b border-border pb-2 pt-4">Additional Comments and Permissions</h2>
+                  <h2 className="text-xl font-semibold text-foreground border-b border-border pb-2 pt-4">
+                    Additional Comments and Permissions
+                  </h2>
                   <FieldTextarea label="Any additional notes or context from the author" required rows={4} />
-                  <FieldTextarea label="Are there any permissions you need to obtain from other copyright holders?" required rows={3} />
+                  <FieldTextarea
+                    label="Are there any permissions you need to obtain from other copyright holders?"
+                    required
+                    rows={3}
+                  />
 
                   <p className="text-sm text-muted-foreground pt-4">
                     Please check over your information thoroughly and click the submit button below.
@@ -356,7 +545,9 @@ const SubmitProposal = () => {
                 </Button>
               ) : (
                 <Button onClick={handleSubmit} disabled={isSubmitting} className="gap-2">
-                  {isSubmitting ? "SUBMITTING..." : (
+                  {isSubmitting ? (
+                    "SUBMITTING..."
+                  ) : (
                     <>
                       <Send className="w-4 h-4" />
                       SUBMIT
@@ -378,7 +569,11 @@ const FieldInput = ({ label, required, type = "text" }: { label: string; require
     <Label className="text-foreground font-semibold">
       {label} {required && <span className="text-accent font-normal">(Required)</span>}
     </Label>
-    <Input type={type} required={required} className="border-b border-input border-t-0 border-l-0 border-r-0 rounded-none shadow-none focus-visible:ring-0 px-0 bg-transparent" />
+    <Input
+      type={type}
+      required={required}
+      className="border-b border-input border-t-0 border-l-0 border-r-0 rounded-none shadow-none focus-visible:ring-0 px-0 bg-transparent"
+    />
   </div>
 );
 
@@ -387,7 +582,11 @@ const FieldTextarea = ({ label, required, rows = 4 }: { label: string; required?
     <Label className="text-foreground font-semibold">
       {label} {required && <span className="text-accent font-normal">(Required)</span>}
     </Label>
-    <Textarea required={required} rows={rows} className="border-b border-input border-t-0 border-l-0 border-r-0 rounded-none shadow-none focus-visible:ring-0 px-0 bg-transparent resize-none" />
+    <Textarea
+      required={required}
+      rows={rows}
+      className="border-b border-input border-t-0 border-l-0 border-r-0 rounded-none shadow-none focus-visible:ring-0 px-0 bg-transparent resize-none"
+    />
   </div>
 );
 
