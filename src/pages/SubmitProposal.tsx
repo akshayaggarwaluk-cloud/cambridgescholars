@@ -397,23 +397,19 @@ const SubmitProposal = () => {
             </div>
 
             {/* Navigation */}
-            <div className="flex justify-between items-center mt-10 pt-6 border-t border-border">
-              {currentStep > 1 ? (
-                <Button variant="outline" onClick={handlePrevious} className="gap-2">
-                  <ArrowLeft className="w-4 h-4" />
+            <div className="flex items-center gap-4 mt-10 pt-6">
+              {currentStep > 1 && (
+                <Button variant="outline" onClick={handlePrevious} className="px-8 py-3 rounded-none text-sm font-semibold tracking-wider">
                   PREVIOUS
                 </Button>
-              ) : (
-                <div />
               )}
 
               {currentStep < TOTAL_STEPS ? (
-                <Button onClick={handleNext} className="gap-2">
+                <Button onClick={handleNext} className="px-8 py-3 rounded-none text-sm font-semibold tracking-wider bg-accent hover:bg-accent/90 text-white">
                   NEXT
-                  <ArrowRight className="w-4 h-4" />
                 </Button>
               ) : (
-                <Button onClick={handleSubmit} disabled={isSubmitting} className="gap-2">
+                <Button onClick={handleSubmit} disabled={isSubmitting} className="px-8 py-3 rounded-none text-sm font-semibold tracking-wider bg-accent hover:bg-accent/90 text-white gap-2">
                   {isSubmitting ? (
                     "SUBMITTING..."
                   ) : (
