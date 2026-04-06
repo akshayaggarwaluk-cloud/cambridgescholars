@@ -98,16 +98,15 @@ export default function Orders() {
     <div className="min-h-screen bg-background">
       <Header />
 
-      <main className="pt-24 pb-16">
-        <div className="container-wide">
-          {/* Breadcrumb */}
-          <div className="pb-4">
-            <PageBreadcrumb currentPage="Orders" />
-          </div>
+      <div className="bg-[#f4f3ec] min-h-[280px] pt-24 px-6 md:px-16 flex items-center">
+        <div className="max-w-7xl mx-auto flex justify-between items-center w-full">
+          <h1 className="text-5xl font-serif text-gray-800">Order History</h1>
+          <PageBreadcrumb currentPage="Orders" />
+        </div>
+      </div>
 
-          <h1 className="font-serif text-4xl font-bold text-foreground mb-8">
-            Order History
-          </h1>
+      <main className="pb-16">
+        <div className="container-wide py-8">
 
           {loading ? (
             <div className="text-center py-16">

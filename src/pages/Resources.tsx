@@ -40,9 +40,9 @@ export default function Resources() {
       <Header />
 
       {/* Top Banner */}
-      <div className="pt-32 bg-[#f4f3ec] py-10 px-6 md:px-16">
-        <div className="max-w-7xl mx-auto flex justify-between items-center">
-          <h1 className="text-3xl font-serif text-gray-800">Resources</h1>
+      <div className="bg-[#f4f3ec] min-h-[280px] pt-24 px-6 md:px-16 flex items-center">
+        <div className="max-w-7xl mx-auto flex justify-between items-center w-full">
+          <h1 className="text-5xl font-serif text-gray-800">Resources</h1>
           <PageBreadcrumb currentPage="Resources" />
         </div>
       </div>

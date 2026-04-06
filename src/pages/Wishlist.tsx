@@ -52,19 +52,15 @@ export default function Wishlist() {
     <div className="min-h-screen bg-background">
       <Header />
 
-      <main className="pt-24 pb-16">
-        <div className="container-wide max-w-4xl">
-          {/* Breadcrumb */}
-          <div className="pb-4">
-            <PageBreadcrumb currentPage="Wishlist" />
-          </div>
+      <div className="bg-[#f4f3ec] min-h-[280px] pt-24 px-6 md:px-16 flex items-center">
+        <div className="max-w-7xl mx-auto flex justify-between items-center w-full">
+          <h1 className="text-5xl font-serif text-gray-800">My Wishlist</h1>
+          <PageBreadcrumb currentPage="Wishlist" />
+        </div>
+      </div>
 
-          <div className="flex items-center gap-3 mb-8">
-            <Heart className="h-8 w-8 text-accent" />
-            <h1 className="font-serif text-4xl font-bold text-foreground">
-              My Wishlist
-            </h1>
-          </div>
+      <main className="pb-16">
+        <div className="container-wide max-w-4xl py-8">
 
           {loading ? (
             <div className="flex items-center justify-center py-16">

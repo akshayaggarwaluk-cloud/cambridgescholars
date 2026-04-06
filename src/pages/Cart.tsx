@@ -39,16 +39,15 @@ export default function Cart() {
     <div className="min-h-screen bg-background">
       <Header />
 
-      <main className="pt-24 pb-16">
-        <div className="container-wide">
-          {/* Breadcrumb */}
-          <div className="py-6">
-            <PageBreadcrumb currentPage="Cart" />
-          </div>
+      <div className="bg-[#f4f3ec] min-h-[280px] pt-24 px-6 md:px-16 flex items-center">
+        <div className="max-w-7xl mx-auto flex justify-between items-center w-full">
+          <h1 className="text-5xl font-serif text-gray-800">Your Cart</h1>
+          <PageBreadcrumb currentPage="Cart" />
+        </div>
+      </div>
 
-          <h1 className="font-serif text-4xl font-bold text-foreground mb-8">
-            Your Cart
-          </h1>
+      <main className="pb-16">
+        <div className="container-wide py-8">
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
             {/* Cart Items */}

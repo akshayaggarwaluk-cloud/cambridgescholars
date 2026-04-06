@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import { PageBreadcrumb } from "@/components/layout/PageBreadcrumb";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
@@ -29,21 +30,14 @@ const EndorsementSubmission = () => {
   return (
     <div className="min-h-screen bg-background flex flex-col">
       <Header />
-      <main className="flex-1 pt-20">
-        {/* Hero Section */}
-        <section className="bg-[#f4f3ec] py-12">
-          <div className="container-wide flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-            <h1 className="text-5xl md:text-3xl font-display font-normal text-black">Endorsement Submission</h1>
+      <div className="bg-[#f4f3ec] min-h-[280px] pt-24 px-6 md:px-16 flex items-center">
+        <div className="max-w-7xl mx-auto flex justify-between items-center w-full">
+          <h1 className="text-5xl font-serif text-gray-800">Endorsement Submission</h1>
+          <PageBreadcrumb currentPage="Endorsement Submission" />
+        </div>
+      </div>
 
-            <nav className="flex items-center gap-2 text-black/80">
-              <Link to="/" className="text-black hover:text-black transition-colors">
-                Home
-              </Link>
-              <span className="text-black/60">/</span>
-              <span className="text-red-500">Endorsement Submission</span>
-            </nav>
-          </div>
-        </section>
+      <main className="flex-1">
 
         {/* Verification Form Section */}
         <section className="py-16 md:py-24">

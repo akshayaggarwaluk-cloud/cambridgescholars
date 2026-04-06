@@ -85,14 +85,14 @@ const SubmitProposal = () => {
   return (
     <div className="min-h-screen bg-background">
       <Header />
-      <main className="pt-20">
-        {/* Hero / Breadcrumb Section */}
-        <section className="bg-[#f4f3ec] py-12 mt-0">
-          <div className="container-wide flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-            <h1 className="text-3xl md:text-4xl font-display text-black">Book Proposal Form</h1>
-            <PageBreadcrumb items={[{ label: "Home", href: "/" }]} currentPage="Book Proposal Form" />
-          </div>
-        </section>
+      <div className="bg-[#f4f3ec] min-h-[280px] pt-24 px-6 md:px-16 flex items-center">
+        <div className="max-w-7xl mx-auto flex justify-between items-center w-full">
+          <h1 className="text-5xl font-serif text-gray-800">Book Proposal Form</h1>
+          <PageBreadcrumb currentPage="Book Proposal Form" />
+        </div>
+      </div>
+
+      <main>
 
         {/* Form Section */}
         <section className="py-12 bg-white">
