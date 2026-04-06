@@ -69,7 +69,7 @@ export default function PublishABook() {
             <div key={card.title} className="group">
               <div className="flex items-start gap-4 mb-4">
                 <div className="p-3 rounded-lg bg-secondary">
-                  <card.icon className="h-8 w-8 text-primary" strokeWidth={1.5} />
+                  <img src={card.icon} alt={card.title} className="h-8 w-8" />
                 </div>
                 <div>
                   <h3 className="font-serif text-2xl text-foreground mb-2">{card.title}</h3>
