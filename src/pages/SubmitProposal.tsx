@@ -87,7 +87,7 @@ const SubmitProposal = () => {
         {/* Hero / Breadcrumb Section */}
         <section className="bg-[#f4f3ec] py-12 mt-0">
           <div className="container-wide flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-            <h1 className="text-3xl md:text-4xl font-display text-primary-foreground">
+            <h1 className="text-3xl md:text-4xl font-display text-black">
               Book Proposal Form
             </h1>
             <PageBreadcrumb
