@@ -249,14 +249,14 @@ const SubmitProposal = () => {
 
               {currentStep === 3 && (
                 <>
-                  <h2 className="text-xl font-semibold text-foreground border-b border-border pb-2">Book Details</h2>
+                  <h2 className="text-2xl font-serif text-foreground pb-2">Book Details</h2>
                   <FieldInput label="Proposed Title" required />
                   <FieldInput label="Proposed Subtitle" required />
                   <div className="space-y-1">
                     <Label className="text-foreground font-semibold">
                       Type of Book <span className="text-accent font-normal">(Required)</span>
                     </Label>
-                    <RadioGroup value={bookType} onValueChange={setBookType} className="flex gap-6 pt-1">
+                    <RadioGroup value={bookType} onValueChange={setBookType} className="flex flex-col gap-3 pt-2">
                       <div className="flex items-center space-x-2">
                         <RadioGroupItem value="monograph" id="type-monograph" />
                         <Label htmlFor="type-monograph" className="font-normal cursor-pointer">
