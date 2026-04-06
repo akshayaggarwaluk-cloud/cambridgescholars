@@ -46,7 +46,6 @@ const News = () => {
         </div>
       </div>
       <main className="container mx-auto px-4 py-8">
-        <PageBreadcrumb items={[{ label: "Home", href: "/" }, { label: "News" }]} />
 
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 mt-8">
           {/* Sidebar */}

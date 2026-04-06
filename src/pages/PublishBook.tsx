@@ -103,12 +103,15 @@ const PublishBook = () => {
   return (
     <div className="min-h-screen bg-background">
       <Header />
-      <main className="pt-24 pb-16">
-        <div className="container-wide max-w-2xl">
-          {/* Breadcrumb */}
-          <div className="pb-4">
-            <PageBreadcrumb currentPage="Publish a Book" />
-          </div>
+      <div className="bg-[#f4f3ec] min-h-[280px] pt-24 px-6 md:px-16 flex items-center">
+        <div className="max-w-7xl mx-auto flex justify-between items-center w-full">
+          <h1 className="text-5xl font-serif text-gray-800">Publish a Book</h1>
+          <PageBreadcrumb currentPage="Publish a Book" />
+        </div>
+      </div>
+
+      <main className="pb-16">
+        <div className="container-wide max-w-2xl py-8">
 
           <div className="bg-card rounded-lg border p-6 md:p-8">
             <div className="flex items-center gap-3 mb-6">
