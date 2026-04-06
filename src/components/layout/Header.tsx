@@ -224,7 +224,7 @@ export function Header() {
                     onClick={() => setIsSearchOpen(true)}
                     aria-label="Search"
                   >
-                    <Search className="h-6 w-6" />
+                    <Search className="h-7 w-7" />
                   </Button>
                 </TooltipTrigger>
                 <TooltipContent>Search</TooltipContent>
@@ -239,7 +239,7 @@ export function Header() {
                       className="hover:text-accent"
                       aria-label="Wishlist"
                     >
-                      <Heart className="h-6 w-6" />
+                      <Heart className="h-7 w-7" />
                       {wishlistCount > 0 && (
                         <span className="absolute -top-1 -right-1 h-5 w-5 rounded-full bg-accent text-accent-foreground text-xs flex items-center justify-center">
                           {wishlistCount}
@@ -260,7 +260,7 @@ export function Header() {
                       className="hover:text-accent"
                       aria-label="Cart"
                     >
-                      <ShoppingCart className="h-6 w-6" />
+                      <ShoppingCart className="h-7 w-7" />
                       {cartCount > 0 && (
                         <span className="absolute -top-1 -right-1 h-5 w-5 rounded-full bg-accent text-accent-foreground text-xs flex items-center justify-center">
                           {cartCount}
@@ -283,7 +283,7 @@ export function Header() {
                           className="hover:text-accent"
                           aria-label="My Account"
                         >
-                          <User className="h-6 w-6" />
+                          <User className="h-7 w-7" />
                         </Button>
                       </DropdownMenuTrigger>
                     </TooltipTrigger>
@@ -312,7 +312,7 @@ export function Header() {
                         className="hover:text-accent"
                         aria-label="Sign In"
                       >
-                        <User className="h-6 w-6" />
+                        <User className="h-7 w-7" />
                       </Button>
                     </Link>
                   </TooltipTrigger>
