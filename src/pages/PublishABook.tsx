@@ -55,7 +55,7 @@ export default function PublishABook() {
             publishing process. Here, you will find everything you need to begin, including an overview of the
             publication workflow,the proposal submission form, and all the necessary resources and templates
           </p>
-          <p className="text-muted-foreground">
+          <p className="text-[#333333]">
             If you are unsure where to begin, we recommend starting with the general overview of the publishing process.
           </p>
         </div>
