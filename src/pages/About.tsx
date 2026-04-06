@@ -98,7 +98,7 @@ export default function AboutSection() {
           </div>
 
           {/* TEXT */}
-          <div className="space-y-8 leading-relaxed text-gray-800">
+          <div className="space-y-8 leading-relaxed text-gray-800 bg-white">
             <h2 className="text-4xl font-serif">Why Publish With Us</h2>
 
             <p>
