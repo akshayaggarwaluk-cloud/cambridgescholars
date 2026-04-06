@@ -130,7 +130,7 @@ const HowToPublish = () => {
                 {timelineSteps.map((step, index) => (
                   <div key={index} className="relative flex gap-6 pb-12 last:pb-0">
                     {index < timelineSteps.length - 1 && (
-                      <div className="absolute left-7 top-14 w-0.5 h-[calc(100%-3.5rem)] bg-border" />
+                      <div className="absolute left-7 top-14 w-0.5 h-[calc(100%-3.5rem)] bg-black" />
                     )}
 
                     <div className="relative z-10 flex-shrink-0">
