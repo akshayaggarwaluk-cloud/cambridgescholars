@@ -276,9 +276,7 @@ const SubmitProposal = () => {
 
               {currentStep === 4 && (
                 <>
-                  <h2 className="text-xl font-semibold text-foreground border-b border-border pb-2">
-                    Book Description
-                  </h2>
+                  <h2 className="text-2xl font-serif text-foreground pb-2">Book Description</h2>
                   <FieldTextarea label="Brief Summary of the Book (approx. 200–500 words)" required rows={6} />
                   <FieldTextarea label="Key Features or Selling Points" required rows={4} />
                   <FieldTextarea label="Intended Audience" required rows={3} />
@@ -437,7 +435,7 @@ const FieldInput = ({ label, required, type = "text" }: { label: string; require
     <Input
       type={type}
       required={required}
-      className="border-b border-input border-t-0 border-l-0 border-r-0 rounded-none shadow-none focus-visible:ring-0 px-0 bg-transparent"
+      className="border border-input rounded-none shadow-none focus-visible:ring-0 px-3 py-2 bg-[#f5f5f5]"
     />
   </div>
 );
@@ -450,7 +448,7 @@ const FieldTextarea = ({ label, required, rows = 4 }: { label: string; required?
     <Textarea
       required={required}
       rows={rows}
-      className="border-b border-input border-t-0 border-l-0 border-r-0 rounded-none shadow-none focus-visible:ring-0 px-0 bg-transparent resize-none"
+      className="border border-input rounded-none shadow-none focus-visible:ring-0 px-3 py-2 bg-[#f5f5f5] resize-vertical"
     />
   </div>
 );
