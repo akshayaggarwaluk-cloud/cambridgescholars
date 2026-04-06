@@ -2,22 +2,20 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { Link } from "react-router-dom";
 import { PageBreadcrumb } from "@/components/layout/PageBreadcrumb";
-
 import { Button } from "@/components/ui/button";
-import {
-  FileText,
-  Search,
-  FileCheck,
-  PenTool,
-  Settings,
-  BookOpen,
-  Globe,
-  BarChart3,
-  MessageCircle,
-} from "lucide-react";
+
+import submitProposalIcon from "@/assets/timeline/submit-proposal.png";
+import editorialReviewIcon from "@/assets/timeline/editorial-review.png";
+import contractOnboardingIcon from "@/assets/timeline/contract-onboarding.png";
+import manuscriptPreparationIcon from "@/assets/timeline/manuscript-preparation.png";
+import productionIcon from "@/assets/timeline/production.png";
+import publicationIcon from "@/assets/timeline/publication.png";
+import distributionRoyaltiesIcon from "@/assets/timeline/distribution-royalties.png";
+import postPublicationIcon from "@/assets/timeline/post-publication.png";
+import ongoingSupportIcon from "@/assets/timeline/ongoing-support.png";
 
 interface TimelineStep {
-  icon: React.ComponentType<{ className?: string }>;
+  icon: string;
   title: string;
   description?: string;
   bullets?: string[];
@@ -27,31 +25,31 @@ interface TimelineStep {
 const HowToPublish = () => {
   const timelineSteps: TimelineStep[] = [
     {
-      icon: FileText,
+      icon: submitProposalIcon,
       title: "Submit a Proposal",
       description:
         "Begin by completing our proposal form, available online or as a downloadable Word document. Please include at least one sample chapter and an academic CV. The more detailed your submission, the more effectively our team can assess it.",
     },
     {
-      icon: Search,
+      icon: editorialReviewIcon,
       title: "Editorial Review",
       description:
         "Your proposal will be reviewed by our editorial panel. We aim to provide a decision within four to six weeks. If successful, you will receive a publishing contract and begin the onboarding process.",
     },
     {
-      icon: FileCheck,
+      icon: contractOnboardingIcon,
       title: "Contract and Onboarding",
       description:
         "Upon signing the contract, you will receive all the necessary forms, templates and style guidelines. A dedicated member of our team will be assigned to support you through the next stages of the process.",
     },
     {
-      icon: PenTool,
+      icon: manuscriptPreparationIcon,
       title: "Manuscript Preparation",
       description:
         "You will submit your complete manuscript in accordance with our formatting and referencing guidelines. If your work includes third-party materials, it is your responsibility to secure the appropriate permissions. Our team is ready to assist at any point in the process.",
     },
     {
-      icon: Settings,
+      icon: productionIcon,
       title: "Production",
       description: "Your manuscript will undergo a comprehensive production process, including:",
       bullets: [
@@ -64,19 +62,19 @@ const HowToPublish = () => {
         "You will be closely consulted throughout to ensure your work is presented with accuracy and professionalism.",
     },
     {
-      icon: BookOpen,
+      icon: publicationIcon,
       title: "Publication",
       description:
         "Your book will be published in both hardback and eBook formats. Titles are made available through major academic and commercial channels, including Amazon, ProQuest, EBSCO and Ingram.",
     },
     {
-      icon: Globe,
+      icon: distributionRoyaltiesIcon,
       title: "Distribution and Royalties",
       description:
         "We operate a Print-on-Time model, ensuring your title is always available and never out of stock. Royalties are paid from the first sale, and increase with volume. Authors also benefit from generous discounts on their own titles.",
     },
     {
-      icon: BarChart3,
+      icon: postPublicationIcon,
       title: "Post-Publication Marketing and Promotion",
       description:
         "Following publication, your book will be promoted through our global distribution partners and academic channels. Marketing support includes:",
@@ -90,7 +88,7 @@ const HowToPublish = () => {
         "We also encourage authors to promote their work through their networks and at academic events. Our team is available to provide guidance on outreach strategies.",
     },
     {
-      icon: MessageCircle,
+      icon: ongoingSupportIcon,
       title: "Ongoing Author Support",
       description: "Our relationship with authors continues beyond publication. You will have access to:",
       bullets: [
@@ -115,9 +113,6 @@ const HowToPublish = () => {
       </div>
 
       <main>
-        {/* Hero Section with Breadcrumb */}
-
-        {/* Academic Publishing Timeline Section */}
         <section className="py-16 bg-white">
           <div className="container-wide">
             <div className="text-center mb-16">
@@ -130,24 +125,20 @@ const HowToPublish = () => {
               </p>
             </div>
 
-            {/* Vertical Timeline */}
             <div className="max-w-4xl mx-auto">
               <div className="relative">
                 {timelineSteps.map((step, index) => (
                   <div key={index} className="relative flex gap-6 pb-12 last:pb-0">
-                    {/* Vertical Line */}
                     {index < timelineSteps.length - 1 && (
                       <div className="absolute left-7 top-14 w-0.5 h-[calc(100%-3.5rem)] bg-border" />
                     )}
 
-                    {/* Icon */}
                     <div className="relative z-10 flex-shrink-0">
-                      <div className="w-14 h-14 rounded-full border-2 border-foreground/80 bg-background flex items-center justify-center">
-                        <step.icon className="w-6 h-6 text-foreground/80" />
+                      <div className="w-14 h-14 rounded-full overflow-hidden">
+                        <img src={step.icon} alt={step.title} className="w-full h-full object-contain" />
                       </div>
                     </div>
 
-                    {/* Content */}
                     <div className="flex-1 pt-2">
                       <h3 className="text-2xl font-display text-foreground mb-3 font-semibold">{step.title}</h3>
                       {step.description && (
@@ -169,7 +160,6 @@ const HowToPublish = () => {
               </div>
             </div>
 
-            {/* CTA Button */}
             <div className="text-center mt-16">
               <Button
                 asChild
