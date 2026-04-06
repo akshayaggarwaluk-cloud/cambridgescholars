@@ -93,10 +93,9 @@ const SubmitProposal = () => {
       </div>
 
       <main>
-
         {/* Form Section */}
         <section className="py-12 bg-white">
-          <div className="container-wide max-w-4xl mx-auto">
+          <div className="container-wide max-w-6xl mx-auto">
             {/* Notice */}
             <p className="text-muted-foreground mb-8 text-sm md:text-base">
               Please note that we publish in English only and do not provide translation services at this time.
