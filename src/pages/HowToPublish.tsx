@@ -149,7 +149,7 @@ const HowToPublish = () => {
 
                     {/* Content */}
                     <div className="flex-1 pt-2">
-                      <h3 className="text-2xl font-display font-normal text-foreground mb-3">{step.title}</h3>
+                      <h3 className="text-2xl font-display text-foreground mb-3 font-semibold">{step.title}</h3>
                       {step.description && (
                         <p className="text-muted-foreground leading-relaxed mb-3">{step.description}</p>
                       )}
