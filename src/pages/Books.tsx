@@ -123,7 +123,7 @@ export default function Books() {
         </div>
       </div>
 
-      <main className="max-w-7xl mx-auto px-6 md:px-16 py-12">
+      <main className="max-w-7xl mx-auto px-6 md:px-16 py-12 bg-white">
         <div className="flex flex-col lg:flex-row gap-12">
           {/* Sidebar */}
           <aside className="lg:w-72 flex-shrink-0">
