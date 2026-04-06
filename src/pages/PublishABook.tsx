@@ -68,8 +68,8 @@ export default function PublishABook() {
           {publishCards.map((card) => (
             <div key={card.title} className="group">
               <div className="flex items-start gap-4 mb-4">
-                <div>
-                  <img src={card.icon} alt={card.title} className="h-12 w-12" />
+                <div className="flex-shrink-0">
+                  <img src={card.icon} alt={card.title} className="h-14 w-14 object-contain" />
                 </div>
                 <div>
                   <h3 className="font-serif text-2xl text-foreground mb-2">{card.title}</h3>
