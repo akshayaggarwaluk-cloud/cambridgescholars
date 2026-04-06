@@ -1,25 +1,28 @@
 import { Link } from "react-router-dom";
-import { FileText, Send, Download, ChevronRight } from "lucide-react";
+import { ChevronRight } from "lucide-react";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { PageBreadcrumb } from "@/components/layout/PageBreadcrumb";
 import heroImage from "@/assets/hero-bookstore.jpg";
+import howToPublishIcon from "@/assets/how-to-publish-icon.png";
+import submitProposalIcon from "@/assets/submit-proposal-icon.png";
+import resourcesIcon from "@/assets/resources-icon.png";
 
 const publishCards = [
   {
-    icon: FileText,
+    icon: howToPublishIcon,
     title: "How to publish",
     description: "Understand our publication process",
     href: "/how-to-publish",
   },
   {
-    icon: Send,
+    icon: submitProposalIcon,
     title: "Submit a proposal",
     description: "Send us your application",
     href: "/submit-proposal",
   },
   {
-    icon: Download,
+    icon: resourcesIcon,
     title: "Resources",
     description: "Download all the necessary forms and guidelines",
     href: "/resources",
@@ -66,7 +69,7 @@ export default function PublishABook() {
             <div key={card.title} className="group">
               <div className="flex items-start gap-4 mb-4">
                 <div className="p-3 rounded-lg bg-secondary">
-                  <card.icon className="h-8 w-8 text-primary" strokeWidth={1.5} />
+                  <img src={card.icon} alt={card.title} className="h-8 w-8" />
                 </div>
                 <div>
                   <h3 className="font-serif text-2xl text-foreground mb-2">{card.title}</h3>
