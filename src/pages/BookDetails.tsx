@@ -71,7 +71,7 @@ export default function BookDetails() {
         </div>
 
         {/* Main Section */}
-        <section className="container-wide">
+        <section className="container-wide bg-white">
           <div className="grid grid-cols-1 md:grid-cols-[1fr_2fr] gap-12 items-start">
             {/* Image Section */}
             <div className="flex justify-center md:justify-start">
