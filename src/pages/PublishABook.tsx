@@ -51,11 +51,9 @@ export default function PublishABook() {
       <section className="container-wide py-16">
         <div className="max-w-4xl mx-auto text-center mb-16">
           <p className="text-lg text-muted-foreground leading-relaxed mb-6">
-            Are you ready to publish your book? <span className="text-accent">This section</span> provides a
-            comprehensive guide to the next steps in the publishing process. Here, you will find everything you need to
-            begin, including an overview of the <span className="text-accent">publication workflow</span>, the{" "}
-            <span className="text-accent">proposal submission form</span>, and all the{" "}
-            <span className="text-accent">necessary resources and templates</span>.
+            Are you ready to publish your book? This section provides a comprehensive guide to the next steps in the
+            publishing process. Here, you will find everything you need to begin, including an overview of the
+            publication workflow,the proposal submission form, and all the necessary resources and templates
           </p>
           <p className="text-muted-foreground">
             If you are unsure where to begin, we recommend starting with the general overview of the publishing process.
