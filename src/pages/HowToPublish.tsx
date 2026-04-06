@@ -114,7 +114,7 @@ const HowToPublish = () => {
         </div>
       </div>
 
-      <main className="pt-20">
+      <main>
         {/* Hero Section with Breadcrumb */}
 
         {/* Academic Publishing Timeline Section */}
