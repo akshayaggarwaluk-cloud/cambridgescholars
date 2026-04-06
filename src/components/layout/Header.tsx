@@ -141,9 +141,9 @@ export function Header() {
                           key={item.name}
                           to={item.href}
                           className={cn(
-                            "block px-5 py-2.5 hover:bg-secondary transition-colors",
+                            "block px-5 py-2.5 text-base font-semibold uppercase hover:bg-secondary transition-colors",
                             isActiveRoute(item.href)
-                              ? "text-accent font-medium"
+                              ? "text-accent"
                               : "text-foreground"
                           )}
                         >
@@ -185,9 +185,9 @@ export function Header() {
                           key={item.name}
                           to={item.href}
                           className={cn(
-                            "block px-5 py-2.5 hover:bg-secondary transition-colors",
+                            "block px-5 py-2.5 text-base font-semibold uppercase hover:bg-secondary transition-colors",
                             isActiveRoute(item.href)
-                              ? "text-accent font-medium"
+                              ? "text-accent"
                               : "text-foreground"
                           )}
                         >
