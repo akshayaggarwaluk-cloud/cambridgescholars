@@ -19,7 +19,7 @@ export default function AboutSection() {
       </div>
 
       {/* FIRST SECTION */}
-      <section className="w-full px-6 md:px-20 py-16">
+      <section className="w-full px-6 md:px-20 py-16 bg-white">
         <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-[65%_35%] gap-16 items-stretch">
           {/* TEXT */}
           <div className="space-y-6 leading-relaxed text-gray-800">
