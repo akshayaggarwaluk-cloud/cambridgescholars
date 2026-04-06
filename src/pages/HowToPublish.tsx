@@ -142,7 +142,7 @@ const HowToPublish = () => {
                     <div className="flex-1 pt-2">
                       <h3 className="text-2xl font-display text-foreground mb-3 font-semibold">{step.title}</h3>
                       {step.description && (
-                        <p className="text-muted-foreground leading-relaxed mb-3 text-base">{step.description}</p>
+                        <p className="leading-relaxed mb-3 text-base text-black">{step.description}</p>
                       )}
                       {step.bullets && (
                         <ul className="list-disc list-inside text-muted-foreground space-y-1 mb-3 ml-1">
