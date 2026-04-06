@@ -288,9 +288,7 @@ const SubmitProposal = () => {
 
               {currentStep === 5 && (
                 <>
-                  <h2 className="text-xl font-semibold text-foreground border-b border-border pb-2">
-                    Marketing and Promotion
-                  </h2>
+                  <h2 className="text-2xl font-serif text-foreground pb-2">Marketing and Promotion</h2>
                   <FieldTextarea
                     label="Competing Titles (minimum two examples with author, title, and publisher)"
                     required
@@ -306,9 +304,7 @@ const SubmitProposal = () => {
 
               {currentStep === 6 && (
                 <>
-                  <h2 className="text-xl font-semibold text-foreground border-b border-border pb-2">
-                    Manuscript Status
-                  </h2>
+                  <h2 className="text-2xl font-serif text-foreground pb-2">Manuscript Status</h2>
                   <div className="space-y-1">
                     <Label className="text-foreground font-semibold">
                       Current stage of the manuscript <span className="text-accent font-normal">(Required)</span>
@@ -331,7 +327,7 @@ const SubmitProposal = () => {
 
               {currentStep === 7 && (
                 <>
-                  <h2 className="text-xl font-semibold text-foreground border-b border-border pb-2">Sample Material</h2>
+                  <h2 className="text-2xl font-serif text-foreground pb-2">Sample Material</h2>
 
                   <div className="space-y-1">
                     <Label className="text-foreground font-semibold">
@@ -377,9 +373,7 @@ const SubmitProposal = () => {
                     <p className="text-xs text-muted-foreground">Max. file size: 2 GB.</p>
                   </div>
 
-                  <h2 className="text-xl font-semibold text-foreground border-b border-border pb-2 pt-4">
-                    Additional Comments and Permissions
-                  </h2>
+                  <h2 className="text-2xl font-serif text-foreground pb-2 pt-4">Additional Comments and Permissions</h2>
                   <FieldTextarea label="Any additional notes or context from the author" required rows={4} />
                   <FieldTextarea
                     label="Are there any permissions you need to obtain from other copyright holders?"
