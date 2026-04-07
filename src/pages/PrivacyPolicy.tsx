@@ -21,7 +21,7 @@ const PrivacyPolicy = () => {
         </div>
       </div>
 
-      <main className="flex-1 py-12">
+      <main className="flex-1 py-12 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-black">
           {/* Introduction */}
           <div className="mb-8">
