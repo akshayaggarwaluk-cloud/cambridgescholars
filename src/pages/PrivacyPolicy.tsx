@@ -43,7 +43,7 @@ const PrivacyPolicy = () => {
 
           {/* Who We Are */}
           <section className="mb-8">
-            <h2 className="font-playfair text-[26px] font-semibold text-black mb-4">Who We Are</h2>
+            <h2 className="font-playfair text-[26px] font-medium text-black mb-4">Who We Are</h2>
             <p
               className="leading-relaxed text-black text-[15px]
 "
@@ -57,7 +57,7 @@ const PrivacyPolicy = () => {
 
           {/* Information We Collect */}
           <section className="mb-8">
-            <h2 className="font-playfair text-[26px] font-semibold text-black mb-4">Information We Collect</h2>
+            <h2 className="font-playfair text-[26px] font-medium text-black mb-4">Information We Collect</h2>
             <p
               className="leading-relaxed mb-4 text-black text-[15px]
 "
@@ -85,7 +85,7 @@ const PrivacyPolicy = () => {
 
           {/* How We Use Your Information */}
           <section className="mb-8">
-            <h2 className="font-playfair text-[26px] font-semibold text-black mb-4">How We Use Your Information</h2>
+            <h2 className="font-playfair text-[26px] font-medium text-black mb-4">How We Use Your Information</h2>
             <p className="leading-relaxed mb-4 text-black text-[15px]">
               We process personal data for the following purposes:
             </p>
@@ -105,7 +105,7 @@ const PrivacyPolicy = () => {
 
           {/* Cookies */}
           <section className="mb-8">
-            <h2 className="font-playfair text-[26px] font-semibold text-black mb-4">Cookies</h2>
+            <h2 className="font-playfair text-[26px] font-medium text-black mb-4">Cookies</h2>
             <p
               className="leading-relaxed text-black text-[15px]
 "
@@ -135,7 +135,7 @@ const PrivacyPolicy = () => {
 
           {/* Where We Store Your Data */}
           <section className="mb-8">
-            <h2 className="font-playfair text-[26px] font-semibold text-black mb-4">Where We Store Your Data</h2>
+            <h2 className="font-playfair text-[26px] font-medium text-black mb-4">Where We Store Your Data</h2>
             <p
               className="leading-relaxed mb-4 text-black text-[15px]
 "
@@ -157,7 +157,7 @@ const PrivacyPolicy = () => {
 
           {/* Data Security */}
           <section className="mb-8">
-            <h2 className="font-playfair text-[26px] font-semibold text-black mb-4">Data Security</h2>
+            <h2 className="font-playfair text-[26px] font-medium text-black mb-4">Data Security</h2>
             <p
               className="leading-relaxed text-black text-[15px]
 "
@@ -173,7 +173,7 @@ const PrivacyPolicy = () => {
 
           {/* Sharing Your Information */}
           <section className="mb-8">
-            <h2 className="font-playfair text-[26px] font-semibold text-black mb-4">Sharing Your Information</h2>
+            <h2 className="font-playfair text-[26px] font-medium text-black mb-4">Sharing Your Information</h2>
             <p
               className="leading-relaxed text-black text-[15px]
 "
@@ -204,7 +204,7 @@ const PrivacyPolicy = () => {
 
           {/* Your Rights */}
           <section className="mb-8">
-            <h2 className="font-playfair text-[26px] font-semibold text-black mb-4">Your Rights</h2>
+            <h2 className="font-playfair text-[26px] font-medium text-black mb-4">Your Rights</h2>
             <p
               className="leading-relaxed text-black text-[15px]
 "
@@ -233,7 +233,7 @@ const PrivacyPolicy = () => {
 
           {/* Marketing Communications */}
           <section className="mb-8">
-            <h2 className="font-playfair text-[26px] font-semibold text-black mb-4">
+            <h2 className="font-playfair text-[26px] font-medium text-black mb-4">
               Marketing Communications and Legitimate Interest
             </h2>
             <p
@@ -279,7 +279,7 @@ const PrivacyPolicy = () => {
 
           {/* Contact */}
           <section className="mb-8">
-            <h2 className="font-playfair text-[26px] font-semibold text-black mb-4">Contact Us</h2>
+            <h2 className="font-playfair text-[26px] font-medium text-black mb-4">Contact Us</h2>
             <p
               className="leading-relaxed text-black text-[15px]
 "
