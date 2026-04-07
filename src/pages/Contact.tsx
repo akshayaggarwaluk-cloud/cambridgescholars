@@ -71,7 +71,7 @@ export default function Contact() {
         </div>
       </div>
 
-      <main className="py-16">
+      <main className="py-16 bg-white">
         {/* Contact Info */}
         <section className="pb-20">
           <div className="container-wide">
@@ -106,11 +106,15 @@ export default function Contact() {
                 {/* Name + Email */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
-                    <label htmlFor="name" className="block text-sm font-medium text-foreground mb-1">Name</label>
+                    <label htmlFor="name" className="block text-sm font-medium text-foreground mb-1">
+                      Name
+                    </label>
                     <Input id="name" placeholder="Your name" value={formData.name} onChange={handleChange} required />
                   </div>
                   <div>
-                    <label htmlFor="email" className="block text-sm font-medium text-foreground mb-1">Email</label>
+                    <label htmlFor="email" className="block text-sm font-medium text-foreground mb-1">
+                      Email
+                    </label>
                     <Input
                       id="email"
                       type="email"
@@ -124,7 +128,9 @@ export default function Contact() {
 
                 {/* Subject */}
                 <div>
-                  <label htmlFor="subject" className="block text-sm font-medium text-foreground mb-1">Subject</label>
+                  <label htmlFor="subject" className="block text-sm font-medium text-foreground mb-1">
+                    Subject
+                  </label>
                   <select
                     id="subject"
                     value={formData.subject}
@@ -141,7 +147,9 @@ export default function Contact() {
 
                 {/* Message */}
                 <div>
-                  <label htmlFor="message" className="block text-sm font-medium text-foreground mb-1">Message</label>
+                  <label htmlFor="message" className="block text-sm font-medium text-foreground mb-1">
+                    Message
+                  </label>
                   <Textarea
                     id="message"
                     rows={6}
@@ -163,7 +171,10 @@ export default function Contact() {
                 </div>
 
                 {/* Submit */}
-                <Button type="submit" className="bg-accent hover:bg-accent/90 text-accent-foreground px-12 py-3 rounded-none">
+                <Button
+                  type="submit"
+                  className="bg-accent hover:bg-accent/90 text-accent-foreground px-12 py-3 rounded-none"
+                >
                   SUBMIT
                 </Button>
               </form>
