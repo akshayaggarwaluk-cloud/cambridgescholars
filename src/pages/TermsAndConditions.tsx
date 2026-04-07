@@ -20,7 +20,7 @@ const TermsAndConditions = () => {
         </div>
       </div>
 
-      <main className="flex-1 py-12">
+      <main className="flex-1 py-12 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Introduction */}
           <div className="mb-8">
@@ -33,7 +33,7 @@ const TermsAndConditions = () => {
 
           {/* 1. Definitions */}
           <section className="mb-8">
-            <h2 className="font-playfair text-[26px] font-semibold mb-4 text-black">1. Definitions</h2>
+            <h2 className="font-playfair text-[26px] font-medium mb-4 text-black">1. Definitions</h2>
             <p className="leading-relaxed mb-4 text-black text-[15px]">
               <strong>The Company</strong> refers to Cambridge Scholars Publishing Ltd, a company registered in England
               and Wales, company registration number 04333775, VAT number 108280727. Registered address: Lady Stephenson
@@ -50,7 +50,7 @@ const TermsAndConditions = () => {
 
           {/* 2. Description of Items */}
           <section className="mb-8">
-            <h2 className="font-playfair text-[26px] font-semibold mb-4 text-black">2. Description of Items</h2>
+            <h2 className="font-playfair text-[26px] font-medium mb-4 text-black">2. Description of Items</h2>
             <p className="leading-relaxed text-black text-[15px]">
               The books and other products available for sale are as described on the relevant pages of our website at{" "}
               <a href="https://www.cambridgescholars.com" className="text-black underline">
@@ -64,7 +64,7 @@ const TermsAndConditions = () => {
 
           {/* 3. Pricing and Taxes */}
           <section className="mb-8">
-            <h2 className="font-playfair text-[26px] font-semibold mb-4 text-black">3. Pricing and Taxes</h2>
+            <h2 className="font-playfair text-[26px] font-medium mb-4 text-black">3. Pricing and Taxes</h2>
             <ul className="list-disc list-inside space-y-2 text-black text-[15px]">
               <li>
                 All prices include applicable taxes. Books are currently zero rated for VAT in the UK so tax is not
@@ -88,7 +88,7 @@ const TermsAndConditions = () => {
 
           {/* 4. Delivery */}
           <section className="mb-8">
-            <h2 className="font-playfair text-[26px] font-semibold mb-4 text-black">4. Delivery</h2>
+            <h2 className="font-playfair text-[26px] font-medium mb-4 text-black">4. Delivery</h2>
             <p className="leading-relaxed text-black text-[15px]">
               Delivery costs are shown during the checkout process and on the ordering information page of our website.
               For large orders, the Company may be able to offer a reduced shipping rate but is not obliged to do so. A
@@ -100,7 +100,7 @@ const TermsAndConditions = () => {
 
           {/* 5. Payment */}
           <section className="mb-8">
-            <h2 className="font-playfair text-[26px] font-semibold mb-4 text-black">5. Payment</h2>
+            <h2 className="font-playfair text-[26px] font-medium mb-4 text-black">5. Payment</h2>
             <p className="leading-relaxed text-black text-[15px]">
               Payment can be made by credit card, bank transfer or cheque in Pounds Sterling or US Dollars.
             </p>
@@ -125,7 +125,7 @@ const TermsAndConditions = () => {
 
           {/* 6. Cancellations and Returns */}
           <section className="mb-8">
-            <h2 className="font-playfair text-[26px] font-semibold mb-4 text-black">6. Cancellations and Returns</h2>
+            <h2 className="font-playfair text-[26px] font-medium mb-4 text-black">6. Cancellations and Returns</h2>
             <p className="leading-relaxed text-black text-[15px]">
               Customers have the right to cancel their order in accordance with the UK Consumer Contracts Regulations.
               You can cancel within 14 days of receiving your order by contacting us in writing.
@@ -153,7 +153,7 @@ const TermsAndConditions = () => {
 
           {/* 7. Complaints */}
           <section className="mb-8">
-            <h2 className="font-playfair text-[26px] font-semibold mb-4 text-black">7. Complaints</h2>
+            <h2 className="font-playfair text-[26px] font-medium mb-4 text-black">7. Complaints</h2>
             <p className="leading-relaxed text-black text-[15px]">
               Complaints can be addressed in writing to Cambridge Scholars Publishing at the registered address above or
               by email to orders@cambridgescholars.com.
