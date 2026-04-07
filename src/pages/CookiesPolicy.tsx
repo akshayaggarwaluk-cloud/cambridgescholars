@@ -16,7 +16,7 @@ const CookiesPolicy = () => {
         </div>
       </div>
 
-      <main className="flex-1 py-12">
+      <main className="flex-1 py-12 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-black">
           {/* Introduction */}
           <div className="mb-8 text-black">
@@ -35,7 +35,7 @@ const CookiesPolicy = () => {
 
           {/* How We Use Cookies */}
           <section className="mb-8 text-black">
-            <h2 className="font-playfair text-[26px] font-semibold text-black mb-4">How We Use Cookies</h2>
+            <h2 className="font-playfair text-[26px] font-medium text-black mb-4">How We Use Cookies</h2>
             <p className="leading-relaxed mb-4 text-black text-[15px]">We use cookies to:</p>
             <ul className="list-disc list-inside space-y-2 text-black text-[15px]">
               <li>Analyse website traffic and understand how visitors use our site</li>
@@ -51,7 +51,7 @@ const CookiesPolicy = () => {
 
           {/* Types of Cookies We Use */}
           <section className="mb-8 text-black">
-            <h2 className="font-playfair text-[26px] font-semibold text-black mb-4">Types of Cookies We Use</h2>
+            <h2 className="font-playfair text-[26px] font-medium text-black mb-4">Types of Cookies We Use</h2>
             <ul className="space-y-3 text-black">
               <li>
                 <strong className="text-black text-[15px]">Essential cookies</strong> – required for the website to
@@ -72,7 +72,7 @@ const CookiesPolicy = () => {
 
           {/* Your Choices */}
           <section className="mb-8 text-black">
-            <h2 className="font-playfair text-[26px] font-semibold text-black mb-4">Your Choices</h2>
+            <h2 className="font-playfair text-[26px] font-medium text-black mb-4">Your Choices</h2>
             <p className="leading-relaxed text-black text-[15px]">
               You can choose to accept or decline cookies. Most web browsers automatically accept cookies but you can
               change your browser settings to refuse them if you prefer.
