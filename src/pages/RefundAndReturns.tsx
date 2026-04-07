@@ -17,7 +17,7 @@ const RefundAndReturns = () => {
         </div>
       </div>
 
-      <main className="flex-1 py-12">
+      <main className="flex-1 py-12 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Introduction */}
           <div className="mb-8">
@@ -31,7 +31,7 @@ const RefundAndReturns = () => {
 
           {/* Returning Faulty Books */}
           <section className="mb-8">
-            <h2 className="font-playfair text-[26px] font-semibold text-black mb-4">Returning Faulty Books</h2>
+            <h2 className="font-playfair text-[26px] font-medium text-black mb-4">Returning Faulty Books</h2>
             <ul className="list-disc list-inside space-y-2 text-black text-[15px]">
               <li>Faulty books can be returned for a full refund or replacement.</li>
               <li>
@@ -54,7 +54,7 @@ const RefundAndReturns = () => {
 
           {/* Returning Non-Faulty Books */}
           <section className="mb-8">
-            <h2 className="font-playfair text-[26px] font-semibold text-black mb-4">Returning Non-Faulty Books</h2>
+            <h2 className="font-playfair text-[26px] font-medium text-black mb-4">Returning Non-Faulty Books</h2>
             <ul className="list-disc list-inside space-y-2 text-black text-[15px]">
               <li>
                 If your books are not faulty, you may return them within{" "}
@@ -84,7 +84,7 @@ const RefundAndReturns = () => {
 
           {/* How to Return Books */}
           <section className="mb-8">
-            <h2 className="font-playfair text-[26px] font-semibold text-black mb-4">How to Return Books</h2>
+            <h2 className="font-playfair text-[26px] font-medium text-black mb-4">How to Return Books</h2>
             <p className="text-black leading-relaxed mb-4 text-[15px]">Please send all returns to:</p>
             <address className="text-black not-italic leading-relaxed text-[15px]">
               Cambridge Scholars Publishing
@@ -105,7 +105,7 @@ const RefundAndReturns = () => {
 
           {/* Postage Costs */}
           <section className="mb-8">
-            <h2 className="font-playfair text-[26px] font-semibold text-black mb-4">Postage Costs</h2>
+            <h2 className="font-playfair text-[26px] font-medium text-black mb-4">Postage Costs</h2>
             <p className="text-black leading-relaxed mb-6 text-[15px]">
               Postage costs depend on the number of books and the delivery destination. For large orders, please contact{" "}
               <a href="mailto:admin@cambridgescholars.com" className="text-red-500 hover:underline">
@@ -115,7 +115,7 @@ const RefundAndReturns = () => {
             </p>
 
             {/* UK Postage Prices */}
-            <h3 className="font-playfair text-xl font-semibold text-black mb-4">UK Postage Prices</h3>
+            <h3 className="font-playfair text-xl font-medium text-black mb-4">UK Postage Prices</h3>
             <Table className="mb-8">
               <TableHeader>
                 <TableRow>
@@ -144,7 +144,7 @@ const RefundAndReturns = () => {
             </Table>
 
             {/* International Postage Prices */}
-            <h3 className="font-playfair text-xl font-semibold text-black mb-4">International Postage Prices</h3>
+            <h3 className="font-playfair text-xl font-medium text-black mb-4">International Postage Prices</h3>
             <Table className="mb-8">
               <TableHeader>
                 <TableRow>
@@ -177,7 +177,7 @@ const RefundAndReturns = () => {
             </Table>
 
             {/* Estimated Delivery Times */}
-            <h3 className="font-playfair text-xl font-semibold text-black mb-4">Estimated Delivery Times</h3>
+            <h3 className="font-playfair text-xl font-medium text-black mb-4">Estimated Delivery Times</h3>
             <Table>
               <TableHeader>
                 <TableRow>
@@ -215,7 +215,7 @@ const RefundAndReturns = () => {
 
           {/* Contact Us */}
           <section className="mb-8">
-            <h2 className="font-playfair text-[26px] font-semibold text-black mb-4">Contact Us</h2>
+            <h2 className="font-playfair text-[26px] font-medium text-black mb-4">Contact Us</h2>
             <p className="text-black leading-relaxed text-[15px]">
               If you have any questions about returns or refunds, please contact us at{" "}
               <a href="mailto:orders@cambridgescholars.com" className="text-red-500 hover:underline">
