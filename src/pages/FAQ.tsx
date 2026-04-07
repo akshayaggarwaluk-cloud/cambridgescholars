@@ -59,7 +59,7 @@ export default function FAQ() {
         </div>
       </div>
 
-      <main className="pb-16">
+      <main className="pb-16 bg-white">
         <section className="container-wide py-16">
           <div className="max-w-7xl mx-auto">
             <Accordion type="single" collapsible className="space-y-4">
