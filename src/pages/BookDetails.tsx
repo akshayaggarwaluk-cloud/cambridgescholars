@@ -96,7 +96,7 @@ export default function BookDetails() {
           <div className="grid grid-cols-1 md:grid-cols-[1fr_2fr] gap-12 items-start">
             {/* Image */}
             <div className="flex justify-center md:justify-start">
-              <div className="w-full max-w-[340px] lg:max-w-[380px]">
+              <div className="w-full max-w-[280px] lg:max-w-[320px]">
                 <img ref={imageRef} src={book.image} alt={book.title} className="w-full object-contain" onLoad={updateImageHeight} />
               </div>
             </div>
