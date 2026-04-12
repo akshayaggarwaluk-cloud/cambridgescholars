@@ -141,22 +141,18 @@ export function SearchAutocomplete({ onClose, className }: SearchAutocompletePro
             </div>
             {results.map((book, index) => (
               <Link
-                key={book.id}
-                to={`/books/${book.id}`}
+                key={book.isbn}
+                to={`/books/${book.isbn}`}
                 onClick={handleClose}
                 className={cn(
                   "flex items-center gap-4 p-3 transition-colors",
                   highlightedIndex === index ? "bg-accent/10" : "hover:bg-secondary"
                 )}
               >
-                <img src={book.image} alt={book.title} className="w-12 h-16 object-cover rounded-md flex-shrink-0" />
+                <img src={book.cover_image} alt={book.title} className="w-12 h-16 object-cover rounded-md flex-shrink-0" />
                 <div className="min-w-0 flex-1">
                   <p className="font-medium text-foreground line-clamp-1">{highlightQuery(book.title, query)}</p>
-                  <p className="text-sm text-muted-foreground line-clamp-1">{highlightQuery(book.author, query)}</p>
-                  <div className="flex items-center gap-2 mt-1">
-                    <span className="text-xs text-muted-foreground bg-secondary px-2 py-0.5 rounded">{book.category}</span>
-                    {book.price > 0 && <span className="text-sm font-semibold text-accent">£{book.price.toFixed(2)}</span>}
-                  </div>
+                  <p className="text-sm text-muted-foreground line-clamp-1">{highlightQuery(book.authors, query)}</p>
                 </div>
               </Link>
             ))}
