@@ -2,9 +2,16 @@ import { useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Search, X, Loader2 } from "lucide-react";
 import { Input } from "@/components/ui/input";
-import { fetchBooks } from "@/services/cspApi";
+import { fetchAutocomplete } from "@/services/cspApi";
 import { cn } from "@/lib/utils";
-import { Book } from "@/contexts/CartContext";
+
+interface AutocompleteResult {
+  title: string;
+  isbn: string;
+  slug: string;
+  authors: string;
+  cover_image: string;
+}
 
 interface SearchAutocompleteProps {
   onClose?: () => void;
@@ -15,7 +22,7 @@ export function SearchAutocomplete({ onClose, className }: SearchAutocompletePro
   const [query, setQuery] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   const [highlightedIndex, setHighlightedIndex] = useState(-1);
-  const [results, setResults] = useState<Book[]>([]);
+  const [results, setResults] = useState<AutocompleteResult[]>([]);
   const [loading, setLoading] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -33,9 +40,9 @@ export function SearchAutocomplete({ onClose, className }: SearchAutocompletePro
     clearTimeout(debounceRef.current);
     debounceRef.current = setTimeout(async () => {
       try {
-        const { books } = await fetchBooks({ search: query, per_page: 6 });
-        setResults(books);
-        setIsOpen(books.length > 0);
+        const data = await fetchAutocomplete(query);
+        setResults(data);
+        setIsOpen(data.length > 0);
       } catch {
         setResults([]);
       } finally {
