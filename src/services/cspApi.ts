@@ -11,8 +11,9 @@ const CSP_API_BASE = "https://api.cambridgescholars.com/api/website";
 export interface CSPBookRaw {
   bookname: string;
   bookcategory: string | null;
-  authors: string | null;
-  editors: string | null;
+  authors: Array<{ name: string; role: string }> | string | null;
+  editors: Array<{ name: string; role: string }> | string | null;
+  contributors: Array<{ name: string; role: string }> | string | null;
   contributors: string | null;
   authorbiography: string | null;
   bookdescription: string | null;
@@ -77,7 +78,13 @@ function transformBook(raw: CSPBookRaw): Book {
   const paperbackPrice = raw["Paperback:Price"] ? parseFloat(raw["Paperback:Price"]) : null;
   const price = hardbackPrice || paperbackPrice || 0;
 
-  const author = raw.authors || raw.editors || raw.contributors || "Unknown";
+  const extractNames = (field: Array<{ name: string; role: string }> | string | null): string | null => {
+    if (!field) return null;
+    if (typeof field === 'string') return field;
+    if (Array.isArray(field)) return field.map(a => a.name).join(', ');
+    return null;
+  };
+  const author = extractNames(raw.authors) || extractNames(raw.editors) || extractNames(raw.contributors) || "Unknown";
 
   // Parse categories from bookcategory string like "Education : Science Education : STEM"
   const categories = raw.bookcategory
