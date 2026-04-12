@@ -16,23 +16,31 @@ export function AuthorReviewsSection() {
 
   useEffect(() => {
     fetchAuthorReviews()
-      .then(async (data) => {
-        // Try to fetch cover images for each review by searching book title
-        const withCovers = await Promise.all(
-          data.map(async (r) => {
-            try {
-              const result = await fetchBooks({ search: r.book_title, per_page: 1 });
+      .then((data) => {
+        // Show reviews immediately
+        setReviews(data.map((r) => ({ ...r })));
+        setLoading(false);
+
+        // Fetch cover images in the background
+        data.forEach((r, i) => {
+          fetchBooks({ search: r.book_title, per_page: 1 })
+            .then((result) => {
               const cover = result.books[0]?.image;
-              return { ...r, coverImage: cover || undefined };
-            } catch {
-              return { ...r };
-            }
-          })
-        );
-        setReviews(withCovers);
+              if (cover) {
+                setReviews((prev) => {
+                  const updated = [...prev];
+                  if (updated[i]) updated[i] = { ...updated[i], coverImage: cover };
+                  return updated;
+                });
+              }
+            })
+            .catch(() => {});
+        });
       })
-      .catch(() => setReviews([]))
-      .finally(() => setLoading(false));
+      .catch(() => {
+        setReviews([]);
+        setLoading(false);
+      });
   }, []);
 
   if (loading) {
@@ -98,7 +106,7 @@ export function AuthorReviewsSection() {
                       }}
                     />
                   ) : (
-                    <div className="w-full aspect-[2/3] bg-muted rounded flex items-center justify-center">
+                    <div className="w-full aspect-[2/3] bg-muted rounded flex items-center justify-center animate-pulse">
                       <span className="text-xs text-muted-foreground text-center px-2">{review.book_title}</span>
                     </div>
                   )}
