@@ -31,6 +31,19 @@ interface CSPFormatRaw {
   publication_date: string | null;
 }
 
+interface CSPReviewRaw {
+  reviewer: string;
+  reviewer_position: string;
+  review: string;
+  date: string;
+}
+
+interface CSPSeriesRaw {
+  title: string;
+  slug: string;
+  volume?: string;
+}
+
 export interface CSPBookRaw {
   title: string;
   subtitle: string | null;
@@ -43,7 +56,7 @@ export interface CSPBookRaw {
   publication_date: string | null;
   is_featured: boolean;
   is_editors_choice: boolean;
-  series: string | null;
+  series: CSPSeriesRaw | string | null;
   authors: CSPAuthorRaw[];
   categories: {
     level_1: CSPCategoryRaw | null;
@@ -51,8 +64,11 @@ export interface CSPBookRaw {
     level_3: CSPCategoryRaw | null;
   };
   formats: CSPFormatRaw[];
+  author_biography?: string | null;
+  reviews?: CSPReviewRaw[];
+  recommended_books?: CSPBookRaw[];
 
-  // Legacy flat fields (from single-book endpoint)
+  // Legacy flat fields (from old single-book endpoint)
   bookname?: string;
   bookcategory?: string;
   bookdescription?: string;
