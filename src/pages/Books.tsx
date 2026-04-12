@@ -137,7 +137,16 @@ export default function Books() {
       </div>
 
       <main className="px-6 md:px-16 py-12 bg-white">
-        <div className="max-w-7xl mx-auto flex flex-col lg:flex-row gap-12">
+        <div className="max-w-7xl mx-auto">
+          {/* Results count bar */}
+          {!loading && pagination && (
+            <div className="flex items-center justify-between mb-8">
+              <p className="text-sm text-muted-foreground">
+                Showing {((currentPage - 1) * 20) + 1}–{Math.min(currentPage * 20, pagination.total)} of {pagination.total} results
+              </p>
+            </div>
+          )}
+          <div className="flex flex-col lg:flex-row gap-12">
           {/* Sidebar */}
           <aside className="lg:w-72 flex-shrink-0">
             {/* Search Section */}
@@ -321,7 +330,7 @@ export default function Books() {
                         {/* Book Details */}
                         <div className="flex-1 flex flex-col justify-start">
                           <Link to={`/books/${book.id}`}>
-                            <h2 className="font-serif text-foreground hover:text-[#E4573D] transition-colors leading-tight text-xl">
+                            <h2 className="font-serif text-accent hover:text-accent/80 transition-colors leading-tight text-xl">
                               {book.title}
                             </h2>
                           </Link>
