@@ -105,8 +105,8 @@ export default function Books() {
         </div>
       </div>
 
-      <main className="max-w-full mx-auto px-6 md:px-16 py-12 bg-white">
-        <div className="flex flex-col lg:flex-row gap-12">
+      <main className="px-6 md:px-16 py-12 bg-white">
+        <div className="max-w-7xl mx-auto flex flex-col lg:flex-row gap-12">
           {/* Sidebar */}
           <aside className="lg:w-72 flex-shrink-0">
             {/* Search Section */}
