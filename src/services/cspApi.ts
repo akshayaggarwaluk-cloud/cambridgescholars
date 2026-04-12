@@ -349,6 +349,19 @@ export async function fetchFeaturedReviews(): Promise<{
   return json.data || [];
 }
 
+/** Fetch author testimonials for homepage */
+export async function fetchAuthorReviews(): Promise<{
+  author: string;
+  book_title: string;
+  praise: string;
+  date: string;
+}[]> {
+  const res = await fetch(`${CSP_API_BASE}/homepage/author-reviews`);
+  if (!res.ok) throw new Error(`API error: ${res.status}`);
+  const json = await res.json();
+  return json.data || [];
+}
+
 /** Fetch a single book by ISBN */
 export async function fetchBookByIsbn(isbn: string): Promise<Book | null> {
   const res = await fetch(`${CSP_API_BASE}/books/${encodeURIComponent(isbn)}`);
