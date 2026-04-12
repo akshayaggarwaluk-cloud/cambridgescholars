@@ -1,10 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Link } from "react-router-dom";
-import { ChevronRight } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { BookCard } from "@/components/books/BookCard";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import { fetchBooks } from "@/services/cspApi";
 import { Book } from "@/contexts/CartContext";
+import { cn } from "@/lib/utils";
 
 interface RelatedBooksSectionProps {
   currentBook: Book;
@@ -12,20 +11,21 @@ interface RelatedBooksSectionProps {
 
 export function RelatedBooksSection({ currentBook }: RelatedBooksSectionProps) {
   const [relatedBooks, setRelatedBooks] = useState<Book[]>([]);
+  const [currentPage, setCurrentPage] = useState(0);
 
   useEffect(() => {
-    // If API provided recommended books, convert them to Book objects
     if (currentBook.recommendedBooks && currentBook.recommendedBooks.length > 0) {
-      const converted: Book[] = currentBook.recommendedBooks.slice(0, 4).map((rb) => {
+      const converted: Book[] = currentBook.recommendedBooks.slice(0, 12).map((rb) => {
         const authorNames = rb.authors?.map((a) => a.name).join(", ") || "Unknown";
         const hbFormat = rb.formats?.find((f) => f.type === "hardback");
         const pbFormat = rb.formats?.find((f) => f.type === "paperback");
         const price = hbFormat?.price_gbp ?? pbFormat?.price_gbp ?? 0;
+        const isEdited = rb.authors?.some((a) => a.role?.toLowerCase().includes("edit"));
 
         return {
           id: rb.isbn,
           title: rb.title,
-          author: authorNames,
+          author: (isEdited ? "Edited By: " : "By: ") + authorNames,
           price,
           image: rb.cover_image,
           rating: 0,
@@ -38,51 +38,118 @@ export function RelatedBooksSection({ currentBook }: RelatedBooksSectionProps) {
       return;
     }
 
-    // Fallback: fetch from API by category
     const category = currentBook.categories?.[0] || currentBook.category;
-    fetchBooks({ category, per_page: 5 })
+    fetchBooks({ category, per_page: 12 })
       .then(({ books }) => {
-        const filtered = books.filter((b) => b.id !== currentBook.id).slice(0, 4);
+        const filtered = books.filter((b) => b.id !== currentBook.id).slice(0, 12);
         setRelatedBooks(filtered);
       })
       .catch(() => setRelatedBooks([]));
   }, [currentBook]);
 
-  if (relatedBooks.length === 0) {
-    return null;
-  }
+  const itemsPerPage = 4;
+  const totalPages = Math.ceil(relatedBooks.length / itemsPerPage);
+  const visibleBooks = relatedBooks.slice(
+    currentPage * itemsPerPage,
+    currentPage * itemsPerPage + itemsPerPage
+  );
+
+  const goNext = useCallback(() => {
+    setCurrentPage((p) => (p + 1) % totalPages);
+  }, [totalPages]);
+
+  const goPrev = useCallback(() => {
+    setCurrentPage((p) => (p - 1 + totalPages) % totalPages);
+  }, [totalPages]);
+
+  if (relatedBooks.length === 0) return null;
 
   return (
-    <div className="space-y-20">
-      <section className="container-wide">
-        <div className="flex flex-col md:flex-row md:items-end md:justify-between mb-10">
-          <div>
-            <span className="text-accent text-sm font-semibold uppercase tracking-widest mb-2 block">
-              You May Also Like
-            </span>
-            <h2 className="font-serif text-3xl md:text-4xl font-bold text-foreground">
-              Similar Books
-            </h2>
-            <p className="text-muted-foreground mt-2 max-w-lg">
-              Handpicked recommendations based on your interests
-            </p>
-          </div>
-          <Button asChild variant="outline" className="mt-4 md:mt-0 rounded-full">
-            <Link to="/books">
-              Browse All
-              <ChevronRight className="ml-1 h-4 w-4" />
-            </Link>
-          </Button>
-        </div>
+    <section className="container-wide py-16">
+      {/* Title */}
+      <h2 className="font-baskerville text-3xl md:text-4xl italic text-center text-foreground mb-12">
+        Recommended
+      </h2>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
-          {relatedBooks.map((book, index) => (
-            <div key={book.id} className="animate-fade-up" style={{ animationDelay: `${index * 0.1}s` }}>
-              <BookCard book={book} />
-            </div>
+      {/* Carousel */}
+      <div className="relative">
+        {/* Prev Arrow */}
+        {totalPages > 1 && (
+          <button
+            onClick={goPrev}
+            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 md:-translate-x-8 z-10 w-12 h-12 rounded-full bg-foreground/10 hover:bg-foreground/20 flex items-center justify-center transition-colors"
+            aria-label="Previous"
+          >
+            <ChevronLeft className="h-5 w-5 text-foreground" />
+          </button>
+        )}
+
+        {/* Books Grid */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 lg:gap-10 px-4 md:px-8">
+          {visibleBooks.map((book) => (
+            <Link
+              key={book.id}
+              to={`/books/${book.id}`}
+              className="group text-center block"
+            >
+              {/* Cover */}
+              <div className="aspect-[3/4] mb-4 overflow-hidden mx-auto max-w-[220px]">
+                <img
+                  src={book.image}
+                  alt={book.title}
+                  className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                />
+              </div>
+
+              {/* Title */}
+              <h3 className="font-serif text-base md:text-lg font-semibold text-foreground leading-tight line-clamp-2 mb-1">
+                {book.title}
+              </h3>
+
+              {/* Author */}
+              <p className="text-sm text-muted-foreground line-clamp-2 mb-2">
+                {book.author}
+              </p>
+
+              {/* Price */}
+              <p className="text-sm">
+                <span className="text-accent font-medium">From </span>
+                <span className="text-accent font-semibold">£{book.price.toFixed(2)}</span>
+              </p>
+            </Link>
           ))}
         </div>
-      </section>
-    </div>
+
+        {/* Next Arrow */}
+        {totalPages > 1 && (
+          <button
+            onClick={goNext}
+            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 md:translate-x-8 z-10 w-12 h-12 rounded-full bg-foreground/10 hover:bg-foreground/20 flex items-center justify-center transition-colors"
+            aria-label="Next"
+          >
+            <ChevronRight className="h-5 w-5 text-foreground" />
+          </button>
+        )}
+      </div>
+
+      {/* Dot Indicators */}
+      {totalPages > 1 && (
+        <div className="flex justify-center items-center gap-3 mt-10">
+          {Array.from({ length: totalPages }).map((_, i) => (
+            <button
+              key={i}
+              onClick={() => setCurrentPage(i)}
+              className={cn(
+                "w-3 h-3 rounded-full transition-all duration-300",
+                i === currentPage
+                  ? "bg-accent scale-110"
+                  : "bg-muted-foreground/30 hover:bg-muted-foreground/50"
+              )}
+              aria-label={`Page ${i + 1}`}
+            />
+          ))}
+        </div>
+      )}
+    </section>
   );
 }
