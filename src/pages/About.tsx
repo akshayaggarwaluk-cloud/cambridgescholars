@@ -11,10 +11,7 @@ export default function AboutSection() {
       <div className="bg-[#f4f3ec] min-h-[280px] pt-24 px-6 md:px-16 flex items-center">
         <div className="max-w-7xl mx-auto flex justify-between items-center w-full">
           <h1 className="text-5xl font-serif text-gray-800">About Us</h1>
-          <PageBreadcrumb
-            currentPage="About Us
-"
-          />
+          <PageBreadcrumb currentPage="About Us" />
         </div>
       </div>
 
@@ -62,13 +59,13 @@ export default function AboutSection() {
 
             <h2 className="text-3xl font-serif mt-10">Global Distribution</h2>
 
-            <p>
+            <p className="text-base">
               Our titles are distributed globally to readers and libraries through an extensive network of academic and
               commercial channels. Books are available in hardback and digital formats, and can be ordered through
               platforms including Amazon, ProQuest, EBSCO, Ingram, and more.
             </p>
 
-            <p>
+            <p className="text-base">
               We also offer a unique <strong>Print-on-Time</strong> system, which ensures titles remain continuously
               available without the need for warehousing or distribution delays.
             </p>
@@ -101,12 +98,12 @@ export default function AboutSection() {
           <div className="space-y-8 leading-relaxed text-gray-800 bg-white">
             <h2 className="text-4xl font-serif">Why Publish With Us</h2>
 
-            <p>
+            <p className="text-base">
               We understand the academic publishing process and the importance of having your work presented with
               clarity, professionalism, and attention to detail. Authors choose Cambridge Scholars for our:
             </p>
 
-            <ul className="list-disc pl-6 space-y-2">
+            <ul className="list-disc pl-6 space-y-2 text-base">
               <li>Responsive and personalised approach</li>
               <li>Transparent and collaborative publishing process</li>
               <li>Commitment to editorial excellence</li>
@@ -114,25 +111,25 @@ export default function AboutSection() {
               <li>Established relationships with universities, libraries, and key distributors</li>
             </ul>
 
-            <p>
+            <p className="text-base">
               Click <span className="text-blue-600 cursor-pointer">here</span> to read more about our author
               commitments.
             </p>
 
             <h2 className="text-4xl font-serif mt-10">Our Space</h2>
 
-            <p>
+            <p className="text-base">
               Our headquarters are located in the historic Lady Stephenson Library – a restored Victorian public library
               that provides a fitting setting for our mission to advance knowledge and learning.
             </p>
 
-            <p>
+            <p className="text-base">
               Whether you are submitting a proposal, purchasing a title, or exploring new research in your field,
               Cambridge Scholars Publishing is proud to support a diverse and expanding international academic
               community.
             </p>
 
-            <p className="font-semibold">
+            <p className="font-semibold text-base">
               Cambridge Scholars Publishing Limited is not affiliated to, or associated with, Cambridge University Press
               or the University of Cambridge.
             </p>
