@@ -92,7 +92,7 @@ export default function BookDetails() {
             <div className="flex flex-col justify-between min-h-[520px]">
               <div>
                 <h1 className="font-serif text-2xl sm:text-3xl lg:text-4xl font-bold mb-3">{book.title}</h1>
-                <p className="font-serif text-base italic mb-4">{book.description}</p>
+                <p className="font-serif text-base italic mb-4 text-black">{book.description}</p>
                 <p className="mb-4 text-lg">
                   <span className="font-semibold">By:</span> {book.author}
                 </p>
