@@ -102,7 +102,7 @@ export default function BookDetails() {
             </div>
 
             {/* Content */}
-            <div className="flex flex-col justify-between">
+            <div className="flex flex-col justify-between" style={imageHeight ? { maxHeight: imageHeight, overflowY: 'auto' } : undefined}>
               <div>
                 <h1 className="font-baskerville text-2xl sm:text-3xl mb-3 lg:text-xl font-medium">{book.title}</h1>
                 <p className="font-baskerville text-base italic mb-4 text-black line-clamp-2">{book.description}</p>
