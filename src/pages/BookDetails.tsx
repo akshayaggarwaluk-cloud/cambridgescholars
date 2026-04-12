@@ -93,16 +93,16 @@ export default function BookDetails() {
       <Header />
         <main className="pt-24 sm:pt-32 pb-12 sm:pb-16 bg-white">
         <section className="container-wide bg-white px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-[auto_1fr] gap-6 sm:gap-8 lg:gap-12 items-stretch">
+          <div className="grid grid-cols-1 lg:grid-cols-[auto_1fr] gap-6 sm:gap-8 lg:gap-12 items-stretch">
             {/* Image */}
-            <div className="flex justify-center md:justify-start">
+            <div className="flex justify-center lg:justify-start">
               <div className="w-full max-w-[200px] sm:max-w-[240px] md:max-w-[280px] lg:max-w-[320px]">
                 <img ref={imageRef} src={book.image} alt={book.title} className="w-full object-contain" onLoad={updateImageHeight} />
               </div>
             </div>
 
             {/* Content */}
-            <div className="flex flex-col justify-between" style={imageHeight && window.innerWidth >= 768 ? { height: imageHeight } : undefined}>
+            <div className="flex flex-col justify-between" style={imageHeight && window.innerWidth >= 1024 ? { height: imageHeight } : undefined}>
               <div>
                 <h1 className="font-baskerville text-xl sm:text-2xl lg:text-xl font-medium mb-2 sm:mb-3">{book.title}</h1>
                 <p className="font-baskerville text-sm sm:text-base italic mb-3 sm:mb-4 text-black line-clamp-2">{book.description}</p>
