@@ -222,8 +222,7 @@ export default function BookDetails() {
           </section>
         )}
 
-        {/* Customer Reviews */}
-        <ReviewsSection bookId={book.id} />
+        {/* Customer Reviews removed */}
 
         {/* Related */}
         <div className="mt-24">
