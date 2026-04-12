@@ -93,7 +93,7 @@ export default function BookDetails() {
       <Header />
       <main className="pt-32 pb-16 bg-white">
         <section className="container-wide bg-white">
-          <div className="grid grid-cols-1 md:grid-cols-[1fr_2fr] gap-12 items-start">
+          <div className="grid grid-cols-1 md:grid-cols-[auto_1fr] gap-12 items-stretch">
             {/* Image */}
             <div className="flex justify-center md:justify-start">
               <div className="w-full max-w-[280px] lg:max-w-[320px]">
@@ -102,7 +102,7 @@ export default function BookDetails() {
             </div>
 
             {/* Content */}
-            <div className="flex flex-col justify-between">
+            <div className="flex flex-col justify-between" style={imageHeight ? { height: imageHeight } : undefined}>
               <div>
                 <h1 className="font-baskerville text-2xl sm:text-3xl mb-3 lg:text-xl font-medium">{book.title}</h1>
                 <p className="font-baskerville text-base italic mb-4 text-black line-clamp-2">{book.description}</p>
