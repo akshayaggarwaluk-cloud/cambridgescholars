@@ -46,7 +46,7 @@ export default function AboutSection() {
 
             <p className="text-base">Our publishing model is founded on three core principles:</p>
 
-            <ul className="list-disc pl-6 space-y-2">
+            <ul className="list-disc pl-6 space-y-2 text-base">
               <li>
                 <strong>No charges to authors</strong> – we do not levy submission or publishing fees
               </li>
