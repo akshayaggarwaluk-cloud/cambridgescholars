@@ -21,8 +21,8 @@ export function AuthorReviewsSection() {
         setReviews(data.map((r) => ({ ...r })));
         setLoading(false);
 
-        // Fetch cover images in the background
-        data.forEach((r, i) => {
+        // Fetch cover images only for first 6 (visible) reviews
+        data.slice(0, 6).forEach((r, i) => {
           fetchBooks({ search: r.book_title, per_page: 1 })
             .then((result) => {
               const cover = result.books[0]?.image;
