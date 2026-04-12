@@ -81,7 +81,7 @@ export function SearchAutocomplete({ onClose, className }: SearchAutocompletePro
       case "Enter":
         e.preventDefault();
         if (highlightedIndex >= 0 && results[highlightedIndex]) {
-          handleSelect(results[highlightedIndex].id);
+          handleSelect(results[highlightedIndex]);
         } else if (query.length >= 2) {
           navigate(`/books?search=${encodeURIComponent(query)}`);
           handleClose();
@@ -93,8 +93,8 @@ export function SearchAutocomplete({ onClose, className }: SearchAutocompletePro
     }
   };
 
-  const handleSelect = (bookId: string) => {
-    navigate(`/books/${bookId}`);
+  const handleSelect = (item: AutocompleteResult) => {
+    navigate(`/books/${item.isbn}`);
     handleClose();
   };
 
