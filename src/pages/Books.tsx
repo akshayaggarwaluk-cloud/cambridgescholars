@@ -6,9 +6,7 @@ import { Footer } from "@/components/layout/Footer";
 import { PageBreadcrumb } from "@/components/layout/PageBreadcrumb";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { books as staticBooks } from "@/data/books";
-import { categories as bookCategories } from "@/data/categories";
-import { supabase } from "@/integrations/supabase/client";
+import { fetchBooks, CSPPagination } from "@/services/cspApi";
 import { Book } from "@/contexts/CartContext";
 import { useWishlist } from "@/contexts/WishlistContext";
 import { cn } from "@/lib/utils";
@@ -19,64 +17,46 @@ export default function Books() {
   const initialCategory = searchParams.get("category") || "all";
   const [searchQuery, setSearchQuery] = useState(initialSearch);
   const [selectedCategory, setSelectedCategory] = useState(initialCategory);
-  const [publishedBooks, setPublishedBooks] = useState<Book[]>([]);
+  const [books, setBooks] = useState<Book[]>([]);
   const [loading, setLoading] = useState(true);
+  const [pagination, setPagination] = useState<CSPPagination | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
   const { addToWishlist, removeFromWishlist, isInWishlist } = useWishlist();
 
   // Sync with URL params
   useEffect(() => {
     const search = searchParams.get("search") || "";
     const category = searchParams.get("category") || "all";
+    const page = parseInt(searchParams.get("page") || "1", 10);
     setSearchQuery(search);
     setSelectedCategory(category);
+    setCurrentPage(page);
   }, [searchParams]);
 
-  // Fetch user-published books from database
+  // Fetch books from CSP API
   useEffect(() => {
-    const fetchPublishedBooks = async () => {
+    const loadBooks = async () => {
+      setLoading(true);
       try {
-        const { data, error } = await supabase.from("published_books").select("*").order("created_at", {
-          ascending: false,
-        });
-        if (error) throw error;
-        if (data) {
-          const formattedBooks: Book[] = data.map((book) => ({
-            id: `published_${book.id}`,
-            title: book.title,
-            author: book.author,
-            price: Number(book.price),
-            image: book.cover_image || "/placeholder.svg",
-            rating: 4.0,
-            category: book.category,
-            description: book.description || undefined,
-          }));
-          setPublishedBooks(formattedBooks);
-        }
+        const params: { page: number; per_page: number; search?: string; category?: string } = {
+          page: currentPage,
+          per_page: 20,
+        };
+        if (searchQuery) params.search = searchQuery;
+        if (selectedCategory !== "all") params.category = selectedCategory;
+
+        const result = await fetchBooks(params);
+        setBooks(result.books);
+        setPagination(result.pagination);
       } catch (error) {
-        console.error("Error fetching published books:", error);
+        console.error("Error fetching books:", error);
+        setBooks([]);
       } finally {
         setLoading(false);
       }
     };
-    fetchPublishedBooks();
-  }, []);
-
-  // Combine static and published books
-  const allBooks = useMemo(() => {
-    return [...staticBooks, ...publishedBooks];
-  }, [publishedBooks]);
-
-  const filteredBooks = useMemo(() => {
-    return allBooks.filter((book) => {
-      const matchesSearch =
-        book.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        book.author.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        book.category.toLowerCase().includes(searchQuery.toLowerCase());
-      const matchesCategory =
-        selectedCategory === "all" || book.category.toLowerCase() === selectedCategory.toLowerCase();
-      return matchesSearch && matchesCategory;
-    });
-  }, [searchQuery, selectedCategory, allBooks]);
+    loadBooks();
+  }, [searchQuery, selectedCategory, currentPage]);
 
   const handleCategoryChange = (category: string) => {
     setSelectedCategory(category);
@@ -86,6 +66,7 @@ export default function Books() {
     } else {
       params.set("category", category);
     }
+    params.delete("page");
     setSearchParams(params);
   };
 
@@ -97,19 +78,20 @@ export default function Books() {
     } else {
       params.delete("search");
     }
+    params.delete("page");
     setSearchParams(params);
   };
 
-  // Get count of books per category
-  const categoryCounts = useMemo(() => {
-    const counts: Record<string, number> = {
-      all: allBooks.length,
-    };
-    bookCategories.forEach((cat) => {
-      counts[cat.slug] = allBooks.filter((book) => book.category.toLowerCase() === cat.name.toLowerCase()).length;
-    });
-    return counts;
-  }, [allBooks]);
+  const handlePageChange = (page: number) => {
+    const params = new URLSearchParams(searchParams);
+    if (page > 1) {
+      params.set("page", String(page));
+    } else {
+      params.delete("page");
+    }
+    setSearchParams(params);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -133,7 +115,7 @@ export default function Books() {
               <div className="relative">
                 <Input
                   type="text"
-                  placeholder="Search products..."
+                  placeholder="Search books..."
                   value={searchQuery}
                   onChange={(e) => handleSearchChange(e.target.value)}
                   className="pr-12 h-12 border-border bg-background text-base"
@@ -144,47 +126,28 @@ export default function Books() {
               </div>
             </div>
 
-            {/* Subject Categories */}
+            {/* Category filter info */}
             <div>
               <h3 className="text-2xl font-serif text-foreground mb-6 pb-3 border-b-2 border-foreground/20">
-                Subject Categories
+                Filter
               </h3>
-              <ul className="space-y-1">
-                {bookCategories.map((category) => (
-                  <li key={category.id}>
-                    <button
-                      onClick={() => handleCategoryChange(category.slug)}
-                      className={cn(
-                        "w-full flex items-center justify-between py-2 text-base transition-colors group",
-                        selectedCategory === category.slug
-                          ? "text-[#E4573D] font-medium"
-                          : "text-[#E4573D] hover:text-[#c94a32]",
-                      )}
-                    >
-                      <span>{category.name}</span>
-                      <div className="flex items-center gap-2">
-                        <span className="text-muted-foreground text-sm">{categoryCounts[category.slug] || 0}</span>
-                        <ChevronDown className="h-4 w-4 text-muted-foreground" />
-                      </div>
-                    </button>
-                  </li>
-                ))}
-                <li>
+              {selectedCategory !== "all" && (
+                <div className="mb-4">
+                  <span className="text-sm text-muted-foreground">Filtering by: </span>
+                  <span className="text-sm font-medium text-foreground">{selectedCategory}</span>
                   <button
                     onClick={() => handleCategoryChange("all")}
-                    className={cn(
-                      "w-full flex items-center justify-between py-2 text-base transition-colors",
-                      selectedCategory === "all" ? "text-[#E4573D] font-medium" : "text-[#E4573D] hover:text-[#c94a32]",
-                    )}
+                    className="ml-2 text-xs text-accent hover:underline"
                   >
-                    <span>All Categories</span>
-                    <div className="flex items-center gap-2">
-                      <span className="text-muted-foreground text-sm">{allBooks.length}</span>
-                      <ChevronDown className="h-4 w-4 text-muted-foreground" />
-                    </div>
+                    Clear
                   </button>
-                </li>
-              </ul>
+                </div>
+              )}
+              {pagination && (
+                <p className="text-sm text-muted-foreground">
+                  Showing {books.length} of {pagination.total} books
+                </p>
+              )}
             </div>
           </aside>
 
@@ -195,97 +158,112 @@ export default function Books() {
                 <Loader2 className="h-8 w-8 animate-spin text-accent" />
                 <span className="ml-3 text-muted-foreground">Loading books...</span>
               </div>
-            ) : filteredBooks.length === 0 ? (
+            ) : books.length === 0 ? (
               <div className="text-center py-16">
                 <Search className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
                 <h3 className="text-xl font-serif text-foreground mb-2">No books found</h3>
                 <p className="text-muted-foreground">Try adjusting your search or category filter.</p>
               </div>
             ) : (
-              <div className="divide-y divide-border">
-                {filteredBooks.map((book) => (
-                  <article key={book.id} className="py-10 first:pt-0">
-                    <div className="flex flex-col md:flex-row gap-10">
-                      {/* Book Cover - Larger size */}
-                      <Link to={`/books/${book.id}`} className="flex-shrink-0 w-full md:w-56">
-                        <div className="aspect-[2/3] overflow-hidden shadow-xl">
-                          <img
-                            src={book.image}
-                            alt={book.title}
-                            className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
-                          />
-                        </div>
-                      </Link>
-
-                      {/* Book Details - Scaled up to match */}
-                      <div className="flex-1 flex flex-col justify-center">
-                        {/* Title */}
-                        <Link to={`/books/${book.id}`}>
-                          <h2 className="text-3xl font-serif text-foreground hover:text-[#E4573D] transition-colors leading-tight">
-                            {book.title}
-                          </h2>
+              <>
+                <div className="divide-y divide-border">
+                  {books.map((book) => (
+                    <article key={book.id} className="py-10 first:pt-0">
+                      <div className="flex flex-col md:flex-row gap-10">
+                        {/* Book Cover */}
+                        <Link to={`/books/${book.id}`} className="flex-shrink-0 w-full md:w-56">
+                          <div className="aspect-[2/3] overflow-hidden shadow-xl">
+                            <img
+                              src={book.image}
+                              alt={book.title}
+                              className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+                            />
+                          </div>
                         </Link>
 
-                        {/* Subtitle - using description as subtitle */}
-                        {book.description && (
-                          <p className="text-xl italic text-foreground/80 mt-3 leading-snug">
-                            {book.description.length > 80
-                              ? book.description.substring(0, 80) + "..."
-                              : book.description}
+                        {/* Book Details */}
+                        <div className="flex-1 flex flex-col justify-center">
+                          <Link to={`/books/${book.id}`}>
+                            <h2 className="text-3xl font-serif text-foreground hover:text-[#E4573D] transition-colors leading-tight">
+                              {book.title}
+                            </h2>
+                          </Link>
+
+                          {book.description && (
+                            <p className="text-xl italic text-foreground/80 mt-3 leading-snug">
+                              {book.description.length > 80
+                                ? book.description.substring(0, 80) + "..."
+                                : book.description}
+                            </p>
+                          )}
+
+                          <p className="text-lg text-muted-foreground mt-4">
+                            By: <span className="text-foreground">{book.author}</span>
                           </p>
-                        )}
 
-                        {/* Author */}
-                        <p className="text-lg text-muted-foreground mt-4">
-                          By: <span className="text-foreground">{book.author}</span>
-                        </p>
+                          {book.blurb && (
+                            <p className="text-base text-muted-foreground mt-5 leading-relaxed line-clamp-4">
+                              {book.blurb}
+                            </p>
+                          )}
 
-                        {/* Description/Blurb */}
-                        {book.description && (
-                          <p className="text-base text-muted-foreground mt-5 leading-relaxed line-clamp-4">
-                            {book.description}
-                          </p>
-                        )}
-
-                        {/* Actions */}
-                        <div className="flex items-center gap-4 mt-8">
-                          <Button
-                            asChild
-                            className="bg-[#E4573D] hover:bg-[#c94a32] text-white px-10 h-14 text-lg font-medium rounded-sm"
-                          >
-                            <Link to={`/books/${book.id}`}>VIEW MORE</Link>
-                          </Button>
-                          <Button
-                            variant="outline"
-                            size="icon"
-                            onClick={() => {
-                              if (isInWishlist(book.id)) {
-                                removeFromWishlist(book.id);
-                              } else {
-                                addToWishlist({
-                                  id: book.id,
-                                  title: book.title,
-                                  author: book.author,
-                                  price: book.price,
-                                  image: book.image,
-                                  rating: book.rating,
-                                  category: book.category,
-                                });
-                              }
-                            }}
-                            className={cn(
-                              "h-14 w-14 rounded-sm border-border",
-                              isInWishlist(book.id) && "text-red-500 border-red-500 bg-red-50",
-                            )}
-                          >
-                            <Heart className={cn("h-6 w-6", isInWishlist(book.id) && "fill-current")} />
-                          </Button>
+                          {/* Actions */}
+                          <div className="flex items-center gap-4 mt-8">
+                            <Button
+                              asChild
+                              className="bg-[#E4573D] hover:bg-[#c94a32] text-white px-10 h-14 text-lg font-medium rounded-sm"
+                            >
+                              <Link to={`/books/${book.id}`}>VIEW MORE</Link>
+                            </Button>
+                            <Button
+                              variant="outline"
+                              size="icon"
+                              onClick={() => {
+                                if (isInWishlist(book.id)) {
+                                  removeFromWishlist(book.id);
+                                } else {
+                                  addToWishlist(book);
+                                }
+                              }}
+                              className={cn(
+                                "h-14 w-14 rounded-sm border-border",
+                                isInWishlist(book.id) && "text-red-500 border-red-500 bg-red-50",
+                              )}
+                            >
+                              <Heart className={cn("h-6 w-6", isInWishlist(book.id) && "fill-current")} />
+                            </Button>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  </article>
-                ))}
-              </div>
+                    </article>
+                  ))}
+                </div>
+
+                {/* Pagination */}
+                {pagination && pagination.total_pages > 1 && (
+                  <div className="flex items-center justify-center gap-2 mt-12">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      disabled={currentPage <= 1}
+                      onClick={() => handlePageChange(currentPage - 1)}
+                    >
+                      Previous
+                    </Button>
+                    <span className="text-sm text-muted-foreground px-4">
+                      Page {pagination.page} of {pagination.total_pages}
+                    </span>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      disabled={currentPage >= pagination.total_pages}
+                      onClick={() => handlePageChange(currentPage + 1)}
+                    >
+                      Next
+                    </Button>
+                  </div>
+                )}
+              </>
             )}
           </div>
         </div>

@@ -2,7 +2,7 @@ import { createContext, useContext, useState, useEffect, ReactNode } from "react
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { useExternalAuth } from "./ExternalAuthContext";
-import { books } from "@/data/books";
+import { fetchBookByIsbn } from "@/services/cspApi";
 
 export type BookFormat = "ebook" | "hardbook" | "paperback";
 
@@ -84,15 +84,18 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
       if (error) throw error;
 
-      if (data) {
-        const cartItems: CartItem[] = data.map((item) => {
-          const book = books.find((b) => b.id === item.book_id);
-          if (book) {
-            return { ...book, quantity: item.quantity, format: (item.format as BookFormat) || "hardbook" };
+      if (data && data.length > 0) {
+        const cartItems: CartItem[] = [];
+        for (const item of data) {
+          try {
+            const book = await fetchBookByIsbn(item.book_id);
+            if (book) {
+              cartItems.push({ ...book, quantity: item.quantity, format: (item.format as BookFormat) || "hardbook" });
+            }
+          } catch {
+            // Skip books that can't be fetched
           }
-          return null;
-        }).filter(Boolean) as CartItem[];
-        
+        }
         setItems(cartItems);
       }
     } catch (error) {
