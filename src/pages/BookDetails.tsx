@@ -115,17 +115,17 @@ export default function BookDetails() {
                 </p>
 
                 {/* Format Selection */}
-                <div className="mb-6">
+                <div className="mb-4 sm:mb-6">
                   <p className="text-sm font-medium mb-2">Select Format</p>
-                  <div className="flex flex-wrap gap-[10px]">
+                  <div className="flex flex-wrap gap-2 sm:gap-[10px]">
                     {hasEbook && (
                       <button
                         onClick={() => setSelectedFormat("ebook")}
-                        className={cn("flex items-center gap-2 px-4 py-2 border-2 transition min-w-[120px]", selectedFormat === "ebook" ? "border-accent bg-accent/5" : "border-border hover:border-accent/50")}
+                        className={cn("flex items-center gap-2 px-3 sm:px-4 py-2 border-2 transition min-w-[100px] sm:min-w-[120px]", selectedFormat === "ebook" ? "border-accent bg-accent/5" : "border-border hover:border-accent/50")}
                       >
                         <Tablet className={cn("h-4 w-4", selectedFormat === "ebook" ? "text-accent" : "text-muted-foreground")} />
                         <div>
-                          <p className={cn("text-sm font-medium", selectedFormat === "ebook" ? "text-accent" : "text-foreground")}>eBook</p>
+                          <p className={cn("text-xs sm:text-sm font-medium", selectedFormat === "ebook" ? "text-accent" : "text-foreground")}>eBook</p>
                           <p className="text-xs text-muted-foreground">£{getPrice("ebook").toFixed(2)}</p>
                         </div>
                       </button>
@@ -133,11 +133,11 @@ export default function BookDetails() {
                     {hasHardback && (
                       <button
                         onClick={() => setSelectedFormat("hardbook")}
-                        className={cn("flex items-center gap-2 px-4 py-2 border-2 transition min-w-[120px]", selectedFormat === "hardbook" ? "border-accent bg-accent/5" : "border-border hover:border-accent/50")}
+                        className={cn("flex items-center gap-2 px-3 sm:px-4 py-2 border-2 transition min-w-[100px] sm:min-w-[120px]", selectedFormat === "hardbook" ? "border-accent bg-accent/5" : "border-border hover:border-accent/50")}
                       >
                         <Book className={cn("h-4 w-4", selectedFormat === "hardbook" ? "text-accent" : "text-muted-foreground")} />
                         <div>
-                          <p className={cn("text-sm font-medium", selectedFormat === "hardbook" ? "text-accent" : "text-foreground")}>Hardback</p>
+                          <p className={cn("text-xs sm:text-sm font-medium", selectedFormat === "hardbook" ? "text-accent" : "text-foreground")}>Hardback</p>
                           <p className="text-xs text-muted-foreground">£{getPrice("hardbook").toFixed(2)}</p>
                         </div>
                       </button>
@@ -145,11 +145,11 @@ export default function BookDetails() {
                     {hasPaperback && (
                       <button
                         onClick={() => setSelectedFormat("paperback")}
-                        className={cn("flex items-center gap-2 px-4 py-2 border-2 transition min-w-[120px]", selectedFormat === "paperback" ? "border-accent bg-accent/5" : "border-border hover:border-accent/50")}
+                        className={cn("flex items-center gap-2 px-3 sm:px-4 py-2 border-2 transition min-w-[100px] sm:min-w-[120px]", selectedFormat === "paperback" ? "border-accent bg-accent/5" : "border-border hover:border-accent/50")}
                       >
                         <BookOpen className={cn("h-4 w-4", selectedFormat === "paperback" ? "text-accent" : "text-muted-foreground")} />
                         <div>
-                          <p className={cn("text-sm font-medium", selectedFormat === "paperback" ? "text-accent" : "text-foreground")}>Paperback</p>
+                          <p className={cn("text-xs sm:text-sm font-medium", selectedFormat === "paperback" ? "text-accent" : "text-foreground")}>Paperback</p>
                           <p className="text-xs text-muted-foreground">£{getPrice("paperback").toFixed(2)}</p>
                         </div>
                       </button>
@@ -158,18 +158,18 @@ export default function BookDetails() {
                 </div>
 
                 {/* Quantity */}
-                <div className="flex items-center gap-6 mb-[20px] mt-0">
-                  <span className="text-sm font-semibold uppercase tracking-wide">Quantity</span>
+                <div className="flex items-center gap-4 sm:gap-6 mb-[15px] sm:mb-[20px] mt-0">
+                  <span className="text-xs sm:text-sm font-semibold uppercase tracking-wide">Quantity</span>
                   <div className="flex items-center border">
-                    <button onClick={() => setQuantity(Math.max(1, quantity - 1))} className="px-3 py-2 hover:bg-muted"><Minus className="h-4 w-4" /></button>
-                    <span className="px-4 py-2 min-w-[50px] text-center font-medium">{quantity}</span>
-                    <button onClick={() => setQuantity(quantity + 1)} className="px-3 py-2 hover:bg-muted"><Plus className="h-4 w-4" /></button>
+                    <button onClick={() => setQuantity(Math.max(1, quantity - 1))} className="px-2 sm:px-3 py-1.5 sm:py-2 hover:bg-muted"><Minus className="h-3.5 w-3.5 sm:h-4 sm:w-4" /></button>
+                    <span className="px-3 sm:px-4 py-1.5 sm:py-2 min-w-[40px] sm:min-w-[50px] text-center font-medium text-sm sm:text-base">{quantity}</span>
+                    <button onClick={() => setQuantity(quantity + 1)} className="px-2 sm:px-3 py-1.5 sm:py-2 hover:bg-muted"><Plus className="h-3.5 w-3.5 sm:h-4 sm:w-4" /></button>
                   </div>
                 </div>
               </div>
 
               {/* Actions */}
-              <div className="flex items-center gap-4 flex-wrap my-[30px] mt-[10px]">
+              <div className="flex items-center gap-3 sm:gap-4 flex-wrap my-[20px] sm:my-[30px] mt-[10px]">
                 <span className="text-lg text-muted-foreground">
                   From <span className="font-semibold text-foreground">£{getPrice(selectedFormat).toFixed(2)}</span>
                 </span>
