@@ -359,7 +359,7 @@ export default function Books() {
                           <div className="flex items-center gap-4 mt-5">
                             <Button
                               asChild
-                              className="font-['Nunito_Sans'] bg-[#E4573D] hover:bg-[#c94a32] text-white px-10 h-14 text-lg font-medium rounded-sm"
+                              className="font-['Nunito_Sans'] bg-[#E4573D] hover:bg-[#c94a32] text-white px-10 h-14 text-lg font-medium rounded-none"
                             >
                               <Link to={`/books/${book.id}`}>VIEW MORE</Link>
                             </Button>
@@ -374,7 +374,7 @@ export default function Books() {
                                 }
                               }}
                               className={cn(
-                                "h-14 w-14 rounded-sm border-border",
+                                "h-14 w-14 rounded-none border-border",
                                 isInWishlist(book.id) && "text-red-500 border-red-500 bg-red-50",
                               )}
                             >
