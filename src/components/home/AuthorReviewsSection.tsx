@@ -65,7 +65,7 @@ export function AuthorReviewsSection() {
 
   if (loading) {
     return (
-      <section className="py-8 md:py-12 bg-background">
+      <section className="py-8 md:py-12 bg-white">
         <div className="container mx-auto px-6">
           <h2 className="font-serif text-3xl md:text-4xl font-normal text-center text-foreground mb-14">
             Author Experiences
@@ -78,7 +78,7 @@ export function AuthorReviewsSection() {
 
   if (reviews.length === 0) {
     return (
-      <section className="py-8 md:py-12 bg-background">
+      <section className="py-8 md:py-12 bg-white">
         <div className="container mx-auto px-6">
           <h2 className="font-serif text-3xl md:text-4xl font-normal text-center text-foreground mb-14">
             Author Experiences
@@ -104,7 +104,7 @@ export function AuthorReviewsSection() {
   };
 
   return (
-    <section className="py-8 md:py-12 bg-background">
+    <section className="py-8 md:py-12 bg-white">
       <div className="container mx-auto px-6 sm:px-10 lg:px-16 py-10 md:py-14">
         <h2 className="font-serif text-3xl md:text-4xl lg:text-[2.6rem] font-normal text-center text-foreground mb-14">
           Author Experiences
