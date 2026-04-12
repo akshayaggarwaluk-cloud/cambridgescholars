@@ -3,7 +3,7 @@
  * Base URL: https://api.cambridgescholars.com/api/website
  */
 
-import { Book, BookFormatInfo } from "@/contexts/CartContext";
+import { Book, BookFormatInfo, APIReview, RecommendedBook } from "@/contexts/CartContext";
 
 const CSP_API_BASE = "https://api.cambridgescholars.com/api/website";
 
@@ -31,6 +31,19 @@ interface CSPFormatRaw {
   publication_date: string | null;
 }
 
+interface CSPReviewRaw {
+  reviewer: string;
+  reviewer_position: string;
+  review: string;
+  date: string;
+}
+
+interface CSPSeriesRaw {
+  title: string;
+  slug: string;
+  volume?: string;
+}
+
 export interface CSPBookRaw {
   title: string;
   subtitle: string | null;
@@ -43,7 +56,7 @@ export interface CSPBookRaw {
   publication_date: string | null;
   is_featured: boolean;
   is_editors_choice: boolean;
-  series: string | null;
+  series: CSPSeriesRaw | string | null;
   authors: CSPAuthorRaw[];
   categories: {
     level_1: CSPCategoryRaw | null;
@@ -51,8 +64,11 @@ export interface CSPBookRaw {
     level_3: CSPCategoryRaw | null;
   };
   formats: CSPFormatRaw[];
+  author_biography?: string | null;
+  reviews?: CSPReviewRaw[];
+  recommended_books?: CSPBookRaw[];
 
-  // Legacy flat fields (from single-book endpoint)
+  // Legacy flat fields (from old single-book endpoint)
   bookname?: string;
   bookcategory?: string;
   bookdescription?: string;
@@ -139,27 +155,54 @@ function transformNewBook(raw: CSPBookRaw): Book {
   if (raw.categories?.level_2?.name) categories.push(raw.categories.level_2.name);
   if (raw.categories?.level_3?.name) categories.push(raw.categories.level_3.name);
 
+  // Parse series
+  const series = raw.series && typeof raw.series === 'object'
+    ? raw.series as { title: string; slug: string; volume?: string }
+    : null;
+
+  // Parse API reviews
+  const apiReviews: APIReview[] = (raw.reviews || []).map((r) => ({
+    reviewer: r.reviewer,
+    reviewer_position: r.reviewer_position,
+    review: r.review,
+    date: r.date,
+  }));
+
+  // Parse recommended books
+  const recommendedBooks: RecommendedBook[] = (raw.recommended_books || []).map((rb) => ({
+    isbn: rb.isbn,
+    title: rb.title,
+    subtitle: rb.subtitle,
+    slug: rb.slug,
+    cover_image: rb.cover_image,
+    authors: rb.authors || [],
+    formats: (rb.formats || []).map((f) => ({ type: f.type, price_gbp: f.price_gbp })),
+  }));
+
   return {
     id: raw.isbn || raw.slug,
     title: raw.title,
+    subtitle: raw.subtitle || undefined,
     author: authorNames,
     price,
     image: raw.cover_image,
     rating: 0,
     category: categories[0] || "General",
-    description: raw.description || undefined,
+    description: raw.subtitle || raw.description || undefined,
     isbn: raw.isbn,
     pages: raw.pages || hardback?.pages || paperback?.pages || undefined,
     publisher: "Cambridge Scholars Publishing",
     publishDate: raw.publication_date || hardback?.publication_date || paperback?.publication_date || undefined,
     blurb: raw.description || undefined,
-    biography: undefined, // Not in list response
+    biography: raw.author_biography?.trim() || undefined,
     hardbackInfo: buildFormatInfo(hardback),
     paperbackInfo: buildFormatInfo(paperback),
     ebookInfo: buildFormatInfo(ebook),
     categories,
     samplePdfUrl: raw.sample_pdf || undefined,
-    // Extra pricing for format selection
+    apiReviews: apiReviews.length > 0 ? apiReviews : undefined,
+    recommendedBooks: recommendedBooks.length > 0 ? recommendedBooks : undefined,
+    series,
     _hardbackPrice: hardback?.price_gbp ?? null,
     _paperbackPrice: paperback?.price_gbp ?? null,
   } as Book & { _hardbackPrice?: number | null; _paperbackPrice?: number | null };
@@ -295,6 +338,8 @@ export async function fetchBookByIsbn(isbn: string): Promise<Book | null> {
   const res = await fetch(`${CSP_API_BASE}/books/${encodeURIComponent(isbn)}`);
   if (res.status === 404) return null;
   if (!res.ok) throw new Error(`API error: ${res.status}`);
-  const data: CSPBookRaw = await res.json();
-  return transformBook(data);
+  const json = await res.json();
+  // Handle both { data: { ... } } and flat { ... } response shapes
+  const raw: CSPBookRaw = json.data || json;
+  return transformBook(raw);
 }

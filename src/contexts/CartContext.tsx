@@ -12,6 +12,23 @@ export interface BookFormatInfo {
   publicationDate?: string;
 }
 
+export interface APIReview {
+  reviewer: string;
+  reviewer_position: string;
+  review: string;
+  date: string;
+}
+
+export interface RecommendedBook {
+  isbn: string;
+  title: string;
+  subtitle?: string | null;
+  slug: string;
+  cover_image: string;
+  authors: { name: string; role: string }[];
+  formats: { type: string; price_gbp: number | null }[];
+}
+
 export interface Book {
   id: string;
   title: string;
@@ -38,6 +55,11 @@ export interface Book {
     thema?: string[];
   };
   samplePdfUrl?: string;
+  // API-provided press reviews and recommended books
+  apiReviews?: APIReview[];
+  recommendedBooks?: RecommendedBook[];
+  subtitle?: string;
+  series?: { title: string; slug: string; volume?: string } | null;
 }
 
 export interface CartItem extends Book {
