@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { useParams, Link } from "react-router-dom";
 import { Heart, Minus, Plus, Tablet, Book, BookOpen, Loader2 } from "lucide-react";
 import { Header } from "@/components/layout/Header";
@@ -20,6 +20,19 @@ export default function BookDetails() {
   const [quantity, setQuantity] = useState(1);
   const [book, setBook] = useState<(BookType & { _hardbackPrice?: number | null; _paperbackPrice?: number | null; _praise?: string }) | null>(null);
   const [loading, setLoading] = useState(true);
+  const imageRef = useRef<HTMLImageElement>(null);
+  const [imageHeight, setImageHeight] = useState<number | null>(null);
+
+  const updateImageHeight = useCallback(() => {
+    if (imageRef.current) {
+      setImageHeight(imageRef.current.clientHeight);
+    }
+  }, []);
+
+  useEffect(() => {
+    window.addEventListener("resize", updateImageHeight);
+    return () => window.removeEventListener("resize", updateImageHeight);
+  }, [updateImageHeight]);
 
   useEffect(() => {
     if (!id) return;
@@ -84,12 +97,12 @@ export default function BookDetails() {
             {/* Image */}
             <div className="flex justify-center md:justify-start">
               <div className="w-full max-w-[340px] lg:max-w-[380px]">
-                <img src={book.image} alt={book.title} className="w-full max-h-[520px] object-contain" />
+                <img ref={imageRef} src={book.image} alt={book.title} className="w-full object-contain" onLoad={updateImageHeight} />
               </div>
             </div>
 
             {/* Content */}
-            <div className="flex flex-col justify-between min-h-[520px]">
+            <div className="flex flex-col justify-between" style={imageHeight ? { maxHeight: imageHeight, overflow: 'hidden' } : undefined}>
               <div>
                 <h1 className="font-serif text-2xl sm:text-3xl lg:text-4xl font-bold mb-3">{book.title}</h1>
                 <p className="font-serif text-base italic mb-4 text-black">{book.description}</p>
