@@ -345,7 +345,7 @@ export default function Books() {
                             </p>
                           )}
 
-                          <p className="text-lg text-muted-foreground mt-4">
+                          <p className="text-muted-foreground mt-4 text-base">
                             By: <span className="text-muted-foreground">{book.author}</span>
                           </p>
 
