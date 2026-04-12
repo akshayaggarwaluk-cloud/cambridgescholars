@@ -198,7 +198,7 @@ export default function Books() {
                           )}
 
                           <p className="text-lg text-muted-foreground mt-4">
-                            By: <span className="text-foreground">{book.author}</span>
+                            By: <span className="text-muted-foreground">{book.author}</span>
                           </p>
 
                           {book.blurb && (
