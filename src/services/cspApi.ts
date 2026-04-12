@@ -14,7 +14,7 @@ export interface CSPBookRaw {
   authors: Array<{ name: string; role: string }> | string | null;
   editors: Array<{ name: string; role: string }> | string | null;
   contributors: Array<{ name: string; role: string }> | string | null;
-  contributors: string | null;
+  
   authorbiography: string | null;
   bookdescription: string | null;
   short_blurb: string | null;
