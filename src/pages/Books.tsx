@@ -135,27 +135,133 @@ export default function Books() {
               </div>
             </div>
 
-            {/* Category filter info */}
+            {/* Category filter */}
             <div>
               <h3 className="text-2xl font-serif text-foreground mb-6 pb-3 border-b-2 border-foreground/20">
                 Subject Categories
               </h3>
-              {selectedCategory !== "all" && (
-                <div className="mb-4">
-                  <span className="text-sm text-muted-foreground">Filtering by: </span>
-                  <span className="text-sm font-medium text-foreground">{selectedCategory}</span>
-                  <button
-                    onClick={() => handleCategoryChange("all")}
-                    className="ml-2 text-xs text-accent hover:underline"
-                  >
-                    Clear
-                  </button>
-                </div>
-              )}
-              {pagination && (
-                <p className="text-sm text-muted-foreground">
-                  Showing {books.length} of {pagination.total} books
-                </p>
+              {categories.length > 0 ? (
+                <ul className="space-y-1">
+                  {categories.map((cat) => {
+                    const isExpanded = expandedCats.has(cat.slug);
+                    const hasSubs = cat.subcategories && cat.subcategories.length > 0;
+                    return (
+                      <li key={cat.slug}>
+                        <div className="flex items-center justify-between">
+                          <button
+                            onClick={() => handleCategoryChange(cat.slug)}
+                            className={cn(
+                              "text-left text-sm py-1.5 hover:text-accent transition-colors",
+                              selectedCategory === cat.slug ? "text-accent font-semibold" : "text-foreground"
+                            )}
+                          >
+                            {cat.name}
+                          </button>
+                          <div className="flex items-center gap-1">
+                            <span className="text-xs text-muted-foreground">{cat.book_count}</span>
+                            {hasSubs && (
+                              <button
+                                onClick={() => {
+                                  setExpandedCats((prev) => {
+                                    const next = new Set(prev);
+                                    if (next.has(cat.slug)) next.delete(cat.slug);
+                                    else next.add(cat.slug);
+                                    return next;
+                                  });
+                                }}
+                                className="p-0.5 text-muted-foreground hover:text-foreground"
+                              >
+                                <ChevronDown className={cn("h-4 w-4 transition-transform", isExpanded && "rotate-180")} />
+                              </button>
+                            )}
+                          </div>
+                        </div>
+                        {/* Level 2 */}
+                        {hasSubs && isExpanded && (
+                          <ul className="ml-4 mt-1 space-y-0.5">
+                            {cat.subcategories!.map((sub) => {
+                              const isSubExpanded = expandedCats.has(sub.slug);
+                              const hasSubSubs = sub.subcategories && sub.subcategories.length > 0;
+                              return (
+                                <li key={sub.slug}>
+                                  <div className="flex items-center justify-between">
+                                    <button
+                                      onClick={() => handleCategoryChange(sub.slug)}
+                                      className={cn(
+                                        "text-left text-sm py-1 hover:text-accent transition-colors",
+                                        selectedCategory === sub.slug ? "text-accent font-semibold" : "text-muted-foreground"
+                                      )}
+                                    >
+                                      {sub.name}
+                                    </button>
+                                    <div className="flex items-center gap-1">
+                                      <span className="text-xs text-muted-foreground">{sub.book_count}</span>
+                                      {hasSubSubs && (
+                                        <button
+                                          onClick={() => {
+                                            setExpandedCats((prev) => {
+                                              const next = new Set(prev);
+                                              if (next.has(sub.slug)) next.delete(sub.slug);
+                                              else next.add(sub.slug);
+                                              return next;
+                                            });
+                                          }}
+                                          className="p-0.5 text-muted-foreground hover:text-foreground"
+                                        >
+                                          <ChevronDown className={cn("h-3.5 w-3.5 transition-transform", isSubExpanded && "rotate-180")} />
+                                        </button>
+                                      )}
+                                    </div>
+                                  </div>
+                                  {/* Level 3 */}
+                                  {hasSubSubs && isSubExpanded && (
+                                    <ul className="ml-4 mt-0.5 space-y-0.5">
+                                      {sub.subcategories!.map((spec) => (
+                                        <li key={spec.slug}>
+                                          <div className="flex items-center justify-between">
+                                            <button
+                                              onClick={() => handleCategoryChange(spec.slug)}
+                                              className={cn(
+                                                "text-left text-xs py-0.5 hover:text-accent transition-colors",
+                                                selectedCategory === spec.slug ? "text-accent font-semibold" : "text-muted-foreground"
+                                              )}
+                                            >
+                                              {spec.name}
+                                            </button>
+                                            <span className="text-xs text-muted-foreground">{spec.book_count}</span>
+                                          </div>
+                                        </li>
+                                      ))}
+                                    </ul>
+                                  )}
+                                </li>
+                              );
+                            })}
+                          </ul>
+                        )}
+                      </li>
+                    );
+                  })}
+                  {/* All Categories */}
+                  <li>
+                    <div className="flex items-center justify-between mt-2 pt-2 border-t border-border">
+                      <button
+                        onClick={() => handleCategoryChange("all")}
+                        className={cn(
+                          "text-left text-sm py-1.5 hover:text-accent transition-colors",
+                          selectedCategory === "all" ? "text-accent font-semibold" : "text-foreground"
+                        )}
+                      >
+                        All Categories
+                      </button>
+                      <span className="text-xs text-muted-foreground">
+                        {categories.reduce((sum, c) => sum + c.book_count, 0)}
+                      </span>
+                    </div>
+                  </li>
+                </ul>
+              ) : (
+                <p className="text-sm text-muted-foreground">Loading categories...</p>
               )}
             </div>
           </aside>
