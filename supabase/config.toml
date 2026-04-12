@@ -1,13 +1,1 @@
-project_id = "jlmudarkndeyotnnzwsj"
-
-[functions.create-order]
-verify_jwt = false
-
-[functions.auth-proxy]
-verify_jwt = false
-
-[functions.live-chat]
-verify_jwt = false
-
-[functions.manage-addresses]
-verify_jwt = false
+project_id = "wmcdqvlsfscayoutlhpg"
