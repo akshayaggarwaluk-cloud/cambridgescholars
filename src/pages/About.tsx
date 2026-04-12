@@ -38,7 +38,7 @@ export default function AboutSection() {
 
             <h2 className="text-3xl font-['Libre_Baskerville'] mt-8">What We Do</h2>
 
-            <p>
+            <p className="text-base">
               At Cambridge Scholars, we support authors at every stage of the publishing journey. Whether you are an
               early-career researcher submitting your first manuscript or an established academic building on previous
               work, we offer a clear, author-centred experience, designed to prioritise your voice and your vision.
