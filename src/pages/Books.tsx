@@ -319,7 +319,7 @@ export default function Books() {
                         </Link>
 
                         {/* Book Details */}
-                        <div className="flex-1 flex flex-col justify-center">
+                        <div className="flex-1 flex flex-col justify-start">
                           <Link to={`/books/${book.id}`}>
                             <h2 className="font-serif text-foreground hover:text-[#E4573D] transition-colors leading-tight text-xl">
                               {book.title}
