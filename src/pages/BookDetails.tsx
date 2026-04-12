@@ -169,7 +169,7 @@ export default function BookDetails() {
               </div>
 
               {/* Actions */}
-              <div className="flex items-center gap-4 flex-wrap py-0 my-0 mt-[10px]">
+              <div className="flex items-center gap-4 flex-wrap mt-6 my-[30px]">
                 <span className="text-lg text-muted-foreground">
                   From <span className="font-semibold text-foreground">£{getPrice(selectedFormat).toFixed(2)}</span>
                 </span>
