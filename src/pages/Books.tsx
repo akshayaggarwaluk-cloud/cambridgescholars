@@ -42,6 +42,24 @@ export default function Books() {
     setCurrentPage(page);
   }, [searchParams]);
 
+  // Find category name from slug (API expects name, not slug)
+  const findCategoryName = (slug: string, cats: CSPCategory[]): string | null => {
+    for (const cat of cats) {
+      if (cat.slug === slug) return cat.name;
+      if (cat.subcategories) {
+        for (const sub of cat.subcategories) {
+          if (sub.slug === slug) return sub.name;
+          if (sub.subcategories) {
+            for (const spec of sub.subcategories) {
+              if (spec.slug === slug) return spec.name;
+            }
+          }
+        }
+      }
+    }
+    return null;
+  };
+
   // Fetch books from CSP API
   useEffect(() => {
     const loadBooks = async () => {
@@ -52,7 +70,11 @@ export default function Books() {
           per_page: 20,
         };
         if (searchQuery) params.search = searchQuery;
-        if (selectedCategory !== "all") params.category = selectedCategory;
+        if (selectedCategory !== "all") {
+          const catName = findCategoryName(selectedCategory, categories);
+          if (catName) params.category = catName;
+          else params.category = selectedCategory;
+        }
 
         const result = await fetchBooks(params);
         setBooks(result.books);
@@ -65,7 +87,7 @@ export default function Books() {
       }
     };
     loadBooks();
-  }, [searchQuery, selectedCategory, currentPage]);
+  }, [searchQuery, selectedCategory, currentPage, categories]);
 
   const handleCategoryChange = (category: string) => {
     setSelectedCategory(category);
