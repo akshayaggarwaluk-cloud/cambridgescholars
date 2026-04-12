@@ -30,7 +30,7 @@ export default function AboutSection() {
               Barcelona.
             </p>
 
-            <p>
+            <p className="text-base">
               We specialise in publishing <strong>monographs, edited collections, and thesis-based works</strong> across
               a broad range of disciplines, including the humanities, social sciences, life sciences, and health and
               physical sciences.
