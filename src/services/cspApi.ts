@@ -333,6 +333,22 @@ export async function fetchBooks(params?: {
   };
 }
 
+/** Fetch featured reviews for homepage hero carousel */
+export async function fetchFeaturedReviews(): Promise<{
+  id: number;
+  book_title: string;
+  isbn: string;
+  cover_image: string;
+  review: string;
+  reviewer: string;
+  link?: string;
+}[]> {
+  const res = await fetch(`${CSP_API_BASE}/homepage/featured-reviews`);
+  if (!res.ok) throw new Error(`API error: ${res.status}`);
+  const json = await res.json();
+  return json.data || [];
+}
+
 /** Fetch a single book by ISBN */
 export async function fetchBookByIsbn(isbn: string): Promise<Book | null> {
   const res = await fetch(`${CSP_API_BASE}/books/${encodeURIComponent(isbn)}`);

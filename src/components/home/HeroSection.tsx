@@ -3,20 +3,16 @@ import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "framer-motion";
+import { fetchFeaturedReviews } from "@/services/cspApi";
 
 interface FeaturedReview {
   id: number;
   bookTitle: string;
-  subtitle?: string;
-  author: string;
   quote: string;
   reviewer: string;
-  reviewerTitle: string;
   image: string;
   bookId: string;
 }
-
-const featuredReviews: FeaturedReview[] = [];
 
 const textVariants = {
   initial: { opacity: 0, y: -20 },
@@ -31,8 +27,31 @@ const imageVariants = {
 };
 
 export function HeroSection() {
+  const [featuredReviews, setFeaturedReviews] = useState<FeaturedReview[]>([]);
   const [activeIndex, setActiveIndex] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    fetchFeaturedReviews()
+      .then((data) => {
+        const mapped = data.map((item) => {
+          // Split reviewer string like "Prof. Jane Smith, University of Oxford"
+          const reviewerParts = item.reviewer || "";
+          return {
+            id: item.id,
+            bookTitle: item.book_title,
+            quote: item.review,
+            reviewer: reviewerParts,
+            image: item.cover_image,
+            bookId: item.isbn,
+          };
+        });
+        setFeaturedReviews(mapped);
+      })
+      .catch((err) => console.error("Failed to fetch featured reviews:", err))
+      .finally(() => setIsLoading(false));
+  }, []);
 
   useEffect(() => {
     if (!isAutoPlaying || featuredReviews.length === 0) return;
@@ -40,7 +59,20 @@ export function HeroSection() {
       setActiveIndex((prev) => (prev + 1) % featuredReviews.length);
     }, 8000);
     return () => clearInterval(interval);
-  }, [isAutoPlaying]);
+  }, [isAutoPlaying, featuredReviews.length]);
+
+  if (isLoading) {
+    return (
+      <section className="relative bg-[#f4f3ec] pt-28 pb-8 md:pt-32 md:pb-12 min-h-[60vh] flex items-center">
+        <div className="container-wide text-center">
+          <div className="animate-pulse space-y-4">
+            <div className="h-8 bg-muted rounded w-1/3 mx-auto" />
+            <div className="h-4 bg-muted rounded w-1/2 mx-auto" />
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   if (featuredReviews.length === 0) {
     return (
@@ -79,9 +111,8 @@ export function HeroSection() {
               >
                 <motion.p variants={textVariants} transition={{ duration: 0.4 }} className="text-accent text-xs font-semibold uppercase tracking-[0.25em]">Featured Review</motion.p>
                 <motion.h1 variants={textVariants} transition={{ duration: 0.4, delay: 0.05 }} className="font-serif text-3xl md:text-4xl lg:text-[2.8rem] font-normal leading-[1.65] text-foreground">{activeReview.bookTitle}</motion.h1>
-                <motion.p variants={textVariants} transition={{ duration: 0.4, delay: 0.1 }} className="text-foreground text-base font-medium">{activeReview.author}</motion.p>
                 <motion.p variants={textVariants} transition={{ duration: 0.4, delay: 0.15 }} className="text-muted-foreground text-sm md:text-base italic leading-relaxed">"{activeReview.quote}"</motion.p>
-                <motion.p variants={textVariants} transition={{ duration: 0.4, delay: 0.2 }} className="text-foreground text-sm font-semibold">– ⁠{activeReview.reviewer}, <span className="font-normal">{activeReview.reviewerTitle}</span></motion.p>
+                <motion.p variants={textVariants} transition={{ duration: 0.4, delay: 0.2 }} className="text-foreground text-sm font-semibold">– {activeReview.reviewer}</motion.p>
                 <motion.div variants={textVariants} transition={{ duration: 0.4, delay: 0.25 }} className="pt-2">
                   <Button asChild className="bg-accent hover:bg-accent/90 text-accent-foreground px-10 py-3 text-sm tracking-wider">
                     <Link to={`/books/${activeReview.bookId}`}>VIEW</Link>
