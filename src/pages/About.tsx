@@ -23,7 +23,7 @@ export default function AboutSection() {
         <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-[65%_35%] gap-16 items-stretch">
           {/* TEXT */}
           <div className="space-y-6 leading-relaxed text-black font-['Nunito_Sans'] text-[15px]">
-            <p className="text-sm">
+            <p className="text-base">
               Founded in 2001 by a group of academics, Cambridge Scholars Publishing is an independent academic
               publisher with a strong commitment to original scholarship and academic excellence. We are based in
               Newcastle upon Tyne, in the historic Lady Stephenson Library, with additional offices in Berlin and
