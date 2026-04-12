@@ -412,9 +412,8 @@ export default function Books() {
               </>
             )}
           </div>
-          </div>
         </div>
-        </div>
+      </main>
 
       <Footer />
     </div>
