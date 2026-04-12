@@ -36,14 +36,20 @@ export function HeroSection() {
     fetchFeaturedReviews()
       .then((data) => {
         const mapped = data.map((item) => {
-          // Split reviewer string like "Prof. Jane Smith, University of Oxford"
           const reviewerParts = item.reviewer || "";
+          // Fix cover image URL: the featured-reviews API may return ISBN-10 based URLs
+          // but S3 bucket uses ISBN-13 format. Try to fix by prepending "978" if needed.
+          let coverImage = item.cover_image || "";
+          const isbnMatch = coverImage.match(/\/(\d{10})\.jpg$/);
+          if (isbnMatch && !coverImage.includes("/978")) {
+            coverImage = coverImage.replace(`/${isbnMatch[1]}.jpg`, `/978${isbnMatch[1]}.jpg`);
+          }
           return {
             id: item.id,
             bookTitle: item.book_title,
             quote: item.review,
             reviewer: reviewerParts,
-            image: item.cover_image,
+            image: coverImage,
             bookId: item.isbn,
           };
         });
