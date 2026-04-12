@@ -15,6 +15,7 @@ export default {
     extend: {
       fontFamily: {
         serif: ['Playfair Display', 'Georgia', 'serif'],
+        baskerville: ['Libre Baskerville', 'Georgia', 'serif'],
         sans: ['Source Sans 3', 'system-ui', 'sans-serif'],
         nav: ['Nunito Sans', 'system-ui', 'sans-serif'],
       },
