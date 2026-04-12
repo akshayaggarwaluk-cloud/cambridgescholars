@@ -139,7 +139,7 @@ export default function Books() {
       <main className="px-6 md:px-16 py-12 bg-white">
         <div className="max-w-7xl mx-auto">
           {/* Results count bar */}
-          {!loading && pagination && (
+          {!loading && pagination && pagination.total > 0 && (
             <div className="flex items-center justify-between mb-8">
               <p className="text-sm text-muted-foreground">
                 Showing {((currentPage - 1) * 20) + 1}–{Math.min(currentPage * 20, pagination.total)} of {pagination.total} results
@@ -315,7 +315,7 @@ export default function Books() {
                 <div className="divide-y divide-border">
                   {books.map((book) => (
                     <article key={book.id} className="py-10 first:pt-0">
-                      <div className="flex flex-col md:flex-row gap-10">
+                      <div className="flex flex-col md:flex-row gap-10 items-start">
                         {/* Book Cover */}
                         <Link to={`/books/${book.id}`} className="flex-shrink-0 w-full md:w-56">
                           <div className="aspect-[2/3] overflow-hidden shadow-xl">
