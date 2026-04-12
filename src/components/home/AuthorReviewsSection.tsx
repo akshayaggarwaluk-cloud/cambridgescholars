@@ -89,7 +89,7 @@ export function AuthorReviewsSection() {
         <h2 className="font-serif text-3xl md:text-4xl lg:text-[2.6rem] font-normal text-center text-foreground mb-14">
           Author Experiences
         </h2>
-        <div className="grid md:grid-cols-2 gap-x-12 gap-y-10 lg:gap-x-16 lg:gap-y-12">
+        <div className="grid md:grid-cols-2 gap-x-8 gap-y-12 lg:gap-x-12 lg:gap-y-14">
           {visible.map((review, index) => {
             const { name, title } = parseAuthor(review.author);
             return (
