@@ -2,9 +2,16 @@ import { useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Search, X, Loader2 } from "lucide-react";
 import { Input } from "@/components/ui/input";
-import { fetchBooks } from "@/services/cspApi";
+import { fetchAutocomplete } from "@/services/cspApi";
 import { cn } from "@/lib/utils";
-import { Book } from "@/contexts/CartContext";
+
+interface AutocompleteResult {
+  title: string;
+  isbn: string;
+  slug: string;
+  authors: string;
+  cover_image: string;
+}
 
 interface SearchAutocompleteProps {
   onClose?: () => void;
@@ -15,7 +22,7 @@ export function SearchAutocomplete({ onClose, className }: SearchAutocompletePro
   const [query, setQuery] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   const [highlightedIndex, setHighlightedIndex] = useState(-1);
-  const [results, setResults] = useState<Book[]>([]);
+  const [results, setResults] = useState<AutocompleteResult[]>([]);
   const [loading, setLoading] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -33,9 +40,9 @@ export function SearchAutocomplete({ onClose, className }: SearchAutocompletePro
     clearTimeout(debounceRef.current);
     debounceRef.current = setTimeout(async () => {
       try {
-        const { books } = await fetchBooks({ search: query, per_page: 6 });
-        setResults(books);
-        setIsOpen(books.length > 0);
+        const data = await fetchAutocomplete(query);
+        setResults(data);
+        setIsOpen(data.length > 0);
       } catch {
         setResults([]);
       } finally {
@@ -74,7 +81,7 @@ export function SearchAutocomplete({ onClose, className }: SearchAutocompletePro
       case "Enter":
         e.preventDefault();
         if (highlightedIndex >= 0 && results[highlightedIndex]) {
-          handleSelect(results[highlightedIndex].id);
+          handleSelect(results[highlightedIndex]);
         } else if (query.length >= 2) {
           navigate(`/books?search=${encodeURIComponent(query)}`);
           handleClose();
@@ -86,8 +93,8 @@ export function SearchAutocomplete({ onClose, className }: SearchAutocompletePro
     }
   };
 
-  const handleSelect = (bookId: string) => {
-    navigate(`/books/${bookId}`);
+  const handleSelect = (item: AutocompleteResult) => {
+    navigate(`/books/${item.isbn}`);
     handleClose();
   };
 
@@ -134,22 +141,18 @@ export function SearchAutocomplete({ onClose, className }: SearchAutocompletePro
             </div>
             {results.map((book, index) => (
               <Link
-                key={book.id}
-                to={`/books/${book.id}`}
+                key={book.isbn}
+                to={`/books/${book.isbn}`}
                 onClick={handleClose}
                 className={cn(
                   "flex items-center gap-4 p-3 transition-colors",
                   highlightedIndex === index ? "bg-accent/10" : "hover:bg-secondary"
                 )}
               >
-                <img src={book.image} alt={book.title} className="w-12 h-16 object-cover rounded-md flex-shrink-0" />
+                <img src={book.cover_image} alt={book.title} className="w-12 h-16 object-cover rounded-md flex-shrink-0" />
                 <div className="min-w-0 flex-1">
                   <p className="font-medium text-foreground line-clamp-1">{highlightQuery(book.title, query)}</p>
-                  <p className="text-sm text-muted-foreground line-clamp-1">{highlightQuery(book.author, query)}</p>
-                  <div className="flex items-center gap-2 mt-1">
-                    <span className="text-xs text-muted-foreground bg-secondary px-2 py-0.5 rounded">{book.category}</span>
-                    {book.price > 0 && <span className="text-sm font-semibold text-accent">£{book.price.toFixed(2)}</span>}
-                  </div>
+                  <p className="text-sm text-muted-foreground line-clamp-1">{highlightQuery(book.authors, query)}</p>
                 </div>
               </Link>
             ))}

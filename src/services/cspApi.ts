@@ -372,3 +372,18 @@ export async function fetchBookByIsbn(isbn: string): Promise<Book | null> {
   const raw: CSPBookRaw = json.data || json;
   return transformBook(raw);
 }
+
+/** Autocomplete search (up to 8 results) */
+export async function fetchAutocomplete(q: string): Promise<{
+  title: string;
+  isbn: string;
+  slug: string;
+  authors: string;
+  cover_image: string;
+}[]> {
+  if (q.length < 2) return [];
+  const res = await fetch(`${CSP_API_BASE}/search/autocomplete?q=${encodeURIComponent(q)}`);
+  if (!res.ok) throw new Error(`API error: ${res.status}`);
+  const json = await res.json();
+  return json.data || [];
+}
