@@ -170,8 +170,8 @@ export default function BookDetails() {
 
               {/* Actions */}
               <div className="flex items-center gap-3 sm:gap-4 flex-wrap my-[20px] sm:my-[30px] mt-[10px]">
-                <span className="text-lg text-muted-foreground">
-                  From <span className="font-semibold text-foreground">£{getPrice(selectedFormat).toFixed(2)}</span>
+                <span className="text-lg text-[#c4a273]">
+                  From <span className="font-semibold text-[#c4a273]">£{getPrice(selectedFormat).toFixed(2)}</span>
                 </span>
                 <Button
                   size="lg"
