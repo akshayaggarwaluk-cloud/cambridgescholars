@@ -64,7 +64,7 @@ export interface CSPPagination {
 }
 
 export interface CSPBookListResponse {
-  books: CSPBookRaw[];
+  data: CSPBookRaw[];
   pagination: CSPPagination;
 }
 
@@ -165,7 +165,7 @@ export async function fetchBooks(params?: {
   const data: CSPBookListResponse = await res.json();
 
   return {
-    books: data.books.map(transformBook),
+    books: data.data.map(transformBook),
     pagination: data.pagination,
   };
 }
