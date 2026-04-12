@@ -72,11 +72,11 @@ export default function AboutSection() {
           </div>
 
           {/* IMAGE */}
-          <div className="relative min-h-[600px]">
+          <div className="flex items-start">
             <img
               src="/lovable-uploads/d53bdc66-5423-4a11-8c1d-a9166b55ead1.png"
               alt="Lady Stephenson Library"
-              className="absolute inset-0 w-full h-full object-cover rounded shadow"
+              className="w-full h-auto object-contain rounded shadow"
             />
           </div>
         </div>
