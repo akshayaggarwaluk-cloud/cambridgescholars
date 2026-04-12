@@ -190,7 +190,7 @@ export default function Books() {
                           </Link>
 
                           {book.description && (
-                            <p className="text-xl italic text-foreground/80 mt-3 leading-snug">
+                            <p className="text-xl italic mt-3 leading-snug text-black">
                               {book.description.length > 80
                                 ? book.description.substring(0, 80) + "..."
                                 : book.description}
