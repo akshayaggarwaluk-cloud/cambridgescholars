@@ -403,3 +403,35 @@ export async function fetchCategories(): Promise<CSPCategory[]> {
   const json = await res.json();
   return json.data || [];
 }
+
+/** Forthcoming book type */
+export interface CSPForthcomingBook {
+  title: string;
+  isbn: string;
+  pub_date: string;
+  binding: string;
+  price_uk_gbp: number;
+}
+
+/** Fetch forthcoming titles */
+export async function fetchForthcomingBooks(params?: {
+  page?: number;
+  per_page?: number;
+}): Promise<{ books: CSPForthcomingBook[]; pagination: CSPPagination }> {
+  const url = new URL(`${CSP_API_BASE}/books/forthcoming`);
+  if (params?.page) url.searchParams.set("page", String(params.page));
+  if (params?.per_page) url.searchParams.set("per_page", String(params.per_page));
+
+  const res = await fetch(url.toString());
+  if (!res.ok) throw new Error(`API error: ${res.status}`);
+  const json = await res.json();
+
+  const pagination: CSPPagination = json.pagination ? {
+    total: json.pagination.total_items,
+    page: json.pagination.current_page,
+    per_page: json.pagination.per_page,
+    total_pages: json.pagination.total_pages,
+  } : { total: 0, page: 1, per_page: 20, total_pages: 0 };
+
+  return { books: json.data || [], pagination };
+}
