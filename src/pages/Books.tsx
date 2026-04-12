@@ -105,7 +105,7 @@ export default function Books() {
         </div>
       </div>
 
-      <main className="max-w-7xl mx-auto px-6 md:px-16 py-12 bg-white">
+      <main className="max-w-full mx-auto px-6 md:px-16 py-12 bg-white">
         <div className="flex flex-col lg:flex-row gap-12">
           {/* Sidebar */}
           <aside className="lg:w-72 flex-shrink-0">
@@ -128,9 +128,7 @@ export default function Books() {
 
             {/* Category filter info */}
             <div>
-              <h3 className="text-2xl font-serif text-foreground mb-6 pb-3 border-b-2 border-foreground/20">
-                Filter
-              </h3>
+              <h3 className="text-2xl font-serif text-foreground mb-6 pb-3 border-b-2 border-foreground/20">Filter</h3>
               {selectedCategory !== "all" && (
                 <div className="mb-4">
                   <span className="text-sm text-muted-foreground">Filtering by: </span>
