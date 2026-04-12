@@ -40,11 +40,26 @@ export function SearchAutocomplete({ onClose, className }: SearchAutocompletePro
     clearTimeout(debounceRef.current);
     debounceRef.current = setTimeout(async () => {
       try {
+        // Try dedicated autocomplete endpoint first
         const data = await fetchAutocomplete(query);
         setResults(data);
         setIsOpen(data.length > 0);
       } catch {
-        setResults([]);
+        // Fallback to books search if autocomplete endpoint not available
+        try {
+          const { books } = await fetchBooks({ search: query, per_page: 8 });
+          const mapped = books.map((b) => ({
+            title: b.title,
+            isbn: b.isbn || b.id,
+            slug: b.id,
+            authors: b.author,
+            cover_image: b.image,
+          }));
+          setResults(mapped);
+          setIsOpen(mapped.length > 0);
+        } catch {
+          setResults([]);
+        }
       } finally {
         setLoading(false);
       }
