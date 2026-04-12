@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Search, X, Loader2 } from "lucide-react";
 import { Input } from "@/components/ui/input";
-import { fetchAutocomplete } from "@/services/cspApi";
+import { fetchAutocomplete, fetchBooks } from "@/services/cspApi";
 import { cn } from "@/lib/utils";
 
 interface AutocompleteResult {
