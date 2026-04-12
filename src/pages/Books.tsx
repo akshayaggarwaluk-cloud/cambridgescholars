@@ -137,16 +137,7 @@ export default function Books() {
       </div>
 
       <main className="px-6 md:px-16 py-12 bg-white">
-        <div className="max-w-7xl mx-auto">
-          {/* Results count bar */}
-          {!loading && pagination && pagination.total > 0 && (
-            <div className="flex items-center justify-between mb-8">
-              <p className="text-sm text-muted-foreground">
-                Showing {((currentPage - 1) * 20) + 1}–{Math.min(currentPage * 20, pagination.total)} of {pagination.total} results
-              </p>
-            </div>
-          )}
-          <div className="flex flex-col lg:flex-row gap-12">
+        <div className="max-w-7xl mx-auto flex flex-col lg:flex-row gap-12">
           {/* Sidebar */}
           <aside className="lg:w-72 flex-shrink-0">
             {/* Search Section */}
@@ -183,7 +174,7 @@ export default function Books() {
                             onClick={() => handleCategoryChange(cat.slug)}
                             className={cn(
                               "text-left text-sm py-1.5 hover:text-accent transition-colors",
-                              selectedCategory === cat.slug ? "text-accent font-semibold" : "text-foreground"
+                              selectedCategory === cat.slug ? "text-accent font-semibold" : "text-foreground",
                             )}
                           >
                             {cat.name}
@@ -202,7 +193,9 @@ export default function Books() {
                                 }}
                                 className="p-0.5 text-muted-foreground hover:text-foreground"
                               >
-                                <ChevronDown className={cn("h-4 w-4 transition-transform", isExpanded && "rotate-180")} />
+                                <ChevronDown
+                                  className={cn("h-4 w-4 transition-transform", isExpanded && "rotate-180")}
+                                />
                               </button>
                             )}
                           </div>
@@ -220,7 +213,9 @@ export default function Books() {
                                       onClick={() => handleCategoryChange(sub.slug)}
                                       className={cn(
                                         "text-left text-sm py-1 hover:text-accent transition-colors",
-                                        selectedCategory === sub.slug ? "text-accent font-semibold" : "text-muted-foreground"
+                                        selectedCategory === sub.slug
+                                          ? "text-accent font-semibold"
+                                          : "text-muted-foreground",
                                       )}
                                     >
                                       {sub.name}
@@ -239,7 +234,12 @@ export default function Books() {
                                           }}
                                           className="p-0.5 text-muted-foreground hover:text-foreground"
                                         >
-                                          <ChevronDown className={cn("h-3.5 w-3.5 transition-transform", isSubExpanded && "rotate-180")} />
+                                          <ChevronDown
+                                            className={cn(
+                                              "h-3.5 w-3.5 transition-transform",
+                                              isSubExpanded && "rotate-180",
+                                            )}
+                                          />
                                         </button>
                                       )}
                                     </div>
@@ -254,7 +254,9 @@ export default function Books() {
                                               onClick={() => handleCategoryChange(spec.slug)}
                                               className={cn(
                                                 "text-left text-xs py-0.5 hover:text-accent transition-colors",
-                                                selectedCategory === spec.slug ? "text-accent font-semibold" : "text-muted-foreground"
+                                                selectedCategory === spec.slug
+                                                  ? "text-accent font-semibold"
+                                                  : "text-muted-foreground",
                                               )}
                                             >
                                               {spec.name}
@@ -280,7 +282,7 @@ export default function Books() {
                         onClick={() => handleCategoryChange("all")}
                         className={cn(
                           "text-left text-sm py-1.5 hover:text-accent transition-colors",
-                          selectedCategory === "all" ? "text-accent font-semibold" : "text-foreground"
+                          selectedCategory === "all" ? "text-accent font-semibold" : "text-foreground",
                         )}
                       >
                         All Categories
@@ -315,7 +317,7 @@ export default function Books() {
                 <div className="divide-y divide-border">
                   {books.map((book) => (
                     <article key={book.id} className="py-10 first:pt-0">
-                      <div className="flex flex-col md:flex-row gap-10 items-stretch">
+                      <div className="flex flex-col md:flex-row gap-10">
                         {/* Book Cover */}
                         <Link to={`/books/${book.id}`} className="flex-shrink-0 w-full md:w-56">
                           <div className="aspect-[2/3] overflow-hidden shadow-xl">
@@ -328,9 +330,9 @@ export default function Books() {
                         </Link>
 
                         {/* Book Details */}
-                        <div className="flex-1 flex flex-col justify-between overflow-hidden">
+                        <div className="flex-1 flex flex-col justify-center">
                           <Link to={`/books/${book.id}`}>
-                            <h2 className="font-serif text-accent hover:text-accent/80 transition-colors leading-tight text-xl">
+                            <h2 className="font-serif text-foreground hover:text-[#E4573D] transition-colors leading-tight text-xl">
                               {book.title}
                             </h2>
                           </Link>
@@ -354,7 +356,7 @@ export default function Books() {
                           )}
 
                           {/* Actions */}
-                          <div className="flex items-center gap-4 mt-8">
+                          <div className="flex items-center gap-4 mt-5">
                             <Button
                               asChild
                               className="bg-[#E4573D] hover:bg-[#c94a32] text-white px-10 h-14 text-lg font-medium rounded-sm"
@@ -412,7 +414,6 @@ export default function Books() {
               </>
             )}
           </div>
-        </div>
         </div>
       </main>
 
