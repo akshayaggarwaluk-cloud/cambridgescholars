@@ -158,6 +158,7 @@ export function AuthorReviewsSection() {
             </button>
           </div>
         )}
+        </div>
       </div>
     </section>
   );
