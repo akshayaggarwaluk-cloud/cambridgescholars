@@ -128,7 +128,7 @@ export function HeroSection() {
             </AnimatePresence>
           </div>
 
-          <div className="relative order-1 lg:order-2 h-[350px] md:h-[440px] lg:h-[540px] lg:-mr-32">
+          <div className="relative order-1 lg:order-2 h-[350px] md:h-[440px] lg:h-[540px]">
             <AnimatePresence mode="wait">
               <motion.div key={activeIndex} variants={imageVariants} initial="initial" animate="animate" exit="exit" transition={{ duration: 0.6, ease: [0.25, 0.4, 0.25, 1] }} className="absolute inset-0 flex items-center justify-end">
                 <img src={activeReview.image} alt={activeReview.bookTitle} className="h-full w-auto max-w-none object-contain mix-blend-multiply drop-shadow-2xl" style={{ filter: "drop-shadow(8px 12px 20px rgba(0,0,0,0.15))" }} />
