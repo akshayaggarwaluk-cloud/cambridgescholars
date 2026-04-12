@@ -115,7 +115,7 @@ export default function BookDetails() {
                 </p>
 
                 {/* Format Selection */}
-                <div className="mb-4 sm:mb-6">
+                <div className="mb-4 sm:mb-0">
                   <p className="text-sm font-medium mb-2">Select Format</p>
                   <div className="flex flex-wrap gap-2 sm:gap-[10px]">
                     {hasEbook && (
@@ -158,7 +158,7 @@ export default function BookDetails() {
                 </div>
 
                 {/* Quantity */}
-                <div className="flex items-center gap-4 sm:gap-6 mb-[15px] sm:mb-[20px] mt-0">
+                <div className="flex items-center gap-4 sm:gap-6 mb-[15px] mt-0 sm:mb-0">
                   <span className="text-xs sm:text-sm font-semibold uppercase tracking-wide">Quantity</span>
                   <div className="flex items-center border">
                     <button onClick={() => setQuantity(Math.max(1, quantity - 1))} className="px-2 sm:px-3 py-1.5 sm:py-2 hover:bg-muted"><Minus className="h-3.5 w-3.5 sm:h-4 sm:w-4" /></button>
@@ -169,7 +169,7 @@ export default function BookDetails() {
               </div>
 
               {/* Actions */}
-              <div className="flex items-center gap-3 sm:gap-4 flex-wrap my-[20px] sm:my-[30px] mt-[10px]">
+              <div className="flex items-center gap-3 sm:gap-4 flex-wrap my-[20px] sm:my-[30px] mb-0 mt-0">
                 <span className="text-[#c4a273] text-xl">
                   From <span className="font-semibold text-[#c4a273]">£{getPrice(selectedFormat).toFixed(2)}</span>
                 </span>
