@@ -16,8 +16,8 @@ export default function AboutSection() {
       </div>
 
       {/* FIRST SECTION */}
-      <section className="w-full px-6 md:px-20 py-16 bg-white">
-        <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-[65%_35%] gap-16 items-stretch">
+      <section className="w-full px-6 md:px-16 py-16 bg-white">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-[65%_35%] gap-16 items-stretch">
           {/* TEXT */}
           <div className="space-y-6 leading-relaxed text-black font-['Nunito_Sans'] text-[15px]">
             <p className="text-base">
@@ -83,7 +83,7 @@ export default function AboutSection() {
       </section>
 
       {/* SECOND SECTION */}
-      <section className="w-full px-6 md:px-20 py-16 bg-white">
+      <section className="w-full px-6 md:px-16 py-16 bg-white">
         <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-[35%_65%] gap-16 items-stretch">
           {/* IMAGE */}
           <div className="relative min-h-[600px]">
