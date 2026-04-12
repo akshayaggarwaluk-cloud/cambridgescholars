@@ -11,10 +11,9 @@ const CSP_API_BASE = "https://api.cambridgescholars.com/api/website";
 export interface CSPBookRaw {
   bookname: string;
   bookcategory: string | null;
-  authors: Array<{ name: string; role: string }> | string | null;
-  editors: Array<{ name: string; role: string }> | string | null;
-  contributors: Array<{ name: string; role: string }> | string | null;
-  
+  authors: string | null;
+  editors: string | null;
+  contributors: string | null;
   authorbiography: string | null;
   bookdescription: string | null;
   short_blurb: string | null;
@@ -65,7 +64,7 @@ export interface CSPPagination {
 }
 
 export interface CSPBookListResponse {
-  data: CSPBookRaw[];
+  books: CSPBookRaw[];
   pagination: CSPPagination;
 }
 
@@ -78,13 +77,7 @@ function transformBook(raw: CSPBookRaw): Book {
   const paperbackPrice = raw["Paperback:Price"] ? parseFloat(raw["Paperback:Price"]) : null;
   const price = hardbackPrice || paperbackPrice || 0;
 
-  const extractNames = (field: Array<{ name: string; role: string }> | string | null): string | null => {
-    if (!field) return null;
-    if (typeof field === 'string') return field;
-    if (Array.isArray(field)) return field.map(a => a.name).join(', ');
-    return null;
-  };
-  const author = extractNames(raw.authors) || extractNames(raw.editors) || extractNames(raw.contributors) || "Unknown";
+  const author = raw.authors || raw.editors || raw.contributors || "Unknown";
 
   // Parse categories from bookcategory string like "Education : Science Education : STEM"
   const categories = raw.bookcategory
@@ -172,7 +165,7 @@ export async function fetchBooks(params?: {
   const data: CSPBookListResponse = await res.json();
 
   return {
-    books: data.data.map(transformBook),
+    books: data.books.map(transformBook),
     pagination: data.pagination,
   };
 }
