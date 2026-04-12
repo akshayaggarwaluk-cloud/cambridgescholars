@@ -44,7 +44,7 @@ export default function AboutSection() {
               work, we offer a clear, author-centred experience, designed to prioritise your voice and your vision.
             </p>
 
-            <p>Our publishing model is founded on three core principles:</p>
+            <p className="text-base">Our publishing model is founded on three core principles:</p>
 
             <ul className="list-disc pl-6 space-y-2">
               <li>
