@@ -338,7 +338,7 @@ export default function Books() {
                           </Link>
 
                           {book.description && (
-                            <p className="text-xl italic mt-3 leading-snug text-black">
+                            <p className="font-['Libre_Baskerville'] text-xl italic mt-3 leading-snug text-black">
                               {book.description.length > 80
                                 ? book.description.substring(0, 80) + "..."
                                 : book.description}
