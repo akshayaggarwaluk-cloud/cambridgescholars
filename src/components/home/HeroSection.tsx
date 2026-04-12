@@ -103,7 +103,7 @@ export function HeroSection() {
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
-      <div className="container-wide relative z-10 w-full">
+      <div className="max-w-7xl mx-auto px-8 sm:px-12 lg:px-16 relative z-10 w-full">
         <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center">
           <div className="text-foreground order-2 lg:order-1 min-h-[380px] md:min-h-[420px] flex flex-col justify-center">
             <AnimatePresence mode="wait">
