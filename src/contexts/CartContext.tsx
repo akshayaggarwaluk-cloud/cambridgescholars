@@ -2,7 +2,7 @@ import { createContext, useContext, useState, useEffect, ReactNode } from "react
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { useExternalAuth } from "./ExternalAuthContext";
-import { books } from "@/data/books";
+import { fetchBookByIsbn } from "@/services/cspApi";
 
 export type BookFormat = "ebook" | "hardbook" | "paperback";
 
