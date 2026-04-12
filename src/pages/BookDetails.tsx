@@ -106,7 +106,7 @@ export default function BookDetails() {
               <div>
                 <h1 className="font-baskerville text-2xl sm:text-3xl mb-3 lg:text-xl font-medium">{book.title}</h1>
                 <p className="font-baskerville text-base italic mb-4 text-black">{book.description}</p>
-                <p className="mb-4 text-lg">
+                <p className="mb-4 text-base">
                   <span className="font-semibold">By:</span> {book.author}
                 </p>
                 <p className="hidden sm:block text-muted-foreground leading-relaxed max-w-3xl mb-6 text-lg">
