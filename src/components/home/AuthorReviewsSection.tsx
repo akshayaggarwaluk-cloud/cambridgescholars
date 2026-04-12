@@ -65,12 +65,12 @@ export function AuthorReviewsSection() {
 
   if (loading) {
     return (
-      <section className="py-8 md:py-12 bg-white">
-        <div className="container mx-auto px-6">
-          <h2 className="font-serif text-3xl md:text-4xl font-normal text-center text-foreground mb-14">
-            Author Experiences
-          </h2>
-          <p className="text-center text-muted-foreground">Loading...</p>
+      <section className="py-8 md:py-12 bg-[#f4f3ec]">
+        <div className="max-w-7xl mx-auto px-8 sm:px-12 lg:px-16">
+          <div className="bg-white rounded-sm py-10 md:py-14 px-8 sm:px-12 lg:px-16">
+            <h2 className="font-serif text-3xl md:text-4xl font-normal text-center text-foreground mb-14">Author Experiences</h2>
+            <p className="text-center text-muted-foreground">Loading...</p>
+          </div>
         </div>
       </section>
     );
