@@ -350,7 +350,7 @@ export default function Books() {
                           </p>
 
                           {book.blurb && (
-                            <p className="text-base text-muted-foreground mt-5 leading-relaxed line-clamp-4">
+                            <p className="font-['Nunito_Sans'] text-base text-muted-foreground mt-5 leading-relaxed line-clamp-4">
                               {book.blurb}
                             </p>
                           )}
