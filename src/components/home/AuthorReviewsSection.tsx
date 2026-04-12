@@ -1,21 +1,36 @@
 import { useEffect, useState } from "react";
-import { fetchAuthorReviews } from "@/services/cspApi";
+import { fetchAuthorReviews, fetchBooks } from "@/services/cspApi";
 
 interface AuthorReview {
   author: string;
   book_title: string;
   praise: string;
   date: string;
+  coverImage?: string;
 }
 
 export function AuthorReviewsSection() {
   const [reviews, setReviews] = useState<AuthorReview[]>([]);
   const [loading, setLoading] = useState(true);
-  const [visibleCount, setVisibleCount] = useState(4);
+  const [visibleCount, setVisibleCount] = useState(6);
 
   useEffect(() => {
     fetchAuthorReviews()
-      .then((data) => setReviews(data))
+      .then(async (data) => {
+        // Try to fetch cover images for each review by searching book title
+        const withCovers = await Promise.all(
+          data.map(async (r) => {
+            try {
+              const result = await fetchBooks({ search: r.book_title, per_page: 1 });
+              const cover = result.books[0]?.image;
+              return { ...r, coverImage: cover || undefined };
+            } catch {
+              return { ...r };
+            }
+          })
+        );
+        setReviews(withCovers);
+      })
       .catch(() => setReviews([]))
       .finally(() => setLoading(false));
   }, []);
@@ -50,11 +65,11 @@ export function AuthorReviewsSection() {
   const hasMore = visibleCount < reviews.length;
 
   const parseAuthor = (raw: string) => {
-    const separators = [", ", " - ", " – "];
+    const separators = [" - ", " – ", ", "];
     for (const sep of separators) {
       const idx = raw.indexOf(sep);
       if (idx > 0) {
-        return { name: raw.slice(0, idx), title: raw.slice(idx + sep.length) };
+        return { name: raw.slice(0, idx).trim(), title: raw.slice(idx + sep.length).trim() };
       }
     }
     return { name: raw, title: "" };
@@ -66,27 +81,49 @@ export function AuthorReviewsSection() {
         <h2 className="font-serif text-3xl md:text-4xl lg:text-[2.6rem] font-normal text-center text-foreground mb-14">
           Author Experiences
         </h2>
-        <div className="grid md:grid-cols-2 gap-8 lg:gap-10">
+        <div className="grid md:grid-cols-2 gap-x-12 gap-y-10 lg:gap-x-16 lg:gap-y-12">
           {visible.map((review, index) => {
             const { name, title } = parseAuthor(review.author);
             return (
-              <div key={index} className="flex flex-col gap-3">
-                <p className="text-foreground text-sm leading-relaxed text-justify">
-                  "{review.praise}"
-                </p>
-                <p className="text-sm">
-                  <span className="font-bold text-accent">{name}</span>
-                  {title && <span className="text-muted-foreground"> – {title}</span>}
-                </p>
+              <div key={index} className="flex gap-5 items-start">
+                {/* Book cover */}
+                <div className="flex-shrink-0 w-28 md:w-32 lg:w-36">
+                  {review.coverImage ? (
+                    <img
+                      src={review.coverImage}
+                      alt={review.book_title}
+                      className="w-full h-auto shadow-md"
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).style.display = "none";
+                      }}
+                    />
+                  ) : (
+                    <div className="w-full aspect-[2/3] bg-muted rounded flex items-center justify-center">
+                      <span className="text-xs text-muted-foreground text-center px-2">{review.book_title}</span>
+                    </div>
+                  )}
+                </div>
+                {/* Quote and author */}
+                <div className="flex-1 min-w-0">
+                  <p className="text-foreground text-sm leading-relaxed mb-4 text-justify">
+                    "{review.praise}"
+                  </p>
+                  <p className="text-sm">
+                    <span className="font-bold text-accent">{name}</span>
+                    {title && (
+                      <span className="text-muted-foreground"> – {title}</span>
+                    )}
+                  </p>
+                </div>
               </div>
             );
           })}
         </div>
         {hasMore && (
-          <div className="text-center mt-10">
+          <div className="text-center mt-12">
             <button
-              onClick={() => setVisibleCount((c) => c + 4)}
-              className="text-sm font-semibold text-accent hover:text-accent/80 tracking-wider uppercase"
+              onClick={() => setVisibleCount((c) => c + 6)}
+              className="text-sm font-semibold text-accent hover:text-accent/80 tracking-wider uppercase border border-accent px-6 py-2 rounded transition-colors hover:bg-accent/10"
             >
               Show More
             </button>
