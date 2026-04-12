@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useSearchParams, Link } from "react-router-dom";
 import { Search, ChevronDown, Heart, Loader2 } from "lucide-react";
 import { Header } from "@/components/layout/Header";
@@ -6,7 +6,7 @@ import { Footer } from "@/components/layout/Footer";
 import { PageBreadcrumb } from "@/components/layout/PageBreadcrumb";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { fetchBooks, CSPPagination } from "@/services/cspApi";
+import { fetchBooks, fetchCategories, CSPPagination, CSPCategory } from "@/services/cspApi";
 import { Book } from "@/contexts/CartContext";
 import { useWishlist } from "@/contexts/WishlistContext";
 import { cn } from "@/lib/utils";
