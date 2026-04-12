@@ -1,6 +1,6 @@
-import { useMemo, useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { ChevronRight, Sparkles } from "lucide-react";
+import { ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { BookCard } from "@/components/books/BookCard";
 import { fetchBooks } from "@/services/cspApi";
@@ -14,7 +14,31 @@ export function RelatedBooksSection({ currentBook }: RelatedBooksSectionProps) {
   const [relatedBooks, setRelatedBooks] = useState<Book[]>([]);
 
   useEffect(() => {
-    // Fetch books from same category
+    // If API provided recommended books, convert them to Book objects
+    if (currentBook.recommendedBooks && currentBook.recommendedBooks.length > 0) {
+      const converted: Book[] = currentBook.recommendedBooks.slice(0, 4).map((rb) => {
+        const authorNames = rb.authors?.map((a) => a.name).join(", ") || "Unknown";
+        const hbFormat = rb.formats?.find((f) => f.type === "hardback");
+        const pbFormat = rb.formats?.find((f) => f.type === "paperback");
+        const price = hbFormat?.price_gbp ?? pbFormat?.price_gbp ?? 0;
+
+        return {
+          id: rb.isbn,
+          title: rb.title,
+          author: authorNames,
+          price,
+          image: rb.cover_image,
+          rating: 0,
+          category: "General",
+          description: rb.subtitle || undefined,
+          isbn: rb.isbn,
+        };
+      });
+      setRelatedBooks(converted);
+      return;
+    }
+
+    // Fallback: fetch from API by category
     const category = currentBook.categories?.[0] || currentBook.category;
     fetchBooks({ category, per_page: 5 })
       .then(({ books }) => {
