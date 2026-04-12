@@ -374,7 +374,7 @@ export default function Books() {
                                 }
                               }}
                               className={cn(
-                                "h-14 w-14 rounded-sm border-border",
+                                "h-14 w-14 rounded-none border-border",
                                 isInWishlist(book.id) && "text-red-500 border-red-500 bg-red-50",
                               )}
                             >
