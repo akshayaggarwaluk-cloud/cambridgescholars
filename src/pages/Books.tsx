@@ -22,6 +22,15 @@ export default function Books() {
   const [pagination, setPagination] = useState<CSPPagination | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
   const { addToWishlist, removeFromWishlist, isInWishlist } = useWishlist();
+  const [categories, setCategories] = useState<CSPCategory[]>([]);
+  const [expandedCats, setExpandedCats] = useState<Set<string>>(new Set());
+
+  // Fetch categories
+  useEffect(() => {
+    fetchCategories()
+      .then(setCategories)
+      .catch(() => setCategories([]));
+  }, []);
 
   // Sync with URL params
   useEffect(() => {
