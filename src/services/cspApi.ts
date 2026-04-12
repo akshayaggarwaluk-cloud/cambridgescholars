@@ -387,3 +387,19 @@ export async function fetchAutocomplete(q: string): Promise<{
   const json = await res.json();
   return json.data || [];
 }
+
+/** Category tree types */
+export interface CSPCategory {
+  name: string;
+  slug: string;
+  book_count: number;
+  subcategories?: CSPCategory[];
+}
+
+/** Fetch full 3-level category tree */
+export async function fetchCategories(): Promise<CSPCategory[]> {
+  const res = await fetch(`${CSP_API_BASE}/categories`);
+  if (!res.ok) throw new Error(`API error: ${res.status}`);
+  const json = await res.json();
+  return json.data || [];
+}
