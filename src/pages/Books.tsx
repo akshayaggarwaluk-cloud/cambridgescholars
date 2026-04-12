@@ -315,7 +315,7 @@ export default function Books() {
                 <div className="divide-y divide-border">
                   {books.map((book) => (
                     <article key={book.id} className="py-10 first:pt-0">
-                      <div className="flex flex-col md:flex-row gap-10 items-start">
+                      <div className="flex flex-col md:flex-row gap-10 items-stretch">
                         {/* Book Cover */}
                         <Link to={`/books/${book.id}`} className="flex-shrink-0 w-full md:w-56">
                           <div className="aspect-[2/3] overflow-hidden shadow-xl">
@@ -328,7 +328,7 @@ export default function Books() {
                         </Link>
 
                         {/* Book Details */}
-                        <div className="flex-1 flex flex-col justify-start">
+                        <div className="flex-1 flex flex-col justify-between overflow-hidden">
                           <Link to={`/books/${book.id}`}>
                             <h2 className="font-serif text-accent hover:text-accent/80 transition-colors leading-tight text-xl">
                               {book.title}
