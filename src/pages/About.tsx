@@ -36,7 +36,7 @@ export default function AboutSection() {
               physical sciences.
             </p>
 
-            <h2 className="text-3xl font-serif mt-8">What We Do</h2>
+            <h2 className="text-3xl font-['Libre_Baskerville'] mt-8">What We Do</h2>
 
             <p>
               At Cambridge Scholars, we support authors at every stage of the publishing journey. Whether you are an
