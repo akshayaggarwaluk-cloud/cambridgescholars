@@ -22,7 +22,7 @@ export default function AboutSection() {
       <section className="w-full px-6 md:px-20 py-16 bg-white">
         <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-[65%_35%] gap-16 items-stretch">
           {/* TEXT */}
-          <div className="space-y-6 leading-relaxed text-gray-800">
+          <div className="space-y-6 leading-relaxed text-black font-['Nunito_Sans'] text-[15px]">
             <p>
               Founded in 2001 by a group of academics, Cambridge Scholars Publishing is an independent academic
               publisher with a strong commitment to original scholarship and academic excellence. We are based in
