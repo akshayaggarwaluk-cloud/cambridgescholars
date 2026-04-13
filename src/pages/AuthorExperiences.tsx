@@ -46,7 +46,8 @@ export default function AuthorExperiences() {
       });
   }, []);
 
-  const parseAuthor = (raw: string) => {
+  const parseAuthor = (raw: string | null) => {
+    if (!raw) return { name: "Unknown", title: "" };
     const separators = [" - ", " – ", ", "];
     for (const sep of separators) {
       const idx = raw.indexOf(sep);
