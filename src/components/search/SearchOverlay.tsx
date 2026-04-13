@@ -131,7 +131,7 @@ export function SearchOverlay({ onClose }: SearchOverlayProps) {
               />
               <button
                 onClick={handleSearch}
-                className="absolute right-4 top-1/2 -translate-y-1/2 text-[#666] hover:text-[#333] transition-colors"
+                className="absolute right-4 top-1/2 -translate-y-1/2 text-white/70 hover:text-white transition-colors"
                 aria-label="Search"
               >
                 <Search className="h-5 w-5" />
