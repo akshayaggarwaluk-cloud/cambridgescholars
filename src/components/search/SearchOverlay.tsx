@@ -126,7 +126,7 @@ export function SearchOverlay({ onClose }: SearchOverlayProps) {
                 onChange={(e) => setQuery(e.target.value)}
                 onKeyDown={handleKeyDown}
                 placeholder="Search by Title, Subtitle, or Author/Editor name..."
-                className="w-full h-[56px] px-5 pr-14 text-[16px] bg-white text-[#333] placeholder:text-[#999] focus:outline-none border-0"
+                className="w-full h-[56px] px-5 pr-14 text-[16px] bg-black text-white placeholder:text-white/60 focus:outline-none border border-white"
                 style={{ fontFamily: "'Nunito Sans', sans-serif" }}
               />
               <button
