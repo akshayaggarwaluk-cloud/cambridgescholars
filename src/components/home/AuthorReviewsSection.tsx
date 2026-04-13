@@ -11,6 +11,7 @@ interface AuthorReview {
 }
 
 export function AuthorReviewsSection() {
+  const navigate = useNavigate();
   const [reviews, setReviews] = useState<AuthorReview[]>([]);
   const [loading, setLoading] = useState(true);
   const [visibleCount, setVisibleCount] = useState(6);

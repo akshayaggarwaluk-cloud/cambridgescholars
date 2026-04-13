@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { fetchAuthorReviews, fetchBooks } from "@/services/cspApi";
-import Header from "@/components/layout/Header";
-import Footer from "@/components/layout/Footer";
+import { Header } from "@/components/layout/Header";
+import { Footer } from "@/components/layout/Footer";
 import { PageBreadcrumb } from "@/components/layout/PageBreadcrumb";
 import { Separator } from "@/components/ui/separator";
 
