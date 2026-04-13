@@ -81,13 +81,35 @@ export function Header() {
         )}
       >
         <nav className="container-wide">
-          <div className="flex items-center justify-between h-24 text-foreground">
+          <div className="flex items-center justify-between h-20 lg:h-24 text-foreground">
+            {/* Mobile hamburger + search (left) */}
+            <div className="flex lg:hidden items-center gap-1">
+              <Button
+                variant="ghost"
+                size="icon"
+                className="h-9 w-9"
+                onClick={() => setIsMenuOpen(!isMenuOpen)}
+                aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+              >
+                {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+              </Button>
+              <Button
+                variant="ghost"
+                size="icon"
+                className="h-9 w-9"
+                onClick={() => setIsSearchOpen(true)}
+                aria-label="Search"
+              >
+                <Search className="h-5 w-5" />
+              </Button>
+            </div>
+
             {/* Logo */}
-            <Link to="/" className="flex items-center gap-3">
+            <Link to="/" className="flex items-center gap-3 lg:flex-none">
               <img
                 src={logoImage}
                 alt="Cambridge Scholars Publishing"
-                className="h-14 w-auto"
+                className="h-10 lg:h-14 w-auto"
               />
             </Link>
 
@@ -283,18 +305,20 @@ export function Header() {
               )}
             </div>
 
-            {/* Mobile Menu Button */}
-            <div className="flex lg:hidden items-center gap-2">
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={() => setIsSearchOpen(true)}
-                aria-label="Search"
-              >
-                <Search className="h-5 w-5" />
-              </Button>
+            {/* Mobile: hamburger left, logo center, icons right — handled via order */}
+            <div className="flex lg:hidden items-center gap-1">
+              <Link to="/wishlist" className="relative">
+                <Button variant="ghost" size="icon" className="h-9 w-9" aria-label="Wishlist">
+                  <Heart className="h-5 w-5" />
+                  {wishlistCount > 0 && (
+                    <span className="absolute -top-1 -right-1 h-4 w-4 rounded-full bg-accent text-accent-foreground text-[10px] flex items-center justify-center">
+                      {wishlistCount}
+                    </span>
+                  )}
+                </Button>
+              </Link>
               <Link to="/cart" className="relative">
-                <Button variant="ghost" size="icon" aria-label="Cart">
+                <Button variant="ghost" size="icon" className="h-9 w-9" aria-label="Cart">
                   <ShoppingCart className="h-5 w-5" />
                   {cartCount > 0 && (
                     <span className="absolute -top-1 -right-1 h-4 w-4 rounded-full bg-accent text-accent-foreground text-[10px] flex items-center justify-center">
@@ -303,14 +327,19 @@ export function Header() {
                   )}
                 </Button>
               </Link>
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={() => setIsMenuOpen(!isMenuOpen)}
-                aria-label={isMenuOpen ? "Close menu" : "Open menu"}
-              >
-                {isMenuOpen ? <X /> : <Menu />}
-              </Button>
+              {user ? (
+                <Link to="/profile">
+                  <Button variant="ghost" size="icon" className="h-9 w-9" aria-label="Account">
+                    <User className="h-5 w-5" />
+                  </Button>
+                </Link>
+              ) : (
+                <Link to="/auth">
+                  <Button variant="ghost" size="icon" className="h-9 w-9" aria-label="Sign In">
+                    <User className="h-5 w-5" />
+                  </Button>
+                </Link>
+              )}
             </div>
           </div>
         </nav>
