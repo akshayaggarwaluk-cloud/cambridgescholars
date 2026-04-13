@@ -143,7 +143,7 @@ export function HeroSection() {
                 <div
                   className="relative h-full"
                   style={{
-                    transform: "rotateY(-18deg) rotateX(6deg) rotateZ(1deg)",
+                    transform: "rotateY(-18deg) rotateX(12deg) rotateZ(1deg)",
                     transformStyle: "preserve-3d",
                   }}
                 >
