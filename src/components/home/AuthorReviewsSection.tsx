@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { fetchAuthorReviews, fetchBooks } from "@/services/cspApi";
 
 interface AuthorReview {
