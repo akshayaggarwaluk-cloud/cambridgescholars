@@ -35,6 +35,7 @@ import CookiesPolicy from "@/pages/CookiesPolicy";
 import TermsAndConditions from "@/pages/TermsAndConditions";
 import AccessibilityPolicy from "@/pages/AccessibilityPolicy";
 import RefundAndReturns from "@/pages/RefundAndReturns";
+import AuthorExperiences from "@/pages/AuthorExperiences";
 
 export function AnimatedRoutes() {
   const location = useLocation();
@@ -72,6 +73,7 @@ export function AnimatedRoutes() {
         <Route path="/terms" element={<PageTransition><TermsAndConditions /></PageTransition>} />
         <Route path="/accessibility" element={<PageTransition><AccessibilityPolicy /></PageTransition>} />
         <Route path="/returns" element={<PageTransition><RefundAndReturns /></PageTransition>} />
+        <Route path="/author-experiences" element={<PageTransition><AuthorExperiences /></PageTransition>} />
         <Route path="*" element={<PageTransition><NotFound /></PageTransition>} />
       </Routes>
     </AnimatePresence>

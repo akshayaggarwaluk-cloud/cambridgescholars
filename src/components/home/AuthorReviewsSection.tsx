@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { fetchAuthorReviews, fetchBooks } from "@/services/cspApi";
 
 interface AuthorReview {
@@ -10,6 +11,7 @@ interface AuthorReview {
 }
 
 export function AuthorReviewsSection() {
+  const navigate = useNavigate();
   const [reviews, setReviews] = useState<AuthorReview[]>([]);
   const [loading, setLoading] = useState(true);
   const [visibleCount, setVisibleCount] = useState(6);
@@ -109,7 +111,7 @@ export function AuthorReviewsSection() {
           {visible.map((review, index) => {
             const { name, title } = parseAuthor(review.author);
             return (
-              <div key={index} className="flex gap-6 items-start">
+              <div key={index} className="flex gap-6 items-start cursor-pointer hover:bg-muted/30 rounded-lg p-2 -m-2 transition-colors" onClick={() => navigate("/author-experiences")}>
                 {/* Book cover */}
                 <div className="flex-shrink-0 w-32 md:w-40 lg:w-44">
                   {review.coverImage ? (
