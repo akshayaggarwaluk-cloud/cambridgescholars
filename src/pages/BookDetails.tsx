@@ -131,7 +131,7 @@ export default function BookDetails() {
                       >
                         <BookIcon className={cn("h-5 w-5", selectedFormat === "ebook" ? "text-accent" : "text-muted-foreground")} />
                         <span className={cn("text-sm font-semibold", selectedFormat === "ebook" ? "text-accent" : "text-foreground")}>eBook</span>
-                        <span className={cn("text-sm", selectedFormat === "ebook" ? "text-accent" : "text-muted-foreground")}>£{getPrice("ebook").toFixed(2)}</span>
+                        
                       </button>
                     )}
                     {hasHardback && (
@@ -146,7 +146,7 @@ export default function BookDetails() {
                       >
                         <BookIcon className={cn("h-5 w-5", selectedFormat === "hardbook" ? "text-accent" : "text-muted-foreground")} />
                         <span className={cn("text-sm font-semibold", selectedFormat === "hardbook" ? "text-accent" : "text-foreground")}>Hardback</span>
-                        <span className={cn("text-sm", selectedFormat === "hardbook" ? "text-accent" : "text-muted-foreground")}>£{getPrice("hardbook").toFixed(2)}</span>
+                        
                       </button>
                     )}
                     {hasPaperback && (
@@ -161,7 +161,7 @@ export default function BookDetails() {
                       >
                         <BookIcon className={cn("h-5 w-5", selectedFormat === "paperback" ? "text-accent" : "text-muted-foreground")} />
                         <span className={cn("text-sm font-semibold", selectedFormat === "paperback" ? "text-accent" : "text-foreground")}>Paperback</span>
-                        <span className={cn("text-sm", selectedFormat === "paperback" ? "text-accent" : "text-muted-foreground")}>£{getPrice("paperback").toFixed(2)}</span>
+                        
                       </button>
                     )}
                   </div>
