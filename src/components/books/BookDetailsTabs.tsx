@@ -69,15 +69,15 @@ export function BookDetailsTabs({ book }: BookDetailsTabsProps) {
                 {book.hardbackInfo && (
                   <div>
                     <h3 className="font-semibold text-foreground uppercase tracking-wider mb-4">Hardback</h3>
-                    <ul className="space-y-2 text-foreground/80">
+                    <ul className="space-y-2 text-foreground/80 list-disc list-inside">
                       {book.hardbackInfo.isbn && (
-                        <li><span className="font-medium">ISBN:</span> {book.hardbackInfo.isbn}</li>
+                        <li><span className="font-bold">ISBN:</span> {book.hardbackInfo.isbn}</li>
                       )}
                       {book.hardbackInfo.isbn13 && (
-                        <li><span className="font-medium">ISBN13:</span> {book.hardbackInfo.isbn13}</li>
+                        <li><span className="font-bold">ISBN13:</span> {book.hardbackInfo.isbn13}</li>
                       )}
                       {book.hardbackInfo.publicationDate && (
-                        <li><span className="font-medium">Date of Publication:</span> {book.hardbackInfo.publicationDate}</li>
+                        <li><span className="font-bold">Date of Publication:</span> {book.hardbackInfo.publicationDate}</li>
                       )}
                     </ul>
                   </div>
@@ -86,15 +86,15 @@ export function BookDetailsTabs({ book }: BookDetailsTabsProps) {
                 {book.paperbackInfo && (
                   <div>
                     <h3 className="font-semibold text-foreground uppercase tracking-wider mb-4">Paperback</h3>
-                    <ul className="space-y-2 text-foreground/80">
+                    <ul className="space-y-2 text-foreground/80 list-disc list-inside">
                       {book.paperbackInfo.isbn && (
-                        <li><span className="font-medium">ISBN:</span> {book.paperbackInfo.isbn}</li>
+                        <li><span className="font-bold">ISBN:</span> {book.paperbackInfo.isbn}</li>
                       )}
                       {book.paperbackInfo.isbn13 && (
-                        <li><span className="font-medium">ISBN13:</span> {book.paperbackInfo.isbn13}</li>
+                        <li><span className="font-bold">ISBN13:</span> {book.paperbackInfo.isbn13}</li>
                       )}
                       {book.paperbackInfo.publicationDate && (
-                        <li><span className="font-medium">Date of Publication:</span> {book.paperbackInfo.publicationDate}</li>
+                        <li><span className="font-bold">Date of Publication:</span> {book.paperbackInfo.publicationDate}</li>
                       )}
                     </ul>
                   </div>
@@ -103,15 +103,15 @@ export function BookDetailsTabs({ book }: BookDetailsTabsProps) {
                 {book.ebookInfo && (
                   <div>
                     <h3 className="font-semibold text-foreground uppercase tracking-wider mb-4">eBook</h3>
-                    <ul className="space-y-2 text-foreground/80">
+                    <ul className="space-y-2 text-foreground/80 list-disc list-inside">
                       {book.ebookInfo.isbn && (
-                        <li><span className="font-medium">ISBN:</span> {book.ebookInfo.isbn}</li>
+                        <li><span className="font-bold">ISBN:</span> {book.ebookInfo.isbn}</li>
                       )}
                       {book.ebookInfo.isbn13 && (
-                        <li><span className="font-medium">ISBN13:</span> {book.ebookInfo.isbn13}</li>
+                        <li><span className="font-bold">ISBN13:</span> {book.ebookInfo.isbn13}</li>
                       )}
                       {book.ebookInfo.publicationDate && (
-                        <li><span className="font-medium">Date of Publication:</span> {book.ebookInfo.publicationDate}</li>
+                        <li><span className="font-bold">Date of Publication:</span> {book.ebookInfo.publicationDate}</li>
                       )}
                     </ul>
                   </div>
@@ -138,15 +138,15 @@ export function BookDetailsTabs({ book }: BookDetailsTabsProps) {
               {book.subjectCodes && (
                 <div className="pt-4 border-t border-border">
                   <h3 className="font-semibold text-foreground uppercase tracking-wider mb-4">Subject Codes:</h3>
-                  <ul className="space-y-2 text-foreground/80">
+                  <ul className="space-y-2 text-foreground/80 list-disc list-inside">
                     {book.subjectCodes.bic && book.subjectCodes.bic.length > 0 && (
-                      <li><span className="font-medium">BIC:</span> {book.subjectCodes.bic.join(", ")}</li>
+                      <li><span className="font-bold">BIC:</span> {book.subjectCodes.bic.join(", ")}</li>
                     )}
                     {book.subjectCodes.bisac && book.subjectCodes.bisac.length > 0 && (
-                      <li><span className="font-medium">BISAC:</span> {book.subjectCodes.bisac.join(", ")}</li>
+                      <li><span className="font-bold">BISAC:</span> {book.subjectCodes.bisac.join(", ")}</li>
                     )}
                     {book.subjectCodes.thema && book.subjectCodes.thema.length > 0 && (
-                      <li><span className="font-medium">THEMA:</span> {book.subjectCodes.thema.join(", ")}</li>
+                      <li><span className="font-bold">THEMA:</span> {book.subjectCodes.thema.join(", ")}</li>
                     )}
                   </ul>
                 </div>
