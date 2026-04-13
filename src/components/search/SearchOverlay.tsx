@@ -99,7 +99,7 @@ export function SearchOverlay({ onClose }: SearchOverlayProps) {
     <div className="fixed inset-0 z-[100]">
       {/* Semi-transparent dark backdrop over entire page */}
       <div
-        className="absolute inset-0 bg-black/93"
+        className="absolute inset-0 bg-black/85"
         onClick={onClose}
       />
 
