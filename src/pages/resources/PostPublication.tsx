@@ -9,9 +9,9 @@ export default function PostPublication() {
       <Header />
 
       {/* Top Banner */}
-      <div className="bg-[#f4f3ec] min-h-[280px] pt-24 px-6 md:px-16 flex items-center">
-        <div className="max-w-7xl mx-auto flex justify-between items-center w-full">
-          <h1 className="text-5xl font-serif text-gray-800">Post Publication</h1>
+      <div className="bg-[#f4f3ec] pt-28 sm:pt-32 pb-10 sm:pb-14 px-6 md:px-16">
+        <div className="max-w-7xl mx-auto">
+          <h1 className="text-4xl sm:text-5xl font-serif text-gray-800 mb-3">Post Publication</h1>
           <PageBreadcrumb items={[{ label: "Resources", href: "/resources" }]} currentPage="Post Publication" />
         </div>
       </div>
