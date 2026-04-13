@@ -304,6 +304,7 @@ export async function fetchBooks(params?: {
   page?: number;
   per_page?: number;
   search?: string;
+  search_field?: string;
   category?: string;
   isbn?: string;
 }): Promise<{ books: Book[]; pagination: CSPPagination }> {
@@ -311,6 +312,7 @@ export async function fetchBooks(params?: {
   if (params?.page) url.searchParams.set("page", String(params.page));
   if (params?.per_page) url.searchParams.set("per_page", String(params.per_page));
   if (params?.search) url.searchParams.set("search", params.search);
+  if (params?.search_field) url.searchParams.set("search_field", params.search_field);
   if (params?.category) url.searchParams.set("category", params.category);
   if (params?.isbn) url.searchParams.set("isbn", params.isbn);
 

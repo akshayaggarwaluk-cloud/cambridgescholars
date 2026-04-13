@@ -66,12 +66,13 @@ export function SearchOverlay({ onClose }: SearchOverlayProps) {
   }, [query]);
 
   const handleSearch = () => {
-    if (showAdvanced && query.trim()) {
+    if (query.trim()) {
       const params = new URLSearchParams();
-      params.set(searchByField, query.trim());
+      params.set("search", query.trim());
+      if (showAdvanced && searchByField) {
+        params.set("search_field", searchByField);
+      }
       navigate(`/books?${params.toString()}`);
-    } else if (query.trim()) {
-      navigate(`/books?search=${encodeURIComponent(query.trim())}`);
     }
     onClose();
   };
@@ -115,7 +116,7 @@ export function SearchOverlay({ onClose }: SearchOverlayProps) {
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 onKeyDown={handleKeyDown}
-                placeholder="Search by Title, Subtitle, or Author/Editor name..."
+                placeholder={showAdvanced ? `Search by ${searchByField.charAt(0).toUpperCase() + searchByField.slice(1)}...` : "Enter search term, then choose a field below..."}
                 className="w-full h-[56px] px-5 pr-14 text-[16px] bg-black text-white placeholder:text-white/60 focus:outline-none border border-white"
                 style={{ fontFamily: "'Nunito Sans', sans-serif" }}
               />

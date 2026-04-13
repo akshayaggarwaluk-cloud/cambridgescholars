@@ -24,6 +24,7 @@ export default function Books() {
   const { addToWishlist, removeFromWishlist, isInWishlist } = useWishlist();
   const [categories, setCategories] = useState<CSPCategory[]>([]);
   const [expandedCats, setExpandedCats] = useState<Set<string>>(new Set());
+  const [activeSearchField, setActiveSearchField] = useState("");
 
   // Fetch categories
   useEffect(() => {
@@ -37,9 +38,11 @@ export default function Books() {
     const search = searchParams.get("search") || "";
     const category = searchParams.get("category") || "all";
     const page = parseInt(searchParams.get("page") || "1", 10);
+    const searchField = searchParams.get("search_field") || "";
     setSearchQuery(search);
     setSelectedCategory(category);
     setCurrentPage(page);
+    setActiveSearchField(searchField);
   }, [searchParams]);
 
   // Find category name from slug (API expects name, not slug)
@@ -65,11 +68,12 @@ export default function Books() {
     const loadBooks = async () => {
       setLoading(true);
       try {
-        const params: { page: number; per_page: number; search?: string; category?: string } = {
+        const params: { page: number; per_page: number; search?: string; search_field?: string; category?: string } = {
           page: currentPage,
           per_page: 20,
         };
         if (searchQuery) params.search = searchQuery;
+        if (activeSearchField) params.search_field = activeSearchField;
         if (selectedCategory !== "all") {
           const catName = findCategoryName(selectedCategory, categories);
           if (catName) params.category = catName;
@@ -87,7 +91,7 @@ export default function Books() {
       }
     };
     loadBooks();
-  }, [searchQuery, selectedCategory, currentPage, categories]);
+  }, [searchQuery, selectedCategory, currentPage, categories, activeSearchField]);
 
   const handleCategoryChange = (category: string) => {
     setSelectedCategory(category);
