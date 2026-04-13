@@ -68,11 +68,12 @@ export default function Books() {
     const loadBooks = async () => {
       setLoading(true);
       try {
-        const params: { page: number; per_page: number; search?: string; category?: string } = {
+        const params: { page: number; per_page: number; search?: string; search_field?: string; category?: string } = {
           page: currentPage,
           per_page: 20,
         };
         if (searchQuery) params.search = searchQuery;
+        if (activeSearchField) params.search_field = activeSearchField;
         if (selectedCategory !== "all") {
           const catName = findCategoryName(selectedCategory, categories);
           if (catName) params.category = catName;
@@ -90,7 +91,7 @@ export default function Books() {
       }
     };
     loadBooks();
-  }, [searchQuery, selectedCategory, currentPage, categories]);
+  }, [searchQuery, selectedCategory, currentPage, categories, activeSearchField]);
 
   const handleCategoryChange = (category: string) => {
     setSelectedCategory(category);

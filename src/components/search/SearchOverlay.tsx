@@ -66,12 +66,13 @@ export function SearchOverlay({ onClose }: SearchOverlayProps) {
   }, [query]);
 
   const handleSearch = () => {
-    if (showAdvanced && query.trim()) {
+    if (query.trim()) {
       const params = new URLSearchParams();
-      params.set(searchByField, query.trim());
+      params.set("search", query.trim());
+      if (showAdvanced && searchByField) {
+        params.set("search_field", searchByField);
+      }
       navigate(`/books?${params.toString()}`);
-    } else if (query.trim()) {
-      navigate(`/books?search=${encodeURIComponent(query.trim())}`);
     }
     onClose();
   };
