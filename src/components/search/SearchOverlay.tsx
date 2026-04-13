@@ -54,7 +54,7 @@ export function SearchOverlay({ onClose }: SearchOverlayProps) {
         setResults(data);
       } catch {
         try {
-          const { books } = await fetchBooks({ search: query, per_page: 6 });
+          const { books } = await fetchBooks({ search: query, per_page: 6, search_field: showAdvanced ? searchByField : undefined });
           setResults(books.map((b) => ({
             title: b.title, isbn: b.isbn || b.id, slug: b.id,
             authors: b.author, cover_image: b.image,
@@ -172,7 +172,7 @@ export function SearchOverlay({ onClose }: SearchOverlayProps) {
           )}
 
           {/* Autocomplete results */}
-          {query.length >= 2 && !showAdvanced && (
+          {query.length >= 2 && (
             <div className="bg-white shadow-2xl overflow-hidden max-h-[400px] overflow-y-auto">
               {loading ? (
                 <div className="p-6 flex justify-center">
