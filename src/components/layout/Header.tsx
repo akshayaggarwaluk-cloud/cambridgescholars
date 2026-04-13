@@ -436,8 +436,8 @@ export function Header() {
                           className={cn(
                             "block px-10 py-2.5 text-sm font-medium transition-colors",
                             isActiveRoute(item.href)
-                              ? "text-accent"
-                              : "text-muted-foreground hover:text-accent"
+                              ? "text-white"
+                              : "text-white"
                           )}
                         >
                           {item.name}
