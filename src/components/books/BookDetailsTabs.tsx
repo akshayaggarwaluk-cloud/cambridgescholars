@@ -63,7 +63,7 @@ export function BookDetailsTabs({ book }: BookDetailsTabsProps) {
 
         {hasBookInfo && (
           <TabsContent value="book-info" className="pt-8">
-            <div className="space-y-8">
+            <div className="space-y-8 text-base">
               {/* Format-specific ISBN information */}
               <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                 {book.hardbackInfo && (
