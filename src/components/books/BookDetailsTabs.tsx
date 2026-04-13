@@ -48,7 +48,7 @@ export function BookDetailsTabs({ book }: BookDetailsTabsProps) {
         {hasBlurb && (
           <TabsContent value="blurb" className="pt-8">
             <div className="prose prose-lg max-w-none text-foreground/80 leading-relaxed">
-              <p>{book.blurb || book.description}</p>
+              <p className="text-base">{book.blurb || book.description}</p>
             </div>
           </TabsContent>
         )}
