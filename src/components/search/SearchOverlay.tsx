@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import { createPortal } from "react-dom";
 import { useNavigate } from "react-router-dom";
 import { Search, X, Loader2 } from "lucide-react";
 import { fetchAutocomplete, fetchBooks } from "@/services/cspApi";
@@ -86,7 +87,7 @@ export function SearchOverlay({ onClose }: SearchOverlayProps) {
     onClose();
   };
 
-  return (
+  return createPortal(
     <div className="fixed inset-0 z-[100]">
       {/* Semi-transparent dark backdrop over entire page */}
       <div
@@ -210,5 +211,5 @@ export function SearchOverlay({ onClose }: SearchOverlayProps) {
         </div>
       </div>
     </div>
-  );
+  , document.body);
 }
