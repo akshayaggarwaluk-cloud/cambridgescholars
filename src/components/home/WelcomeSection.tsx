@@ -25,7 +25,7 @@ const services = [
 
 export function WelcomeSection() {
   return (
-    <section className="py-8 md:py-10">
+    <section className="py-8 md:py-12">
       <div className="container-wide bg-white rounded-sm py-10 md:py-14 px-6 sm:px-10 lg:px-16">
         {/* Building Illustration */}
         <ScrollAnimation type="scale" className="flex justify-center mb-8">
