@@ -43,6 +43,12 @@ export function BookDetailsTabs({ book }: BookDetailsTabsProps) {
               Book Information
             </TabsTrigger>
           )}
+          <TabsTrigger 
+            value="review" 
+            className="rounded-none border-b-2 border-transparent data-[state=active]:border-accent data-[state=active]:bg-transparent data-[state=active]:shadow-none px-0 pb-3 text-base font-semibold uppercase tracking-wider"
+          >
+            Review
+          </TabsTrigger>
         </TabsList>
 
         {hasBlurb && (
@@ -154,6 +160,12 @@ export function BookDetailsTabs({ book }: BookDetailsTabsProps) {
             </div>
           </TabsContent>
         )}
+
+        <TabsContent value="review" className="pt-8">
+          <div className="prose prose-lg max-w-none text-foreground/80 leading-relaxed text-center py-8">
+            <p className="text-muted-foreground">No reviews yet.</p>
+          </div>
+        </TabsContent>
       </Tabs>
 
       {/* Share this book section */}
