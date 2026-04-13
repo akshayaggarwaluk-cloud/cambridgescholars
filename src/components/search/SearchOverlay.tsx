@@ -21,13 +21,7 @@ export function SearchOverlay({ onClose }: SearchOverlayProps) {
   const [results, setResults] = useState<AutocompleteResult[]>([]);
   const [loading, setLoading] = useState(false);
   const [showAdvanced, setShowAdvanced] = useState(false);
-  const [advancedFields, setAdvancedFields] = useState({
-    title: "",
-    author: "",
-    isbn: "",
-    blurb: "",
-    series: "",
-  });
+  const [searchByField, setSearchByField] = useState<string>("title");
   const inputRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
   const debounceRef = useRef<ReturnType<typeof setTimeout>>();
@@ -72,13 +66,9 @@ export function SearchOverlay({ onClose }: SearchOverlayProps) {
   }, [query]);
 
   const handleSearch = () => {
-    if (showAdvanced) {
+    if (showAdvanced && query.trim()) {
       const params = new URLSearchParams();
-      if (advancedFields.title) params.set("title", advancedFields.title);
-      if (advancedFields.author) params.set("author", advancedFields.author);
-      if (advancedFields.isbn) params.set("isbn", advancedFields.isbn);
-      if (advancedFields.blurb) params.set("blurb", advancedFields.blurb);
-      if (advancedFields.series) params.set("series", advancedFields.series);
+      params.set(searchByField, query.trim());
       navigate(`/books?${params.toString()}`);
     } else if (query.trim()) {
       navigate(`/books?search=${encodeURIComponent(query.trim())}`);
@@ -152,48 +142,31 @@ export function SearchOverlay({ onClose }: SearchOverlayProps) {
             </button>
           </div>
 
-          {/* Advanced search fields */}
+          {/* Advanced search - Search By filter buttons */}
           {showAdvanced && (
-            <div className="mt-4 bg-white/10 backdrop-blur-sm p-6 animate-fade-in">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {[
-                  { key: "title", label: "Title", placeholder: "Search by title..." },
-                  { key: "author", label: "Author / Editor", placeholder: "Search by author or editor..." },
-                  { key: "isbn", label: "ISBN", placeholder: "Search by ISBN..." },
-                  { key: "blurb", label: "Blurb (Word Search)", placeholder: "Search in book descriptions..." },
-                  { key: "series", label: "Series", placeholder: "Search by series..." },
-                ].map((field) => (
-                  <div key={field.key}>
-                    <label className="block text-white/80 text-sm font-medium mb-1.5">
-                      {field.label}
-                    </label>
-                    <input
-                      type="text"
-                      placeholder={field.placeholder}
-                      value={advancedFields[field.key as keyof typeof advancedFields]}
-                      onChange={(e) =>
-                        setAdvancedFields((prev) => ({ ...prev, [field.key]: e.target.value }))
-                      }
-                      onKeyDown={handleKeyDown}
-                      className="w-full h-11 px-4 bg-white text-[#333] placeholder:text-[#999] focus:outline-none focus:ring-2 focus:ring-accent text-sm"
-                    />
-                  </div>
-                ))}
-              </div>
-              <div className="flex justify-end gap-3 mt-5">
+            <div className="bg-black/80 border border-white/20 px-6 py-4 animate-fade-in flex items-center gap-3 flex-wrap">
+              <span className="text-white font-semibold text-[15px] mr-1">Search By :</span>
+              {[
+                { key: "title", label: "Title" },
+                { key: "subtitle", label: "Subtitle" },
+                { key: "author", label: "Author" },
+                { key: "editor", label: "Editor" },
+                { key: "isbn", label: "ISBN" },
+                { key: "blurb", label: "Blurb" },
+              ].map((field) => (
                 <button
-                  onClick={() => setAdvancedFields({ title: "", author: "", isbn: "", blurb: "", series: "" })}
-                  className="text-white/70 hover:text-white px-4 py-2 text-sm transition-colors"
+                  key={field.key}
+                  onClick={() => setSearchByField(field.key)}
+                  className={cn(
+                    "px-5 py-2 text-[14px] font-medium rounded-full border transition-all",
+                    searchByField === field.key
+                      ? "bg-accent text-accent-foreground border-accent"
+                      : "bg-transparent text-white border-white/40 hover:border-white"
+                  )}
                 >
-                  Clear
+                  {field.label}
                 </button>
-                <button
-                  onClick={handleSearch}
-                  className="bg-accent text-accent-foreground hover:bg-accent/90 px-8 py-2 text-sm font-medium transition-colors"
-                >
-                  Search
-                </button>
-              </div>
+              ))}
             </div>
           )}
 
