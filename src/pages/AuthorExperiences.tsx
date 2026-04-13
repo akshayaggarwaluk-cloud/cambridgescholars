@@ -61,7 +61,7 @@ export default function AuthorExperiences() {
   return (
     <div className="min-h-screen flex flex-col bg-background">
       <Header />
-      <main className="flex-1">
+      <main className="flex-1 bg-white">
         {/* Header area */}
         <div className="bg-[#f4f3ec] min-h-[280px] pt-24 px-6 md:px-16 flex items-center">
           <div className="max-w-7xl mx-auto flex justify-between items-center w-full">
