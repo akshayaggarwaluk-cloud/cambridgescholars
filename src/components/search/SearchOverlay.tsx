@@ -66,13 +66,9 @@ export function SearchOverlay({ onClose }: SearchOverlayProps) {
   }, [query]);
 
   const handleSearch = () => {
-    if (showAdvanced) {
+    if (showAdvanced && query.trim()) {
       const params = new URLSearchParams();
-      if (advancedFields.title) params.set("title", advancedFields.title);
-      if (advancedFields.author) params.set("author", advancedFields.author);
-      if (advancedFields.isbn) params.set("isbn", advancedFields.isbn);
-      if (advancedFields.blurb) params.set("blurb", advancedFields.blurb);
-      if (advancedFields.series) params.set("series", advancedFields.series);
+      params.set(searchByField, query.trim());
       navigate(`/books?${params.toString()}`);
     } else if (query.trim()) {
       navigate(`/books?search=${encodeURIComponent(query.trim())}`);
