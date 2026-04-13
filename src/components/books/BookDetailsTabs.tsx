@@ -56,7 +56,7 @@ export function BookDetailsTabs({ book }: BookDetailsTabsProps) {
         {hasBiography && (
           <TabsContent value="biography" className="pt-8">
             <div className="prose prose-lg max-w-none text-foreground/80 leading-relaxed">
-              <p>{book.biography}</p>
+              <p className="text-base">{book.biography}</p>
             </div>
           </TabsContent>
         )}
