@@ -380,7 +380,7 @@ export function Header() {
               </div>
 
               {/* Nav links */}
-              <nav className="flex-1 overflow-y-auto py-2">
+              <nav className="flex-1 overflow-y-auto py-2 bg-black text-white">
                 {navigation.map((item) => (
                   <Link
                     key={item.name}
@@ -388,8 +388,8 @@ export function Header() {
                     className={cn(
                       "block px-6 py-3 text-sm font-bold uppercase tracking-wide transition-colors",
                       isActiveRoute(item.href)
-                        ? "text-accent"
-                        : "text-foreground hover:text-accent"
+                        ? "text-white"
+                        : "text-white"
                     )}
                   >
                     {item.name}
@@ -401,8 +401,8 @@ export function Header() {
                   className={cn(
                     "block px-6 py-3 text-sm font-bold uppercase tracking-wide transition-colors",
                     isActiveRoute("/books")
-                      ? "text-accent"
-                      : "text-foreground hover:text-accent"
+                      ? "text-white"
+                      : "text-white"
                   )}
                 >
                   Buy a Book
@@ -415,8 +415,8 @@ export function Header() {
                     className={cn(
                       "flex items-center justify-between w-full px-6 py-3 text-sm font-bold uppercase tracking-wide transition-colors",
                       isPublishActive
-                        ? "text-accent"
-                        : "text-foreground hover:text-accent"
+                        ? "text-white"
+                        : "text-white"
                     )}
                   >
                     Publish a Book
@@ -454,8 +454,8 @@ export function Header() {
                     className={cn(
                       "block px-6 py-3 text-sm font-bold uppercase tracking-wide transition-colors",
                       isActiveRoute(item.href)
-                        ? "text-accent"
-                        : "text-foreground hover:text-accent"
+                        ? "text-white"
+                        : "text-white"
                     )}
                   >
                     {item.name}
