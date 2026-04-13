@@ -24,6 +24,7 @@ export default function Books() {
   const { addToWishlist, removeFromWishlist, isInWishlist } = useWishlist();
   const [categories, setCategories] = useState<CSPCategory[]>([]);
   const [expandedCats, setExpandedCats] = useState<Set<string>>(new Set());
+  const [activeSearchField, setActiveSearchField] = useState("");
 
   // Fetch categories
   useEffect(() => {
