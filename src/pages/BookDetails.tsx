@@ -1,12 +1,13 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { useParams, Link } from "react-router-dom";
-import { Heart, Minus, Plus, Tablet, Book, BookOpen, Loader2 } from "lucide-react";
+import { Heart, Minus, Plus, Loader2 } from "lucide-react";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { Button } from "@/components/ui/button";
 import { ReviewsSection } from "@/components/books/ReviewsSection";
 import { RelatedBooksSection } from "@/components/books/RelatedBooksSection";
 import { BookDetailsTabs } from "@/components/books/BookDetailsTabs";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { fetchBookByIsbn } from "@/services/cspApi";
 import { useCart, BookFormat, Book as BookType } from "@/contexts/CartContext";
 import { useWishlist } from "@/contexts/WishlistContext";
@@ -114,46 +115,26 @@ export default function BookDetails() {
                   {book.blurb && book.blurb.length > 200 ? "..." : ""}
                 </p>
 
-                {/* Format Selection */}
+                {/* Binding Selection */}
                 <div className="mb-4 sm:mb-0">
-                  <p className="text-sm font-medium mb-2">Select Format</p>
-                  <div className="flex flex-wrap gap-2 sm:gap-[10px]">
-                    {hasEbook && (
-                      <button
-                        onClick={() => setSelectedFormat("ebook")}
-                        className={cn("flex items-center gap-2 px-3 sm:px-4 py-2 border-2 transition min-w-[100px] sm:min-w-[120px]", selectedFormat === "ebook" ? "border-accent bg-accent/5" : "border-border hover:border-accent/50")}
-                      >
-                        <Tablet className={cn("h-4 w-4", selectedFormat === "ebook" ? "text-accent" : "text-muted-foreground")} />
-                        <div>
-                          <p className={cn("text-xs sm:text-sm font-medium", selectedFormat === "ebook" ? "text-accent" : "text-foreground")}>eBook</p>
-                          <p className="text-xs text-muted-foreground">£{getPrice("ebook").toFixed(2)}</p>
-                        </div>
-                      </button>
-                    )}
-                    {hasHardback && (
-                      <button
-                        onClick={() => setSelectedFormat("hardbook")}
-                        className={cn("flex items-center gap-2 px-3 sm:px-4 py-2 border-2 transition min-w-[100px] sm:min-w-[120px]", selectedFormat === "hardbook" ? "border-accent bg-accent/5" : "border-border hover:border-accent/50")}
-                      >
-                        <Book className={cn("h-4 w-4", selectedFormat === "hardbook" ? "text-accent" : "text-muted-foreground")} />
-                        <div>
-                          <p className={cn("text-xs sm:text-sm font-medium", selectedFormat === "hardbook" ? "text-accent" : "text-foreground")}>Hardback</p>
-                          <p className="text-xs text-muted-foreground">£{getPrice("hardbook").toFixed(2)}</p>
-                        </div>
-                      </button>
-                    )}
-                    {hasPaperback && (
-                      <button
-                        onClick={() => setSelectedFormat("paperback")}
-                        className={cn("flex items-center gap-2 px-3 sm:px-4 py-2 border-2 transition min-w-[100px] sm:min-w-[120px]", selectedFormat === "paperback" ? "border-accent bg-accent/5" : "border-border hover:border-accent/50")}
-                      >
-                        <BookOpen className={cn("h-4 w-4", selectedFormat === "paperback" ? "text-accent" : "text-muted-foreground")} />
-                        <div>
-                          <p className={cn("text-xs sm:text-sm font-medium", selectedFormat === "paperback" ? "text-accent" : "text-foreground")}>Paperback</p>
-                          <p className="text-xs text-muted-foreground">£{getPrice("paperback").toFixed(2)}</p>
-                        </div>
-                      </button>
-                    )}
+                  <div className="flex items-center gap-6">
+                    <span className="text-xs sm:text-sm font-semibold uppercase tracking-wide">Binding</span>
+                    <Select value={selectedFormat} onValueChange={(val) => setSelectedFormat(val as BookFormat)}>
+                      <SelectTrigger className="w-[240px]">
+                        <SelectValue placeholder="Choose an option" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {hasEbook && (
+                          <SelectItem value="ebook">eBook — £{getPrice("ebook").toFixed(2)}</SelectItem>
+                        )}
+                        {hasHardback && (
+                          <SelectItem value="hardbook">Hardback — £{getPrice("hardbook").toFixed(2)}</SelectItem>
+                        )}
+                        {hasPaperback && (
+                          <SelectItem value="paperback">Paperback — £{getPrice("paperback").toFixed(2)}</SelectItem>
+                        )}
+                      </SelectContent>
+                    </Select>
                   </div>
                 </div>
 
