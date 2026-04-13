@@ -129,7 +129,7 @@ export function AuthorReviewsSection() {
                 </div>
                 {/* Quote and author */}
                 <div className="flex-1 min-w-0 pt-1">
-                  <p className="text-foreground text-[13px] leading-relaxed mb-5 text-justify">
+                  <p className="text-foreground leading-relaxed mb-5 text-justify text-sm">
                     "{review.praise}"
                   </p>
                   <p className="text-sm">
