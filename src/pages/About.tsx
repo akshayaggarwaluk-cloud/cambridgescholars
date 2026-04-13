@@ -72,7 +72,7 @@ export default function AboutSection() {
           </div>
 
           {/* IMAGE */}
-          <div className="relative min-h-[300px] lg:min-h-[600px] order-first lg:order-last">
+          <div className="relative min-h-[600px]">
             <img
               src="/lovable-uploads/d53bdc66-5423-4a11-8c1d-a9166b55ead1.png"
               alt="Lady Stephenson Library"
