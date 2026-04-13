@@ -37,9 +37,11 @@ export default function Books() {
     const search = searchParams.get("search") || "";
     const category = searchParams.get("category") || "all";
     const page = parseInt(searchParams.get("page") || "1", 10);
+    const searchField = searchParams.get("search_field") || "";
     setSearchQuery(search);
     setSelectedCategory(category);
     setCurrentPage(page);
+    setActiveSearchField(searchField);
   }, [searchParams]);
 
   // Find category name from slug (API expects name, not slug)
