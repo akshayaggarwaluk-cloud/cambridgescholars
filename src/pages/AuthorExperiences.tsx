@@ -63,9 +63,9 @@ export default function AuthorExperiences() {
       <Header />
       <main className="flex-1">
         {/* Header area */}
-        <div className="bg-[#f4f3ec] py-10 md:py-14">
-          <div className="max-w-5xl mx-auto px-6 sm:px-10 flex items-center justify-between">
-            <h1 className="font-serif text-3xl md:text-4xl lg:text-[2.6rem] font-normal text-foreground">
+        <div className="bg-[#f4f3ec] min-h-[280px] flex items-center pt-24">
+          <div className="max-w-5xl mx-auto px-6 sm:px-10 flex items-center justify-between w-full">
+            <h1 className="text-5xl font-serif text-gray-800">
               Author Experiences
             </h1>
             <PageBreadcrumb
