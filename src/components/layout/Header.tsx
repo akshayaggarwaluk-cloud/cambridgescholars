@@ -355,12 +355,12 @@ export function Header() {
             {/* Panel */}
             <div className="relative w-72 h-full bg-background shadow-xl flex flex-col animate-in slide-in-from-left duration-200">
               {/* Search bar + close */}
-              <div className="flex items-center gap-2 px-4 py-3 border-b border-border">
+              <div className="flex items-center gap-2 px-4 py-3 border-b border-border bg-black">
                 <div className="flex-1 relative">
                   <input
                     type="text"
                     placeholder="Search ..."
-                    className="w-full bg-muted/50 border border-border rounded px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-accent"
+                    className="w-full border border-border rounded px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-accent bg-mustard-foreground"
                     onFocus={() => {
                       setIsMenuOpen(false);
                       setIsSearchOpen(true);
@@ -375,7 +375,7 @@ export function Header() {
                   className="h-8 w-8 shrink-0"
                   onClick={() => setIsMenuOpen(false)}
                 >
-                  <X className="h-5 w-5" />
+                  <X className="h-5 w-5 bg-white" />
                 </Button>
               </div>
 
