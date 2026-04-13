@@ -118,7 +118,7 @@ export default function AuthorExperiences() {
                         <h2 className="font-serif text-xl md:text-2xl font-normal text-foreground mb-3">
                           {review.book_title}
                         </h2>
-                        <p className="text-accent italic leading-relaxed mb-4 text-sm md:text-base">
+                        <p className="italic leading-relaxed mb-4 text-sm md:text-base text-black">
                           "{review.praise}"
                         </p>
                         <p className="text-sm text-foreground">
