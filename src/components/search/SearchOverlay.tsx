@@ -211,5 +211,5 @@ export function SearchOverlay({ onClose }: SearchOverlayProps) {
         </div>
       </div>
     </div>
-  );
+  , document.body);
 }
