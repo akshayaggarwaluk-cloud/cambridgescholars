@@ -63,17 +63,10 @@ export default function AuthorExperiences() {
       <Header />
       <main className="flex-1">
         {/* Header area */}
-        <div className="bg-[#f4f3ec] min-h-[280px] flex items-center pt-24">
-          <div className="max-w-5xl mx-auto px-6 sm:px-10 flex items-center justify-between w-full">
-            <h1 className="text-5xl font-serif text-gray-800">
-              Author Experiences
-            </h1>
-            <PageBreadcrumb
-              items={[
-                { label: "Home", href: "/" },
-                { label: "Author Experiences" },
-              ]}
-            />
+        <div className="bg-[#f4f3ec] min-h-[280px] pt-24 px-6 md:px-16 flex items-center">
+          <div className="max-w-7xl mx-auto flex justify-between items-center w-full">
+            <h1 className="text-5xl font-serif text-gray-800">Author Experiences</h1>
+            <PageBreadcrumb currentPage="Author Experiences" />
           </div>
         </div>
 
