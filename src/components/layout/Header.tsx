@@ -432,7 +432,7 @@ export function Header() {
 
         {/* Search Overlay */}
         {isSearchOpen && (
-          <SearchAutocomplete onClose={() => setIsSearchOpen(false)} />
+          <SearchOverlay onClose={() => setIsSearchOpen(false)} />
         )}
       </header>
     </TooltipProvider>
