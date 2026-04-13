@@ -107,13 +107,13 @@ export function AuthorReviewsSection() {
         <h2 className="font-serif text-3xl md:text-4xl lg:text-[2.6rem] font-normal text-center text-foreground mb-14">
           Author Experiences
         </h2>
-        <div className="grid md:grid-cols-2 gap-x-8 gap-y-12 lg:gap-x-12 lg:gap-y-14">
+        <div className="grid sm:grid-cols-2 gap-x-8 gap-y-12 lg:gap-x-12 lg:gap-y-14">
           {visible.map((review, index) => {
             const { name, title } = parseAuthor(review.author);
             return (
-              <div key={index} className="flex gap-6 items-start cursor-pointer hover:bg-muted/30 rounded-lg p-2 -m-2 transition-colors" onClick={() => navigate("/author-experiences")}>
+              <div key={index} className="flex flex-col items-center sm:flex-row sm:items-start gap-6 cursor-pointer hover:bg-muted/30 rounded-lg p-2 -m-2 transition-colors" onClick={() => navigate("/author-experiences")}>
                 {/* Book cover */}
-                <div className="flex-shrink-0 w-32 md:w-40 lg:w-44">
+                <div className="flex-shrink-0 w-40 sm:w-32 md:w-40 lg:w-44">
                   {review.coverImage ? (
                     <img
                       src={review.coverImage}
@@ -130,7 +130,7 @@ export function AuthorReviewsSection() {
                   )}
                 </div>
                 {/* Quote and author */}
-                <div className="flex-1 min-w-0 pt-1">
+                <div className="flex-1 min-w-0 pt-1 text-center sm:text-left">
                   <p className="text-foreground leading-relaxed mb-5 text-justify text-sm">
                     "{review.praise}"
                   </p>
