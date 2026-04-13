@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { ReviewsSection } from "@/components/books/ReviewsSection";
 import { RelatedBooksSection } from "@/components/books/RelatedBooksSection";
 import { BookDetailsTabs } from "@/components/books/BookDetailsTabs";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Book as BookIcon } from "lucide-react";
 import { fetchBookByIsbn } from "@/services/cspApi";
 import { useCart, BookFormat, Book as BookType } from "@/contexts/CartContext";
 import { useWishlist } from "@/contexts/WishlistContext";
