@@ -117,7 +117,7 @@ export function SearchOverlay({ onClose }: SearchOverlayProps) {
     <div className="fixed inset-0 z-[100] animate-fade-in">
       {/* Dark backdrop */}
       <div
-        className="absolute inset-0 bg-[#1a1a2e]/95 backdrop-blur-sm"
+        className="absolute inset-0 bg-black/80 backdrop-blur-sm"
         onClick={onClose}
       />
 
