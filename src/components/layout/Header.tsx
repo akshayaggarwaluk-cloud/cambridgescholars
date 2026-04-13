@@ -344,117 +344,124 @@ export function Header() {
           </div>
         </nav>
 
-        {/* Mobile Menu */}
+        {/* Mobile Slide-out Menu */}
         {isMenuOpen && (
-          <div className="lg:hidden bg-background border-t border-border shadow-lg">
-            <div className="container-wide py-4 space-y-1">
-              {navigation.map((item) => (
-                <Link
-                  key={item.name}
-                  to={item.href}
-                  className={cn(
-                    "block px-4 py-3 rounded-lg font-medium transition-colors",
-                    isActiveRoute(item.href)
-                      ? "text-accent bg-accent/5"
-                      : "text-foreground hover:bg-secondary"
-                  )}
+          <div className="lg:hidden fixed inset-0 z-50 top-0">
+            {/* Backdrop */}
+            <div
+              className="absolute inset-0 bg-black/40"
+              onClick={() => setIsMenuOpen(false)}
+            />
+            {/* Panel */}
+            <div className="relative w-72 h-full bg-background shadow-xl flex flex-col animate-in slide-in-from-left duration-200">
+              {/* Search bar + close */}
+              <div className="flex items-center gap-2 px-4 py-3 border-b border-border">
+                <div className="flex-1 relative">
+                  <input
+                    type="text"
+                    placeholder="Search ..."
+                    className="w-full bg-muted/50 border border-border rounded px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-accent"
+                    onFocus={() => {
+                      setIsMenuOpen(false);
+                      setIsSearchOpen(true);
+                    }}
+                    readOnly
+                  />
+                  <Search className="absolute right-2.5 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                </div>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="h-8 w-8 shrink-0"
+                  onClick={() => setIsMenuOpen(false)}
                 >
-                  {item.name}
-                </Link>
-              ))}
-
-              {/* Buy a Book mobile */}
-              <Link
-                to="/books"
-                className={cn(
-                  "block px-4 py-3 rounded-lg font-medium transition-colors",
-                  isActiveRoute("/books")
-                    ? "text-accent bg-accent/5"
-                    : "text-foreground hover:bg-secondary"
-                )}
-              >
-                Buy a Book
-              </Link>
-
-              {/* Publish a Book mobile section */}
-              <div className="px-4 py-3 font-medium text-foreground">Publish a Book</div>
-              {publishDropdownItems.map((item) => (
-                <Link
-                  key={item.name}
-                  to={item.href}
-                  className={cn(
-                    "block px-8 py-2.5 rounded-lg text-sm transition-colors",
-                    isActiveRoute(item.href)
-                      ? "text-accent bg-accent/5"
-                      : "text-muted-foreground hover:bg-secondary"
-                  )}
-                >
-                  {item.name}
-                </Link>
-              ))}
-
-              {trailingNav.map((item) => (
-                <Link
-                  key={item.name}
-                  to={item.href}
-                  className={cn(
-                    "block px-4 py-3 rounded-lg font-medium transition-colors",
-                    isActiveRoute(item.href)
-                      ? "text-accent bg-accent/5"
-                      : "text-foreground hover:bg-secondary"
-                  )}
-                >
-                  {item.name}
-                </Link>
-              ))}
-
-              <div className="border-t border-border pt-3 mt-3 space-y-1">
-                <Link
-                  to="/wishlist"
-                  className="flex items-center gap-3 px-4 py-3 rounded-lg text-foreground hover:bg-secondary"
-                >
-                  <Heart className="h-5 w-5" />
-                  Wishlist
-                  {wishlistCount > 0 && (
-                    <span className="ml-auto h-5 w-5 rounded-full bg-accent text-accent-foreground text-xs flex items-center justify-center">
-                      {wishlistCount}
-                    </span>
-                  )}
-                </Link>
-                {user ? (
-                  <>
-                    <Link
-                      to="/profile"
-                      className="flex items-center gap-3 px-4 py-3 rounded-lg text-foreground hover:bg-secondary"
-                    >
-                      <User className="h-5 w-5" />
-                      My Account
-                    </Link>
-                    <Link
-                      to="/orders"
-                      className="flex items-center gap-3 px-4 py-3 rounded-lg text-foreground hover:bg-secondary"
-                    >
-                      <ShoppingCart className="h-5 w-5" />
-                      Orders
-                    </Link>
-                    <button
-                      onClick={handleSignOut}
-                      className="flex items-center gap-3 px-4 py-3 rounded-lg text-foreground hover:bg-secondary w-full text-left"
-                    >
-                      <LogOut className="h-5 w-5" />
-                      Sign Out
-                    </button>
-                  </>
-                ) : (
-                  <Link
-                    to="/auth"
-                    className="flex items-center gap-3 px-4 py-3 rounded-lg text-foreground hover:bg-secondary"
-                  >
-                    <User className="h-5 w-5" />
-                    Sign In
-                  </Link>
-                )}
+                  <X className="h-5 w-5" />
+                </Button>
               </div>
+
+              {/* Nav links */}
+              <nav className="flex-1 overflow-y-auto py-2">
+                {navigation.map((item) => (
+                  <Link
+                    key={item.name}
+                    to={item.href}
+                    className={cn(
+                      "block px-6 py-3 text-sm font-bold uppercase tracking-wide transition-colors",
+                      isActiveRoute(item.href)
+                        ? "text-accent"
+                        : "text-foreground hover:text-accent"
+                    )}
+                  >
+                    {item.name}
+                  </Link>
+                ))}
+
+                <Link
+                  to="/books"
+                  className={cn(
+                    "block px-6 py-3 text-sm font-bold uppercase tracking-wide transition-colors",
+                    isActiveRoute("/books")
+                      ? "text-accent"
+                      : "text-foreground hover:text-accent"
+                  )}
+                >
+                  Buy a Book
+                </Link>
+
+                {/* Publish a Book with expandable sub-items */}
+                <div>
+                  <button
+                    onClick={() => setIsPublishDropdownOpen(!isPublishDropdownOpen)}
+                    className={cn(
+                      "flex items-center justify-between w-full px-6 py-3 text-sm font-bold uppercase tracking-wide transition-colors",
+                      isPublishActive
+                        ? "text-accent"
+                        : "text-foreground hover:text-accent"
+                    )}
+                  >
+                    Publish a Book
+                    <ChevronDown
+                      className={cn(
+                        "h-4 w-4 transition-transform",
+                        isPublishDropdownOpen && "rotate-180"
+                      )}
+                    />
+                  </button>
+                  {isPublishDropdownOpen && (
+                    <div className="bg-muted/30">
+                      {publishDropdownItems.map((item) => (
+                        <Link
+                          key={item.name}
+                          to={item.href}
+                          className={cn(
+                            "block px-10 py-2.5 text-sm font-medium transition-colors",
+                            isActiveRoute(item.href)
+                              ? "text-accent"
+                              : "text-muted-foreground hover:text-accent"
+                          )}
+                        >
+                          {item.name}
+                        </Link>
+                      ))}
+                    </div>
+                  )}
+                </div>
+
+                {trailingNav.map((item) => (
+                  <Link
+                    key={item.name}
+                    to={item.href}
+                    className={cn(
+                      "block px-6 py-3 text-sm font-bold uppercase tracking-wide transition-colors",
+                      isActiveRoute(item.href)
+                        ? "text-accent"
+                        : "text-foreground hover:text-accent"
+                    )}
+                  >
+                    {item.name}
+                  </Link>
+                ))}
+              </nav>
             </div>
           </div>
         )}
