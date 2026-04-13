@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils";
 import { useCart } from "@/contexts/CartContext";
 import { useWishlist } from "@/contexts/WishlistContext";
 import { useExternalAuth } from "@/contexts/ExternalAuthContext";
-import { SearchAutocomplete } from "@/components/search/SearchAutocomplete";
+import { SearchOverlay } from "@/components/search/SearchOverlay";
 import {
   DropdownMenu,
   DropdownMenuContent,
