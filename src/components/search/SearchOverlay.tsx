@@ -87,7 +87,7 @@ export function SearchOverlay({ onClose }: SearchOverlayProps) {
     onClose();
   };
 
-  return (
+  return createPortal(
     <div className="fixed inset-0 z-[100]">
       {/* Semi-transparent dark backdrop over entire page */}
       <div
