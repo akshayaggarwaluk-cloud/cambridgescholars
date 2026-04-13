@@ -21,13 +21,7 @@ export function SearchOverlay({ onClose }: SearchOverlayProps) {
   const [results, setResults] = useState<AutocompleteResult[]>([]);
   const [loading, setLoading] = useState(false);
   const [showAdvanced, setShowAdvanced] = useState(false);
-  const [advancedFields, setAdvancedFields] = useState({
-    title: "",
-    author: "",
-    isbn: "",
-    blurb: "",
-    series: "",
-  });
+  const [searchByField, setSearchByField] = useState<string>("title");
   const inputRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
   const debounceRef = useRef<ReturnType<typeof setTimeout>>();
