@@ -128,10 +128,43 @@ export function HeroSection() {
             </AnimatePresence>
           </div>
 
-          <div className="relative order-1 lg:order-2 h-[350px] md:h-[440px] lg:h-[540px]">
+          <div className="relative order-1 lg:order-2 h-[350px] md:h-[440px] lg:h-[540px]" style={{ perspective: "1200px" }}>
             <AnimatePresence mode="wait">
-              <motion.div key={activeIndex} variants={imageVariants} initial="initial" animate="animate" exit="exit" transition={{ duration: 0.6, ease: [0.25, 0.4, 0.25, 1] }} className="absolute inset-0 flex items-center justify-end">
-                <img src={activeReview.image} alt={activeReview.bookTitle} className="h-full w-auto max-w-none object-contain mix-blend-multiply drop-shadow-2xl" style={{ filter: "drop-shadow(8px 12px 20px rgba(0,0,0,0.15))" }} />
+              <motion.div key={activeIndex} variants={imageVariants} initial="initial" animate="animate" exit="exit" transition={{ duration: 0.6, ease: [0.25, 0.4, 0.25, 1] }} className="absolute inset-0 flex items-center justify-center lg:justify-end">
+                <div
+                  className="relative h-full w-auto"
+                  style={{
+                    transform: "rotateY(-20deg) rotateX(5deg)",
+                    transformStyle: "preserve-3d",
+                  }}
+                >
+                  {/* Spine edge */}
+                  <div
+                    className="absolute top-0 left-0 h-full w-[18px] origin-left"
+                    style={{
+                      background: "linear-gradient(to right, #1a1a1a, #333)",
+                      transform: "rotateY(90deg) translateZ(-9px)",
+                      boxShadow: "inset -2px 0 4px rgba(0,0,0,0.3)",
+                    }}
+                  />
+                  {/* Bottom edge */}
+                  <div
+                    className="absolute bottom-0 left-0 w-full h-[14px]"
+                    style={{
+                      background: "linear-gradient(to bottom, #e8e4dc, #d4d0c8)",
+                      transform: "rotateX(-90deg) translateZ(-7px)",
+                      transformOrigin: "bottom",
+                    }}
+                  />
+                  <img
+                    src={activeReview.image}
+                    alt={activeReview.bookTitle}
+                    className="h-full w-auto max-w-none object-contain rounded-[2px]"
+                    style={{
+                      filter: "drop-shadow(12px 20px 30px rgba(0,0,0,0.25)) drop-shadow(4px 8px 10px rgba(0,0,0,0.15))",
+                    }}
+                  />
+                </div>
               </motion.div>
             </AnimatePresence>
           </div>
