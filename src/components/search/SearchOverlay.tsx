@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import { createPortal } from "react-dom";
 import { useNavigate } from "react-router-dom";
 import { Search, X, Loader2 } from "lucide-react";
 import { fetchAutocomplete, fetchBooks } from "@/services/cspApi";
