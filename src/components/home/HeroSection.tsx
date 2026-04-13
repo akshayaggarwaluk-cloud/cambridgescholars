@@ -137,40 +137,52 @@ export function HeroSection() {
                 animate="animate"
                 exit="exit"
                 transition={{ duration: 0.6, ease: [0.25, 0.4, 0.25, 1] }}
-                className="h-full"
-                style={{ perspective: "1200px" }}
+                className="h-[85%]"
+                style={{ perspective: "900px" }}
               >
                 <div
-                  className="relative h-full w-auto"
+                  className="relative h-full"
                   style={{
-                    transform: "rotateY(-18deg) rotateX(4deg)",
+                    transform: "rotateY(-30deg) rotateX(8deg) rotateZ(2deg)",
                     transformStyle: "preserve-3d",
                   }}
                 >
-                  {/* Spine edge */}
+                  {/* Spine - left side */}
                   <div
-                    className="absolute top-[2%] bottom-[2%] left-0 w-[16px]"
+                    className="absolute top-0 bottom-0 left-0 w-[22px]"
                     style={{
-                      background: "linear-gradient(to right, #111, #2a2a2a)",
-                      transform: "translateX(-15px) rotateY(90deg)",
+                      background: "linear-gradient(to right, #0a0a0a, #1a1a1a, #252525)",
+                      transform: "translateX(-21px) rotateY(90deg)",
                       transformOrigin: "right center",
+                      borderRadius: "2px 0 0 2px",
                     }}
                   />
-                  {/* Bottom pages edge */}
+                  {/* Pages - bottom edge */}
                   <div
-                    className="absolute bottom-0 left-0 right-0 h-[12px]"
+                    className="absolute bottom-0 left-[-21px] right-0 h-[18px]"
                     style={{
-                      background: "linear-gradient(to bottom, #eae6de, #d5d1c9)",
-                      transform: "translateY(11px) rotateX(-90deg)",
+                      background: "linear-gradient(to bottom, #f0ece4, #e2ded6, #d8d4cc)",
+                      transform: "translateY(17px) rotateX(-90deg)",
                       transformOrigin: "top center",
+                      borderRadius: "0 0 2px 2px",
+                    }}
+                  />
+                  {/* Right edge (pages) */}
+                  <div
+                    className="absolute top-0 bottom-0 right-0 w-[18px]"
+                    style={{
+                      background: "linear-gradient(to right, #e8e4dc, #f0ece4, #e2ded6)",
+                      transform: "translateX(17px) rotateY(-90deg)",
+                      transformOrigin: "left center",
                     }}
                   />
                   <img
                     src={activeReview.image}
                     alt={activeReview.bookTitle}
-                    className="h-full w-auto max-w-none object-contain rounded-sm"
+                    className="h-full w-auto max-w-none object-contain"
                     style={{
-                      boxShadow: "8px 12px 30px rgba(0,0,0,0.3), 2px 4px 10px rgba(0,0,0,0.15)",
+                      boxShadow: "15px 25px 50px rgba(0,0,0,0.35), 5px 10px 20px rgba(0,0,0,0.2)",
+                      borderRadius: "2px",
                     }}
                   />
                 </div>
