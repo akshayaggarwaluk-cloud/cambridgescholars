@@ -81,13 +81,35 @@ export function Header() {
         )}
       >
         <nav className="container-wide">
-          <div className="flex items-center justify-between h-24 text-foreground">
+          <div className="flex items-center justify-between h-20 lg:h-24 text-foreground">
+            {/* Mobile hamburger + search (left) */}
+            <div className="flex lg:hidden items-center gap-1">
+              <Button
+                variant="ghost"
+                size="icon"
+                className="h-9 w-9"
+                onClick={() => setIsMenuOpen(!isMenuOpen)}
+                aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+              >
+                {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+              </Button>
+              <Button
+                variant="ghost"
+                size="icon"
+                className="h-9 w-9"
+                onClick={() => setIsSearchOpen(true)}
+                aria-label="Search"
+              >
+                <Search className="h-5 w-5" />
+              </Button>
+            </div>
+
             {/* Logo */}
-            <Link to="/" className="flex items-center gap-3">
+            <Link to="/" className="flex items-center gap-3 lg:flex-none">
               <img
                 src={logoImage}
                 alt="Cambridge Scholars Publishing"
-                className="h-14 w-auto"
+                className="h-10 lg:h-14 w-auto"
               />
             </Link>
 
