@@ -111,7 +111,7 @@ export function Header() {
                   key={item.name}
                   to={item.href}
                   className={cn(
-                    "text-base py-2 transition-colors hover:text-accent font-semibold border-b-2",
+                    "text-sm py-2 transition-colors hover:text-accent font-semibold border-b-2",
                     isActiveRoute(item.href) ? "text-accent border-accent" : "text-foreground border-transparent"
                   )}
                 >
@@ -123,7 +123,7 @@ export function Header() {
               <Link
                 to="/books"
                 className={cn(
-                  "text-base py-2 transition-colors hover:text-accent font-semibold border-b-2",
+                  "text-sm py-2 transition-colors hover:text-accent font-semibold border-b-2",
                   isActiveRoute("/books") ? "text-accent border-accent" : "text-foreground border-transparent"
                 )}
               >
@@ -139,7 +139,7 @@ export function Header() {
                 <Link
                   to="/publish-a-book"
                   className={cn(
-                    "text-base flex items-center gap-1.5 py-2 hover:text-accent font-semibold border-b-2",
+                    "text-sm flex items-center gap-1.5 py-2 hover:text-accent font-semibold border-b-2",
                     isPublishActive ? "text-accent border-accent" : "text-foreground border-transparent"
                   )}
                 >
@@ -179,7 +179,7 @@ export function Header() {
                   key={item.name}
                   to={item.href}
                   className={cn(
-                    "text-base py-2 hover:text-accent font-semibold border-b-2",
+                    "text-sm py-2 hover:text-accent font-semibold border-b-2",
                     isActiveRoute(item.href) ? "text-accent border-accent" : "text-foreground border-transparent"
                   )}
                 >
