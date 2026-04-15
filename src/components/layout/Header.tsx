@@ -105,7 +105,7 @@ export function Header() {
             </Link>
 
             {/* Desktop Navigation */}
-            <div className="hidden lg:flex items-center gap-8 xl:gap-12 uppercase">
+            <div className="hidden lg:flex items-center gap-8 xl:gap-12 uppercase font-nav">
               {navigation.map((item) => (
                 <Link
                   key={item.name}
