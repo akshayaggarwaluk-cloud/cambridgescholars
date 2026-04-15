@@ -38,7 +38,7 @@ export function WelcomeSection() {
 
         {/* Welcome Text */}
         <ScrollAnimation type="fadeUp" delay={0.1} className="max-w-3xl mx-auto text-center mb-14">
-          <h6 className="font-baskerville font-semibold uppercase tracking-[0.12em] mb-4 text-foreground text-3xl">
+          <h6 className="font-baskerville font-semibold uppercase tracking-[0.12em] mb-4 text-foreground text-3xl whitespace-nowrap">
             Welcome to Cambridge Scholars Publishing
           </h6>
           <p className="text-base md:text-lg leading-relaxed text-muted-foreground">
