@@ -56,7 +56,7 @@ export function WelcomeSection() {
                 {/* Icon + Title Row */}
                 <div className="flex items-center gap-4 mb-6">
                   <img src={service.icon} alt={service.title} className="h-14 w-auto object-contain" />
-                  <h3 className="font-baskerville text-2xl font-semibold text-foreground">{service.title}</h3>
+                  <h3 className="font-baskerville text-foreground font-medium text-3xl">{service.title}</h3>
                 </div>
 
                 {/* Description */}
