@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { ArrowRight } from "lucide-react";
+import { ChevronsRight } from "lucide-react";
 import { ScrollAnimation, StaggerContainer, StaggerItem } from "@/components/ui/scroll-animation";
 
 const services = [
@@ -52,28 +52,23 @@ export function WelcomeSection() {
         <StaggerContainer staggerDelay={0.15} className="grid md:grid-cols-3 gap-6 md:gap-8">
           {services.map((service) => (
             <StaggerItem key={service.title}>
-              <div className="group text-center p-6 md:p-8">
-                {/* Icon */}
-                <div className="flex items-center justify-center h-20 mb-6">
-                  <img src={service.icon} alt={service.title} className="h-16 w-auto object-contain" />
+              <div className="group text-left p-6 md:p-8">
+                {/* Icon + Title Row */}
+                <div className="flex items-center gap-4 mb-6">
+                  <img src={service.icon} alt={service.title} className="h-14 w-auto object-contain" />
+                  <h3 className="font-serif text-2xl font-semibold text-foreground">{service.title}</h3>
                 </div>
 
-                {/* Title */}
-                <h3 className="font-serif text-xl font-semibold text-foreground mb-4">{service.title}</h3>
-
                 {/* Description */}
-                <p className="mb-6 leading-relaxed text-sm md:text-base text-muted-foreground">{service.description}</p>
+                <p className="font-nunito mb-6 leading-relaxed text-sm md:text-base text-[#333333]">{service.description}</p>
 
                 {/* Read More Link */}
                 <Link
                   to={service.link}
-                  className="inline-flex items-center gap-2 text-accent font-medium text-sm uppercase tracking-wider group/link hover:gap-3 transition-all duration-300"
+                  className="inline-flex items-center gap-2 text-accent font-semibold text-xs uppercase tracking-[0.15em] group/link hover:gap-3 transition-all duration-300"
                 >
-                  <span className="relative">
-                    READ MORE
-                    <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-accent transition-all duration-300 group-hover/link:w-full" />
-                  </span>
-                  <ArrowRight className="h-4 w-4" />
+                  READ MORE
+                  <ChevronsRight className="h-4 w-4" />
                 </Link>
               </div>
             </StaggerItem>
