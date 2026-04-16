@@ -75,7 +75,7 @@ export function HomeFooter() {
         </div>
 
         {/* Copyright */}
-        <div className="text-center text-lg">
+        <div className="text-center text-lg font-baskerville">
           <p>
             © 2025 Cambridge Scholars Publishing |{" "}
             <a
