@@ -104,7 +104,7 @@ export function AuthorReviewsSection() {
   return (
     <section className="py-8 md:py-12 bg-[#f4f3ec]">
       <div className="mx-4 sm:mx-6 lg:mx-8 bg-white rounded-sm py-10 md:py-14 px-6 sm:px-10 lg:px-16">
-        <h2 className="font-serif text-3xl md:text-4xl lg:text-[2.6rem] font-normal text-center text-foreground mb-14">
+        <h2 className="font-serif text-3xl md:text-4xl font-normal text-center text-foreground mb-14 lg:text-4xl">
           Author Experiences
         </h2>
         <div className="grid sm:grid-cols-2 gap-x-8 gap-y-12 lg:gap-x-12 lg:gap-y-14">
