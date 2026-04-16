@@ -11,8 +11,8 @@ const RefundAndReturns = () => {
 
       {/* Header Banner */}
       <div className="bg-[#f4f3ec] pt-28 sm:pt-32 pb-10 sm:pb-14 px-6 md:px-16">
-        <div className="max-w-7xl mx-auto">
-          <h1 className="text-4xl sm:text-5xl font-serif text-gray-800 mb-3">Refund and Returns</h1>
+        <div className="max-w-7xl mx-auto flex items-center justify-between">
+          <h1 className="text-4xl sm:text-5xl font-serif text-gray-800">Refund and Returns</h1>
           <PageBreadcrumb currentPage="Refund and Returns" />
         </div>
       </div>
