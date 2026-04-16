@@ -52,7 +52,7 @@ export function WelcomeSection() {
         <StaggerContainer staggerDelay={0.15} className="grid md:grid-cols-3 gap-6 md:gap-8">
           {services.map((service) => (
             <StaggerItem key={service.title}>
-              <div className="group text-left p-6 md:p-8">
+              <div className="group text-left p-6 md:p-8 flex flex-col h-full">
                 {/* Icon + Title Row */}
                 <div className="flex items-center gap-4 mb-6">
                   <img src={service.icon} alt={service.title} className="h-14 w-auto object-contain" />
