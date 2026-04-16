@@ -47,7 +47,7 @@ export function HomeFooter() {
             <Link
               key={link.name}
               to={link.href}
-              className="text-[#555555] tracking-wider hover:text-foreground transition-colors font-semibold text-base"
+              className="text-[#555555] tracking-wider hover:text-foreground transition-colors font-nav font-semibold text-base"
             >
               {link.name.toUpperCase()}
             </Link>
