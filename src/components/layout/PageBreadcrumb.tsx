@@ -43,7 +43,7 @@ export function PageBreadcrumb({
   
   return (
     <Breadcrumb className={className}>
-      <BreadcrumbList>
+      <BreadcrumbList className="text-base">
         <BreadcrumbItem>
           <BreadcrumbLink asChild>
             <Link to="/" className="flex items-center gap-1 text-red-500 hover:text-red-600">
@@ -78,7 +78,7 @@ export function PageBreadcrumb({
           <ChevronRight className="h-4 w-4 text-muted-foreground" />
         </BreadcrumbSeparator>
         <BreadcrumbItem>
-          <BreadcrumbPage className="text-muted-foreground font-medium">
+          <BreadcrumbPage className="text-muted-foreground font-medium text-base">
             {finalPage}
           </BreadcrumbPage>
         </BreadcrumbItem>
