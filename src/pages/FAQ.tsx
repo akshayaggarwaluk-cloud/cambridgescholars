@@ -53,15 +53,15 @@ export default function FAQ() {
 
       {/* Top Banner */}
       <div className="bg-[#f4f3ec] pt-28 sm:pt-32 pb-10 sm:pb-14 px-6 md:px-16">
-        <div className="max-w-7xl mx-auto">
-          <h1 className="text-4xl sm:text-5xl font-serif text-gray-800 mb-3">FAQS</h1>
+        <div className="max-w-7xl mx-auto flex items-center justify-between">
+          <h1 className="text-4xl sm:text-5xl font-serif text-gray-800">FAQS</h1>
           <PageBreadcrumb currentPage="FAQs" />
         </div>
       </div>
 
       <main className="pb-16 bg-white">
         <section className="container-wide py-16">
-          <div className="max-w-7xl mx-auto">
+          <div className="max-w-7xl mx-auto flex items-center justify-between">
             <Accordion type="single" collapsible className="space-y-4">
               {faqs.map((faq, index) => (
                 <AccordionItem
