@@ -60,7 +60,7 @@ export function WelcomeSection() {
                 </div>
 
                 {/* Description */}
-                <p className="font-nunito-sans mb-6 leading-relaxed text-sm md:text-base text-[#333333]">{service.description}</p>
+                <p className="font-nav mb-6 leading-relaxed text-sm md:text-base text-[#333333]">{service.description}</p>
 
                 {/* Read More Link */}
                 <Link
