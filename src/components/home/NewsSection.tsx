@@ -10,7 +10,7 @@ export const NewsSection = () => {
   return (
     <section className="py-14 md:py-[20px]">
       <div className="container-wide">
-        <h2 className="text-3xl md:text-4xl font-baskerville italic text-center text-foreground mb-12">
+        <h2 className="text-3xl md:text-4xl font-baskerville text-center text-foreground mb-12">
           News
         </h2>
         {featuredNews.length === 0 ? (
