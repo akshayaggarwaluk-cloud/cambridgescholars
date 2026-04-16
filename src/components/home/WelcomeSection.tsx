@@ -41,7 +41,7 @@ export function WelcomeSection() {
           <h6 className="font-semibold uppercase tracking-[0.12em] mb-4 text-foreground text-3xl whitespace-nowrap">
             Welcome to Cambridge Scholars Publishing
           </h6>
-          <p className="text-base leading-relaxed text-muted-foreground max-w-4xl mx-auto md:text-base">
+          <p className="font-nunito text-base leading-relaxed text-muted-foreground max-w-4xl mx-auto md:text-base">
             We are an independent academic publisher committed to advancing original research across the humanities,
             social sciences, physical sciences, life sciences and health sciences. Our titles are authored by scholars
             from around the world and are distributed globally in premium print and digital formats.
