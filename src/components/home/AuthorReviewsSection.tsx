@@ -134,7 +134,7 @@ export function AuthorReviewsSection() {
                   <p className="font-nunito text-foreground leading-relaxed mb-5 text-justify text-base">
                     "{review.praise}"
                   </p>
-                  <p className="text-sm">
+                  <p className="text-sm font-baskerville">
                     <span className="font-bold text-accent">{name}</span>
                     {title && (
                       <span className="text-muted-foreground"> – {title}</span>
