@@ -78,7 +78,7 @@ export function PageBreadcrumb({
           <ChevronRight className="h-4 w-4 text-muted-foreground" />
         </BreadcrumbSeparator>
         <BreadcrumbItem>
-          <BreadcrumbPage className="text-muted-foreground font-medium text-base font-baskerville italic">
+          <BreadcrumbPage className="font-medium text-base font-baskerville italic text-[#e5573e]">
             {finalPage}
           </BreadcrumbPage>
         </BreadcrumbItem>
