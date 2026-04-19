@@ -10,7 +10,11 @@ import { z } from "zod";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { useExternalAuth } from "@/contexts/ExternalAuthContext";
-import { login as apiLogin, register as apiRegister } from "@/services/authService";
+import {
+  login as apiLogin,
+  sendRegisterOtp,
+  verifyRegisterOtp,
+} from "@/services/authService";
 
 const emailSchema = z
   .string()
