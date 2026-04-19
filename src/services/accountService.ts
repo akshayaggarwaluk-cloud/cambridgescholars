@@ -2,8 +2,8 @@
  * CSP Account Service
  *
  * Wraps the account-proxy edge function which bridges to the upstream
- * /api/website/account endpoints (profile + password). The upstream JWT
- * (in-memory access token) is forwarded as the Authorization header.
+ * /api/website/account endpoints (profile, password, orders, wishlist, ebooks).
+ * The upstream JWT (in-memory access token) is forwarded as the Authorization header.
  */
 
 import { supabase } from "@/integrations/supabase/client";
@@ -40,6 +40,111 @@ export interface ProfileUpdatePayload {
   shipping_country?: string;
   shipping_phone?: string;
 }
+
+// ── Orders ──────────────────────────────────────────────────────
+
+export interface OrderSummary {
+  id: number;
+  status: string;
+  currency: string;
+  total_amount: number;
+  billing_email?: string | null;
+  payment_method_title?: string | null;
+  created_at: string;
+}
+
+export interface OrderListResponse {
+  orders: OrderSummary[];
+  pagination: {
+    page: number;
+    per_page: number;
+    total: number;
+    pages: number;
+  };
+}
+
+export interface OrderItemDetail {
+  name: string;
+  isbn?: string | null;
+  quantity: number;
+  unit_price?: number | null;
+  subtotal?: number | null;
+  total?: number | null;
+  tax?: number | null;
+}
+
+export interface OrderAddressBlock {
+  first_name?: string | null;
+  last_name?: string | null;
+  company?: string | null;
+  address_1?: string | null;
+  address_2?: string | null;
+  city?: string | null;
+  state?: string | null;
+  postcode?: string | null;
+  country?: string | null;
+  email?: string | null;
+  phone?: string | null;
+}
+
+export interface OrderCoupon {
+  code?: string | null;
+  discount?: number | null;
+}
+
+export interface OrderDetail {
+  id: number;
+  status: string;
+  currency: string;
+  tax_amount?: number | null;
+  total_amount: number;
+  billing_email?: string | null;
+  payment_method?: string | null;
+  payment_method_title?: string | null;
+  transaction_id?: string | null;
+  customer_note?: string | null;
+  created_at?: string | null;
+  date_paid_gmt?: string | null;
+  date_completed_gmt?: string | null;
+  shipping_total_amount?: number | null;
+  discount_total_amount?: number | null;
+  billing?: OrderAddressBlock;
+  shipping?: OrderAddressBlock;
+  items: OrderItemDetail[];
+  coupons?: OrderCoupon[];
+}
+
+// ── Wishlist ────────────────────────────────────────────────────
+
+export interface WishlistItem {
+  id: number;
+  isbn?: string | null;
+  quantity: number;
+  original_price?: number | null;
+  original_currency?: string | null;
+  added_at?: string | null;
+}
+
+export interface WishlistResponse {
+  wishlist_id: number;
+  items: WishlistItem[];
+}
+
+// ── Ebooks ──────────────────────────────────────────────────────
+
+export interface EbookActivation {
+  isbn13?: string | null;
+  isbn10?: string | null;
+  isbn?: string | null;
+  vitalsource_book_id?: string | null;
+  activated_at?: string | null;
+}
+
+export interface EbooksResponse {
+  ebooks: EbookActivation[];
+}
+
+// ── Internal ────────────────────────────────────────────────────
 
 interface ErrorPayload {
   error?: string;
@@ -98,6 +203,8 @@ async function callAccount<T>(
   return data as T;
 }
 
+// ── Public API ──────────────────────────────────────────────────
+
 export async function getProfile(): Promise<AccountProfile> {
   return callAccount<AccountProfile>({ action: "get_profile" });
 }
@@ -117,4 +224,48 @@ export async function changePassword(params: {
     current_password: params.current_password,
     new_password: params.new_password,
   });
+}
+
+export async function listOrders(
+  page = 1,
+  perPage = 10
+): Promise<OrderListResponse> {
+  return callAccount<OrderListResponse>({
+    action: "list_orders",
+    page,
+    per_page: perPage,
+  });
+}
+
+export async function getOrder(orderId: number | string): Promise<OrderDetail> {
+  return callAccount<OrderDetail>({
+    action: "get_order",
+    order_id: orderId,
+  });
+}
+
+export async function getWishlist(): Promise<WishlistResponse> {
+  return callAccount<WishlistResponse>({ action: "get_wishlist" });
+}
+
+export async function addToWishlistApi(
+  isbn: string
+): Promise<{ message: string; item_id?: number }> {
+  return callAccount<{ message: string; item_id?: number }>({
+    action: "add_wishlist",
+    isbn,
+  });
+}
+
+export async function removeFromWishlistApi(
+  isbn: string
+): Promise<{ message: string }> {
+  return callAccount<{ message: string }>({
+    action: "remove_wishlist",
+    isbn,
+  });
+}
+
+export async function listEbooks(): Promise<EbooksResponse> {
+  return callAccount<EbooksResponse>({ action: "list_ebooks" });
 }
