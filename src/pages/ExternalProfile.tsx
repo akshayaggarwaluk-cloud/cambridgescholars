@@ -375,7 +375,7 @@ export default function ExternalProfile() {
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-sm text-muted-foreground">
-                    Order #{order.id.slice(0, 8).toUpperCase()}
+                    Order #{String(order.id).slice(0, 8).toUpperCase()}
                   </p>
                   <p className="text-sm text-muted-foreground">
                     {new Date(order.created_at).toLocaleDateString()}
