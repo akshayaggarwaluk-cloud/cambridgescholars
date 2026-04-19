@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Heart, ShoppingCart, Trash2, Loader2 } from "lucide-react";
+import { Heart, ShoppingCart, Loader2, X, Check, Facebook, Twitter, Mail } from "lucide-react";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { PageBreadcrumb } from "@/components/layout/PageBreadcrumb";
@@ -80,52 +80,85 @@ export default function Wishlist() {
               </div>
             </div>
           ) : (
-            <div className="space-y-4">
-              {wishlistItems.map((item) => (
-                <div
-                  key={item.id}
-                  className="flex gap-6 p-6 bg-card rounded-xl shadow-card"
-                >
-                  <Link to={`/books/${item.book_id}`}>
-                    <img
-                      src={item.book_image || "/placeholder.svg"}
-                      alt={item.book_title}
-                      className="w-24 h-36 object-cover rounded-lg hover:opacity-80 transition-opacity"
-                    />
-                  </Link>
-                  <div className="flex-1 min-w-0">
-                    <Link to={`/books/${item.book_id}`}>
-                      <h3 className="font-serif text-xl font-semibold text-foreground hover:text-accent transition-colors">
-                        {item.book_title}
-                      </h3>
-                    </Link>
-                    <p className="text-muted-foreground mb-2">{item.book_author}</p>
-                    <p className="text-2xl font-bold text-accent">
+            <div>
+              {/* Table header */}
+              <div className="grid grid-cols-[1fr_120px_140px_220px] gap-4 pb-6 border-b border-border items-center">
+                <div className="text-sm font-semibold tracking-wider uppercase text-foreground">Product</div>
+                <div className="text-sm font-semibold tracking-wider uppercase text-foreground">Price</div>
+                <div className="text-sm font-semibold tracking-wider uppercase text-foreground">Stock Status</div>
+                <div></div>
+              </div>
+
+              {/* Items */}
+              <div className="mt-6 space-y-4">
+                {wishlistItems.map((item) => (
+                  <div
+                    key={item.id}
+                    className="grid grid-cols-[1fr_120px_140px_220px] gap-4 items-center border border-border px-6 py-5"
+                  >
+                    {/* Product */}
+                    <div className="flex items-center gap-5 min-w-0">
+                      <Link to={`/books/${item.book_id}`} className="shrink-0">
+                        <img
+                          src={item.book_image || "/placeholder.svg"}
+                          alt={item.book_title}
+                          className="w-20 h-28 object-cover hover:opacity-80 transition-opacity"
+                        />
+                      </Link>
+                      <Link to={`/books/${item.book_id}`} className="min-w-0">
+                        <h3 className="font-serif text-lg text-foreground hover:text-accent transition-colors leading-snug">
+                          {item.book_title}
+                        </h3>
+                      </Link>
+                    </div>
+
+                    {/* Price */}
+                    <div className="text-base text-foreground">
                       ${item.book_price.toFixed(2)}
-                    </p>
-                    <p className="text-sm text-muted-foreground mt-2">
-                      Added {new Date(item.created_at).toLocaleDateString()}
-                    </p>
+                    </div>
+
+                    {/* Stock */}
+                    <div className="flex items-center gap-2">
+                      <Check className="h-4 w-4 text-green-600" strokeWidth={3} />
+                      <span className="text-base text-foreground">In Stock</span>
+                    </div>
+
+                    {/* Actions */}
+                    <div className="flex items-center gap-3 justify-end">
+                      <button
+                        onClick={() => handleAddToCart(item)}
+                        className="flex-1 bg-[#C75B2A] hover:bg-[#a84a22] text-white text-sm font-semibold tracking-wider uppercase px-4 py-3 rounded-none transition-colors flex items-center justify-center gap-2"
+                      >
+                        <ShoppingCart className="h-4 w-4" />
+                        Add to Cart
+                      </button>
+                      <button
+                        onClick={() => removeFromWishlist(item.book_id)}
+                        aria-label="Remove from wishlist"
+                        className="w-10 h-10 border border-border flex items-center justify-center hover:bg-secondary transition-colors shrink-0"
+                      >
+                        <X className="h-4 w-4 text-foreground" />
+                      </button>
+                    </div>
                   </div>
-                  <div className="flex flex-col gap-2">
-                    <Button
-                      variant="gold"
-                      onClick={() => handleAddToCart(item)}
-                    >
-                      <ShoppingCart className="h-4 w-4 mr-2" />
-                      Add to Cart
-                    </Button>
-                    <Button
-                      variant="outline"
-                      onClick={() => removeFromWishlist(item.book_id)}
-                      className="text-destructive hover:text-destructive"
-                    >
-                      <Trash2 className="h-4 w-4 mr-2" />
-                      Remove
-                    </Button>
-                  </div>
+                ))}
+              </div>
+
+              {/* Share on */}
+              <div className="mt-12">
+                <h3 className="font-serif text-2xl text-foreground mb-4">Share on:</h3>
+                <div className="flex items-center gap-5">
+                  <a href="#" aria-label="Share on Facebook" className="text-muted-foreground hover:text-accent transition-colors">
+                    <Facebook className="h-5 w-5" />
+                  </a>
+                  <a href="#" aria-label="Share on X" className="text-muted-foreground hover:text-accent transition-colors">
+                    <Twitter className="h-5 w-5" />
+                  </a>
+                  <a href="#" aria-label="Share via Email" className="text-muted-foreground hover:text-accent transition-colors">
+                    <Mail className="h-5 w-5" />
+                  </a>
                 </div>
-              ))}
+              </div>
             </div>
           )}
         </div>
