@@ -771,7 +771,7 @@ export default function ExternalProfile() {
               ))}
               <button
                 onClick={handleLogout}
-                className="w-full text-left px-4 py-4 border-b border-border transition-colors flex items-center gap-3 hover:bg-secondary text-foreground"
+                className="w-full text-left px-4 py-4 border-b border-border transition-colors flex items-center gap-3 hover:bg-secondary text-foreground font-nav"
               >
                 <LogOut className="h-4 w-4" />
                 LOG OUT
