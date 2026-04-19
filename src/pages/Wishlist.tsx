@@ -60,7 +60,7 @@ export default function Wishlist() {
       </div>
 
       <main className="pb-16">
-        <div className="container-wide max-w-7xl py-12 px-6 md:px-16">
+        <div className="container-wide max-w-7xl py-12 px-6 md:px-16 bg-white">
 
           {loading ? (
             <div className="flex items-center justify-center py-16">
