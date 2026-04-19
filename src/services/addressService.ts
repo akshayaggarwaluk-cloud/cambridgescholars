@@ -1,5 +1,5 @@
 import { supabase } from "@/integrations/supabase/client";
-import { getAuthToken } from "@/services/authService";
+import { getAccessToken } from "@/services/authService";
 
 export interface Address {
   id: string;
@@ -37,7 +37,7 @@ async function callAddressEndpoint(
   userId: string,
   additionalData?: Record<string, unknown>
 ): Promise<{ data?: Address | Address[]; error?: string }> {
-  const token = getAuthToken();
+  const token = getAccessToken();
   if (!token) {
     return { error: "Not authenticated" };
   }
