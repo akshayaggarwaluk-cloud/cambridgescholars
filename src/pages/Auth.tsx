@@ -155,7 +155,7 @@ export default function Auth() {
         </div>
       </section>
 
-      <main className="flex-1 py-12 md:py-16">
+      <main className="flex-1 py-12 md:py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-20">
             {/* ── LOGIN ───────────────────────────── */}
