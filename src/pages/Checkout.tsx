@@ -122,7 +122,7 @@ export default function Checkout() {
       </div>
 
       <main className="pb-16">
-        <div className="container-wide py-8">
+        <div className="container-wide py-8 bg-white">
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
             {/* Form */}
