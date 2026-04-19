@@ -60,24 +60,24 @@ export default function Wishlist() {
       </div>
 
       <main className="pb-16">
-        <div className="container-wide max-w-4xl py-8">
+        <div className="container-wide max-w-7xl py-12 px-6 md:px-16">
 
           {loading ? (
             <div className="flex items-center justify-center py-16">
               <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
             </div>
           ) : wishlistItems.length === 0 ? (
-            <div className="text-center py-16 bg-card rounded-xl shadow-card">
-              <Heart className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
-              <h2 className="font-serif text-2xl font-semibold text-foreground mb-2">
-                Your wishlist is empty
-              </h2>
-              <p className="text-muted-foreground mb-6">
-                Save books you love for later!
-              </p>
-              <Button asChild variant="gold">
-                <Link to="/books">Browse Books</Link>
-              </Button>
+            <div>
+              {/* Table header */}
+              <div className="grid grid-cols-3 gap-4 pb-6 border-b border-border">
+                <div className="text-sm font-semibold tracking-wider uppercase text-foreground">Product</div>
+                <div className="text-sm font-semibold tracking-wider uppercase text-foreground">Price</div>
+                <div className="text-sm font-semibold tracking-wider uppercase text-foreground">Stock Status</div>
+              </div>
+              {/* Empty message box */}
+              <div className="mt-8 border border-border px-8 py-10">
+                <p className="text-base text-foreground">No products added to the wishlist</p>
+              </div>
             </div>
           ) : (
             <div className="space-y-4">
