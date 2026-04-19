@@ -1,0 +1,257 @@
+import { useEffect, useState } from "react";
+import { Plus, Pencil, Trash2, Loader2, Save, X } from "lucide-react";
+import { adminApi, type CmsHeroSlide } from "@/services/cmsService";
+import { useExternalAuth } from "@/contexts/ExternalAuthContext";
+import { toast } from "sonner";
+import { Button } from "@/components/ui/button";
+import ImageUploadField from "@/components/admin/ImageUploadField";
+
+type EditState = Partial<CmsHeroSlide> & { _new?: boolean };
+
+const empty: EditState = {
+  _new: true,
+  title: "",
+  subtitle: "",
+  quote: "",
+  reviewer_name: "",
+  reviewer_position: "",
+  cover_image: "",
+  link_url: "",
+  display_order: 0,
+  is_published: true,
+};
+
+export default function AdminHeroSlides() {
+  const { token } = useExternalAuth();
+  const [slides, setSlides] = useState<CmsHeroSlide[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [editing, setEditing] = useState<EditState | null>(null);
+  const [saving, setSaving] = useState(false);
+
+  const reload = async () => {
+    if (!token) return;
+    setLoading(true);
+    try {
+      const data = await adminApi.listHero(token);
+      setSlides(data);
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "Failed to load slides");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    reload();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [token]);
+
+  const save = async () => {
+    if (!token || !editing) return;
+    if (!editing.title?.trim()) {
+      toast.error("Title is required");
+      return;
+    }
+    setSaving(true);
+    try {
+      if (editing._new) {
+        await adminApi.createHero(token, editing);
+        toast.success("Slide created");
+      } else {
+        await adminApi.updateHero(token, editing as CmsHeroSlide);
+        toast.success("Slide updated");
+      }
+      setEditing(null);
+      reload();
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "Save failed");
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const remove = async (id: string) => {
+    if (!token) return;
+    if (!confirm("Delete this slide?")) return;
+    try {
+      await adminApi.deleteHero(token, id);
+      toast.success("Slide deleted");
+      reload();
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "Delete failed");
+    }
+  };
+
+  return (
+    <div className="space-y-6">
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="font-baskerville text-3xl text-foreground">Hero Slides</h1>
+          <p className="text-muted-foreground text-sm">Featured Reviews carousel content.</p>
+        </div>
+        {!editing && (
+          <Button onClick={() => setEditing({ ...empty })} className="bg-accent hover:bg-accent/90">
+            <Plus className="h-4 w-4 mr-1" /> New slide
+          </Button>
+        )}
+      </div>
+
+      {editing && (
+        <div className="border border-border p-6 space-y-4 bg-[#fafafa]">
+          <div className="flex items-center justify-between">
+            <h2 className="font-baskerville text-xl text-foreground">
+              {editing._new ? "New slide" : "Edit slide"}
+            </h2>
+            <Button variant="ghost" size="sm" onClick={() => setEditing(null)}>
+              <X className="h-4 w-4" />
+            </Button>
+          </div>
+
+          <Field label="Title">
+            <input
+              type="text"
+              value={editing.title || ""}
+              onChange={(e) => setEditing({ ...editing, title: e.target.value })}
+              className="w-full border border-border px-3 py-2 text-sm bg-background"
+            />
+          </Field>
+
+          <Field label="Subtitle (optional)">
+            <input
+              type="text"
+              value={editing.subtitle || ""}
+              onChange={(e) => setEditing({ ...editing, subtitle: e.target.value })}
+              className="w-full border border-border px-3 py-2 text-sm bg-background"
+            />
+          </Field>
+
+          <Field label="Quote / review">
+            <textarea
+              rows={4}
+              value={editing.quote || ""}
+              onChange={(e) => setEditing({ ...editing, quote: e.target.value })}
+              className="w-full border border-border px-3 py-2 text-sm bg-background"
+            />
+          </Field>
+
+          <div className="grid sm:grid-cols-2 gap-4">
+            <Field label="Reviewer name">
+              <input
+                type="text"
+                value={editing.reviewer_name || ""}
+                onChange={(e) => setEditing({ ...editing, reviewer_name: e.target.value })}
+                className="w-full border border-border px-3 py-2 text-sm bg-background"
+              />
+            </Field>
+            <Field label="Reviewer position">
+              <input
+                type="text"
+                value={editing.reviewer_position || ""}
+                onChange={(e) => setEditing({ ...editing, reviewer_position: e.target.value })}
+                className="w-full border border-border px-3 py-2 text-sm bg-background"
+              />
+            </Field>
+          </div>
+
+          <ImageUploadField
+            value={editing.cover_image || null}
+            onChange={(url) => setEditing({ ...editing, cover_image: url })}
+            label="Book cover"
+          />
+
+          <Field label="Link URL (e.g. /books/9781234567890)">
+            <input
+              type="text"
+              value={editing.link_url || ""}
+              onChange={(e) => setEditing({ ...editing, link_url: e.target.value })}
+              className="w-full border border-border px-3 py-2 text-sm bg-background"
+            />
+          </Field>
+
+          <div className="grid sm:grid-cols-2 gap-4">
+            <Field label="Display order">
+              <input
+                type="number"
+                value={editing.display_order ?? 0}
+                onChange={(e) => setEditing({ ...editing, display_order: Number(e.target.value) })}
+                className="w-full border border-border px-3 py-2 text-sm bg-background"
+              />
+            </Field>
+            <Field label="Status">
+              <label className="inline-flex items-center gap-2 text-sm">
+                <input
+                  type="checkbox"
+                  checked={editing.is_published ?? true}
+                  onChange={(e) => setEditing({ ...editing, is_published: e.target.checked })}
+                />
+                Published (visible on site)
+              </label>
+            </Field>
+          </div>
+
+          <div className="flex gap-2 pt-2">
+            <Button onClick={save} disabled={saving} className="bg-accent hover:bg-accent/90">
+              {saving ? <Loader2 className="h-4 w-4 animate-spin mr-1" /> : <Save className="h-4 w-4 mr-1" />}
+              {editing._new ? "Create" : "Save"}
+            </Button>
+            <Button variant="outline" onClick={() => setEditing(null)}>Cancel</Button>
+          </div>
+        </div>
+      )}
+
+      {loading ? (
+        <div className="py-12 text-center text-muted-foreground">
+          <Loader2 className="h-5 w-5 animate-spin inline" /> Loading…
+        </div>
+      ) : slides.length === 0 ? (
+        <div className="py-12 text-center text-muted-foreground border border-dashed border-border">
+          No slides yet. Click "New slide" to create the first one.
+        </div>
+      ) : (
+        <div className="space-y-3">
+          {slides.map((slide) => (
+            <div key={slide.id} className="border border-border p-4 flex gap-4 items-start">
+              {slide.cover_image && (
+                <img src={slide.cover_image} alt="" className="w-16 h-20 object-cover" />
+              )}
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center gap-2 flex-wrap">
+                  <h3 className="font-baskerville text-lg text-foreground">{slide.title}</h3>
+                  {!slide.is_published && (
+                    <span className="text-xs uppercase tracking-wider px-2 py-0.5 bg-muted text-muted-foreground">
+                      Draft
+                    </span>
+                  )}
+                  <span className="text-xs text-muted-foreground">order {slide.display_order}</span>
+                </div>
+                {slide.quote && (
+                  <p className="text-sm text-muted-foreground italic line-clamp-2 mt-1">"{slide.quote}"</p>
+                )}
+                {slide.reviewer_name && (
+                  <p className="text-xs text-foreground mt-1">— {slide.reviewer_name}</p>
+                )}
+              </div>
+              <div className="flex gap-1">
+                <Button variant="ghost" size="sm" onClick={() => setEditing({ ...slide })}>
+                  <Pencil className="h-4 w-4" />
+                </Button>
+                <Button variant="ghost" size="sm" onClick={() => remove(slide.id)}>
+                  <Trash2 className="h-4 w-4 text-destructive" />
+                </Button>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+function Field({ label, children }: { label: string; children: React.ReactNode }) {
+  return (
+    <div className="space-y-1">
+      <label className="block text-sm font-nav uppercase tracking-wider text-foreground">{label}</label>
+      {children}
+    </div>
+  );
+}
