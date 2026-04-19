@@ -19,12 +19,12 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useExternalAuth } from "@/contexts/ExternalAuthContext";
-import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import {
   getProfile,
   updateProfile,
   changePassword,
+  listOrders,
   type AccountProfile,
   type ProfileUpdatePayload,
 } from "@/services/accountService";
@@ -32,7 +32,7 @@ import {
 type TabType = "dashboard" | "orders" | "addresses" | "account" | "password";
 
 interface Order {
-  id: string;
+  id: number | string;
   status: string;
   total: number;
   created_at: string;
@@ -152,12 +152,14 @@ export default function ExternalProfile() {
     if (!user) return;
     setOrdersLoading(true);
     try {
-      const { data, error } = await supabase
-        .from("orders")
-        .select("id, status, total, created_at")
-        .order("created_at", { ascending: false });
-      if (error) throw error;
-      setOrders(data || []);
+      const res = await listOrders(1, 50);
+      const mapped: Order[] = (res?.orders || []).map((o) => ({
+        id: o.id,
+        status: o.status,
+        total: o.total_amount,
+        created_at: o.created_at,
+      }));
+      setOrders(mapped);
     } catch (error) {
       if (import.meta.env.DEV) console.error("Error loading orders:", error);
     } finally {
@@ -373,7 +375,7 @@ export default function ExternalProfile() {
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-sm text-muted-foreground">
-                    Order #{order.id.slice(0, 8).toUpperCase()}
+                    Order #{String(order.id).slice(0, 8).toUpperCase()}
                   </p>
                   <p className="text-sm text-muted-foreground">
                     {new Date(order.created_at).toLocaleDateString()}

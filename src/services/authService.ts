@@ -1,12 +1,16 @@
 /**
- * CSP Auth Service
+ * CSP Auth Service — direct browser → API (no Supabase, no edge proxy)
  *
- * Calls the Cambridge Scholars website auth API via the auth-proxy edge function.
- * - Access token: held in memory (set by ExternalAuthContext)
- * - Refresh token: persisted in localStorage for cross-reload sessions
+ * - Access token: held in memory
+ * - Refresh token: persisted in sessionStorage (cleared when tab closes)
+ *
+ * ⚠️ This service makes raw cross-origin requests to api.cambridgescholars.com.
+ * It will only work if CORS is configured upstream for the current origin.
  */
 
-import { supabase } from "@/integrations/supabase/client";
+const API_BASE =
+  (import.meta.env.VITE_CSP_API_BASE as string | undefined) ||
+  "https://api.cambridgescholars.com/api/website";
 
 // ── Types ────────────────────────────────────────────────────────
 
@@ -54,71 +58,82 @@ interface ErrorPayload {
   message?: string;
 }
 
-// ── Internal helpers ────────────────────────────────────────────
+// ── Internal fetch helpers ──────────────────────────────────────
 
-async function extractErrorMessage(error: unknown, fallbackData: unknown): Promise<string> {
-  // Try to read the response body from supabase-js FunctionsHttpError
-  const ctx = (error as { context?: Response })?.context;
-  if (ctx && typeof ctx.text === "function") {
+async function parseError(res: Response): Promise<string> {
+  try {
+    const text = await res.text();
+    if (!text) return `Request failed (${res.status})`;
     try {
-      const text = await ctx.text();
-      if (text) {
-        try {
-          const parsed = JSON.parse(text) as ErrorPayload;
-          return parsed.error || parsed.detail || parsed.message || text;
-        } catch {
-          return text;
-        }
-      }
+      const parsed = JSON.parse(text) as ErrorPayload;
+      return (
+        parsed.error ||
+        parsed.detail ||
+        parsed.message ||
+        text ||
+        `Request failed (${res.status})`
+      );
     } catch {
-      // ignore
+      return text;
     }
+  } catch {
+    return `Request failed (${res.status})`;
   }
-  const payload = fallbackData as ErrorPayload | null;
-  return (
-    payload?.error ||
-    payload?.detail ||
-    payload?.message ||
-    (error as { message?: string })?.message ||
-    "Request failed"
-  );
 }
 
-async function callAuthEndpoint<T>(
+async function postAuth<T>(
   endpoint: "register" | "login" | "refresh" | "logout",
-  body: Record<string, unknown> = {}
+  body: Record<string, unknown> = {},
+  bearer?: string,
 ): Promise<T> {
-  const { data, error } = await supabase.functions.invoke("auth-proxy", {
-    body: { endpoint, ...body },
+  const res = await fetch(`${API_BASE}/auth/${endpoint}`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      ...(bearer ? { Authorization: `Bearer ${bearer}` } : {}),
+    },
+    body: JSON.stringify(body),
   });
 
-  if (error) {
-    const msg = await extractErrorMessage(error, data);
-    throw new Error(msg);
+  if (!res.ok) {
+    throw new Error(await parseError(res));
   }
-
-  const payload = data as (T & ErrorPayload) | ErrorPayload | null;
-  if (payload && typeof payload === "object" && "error" in payload && payload.error) {
-    throw new Error(payload.error || "Request failed");
+  // Some endpoints (e.g. logout) may return empty bodies
+  const text = await res.text();
+  if (!text) return {} as T;
+  try {
+    return JSON.parse(text) as T;
+  } catch {
+    return {} as T;
   }
-
-  return data as T;
 }
 
-// ── Refresh token storage (localStorage only) ───────────────────
+// ── Refresh token storage (sessionStorage) ──────────────────────
 
 const REFRESH_TOKEN_KEY = "cspRefreshToken";
 
 export function getRefreshToken(): string | null {
-  return localStorage.getItem(REFRESH_TOKEN_KEY);
+  try {
+    return sessionStorage.getItem(REFRESH_TOKEN_KEY);
+  } catch {
+    return null;
+  }
 }
 
 export function setRefreshToken(token: string): void {
-  localStorage.setItem(REFRESH_TOKEN_KEY, token);
+  try {
+    sessionStorage.setItem(REFRESH_TOKEN_KEY, token);
+  } catch {
+    // ignore (e.g. private mode)
+  }
 }
 
 export function clearRefreshToken(): void {
-  localStorage.removeItem(REFRESH_TOKEN_KEY);
+  try {
+    sessionStorage.removeItem(REFRESH_TOKEN_KEY);
+  } catch {
+    // ignore
+  }
 }
 
 // ── Public API ──────────────────────────────────────────────────
@@ -129,21 +144,21 @@ export async function register(params: {
   first_name: string;
   last_name: string;
 }): Promise<AuthSuccessResponse> {
-  return callAuthEndpoint<AuthSuccessResponse>("register", params);
+  return postAuth<AuthSuccessResponse>("register", params);
 }
 
 export async function login(
   email: string,
-  password: string
+  password: string,
 ): Promise<AuthSuccessResponse> {
-  return callAuthEndpoint<AuthSuccessResponse>("login", { email, password });
+  return postAuth<AuthSuccessResponse>("login", { email, password });
 }
 
 export async function refreshAccessToken(): Promise<string | null> {
   const refresh_token = getRefreshToken();
   if (!refresh_token) return null;
   try {
-    const res = await callAuthEndpoint<RefreshResponse>("refresh", { refresh_token });
+    const res = await postAuth<RefreshResponse>("refresh", { refresh_token });
     return res?.access_token ?? null;
   } catch (e) {
     console.warn("[auth] refresh failed:", e);
@@ -153,17 +168,17 @@ export async function refreshAccessToken(): Promise<string | null> {
 }
 
 export async function logout(): Promise<void> {
+  const token = getAccessToken();
   try {
-    await callAuthEndpoint("logout", {});
+    await postAuth("logout", {}, token || undefined);
   } catch (e) {
-    // Logout is best-effort on the server side
     console.warn("[auth] logout call failed:", e);
   } finally {
     clearRefreshToken();
   }
 }
 
-// ── In-memory access token (set/read by AuthContext) ────────────
+// ── In-memory access token ──────────────────────────────────────
 
 let _accessToken: string | null = null;
 

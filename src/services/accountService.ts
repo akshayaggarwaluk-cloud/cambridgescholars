@@ -1,13 +1,16 @@
 /**
- * CSP Account Service
+ * CSP Account Service — direct browser → API (no Supabase, no edge proxy)
  *
- * Wraps the account-proxy edge function which bridges to the upstream
- * /api/website/account endpoints (profile, password, orders, wishlist, ebooks).
- * The upstream JWT (in-memory access token) is forwarded as the Authorization header.
+ * Wraps the upstream /api/website/account/* endpoints. The in-memory
+ * access token is sent as Authorization: Bearer <token>.
  */
 
-import { supabase } from "@/integrations/supabase/client";
-import { getAccessToken, type AuthUserData } from "@/services/authService";
+import { getAccessToken } from "@/services/authService";
+import type { AuthUserData } from "@/services/authService";
+
+const API_BASE =
+  (import.meta.env.VITE_CSP_API_BASE as string | undefined) ||
+  "https://api.cambridgescholars.com/api/website";
 
 export type AccountProfile = AuthUserData;
 
@@ -152,120 +155,119 @@ interface ErrorPayload {
   message?: string;
 }
 
-async function extractErrorMessage(error: unknown, fallbackData: unknown): Promise<string> {
-  const ctx = (error as { context?: Response })?.context;
-  if (ctx && typeof ctx.text === "function") {
+async function parseError(res: Response): Promise<string> {
+  try {
+    const text = await res.text();
+    if (!text) return `Request failed (${res.status})`;
     try {
-      const text = await ctx.text();
-      if (text) {
-        try {
-          const parsed = JSON.parse(text) as ErrorPayload;
-          return parsed.error || parsed.detail || parsed.message || text;
-        } catch {
-          return text;
-        }
-      }
+      const parsed = JSON.parse(text) as ErrorPayload;
+      return (
+        parsed.error ||
+        parsed.detail ||
+        parsed.message ||
+        text ||
+        `Request failed (${res.status})`
+      );
     } catch {
-      // ignore
+      return text;
     }
+  } catch {
+    return `Request failed (${res.status})`;
   }
-  const payload = fallbackData as ErrorPayload | null;
-  return (
-    payload?.error ||
-    payload?.detail ||
-    payload?.message ||
-    (error as { message?: string })?.message ||
-    "Request failed"
-  );
 }
 
 async function callAccount<T>(
-  body: Record<string, unknown>
+  path: string,
+  init: RequestInit = {},
 ): Promise<T> {
   const token = getAccessToken();
   if (!token) {
     throw new Error("You are not signed in. Please log in again.");
   }
 
-  const { data, error } = await supabase.functions.invoke("account-proxy", {
-    headers: { Authorization: `Bearer ${token}` },
-    body,
+  const res = await fetch(`${API_BASE}/account${path}`, {
+    ...init,
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+      ...(init.headers || {}),
+    },
   });
 
-  if (error) {
-    const msg = await extractErrorMessage(error, data);
-    throw new Error(msg);
+  if (!res.ok) {
+    throw new Error(await parseError(res));
   }
-  const payload = data as (T & ErrorPayload) | ErrorPayload | null;
-  if (payload && typeof payload === "object" && "error" in payload && payload.error) {
-    throw new Error(payload.error || "Request failed");
+  const text = await res.text();
+  if (!text) return {} as T;
+  try {
+    return JSON.parse(text) as T;
+  } catch {
+    throw new Error("Invalid response from server");
   }
-  return data as T;
 }
 
 // ── Public API ──────────────────────────────────────────────────
 
 export async function getProfile(): Promise<AccountProfile> {
-  return callAccount<AccountProfile>({ action: "get_profile" });
+  return callAccount<AccountProfile>("/profile");
 }
 
 export async function updateProfile(
-  payload: ProfileUpdatePayload
+  payload: ProfileUpdatePayload,
 ): Promise<AccountProfile> {
-  return callAccount<AccountProfile>({ action: "update_profile", payload });
+  return callAccount<AccountProfile>("/profile", {
+    method: "PUT",
+    body: JSON.stringify(payload),
+  });
 }
 
 export async function changePassword(params: {
   current_password: string;
   new_password: string;
 }): Promise<{ message: string }> {
-  return callAccount<{ message: string }>({
-    action: "change_password",
-    current_password: params.current_password,
-    new_password: params.new_password,
+  return callAccount<{ message: string }>("/password", {
+    method: "PUT",
+    body: JSON.stringify(params),
   });
 }
 
 export async function listOrders(
   page = 1,
-  perPage = 10
+  perPage = 10,
 ): Promise<OrderListResponse> {
-  return callAccount<OrderListResponse>({
-    action: "list_orders",
-    page,
-    per_page: perPage,
+  const qs = new URLSearchParams({
+    page: String(page),
+    per_page: String(perPage),
   });
+  return callAccount<OrderListResponse>(`/orders?${qs.toString()}`);
 }
 
 export async function getOrder(orderId: number | string): Promise<OrderDetail> {
-  return callAccount<OrderDetail>({
-    action: "get_order",
-    order_id: orderId,
-  });
+  return callAccount<OrderDetail>(`/orders/${encodeURIComponent(String(orderId))}`);
 }
 
 export async function getWishlist(): Promise<WishlistResponse> {
-  return callAccount<WishlistResponse>({ action: "get_wishlist" });
+  return callAccount<WishlistResponse>("/wishlist");
 }
 
 export async function addToWishlistApi(
-  isbn: string
+  isbn: string,
 ): Promise<{ message: string; item_id?: number }> {
-  return callAccount<{ message: string; item_id?: number }>({
-    action: "add_wishlist",
-    isbn,
+  return callAccount<{ message: string; item_id?: number }>("/wishlist", {
+    method: "POST",
+    body: JSON.stringify({ isbn }),
   });
 }
 
 export async function removeFromWishlistApi(
-  isbn: string
+  isbn: string,
 ): Promise<{ message: string }> {
-  return callAccount<{ message: string }>({
-    action: "remove_wishlist",
-    isbn,
-  });
+  return callAccount<{ message: string }>(
+    `/wishlist/${encodeURIComponent(isbn)}`,
+    { method: "DELETE" },
+  );
 }
 
 export async function listEbooks(): Promise<EbooksResponse> {
-  return callAccount<EbooksResponse>({ action: "list_ebooks" });
+  return callAccount<EbooksResponse>("/ebooks");
 }
