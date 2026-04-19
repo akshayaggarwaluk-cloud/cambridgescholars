@@ -1,212 +1,155 @@
 /**
  * CSP Auth Service
- * 
- * Authentication API endpoints proxied through edge function to avoid CORS
+ *
+ * Calls the Cambridge Scholars website auth API via the auth-proxy edge function.
+ * - Access token: held in memory (set by ExternalAuthContext)
+ * - Refresh token: persisted in localStorage for cross-reload sessions
  */
 
 import { supabase } from "@/integrations/supabase/client";
 
-// =============================================================================
-// TYPE DEFINITIONS
-// =============================================================================
+// ── Types ────────────────────────────────────────────────────────
+
+export interface AuthAddress {
+  first_name?: string;
+  last_name?: string;
+  company?: string;
+  address_1?: string;
+  address_2?: string;
+  city?: string;
+  state?: string;
+  postcode?: string;
+  country?: string;
+  email?: string;
+  phone?: string;
+}
 
 export interface AuthUserData {
   id: number | string;
   email: string;
   username?: string;
-  full_name?: string | null;
-  name?: string;
+  display_name?: string;
+  first_name?: string;
+  last_name?: string;
   phone?: string | null;
-  is_active?: boolean;
-  is_verified?: boolean;
-  created_at?: string;
+  registered_at?: string;
+  billing?: AuthAddress;
+  shipping?: AuthAddress;
 }
 
-export interface AuthResponse {
-  success: boolean;
-  message?: string;
-  error?: string | null;
-  // Direct token (legacy format)
-  token?: string;
-  user?: AuthUserData;
-  // Nested data format (current API)
-  data?: {
-    access_token?: string;
-    token_type?: string;
-    user?: AuthUserData;
-  };
+export interface AuthSuccessResponse {
+  access_token: string;
+  refresh_token: string;
+  user: AuthUserData;
 }
 
-export interface OtpResponse {
-  success: boolean;
+export interface RefreshResponse {
+  access_token: string;
+}
+
+interface ErrorPayload {
+  error?: string;
+  code?: string;
+  detail?: string;
   message?: string;
 }
 
-export interface UserExistsResponse {
-  exists: boolean;
-  message?: string;
-}
+// ── Internal helpers ────────────────────────────────────────────
 
-// =============================================================================
-// HELPER FUNCTION
-// =============================================================================
-
-async function callAuthEndpoint(endpoint: string, body: Record<string, unknown>) {
+async function callAuthEndpoint<T>(
+  endpoint: "register" | "login" | "refresh" | "logout",
+  body: Record<string, unknown> = {}
+): Promise<T> {
   const { data, error } = await supabase.functions.invoke("auth-proxy", {
-    body: {
-      endpoint,
-      ...body,
-    },
+    body: { endpoint, ...body },
   });
 
   if (error) {
-    throw new Error(error.message || "Request failed");
+    // Edge function returned non-2xx; data may still contain an error message
+    const payload = data as ErrorPayload | null;
+    const msg =
+      payload?.error || payload?.detail || payload?.message || error.message || "Request failed";
+    throw new Error(msg);
   }
 
-  // Check if the API returned an error in the data
-  if (data?.error) {
-    throw new Error(data.error);
-  }
-  
-  if (data?.detail && !data?.success) {
-    // Some endpoints return { detail: "error message" } for errors
-    throw new Error(data.detail);
+  const payload = data as (T & ErrorPayload) | ErrorPayload | null;
+  if (payload && typeof payload === "object" && "error" in payload && payload.error) {
+    throw new Error(payload.error || "Request failed");
   }
 
-  return data;
+  return data as T;
 }
 
-// =============================================================================
-// AUTH API FUNCTIONS
-// =============================================================================
+// ── Refresh token storage (localStorage only) ───────────────────
 
-/**
- * POST /api/auth/register
- * Register a new user (OTP must already be validated if required)
- */
-export async function register(
+const REFRESH_TOKEN_KEY = "cspRefreshToken";
+
+export function getRefreshToken(): string | null {
+  return localStorage.getItem(REFRESH_TOKEN_KEY);
+}
+
+export function setRefreshToken(token: string): void {
+  localStorage.setItem(REFRESH_TOKEN_KEY, token);
+}
+
+export function clearRefreshToken(): void {
+  localStorage.removeItem(REFRESH_TOKEN_KEY);
+}
+
+// ── Public API ──────────────────────────────────────────────────
+
+export async function register(params: {
+  email: string;
+  password: string;
+  first_name: string;
+  last_name: string;
+}): Promise<AuthSuccessResponse> {
+  return callAuthEndpoint<AuthSuccessResponse>("register", params);
+}
+
+export async function login(
   email: string,
-  password: string,
-  username?: string
-): Promise<AuthResponse> {
-  return callAuthEndpoint("register", {
-    email,
-    password,
-    username: username ?? email,
-  });
+  password: string
+): Promise<AuthSuccessResponse> {
+  return callAuthEndpoint<AuthSuccessResponse>("login", { email, password });
 }
 
-/**
- * POST /api/auth/login
- * Login with email and password
- */
-export async function login(email: string, password: string): Promise<AuthResponse> {
-  return callAuthEndpoint("login", { email, password });
-}
-
-/**
- * POST /api/auth/user-exist
- * Check if a user exists by email
- * Returns { exists: boolean } - handles various API response formats
- * API response format: { success: true, data: { exists: true/false, email, username } }
- */
-export async function checkUserExists(email: string): Promise<UserExistsResponse> {
+export async function refreshAccessToken(): Promise<string | null> {
+  const refresh_token = getRefreshToken();
+  if (!refresh_token) return null;
   try {
-    const response = await callAuthEndpoint("user-exist", { email });
-    
-    // Handle nested response format: { success: true, data: { exists: true } }
-    if (response?.data?.exists !== undefined) {
-      return { exists: Boolean(response.data.exists), message: response.message };
-    }
-    
-    // Handle flat response format: { exists: true/false }
-    if (response?.exists !== undefined) {
-      return { exists: Boolean(response.exists), message: response.message };
-    }
-    
-    // If the API returns a detail field indicating user exists
-    if (response?.detail?.toLowerCase().includes("exist") || 
-        response?.detail?.toLowerCase().includes("registered") ||
-        response?.detail?.toLowerCase().includes("found")) {
-      return { exists: true, message: response.detail };
-    }
-    
-    // If we got a response without exists field, assume user doesn't exist
-    return { exists: false, message: response?.message };
-  } catch (error) {
-    // If the API throws an error indicating user exists
-    const message = error instanceof Error ? error.message : String(error);
-    if (message.toLowerCase().includes("exist") || 
-        message.toLowerCase().includes("registered") ||
-        message.toLowerCase().includes("found")) {
-      return { exists: true, message };
-    }
-    // For other errors, re-throw
-    throw error;
+    const res = await callAuthEndpoint<RefreshResponse>("refresh", { refresh_token });
+    return res?.access_token ?? null;
+  } catch (e) {
+    console.warn("[auth] refresh failed:", e);
+    clearRefreshToken();
+    return null;
   }
 }
 
-/**
- * POST /api/auth/send-otp
- * Send OTP to email for verification
- * @param purpose - "registration" or "password_reset"
- */
-export async function sendOtp(
-  email: string,
-  purpose: "registration" | "password_reset" = "registration"
-): Promise<OtpResponse> {
-  return callAuthEndpoint("send-otp", { email, purpose });
+export async function logout(): Promise<void> {
+  try {
+    await callAuthEndpoint("logout", {});
+  } catch (e) {
+    // Logout is best-effort on the server side
+    console.warn("[auth] logout call failed:", e);
+  } finally {
+    clearRefreshToken();
+  }
 }
 
-/**
- * POST /api/auth/validate-otp
- * Validate the OTP entered by user
- * API expects: otp_code + purpose
- */
-export async function validateOtp(
-  email: string,
-  otp: string,
-  purpose: "registration" | "password_reset" = "registration"
-): Promise<OtpResponse> {
-  return callAuthEndpoint("validate-otp", { email, otp_code: otp, purpose });
+// ── In-memory access token (set/read by AuthContext) ────────────
+
+let _accessToken: string | null = null;
+
+export function setAccessToken(token: string | null): void {
+  _accessToken = token;
 }
 
-/**
- * POST /api/auth/forgot-password
- * Request password reset link/OTP
- */
-export async function forgotPassword(email: string): Promise<OtpResponse> {
-  return callAuthEndpoint("forgot-password", { email });
-}
-
-/**
- * POST /api/auth/reset-password
- * Reset password with token/OTP
- */
-export async function resetPassword(
-  email: string, 
-  otp: string, 
-  newPassword: string
-): Promise<AuthResponse> {
-  return callAuthEndpoint("reset-password", { email, otp, password: newPassword });
-}
-
-// =============================================================================
-// AUTH TOKEN MANAGEMENT
-// =============================================================================
-
-export function getAuthToken(): string | null {
-  return localStorage.getItem("authToken");
-}
-
-export function setAuthToken(token: string): void {
-  localStorage.setItem("authToken", token);
-}
-
-export function removeAuthToken(): void {
-  localStorage.removeItem("authToken");
+export function getAccessToken(): string | null {
+  return _accessToken;
 }
 
 export function isAuthenticated(): boolean {
-  return !!getAuthToken();
+  return !!_accessToken;
 }
