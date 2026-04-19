@@ -81,8 +81,17 @@ async function parseError(res: Response): Promise<string> {
   }
 }
 
+type AuthEndpoint =
+  | "register/send-otp"
+  | "register/verify-otp"
+  | "login"
+  | "refresh"
+  | "logout"
+  | "forgot-password"
+  | "reset-password";
+
 async function postAuth<T>(
-  endpoint: "register" | "login" | "refresh" | "logout",
+  endpoint: AuthEndpoint,
   body: Record<string, unknown> = {},
   bearer?: string,
 ): Promise<T> {
@@ -138,13 +147,50 @@ export function clearRefreshToken(): void {
 
 // ── Public API ──────────────────────────────────────────────────
 
-export async function register(params: {
+/**
+ * Step 1 of registration: validates input and sends a 6-digit OTP to the email.
+ * Returns `{ message }` on success. The OTP expires after 15 minutes.
+ */
+export async function sendRegisterOtp(params: {
   email: string;
   password: string;
   first_name: string;
   last_name: string;
+}): Promise<{ message: string }> {
+  return postAuth<{ message: string }>("register/send-otp", params);
+}
+
+/**
+ * Step 2 of registration: verifies the OTP and creates the account.
+ * The same email/password/name from step 1 must be supplied again.
+ */
+export async function verifyRegisterOtp(params: {
+  email: string;
+  password: string;
+  otp: string;
+  first_name: string;
+  last_name: string;
 }): Promise<AuthSuccessResponse> {
-  return postAuth<AuthSuccessResponse>("register", params);
+  return postAuth<AuthSuccessResponse>("register/verify-otp", params);
+}
+
+/**
+ * Sends a password-reset OTP to the email. Always resolves (200) regardless of
+ * whether the email is registered, to prevent account enumeration.
+ */
+export async function forgotPassword(email: string): Promise<{ message: string }> {
+  return postAuth<{ message: string }>("forgot-password", { email });
+}
+
+/**
+ * Verifies a reset OTP and sets a new password.
+ */
+export async function resetPassword(params: {
+  email: string;
+  otp: string;
+  new_password: string;
+}): Promise<{ message: string }> {
+  return postAuth<{ message: string }>("reset-password", params);
 }
 
 export async function login(

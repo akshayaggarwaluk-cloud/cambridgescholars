@@ -1,0 +1,90 @@
+# Memory: index.md
+Updated: just now
+
+# Project Memory
+
+## Core
+- Light theme exclusively. Playfair Display (serif) headings, Source Sans 3 (sans) body.
+- Primary accent #C75B2A. Backgrounds cream #f4f3ec or white inset cards. Red-500 for active states.
+- High-contrast text-black or #333333. Min 16px body. Square buttons (rounded-none), uppercase.
+- Project data comes from external API. Supabase only for account-proxy edge function.
+- Global overflow-x: hidden on HTML element.
+- Strict WCAG 2.1 AA compliance: 4.5:1 contrast, visible focus, keyboard nav, pause/play on auto-play.
+- CSP auth API v3 (direct browser→API, no proxy). 2-step OTP registration, OTP-based forgot/reset password. Access token in memory, refresh token in sessionStorage.
+- Billing/shipping addresses live upstream on the CSP profile (not in Supabase). Local addresses table removed.
+
+## Memories
+- [Backend API Spec](mem://technical-decisions/backend-api-specification) — Endpoints for catalog, ecommerce, submissions
+- [Header Logo](mem://design/header-logo) — Image logo specification (no text/icons)
+- [Wishlist Constraints](mem://features/wishlist) — External auth integration and app-level security rules
+- [Light Theme](mem://design/theme/light-only) — Strict light-only theme for academic aesthetic
+- [Hero Carousel](mem://design/homepage/hero-carousel-behavior) — Layout, blending, and auto-rotation rules
+- [Homepage Layout](mem://design/homepage/layout-elements) — Required sections order and components
+- [Academic Categories](mem://design/style-guide/standard-categories) — The 5 standardized academic subject categories
+- [Resource Pages](mem://pages/resources/structure-and-layout) — Strict structural layout for resources
+- [Typography](mem://style/typography-standards) — Font rules: Playfair Display, Source Sans 3, Libre Baskerville, Nunito
+- [Auth API Direct Integration](mem://auth/api-architecture-and-proxy) — Direct browser→CSP auth API v3 (OTP-based)
+- [Auth Context](mem://auth/state-management-and-context) — In-memory access token + sessionStorage refresh token
+- [Verification Portal](mem://pages/endorsement-submission/verification-portal) — Endorsement submission code requirement
+- [Auth API Endpoint Params](mem://auth/api-proxy-parameters) — register-otp, login, refresh, logout, forgot/reset payloads
+- [Account API Proxy](mem://account/api-proxy) — account-proxy edge function for upstream profile and password endpoints
+- [Publishing Pages](mem://features/publishing-pages-structure) — Architecture for the Publish a Book section
+- [Checkout Security](mem://technical-decisions/checkout-security) — Server-side edge function order calculations
+- [Auth Error Handling](mem://technical-decisions/auth-api-error-handling) — Parsing nested success/detail errors
+- [Dashboard Layout](mem://features/user-profile/dashboard-simplification) — Simplified account navigation structure
+- [Profile Design](mem://features/user-profile/layout-and-design) — Profile layout, sidebar, and breadcrumbs
+- [Environment Secrets](mem://constraints/environment-secrets-requirements) — Required Supabase environment variables
+- [Scroll Behavior](mem://features/navigation/scroll-behavior) — Instant scroll-to-top on route change
+- [Policy Typography](mem://style/policy-pages-typography) — High contrast text and specific font sizes for legal pages
+- [Brand Color](mem://style/brand-accent-color) — Primary brand orange #C75B2A specifications
+- [Button Specs](mem://design/style-guide/button-specifications) — Square edges, uppercase, and accent colors
+- [Color Palette](mem://style/color-palette-and-usage) — Full UI color palette rules
+- [Published Books](mem://features/user-profile/dashboard-functionality) — My Published Books section in dashboard
+- [Social Sharing](mem://features/book-details/social-sharing-layout) — Centered social share links layout
+- [PDF Preview](mem://features/book-details/pdf-preview-sample) — Read Sample feature configuration
+- [Book Layout Simplification](mem://design/book-details/layout-simplification) — Moving metadata to tabs, prioritizing actions
+- [Book Details Typography](mem://design/book-details/layout-and-typography) — Condensed layout, responsive sizing
+- [Image Display](mem://design/book-details/image-display) — Vertical height matching with cover image
+- [reCAPTCHA](mem://features/contact/recaptcha-verification) — Google reCAPTCHA v2 on contact form
+- [Stats Counter](mem://features/homepage/stats-counter) — Animated homepage metrics
+- [Books Layout](mem://pages/books/layout-and-design) — Book listing cards layout and sync constraints
+- [Data Strategy](mem://project/data-source-strategy) — Exclusive use of external API for main data
+- [Featured Books Layout](mem://design/homepage/featured-books-layout) — 2-col grid, image blending, bottom indicators
+- [Nav Dropdowns](mem://design/navigation/header-dropdowns) — Dual-purpose links and hover behavior
+- [News Section Layout](mem://design/homepage/news-section-layout) — 3-column grid and typography rules
+- [Stats Visuals](mem://design/homepage/stats-visuals) — Large typography styling for homepage stats
+- [Social Links](mem://project/social-media-links) — Official social media URLs
+- [Header Styling](mem://design/navigation/header-styling) — Navigation item formatting and tooltips
+- [Page Banners](mem://design/layout/standardized-page-banners) — Uniform internal page banner layout
+- [Proposal Form](mem://features/submit-proposal/form-design) — 7-step wizard layout and inputs
+- [Routing Config](mem://technical-decisions/routing-deployment) — vercel.json SPA rewrites
+- [Timeline Layout](mem://pages/how-to-publish/timeline-structure) — 9-step publishing timeline visual constraints
+- [Text Color](mem://style/text-color-standard) — Mandatory high contrast body text requirements
+- [CSP API Integration](mem://technical-decisions/api-integration-csp) — Handling legacy/modern nested data formats
+- [Publishing Icons](mem://design/publishing-section/custom-icons) — Custom image icon presentation
+- [Book Overrides](mem://features/book-details/content-overrides) — Breadcrumbs and review exclusion rules
+- [Empty States](mem://features/empty-state-behavior) — Persistent message behavior on empty data
+- [Section Containers](mem://design/style-guide/section-container-pattern) — White inset cards on cream background
+- [Shipping Rules](mem://features/ecommerce/shipping-and-discounts) — Shipping costs and bulk order logic
+- [3D Book Covers](mem://design/homepage/hero-book-cover-automation) — Perspective and slant visual rules
+- [Listing Constraints](mem://pages/books/listing-constraints) — Exclusion of books without covers
+- [Author Reviews Grid](mem://design/homepage/author-reviews-grid) — Grid layout and pagination rules
+- [Categories Sidebar](mem://features/catalog/hierarchical-categories) — 3-level expandable catalog navigation
+- [Category API Parameter](mem://technical-decisions/category-search-parameter) — Requirement to pass full category names
+- [Search Autocomplete](mem://features/search/autocomplete-optimization) — Debounce and fallback behavior
+- [Horizontal Alignment](mem://design/layout/homepage-horizontal-alignment) — Synchronized max-width containers
+- [ISBN Images](mem://technical-decisions/isbn-image-resolution) — Appending 978 prefix for cover image resolution
+- [Spec Authority](mem://project/specification-authority) — Project truth document reference
+- [Accessibility Strict](mem://constraints/accessibility-standards) — Mandatory WCAG AA guidelines
+- [Global Footer](mem://design/footer/global-specifications) — Footer column structure and disclaimers
+- [Bookshop Display Rules](mem://features/bookshop/listing-and-display-rules) — What metadata is hidden/shown on listings
+- [Featured Reviews Data](mem://features/homepage/featured-reviews-automation) — Carousel data fetching and behavior
+- [Proposal Requirements](mem://features/submit-proposal/form-requirements) — Mandatory CV/sample uploads
+- [Related Books](mem://features/book-details/related-books-carousel) — Carousel rendering constraints
+- [Active Links](mem://design/navigation/active-link-indicator) — Border underline navigation indication
+- [Author Experiences](mem://features/author-experiences/page-structure) — Dedicated review page layout
+- [Format Selector & Tabs](mem://features/book-details/ui-specifications) — Purchase selector and metadata tabs
+- [Advanced Search UI](mem://features/search/advanced-requirements) — Full-screen portal and filters
+- [Mobile Nav Layout](mem://features/navigation/mobile-interface-layout) — Slide-out hamburger panel details
+- [Global Overflow](mem://constraints/global-layout-constraints) — Prevent horizontal scrolling
+- [Brand Names](mem://brand/identity-and-metadata) — Scholar app vs Cambridge Scholars Publishing usage
