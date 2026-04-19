@@ -12,6 +12,8 @@ import Checkout from "@/pages/Checkout";
 import About from "@/pages/About";
 import Contact from "@/pages/Contact";
 import Auth from "@/pages/Auth";
+import ForgotPassword from "@/pages/ForgotPassword";
+import ResetPassword from "@/pages/ResetPassword";
 
 import ExternalProfile from "@/pages/ExternalProfile";
 import Orders from "@/pages/Orders";
