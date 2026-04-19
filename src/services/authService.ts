@@ -56,6 +56,34 @@ interface ErrorPayload {
 
 // ── Internal helpers ────────────────────────────────────────────
 
+async function extractErrorMessage(error: unknown, fallbackData: unknown): Promise<string> {
+  // Try to read the response body from supabase-js FunctionsHttpError
+  const ctx = (error as { context?: Response })?.context;
+  if (ctx && typeof ctx.text === "function") {
+    try {
+      const text = await ctx.text();
+      if (text) {
+        try {
+          const parsed = JSON.parse(text) as ErrorPayload;
+          return parsed.error || parsed.detail || parsed.message || text;
+        } catch {
+          return text;
+        }
+      }
+    } catch {
+      // ignore
+    }
+  }
+  const payload = fallbackData as ErrorPayload | null;
+  return (
+    payload?.error ||
+    payload?.detail ||
+    payload?.message ||
+    (error as { message?: string })?.message ||
+    "Request failed"
+  );
+}
+
 async function callAuthEndpoint<T>(
   endpoint: "register" | "login" | "refresh" | "logout",
   body: Record<string, unknown> = {}
@@ -65,10 +93,7 @@ async function callAuthEndpoint<T>(
   });
 
   if (error) {
-    // Edge function returned non-2xx; data may still contain an error message
-    const payload = data as ErrorPayload | null;
-    const msg =
-      payload?.error || payload?.detail || payload?.message || error.message || "Request failed";
+    const msg = await extractErrorMessage(error, data);
     throw new Error(msg);
   }
 
