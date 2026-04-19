@@ -531,7 +531,7 @@ export default function ExternalProfile() {
             className={addressInputClass}
             value={(form as typeof billingForm).email}
             onChange={(e) =>
-              setForm({ ...(form as typeof billingForm), email: e.target.value } as T)
+              setForm({ ...form, email: e.target.value } as AddressFormShape)
             }
           />
         </div>
