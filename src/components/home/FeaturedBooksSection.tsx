@@ -3,13 +3,45 @@ import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { fetchFeaturedReviews } from "@/services/cspApi";
 
-const featuredBooks: { id: string; title: string; description: string; image: string }[] = [];
+interface FeaturedBook {
+  id: string;
+  title: string;
+  description: string;
+  image: string;
+  reviewer: string;
+}
 
 export function FeaturedBooksSection() {
+  const [featuredBooks, setFeaturedBooks] = useState<FeaturedBook[]>([]);
   const [activeIndex, setActiveIndex] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    fetchFeaturedReviews()
+      .then((data) => {
+        const mapped = data.map((item) => {
+          // Fix ISBN-10 → ISBN-13 cover URL (matches Hero behavior)
+          let coverImage = item.cover_image || "";
+          const isbnMatch = coverImage.match(/\/(\d{10})\.jpg$/);
+          if (isbnMatch && !coverImage.includes("/978")) {
+            coverImage = coverImage.replace(`/${isbnMatch[1]}.jpg`, `/978${isbnMatch[1]}.jpg`);
+          }
+          return {
+            id: item.isbn,
+            title: item.book_title,
+            description: item.review,
+            image: coverImage,
+            reviewer: item.reviewer,
+          };
+        });
+        setFeaturedBooks(mapped);
+      })
+      .catch((err) => console.error("Failed to fetch featured books:", err))
+      .finally(() => setIsLoading(false));
+  }, []);
 
   useEffect(() => {
     if (!isAutoPlaying || featuredBooks.length === 0) return;
@@ -17,7 +49,20 @@ export function FeaturedBooksSection() {
       setActiveIndex((prev) => (prev + 1) % featuredBooks.length);
     }, 6000);
     return () => clearInterval(interval);
-  }, [activeIndex, isAutoPlaying]);
+  }, [isAutoPlaying, featuredBooks.length]);
+
+  if (isLoading) {
+    return (
+      <section className="py-20 bg-[#f4f3ec] overflow-hidden md:py-[20px]">
+        <div className="container-wide">
+          <div className="animate-pulse space-y-4">
+            <div className="h-4 bg-muted rounded w-1/4" />
+            <div className="h-8 bg-muted rounded w-1/2" />
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   if (featuredBooks.length === 0) {
     return (
@@ -33,7 +78,11 @@ export function FeaturedBooksSection() {
   const book = featuredBooks[activeIndex];
 
   return (
-    <section className="py-20 bg-[#f4f3ec] overflow-hidden md:py-[20px]">
+    <section
+      className="py-20 bg-[#f4f3ec] overflow-hidden md:py-[20px]"
+      onMouseEnter={() => setIsAutoPlaying(false)}
+      onMouseLeave={() => setIsAutoPlaying(true)}
+    >
       <div className="container-wide">
         <div className="relative grid md:grid-cols-[1.4fr_0.6fr] gap-8 items-center min-h-[500px]">
           <div className="order-2 md:order-1">
@@ -48,7 +97,10 @@ export function FeaturedBooksSection() {
               >
                 <p className="text-accent text-xs font-semibold uppercase tracking-[0.3em]">Featured Book</p>
                 <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl font-normal leading-[1.15] text-foreground">{book.title}</h2>
-                <p className="text-muted-foreground leading-relaxed text-base">{book.description}</p>
+                <p className="text-muted-foreground leading-relaxed text-base italic">"{book.description}"</p>
+                {book.reviewer && (
+                  <p className="text-foreground text-sm font-semibold">– {book.reviewer}</p>
+                )}
                 <Button asChild className="bg-accent hover:bg-accent/90 text-accent-foreground px-16 py-3.5 text-sm tracking-[0.2em] rounded-none uppercase">
                   <Link to={`/books/${book.id}`}>View</Link>
                 </Button>
