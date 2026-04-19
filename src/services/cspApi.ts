@@ -351,6 +351,14 @@ export async function fetchFeaturedReviews(): Promise<{
   return json.data || [];
 }
 
+/** Fetch featured books for homepage (ranked by author + reviewer scores) */
+export async function fetchFeaturedBooks(): Promise<CSPBookRaw[]> {
+  const res = await fetch(`${CSP_API_BASE}/homepage/featured-books`);
+  if (!res.ok) throw new Error(`API error: ${res.status}`);
+  const json = await res.json();
+  return json.data || [];
+}
+
 /** Fetch author testimonials for homepage */
 export async function fetchAuthorReviews(): Promise<{
   author: string;
