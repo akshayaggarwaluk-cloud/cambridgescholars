@@ -95,7 +95,7 @@ export function FeaturedBooksSection() {
                 exit={{ opacity: 0, y: -15 }}
                 transition={{ duration: 0.7, ease: [0.25, 0.4, 0.25, 1] }}
               >
-                <p className="text-accent text-xs font-semibold uppercase tracking-[0.3em]">Featured Book</p>
+                <p className="text-accent font-semibold uppercase tracking-[0.3em] text-lg">Featured Book</p>
                 <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl font-normal leading-[1.15] text-foreground">{book.title}</h2>
                 <p className="text-muted-foreground leading-relaxed text-base italic">"{book.description}"</p>
                 {book.reviewer && (
