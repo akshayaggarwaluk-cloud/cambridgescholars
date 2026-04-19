@@ -137,7 +137,7 @@ export default function Auth() {
       {/* Page Header Banner */}
       <section className="bg-[#f4f3ec] py-12 md:py-16">
         <div className="max-w-7xl mx-auto px-4 flex items-center justify-between flex-wrap gap-4">
-          <h1 className="font-serif text-3xl md:text-5xl font-normal text-foreground">
+          <h1 className="font-serif text-3xl md:text-5xl font-normal text-foreground leading-tight py-2">
             My account
           </h1>
           <nav className="flex items-center gap-2 text-base text-muted-foreground">
