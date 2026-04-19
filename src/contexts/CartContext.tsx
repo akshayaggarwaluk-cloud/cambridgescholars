@@ -1,8 +1,6 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from "react";
 import { toast } from "sonner";
-import { supabase } from "@/integrations/supabase/client";
 import { useExternalAuth } from "./ExternalAuthContext";
-import { fetchBookByIsbn } from "@/services/cspApi";
 
 export type BookFormat = "ebook" | "hardbook" | "paperback";
 
@@ -42,7 +40,6 @@ export interface Book {
   pages?: number;
   publisher?: string;
   publishDate?: string;
-  // New fields for tabbed content
   blurb?: string;
   biography?: string;
   hardbackInfo?: BookFormatInfo;
@@ -55,7 +52,6 @@ export interface Book {
     thema?: string[];
   };
   samplePdfUrl?: string;
-  // API-provided press reviews and recommended books
   apiReviews?: APIReview[];
   recommendedBooks?: RecommendedBook[];
   subtitle?: string;
@@ -80,107 +76,42 @@ interface CartContextType {
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
+/**
+ * In-memory cart only — no Supabase, no localStorage.
+ * Cart is reset on page reload and when the user logs out.
+ */
 export function CartProvider({ children }: { children: ReactNode }) {
   const [items, setItems] = useState<CartItem[]>([]);
-  const [loading, setLoading] = useState(false);
   const { user } = useExternalAuth();
 
-  // Load cart from database when user logs in
+  // Reset cart when the user logs out.
   useEffect(() => {
-    if (user) {
-      loadCartFromDatabase();
-    } else {
-      setItems([]);
-    }
+    if (!user) setItems([]);
   }, [user]);
 
-  const loadCartFromDatabase = async () => {
-    if (!user) return;
-    
-    setLoading(true);
-    try {
-      const { data, error } = await supabase
-        .from("cart_items")
-        .select("*")
-        .eq("user_id", user.id);
-
-      if (error) throw error;
-
-      if (data && data.length > 0) {
-        const cartItems: CartItem[] = [];
-        for (const item of data) {
-          try {
-            const book = await fetchBookByIsbn(item.book_id);
-            if (book) {
-              cartItems.push({ ...book, quantity: item.quantity, format: (item.format as BookFormat) || "hardbook" });
-            }
-          } catch {
-            // Skip books that can't be fetched
-          }
-        }
-        setItems(cartItems);
-      }
-    } catch (error) {
-      if (import.meta.env.DEV) console.error("Error loading cart:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const syncCartToDatabase = async (bookId: string, format: BookFormat, quantity: number) => {
-    if (!user) return;
-
-    try {
-      if (quantity <= 0) {
-        await supabase
-          .from("cart_items")
-          .delete()
-          .eq("user_id", user.id)
-          .eq("book_id", bookId)
-          .eq("format", format);
-      } else {
-        await supabase
-          .from("cart_items")
-          .upsert({
-            user_id: user.id,
-            book_id: bookId,
-            format,
-            quantity,
-          }, { onConflict: "user_id,book_id,format" });
-      }
-    } catch (error) {
-      if (import.meta.env.DEV) console.error("Error syncing cart:", error);
-    }
-  };
+  const formatLabel = (format: BookFormat) =>
+    format === "ebook" ? "eBook" : format === "paperback" ? "Paperback" : "Hardback";
 
   const addToCart = (book: Book, format: BookFormat = "hardbook") => {
     setItems((prev) => {
-      // Match by both book id and format
       const existing = prev.find((item) => item.id === book.id && item.format === format);
-      const newQuantity = existing ? existing.quantity + 1 : 1;
-      
-      // Sync to database with proper book_id and format columns
-      syncCartToDatabase(book.id, format, newQuantity);
-      
       if (existing) {
-        toast.success(`Added another ${format === "ebook" ? "eBook" : format === "paperback" ? "Paperback" : "Hardback"} of "${book.title}"`);
+        toast.success(`Added another ${formatLabel(format)} of "${book.title}"`);
         return prev.map((item) =>
           item.id === book.id && item.format === format
             ? { ...item, quantity: item.quantity + 1 }
-            : item
+            : item,
         );
       }
-      toast.success(`"${book.title}" (${format === "ebook" ? "eBook" : format === "paperback" ? "Paperback" : "Hardback"}) added to cart`);
+      toast.success(`"${book.title}" (${formatLabel(format)}) added to cart`);
       return [...prev, { ...book, quantity: 1, format }];
     });
   };
 
   const removeFromCart = (bookId: string, format: BookFormat = "hardbook") => {
-    syncCartToDatabase(bookId, format, 0);
-    
-    setItems((prev) => prev.filter((item) => 
-      !(item.id === bookId && item.format === format)
-    ));
+    setItems((prev) =>
+      prev.filter((item) => !(item.id === bookId && item.format === format)),
+    );
     toast.info("Item removed from cart");
   };
 
@@ -189,36 +120,21 @@ export function CartProvider({ children }: { children: ReactNode }) {
       removeFromCart(bookId, format);
       return;
     }
-    
-    syncCartToDatabase(bookId, format, quantity);
-    
     setItems((prev) =>
       prev.map((item) =>
-        (item.id === bookId && item.format === format)
-          ? { ...item, quantity }
-          : item
-      )
+        item.id === bookId && item.format === format ? { ...item, quantity } : item,
+      ),
     );
   };
 
-  const clearCart = async () => {
-    if (user) {
-      try {
-        await supabase
-          .from("cart_items")
-          .delete()
-          .eq("user_id", user.id);
-      } catch (error) {
-        if (import.meta.env.DEV) console.error("Error clearing cart:", error);
-      }
-    }
+  const clearCart = () => {
     setItems([]);
   };
 
   const cartCount = items.reduce((sum, item) => sum + item.quantity, 0);
   const cartTotal = items.reduce(
     (sum, item) => sum + item.price * item.quantity,
-    0
+    0,
   );
 
   return (
@@ -231,7 +147,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
         clearCart,
         cartCount,
         cartTotal,
-        loading,
+        loading: false,
       }}
     >
       {children}

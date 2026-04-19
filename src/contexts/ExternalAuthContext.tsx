@@ -15,8 +15,6 @@ import {
 
 export type { ExternalUser } from "./external-auth-context-instance";
 
-const USER_STORAGE_KEY = "authUser";
-
 function normalizeUser(u: AuthUserData): ExternalUser {
   const fullName =
     u.display_name ||
@@ -32,6 +30,12 @@ function normalizeUser(u: AuthUserData): ExternalUser {
   };
 }
 
+/**
+ * Auth state lives entirely in memory + sessionStorage.
+ * - Access token: in memory only (lost on reload — restored via refresh token).
+ * - Refresh token: sessionStorage (cleared when tab closes).
+ * - User profile: NOT persisted; restored from /account/profile after refresh.
+ */
 export function ExternalAuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<ExternalUser | null>(null);
   const [token, setToken] = useState<string | null>(null);
@@ -41,27 +45,34 @@ export function ExternalAuthProvider({ children }: { children: ReactNode }) {
     let cancelled = false;
 
     const restore = async () => {
-      const storedUser = localStorage.getItem(USER_STORAGE_KEY);
-      if (!storedUser) {
-        setLoading(false);
-        return;
-      }
-
       try {
-        const parsed = JSON.parse(storedUser) as ExternalUser;
         const newAccess = await refreshAccessToken();
-
         if (cancelled) return;
 
-        if (newAccess) {
-          setAccessToken(newAccess);
-          setToken(newAccess);
-          setUser(parsed);
-        } else {
-          localStorage.removeItem(USER_STORAGE_KEY);
+        if (!newAccess) {
+          setLoading(false);
+          return;
+        }
+
+        setAccessToken(newAccess);
+        setToken(newAccess);
+
+        // Hydrate the user profile from the API.
+        // Imported lazily to avoid a circular dep with accountService.
+        try {
+          const { getProfile } = await import("@/services/accountService");
+          const profile = await getProfile();
+          if (!cancelled) setUser(normalizeUser(profile));
+        } catch (e) {
+          console.warn("[auth] failed to load profile after refresh:", e);
+          // Refresh succeeded but profile failed — clear the session.
+          if (!cancelled) {
+            setAccessToken(null);
+            clearRefreshToken();
+            setToken(null);
+          }
         }
       } catch {
-        localStorage.removeItem(USER_STORAGE_KEY);
         clearRefreshToken();
       } finally {
         if (!cancelled) setLoading(false);
@@ -78,7 +89,6 @@ export function ExternalAuthProvider({ children }: { children: ReactNode }) {
     const normalized = normalizeUser(payload.user);
     setAccessToken(payload.access_token);
     setRefreshToken(payload.refresh_token);
-    localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(normalized));
     setToken(payload.access_token);
     setUser(normalized);
   }, []);
@@ -86,7 +96,6 @@ export function ExternalAuthProvider({ children }: { children: ReactNode }) {
   const logout = useCallback(async () => {
     await apiLogout();
     setAccessToken(null);
-    localStorage.removeItem(USER_STORAGE_KEY);
     setToken(null);
     setUser(null);
   }, []);
