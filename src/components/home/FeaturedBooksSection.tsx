@@ -97,7 +97,7 @@ export function FeaturedBooksSection() {
               >
                 <p className="text-accent uppercase tracking-[0.3em] text-lg font-medium">Featured Book</p>
                 <h2 className="font-baskerville text-3xl md:text-4xl font-normal leading-[1.15] text-foreground lg:text-4xl">{book.title}</h2>
-                <p className="font-nav text-muted-foreground leading-relaxed text-base italic">"{book.description}"</p>
+                <p className="font-nav text-muted-foreground leading-relaxed text-base italic font-normal">"{book.description}"</p>
                 {book.reviewer && (
                   <p className="text-foreground text-sm font-semibold">– {book.reviewer}</p>
                 )}
