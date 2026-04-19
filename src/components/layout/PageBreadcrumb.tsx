@@ -46,8 +46,7 @@ export function PageBreadcrumb({
       <BreadcrumbList className="text-base">
         <BreadcrumbItem>
           <BreadcrumbLink asChild>
-            <Link to="/" className="flex items-center gap-1 text-red-500 hover:text-red-600">
-              <Home className="h-4 w-4" />
+            <Link to="/" className="text-red-500 hover:text-red-600">
               <span className="font-baskerville italic text-[#696969]">Home</span>
             </Link>
           </BreadcrumbLink>
