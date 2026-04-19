@@ -1,6 +1,6 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 
-// CSP Website Account API (different base from auth)
+// CSP Website Account API
 const ACCOUNT_API_BASE =
   Deno.env.get("ACCOUNT_API_BASE") ||
   "https://api.cambridgescholars.com/api/website/account";
@@ -15,7 +15,7 @@ const corsHeaders = {
 
 // ── Rate limiting (per-IP) ──────────────────────────────────────
 const rateLimitMap = new Map<string, { count: number; resetTime: number }>();
-const RATE_LIMIT = 30;
+const RATE_LIMIT = 60;
 const RATE_LIMIT_WINDOW = 60 * 1000;
 
 function checkRateLimit(ip: string): boolean {
@@ -46,6 +46,11 @@ function sanitize(value: unknown, max = 255): string {
   if (typeof value !== "string") return "";
   return value.slice(0, max).trim();
 }
+function sanitizeIsbn(value: unknown): string {
+  if (typeof value !== "string") return "";
+  // Allow digits and X (some ISBN-10 use X as check digit)
+  return value.replace(/[^0-9Xx]/g, "").slice(0, 17);
+}
 
 const PROFILE_FIELDS = [
   "first_name",
@@ -68,7 +73,17 @@ const ADDRESS_FIELDS = [
   "phone",
 ] as const;
 
-const ACTIONS = ["get_profile", "update_profile", "change_password"] as const;
+const ACTIONS = [
+  "get_profile",
+  "update_profile",
+  "change_password",
+  "list_orders",
+  "get_order",
+  "get_wishlist",
+  "add_wishlist",
+  "remove_wishlist",
+  "list_ebooks",
+] as const;
 type Action = (typeof ACTIONS)[number];
 
 function jsonResponse(body: unknown, status: number): Response {
@@ -106,7 +121,7 @@ serve(async (req) => {
 
     const a = action as Action;
     let upstreamPath = "/profile";
-    let upstreamMethod: "GET" | "PUT" = "GET";
+    let upstreamMethod: "GET" | "POST" | "PUT" | "DELETE" = "GET";
     let upstreamBody: Record<string, unknown> | null = null;
 
     if (a === "get_profile") {
@@ -118,11 +133,9 @@ serve(async (req) => {
       const body = (rawBody.payload || {}) as Record<string, unknown>;
       const out: Record<string, unknown> = {};
 
-      // Top-level profile fields
       for (const f of PROFILE_FIELDS) {
         if (typeof body[f] === "string") out[f] = sanitize(body[f]);
       }
-      // Billing fields (prefixed)
       for (const f of ADDRESS_FIELDS) {
         const key = `billing_${f}`;
         if (typeof body[key] === "string") {
@@ -134,7 +147,6 @@ serve(async (req) => {
           out[key] = sanitize(body[key]);
         }
       }
-      // Shipping fields (prefixed) — no email/phone in shipping per spec
       for (const f of ADDRESS_FIELDS) {
         if (f === "email") continue;
         const key = `shipping_${f}`;
@@ -162,9 +174,45 @@ serve(async (req) => {
         );
       }
       upstreamBody = { current_password, new_password };
+    } else if (a === "list_orders") {
+      const page = Math.max(1, parseInt(String(rawBody.page ?? "1"), 10) || 1);
+      const perPage = Math.min(
+        50,
+        Math.max(1, parseInt(String(rawBody.per_page ?? "10"), 10) || 10)
+      );
+      upstreamPath = `/orders?page=${page}&per_page=${perPage}`;
+      upstreamMethod = "GET";
+    } else if (a === "get_order") {
+      const orderId = parseInt(String(rawBody.order_id ?? ""), 10);
+      if (!Number.isFinite(orderId) || orderId <= 0) {
+        return jsonResponse({ error: "Invalid order_id" }, 400);
+      }
+      upstreamPath = `/orders/${orderId}`;
+      upstreamMethod = "GET";
+    } else if (a === "get_wishlist") {
+      upstreamPath = "/wishlist";
+      upstreamMethod = "GET";
+    } else if (a === "add_wishlist") {
+      const isbn = sanitizeIsbn(rawBody.isbn);
+      if (!isbn) {
+        return jsonResponse({ error: "Valid isbn required" }, 400);
+      }
+      upstreamPath = "/wishlist";
+      upstreamMethod = "POST";
+      upstreamBody = { isbn };
+    } else if (a === "remove_wishlist") {
+      const isbn = sanitizeIsbn(rawBody.isbn);
+      if (!isbn) {
+        return jsonResponse({ error: "Valid isbn required" }, 400);
+      }
+      upstreamPath = `/wishlist/${isbn}`;
+      upstreamMethod = "DELETE";
+    } else if (a === "list_ebooks") {
+      upstreamPath = "/ebooks";
+      upstreamMethod = "GET";
     }
 
-    console.log(`[account-proxy] ${a} from ${clientIP}`);
+    console.log(`[account-proxy] ${a} ${upstreamMethod} ${upstreamPath} from ${clientIP}`);
 
     const upstreamRes = await fetch(`${ACCOUNT_API_BASE}${upstreamPath}`, {
       method: upstreamMethod,
