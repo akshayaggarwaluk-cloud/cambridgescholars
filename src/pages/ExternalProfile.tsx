@@ -752,7 +752,7 @@ export default function ExternalProfile() {
       </div>
 
       <main>
-        <div className="container-wide py-12">
+        <div className="container-wide py-12 bg-white">
           <div className="grid lg:grid-cols-[280px_1fr] gap-12">
             <nav className="space-y-0">
               {sidebarItems.map((item) => (
