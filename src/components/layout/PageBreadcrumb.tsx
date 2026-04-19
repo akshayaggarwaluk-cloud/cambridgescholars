@@ -53,19 +53,19 @@ export function PageBreadcrumb({
         </BreadcrumbItem>
         
         {breadcrumbItems.map((item, index) => (
-          <div key={index} className="flex items-center">
+          <div key={index} className="flex items-center gap-1.5 sm:gap-2.5">
             <BreadcrumbSeparator>
-              <ChevronRight className="h-4 w-4 text-muted-foreground" />
+              <span className="font-baskerville italic text-[#696969]">/</span>
             </BreadcrumbSeparator>
             <BreadcrumbItem>
               {item.href ? (
                 <BreadcrumbLink asChild>
-                  <Link to={item.href} className="text-red-500 hover:text-red-600">
+                  <Link to={item.href} className="font-baskerville italic text-[#696969] hover:text-[#e5573e]">
                     {item.label}
                   </Link>
                 </BreadcrumbLink>
               ) : (
-                <BreadcrumbPage className="text-muted-foreground">
+                <BreadcrumbPage className="font-baskerville italic text-[#e5573e]">
                   {item.label}
                 </BreadcrumbPage>
               )}
@@ -74,7 +74,7 @@ export function PageBreadcrumb({
         ))}
         
         <BreadcrumbSeparator>
-          <ChevronRight className="h-4 w-4 text-muted-foreground" />
+          <span className="font-baskerville italic text-[#696969]">/</span>
         </BreadcrumbSeparator>
         <BreadcrumbItem>
           <BreadcrumbPage className="font-medium text-base font-baskerville italic text-[#e5573e]">
