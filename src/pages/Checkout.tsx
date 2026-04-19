@@ -9,7 +9,6 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useCart } from "@/contexts/CartContext";
 import { useExternalAuth } from "@/contexts/ExternalAuthContext";
-import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 
 export default function Checkout() {
@@ -42,46 +41,12 @@ export default function Checkout() {
     }
 
     setLoading(true);
-    
-    try {
-      // Use secure edge function that calculates total server-side
-      const { data, error } = await supabase.functions.invoke("create-order", {
-        body: {
-          items: items.map((item) => ({
-            id: item.id,
-            title: item.title,
-            author: item.author,
-            image: item.image,
-            quantity: item.quantity,
-            format: item.format,
-          })),
-          shippingAddress: {
-            firstName: formData.firstName,
-            lastName: formData.lastName,
-            address: formData.address,
-            city: formData.city,
-            zip: formData.zip,
-            phone: formData.phone,
-          },
-        },
-      });
-
-      if (error) throw error;
-      
-      if (!data?.success) {
-        throw new Error(data?.error || "Failed to create order");
-      }
-
-      // Clear cart
-      await clearCart();
-      setIsComplete(true);
-      toast.success("Order placed successfully!");
-    } catch (error) {
-      if (import.meta.env.DEV) console.error("Error creating order:", error);
-      toast.error("Failed to place order. Please try again.");
-    } finally {
+    // Checkout / order creation is not yet available via the CSP API.
+    // Show a friendly notice until an upstream endpoint exists.
+    setTimeout(() => {
+      toast.info("Online checkout is coming soon. Please contact us to place an order.");
       setLoading(false);
-    }
+    }, 400);
   };
 
   if (items.length === 0 && !isComplete) {
