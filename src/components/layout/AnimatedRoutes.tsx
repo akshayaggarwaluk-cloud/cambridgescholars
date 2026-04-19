@@ -84,6 +84,14 @@ export function AnimatedRoutes() {
         <Route path="/accessibility" element={<PageTransition><AccessibilityPolicy /></PageTransition>} />
         <Route path="/returns" element={<PageTransition><RefundAndReturns /></PageTransition>} />
         <Route path="/author-experiences" element={<PageTransition><AuthorExperiences /></PageTransition>} />
+
+        {/* CMS Admin */}
+        <Route path="/admin" element={<AdminGate><AdminLayout /></AdminGate>}>
+          <Route index element={<AdminDashboard />} />
+          <Route path="hero-slides" element={<AdminHeroSlides />} />
+          <Route path="news" element={<AdminNews />} />
+        </Route>
+
         <Route path="*" element={<PageTransition><NotFound /></PageTransition>} />
       </Routes>
     </AnimatePresence>
