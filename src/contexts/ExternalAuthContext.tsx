@@ -1,45 +1,21 @@
-import { createContext, useContext, useEffect, useState, ReactNode, useCallback } from "react";
+import { useContext, useEffect, useState, ReactNode, useCallback } from "react";
 import {
   setAccessToken,
   refreshAccessToken,
   setRefreshToken,
   clearRefreshToken,
   logout as apiLogout,
-  type AuthSuccessResponse,
   type AuthUserData,
 } from "@/services/authService";
+import {
+  ExternalAuthContext,
+  type ExternalUser,
+  type LoginPayload,
+} from "./external-auth-context-instance";
 
-// ── Types ────────────────────────────────────────────────────────
-
-export interface ExternalUser {
-  id: string;
-  email: string;
-  username: string;
-  name?: string;
-  firstName?: string;
-  lastName?: string;
-}
-
-interface LoginPayload {
-  access_token: string;
-  refresh_token: string;
-  user: AuthUserData;
-}
-
-interface ExternalAuthContextType {
-  user: ExternalUser | null;
-  token: string | null;
-  loading: boolean;
-  isAuthenticated: boolean;
-  login: (payload: LoginPayload | AuthSuccessResponse) => void;
-  logout: () => Promise<void>;
-}
-
-// ── Storage keys ────────────────────────────────────────────────
+export type { ExternalUser } from "./external-auth-context-instance";
 
 const USER_STORAGE_KEY = "authUser";
-
-// ── Helpers ─────────────────────────────────────────────────────
 
 function normalizeUser(u: AuthUserData): ExternalUser {
   const fullName =
@@ -56,16 +32,11 @@ function normalizeUser(u: AuthUserData): ExternalUser {
   };
 }
 
-// ── Context ─────────────────────────────────────────────────────
-
-const ExternalAuthContext = createContext<ExternalAuthContextType | undefined>(undefined);
-
 export function ExternalAuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<ExternalUser | null>(null);
   const [token, setToken] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
 
-  // Restore session on mount: try to refresh access token using stored refresh token
   useEffect(() => {
     let cancelled = false;
 
@@ -87,7 +58,6 @@ export function ExternalAuthProvider({ children }: { children: ReactNode }) {
           setToken(newAccess);
           setUser(parsed);
         } else {
-          // Refresh failed — clear stale data
           localStorage.removeItem(USER_STORAGE_KEY);
         }
       } catch {
