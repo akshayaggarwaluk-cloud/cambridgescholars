@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "framer-motion";
-import { fetchFeaturedReviews } from "@/services/cspApi";
+import { fetchFeaturedBooks } from "@/services/cspApi";
 
 interface FeaturedBook {
   id: string;
@@ -11,6 +11,7 @@ interface FeaturedBook {
   description: string;
   image: string;
   reviewer: string;
+  reviewerPosition: string;
 }
 
 export function FeaturedBooksSection() {
@@ -20,23 +21,27 @@ export function FeaturedBooksSection() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    fetchFeaturedReviews()
+    fetchFeaturedBooks()
       .then((data) => {
-        const mapped = data.map((item) => {
-          // Fix ISBN-10 → ISBN-13 cover URL (matches Hero behavior)
-          let coverImage = item.cover_image || "";
-          const isbnMatch = coverImage.match(/\/(\d{10})\.jpg$/);
-          if (isbnMatch && !coverImage.includes("/978")) {
-            coverImage = coverImage.replace(`/${isbnMatch[1]}.jpg`, `/978${isbnMatch[1]}.jpg`);
-          }
-          return {
-            id: item.isbn,
-            title: item.book_title,
-            description: item.review,
-            image: coverImage,
-            reviewer: item.reviewer,
-          };
-        });
+        const mapped: FeaturedBook[] = data
+          .filter((item) => item.cover_image)
+          .map((item) => {
+            // Fix ISBN-10 → ISBN-13 cover URL (matches Hero behavior)
+            let coverImage = item.cover_image || "";
+            const isbnMatch = coverImage.match(/\/(\d{10})\.jpg$/);
+            if (isbnMatch && !coverImage.includes("/978")) {
+              coverImage = coverImage.replace(`/${isbnMatch[1]}.jpg`, `/978${isbnMatch[1]}.jpg`);
+            }
+            const reviewer = item.featured_reviewer;
+            return {
+              id: item.isbn,
+              title: item.title,
+              description: reviewer?.rationale || item.description || "",
+              image: coverImage,
+              reviewer: reviewer?.name || "",
+              reviewerPosition: reviewer?.position || "",
+            };
+          });
         setFeaturedBooks(mapped);
       })
       .catch((err) => console.error("Failed to fetch featured books:", err))
@@ -97,9 +102,16 @@ export function FeaturedBooksSection() {
               >
                 <p className="text-accent uppercase tracking-[0.3em] text-lg font-medium">Featured Book</p>
                 <h2 className="font-baskerville text-3xl md:text-4xl font-normal leading-[1.15] text-foreground lg:text-4xl">{book.title}</h2>
-                <p className="font-nav text-muted-foreground leading-relaxed text-base italic font-normal">"{book.description}"</p>
+                {book.description && (
+                  <p className="font-nav text-muted-foreground leading-relaxed text-base italic font-normal">"{book.description}"</p>
+                )}
                 {book.reviewer && (
-                  <p className="text-foreground text-sm font-semibold">– {book.reviewer}</p>
+                  <p className="text-foreground text-sm font-semibold">
+                    – {book.reviewer}
+                    {book.reviewerPosition && (
+                      <span className="font-normal text-muted-foreground">, {book.reviewerPosition}</span>
+                    )}
+                  </p>
                 )}
                 <Button asChild className="bg-accent hover:bg-accent/90 text-accent-foreground px-16 py-3.5 text-sm tracking-[0.2em] rounded-none uppercase">
                   <Link to={`/books/${book.id}`}>View</Link>

@@ -67,6 +67,12 @@ export interface CSPBookRaw {
   author_biography?: string | null;
   reviews?: CSPReviewRaw[];
   recommended_books?: CSPBookRaw[];
+  featured_reviewer?: {
+    name: string;
+    position: string;
+    score: number;
+    rationale: string;
+  } | null;
 
   // Legacy flat fields (from old single-book endpoint)
   bookname?: string;
@@ -346,6 +352,14 @@ export async function fetchFeaturedReviews(): Promise<{
   link?: string;
 }[]> {
   const res = await fetch(`${CSP_API_BASE}/homepage/featured-reviews`);
+  if (!res.ok) throw new Error(`API error: ${res.status}`);
+  const json = await res.json();
+  return json.data || [];
+}
+
+/** Fetch featured books for homepage (ranked by author + reviewer scores) */
+export async function fetchFeaturedBooks(): Promise<CSPBookRaw[]> {
+  const res = await fetch(`${CSP_API_BASE}/homepage/featured-books`);
   if (!res.ok) throw new Error(`API error: ${res.status}`);
   const json = await res.json();
   return json.data || [];
