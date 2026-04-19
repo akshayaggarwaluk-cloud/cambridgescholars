@@ -39,6 +39,12 @@ import AccessibilityPolicy from "@/pages/AccessibilityPolicy";
 import RefundAndReturns from "@/pages/RefundAndReturns";
 import AuthorExperiences from "@/pages/AuthorExperiences";
 
+import AdminGate from "@/components/admin/AdminGate";
+import AdminLayout from "@/components/admin/AdminLayout";
+import AdminDashboard from "@/pages/admin/AdminDashboard";
+import AdminHeroSlides from "@/pages/admin/AdminHeroSlides";
+import AdminNews from "@/pages/admin/AdminNews";
+
 export function AnimatedRoutes() {
   const location = useLocation();
 
