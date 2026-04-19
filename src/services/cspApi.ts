@@ -67,6 +67,12 @@ export interface CSPBookRaw {
   author_biography?: string | null;
   reviews?: CSPReviewRaw[];
   recommended_books?: CSPBookRaw[];
+  featured_reviewer?: {
+    name: string;
+    position: string;
+    score: number;
+    rationale: string;
+  } | null;
 
   // Legacy flat fields (from old single-book endpoint)
   bookname?: string;
