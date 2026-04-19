@@ -35,10 +35,19 @@ export default function Auth() {
   const [loginErrors, setLoginErrors] = useState<{ identifier?: string; password?: string }>({});
   const [loginError, setLoginError] = useState<string | null>(null);
 
-  // ── Register state (email only — matches CSP) ──
+  // ── Register state ─────────────────────────────
+  const [regFirstName, setRegFirstName] = useState("");
+  const [regLastName, setRegLastName] = useState("");
   const [regEmail, setRegEmail] = useState("");
+  const [regPassword, setRegPassword] = useState("");
+  const [showRegPassword, setShowRegPassword] = useState(false);
   const [registerLoading, setRegisterLoading] = useState(false);
-  const [registerErrors, setRegisterErrors] = useState<{ email?: string }>({});
+  const [registerErrors, setRegisterErrors] = useState<{
+    first_name?: string;
+    last_name?: string;
+    email?: string;
+    password?: string;
+  }>({});
   const [registerError, setRegisterError] = useState<string | null>(null);
 
   const validateLogin = () => {
@@ -77,30 +86,35 @@ export default function Auth() {
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
     setRegisterError(null);
+    const errs: typeof registerErrors = {};
+    if (!regFirstName.trim()) errs.first_name = "Required";
+    if (!regLastName.trim()) errs.last_name = "Required";
     const em = emailSchema.safeParse(regEmail);
-    if (!em.success) {
-      setRegisterErrors({ email: em.error.errors[0].message });
+    if (!em.success) errs.email = em.error.errors[0].message;
+    if (regPassword.length < 8) errs.password = "Password must be at least 8 characters";
+    if (Object.keys(errs).length > 0) {
+      setRegisterErrors(errs);
       return;
     }
     setRegisterErrors({});
     setRegisterLoading(true);
     try {
-      // CSP register endpoint requires a password — generate a temporary one.
-      // The user will set their real password via the email link.
-      const tempPassword = `Tmp_${crypto.randomUUID()}!A1`;
       const res = await apiRegister({
-        email: regEmail,
-        password: tempPassword,
-        first_name: "",
-        last_name: "",
+        email: regEmail.trim(),
+        password: regPassword,
+        first_name: regFirstName.trim(),
+        last_name: regLastName.trim(),
       });
       if (res?.access_token && res?.user) {
         authLogin(res);
-        toast.success("Account created. Check your email to set your password.");
+        toast.success("Account created — welcome!");
         navigate("/profile");
       } else {
-        toast.success("A link to set your password has been sent to your email.");
+        toast.success("Account created. You can now log in.");
+        setRegFirstName("");
+        setRegLastName("");
         setRegEmail("");
+        setRegPassword("");
       }
     } catch (error) {
       const message = error instanceof Error ? error.message : "Registration failed";
@@ -285,6 +299,56 @@ export default function Auth() {
               )}
 
               <form onSubmit={handleRegister} className="space-y-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label
+                      htmlFor="regFirstName"
+                      className="text-xs font-medium tracking-wider uppercase text-foreground"
+                    >
+                      First name <span className="text-accent">*</span>
+                    </Label>
+                    <Input
+                      id="regFirstName"
+                      type="text"
+                      autoComplete="given-name"
+                      value={regFirstName}
+                      onChange={(e) => setRegFirstName(e.target.value)}
+                      className={`h-12 rounded-none border-border bg-background ${
+                        registerErrors.first_name
+                          ? "border-destructive focus-visible:ring-destructive"
+                          : "focus-visible:ring-accent"
+                      }`}
+                    />
+                    {registerErrors.first_name && (
+                      <p className="text-sm text-destructive">{registerErrors.first_name}</p>
+                    )}
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label
+                      htmlFor="regLastName"
+                      className="text-xs font-medium tracking-wider uppercase text-foreground"
+                    >
+                      Last name <span className="text-accent">*</span>
+                    </Label>
+                    <Input
+                      id="regLastName"
+                      type="text"
+                      autoComplete="family-name"
+                      value={regLastName}
+                      onChange={(e) => setRegLastName(e.target.value)}
+                      className={`h-12 rounded-none border-border bg-background ${
+                        registerErrors.last_name
+                          ? "border-destructive focus-visible:ring-destructive"
+                          : "focus-visible:ring-accent"
+                      }`}
+                    />
+                    {registerErrors.last_name && (
+                      <p className="text-sm text-destructive">{registerErrors.last_name}</p>
+                    )}
+                  </div>
+                </div>
+
                 <div className="space-y-2">
                   <Label
                     htmlFor="regEmail"
@@ -307,8 +371,46 @@ export default function Auth() {
                   {registerErrors.email && (
                     <p className="text-sm text-destructive">{registerErrors.email}</p>
                   )}
-                  <p className="text-base text-foreground pt-2">
-                    A link to set a new password will be sent to your email address.
+                </div>
+
+                <div className="space-y-2">
+                  <Label
+                    htmlFor="regPassword"
+                    className="text-xs font-medium tracking-wider uppercase text-foreground"
+                  >
+                    Password <span className="text-accent">*</span>
+                  </Label>
+                  <div className="relative">
+                    <Input
+                      id="regPassword"
+                      type={showRegPassword ? "text" : "password"}
+                      autoComplete="new-password"
+                      value={regPassword}
+                      onChange={(e) => setRegPassword(e.target.value)}
+                      className={`h-12 pr-12 rounded-none border-border bg-background ${
+                        registerErrors.password
+                          ? "border-destructive focus-visible:ring-destructive"
+                          : "focus-visible:ring-accent"
+                      }`}
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowRegPassword(!showRegPassword)}
+                      aria-label={showRegPassword ? "Hide password" : "Show password"}
+                      className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+                    >
+                      {showRegPassword ? (
+                        <EyeOff className="h-5 w-5" />
+                      ) : (
+                        <Eye className="h-5 w-5" />
+                      )}
+                    </button>
+                  </div>
+                  {registerErrors.password && (
+                    <p className="text-sm text-destructive">{registerErrors.password}</p>
+                  )}
+                  <p className="text-sm text-muted-foreground pt-1">
+                    Must be at least 8 characters.
                   </p>
                 </div>
 
