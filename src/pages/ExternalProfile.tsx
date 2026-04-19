@@ -403,11 +403,11 @@ export default function ExternalProfile() {
 
   const addressInputClass = "h-12 border-border bg-background";
 
-  type AddressFormShape = typeof billingForm | typeof shippingForm;
+  type AddressFormShape = typeof billingForm & Partial<typeof shippingForm>;
 
-  const renderAddressFields = <T extends AddressFormShape>(
-    form: T,
-    setForm: (next: T) => void,
+  const renderAddressFields = (
+    form: AddressFormShape,
+    setForm: (next: AddressFormShape) => void,
     showEmail: boolean,
     prefix: string
   ) => (
@@ -549,7 +549,12 @@ export default function ExternalProfile() {
         <>
           <section className="space-y-4">
             <h2 className="font-serif text-2xl font-semibold text-foreground">Billing address</h2>
-            {renderAddressFields(billingForm, setBillingForm, true, "billing")}
+            {renderAddressFields(
+              billingForm as AddressFormShape,
+              (next) => setBillingForm(next as typeof billingForm),
+              true,
+              "billing"
+            )}
             <Button
               onClick={handleSaveBilling}
               disabled={billingSaving}
@@ -561,7 +566,15 @@ export default function ExternalProfile() {
 
           <section className="space-y-4">
             <h2 className="font-serif text-2xl font-semibold text-foreground">Shipping address</h2>
-            {renderAddressFields(shippingForm, setShippingForm, false, "shipping")}
+            {renderAddressFields(
+              shippingForm as AddressFormShape,
+              (next) => {
+                const { email: _email, ...rest } = next;
+                setShippingForm(rest as typeof shippingForm);
+              },
+              false,
+              "shipping"
+            )}
             <Button
               onClick={handleSaveShipping}
               disabled={shippingSaving}
