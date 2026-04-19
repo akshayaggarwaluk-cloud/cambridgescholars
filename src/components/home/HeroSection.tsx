@@ -3,15 +3,16 @@ import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "framer-motion";
-import { fetchFeaturedReviews } from "@/services/cspApi";
+import { fetchPublishedHeroSlides } from "@/services/cmsService";
 
 interface FeaturedReview {
-  id: number;
+  id: string;
   bookTitle: string;
   quote: string;
   reviewer: string;
   image: string;
   bookId: string;
+  linkUrl: string;
 }
 
 const textVariants = {
@@ -33,29 +34,20 @@ export function HeroSection() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    fetchFeaturedReviews()
-      .then((data) => {
-        const mapped = data.map((item) => {
-          const reviewerParts = item.reviewer || "";
-          // Fix cover image URL: the featured-reviews API may return ISBN-10 based URLs
-          // but S3 bucket uses ISBN-13 format. Try to fix by prepending "978" if needed.
-          let coverImage = item.cover_image || "";
-          const isbnMatch = coverImage.match(/\/(\d{10})\.jpg$/);
-          if (isbnMatch && !coverImage.includes("/978")) {
-            coverImage = coverImage.replace(`/${isbnMatch[1]}.jpg`, `/978${isbnMatch[1]}.jpg`);
-          }
-          return {
-            id: item.id,
-            bookTitle: item.book_title,
-            quote: item.review,
-            reviewer: reviewerParts,
-            image: coverImage,
-            bookId: item.isbn,
-          };
-        });
+    fetchPublishedHeroSlides()
+      .then((slides) => {
+        const mapped: FeaturedReview[] = slides.map((s) => ({
+          id: s.id,
+          bookTitle: s.title,
+          quote: s.quote || s.subtitle || "",
+          reviewer: [s.reviewer_name, s.reviewer_position].filter(Boolean).join(", "),
+          image: s.cover_image || "",
+          bookId: "",
+          linkUrl: s.link_url || "/books",
+        }));
         setFeaturedReviews(mapped);
       })
-      .catch((err) => console.error("Failed to fetch featured reviews:", err))
+      .catch((err) => console.error("Failed to fetch hero slides:", err))
       .finally(() => setIsLoading(false));
   }, []);
 
