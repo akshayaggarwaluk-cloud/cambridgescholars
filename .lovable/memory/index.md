@@ -88,3 +88,4 @@ Updated: just now
 - [Mobile Nav Layout](mem://features/navigation/mobile-interface-layout) — Slide-out hamburger panel details
 - [Global Overflow](mem://constraints/global-layout-constraints) — Prevent horizontal scrolling
 - [Brand Names](mem://brand/identity-and-metadata) — Scholar app vs Cambridge Scholars Publishing usage
+- [CMS Portal](mem://features/cms-portal) — /admin portal for Hero Slides and News, gated by cms_admins allowlist
