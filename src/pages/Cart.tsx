@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Minus, Plus, Trash2, ShoppingBag, Tablet, Book } from "lucide-react";
+import { Minus, Plus, Trash2, Info, Tablet, Book } from "lucide-react";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { PageBreadcrumb } from "@/components/layout/PageBreadcrumb";
@@ -13,23 +13,29 @@ export default function Cart() {
     return (
       <div className="min-h-screen bg-background">
         <Header />
-        <main className="pt-32 pb-16">
-          <div className="container-wide text-center">
-            <div className="inline-flex items-center justify-center w-24 h-24 rounded-full bg-secondary mb-6">
-              <ShoppingBag className="h-12 w-12 text-muted-foreground" />
+
+        <div className="bg-[#f4f3ec] pt-28 sm:pt-32 pb-10 sm:pb-14 px-6 md:px-16">
+          <div className="max-w-7xl mx-auto flex items-center justify-between">
+            <h1 className="text-4xl sm:text-5xl font-serif text-gray-800">Cart</h1>
+            <PageBreadcrumb currentPage="Cart" />
+          </div>
+        </div>
+
+        <main className="pb-16">
+          <div className="max-w-7xl mx-auto px-6 md:px-16 py-12">
+            <div className="bg-[#5BAFA8] text-white px-6 py-5 flex items-center gap-3 mb-8">
+              <Info className="h-5 w-5 flex-shrink-0" strokeWidth={2} />
+              <span className="font-nav text-base">Your cart is currently empty.</span>
             </div>
-            <h1 className="font-serif text-4xl font-bold text-foreground mb-4">
-              Your Cart is Empty
-            </h1>
-            <p className="text-muted-foreground mb-8 max-w-md mx-auto">
-              Looks like you haven't added any books yet. Explore our collection
-              and find your next read.
-            </p>
-            <Button asChild variant="gold" size="lg">
-              <Link to="/books">Browse Books</Link>
+            <Button
+              asChild
+              className="bg-[#C75B2A] hover:bg-[#a84a20] text-white rounded-none uppercase tracking-wider font-nav font-medium px-8 py-6 text-sm"
+            >
+              <Link to="/books">Return to shop</Link>
             </Button>
           </div>
         </main>
+
         <Footer />
       </div>
     );
