@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Minus, Plus, Trash2, Info, Tablet, Book } from "lucide-react";
+import { Minus, Plus, X, Info, ShoppingCart } from "lucide-react";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { PageBreadcrumb } from "@/components/layout/PageBreadcrumb";
@@ -41,146 +41,138 @@ export default function Cart() {
     );
   }
 
+  const formatLabel = (f: string) =>
+    f === "ebook" ? "Ebook" : f === "paperback" ? "Paperback" : "Hardback";
+
   return (
     <div className="min-h-screen bg-background">
       <Header />
 
       <div className="bg-[#f4f3ec] pt-28 sm:pt-32 pb-10 sm:pb-14 px-6 md:px-16">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
-          <h1 className="text-4xl sm:text-5xl font-serif text-gray-800">Your Cart</h1>
+          <h1 className="text-4xl sm:text-5xl font-serif text-gray-800">Cart</h1>
           <PageBreadcrumb currentPage="Cart" />
         </div>
       </div>
 
       <main className="pb-16">
-        <div className="container-wide py-8">
+        <div className="max-w-7xl mx-auto px-6 md:px-16 py-12">
+          {/* Table header */}
+          <div className="grid grid-cols-[1fr_120px_180px_140px_60px] gap-6 pb-5 border-b border-border items-center">
+            <div className="text-sm font-semibold tracking-wider uppercase text-foreground">Product</div>
+            <div className="text-sm font-semibold tracking-wider uppercase text-foreground">Price</div>
+            <div className="text-sm font-semibold tracking-wider uppercase text-foreground">Quantity</div>
+            <div className="text-sm font-semibold tracking-wider uppercase text-foreground">Total</div>
+            <div></div>
+          </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
-            {/* Cart Items */}
-            <div className="lg:col-span-2 space-y-6">
-              {items.map((item) => (
-                <div
-                  key={`${item.id}_${item.format}`}
-                  className="flex gap-6 p-6 bg-card rounded-xl shadow-card"
-                >
-                  <Link
-                    to={`/books/${item.id}`}
-                    className="flex-shrink-0"
-                  >
+          {/* Items */}
+          <div className="border-x border-b border-border">
+            {items.map((item) => (
+              <div
+                key={`${item.id}_${item.format}`}
+                className="grid grid-cols-[1fr_120px_180px_140px_60px] gap-6 items-center px-6 py-6 border-t border-border"
+              >
+                {/* Product */}
+                <div className="flex items-center gap-5 min-w-0">
+                  <Link to={`/books/${item.id}`} className="shrink-0">
                     <img
                       src={item.image}
                       alt={item.title}
-                      className="w-24 h-32 object-cover rounded-lg"
+                      className="w-20 h-28 object-cover hover:opacity-80 transition-opacity"
                     />
                   </Link>
-
-                  <div className="flex-1 min-w-0">
+                  <div className="min-w-0">
                     <Link to={`/books/${item.id}`}>
-                      <h3 className="font-serif text-lg font-semibold text-foreground hover:text-accent transition-colors">
-                        {item.title}
+                      <h3 className="font-serif text-lg text-foreground hover:text-accent transition-colors leading-snug">
+                        {item.title} - {formatLabel(item.format)}
                       </h3>
                     </Link>
-                    <p className="text-muted-foreground text-sm mb-2">
-                      {item.author}
-                    </p>
-                    <div className="flex items-center gap-2 mb-4">
-                      <span className="text-xs text-muted-foreground uppercase tracking-wider">
-                        {item.category}
-                      </span>
-                      <span className="text-muted-foreground">•</span>
-                      <span className="inline-flex items-center gap-1 text-xs text-accent font-medium">
-                        {item.format === "ebook" ? (
-                          <>
-                            <Tablet className="h-3 w-3" />
-                            eBook
-                          </>
-                        ) : (
-                          <>
-                            <Book className="h-3 w-3" />
-                            Hardbook
-                          </>
-                        )}
-                      </span>
-                    </div>
-
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-3">
-                        <Button
-                          variant="outline"
-                          size="icon"
-                          className="h-8 w-8"
-                          onClick={() =>
-                            updateQuantity(item.id, item.format, item.quantity - 1)
-                          }
-                        >
-                          <Minus className="h-4 w-4" />
-                        </Button>
-                        <span className="font-medium text-foreground w-8 text-center">
-                          {item.quantity}
-                        </span>
-                        <Button
-                          variant="outline"
-                          size="icon"
-                          className="h-8 w-8"
-                          onClick={() =>
-                            updateQuantity(item.id, item.format, item.quantity + 1)
-                          }
-                        >
-                          <Plus className="h-4 w-4" />
-                        </Button>
-                      </div>
-
-                      <div className="flex items-center gap-4">
-                        <span className="font-serif text-lg font-bold text-foreground">
-                          ${(item.price * item.quantity).toFixed(2)}
-                        </span>
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          className="text-muted-foreground hover:text-destructive"
-                          onClick={() => removeFromCart(item.id, item.format)}
-                        >
-                          <Trash2 className="h-4 w-4" />
-                        </Button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            {/* Order Summary */}
-            <div className="lg:col-span-1">
-              <div className="bg-card rounded-xl shadow-card p-6 sticky top-28">
-                <h2 className="font-serif text-xl font-semibold text-foreground mb-6">
-                  Order Summary
-                </h2>
-
-                <div className="space-y-4 mb-6">
-                  <div className="flex justify-between text-foreground/80">
-                    <span>Subtotal</span>
-                    <span>${cartTotal.toFixed(2)}</span>
-                  </div>
-                  <div className="flex justify-between text-foreground/80">
-                    <span>Shipping</span>
-                    <span className="text-accent">Free</span>
-                  </div>
-                  <div className="border-t border-border pt-4">
-                    <div className="flex justify-between font-semibold text-lg text-foreground">
-                      <span>Total</span>
-                      <span>${cartTotal.toFixed(2)}</span>
-                    </div>
+                    {item.isbn && (
+                      <p className="text-sm text-muted-foreground mt-2">
+                        <span className="font-semibold text-foreground">ISBN:</span> {item.isbn}
+                      </p>
+                    )}
                   </div>
                 </div>
 
-                <Button asChild variant="gold" size="lg" className="w-full">
-                  <Link to="/checkout">Proceed to Checkout</Link>
-                </Button>
+                {/* Price */}
+                <div className="text-base text-muted-foreground">
+                  ${item.price.toFixed(2)}
+                </div>
 
-                <p className="text-center text-muted-foreground text-sm mt-4">
-                  Free shipping on all orders
-                </p>
+                {/* Quantity */}
+                <div className="flex items-center border border-border w-fit">
+                  <button
+                    onClick={() => updateQuantity(item.id, item.format, item.quantity - 1)}
+                    aria-label="Decrease quantity"
+                    className="w-10 h-10 flex items-center justify-center hover:bg-secondary transition-colors"
+                  >
+                    <Minus className="h-3 w-3" />
+                  </button>
+                  <span className="w-12 text-center text-foreground">{item.quantity}</span>
+                  <button
+                    onClick={() => updateQuantity(item.id, item.format, item.quantity + 1)}
+                    aria-label="Increase quantity"
+                    className="w-10 h-10 flex items-center justify-center hover:bg-secondary transition-colors"
+                  >
+                    <Plus className="h-3 w-3" />
+                  </button>
+                </div>
+
+                {/* Total */}
+                <div className="text-base text-foreground">
+                  ${(item.price * item.quantity).toFixed(2)}
+                </div>
+
+                {/* Remove */}
+                <button
+                  onClick={() => removeFromCart(item.id, item.format)}
+                  aria-label="Remove item"
+                  className="w-10 h-10 border border-border flex items-center justify-center hover:bg-secondary transition-colors justify-self-end"
+                >
+                  <X className="h-4 w-4 text-foreground" />
+                </button>
               </div>
+            ))}
+          </div>
+
+          {/* Total */}
+          <div className="flex justify-end items-center gap-12 mt-8 pr-6">
+            <span className="text-base text-muted-foreground">Total</span>
+            <span className="text-xl font-semibold text-foreground">
+              ${cartTotal.toFixed(2)}
+            </span>
+          </div>
+
+          <div className="border-t border-border mt-6"></div>
+
+          {/* Actions */}
+          <div className="flex flex-col sm:flex-row sm:justify-between gap-6 mt-8">
+            <Button
+              asChild
+              variant="outline"
+              className="rounded-none uppercase tracking-wider font-nav font-medium px-8 py-6 text-sm border-border hover:bg-secondary self-start"
+            >
+              <Link to="/books" className="flex items-center gap-2">
+                <ShoppingCart className="h-4 w-4" />
+                Continue Shopping
+              </Link>
+            </Button>
+
+            <div className="flex flex-col gap-4 sm:items-end">
+              <button
+                onClick={() => window.location.reload()}
+                className="bg-[#E89B7A] hover:bg-[#d88863] text-white rounded-none uppercase tracking-wider font-nav font-medium px-10 py-4 text-sm transition-colors"
+              >
+                Update Cart
+              </button>
+              <Button
+                asChild
+                className="bg-[#C75B2A] hover:bg-[#a84a20] text-white rounded-none uppercase tracking-wider font-nav font-medium px-10 py-4 text-sm h-auto"
+              >
+                <Link to="/checkout">Proceed to Checkout</Link>
+              </Button>
             </div>
           </div>
         </div>
