@@ -19,8 +19,8 @@ export default function Checkout() {
   const [isComplete, setIsComplete] = useState(false);
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
+    firstName: user?.firstName || "",
+    lastName: user?.lastName || "",
     email: user?.email || "",
     phone: "",
     address: "",

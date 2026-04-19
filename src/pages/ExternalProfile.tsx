@@ -1,94 +1,161 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { User, Mail, LogOut, Package, MapPin, Settings, Loader2, Info, ArrowRight } from "lucide-react";
+import {
+  User,
+  Mail,
+  LogOut,
+  Package,
+  MapPin,
+  Settings,
+  Loader2,
+  Info,
+  ArrowRight,
+  KeyRound,
+} from "lucide-react";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { PageBreadcrumb } from "@/components/layout/PageBreadcrumb";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useExternalAuth } from "@/contexts/ExternalAuthContext";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
-import { listAddresses, createAddress, updateAddress, Address as AddressType, AddressInput } from "@/services/addressService";
-type TabType = "dashboard" | "orders" | "addresses" | "account";
-interface Address {
-  id: string;
-  address_type: 'billing' | 'shipping';
-  first_name: string;
-  last_name: string;
-  company: string | null;
-  country: string;
-  street_address: string;
-  street_address_2: string | null;
-  city: string;
-  state: string;
-  postcode: string;
-  phone: string;
-  is_default: boolean;
-}
+import {
+  getProfile,
+  updateProfile,
+  changePassword,
+  type AccountProfile,
+  type ProfileUpdatePayload,
+} from "@/services/accountService";
+
+type TabType = "dashboard" | "orders" | "addresses" | "account" | "password";
+
 interface Order {
   id: string;
   status: string;
   total: number;
   created_at: string;
 }
-const COUNTRIES = ["United States", "United Kingdom", "Canada", "Australia", "Germany", "France", "India", "Japan", "Brazil", "Mexico", "Other"];
-const STATES = ["Alabama", "Alaska", "Arizona", "California", "Colorado", "Florida", "Georgia", "Illinois", "New York", "Texas", "Washington", "Haryana", "Maharashtra", "Karnataka", "Tamil Nadu", "Delhi", "Other"];
+
+const EMPTY_ADDRESS = {
+  first_name: "",
+  last_name: "",
+  company: "",
+  address_1: "",
+  address_2: "",
+  city: "",
+  state: "",
+  postcode: "",
+  country: "",
+  phone: "",
+};
+
 export default function ExternalProfile() {
-  const {
-    user,
-    isAuthenticated,
-    logout
-  } = useExternalAuth();
+  const { user, isAuthenticated, logout } = useExternalAuth();
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState<TabType>("dashboard");
 
-  // Addresses state
-  const [addresses, setAddresses] = useState<Address[]>([]);
-  const [addressesLoading, setAddressesLoading] = useState(true);
-  const [editingAddress, setEditingAddress] = useState<Partial<Address> | null>(null);
-  const [addressFormMode, setAddressFormMode] = useState<'view' | 'billing' | 'shipping'>('view');
-  const [addressSaving, setAddressSaving] = useState(false);
+  // Upstream profile (source of truth for billing/shipping)
+  const [profile, setProfile] = useState<AccountProfile | null>(null);
+  const [profileLoading, setProfileLoading] = useState(true);
 
-  // Orders state
+  // Profile form state
+  const [profileForm, setProfileForm] = useState({
+    first_name: "",
+    last_name: "",
+    display_name: "",
+    phone: "",
+  });
+  const [profileSaving, setProfileSaving] = useState(false);
+
+  // Billing form
+  const [billingForm, setBillingForm] = useState({
+    ...EMPTY_ADDRESS,
+    email: "",
+  });
+  const [billingSaving, setBillingSaving] = useState(false);
+
+  // Shipping form
+  const [shippingForm, setShippingForm] = useState({ ...EMPTY_ADDRESS });
+  const [shippingSaving, setShippingSaving] = useState(false);
+
+  // Password form
+  const [pwForm, setPwForm] = useState({
+    current_password: "",
+    new_password: "",
+    confirm_new_password: "",
+  });
+  const [pwSaving, setPwSaving] = useState(false);
+
+  // Orders
   const [orders, setOrders] = useState<Order[]>([]);
   const [ordersLoading, setOrdersLoading] = useState(true);
-  useEffect(() => {
-    if (isAuthenticated && user && activeTab === "addresses") {
-      loadAddresses();
+
+  const loadProfile = useCallback(async () => {
+    setProfileLoading(true);
+    try {
+      const p = await getProfile();
+      setProfile(p);
+      setProfileForm({
+        first_name: p.first_name || "",
+        last_name: p.last_name || "",
+        display_name: p.display_name || "",
+        phone: p.phone || "",
+      });
+      setBillingForm({
+        first_name: p.billing?.first_name || "",
+        last_name: p.billing?.last_name || "",
+        company: p.billing?.company || "",
+        address_1: p.billing?.address_1 || "",
+        address_2: p.billing?.address_2 || "",
+        city: p.billing?.city || "",
+        state: p.billing?.state || "",
+        postcode: p.billing?.postcode || "",
+        country: p.billing?.country || "",
+        email: p.billing?.email || p.email || "",
+        phone: p.billing?.phone || "",
+      });
+      setShippingForm({
+        first_name: p.shipping?.first_name || "",
+        last_name: p.shipping?.last_name || "",
+        company: p.shipping?.company || "",
+        address_1: p.shipping?.address_1 || "",
+        address_2: p.shipping?.address_2 || "",
+        city: p.shipping?.city || "",
+        state: p.shipping?.state || "",
+        postcode: p.shipping?.postcode || "",
+        country: p.shipping?.country || "",
+        phone: p.shipping?.phone || "",
+      });
+    } catch (e) {
+      const msg = e instanceof Error ? e.message : "Failed to load profile";
+      toast.error(msg);
+    } finally {
+      setProfileLoading(false);
     }
+  }, []);
+
+  useEffect(() => {
+    if (isAuthenticated && user) {
+      loadProfile();
+    }
+  }, [isAuthenticated, user, loadProfile]);
+
+  useEffect(() => {
     if (isAuthenticated && user && activeTab === "orders") {
-      loadOrders();
+      void loadOrders();
     }
   }, [activeTab, isAuthenticated, user]);
-  const loadAddresses = async () => {
-    if (!user) return;
-    setAddressesLoading(true);
-    try {
-      const result = await listAddresses(user.id);
-      if (result.error) {
-        if (import.meta.env.DEV) console.error("Error loading addresses:", result.error);
-        return;
-      }
-      setAddresses((result.data || []) as Address[]);
-    } catch (error) {
-      if (import.meta.env.DEV) console.error("Error loading addresses:", error);
-    } finally {
-      setAddressesLoading(false);
-    }
-  };
+
   const loadOrders = async () => {
     if (!user) return;
     setOrdersLoading(true);
     try {
-      const {
-        data,
-        error
-      } = await supabase.from("orders").select("id, status, total, created_at").eq("user_id", user.id).order("created_at", {
-        ascending: false
-      });
+      const { data, error } = await supabase
+        .from("orders")
+        .select("id, status, total, created_at")
+        .order("created_at", { ascending: false });
       if (error) throw error;
       setOrders(data || []);
     } catch (error) {
@@ -97,156 +164,200 @@ export default function ExternalProfile() {
       setOrdersLoading(false);
     }
   };
-  const handleAddAddress = (type: 'billing' | 'shipping') => {
-    setEditingAddress({
-      address_type: type,
-      first_name: "",
-      last_name: "",
-      company: "",
-      country: "",
-      street_address: "",
-      street_address_2: "",
-      city: "",
-      state: "",
-      postcode: "",
-      phone: "",
-      is_default: true
-    });
-    setAddressFormMode(type);
-  };
-  const handleEditAddress = (address: Address) => {
-    setEditingAddress({
-      ...address
-    });
-    setAddressFormMode(address.address_type as 'billing' | 'shipping');
-  };
-  const handleCancelAddressForm = () => {
-    setEditingAddress(null);
-    setAddressFormMode('view');
-  };
-  const handleSaveAddress = async () => {
-    if (!editingAddress || !user) return;
 
-    // Validate required fields
-    if (!editingAddress.first_name || !editingAddress.last_name || !editingAddress.country || !editingAddress.street_address || !editingAddress.city || !editingAddress.state || !editingAddress.postcode || !editingAddress.phone) {
-      toast.error("Please fill in all required fields");
+  const handleSaveProfile = async () => {
+    setProfileSaving(true);
+    try {
+      const payload: ProfileUpdatePayload = {
+        first_name: profileForm.first_name.trim(),
+        last_name: profileForm.last_name.trim(),
+        display_name: profileForm.display_name.trim(),
+        phone: profileForm.phone.trim(),
+      };
+      const updated = await updateProfile(payload);
+      setProfile(updated);
+      toast.success("Profile updated");
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : "Failed to update profile");
+    } finally {
+      setProfileSaving(false);
+    }
+  };
+
+  const handleSaveBilling = async () => {
+    setBillingSaving(true);
+    try {
+      const payload: ProfileUpdatePayload = {
+        billing_first_name: billingForm.first_name.trim(),
+        billing_last_name: billingForm.last_name.trim(),
+        billing_company: billingForm.company.trim(),
+        billing_address_1: billingForm.address_1.trim(),
+        billing_address_2: billingForm.address_2.trim(),
+        billing_city: billingForm.city.trim(),
+        billing_state: billingForm.state.trim(),
+        billing_postcode: billingForm.postcode.trim(),
+        billing_country: billingForm.country.trim(),
+        billing_email: billingForm.email.trim(),
+        billing_phone: billingForm.phone.trim(),
+      };
+      const updated = await updateProfile(payload);
+      setProfile(updated);
+      toast.success("Billing address updated");
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : "Failed to update billing address");
+    } finally {
+      setBillingSaving(false);
+    }
+  };
+
+  const handleSaveShipping = async () => {
+    setShippingSaving(true);
+    try {
+      const payload: ProfileUpdatePayload = {
+        shipping_first_name: shippingForm.first_name.trim(),
+        shipping_last_name: shippingForm.last_name.trim(),
+        shipping_company: shippingForm.company.trim(),
+        shipping_address_1: shippingForm.address_1.trim(),
+        shipping_address_2: shippingForm.address_2.trim(),
+        shipping_city: shippingForm.city.trim(),
+        shipping_state: shippingForm.state.trim(),
+        shipping_postcode: shippingForm.postcode.trim(),
+        shipping_country: shippingForm.country.trim(),
+        shipping_phone: shippingForm.phone.trim(),
+      };
+      const updated = await updateProfile(payload);
+      setProfile(updated);
+      toast.success("Shipping address updated");
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : "Failed to update shipping address");
+    } finally {
+      setShippingSaving(false);
+    }
+  };
+
+  const handleChangePassword = async () => {
+    if (!pwForm.current_password) {
+      toast.error("Current password is required");
       return;
     }
-    setAddressSaving(true);
+    if (pwForm.new_password.length < 8) {
+      toast.error("New password must be at least 8 characters");
+      return;
+    }
+    if (pwForm.new_password !== pwForm.confirm_new_password) {
+      toast.error("New passwords do not match");
+      return;
+    }
+    setPwSaving(true);
     try {
-      const addressInput: AddressInput = {
-        address_type: editingAddress.address_type as 'billing' | 'shipping',
-        first_name: editingAddress.first_name,
-        last_name: editingAddress.last_name,
-        company: editingAddress.company || null,
-        country: editingAddress.country,
-        street_address: editingAddress.street_address,
-        street_address_2: editingAddress.street_address_2 || null,
-        city: editingAddress.city,
-        state: editingAddress.state,
-        postcode: editingAddress.postcode,
-        phone: editingAddress.phone,
-        is_default: true,
-      };
-
-      if (editingAddress.id) {
-        // Update existing
-        const result = await updateAddress(user.id, editingAddress.id, addressInput);
-        if (result.error) {
-          toast.error(result.error);
-          return;
-        }
-        toast.success("Address updated successfully!");
-      } else {
-        // Create new
-        const result = await createAddress(user.id, addressInput);
-        if (result.error) {
-          toast.error(result.error);
-          return;
-        }
-        toast.success("Address saved successfully!");
-      }
-      setAddressFormMode('view');
-      setEditingAddress(null);
-      loadAddresses();
-    } catch (error) {
-      if (import.meta.env.DEV) console.error("Error saving address:", error);
-      toast.error("Failed to save address");
+      await changePassword({
+        current_password: pwForm.current_password,
+        new_password: pwForm.new_password,
+      });
+      toast.success("Password updated");
+      setPwForm({ current_password: "", new_password: "", confirm_new_password: "" });
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : "Failed to change password");
     } finally {
-      setAddressSaving(false);
+      setPwSaving(false);
     }
   };
-  const handleLogout = () => {
-    logout();
+
+  const handleLogout = async () => {
+    await logout();
     toast.success("Signed out successfully");
     navigate("/");
   };
+
   if (!isAuthenticated || !user) {
-    return <div className="min-h-screen bg-background">
+    return (
+      <div className="min-h-screen bg-background">
         <Header />
         <main className="pt-32 pb-16">
           <div className="container-wide text-center">
             <User className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
-            <h1 className="font-serif text-3xl font-bold text-foreground mb-4">Sign in to view profile</h1>
-            <p className="text-muted-foreground mb-8">Please sign in to access your profile settings.</p>
+            <h1 className="font-serif text-3xl font-bold text-foreground mb-4">
+              Sign in to view profile
+            </h1>
+            <p className="text-muted-foreground mb-8">
+              Please sign in to access your profile settings.
+            </p>
             <Button asChild variant="gold" size="lg">
               <Link to="/auth">Sign In</Link>
             </Button>
           </div>
         </main>
         <Footer />
-      </div>;
+      </div>
+    );
   }
-  const displayName = user.name || user.username || user.email?.split("@")[0] || "User";
-  const sidebarItems = [{
-    id: "dashboard" as TabType,
-    label: "DASHBOARD",
-    icon: User
-  }, {
-    id: "orders" as TabType,
-    label: "ORDERS",
-    icon: Package
-  }, {
-    id: "addresses" as TabType,
-    label: "ADDRESSES",
-    icon: MapPin
-  }, {
-    id: "account" as TabType,
-    label: "ACCOUNT DETAILS",
-    icon: Settings
-  }];
-  const renderDashboard = () => <div className="space-y-6">
+
+  const displayName =
+    profile?.display_name ||
+    [profile?.first_name, profile?.last_name].filter(Boolean).join(" ").trim() ||
+    user.name ||
+    user.username ||
+    user.email?.split("@")[0] ||
+    "User";
+
+  const sidebarItems: { id: TabType; label: string; icon: typeof User }[] = [
+    { id: "dashboard", label: "DASHBOARD", icon: User },
+    { id: "orders", label: "ORDERS", icon: Package },
+    { id: "addresses", label: "ADDRESSES", icon: MapPin },
+    { id: "account", label: "ACCOUNT DETAILS", icon: Settings },
+    { id: "password", label: "CHANGE PASSWORD", icon: KeyRound },
+  ];
+
+  const renderDashboard = () => (
+    <div className="space-y-6">
       <p className="text-foreground text-lg">
         Hello <span className="font-semibold">{displayName}</span>{" "}
         <span className="text-muted-foreground">
           (not {displayName}?{" "}
-          <button onClick={handleLogout} className="text-red-500 hover:text-red-600 transition-colors">
+          <button
+            onClick={handleLogout}
+            className="text-red-500 hover:text-red-600 transition-colors"
+          >
             Log out
           </button>
           )
         </span>
       </p>
-
       <p className="text-muted-foreground">
         From your account dashboard you can view your{" "}
-        <button onClick={() => setActiveTab("orders")} className="text-red-500 hover:text-red-600 transition-colors">
+        <button
+          onClick={() => setActiveTab("orders")}
+          className="text-red-500 hover:text-red-600 transition-colors"
+        >
           recent orders
         </button>
         , manage your{" "}
-        <button onClick={() => setActiveTab("addresses")} className="text-red-500 hover:text-red-600 transition-colors">
+        <button
+          onClick={() => setActiveTab("addresses")}
+          className="text-red-500 hover:text-red-600 transition-colors"
+        >
           shipping and billing addresses
         </button>
         , and{" "}
-        <button onClick={() => setActiveTab("account")} className="text-red-500 hover:text-red-600 transition-colors">
+        <button
+          onClick={() => setActiveTab("password")}
+          className="text-red-500 hover:text-red-600 transition-colors"
+        >
           edit your password and account details
         </button>
         .
       </p>
-    </div>;
-  const renderOrders = () => <div className="space-y-6">
-      {ordersLoading ? <div className="flex items-center justify-center py-8">
+    </div>
+  );
+
+  const renderOrders = () => (
+    <div className="space-y-6">
+      {ordersLoading ? (
+        <div className="flex items-center justify-center py-8">
           <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
-        </div> : orders.length === 0 ? <div className="bg-teal-600 text-white p-4 rounded flex items-center justify-between">
+        </div>
+      ) : orders.length === 0 ? (
+        <div className="bg-teal-600 text-white p-4 rounded flex items-center justify-between">
           <div className="flex items-center gap-3">
             <Info className="h-5 w-5" />
             <span>No order has been made yet.</span>
@@ -254,242 +365,362 @@ export default function ExternalProfile() {
           <Link to="/books" className="flex items-center gap-2 hover:underline">
             Browse products <ArrowRight className="h-4 w-4" />
           </Link>
-        </div> : <div className="space-y-4">
-          {orders.map(order => <div key={order.id} className="border rounded-lg p-4">
+        </div>
+      ) : (
+        <div className="space-y-4">
+          {orders.map((order) => (
+            <div key={order.id} className="border rounded-lg p-4">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm text-muted-foreground">Order #{order.id.slice(0, 8).toUpperCase()}</p>
+                  <p className="text-sm text-muted-foreground">
+                    Order #{order.id.slice(0, 8).toUpperCase()}
+                  </p>
                   <p className="text-sm text-muted-foreground">
                     {new Date(order.created_at).toLocaleDateString()}
                   </p>
                 </div>
                 <div className="text-right">
-                  <span className={`px-3 py-1 rounded-full text-xs font-medium capitalize ${order.status === 'completed' ? 'bg-green-100 text-green-800' : order.status === 'processing' ? 'bg-blue-100 text-blue-800' : 'bg-yellow-100 text-yellow-800'}`}>
+                  <span
+                    className={`px-3 py-1 rounded-full text-xs font-medium capitalize ${
+                      order.status === "completed"
+                        ? "bg-green-100 text-green-800"
+                        : order.status === "processing"
+                        ? "bg-blue-100 text-blue-800"
+                        : "bg-yellow-100 text-yellow-800"
+                    }`}
+                  >
                     {order.status}
                   </span>
                   <p className="font-semibold mt-1">${order.total.toFixed(2)}</p>
                 </div>
               </div>
-            </div>)}
-        </div>}
-    </div>;
-  const renderAddressForm = () => {
-    if (!editingAddress) return null;
-    const title = `${editingAddress.address_type === 'billing' ? 'Billing' : 'Shipping'} address`;
-    return <div className="space-y-6">
-        <h2 className="font-serif text-3xl font-semibold text-foreground">{title}</h2>
-        
-        <div className="space-y-4 max-w-2xl">
-          <div className="space-y-2">
-            <Label htmlFor="addr-firstName" className="uppercase text-xs font-medium">First Name *</Label>
-            <Input id="addr-firstName" value={editingAddress.first_name || ""} onChange={e => setEditingAddress({
-            ...editingAddress,
-            first_name: e.target.value
-          })} />
-          </div>
-          
-          <div className="space-y-2">
-            <Label htmlFor="addr-lastName" className="uppercase text-xs font-medium">Last Name *</Label>
-            <Input id="addr-lastName" value={editingAddress.last_name || ""} onChange={e => setEditingAddress({
-            ...editingAddress,
-            last_name: e.target.value
-          })} />
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="addr-company" className="uppercase text-xs font-medium">Company Name (optional)</Label>
-            <Input id="addr-company" value={editingAddress.company || ""} onChange={e => setEditingAddress({
-            ...editingAddress,
-            company: e.target.value
-          })} />
-          </div>
-          
-          <div className="space-y-2">
-            <Label htmlFor="addr-country" className="uppercase text-xs font-medium">Country / Region *</Label>
-            <Select value={editingAddress.country || ""} onValueChange={value => setEditingAddress({
-            ...editingAddress,
-            country: value
-          })}>
-              <SelectTrigger>
-                <SelectValue placeholder="Select a country / region..." />
-              </SelectTrigger>
-              <SelectContent>
-                {COUNTRIES.map(country => <SelectItem key={country} value={country}>{country}</SelectItem>)}
-              </SelectContent>
-            </Select>
-          </div>
-          
-          <div className="space-y-2">
-            <Label htmlFor="addr-street" className="uppercase text-xs font-medium">Street Address *</Label>
-            <Input id="addr-street" value={editingAddress.street_address || ""} onChange={e => setEditingAddress({
-            ...editingAddress,
-            street_address: e.target.value
-          })} placeholder="House number and street name" />
-            <Input id="addr-street2" value={editingAddress.street_address_2 || ""} onChange={e => setEditingAddress({
-            ...editingAddress,
-            street_address_2: e.target.value
-          })} placeholder="Apartment, suite, unit, etc. (optional)" className="mt-2" />
-          </div>
-          
-          <div className="space-y-2">
-            <Label htmlFor="addr-city" className="uppercase text-xs font-medium">Town / City *</Label>
-            <Input id="addr-city" value={editingAddress.city || ""} onChange={e => setEditingAddress({
-            ...editingAddress,
-            city: e.target.value
-          })} />
-          </div>
-          
-          <div className="space-y-2">
-            <Label htmlFor="addr-state" className="uppercase text-xs font-medium">State / County *</Label>
-            <Select value={editingAddress.state || ""} onValueChange={value => setEditingAddress({
-            ...editingAddress,
-            state: value
-          })}>
-              <SelectTrigger>
-                <SelectValue placeholder="Select an option..." />
-              </SelectTrigger>
-              <SelectContent>
-                {STATES.map(state => <SelectItem key={state} value={state}>{state}</SelectItem>)}
-              </SelectContent>
-            </Select>
-          </div>
-          
-          <div className="space-y-2">
-            <Label htmlFor="addr-postcode" className="uppercase text-xs font-medium">Postcode / ZIP *</Label>
-            <Input id="addr-postcode" value={editingAddress.postcode || ""} onChange={e => setEditingAddress({
-            ...editingAddress,
-            postcode: e.target.value
-          })} />
-          </div>
-          
-          <div className="space-y-2">
-            <Label htmlFor="addr-phone" className="uppercase text-xs font-medium">Phone *</Label>
-            <Input id="addr-phone" value={editingAddress.phone || ""} onChange={e => setEditingAddress({
-            ...editingAddress,
-            phone: e.target.value
-          })} />
-          </div>
-
-          <div className="flex gap-4 pt-4">
-            <Button onClick={handleSaveAddress} disabled={addressSaving} className="bg-red-500 hover:bg-red-600 text-white">
-              {addressSaving ? "Saving..." : "SAVE ADDRESS"}
-            </Button>
-            <Button variant="outline" onClick={handleCancelAddressForm}>
-              Cancel
-            </Button>
-          </div>
+            </div>
+          ))}
         </div>
-      </div>;
-  };
-  const renderAddresses = () => {
-    // If we're in form mode, show the form
-    if (addressFormMode !== 'view' && editingAddress) {
-      return renderAddressForm();
-    }
-    const billingAddress = addresses.find(a => a.address_type === 'billing');
-    const shippingAddress = addresses.find(a => a.address_type === 'shipping');
-    return <div className="space-y-6">
-        <p className="text-muted-foreground">
-          The following addresses will be used on the checkout page by default.
-        </p>
-        
-        {addressesLoading ? <div className="flex items-center justify-center py-8">
-            <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
-          </div> : <div className="grid md:grid-cols-2 gap-8">
-            {/* Billing Address */}
-            <div>
-              <h3 className="font-serif text-2xl font-semibold text-foreground mb-4">Billing address</h3>
-              {billingAddress ? <div className="space-y-1 text-muted-foreground">
-                  <button onClick={() => handleEditAddress(billingAddress)} className="text-red-500 hover:text-red-600 transition-colors uppercase text-sm font-medium mb-4 block">
-                    Edit Billing Address
-                  </button>
-                  <p>{billingAddress.first_name}</p>
-                  <p>{billingAddress.last_name}</p>
-                  {billingAddress.company && <p>{billingAddress.company}</p>}
-                  <p>{billingAddress.country}</p>
-                  <p>{billingAddress.street_address}</p>
-                  {billingAddress.street_address_2 && <p>{billingAddress.street_address_2}</p>}
-                  <p>{billingAddress.city}</p>
-                  <p>{billingAddress.state}</p>
-                  <p>{billingAddress.postcode}</p>
-                  <p>{billingAddress.phone}</p>
-                  <p>{user?.email}</p>
-                </div> : <div>
-                  <button onClick={() => handleAddAddress('billing')} className="text-red-500 hover:text-red-600 transition-colors uppercase text-sm font-medium">
-                    Add Billing Address
-                  </button>
-                  <p className="text-muted-foreground text-sm mt-2">
-                    You have not set up this type of address yet.
-                  </p>
-                </div>}
-            </div>
+      )}
+    </div>
+  );
 
-            {/* Shipping Address */}
-            <div>
-              <h3 className="font-serif text-2xl font-semibold text-foreground mb-4">Shipping address</h3>
-              {shippingAddress ? <div className="space-y-1 text-muted-foreground">
-                  <button onClick={() => handleEditAddress(shippingAddress)} className="text-red-500 hover:text-red-600 transition-colors uppercase text-sm font-medium mb-4 block">
-                    Edit Shipping Address
-                  </button>
-                  <p>{shippingAddress.first_name}</p>
-                  <p>{shippingAddress.last_name}</p>
-                  {shippingAddress.company && <p>{shippingAddress.company}</p>}
-                  <p>{shippingAddress.country}</p>
-                  <p>{shippingAddress.street_address}</p>
-                  {shippingAddress.street_address_2 && <p>{shippingAddress.street_address_2}</p>}
-                  <p>{shippingAddress.city}</p>
-                  <p>{shippingAddress.state}</p>
-                  <p>{shippingAddress.postcode}</p>
-                  <p>{shippingAddress.phone}</p>
-                  <p>{user?.email}</p>
-                </div> : <div>
-                  <button onClick={() => handleAddAddress('shipping')} className="text-red-500 hover:text-red-600 transition-colors uppercase text-sm font-medium">
-                    Add Shipping Address
-                  </button>
-                  <p className="text-muted-foreground text-sm mt-2">
-                    You have not set up this type of address yet.
-                  </p>
-                </div>}
-            </div>
-          </div>}
-      </div>;
-  };
-  const renderAccount = () => <div className="space-y-6">
+  const addressInputClass = "h-12 border-border bg-background";
+
+  type AddressFormShape = typeof billingForm & Partial<typeof shippingForm>;
+
+  const renderAddressFields = (
+    form: AddressFormShape,
+    setForm: (next: AddressFormShape) => void,
+    showEmail: boolean,
+    prefix: string
+  ) => (
+    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <div className="space-y-2">
+        <Label htmlFor={`${prefix}-first`} className="uppercase text-xs font-medium tracking-wider text-muted-foreground">
+          First Name
+        </Label>
+        <Input
+          id={`${prefix}-first`}
+          className={addressInputClass}
+          value={form.first_name}
+          onChange={(e) => setForm({ ...form, first_name: e.target.value })}
+        />
+      </div>
+      <div className="space-y-2">
+        <Label htmlFor={`${prefix}-last`} className="uppercase text-xs font-medium tracking-wider text-muted-foreground">
+          Last Name
+        </Label>
+        <Input
+          id={`${prefix}-last`}
+          className={addressInputClass}
+          value={form.last_name}
+          onChange={(e) => setForm({ ...form, last_name: e.target.value })}
+        />
+      </div>
+      <div className="space-y-2 sm:col-span-2">
+        <Label htmlFor={`${prefix}-company`} className="uppercase text-xs font-medium tracking-wider text-muted-foreground">
+          Company (optional)
+        </Label>
+        <Input
+          id={`${prefix}-company`}
+          className={addressInputClass}
+          value={form.company}
+          onChange={(e) => setForm({ ...form, company: e.target.value })}
+        />
+      </div>
+      <div className="space-y-2 sm:col-span-2">
+        <Label htmlFor={`${prefix}-addr1`} className="uppercase text-xs font-medium tracking-wider text-muted-foreground">
+          Street Address
+        </Label>
+        <Input
+          id={`${prefix}-addr1`}
+          className={addressInputClass}
+          placeholder="House number and street name"
+          value={form.address_1}
+          onChange={(e) => setForm({ ...form, address_1: e.target.value })}
+        />
+        <Input
+          id={`${prefix}-addr2`}
+          className={`${addressInputClass} mt-2`}
+          placeholder="Apartment, suite, unit, etc. (optional)"
+          value={form.address_2}
+          onChange={(e) => setForm({ ...form, address_2: e.target.value })}
+        />
+      </div>
+      <div className="space-y-2">
+        <Label htmlFor={`${prefix}-city`} className="uppercase text-xs font-medium tracking-wider text-muted-foreground">
+          Town / City
+        </Label>
+        <Input
+          id={`${prefix}-city`}
+          className={addressInputClass}
+          value={form.city}
+          onChange={(e) => setForm({ ...form, city: e.target.value })}
+        />
+      </div>
+      <div className="space-y-2">
+        <Label htmlFor={`${prefix}-state`} className="uppercase text-xs font-medium tracking-wider text-muted-foreground">
+          State / County
+        </Label>
+        <Input
+          id={`${prefix}-state`}
+          className={addressInputClass}
+          value={form.state}
+          onChange={(e) => setForm({ ...form, state: e.target.value })}
+        />
+      </div>
+      <div className="space-y-2">
+        <Label htmlFor={`${prefix}-postcode`} className="uppercase text-xs font-medium tracking-wider text-muted-foreground">
+          Postcode / ZIP
+        </Label>
+        <Input
+          id={`${prefix}-postcode`}
+          className={addressInputClass}
+          value={form.postcode}
+          onChange={(e) => setForm({ ...form, postcode: e.target.value })}
+        />
+      </div>
+      <div className="space-y-2">
+        <Label htmlFor={`${prefix}-country`} className="uppercase text-xs font-medium tracking-wider text-muted-foreground">
+          Country (ISO code)
+        </Label>
+        <Input
+          id={`${prefix}-country`}
+          className={addressInputClass}
+          placeholder="e.g. GB, US"
+          value={form.country}
+          onChange={(e) => setForm({ ...form, country: e.target.value.toUpperCase().slice(0, 2) })}
+        />
+      </div>
+      <div className="space-y-2">
+        <Label htmlFor={`${prefix}-phone`} className="uppercase text-xs font-medium tracking-wider text-muted-foreground">
+          Phone
+        </Label>
+        <Input
+          id={`${prefix}-phone`}
+          className={addressInputClass}
+          value={form.phone}
+          onChange={(e) => setForm({ ...form, phone: e.target.value })}
+        />
+      </div>
+      {showEmail && "email" in form && (
+        <div className="space-y-2 sm:col-span-2">
+          <Label htmlFor={`${prefix}-email`} className="uppercase text-xs font-medium tracking-wider text-muted-foreground">
+            Billing Email
+          </Label>
+          <Input
+            id={`${prefix}-email`}
+            type="email"
+            className={addressInputClass}
+            value={(form as typeof billingForm).email}
+            onChange={(e) =>
+              setForm({ ...form, email: e.target.value } as AddressFormShape)
+            }
+          />
+        </div>
+      )}
+    </div>
+  );
+
+  const renderAddresses = () => (
+    <div className="space-y-12">
+      {profileLoading ? (
+        <div className="flex items-center justify-center py-8">
+          <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
+        </div>
+      ) : (
+        <>
+          <section className="space-y-4">
+            <h2 className="font-serif text-2xl font-semibold text-foreground">Billing address</h2>
+            {renderAddressFields(
+              billingForm as AddressFormShape,
+              (next) => setBillingForm(next as typeof billingForm),
+              true,
+              "billing"
+            )}
+            <Button
+              onClick={handleSaveBilling}
+              disabled={billingSaving}
+              className="bg-red-500 hover:bg-red-600 text-white rounded-none uppercase tracking-wider"
+            >
+              {billingSaving ? "Saving..." : "Save Billing Address"}
+            </Button>
+          </section>
+
+          <section className="space-y-4">
+            <h2 className="font-serif text-2xl font-semibold text-foreground">Shipping address</h2>
+            {renderAddressFields(
+              shippingForm as AddressFormShape,
+              (next) => {
+                const { email: _email, ...rest } = next;
+                setShippingForm(rest as typeof shippingForm);
+              },
+              false,
+              "shipping"
+            )}
+            <Button
+              onClick={handleSaveShipping}
+              disabled={shippingSaving}
+              className="bg-red-500 hover:bg-red-600 text-white rounded-none uppercase tracking-wider"
+            >
+              {shippingSaving ? "Saving..." : "Save Shipping Address"}
+            </Button>
+          </section>
+        </>
+      )}
+    </div>
+  );
+
+  const renderAccount = () => (
+    <div className="space-y-6">
       <h2 className="font-serif text-2xl font-semibold text-foreground">Account Details</h2>
 
-      <div className="space-y-4">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="space-y-1">
-            <p className="text-xs font-medium tracking-wider uppercase text-muted-foreground">User ID</p>
-            <p className="text-foreground font-mono text-sm bg-secondary px-3 py-2 rounded">{user.id || "—"}</p>
-          </div>
-
-          <div className="space-y-1">
-            <p className="text-xs font-medium tracking-wider uppercase text-muted-foreground">Username</p>
-            <p className="text-foreground bg-secondary px-3 py-2 rounded">{user.username || "—"}</p>
-          </div>
-
-          <div className="space-y-1 md:col-span-2">
-            <p className="text-xs font-medium tracking-wider uppercase text-muted-foreground flex items-center gap-1">
-              <Mail className="h-3 w-3" />
-              Email Address
-            </p>
-            <p className="text-foreground bg-secondary px-3 py-2 rounded">{user.email || "—"}</p>
-          </div>
-
-          {user.name && <div className="space-y-1 md:col-span-2">
-              <p className="text-xs font-medium tracking-wider uppercase text-muted-foreground">Full Name</p>
-              <p className="text-foreground bg-secondary px-3 py-2 rounded">{user.name}</p>
-            </div>}
-        </div>
-
-        <div className="pt-2">
-          <Button asChild variant="outline">
-            <Link to="/set-password">Change Password</Link>
-          </Button>
-        </div>
+      <div className="space-y-1">
+        <p className="text-xs font-medium tracking-wider uppercase text-muted-foreground flex items-center gap-1">
+          <Mail className="h-3 w-3" />
+          Email Address
+        </p>
+        <p className="text-foreground bg-secondary px-3 py-2 rounded">
+          {profile?.email || user.email || "—"}
+        </p>
       </div>
-    </div>;
+
+      {profileLoading ? (
+        <div className="flex items-center py-4">
+          <Loader2 className="h-5 w-5 animate-spin text-muted-foreground" />
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="space-y-2">
+            <Label htmlFor="acc-first" className="uppercase text-xs font-medium tracking-wider text-muted-foreground">
+              First Name
+            </Label>
+            <Input
+              id="acc-first"
+              className={addressInputClass}
+              value={profileForm.first_name}
+              onChange={(e) => setProfileForm({ ...profileForm, first_name: e.target.value })}
+            />
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="acc-last" className="uppercase text-xs font-medium tracking-wider text-muted-foreground">
+              Last Name
+            </Label>
+            <Input
+              id="acc-last"
+              className={addressInputClass}
+              value={profileForm.last_name}
+              onChange={(e) => setProfileForm({ ...profileForm, last_name: e.target.value })}
+            />
+          </div>
+          <div className="space-y-2 sm:col-span-2">
+            <Label htmlFor="acc-display" className="uppercase text-xs font-medium tracking-wider text-muted-foreground">
+              Display Name
+            </Label>
+            <Input
+              id="acc-display"
+              className={addressInputClass}
+              value={profileForm.display_name}
+              onChange={(e) => setProfileForm({ ...profileForm, display_name: e.target.value })}
+            />
+          </div>
+          <div className="space-y-2 sm:col-span-2">
+            <Label htmlFor="acc-phone" className="uppercase text-xs font-medium tracking-wider text-muted-foreground">
+              Phone
+            </Label>
+            <Input
+              id="acc-phone"
+              className={addressInputClass}
+              value={profileForm.phone}
+              onChange={(e) => setProfileForm({ ...profileForm, phone: e.target.value })}
+            />
+          </div>
+          <div className="sm:col-span-2">
+            <Button
+              onClick={handleSaveProfile}
+              disabled={profileSaving}
+              className="bg-red-500 hover:bg-red-600 text-white rounded-none uppercase tracking-wider"
+            >
+              {profileSaving ? "Saving..." : "Save Changes"}
+            </Button>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+
+  const renderPassword = () => (
+    <div className="space-y-6 max-w-xl">
+      <h2 className="font-serif text-2xl font-semibold text-foreground">Change Password</h2>
+      <div className="space-y-4">
+        <div className="space-y-2">
+          <Label htmlFor="pw-current" className="uppercase text-xs font-medium tracking-wider text-muted-foreground">
+            Current Password
+          </Label>
+          <Input
+            id="pw-current"
+            type="password"
+            autoComplete="current-password"
+            className={addressInputClass}
+            value={pwForm.current_password}
+            onChange={(e) => setPwForm({ ...pwForm, current_password: e.target.value })}
+          />
+        </div>
+        <div className="space-y-2">
+          <Label htmlFor="pw-new" className="uppercase text-xs font-medium tracking-wider text-muted-foreground">
+            New Password
+          </Label>
+          <Input
+            id="pw-new"
+            type="password"
+            autoComplete="new-password"
+            className={addressInputClass}
+            value={pwForm.new_password}
+            onChange={(e) => setPwForm({ ...pwForm, new_password: e.target.value })}
+          />
+          <p className="text-xs text-muted-foreground">Must be at least 8 characters.</p>
+        </div>
+        <div className="space-y-2">
+          <Label htmlFor="pw-confirm" className="uppercase text-xs font-medium tracking-wider text-muted-foreground">
+            Confirm New Password
+          </Label>
+          <Input
+            id="pw-confirm"
+            type="password"
+            autoComplete="new-password"
+            className={addressInputClass}
+            value={pwForm.confirm_new_password}
+            onChange={(e) => setPwForm({ ...pwForm, confirm_new_password: e.target.value })}
+          />
+        </div>
+        <Button
+          onClick={handleChangePassword}
+          disabled={pwSaving}
+          className="bg-red-500 hover:bg-red-600 text-white rounded-none uppercase tracking-wider"
+        >
+          {pwSaving ? "Updating..." : "Update Password"}
+        </Button>
+      </div>
+    </div>
+  );
+
   const renderContent = () => {
     switch (activeTab) {
       case "dashboard":
@@ -500,11 +731,15 @@ export default function ExternalProfile() {
         return renderAddresses();
       case "account":
         return renderAccount();
+      case "password":
+        return renderPassword();
       default:
         return renderDashboard();
     }
   };
-  return <div className="min-h-screen bg-background">
+
+  return (
+    <div className="min-h-screen bg-background">
       <Header />
 
       <div className="bg-[#f4f3ec] pt-28 sm:pt-32 pb-10 sm:pb-14 px-6 md:px-16">
@@ -515,27 +750,38 @@ export default function ExternalProfile() {
       </div>
 
       <main>
-
         <div className="container-wide py-12">
           <div className="grid lg:grid-cols-[280px_1fr] gap-12">
-            {/* Sidebar */}
             <nav className="space-y-0">
-              {sidebarItems.map(item => <button key={item.id} onClick={() => setActiveTab(item.id)} className={`w-full text-left px-4 py-4 border-b border-border transition-colors flex items-center gap-3 ${activeTab === item.id ? "bg-red-500 text-white border-red-500" : "hover:bg-secondary text-foreground"}`}>
+              {sidebarItems.map((item) => (
+                <button
+                  key={item.id}
+                  onClick={() => setActiveTab(item.id)}
+                  className={`w-full text-left px-4 py-4 border-b border-border transition-colors flex items-center gap-3 ${
+                    activeTab === item.id
+                      ? "bg-red-500 text-white border-red-500"
+                      : "hover:bg-secondary text-foreground"
+                  }`}
+                >
                   <item.icon className="h-4 w-4" />
                   {item.label}
-                </button>)}
-              <button onClick={handleLogout} className="w-full text-left px-4 py-4 border-b border-border transition-colors flex items-center gap-3 hover:bg-secondary text-foreground">
+                </button>
+              ))}
+              <button
+                onClick={handleLogout}
+                className="w-full text-left px-4 py-4 border-b border-border transition-colors flex items-center gap-3 hover:bg-secondary text-foreground"
+              >
                 <LogOut className="h-4 w-4" />
                 LOG OUT
               </button>
             </nav>
 
-            {/* Content */}
             <div className="min-h-[400px]">{renderContent()}</div>
           </div>
         </div>
       </main>
 
       <Footer />
-    </div>;
+    </div>
+  );
 }
