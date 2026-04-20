@@ -314,8 +314,8 @@ export default function AdminHeroSlides() {
             Slides appear on the homepage in the order shown below. Use the arrows to reorder.
           </p>
           {slides.map((slide, index) => (
-            <div key={slide.id} className="border border-border p-4 flex gap-4 items-start">
-              <div className="flex flex-col items-center gap-1 pt-1">
+            <div key={slide.id} className="border border-border p-3 sm:p-4 flex flex-wrap sm:flex-nowrap gap-3 sm:gap-4 items-start">
+              <div className="flex sm:flex-col items-center gap-1 sm:pt-1 order-1">
                 <span className="text-xs font-nav uppercase tracking-wider text-muted-foreground">#{index + 1}</span>
                 <Button
                   variant="ghost"
@@ -339,18 +339,18 @@ export default function AdminHeroSlides() {
                 </Button>
               </div>
               {slide.cover_image && (
-                <img src={slide.cover_image} alt="" className="w-16 h-20 object-cover" />
+                <img src={slide.cover_image} alt="" className="w-12 h-16 sm:w-16 sm:h-20 object-cover order-2 flex-shrink-0" />
               )}
-              <div className="flex-1 min-w-0">
-                <h3 className="font-baskerville text-lg text-foreground">{slide.title}</h3>
+              <div className="flex-1 min-w-0 order-4 sm:order-3 basis-full sm:basis-auto">
+                <h3 className="font-baskerville text-base sm:text-lg text-foreground break-words">{slide.title}</h3>
                 {slide.author && (
-                  <p className="text-xs text-muted-foreground mt-0.5">{slide.author}</p>
+                  <p className="text-xs text-muted-foreground mt-0.5 break-words">{slide.author}</p>
                 )}
                 {slide.quote && (
-                  <p className="text-sm text-muted-foreground italic line-clamp-2 mt-1">"{slide.quote}"</p>
+                  <p className="text-sm text-muted-foreground italic line-clamp-2 mt-1 break-words">"{slide.quote}"</p>
                 )}
               </div>
-              <div className="flex gap-1">
+              <div className="flex gap-1 order-3 sm:order-4 ml-auto sm:ml-0">
                 <Button variant="ghost" size="sm" onClick={() => setEditing({ ...slide })}>
                   <Pencil className="h-4 w-4" />
                 </Button>
