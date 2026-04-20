@@ -6,7 +6,7 @@ import { toast } from "sonner";
 
 const navItems = [
   { to: "/admin", label: "Dashboard", icon: LayoutDashboard, end: true },
-  { to: "/admin/hero-slides", label: "Hero Slides", icon: Sparkles, end: false },
+  { to: "/admin/hero-slides", label: "Featured Reviews", icon: Sparkles, end: false },
   { to: "/admin/news", label: "News", icon: Newspaper, end: false },
   { to: "/admin/admins", label: "Admins", icon: Users, end: false },
 ];

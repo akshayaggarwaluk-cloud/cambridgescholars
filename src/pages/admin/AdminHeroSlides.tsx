@@ -79,8 +79,8 @@ export default function AdminHeroSlides() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="font-baskerville text-3xl text-foreground">Hero Slides</h1>
-          <p className="text-muted-foreground text-sm">Featured Reviews carousel content.</p>
+          <h1 className="font-baskerville text-3xl text-foreground">Featured Reviews</h1>
+          <p className="text-muted-foreground text-sm">Homepage Featured Reviews carousel content.</p>
         </div>
         {!editing && (
           <Button onClick={() => setEditing({ ...empty })} className="bg-accent hover:bg-accent/90">
