@@ -75,16 +75,12 @@ export default function AdminHeroSlides() {
     try {
       const book = await fetchBookByIsbn(s.isbn);
       const reviewer = book?.apiReviews?.[0];
-      const authorName = (book as { authors?: string; author?: string })?.authors
-        || (book as { authors?: string; author?: string })?.author
-        || s.authors
-        || "";
+      const authorName = book?.author || s.authors || "";
       setEditing((prev) => prev ? {
         ...prev,
         title: book?.title || s.title,
-        subtitle: book?.subtitle || prev.subtitle || "",
         author: authorName || prev.author || "",
-        cover_image: book?.image || s.cover_image || prev.cover_image || "",
+        cover_image: book?.image || s.cover_image || "",
         link_url: `/books/${s.isbn}`,
         quote: reviewer?.review || prev.quote || "",
         reviewer_name: reviewer?.reviewer || prev.reviewer_name || "",
