@@ -1,16 +1,25 @@
-import { Link, NavLink, Outlet } from "react-router-dom";
-import { LayoutDashboard, Newspaper, Sparkles, ExternalLink } from "lucide-react";
+import { Link, NavLink, Outlet, useNavigate } from "react-router-dom";
+import { LayoutDashboard, Newspaper, Sparkles, ExternalLink, LogOut, Users } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { useExternalAuth } from "@/contexts/ExternalAuthContext";
+import { adminLogout, adminSession } from "@/services/cmsService";
+import { toast } from "sonner";
 
 const navItems = [
   { to: "/admin", label: "Dashboard", icon: LayoutDashboard, end: true },
   { to: "/admin/hero-slides", label: "Hero Slides", icon: Sparkles, end: false },
   { to: "/admin/news", label: "News", icon: Newspaper, end: false },
+  { to: "/admin/admins", label: "Admins", icon: Users, end: false },
 ];
 
 export default function AdminLayout() {
-  const { user } = useExternalAuth();
+  const navigate = useNavigate();
+  const user = adminSession.getUser();
+
+  const handleLogout = () => {
+    adminLogout();
+    toast.success("Signed out");
+    navigate("/admin/login", { replace: true });
+  };
 
   return (
     <div className="min-h-screen bg-[#f4f3ec]">
@@ -27,6 +36,12 @@ export default function AdminLayout() {
             >
               View site <ExternalLink className="h-3 w-3" />
             </Link>
+            <button
+              onClick={handleLogout}
+              className="inline-flex items-center gap-1 uppercase tracking-wider text-xs hover:text-accent"
+            >
+              <LogOut className="h-3 w-3" /> Logout
+            </button>
           </div>
         </div>
       </header>

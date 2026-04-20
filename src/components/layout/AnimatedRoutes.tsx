@@ -41,9 +41,11 @@ import AuthorExperiences from "@/pages/AuthorExperiences";
 
 import AdminGate from "@/components/admin/AdminGate";
 import AdminLayout from "@/components/admin/AdminLayout";
+import AdminLogin from "@/pages/admin/AdminLogin";
 import AdminDashboard from "@/pages/admin/AdminDashboard";
 import AdminHeroSlides from "@/pages/admin/AdminHeroSlides";
 import AdminNews from "@/pages/admin/AdminNews";
+import AdminAdmins from "@/pages/admin/AdminAdmins";
 
 export function AnimatedRoutes() {
   const location = useLocation();
@@ -86,10 +88,12 @@ export function AnimatedRoutes() {
         <Route path="/author-experiences" element={<PageTransition><AuthorExperiences /></PageTransition>} />
 
         {/* CMS Admin */}
+        <Route path="/admin/login" element={<AdminLogin />} />
         <Route path="/admin" element={<AdminGate><AdminLayout /></AdminGate>}>
           <Route index element={<AdminDashboard />} />
           <Route path="hero-slides" element={<AdminHeroSlides />} />
           <Route path="news" element={<AdminNews />} />
+          <Route path="admins" element={<AdminAdmins />} />
         </Route>
 
         <Route path="*" element={<PageTransition><NotFound /></PageTransition>} />

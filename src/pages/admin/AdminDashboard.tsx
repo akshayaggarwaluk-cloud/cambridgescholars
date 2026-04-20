@@ -1,19 +1,16 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { Sparkles, Newspaper, ArrowRight } from "lucide-react";
+import { Sparkles, Newspaper, Users, ArrowRight } from "lucide-react";
 import { adminApi } from "@/services/cmsService";
-import { useExternalAuth } from "@/contexts/ExternalAuthContext";
 
 export default function AdminDashboard() {
-  const { token } = useExternalAuth();
-  const [counts, setCounts] = useState({ hero: 0, news: 0 });
+  const [counts, setCounts] = useState({ hero: 0, news: 0, admins: 0 });
 
   useEffect(() => {
-    if (!token) return;
-    Promise.all([adminApi.listHero(token), adminApi.listNews(token)])
-      .then(([h, n]) => setCounts({ hero: h.length, news: n.length }))
+    Promise.all([adminApi.listHero(), adminApi.listNews(), adminApi.listAdmins()])
+      .then(([h, n, a]) => setCounts({ hero: h.length, news: n.length, admins: a.length }))
       .catch(() => undefined);
-  }, [token]);
+  }, []);
 
   const tiles = [
     {
@@ -30,6 +27,13 @@ export default function AdminDashboard() {
       desc: "Add, edit and publish news articles.",
       icon: Newspaper,
     },
+    {
+      to: "/admin/admins",
+      label: "Admins",
+      count: counts.admins,
+      desc: "Manage who has access to this CMS portal.",
+      icon: Users,
+    },
   ];
 
   return (
@@ -41,7 +45,7 @@ export default function AdminDashboard() {
         </p>
       </div>
 
-      <div className="grid sm:grid-cols-2 gap-4">
+      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {tiles.map(({ to, label, count, desc, icon: Icon }) => (
           <Link
             key={to}

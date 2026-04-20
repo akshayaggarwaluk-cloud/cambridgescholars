@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { Plus, Pencil, Trash2, Loader2, Save, X } from "lucide-react";
 import { adminApi, type CmsNewsArticle } from "@/services/cmsService";
-import { useExternalAuth } from "@/contexts/ExternalAuthContext";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import ImageUploadField from "@/components/admin/ImageUploadField";
@@ -31,17 +30,15 @@ const empty: EditState = {
 };
 
 export default function AdminNews() {
-  const { token } = useExternalAuth();
   const [articles, setArticles] = useState<CmsNewsArticle[]>([]);
   const [loading, setLoading] = useState(true);
   const [editing, setEditing] = useState<EditState | null>(null);
   const [saving, setSaving] = useState(false);
 
   const reload = async () => {
-    if (!token) return;
     setLoading(true);
     try {
-      setArticles(await adminApi.listNews(token));
+      setArticles(await adminApi.listNews());
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "Failed to load");
     } finally {
@@ -49,23 +46,20 @@ export default function AdminNews() {
     }
   };
 
-  useEffect(() => {
-    reload();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [token]);
+  useEffect(() => { reload(); }, []);
 
   const save = async () => {
-    if (!token || !editing) return;
+    if (!editing) return;
     if (!editing.title?.trim()) return toast.error("Title is required");
     if (!editing.slug?.trim()) return toast.error("Slug is required");
 
     setSaving(true);
     try {
       if (editing._new) {
-        await adminApi.createNews(token, editing);
+        await adminApi.createNews(editing);
         toast.success("Article created");
       } else {
-        await adminApi.updateNews(token, editing as CmsNewsArticle);
+        await adminApi.updateNews(editing as CmsNewsArticle);
         toast.success("Article updated");
       }
       setEditing(null);
@@ -78,10 +72,9 @@ export default function AdminNews() {
   };
 
   const remove = async (id: string) => {
-    if (!token) return;
     if (!confirm("Delete this article?")) return;
     try {
-      await adminApi.deleteNews(token, id);
+      await adminApi.deleteNews(id);
       toast.success("Article deleted");
       reload();
     } catch (err) {
