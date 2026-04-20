@@ -35,6 +35,61 @@ export default function AdminHeroSlides() {
   const [editing, setEditing] = useState<EditState | null>(null);
   const [saving, setSaving] = useState(false);
 
+  // Book autocomplete state
+  const [suggestions, setSuggestions] = useState<BookSuggestion[]>([]);
+  const [searching, setSearching] = useState(false);
+  const [showSuggestions, setShowSuggestions] = useState(false);
+  const [importing, setImporting] = useState(false);
+  const debounceRef = useRef<number | null>(null);
+
+  const searchBooks = (q: string) => {
+    if (debounceRef.current) window.clearTimeout(debounceRef.current);
+    if (!q || q.trim().length < 2) {
+      setSuggestions([]);
+      setShowSuggestions(false);
+      return;
+    }
+    setSearching(true);
+    debounceRef.current = window.setTimeout(async () => {
+      try {
+        const res = await fetchAutocomplete(q.trim());
+        setSuggestions(res);
+        setShowSuggestions(true);
+      } catch {
+        setSuggestions([]);
+      } finally {
+        setSearching(false);
+      }
+    }, 250);
+  };
+
+  const pickBook = async (s: BookSuggestion) => {
+    setShowSuggestions(false);
+    setSuggestions([]);
+    if (!editing) return;
+    setImporting(true);
+    try {
+      const book = await fetchBookByIsbn(s.isbn);
+      const reviewer = book?.apiReviews?.[0];
+      setEditing((prev) => prev ? {
+        ...prev,
+        title: book?.title || s.title,
+        subtitle: book?.subtitle || prev.subtitle || "",
+        cover_image: book?.image || s.cover_image || prev.cover_image || "",
+        link_url: `/books/${s.isbn}`,
+        quote: reviewer?.review || prev.quote || "",
+        reviewer_name: reviewer?.reviewer || prev.reviewer_name || "",
+        reviewer_position: reviewer?.reviewer_position || prev.reviewer_position || "",
+      } : prev);
+      toast.success(`Loaded "${book?.title || s.title}"`);
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "Failed to load book");
+    } finally {
+      setImporting(false);
+    }
+  };
+
+
   const reload = async () => {
     setLoading(true);
     try {
