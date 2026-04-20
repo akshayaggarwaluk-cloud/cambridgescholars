@@ -60,7 +60,7 @@ export function WelcomeSection() {
                 </div>
 
                 {/* Description */}
-                <p className="font-nav mb-6 leading-relaxed text-sm md:text-base text-[#333333]">
+                <p className="font-nav mb-6 leading-relaxed text-sm text-[#333333] md:text-sm">
                   {service.description}
                 </p>
 
