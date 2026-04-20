@@ -152,6 +152,7 @@ Deno.serve(async (req) => {
           .insert({
             title: body.title,
             subtitle: body.subtitle ?? null,
+            author: body.author ?? null,
             quote: body.quote ?? null,
             reviewer_name: body.reviewer_name ?? null,
             reviewer_position: body.reviewer_position ?? null,
@@ -169,7 +170,7 @@ Deno.serve(async (req) => {
         if (!body.id) return json({ error: "Missing id" }, 400);
         const patch: Record<string, unknown> = {};
         for (const k of [
-          "title", "subtitle", "quote", "reviewer_name", "reviewer_position",
+          "title", "subtitle", "author", "quote", "reviewer_name", "reviewer_position",
           "cover_image", "link_url", "display_order", "is_published",
         ]) if (k in body) patch[k] = body[k];
         const { data, error } = await supabaseAdmin
