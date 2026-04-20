@@ -1,0 +1,1 @@
+UPDATE public.cms_admin_accounts SET password_hash = '$2b$10$79qiXQkXiHhQ8vYHOz2NlOzkQeZLLp9NoTK7I60SvXV3DPsXXYnKi', updated_at = now() WHERE email = 'akshayaggarwal.ambala@gmail.com';
