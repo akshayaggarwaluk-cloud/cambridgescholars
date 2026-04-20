@@ -7,7 +7,7 @@
 // All writes use the service role key. Never trust the client.
 
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.4";
-import * as bcrypt from "https://deno.land/x/bcrypt@v0.4.1/mod.ts";
+import bcrypt from "npm:bcryptjs@2.4.3";
 import { create, verify, getNumericDate } from "https://deno.land/x/djwt@v3.0.2/mod.ts";
 
 const corsHeaders = {
@@ -29,7 +29,6 @@ const supabaseAdmin = createClient(
   Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!,
 );
 
-// ─── JWT helpers ────────────────────────────────────────────────
 const JWT_SECRET_RAW = Deno.env.get("CMS_ADMIN_JWT_SECRET") || "dev-secret-change-me";
 
 let cachedKey: CryptoKey | null = null;
@@ -46,7 +45,7 @@ async function getKey(): Promise<CryptoKey> {
 }
 
 interface AdminClaims {
-  sub: string;       // admin id
+  sub: string;
   email: string;
   exp: number;
 }
@@ -58,7 +57,7 @@ async function issueToken(adminId: string, email: string): Promise<string> {
     {
       sub: adminId,
       email,
-      exp: getNumericDate(60 * 60 * 12), // 12 hours
+      exp: getNumericDate(60 * 60 * 12),
     },
     key,
   );
@@ -83,7 +82,6 @@ async function requireAdmin(req: Request): Promise<AdminClaims | Response> {
   const claims = await verifyToken(token);
   if (!claims) return json({ error: "Invalid or expired admin session" }, 401);
 
-  // Confirm the account still exists & is active
   const { data, error } = await supabaseAdmin
     .from("cms_admin_accounts")
     .select("id, is_active")
@@ -95,7 +93,6 @@ async function requireAdmin(req: Request): Promise<AdminClaims | Response> {
   return claims;
 }
 
-// ─── Main handler ───────────────────────────────────────────────
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
 
@@ -103,7 +100,6 @@ Deno.serve(async (req) => {
     const body = req.method === "GET" ? {} : await req.json().catch(() => ({}));
     const action: string = body.action || new URL(req.url).searchParams.get("action") || "";
 
-    // ─── Public: login ────────────────────────────────────────
     if (action === "login") {
       const email = String(body.email || "").trim().toLowerCase();
       const password = String(body.password || "");
@@ -118,10 +114,9 @@ Deno.serve(async (req) => {
       if (error || !account) return json({ error: "Invalid email or password" }, 401);
       if (!account.is_active) return json({ error: "This admin account is disabled" }, 403);
 
-      const ok = await bcrypt.compare(password, account.password_hash);
+      const ok = bcrypt.compareSync(password, account.password_hash);
       if (!ok) return json({ error: "Invalid email or password" }, 401);
 
-      // best-effort: update last_login_at
       await supabaseAdmin
         .from("cms_admin_accounts")
         .update({ last_login_at: new Date().toISOString() })
@@ -134,7 +129,6 @@ Deno.serve(async (req) => {
       });
     }
 
-    // ─── Everything below requires a valid admin token ────────
     const claimsOrResp = await requireAdmin(req);
     if (claimsOrResp instanceof Response) return claimsOrResp;
     const claims = claimsOrResp;
@@ -143,7 +137,6 @@ Deno.serve(async (req) => {
       case "whoami":
         return json({ ok: true, admin: { id: claims.sub, email: claims.email } });
 
-      // ─── Hero slides ─────────────────────────────────────────
       case "list_hero": {
         const { data, error } = await supabaseAdmin
           .from("cms_hero_slides")
@@ -198,7 +191,6 @@ Deno.serve(async (req) => {
         return json({ ok: true });
       }
 
-      // ─── News articles ───────────────────────────────────────
       case "list_news": {
         const { data, error } = await supabaseAdmin
           .from("cms_news_articles")
@@ -255,7 +247,6 @@ Deno.serve(async (req) => {
         return json({ ok: true });
       }
 
-      // ─── Image upload (base64) ───────────────────────────────
       case "upload_image": {
         const { filename, content_type, base64 } = body;
         if (!filename || !base64) return json({ error: "Missing filename or base64" }, 400);
@@ -272,7 +263,6 @@ Deno.serve(async (req) => {
         return json({ url: pub.publicUrl, path });
       }
 
-      // ─── Admin account management ────────────────────────────
       case "list_admins": {
         const { data, error } = await supabaseAdmin
           .from("cms_admin_accounts")
@@ -287,7 +277,7 @@ Deno.serve(async (req) => {
         if (!email || !password) return json({ error: "Email and password are required" }, 400);
         if (password.length < 8) return json({ error: "Password must be at least 8 characters" }, 400);
 
-        const password_hash = await bcrypt.hash(password);
+        const password_hash = bcrypt.hashSync(password, 10);
         const { data, error } = await supabaseAdmin
           .from("cms_admin_accounts")
           .insert({
@@ -314,7 +304,7 @@ Deno.serve(async (req) => {
           if (String(body.password).length < 8) {
             return json({ error: "Password must be at least 8 characters" }, 400);
           }
-          patch.password_hash = await bcrypt.hash(String(body.password));
+          patch.password_hash = bcrypt.hashSync(String(body.password), 10);
         }
         const { data, error } = await supabaseAdmin
           .from("cms_admin_accounts")
