@@ -112,7 +112,7 @@ export function HeroSection() {
                 <motion.p variants={textVariants} transition={{ duration: 0.4 }} className="font-baskerville text-accent uppercase tracking-[0.25em] text-lg font-medium">Featured Review</motion.p>
                 <motion.h1 variants={textVariants} transition={{ duration: 0.4, delay: 0.05 }} className="font-baskerville text-3xl md:text-4xl font-normal leading-[1.65] text-foreground lg:text-4xl">{activeReview.bookTitle}</motion.h1>
                 {activeReview.author && (
-                  <motion.p variants={textVariants} transition={{ duration: 0.4, delay: 0.1 }} className="text-foreground text-sm md:text-base font-medium">By {activeReview.author}</motion.p>
+                  <motion.p variants={textVariants} transition={{ duration: 0.4, delay: 0.1 }} className="text-foreground text-sm md:text-base font-medium font-nav">By {activeReview.author}</motion.p>
                 )}
                 <motion.p variants={textVariants} transition={{ duration: 0.4, delay: 0.15 }} className="text-muted-foreground text-sm md:text-base italic leading-relaxed">"{activeReview.quote}"</motion.p>
                 <motion.p variants={textVariants} transition={{ duration: 0.4, delay: 0.2 }} className="text-foreground text-sm font-semibold">– {activeReview.reviewer}</motion.p>
