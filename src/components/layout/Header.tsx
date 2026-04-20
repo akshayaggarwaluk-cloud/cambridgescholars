@@ -81,7 +81,7 @@ export function Header() {
         )}
       >
         <nav className="container-wide">
-          <div className="flex items-center justify-between h-20 lg:h-24 text-foreground">
+          <div className="relative flex items-center justify-between h-20 lg:h-24 text-foreground">
             {/* Mobile hamburger + search (left) */}
             <div className="flex lg:hidden items-center gap-1">
               <Button
@@ -95,8 +95,11 @@ export function Header() {
               </Button>
             </div>
 
-            {/* Logo */}
-            <Link to="/" className="flex items-center gap-3 lg:flex-none">
+            {/* Logo — centered on mobile via absolute positioning, inline on desktop */}
+            <Link
+              to="/"
+              className="flex items-center gap-3 lg:flex-none absolute left-1/2 -translate-x-1/2 lg:static lg:translate-x-0"
+            >
               <img
                 src={logoImage}
                 alt="Cambridge Scholars Publishing"
