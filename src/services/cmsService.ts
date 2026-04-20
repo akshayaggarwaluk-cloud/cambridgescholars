@@ -1,9 +1,40 @@
 /**
  * CMS service — wraps the cms-admin edge function.
- * The CSP access token is sent via the X-CSP-Token header so the
- * function can verify the user upstream and check admin allowlist.
+ *
+ * Admin auth is fully self-contained: admins log in with email + password
+ * via `login`, receive a signed JWT, and send it on every subsequent call
+ * via the `X-Admin-Token` header.
  */
 import { supabase } from "@/integrations/supabase/client";
+
+const ADMIN_TOKEN_KEY = "cms_admin_token";
+const ADMIN_USER_KEY = "cms_admin_user";
+
+export interface CmsAdminUser {
+  id: string;
+  email: string;
+  name?: string | null;
+}
+
+export const adminSession = {
+  getToken(): string | null {
+    try { return localStorage.getItem(ADMIN_TOKEN_KEY); } catch { return null; }
+  },
+  getUser(): CmsAdminUser | null {
+    try {
+      const raw = localStorage.getItem(ADMIN_USER_KEY);
+      return raw ? (JSON.parse(raw) as CmsAdminUser) : null;
+    } catch { return null; }
+  },
+  set(token: string, user: CmsAdminUser) {
+    localStorage.setItem(ADMIN_TOKEN_KEY, token);
+    localStorage.setItem(ADMIN_USER_KEY, JSON.stringify(user));
+  },
+  clear() {
+    localStorage.removeItem(ADMIN_TOKEN_KEY);
+    localStorage.removeItem(ADMIN_USER_KEY);
+  },
+};
 
 export interface CmsHeroSlide {
   id: string;
@@ -33,6 +64,15 @@ export interface CmsNewsArticle {
   is_published: boolean;
   created_at: string;
   updated_at: string;
+}
+
+export interface CmsAdminAccount {
+  id: string;
+  email: string;
+  name: string | null;
+  is_active: boolean;
+  last_login_at: string | null;
+  created_at: string;
 }
 
 // ─── Public reads (no auth) ─────────────────────────────────────
@@ -72,16 +112,17 @@ export async function fetchPublishedNewsBySlug(slug: string): Promise<CmsNewsArt
 // ─── Admin calls (via edge function) ────────────────────────────
 
 async function callAdmin<T = unknown>(
-  cspToken: string | null,
   body: Record<string, unknown>,
+  opts: { token?: string | null; requireAuth?: boolean } = {},
 ): Promise<T> {
-  if (!cspToken) throw new Error("Not signed in");
-  const { data, error } = await supabase.functions.invoke("cms-admin", {
-    body,
-    headers: { "X-CSP-Token": cspToken },
-  });
+  const token = opts.token ?? adminSession.getToken();
+  if (opts.requireAuth !== false && !token) throw new Error("Not signed in");
+
+  const headers: Record<string, string> = {};
+  if (token) headers["X-Admin-Token"] = token;
+
+  const { data, error } = await supabase.functions.invoke("cms-admin", { body, headers });
   if (error) {
-    // Try to surface the structured error returned by the function
     type ErrCtx = { context?: { body?: string } };
     const ctxBody = (error as ErrCtx).context?.body;
     if (ctxBody) {
@@ -100,36 +141,53 @@ async function callAdmin<T = unknown>(
   return data as T;
 }
 
-export async function checkIsAdmin(cspToken: string | null): Promise<boolean> {
-  if (!cspToken) return false;
+// ─── Auth ───────────────────────────────────────────────────────
+
+export async function adminLogin(email: string, password: string): Promise<CmsAdminUser> {
+  const res = await callAdmin<{ token: string; admin: CmsAdminUser }>(
+    { action: "login", email, password },
+    { requireAuth: false },
+  );
+  adminSession.set(res.token, res.admin);
+  return res.admin;
+}
+
+export function adminLogout() {
+  adminSession.clear();
+}
+
+export async function adminWhoAmI(): Promise<CmsAdminUser | null> {
+  const token = adminSession.getToken();
+  if (!token) return null;
   try {
-    const res = await callAdmin<{ admin?: boolean }>(cspToken, { action: "whoami" });
-    return !!res.admin;
+    const res = await callAdmin<{ admin: CmsAdminUser }>({ action: "whoami" });
+    return res.admin;
   } catch {
-    return false;
+    adminSession.clear();
+    return null;
   }
 }
 
+// ─── CRUD ──────────────────────────────────────────────────────
+
 export const adminApi = {
-  listHero: (t: string) =>
-    callAdmin<{ data: CmsHeroSlide[] }>(t, { action: "list_hero" }).then((r) => r.data),
-  createHero: (t: string, payload: Partial<CmsHeroSlide>) =>
-    callAdmin<{ data: CmsHeroSlide }>(t, { action: "create_hero", ...payload }).then((r) => r.data),
-  updateHero: (t: string, payload: Partial<CmsHeroSlide> & { id: string }) =>
-    callAdmin<{ data: CmsHeroSlide }>(t, { action: "update_hero", ...payload }).then((r) => r.data),
-  deleteHero: (t: string, id: string) =>
-    callAdmin(t, { action: "delete_hero", id }),
+  listHero: () =>
+    callAdmin<{ data: CmsHeroSlide[] }>({ action: "list_hero" }).then((r) => r.data),
+  createHero: (payload: Partial<CmsHeroSlide>) =>
+    callAdmin<{ data: CmsHeroSlide }>({ action: "create_hero", ...payload }).then((r) => r.data),
+  updateHero: (payload: Partial<CmsHeroSlide> & { id: string }) =>
+    callAdmin<{ data: CmsHeroSlide }>({ action: "update_hero", ...payload }).then((r) => r.data),
+  deleteHero: (id: string) => callAdmin({ action: "delete_hero", id }),
 
-  listNews: (t: string) =>
-    callAdmin<{ data: CmsNewsArticle[] }>(t, { action: "list_news" }).then((r) => r.data),
-  createNews: (t: string, payload: Partial<CmsNewsArticle>) =>
-    callAdmin<{ data: CmsNewsArticle }>(t, { action: "create_news", ...payload }).then((r) => r.data),
-  updateNews: (t: string, payload: Partial<CmsNewsArticle> & { id: string }) =>
-    callAdmin<{ data: CmsNewsArticle }>(t, { action: "update_news", ...payload }).then((r) => r.data),
-  deleteNews: (t: string, id: string) =>
-    callAdmin(t, { action: "delete_news", id }),
+  listNews: () =>
+    callAdmin<{ data: CmsNewsArticle[] }>({ action: "list_news" }).then((r) => r.data),
+  createNews: (payload: Partial<CmsNewsArticle>) =>
+    callAdmin<{ data: CmsNewsArticle }>({ action: "create_news", ...payload }).then((r) => r.data),
+  updateNews: (payload: Partial<CmsNewsArticle> & { id: string }) =>
+    callAdmin<{ data: CmsNewsArticle }>({ action: "update_news", ...payload }).then((r) => r.data),
+  deleteNews: (id: string) => callAdmin({ action: "delete_news", id }),
 
-  uploadImage: async (t: string, file: File): Promise<string> => {
+  uploadImage: async (file: File): Promise<string> => {
     const buf = await file.arrayBuffer();
     let binary = "";
     const bytes = new Uint8Array(buf);
@@ -138,7 +196,7 @@ export const adminApi = {
       binary += String.fromCharCode.apply(null, Array.from(bytes.subarray(i, i + chunk)));
     }
     const base64 = btoa(binary);
-    const res = await callAdmin<{ url: string }>(t, {
+    const res = await callAdmin<{ url: string }>({
       action: "upload_image",
       filename: file.name,
       content_type: file.type,
@@ -146,4 +204,13 @@ export const adminApi = {
     });
     return res.url;
   },
+
+  // ─── Admin accounts ──────────────────────────────────────────
+  listAdmins: () =>
+    callAdmin<{ data: CmsAdminAccount[] }>({ action: "list_admins" }).then((r) => r.data),
+  createAdmin: (payload: { email: string; password: string; name?: string; is_active?: boolean }) =>
+    callAdmin<{ data: CmsAdminAccount }>({ action: "create_admin", ...payload }).then((r) => r.data),
+  updateAdmin: (payload: { id: string; email?: string; name?: string; password?: string; is_active?: boolean }) =>
+    callAdmin<{ data: CmsAdminAccount }>({ action: "update_admin", ...payload }).then((r) => r.data),
+  deleteAdmin: (id: string) => callAdmin({ action: "delete_admin", id }),
 };
