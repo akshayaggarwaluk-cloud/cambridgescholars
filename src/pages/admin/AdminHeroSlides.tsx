@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Plus, Pencil, Trash2, Loader2, Save, X, BookOpen } from "lucide-react";
+import { Plus, Pencil, Trash2, Loader2, Save, X, BookOpen, ArrowUp, ArrowDown } from "lucide-react";
 import { adminApi, type CmsHeroSlide } from "@/services/cmsService";
 import { fetchAutocomplete, fetchBookByIsbn } from "@/services/cspApi";
 import { toast } from "sonner";
@@ -143,6 +143,38 @@ export default function AdminHeroSlides() {
     }
   };
 
+  const [reordering, setReordering] = useState(false);
+
+  const moveSlide = async (index: number, direction: -1 | 1) => {
+    const target = index + direction;
+    if (target < 0 || target >= slides.length) return;
+    const a = slides[index];
+    const b = slides[target];
+
+    // Optimistic UI swap
+    const next = [...slides];
+    next[index] = b;
+    next[target] = a;
+    setSlides(next);
+    setReordering(true);
+    try {
+      // Persist swapped display_order values. If they were equal, assign distinct ones.
+      const orderA = a.display_order ?? 0;
+      const orderB = b.display_order ?? 0;
+      const newAOrder = orderA === orderB ? orderA + (direction === 1 ? 1 : -1) : orderB;
+      const newBOrder = orderA === orderB ? orderA : orderA;
+      await Promise.all([
+        adminApi.updateHero({ ...a, display_order: newAOrder }),
+        adminApi.updateHero({ ...b, display_order: newBOrder }),
+      ]);
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "Reorder failed");
+      reload();
+    } finally {
+      setReordering(false);
+    }
+  };
+
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
@@ -278,8 +310,34 @@ export default function AdminHeroSlides() {
         </div>
       ) : (
         <div className="space-y-3">
-          {slides.map((slide) => (
+          <p className="text-xs text-muted-foreground">
+            Slides appear on the homepage in the order shown below. Use the arrows to reorder.
+          </p>
+          {slides.map((slide, index) => (
             <div key={slide.id} className="border border-border p-4 flex gap-4 items-start">
+              <div className="flex flex-col items-center gap-1 pt-1">
+                <span className="text-xs font-nav uppercase tracking-wider text-muted-foreground">#{index + 1}</span>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="h-7 w-7 p-0"
+                  disabled={reordering || index === 0}
+                  onClick={() => moveSlide(index, -1)}
+                  aria-label="Move up"
+                >
+                  <ArrowUp className="h-4 w-4" />
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="h-7 w-7 p-0"
+                  disabled={reordering || index === slides.length - 1}
+                  onClick={() => moveSlide(index, 1)}
+                  aria-label="Move down"
+                >
+                  <ArrowDown className="h-4 w-4" />
+                </Button>
+              </div>
               {slide.cover_image && (
                 <img src={slide.cover_image} alt="" className="w-16 h-20 object-cover" />
               )}
