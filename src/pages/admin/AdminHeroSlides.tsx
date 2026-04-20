@@ -310,8 +310,34 @@ export default function AdminHeroSlides() {
         </div>
       ) : (
         <div className="space-y-3">
-          {slides.map((slide) => (
+          <p className="text-xs text-muted-foreground">
+            Slides appear on the homepage in the order shown below. Use the arrows to reorder.
+          </p>
+          {slides.map((slide, index) => (
             <div key={slide.id} className="border border-border p-4 flex gap-4 items-start">
+              <div className="flex flex-col items-center gap-1 pt-1">
+                <span className="text-xs font-nav uppercase tracking-wider text-muted-foreground">#{index + 1}</span>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="h-7 w-7 p-0"
+                  disabled={reordering || index === 0}
+                  onClick={() => moveSlide(index, -1)}
+                  aria-label="Move up"
+                >
+                  <ArrowUp className="h-4 w-4" />
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="h-7 w-7 p-0"
+                  disabled={reordering || index === slides.length - 1}
+                  onClick={() => moveSlide(index, 1)}
+                  aria-label="Move down"
+                >
+                  <ArrowDown className="h-4 w-4" />
+                </Button>
+              </div>
               {slide.cover_image && (
                 <img src={slide.cover_image} alt="" className="w-16 h-20 object-cover" />
               )}
