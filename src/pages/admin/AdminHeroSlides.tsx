@@ -164,13 +164,54 @@ export default function AdminHeroSlides() {
             </Button>
           </div>
 
-          <Field label="Title">
-            <input
-              type="text"
-              value={editing.title || ""}
-              onChange={(e) => setEditing({ ...editing, title: e.target.value })}
-              className="w-full border border-border px-3 py-2 text-sm bg-background"
-            />
+          <Field label="Title (search the catalog to auto-fill)">
+            <div className="relative">
+              <input
+                type="text"
+                value={editing.title || ""}
+                onChange={(e) => {
+                  setEditing({ ...editing, title: e.target.value });
+                  searchBooks(e.target.value);
+                }}
+                onFocus={() => { if (suggestions.length) setShowSuggestions(true); }}
+                onBlur={() => { window.setTimeout(() => setShowSuggestions(false), 150); }}
+                placeholder="Start typing a book title, author, or ISBN…"
+                className="w-full border border-border px-3 py-2 pr-9 text-sm bg-background"
+              />
+              {(searching || importing) && (
+                <Loader2 className="h-4 w-4 animate-spin absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
+              )}
+              {showSuggestions && suggestions.length > 0 && (
+                <div className="absolute z-20 left-0 right-0 mt-1 max-h-72 overflow-y-auto border border-border bg-background shadow-lg">
+                  {suggestions.map((s) => (
+                    <button
+                      type="button"
+                      key={s.isbn || s.slug}
+                      onMouseDown={(e) => e.preventDefault()}
+                      onClick={() => pickBook(s)}
+                      className="w-full text-left px-3 py-2 hover:bg-muted flex gap-3 items-center border-b border-border last:border-b-0"
+                    >
+                      {s.cover_image ? (
+                        <img src={s.cover_image} alt="" className="w-8 h-10 object-cover flex-shrink-0" />
+                      ) : (
+                        <div className="w-8 h-10 bg-muted flex-shrink-0 flex items-center justify-center">
+                          <BookOpen className="h-4 w-4 text-muted-foreground" />
+                        </div>
+                      )}
+                      <div className="min-w-0 flex-1">
+                        <div className="text-sm text-foreground truncate">{s.title}</div>
+                        <div className="text-xs text-muted-foreground truncate">{s.authors} · {s.isbn}</div>
+                      </div>
+                    </button>
+                  ))}
+                </div>
+              )}
+              {showSuggestions && !searching && suggestions.length === 0 && (editing.title?.length || 0) >= 2 && (
+                <div className="absolute z-20 left-0 right-0 mt-1 border border-border bg-background px-3 py-2 text-xs text-muted-foreground">
+                  No matching books found.
+                </div>
+              )}
+            </div>
           </Field>
 
           <Field label="Subtitle (optional)">
