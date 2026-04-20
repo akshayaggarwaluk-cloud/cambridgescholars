@@ -237,25 +237,6 @@ export default function AdminHeroSlides() {
             />
           </Field>
 
-          <div className="grid sm:grid-cols-2 gap-4">
-            <Field label="Reviewer name">
-              <input
-                type="text"
-                value={editing.reviewer_name || ""}
-                onChange={(e) => setEditing({ ...editing, reviewer_name: e.target.value })}
-                className="w-full border border-border px-3 py-2 text-sm bg-background"
-              />
-            </Field>
-            <Field label="Reviewer position">
-              <input
-                type="text"
-                value={editing.reviewer_position || ""}
-                onChange={(e) => setEditing({ ...editing, reviewer_position: e.target.value })}
-                className="w-full border border-border px-3 py-2 text-sm bg-background"
-              />
-            </Field>
-          </div>
-
           <Field label="Book cover (auto-filled from catalog)">
             {editing.cover_image ? (
               <div className="flex items-center gap-3 border border-border bg-background p-3">
@@ -276,27 +257,6 @@ export default function AdminHeroSlides() {
               className="w-full border border-border px-3 py-2 text-sm bg-background"
             />
           </Field>
-
-          <div className="grid sm:grid-cols-2 gap-4">
-            <Field label="Display order">
-              <input
-                type="number"
-                value={editing.display_order ?? 0}
-                onChange={(e) => setEditing({ ...editing, display_order: Number(e.target.value) })}
-                className="w-full border border-border px-3 py-2 text-sm bg-background"
-              />
-            </Field>
-            <Field label="Status">
-              <label className="inline-flex items-center gap-2 text-sm">
-                <input
-                  type="checkbox"
-                  checked={editing.is_published ?? true}
-                  onChange={(e) => setEditing({ ...editing, is_published: e.target.checked })}
-                />
-                Published (visible on site)
-              </label>
-            </Field>
-          </div>
 
           <div className="flex gap-2 pt-2">
             <Button onClick={save} disabled={saving} className="bg-accent hover:bg-accent/90">
