@@ -177,13 +177,13 @@ export default function AdminHeroSlides() {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
         <div>
-          <h1 className="font-baskerville text-3xl text-foreground">Featured Reviews</h1>
+          <h1 className="font-baskerville text-2xl sm:text-3xl text-foreground">Featured Reviews</h1>
           <p className="text-muted-foreground text-sm">Homepage Featured Reviews carousel content.</p>
         </div>
         {!editing && (
-          <Button onClick={() => setEditing({ ...empty })} className="bg-accent hover:bg-accent/90">
+          <Button onClick={() => setEditing({ ...empty })} className="bg-accent hover:bg-accent/90 self-start sm:self-auto">
             <Plus className="h-4 w-4 mr-1" /> New slide
           </Button>
         )}
