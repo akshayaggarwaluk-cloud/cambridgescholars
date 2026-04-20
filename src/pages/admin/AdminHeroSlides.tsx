@@ -284,20 +284,12 @@ export default function AdminHeroSlides() {
                 <img src={slide.cover_image} alt="" className="w-16 h-20 object-cover" />
               )}
               <div className="flex-1 min-w-0">
-                <div className="flex items-center gap-2 flex-wrap">
-                  <h3 className="font-baskerville text-lg text-foreground">{slide.title}</h3>
-                  {!slide.is_published && (
-                    <span className="text-xs uppercase tracking-wider px-2 py-0.5 bg-muted text-muted-foreground">
-                      Draft
-                    </span>
-                  )}
-                  <span className="text-xs text-muted-foreground">order {slide.display_order}</span>
-                </div>
+                <h3 className="font-baskerville text-lg text-foreground">{slide.title}</h3>
+                {slide.author && (
+                  <p className="text-xs text-muted-foreground mt-0.5">{slide.author}</p>
+                )}
                 {slide.quote && (
                   <p className="text-sm text-muted-foreground italic line-clamp-2 mt-1">"{slide.quote}"</p>
-                )}
-                {slide.reviewer_name && (
-                  <p className="text-xs text-foreground mt-1">— {slide.reviewer_name}</p>
                 )}
               </div>
               <div className="flex gap-1">
