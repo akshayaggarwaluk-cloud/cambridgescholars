@@ -68,7 +68,7 @@ export function WelcomeSection() {
                 <Link
                   to={service.link}
                   style={{ color: "#E4573D" }}
-                  className="font-nav inline-flex items-center gap-2 uppercase tracking-normal group/link hover:gap-3 transition-all duration-300 text-[13px] font-semibold"
+                  className="font-nav inline-flex items-center gap-2 uppercase tracking-normal group/link hover:gap-3 transition-all duration-300 font-semibold text-sm"
                 >
                   READ MORE
                   <ChevronsRight className="h-4 w-4" />
