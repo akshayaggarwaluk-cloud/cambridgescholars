@@ -90,7 +90,7 @@ export default function AdminNews() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="font-baskerville text-3xl text-foreground">News</h1>
-          <p className="text-muted-foreground text-sm">Articles shown on the homepage and /news page.</p>
+          <p className="text-muted-foreground text-sm">Each card on the homepage shows: Featured Image, Title, Short Excerpt, and a Read More link. The 3 most recent published articles are pulled automatically.</p>
         </div>
         {!editing && (
           <Button onClick={() => setEditing({ ...empty })} className="bg-accent hover:bg-accent/90">
@@ -128,16 +128,19 @@ export default function AdminNews() {
             />
           </Field>
 
-          <Field label="Slug (used in the URL)">
+          <Field label="Read More link (URL slug)">
             <input
               type="text"
               value={editing.slug || ""}
               onChange={(e) => setEditing({ ...editing, slug: slugify(e.target.value) })}
               className="w-full border border-border px-3 py-2 text-sm bg-background font-mono"
             />
+            <p className="text-xs text-muted-foreground mt-1">
+              The "Read More" link on the homepage card will point to <span className="font-mono">/news/{editing.slug || "your-slug"}</span>
+            </p>
           </Field>
 
-          <Field label="Excerpt (shown on cards)">
+          <Field label="Short Excerpt (shown on the homepage card)">
             <textarea
               rows={3}
               value={editing.excerpt || ""}
@@ -146,7 +149,7 @@ export default function AdminNews() {
             />
           </Field>
 
-          <Field label="Body content (Markdown or plain text)">
+          <Field label="Body content (full article — Markdown or plain text)">
             <textarea
               rows={10}
               value={editing.content || ""}
@@ -158,7 +161,7 @@ export default function AdminNews() {
           <ImageUploadField
             value={editing.cover_image || null}
             onChange={(url) => setEditing({ ...editing, cover_image: url })}
-            label="Cover image"
+            label="Featured Image (shown on the homepage card)"
           />
 
           <div className="grid sm:grid-cols-2 gap-4">
