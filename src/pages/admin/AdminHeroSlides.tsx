@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Plus, Pencil, Trash2, Loader2, Save, X, BookOpen } from "lucide-react";
+import { Plus, Pencil, Trash2, Loader2, Save, X, BookOpen, ArrowUp, ArrowDown } from "lucide-react";
 import { adminApi, type CmsHeroSlide } from "@/services/cmsService";
 import { fetchAutocomplete, fetchBookByIsbn } from "@/services/cspApi";
 import { toast } from "sonner";
