@@ -1,7 +1,6 @@
 import { ChangeEvent, useState } from "react";
 import { Loader2, Upload } from "lucide-react";
 import { adminApi } from "@/services/cmsService";
-import { useExternalAuth } from "@/contexts/ExternalAuthContext";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 
@@ -12,15 +11,14 @@ interface ImageUploadFieldProps {
 }
 
 export default function ImageUploadField({ value, onChange, label = "Cover image" }: ImageUploadFieldProps) {
-  const { token } = useExternalAuth();
   const [uploading, setUploading] = useState(false);
 
   const handleFile = async (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (!file || !token) return;
+    if (!file) return;
     setUploading(true);
     try {
-      const url = await adminApi.uploadImage(token, file);
+      const url = await adminApi.uploadImage(file);
       onChange(url);
       toast.success("Image uploaded");
     } catch (err) {

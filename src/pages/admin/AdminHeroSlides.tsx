@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { Plus, Pencil, Trash2, Loader2, Save, X } from "lucide-react";
 import { adminApi, type CmsHeroSlide } from "@/services/cmsService";
-import { useExternalAuth } from "@/contexts/ExternalAuthContext";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import ImageUploadField from "@/components/admin/ImageUploadField";
@@ -22,17 +21,15 @@ const empty: EditState = {
 };
 
 export default function AdminHeroSlides() {
-  const { token } = useExternalAuth();
   const [slides, setSlides] = useState<CmsHeroSlide[]>([]);
   const [loading, setLoading] = useState(true);
   const [editing, setEditing] = useState<EditState | null>(null);
   const [saving, setSaving] = useState(false);
 
   const reload = async () => {
-    if (!token) return;
     setLoading(true);
     try {
-      const data = await adminApi.listHero(token);
+      const data = await adminApi.listHero();
       setSlides(data);
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "Failed to load slides");
@@ -41,13 +38,10 @@ export default function AdminHeroSlides() {
     }
   };
 
-  useEffect(() => {
-    reload();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [token]);
+  useEffect(() => { reload(); }, []);
 
   const save = async () => {
-    if (!token || !editing) return;
+    if (!editing) return;
     if (!editing.title?.trim()) {
       toast.error("Title is required");
       return;
@@ -55,10 +49,10 @@ export default function AdminHeroSlides() {
     setSaving(true);
     try {
       if (editing._new) {
-        await adminApi.createHero(token, editing);
+        await adminApi.createHero(editing);
         toast.success("Slide created");
       } else {
-        await adminApi.updateHero(token, editing as CmsHeroSlide);
+        await adminApi.updateHero(editing as CmsHeroSlide);
         toast.success("Slide updated");
       }
       setEditing(null);
@@ -71,10 +65,9 @@ export default function AdminHeroSlides() {
   };
 
   const remove = async (id: string) => {
-    if (!token) return;
     if (!confirm("Delete this slide?")) return;
     try {
-      await adminApi.deleteHero(token, id);
+      await adminApi.deleteHero(id);
       toast.success("Slide deleted");
       reload();
     } catch (err) {

@@ -1,19 +1,19 @@
 // CMS Admin edge function
-// Verifies a CSP access token by calling the upstream profile endpoint,
-// checks the user's email against the cms_admins allowlist, and performs
-// privileged CRUD on cms_hero_slides and cms_news_articles using the
-// service role key.
+// Self-contained admin auth + CRUD using `cms_admin_accounts`.
+// - login: verify email/password, return signed JWT (HS256)
+// - whoami / all CRUD: verify Bearer JWT issued by this function
+// - manage_admins: list/create/update/delete admin accounts (admin-only)
+//
+// All writes use the service role key. Never trust the client.
 
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.4";
-
-const CSP_API_BASE =
-  Deno.env.get("CSP_API_BASE") ||
-  "https://api.cambridgescholars.com/api/website";
+import * as bcrypt from "https://deno.land/x/bcrypt@v0.4.1/mod.ts";
+import { create, verify, getNumericDate } from "https://deno.land/x/djwt@v3.0.2/mod.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Headers":
-    "authorization, x-csp-token, x-client-info, apikey, content-type",
+    "authorization, x-admin-token, x-client-info, apikey, content-type",
   "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
 };
 
@@ -29,58 +29,119 @@ const supabaseAdmin = createClient(
   Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!,
 );
 
-async function verifyCspUser(cspToken: string): Promise<string | null> {
+// ─── JWT helpers ────────────────────────────────────────────────
+const JWT_SECRET_RAW = Deno.env.get("CMS_ADMIN_JWT_SECRET") || "dev-secret-change-me";
+
+let cachedKey: CryptoKey | null = null;
+async function getKey(): Promise<CryptoKey> {
+  if (cachedKey) return cachedKey;
+  cachedKey = await crypto.subtle.importKey(
+    "raw",
+    new TextEncoder().encode(JWT_SECRET_RAW),
+    { name: "HMAC", hash: "SHA-256" },
+    false,
+    ["sign", "verify"],
+  );
+  return cachedKey;
+}
+
+interface AdminClaims {
+  sub: string;       // admin id
+  email: string;
+  exp: number;
+}
+
+async function issueToken(adminId: string, email: string): Promise<string> {
+  const key = await getKey();
+  return await create(
+    { alg: "HS256", typ: "JWT" },
+    {
+      sub: adminId,
+      email,
+      exp: getNumericDate(60 * 60 * 12), // 12 hours
+    },
+    key,
+  );
+}
+
+async function verifyToken(token: string): Promise<AdminClaims | null> {
   try {
-    const res = await fetch(`${CSP_API_BASE}/account/profile`, {
-      headers: { Authorization: `Bearer ${cspToken}` },
-    });
-    if (!res.ok) return null;
-    const body = await res.json();
-    const data = body?.data || body;
-    const email: string | undefined = data?.email || data?.user?.email;
-    return email ? email.toLowerCase() : null;
+    const key = await getKey();
+    const payload = await verify(token, key);
+    return payload as unknown as AdminClaims;
   } catch (e) {
-    console.error("[cms-admin] verifyCspUser failed:", e);
+    console.error("[cms-admin] token verify failed:", e);
     return null;
   }
 }
 
-async function isAdmin(email: string): Promise<boolean> {
+async function requireAdmin(req: Request): Promise<AdminClaims | Response> {
+  const token =
+    req.headers.get("x-admin-token") ||
+    req.headers.get("authorization")?.replace(/^Bearer\s+/i, "");
+  if (!token) return json({ error: "Missing admin token" }, 401);
+  const claims = await verifyToken(token);
+  if (!claims) return json({ error: "Invalid or expired admin session" }, 401);
+
+  // Confirm the account still exists & is active
   const { data, error } = await supabaseAdmin
-    .from("cms_admins")
-    .select("id")
-    .eq("email", email.toLowerCase())
+    .from("cms_admin_accounts")
+    .select("id, is_active")
+    .eq("id", claims.sub)
     .maybeSingle();
-  if (error) {
-    console.error("[cms-admin] isAdmin query failed:", error);
-    return false;
+  if (error || !data || !data.is_active) {
+    return json({ error: "Admin account disabled or removed" }, 403);
   }
-  return !!data;
+  return claims;
 }
 
+// ─── Main handler ───────────────────────────────────────────────
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
 
   try {
-    const cspToken =
-      req.headers.get("x-csp-token") ||
-      req.headers.get("authorization")?.replace(/^Bearer\s+/i, "");
-
-    if (!cspToken) return json({ error: "Missing token" }, 401);
-
-    const email = await verifyCspUser(cspToken);
-    if (!email) return json({ error: "Invalid CSP session" }, 401);
-
-    const allowed = await isAdmin(email);
-    if (!allowed) return json({ error: "Not an admin", email }, 403);
-
     const body = req.method === "GET" ? {} : await req.json().catch(() => ({}));
-    const action: string = body.action || new URL(req.url).searchParams.get("action") || "whoami";
+    const action: string = body.action || new URL(req.url).searchParams.get("action") || "";
+
+    // ─── Public: login ────────────────────────────────────────
+    if (action === "login") {
+      const email = String(body.email || "").trim().toLowerCase();
+      const password = String(body.password || "");
+      if (!email || !password) return json({ error: "Email and password are required" }, 400);
+
+      const { data: account, error } = await supabaseAdmin
+        .from("cms_admin_accounts")
+        .select("id, email, password_hash, is_active, name")
+        .ilike("email", email)
+        .maybeSingle();
+
+      if (error || !account) return json({ error: "Invalid email or password" }, 401);
+      if (!account.is_active) return json({ error: "This admin account is disabled" }, 403);
+
+      const ok = await bcrypt.compare(password, account.password_hash);
+      if (!ok) return json({ error: "Invalid email or password" }, 401);
+
+      // best-effort: update last_login_at
+      await supabaseAdmin
+        .from("cms_admin_accounts")
+        .update({ last_login_at: new Date().toISOString() })
+        .eq("id", account.id);
+
+      const token = await issueToken(account.id, account.email);
+      return json({
+        token,
+        admin: { id: account.id, email: account.email, name: account.name },
+      });
+    }
+
+    // ─── Everything below requires a valid admin token ────────
+    const claimsOrResp = await requireAdmin(req);
+    if (claimsOrResp instanceof Response) return claimsOrResp;
+    const claims = claimsOrResp;
 
     switch (action) {
-      // ─── Auth check ──────────────────────────────────────────
       case "whoami":
-        return json({ ok: true, email, admin: true });
+        return json({ ok: true, admin: { id: claims.sub, email: claims.email } });
 
       // ─── Hero slides ─────────────────────────────────────────
       case "list_hero": {
@@ -209,6 +270,72 @@ Deno.serve(async (req) => {
         if (upErr) throw upErr;
         const { data: pub } = supabaseAdmin.storage.from("cms-media").getPublicUrl(path);
         return json({ url: pub.publicUrl, path });
+      }
+
+      // ─── Admin account management ────────────────────────────
+      case "list_admins": {
+        const { data, error } = await supabaseAdmin
+          .from("cms_admin_accounts")
+          .select("id, email, name, is_active, last_login_at, created_at")
+          .order("created_at", { ascending: false });
+        if (error) throw error;
+        return json({ data });
+      }
+      case "create_admin": {
+        const email = String(body.email || "").trim().toLowerCase();
+        const password = String(body.password || "");
+        if (!email || !password) return json({ error: "Email and password are required" }, 400);
+        if (password.length < 8) return json({ error: "Password must be at least 8 characters" }, 400);
+
+        const password_hash = await bcrypt.hash(password);
+        const { data, error } = await supabaseAdmin
+          .from("cms_admin_accounts")
+          .insert({
+            email,
+            password_hash,
+            name: body.name ?? null,
+            is_active: body.is_active ?? true,
+          })
+          .select("id, email, name, is_active, created_at")
+          .single();
+        if (error) {
+          if (error.code === "23505") return json({ error: "An admin with that email already exists" }, 409);
+          throw error;
+        }
+        return json({ data });
+      }
+      case "update_admin": {
+        if (!body.id) return json({ error: "Missing id" }, 400);
+        const patch: Record<string, unknown> = {};
+        if ("name" in body) patch.name = body.name;
+        if ("is_active" in body) patch.is_active = body.is_active;
+        if ("email" in body) patch.email = String(body.email).trim().toLowerCase();
+        if (body.password) {
+          if (String(body.password).length < 8) {
+            return json({ error: "Password must be at least 8 characters" }, 400);
+          }
+          patch.password_hash = await bcrypt.hash(String(body.password));
+        }
+        const { data, error } = await supabaseAdmin
+          .from("cms_admin_accounts")
+          .update(patch)
+          .eq("id", body.id)
+          .select("id, email, name, is_active, last_login_at, created_at")
+          .single();
+        if (error) throw error;
+        return json({ data });
+      }
+      case "delete_admin": {
+        if (!body.id) return json({ error: "Missing id" }, 400);
+        if (body.id === claims.sub) {
+          return json({ error: "You cannot delete your own admin account" }, 400);
+        }
+        const { error } = await supabaseAdmin
+          .from("cms_admin_accounts")
+          .delete()
+          .eq("id", body.id);
+        if (error) throw error;
+        return json({ ok: true });
       }
 
       default:
