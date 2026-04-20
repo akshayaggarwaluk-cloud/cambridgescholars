@@ -44,21 +44,36 @@ export type Database = {
         }
         Relationships: []
       }
-      cms_admins: {
+      cms_admin_accounts: {
         Row: {
           created_at: string
           email: string
           id: string
+          is_active: boolean
+          last_login_at: string | null
+          name: string | null
+          password_hash: string
+          updated_at: string
         }
         Insert: {
           created_at?: string
           email: string
           id?: string
+          is_active?: boolean
+          last_login_at?: string | null
+          name?: string | null
+          password_hash: string
+          updated_at?: string
         }
         Update: {
           created_at?: string
           email?: string
           id?: string
+          is_active?: boolean
+          last_login_at?: string | null
+          name?: string | null
+          password_hash?: string
+          updated_at?: string
         }
         Relationships: []
       }
