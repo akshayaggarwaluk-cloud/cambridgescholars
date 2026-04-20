@@ -1,9 +1,18 @@
-import { useEffect, useState } from "react";
-import { Plus, Pencil, Trash2, Loader2, Save, X } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { Plus, Pencil, Trash2, Loader2, Save, X, BookOpen } from "lucide-react";
 import { adminApi, type CmsHeroSlide } from "@/services/cmsService";
+import { fetchAutocomplete, fetchBookByIsbn } from "@/services/cspApi";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import ImageUploadField from "@/components/admin/ImageUploadField";
+
+interface BookSuggestion {
+  title: string;
+  isbn: string;
+  slug: string;
+  authors: string;
+  cover_image: string;
+}
 
 type EditState = Partial<CmsHeroSlide> & { _new?: boolean };
 
@@ -25,6 +34,61 @@ export default function AdminHeroSlides() {
   const [loading, setLoading] = useState(true);
   const [editing, setEditing] = useState<EditState | null>(null);
   const [saving, setSaving] = useState(false);
+
+  // Book autocomplete state
+  const [suggestions, setSuggestions] = useState<BookSuggestion[]>([]);
+  const [searching, setSearching] = useState(false);
+  const [showSuggestions, setShowSuggestions] = useState(false);
+  const [importing, setImporting] = useState(false);
+  const debounceRef = useRef<number | null>(null);
+
+  const searchBooks = (q: string) => {
+    if (debounceRef.current) window.clearTimeout(debounceRef.current);
+    if (!q || q.trim().length < 2) {
+      setSuggestions([]);
+      setShowSuggestions(false);
+      return;
+    }
+    setSearching(true);
+    debounceRef.current = window.setTimeout(async () => {
+      try {
+        const res = await fetchAutocomplete(q.trim());
+        setSuggestions(res);
+        setShowSuggestions(true);
+      } catch {
+        setSuggestions([]);
+      } finally {
+        setSearching(false);
+      }
+    }, 250);
+  };
+
+  const pickBook = async (s: BookSuggestion) => {
+    setShowSuggestions(false);
+    setSuggestions([]);
+    if (!editing) return;
+    setImporting(true);
+    try {
+      const book = await fetchBookByIsbn(s.isbn);
+      const reviewer = book?.apiReviews?.[0];
+      setEditing((prev) => prev ? {
+        ...prev,
+        title: book?.title || s.title,
+        subtitle: book?.subtitle || prev.subtitle || "",
+        cover_image: book?.image || s.cover_image || prev.cover_image || "",
+        link_url: `/books/${s.isbn}`,
+        quote: reviewer?.review || prev.quote || "",
+        reviewer_name: reviewer?.reviewer || prev.reviewer_name || "",
+        reviewer_position: reviewer?.reviewer_position || prev.reviewer_position || "",
+      } : prev);
+      toast.success(`Loaded "${book?.title || s.title}"`);
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "Failed to load book");
+    } finally {
+      setImporting(false);
+    }
+  };
+
 
   const reload = async () => {
     setLoading(true);
@@ -100,13 +164,54 @@ export default function AdminHeroSlides() {
             </Button>
           </div>
 
-          <Field label="Title">
-            <input
-              type="text"
-              value={editing.title || ""}
-              onChange={(e) => setEditing({ ...editing, title: e.target.value })}
-              className="w-full border border-border px-3 py-2 text-sm bg-background"
-            />
+          <Field label="Title (search the catalog to auto-fill)">
+            <div className="relative">
+              <input
+                type="text"
+                value={editing.title || ""}
+                onChange={(e) => {
+                  setEditing({ ...editing, title: e.target.value });
+                  searchBooks(e.target.value);
+                }}
+                onFocus={() => { if (suggestions.length) setShowSuggestions(true); }}
+                onBlur={() => { window.setTimeout(() => setShowSuggestions(false), 150); }}
+                placeholder="Start typing a book title, author, or ISBN…"
+                className="w-full border border-border px-3 py-2 pr-9 text-sm bg-background"
+              />
+              {(searching || importing) && (
+                <Loader2 className="h-4 w-4 animate-spin absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
+              )}
+              {showSuggestions && suggestions.length > 0 && (
+                <div className="absolute z-20 left-0 right-0 mt-1 max-h-72 overflow-y-auto border border-border bg-background shadow-lg">
+                  {suggestions.map((s) => (
+                    <button
+                      type="button"
+                      key={s.isbn || s.slug}
+                      onMouseDown={(e) => e.preventDefault()}
+                      onClick={() => pickBook(s)}
+                      className="w-full text-left px-3 py-2 hover:bg-muted flex gap-3 items-center border-b border-border last:border-b-0"
+                    >
+                      {s.cover_image ? (
+                        <img src={s.cover_image} alt="" className="w-8 h-10 object-cover flex-shrink-0" />
+                      ) : (
+                        <div className="w-8 h-10 bg-muted flex-shrink-0 flex items-center justify-center">
+                          <BookOpen className="h-4 w-4 text-muted-foreground" />
+                        </div>
+                      )}
+                      <div className="min-w-0 flex-1">
+                        <div className="text-sm text-foreground truncate">{s.title}</div>
+                        <div className="text-xs text-muted-foreground truncate">{s.authors} · {s.isbn}</div>
+                      </div>
+                    </button>
+                  ))}
+                </div>
+              )}
+              {showSuggestions && !searching && suggestions.length === 0 && (editing.title?.length || 0) >= 2 && (
+                <div className="absolute z-20 left-0 right-0 mt-1 border border-border bg-background px-3 py-2 text-xs text-muted-foreground">
+                  No matching books found.
+                </div>
+              )}
+            </div>
           </Field>
 
           <Field label="Subtitle (optional)">
