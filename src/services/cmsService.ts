@@ -40,6 +40,7 @@ export interface CmsHeroSlide {
   id: string;
   title: string;
   subtitle: string | null;
+  author: string | null;
   quote: string | null;
   reviewer_name: string | null;
   reviewer_position: string | null;
