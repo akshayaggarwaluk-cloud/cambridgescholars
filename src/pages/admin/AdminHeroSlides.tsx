@@ -143,6 +143,38 @@ export default function AdminHeroSlides() {
     }
   };
 
+  const [reordering, setReordering] = useState(false);
+
+  const moveSlide = async (index: number, direction: -1 | 1) => {
+    const target = index + direction;
+    if (target < 0 || target >= slides.length) return;
+    const a = slides[index];
+    const b = slides[target];
+
+    // Optimistic UI swap
+    const next = [...slides];
+    next[index] = b;
+    next[target] = a;
+    setSlides(next);
+    setReordering(true);
+    try {
+      // Persist swapped display_order values. If they were equal, assign distinct ones.
+      const orderA = a.display_order ?? 0;
+      const orderB = b.display_order ?? 0;
+      const newAOrder = orderA === orderB ? orderA + (direction === 1 ? 1 : -1) : orderB;
+      const newBOrder = orderA === orderB ? orderA : orderA;
+      await Promise.all([
+        adminApi.updateHero({ ...a, display_order: newAOrder }),
+        adminApi.updateHero({ ...b, display_order: newBOrder }),
+      ]);
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "Reorder failed");
+      reload();
+    } finally {
+      setReordering(false);
+    }
+  };
+
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
