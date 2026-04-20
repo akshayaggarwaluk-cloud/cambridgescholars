@@ -41,7 +41,7 @@ export function WelcomeSection() {
           <h6 className="font-baskerville font-normal tracking-normal mb-8 text-foreground text-2xl sm:text-3xl md:text-[34px] leading-tight break-words inline-block">
             Welcome to Cambridge Scholars Publishing
           </h6>
-          <p className="font-nav text-[15px] leading-loose max-w-[760px] mx-auto text-center text-[#333333]">
+          <p className="font-nav text-[15px] leading-loose max-w-[740px] mx-auto text-center text-[#333333]">
             We are an independent academic publisher committed to advancing original research across the humanities,
             social sciences, physical sciences, life sciences and health sciences. Our titles are authored by scholars
             from around the world and are distributed globally in premium print and digital formats.
@@ -60,7 +60,9 @@ export function WelcomeSection() {
                 </div>
 
                 {/* Description */}
-                <p className="font-nav mb-6 leading-relaxed text-sm md:text-base text-[#333333]">{service.description}</p>
+                <p className="font-nav mb-6 leading-relaxed text-sm md:text-base text-[#333333]">
+                  {service.description}
+                </p>
 
                 {/* Read More Link */}
                 <Link
