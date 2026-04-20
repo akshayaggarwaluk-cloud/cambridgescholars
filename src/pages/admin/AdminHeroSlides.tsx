@@ -190,7 +190,7 @@ export default function AdminHeroSlides() {
       </div>
 
       {editing && (
-        <div className="border border-border p-6 space-y-4 bg-[#fafafa]">
+        <div className="border border-border p-4 sm:p-6 space-y-4 bg-[#fafafa]">
           <div className="flex items-center justify-between">
             <h2 className="font-baskerville text-xl text-foreground">
               {editing._new ? "New slide" : "Edit slide"}
