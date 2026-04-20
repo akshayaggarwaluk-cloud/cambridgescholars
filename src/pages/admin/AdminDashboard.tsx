@@ -15,7 +15,7 @@ export default function AdminDashboard() {
   const tiles = [
     {
       to: "/admin/hero-slides",
-      label: "Hero Slides",
+      label: "Featured Reviews",
       count: counts.hero,
       desc: "Manage the homepage Featured Reviews carousel.",
       icon: Sparkles,
