@@ -55,8 +55,11 @@ export default function AdminHeroSlides() {
         const res = await fetchAutocomplete(q.trim());
         setSuggestions(res);
         setShowSuggestions(true);
-      } catch {
+      } catch (err) {
+        console.error("[AdminHeroSlides] autocomplete failed:", err);
+        toast.error("Book search is unavailable right now (catalog API error). Try again shortly or fill the slide manually.");
         setSuggestions([]);
+        setShowSuggestions(true);
       } finally {
         setSearching(false);
       }
