@@ -1,0 +1,1 @@
+ALTER TABLE public.cms_hero_slides ADD COLUMN IF NOT EXISTS author TEXT;

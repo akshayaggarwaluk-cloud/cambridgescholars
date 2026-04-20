@@ -79,6 +79,7 @@ export type Database = {
       }
       cms_hero_slides: {
         Row: {
+          author: string | null
           cover_image: string | null
           created_at: string
           display_order: number
@@ -93,6 +94,7 @@ export type Database = {
           updated_at: string
         }
         Insert: {
+          author?: string | null
           cover_image?: string | null
           created_at?: string
           display_order?: number
@@ -107,6 +109,7 @@ export type Database = {
           updated_at?: string
         }
         Update: {
+          author?: string | null
           cover_image?: string | null
           created_at?: string
           display_order?: number
