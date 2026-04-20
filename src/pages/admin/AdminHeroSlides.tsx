@@ -1,9 +1,18 @@
-import { useEffect, useState } from "react";
-import { Plus, Pencil, Trash2, Loader2, Save, X } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { Plus, Pencil, Trash2, Loader2, Save, X, BookOpen } from "lucide-react";
 import { adminApi, type CmsHeroSlide } from "@/services/cmsService";
+import { fetchAutocomplete, fetchBookByIsbn } from "@/services/cspApi";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import ImageUploadField from "@/components/admin/ImageUploadField";
+
+interface BookSuggestion {
+  title: string;
+  isbn: string;
+  slug: string;
+  authors: string;
+  cover_image: string;
+}
 
 type EditState = Partial<CmsHeroSlide> & { _new?: boolean };
 
