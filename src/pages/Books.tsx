@@ -417,7 +417,7 @@ export default function Books() {
               <Select value={orderBy} onValueChange={handleSortChange}>
                 <SelectTrigger className="w-auto min-w-[160px] border-0 shadow-none bg-transparent font-baskerville text-[16px] text-[#333] focus:ring-0 gap-2 px-0 hover:text-[#C75B2A] transition-colors">
                   <SlidersHorizontal className="h-4 w-4 text-[#777]" />
-                  <SelectValue placeholder="Sort By" />
+                  <span>Sort by</span>
                 </SelectTrigger>
                 <SelectContent className="font-baskerville">
                   {SORT_OPTIONS.map((opt) => (
