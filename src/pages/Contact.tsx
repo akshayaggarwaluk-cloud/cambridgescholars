@@ -100,12 +100,26 @@ export default function Contact() {
         {/* Centered Contact Form */}
         <section className="pb-24">
           <div className="container-wide">
-            <div className="mb-16">
-              <img
-                src={contactHero}
-                alt="Cambridge Scholars Publishing interior — staircase and seating"
-                className="w-full h-auto object-cover"
-                loading="lazy"
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-20">
+              <div
+                role="img"
+                aria-label="Cambridge Scholars Publishing interior — wooden staircase"
+                className="w-full aspect-[3/4] bg-no-repeat"
+                style={{
+                  backgroundImage: `url(${contactHero})`,
+                  backgroundSize: "200% 100%",
+                  backgroundPosition: "left center",
+                }}
+              />
+              <div
+                role="img"
+                aria-label="Cambridge Scholars Publishing interior — seating"
+                className="w-full aspect-[3/4] bg-no-repeat"
+                style={{
+                  backgroundImage: `url(${contactHero})`,
+                  backgroundSize: "200% 100%",
+                  backgroundPosition: "right center",
+                }}
               />
             </div>
             <div className="max-w-2xl mx-auto">
