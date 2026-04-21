@@ -225,7 +225,7 @@ export default function Books() {
                   {resultsSummary}
                 </p>
               )}
-              <h3 className="text-2xl font-serif text-foreground mb-6 pb-3 border-b-2 border-foreground/20">Search</h3>
+              <h3 className="font-baskerville text-[24px] font-normal text-[#333333] mb-4 pb-3 border-b border-[#E5E1D8]">Search</h3>
               <div className="relative">
                 <Input
                   type="text"
@@ -242,7 +242,7 @@ export default function Books() {
 
             {/* Category filter */}
             <div>
-              <h3 className="text-2xl font-serif text-foreground mb-6 pb-3 border-b-2 border-foreground/20">
+              <h3 className="font-baskerville text-[24px] font-normal text-[#333333] mb-4 pb-3 border-b border-[#E5E1D8]">
                 Subject Categories
               </h3>
               {categories.length > 0 ? (
@@ -256,16 +256,16 @@ export default function Books() {
                           <button
                             onClick={() => handleCategoryChange(cat.slug)}
                             className={cn(
-                              "text-left font-baskerville text-[17px] py-2 transition-colors",
+                              "text-left font-baskerville text-[15px] py-2 transition-colors",
                               selectedCategory === cat.slug
-                                ? "text-[#C75B2A] font-semibold"
-                                : "text-[#C75B2A] hover:text-[#9c4521]",
+                                ? "text-[#C75B2A] font-normal"
+                                : "text-[#C5A374] hover:text-[#C75B2A] font-normal",
                             )}
                           >
                             {cat.name}
                           </button>
                           <div className="flex items-center gap-2">
-                            <span className="text-xs text-[#C75B2A] bg-[#F1EFEA] rounded-full px-3 py-1 min-w-[44px] text-center font-baskerville">
+                            <span className="text-[13px] text-[#C5A374] bg-[#F1EFEA] rounded-full px-3 py-1 min-w-[44px] text-center font-baskerville">
                               {cat.book_count}
                             </span>
                             {hasSubs && (
@@ -278,7 +278,7 @@ export default function Books() {
                                     return next;
                                   });
                                 }}
-                                className="p-0.5 text-[#C75B2A] hover:text-[#9c4521]"
+                                className="p-0.5 text-[#C5A374] hover:text-[#C75B2A]"
                               >
                                 <ChevronDown
                                   className={cn("h-4 w-4 transition-transform", isExpanded && "rotate-180")}
@@ -299,16 +299,16 @@ export default function Books() {
                                     <button
                                       onClick={() => handleCategoryChange(sub.slug)}
                                       className={cn(
-                                        "text-left font-baskerville text-[15px] py-1.5 transition-colors",
+                                        "text-left font-baskerville text-[14px] py-1.5 transition-colors",
                                         selectedCategory === sub.slug
-                                          ? "text-[#C75B2A] font-semibold"
-                                          : "text-[#C75B2A] hover:text-[#9c4521]",
+                                          ? "text-[#C75B2A] font-normal"
+                                          : "text-[#C5A374] hover:text-[#C75B2A] font-normal",
                                       )}
                                     >
                                       {sub.name}
                                     </button>
                                     <div className="flex items-center gap-2">
-                                      <span className="text-xs text-[#C75B2A] bg-[#F1EFEA] rounded-full px-2.5 py-0.5 min-w-[40px] text-center font-baskerville">
+                                      <span className="text-[12px] text-[#C5A374] bg-[#F1EFEA] rounded-full px-2.5 py-0.5 min-w-[40px] text-center font-baskerville">
                                         {sub.book_count}
                                       </span>
                                       {hasSubSubs && (
@@ -321,7 +321,7 @@ export default function Books() {
                                               return next;
                                             });
                                           }}
-                                          className="p-0.5 text-[#C75B2A] hover:text-[#9c4521]"
+                                          className="p-0.5 text-[#C5A374] hover:text-[#C75B2A]"
                                         >
                                           <ChevronDown
                                             className={cn(
