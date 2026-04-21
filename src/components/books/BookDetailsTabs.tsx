@@ -107,7 +107,7 @@ export function BookDetailsTabs({ book }: BookDetailsTabsProps) {
               <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-10">
                 {book.hardbackInfo && (
                   <div>
-                    <h4 style={{ fontSize: "18px", color: "#333333", fontWeight: 700, margin: "0 0 10px" }}>HARDBACK</h4>
+                    <h4 style={{ fontSize: "18px", color: "#333333", fontWeight: 400, margin: "0 0 10px" }}>HARDBACK</h4>
                     <ul className="list-disc" style={{ paddingLeft: "20px", margin: 0 }}>
                       {book.hardbackInfo.isbn && (
                         <li style={{ fontSize: "16px", color: "#696969", marginBottom: "4px" }}>
@@ -130,7 +130,7 @@ export function BookDetailsTabs({ book }: BookDetailsTabsProps) {
 
                 {book.paperbackInfo && (
                   <div>
-                    <h4 style={{ fontSize: "18px", color: "#333333", fontWeight: 700, margin: "0 0 10px" }}>PAPERBACK</h4>
+                    <h4 style={{ fontSize: "18px", color: "#333333", fontWeight: 400, margin: "0 0 10px" }}>PAPERBACK</h4>
                     <ul className="list-disc" style={{ paddingLeft: "20px", margin: 0 }}>
                       {book.paperbackInfo.isbn && (
                         <li style={{ fontSize: "16px", color: "#696969", marginBottom: "4px" }}>
@@ -153,7 +153,7 @@ export function BookDetailsTabs({ book }: BookDetailsTabsProps) {
 
                 {book.ebookInfo && (
                   <div>
-                    <h4 style={{ fontSize: "18px", color: "#333333", fontWeight: 700, margin: "0 0 10px" }}>EBOOK</h4>
+                    <h4 style={{ fontSize: "18px", color: "#333333", fontWeight: 400, margin: "0 0 10px" }}>EBOOK</h4>
                     <ul className="list-disc" style={{ paddingLeft: "20px", margin: 0 }}>
                       {book.ebookInfo.isbn && (
                         <li style={{ fontSize: "16px", color: "#696969", marginBottom: "4px" }}>
@@ -194,7 +194,7 @@ export function BookDetailsTabs({ book }: BookDetailsTabsProps) {
               {/* Subject Codes */}
               {book.subjectCodes && (
                 <div>
-                  <h4 style={{ fontSize: "18px", color: "#333333", fontWeight: 700, margin: "35px 0 10px" }}>SUBJECT CODES:</h4>
+                  <h4 style={{ fontSize: "18px", color: "#333333", fontWeight: 400, margin: "35px 0 10px" }}>SUBJECT CODES:</h4>
                   <ul className="list-disc" style={{ paddingLeft: "20px", margin: 0 }}>
                     {book.subjectCodes.bic && book.subjectCodes.bic.length > 0 && (
                       <li style={{ fontSize: "16px", color: "#696969", marginBottom: "4px" }}>
