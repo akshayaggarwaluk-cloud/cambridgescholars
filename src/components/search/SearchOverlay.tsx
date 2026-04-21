@@ -132,7 +132,7 @@ export function SearchOverlay({ onClose }: SearchOverlayProps) {
                 "h-[42px] mr-2 px-7 text-[15px] font-medium tracking-wide border transition-all whitespace-nowrap",
                 showAdvanced
                   ? "bg-white text-[#333] border-white"
-                  : "bg-transparent text-white border-white/70 hover:border-white"
+                  : "text-white border-white/70 hover:border-white bg-[#525151]"
               )}
             >
               Advanced
