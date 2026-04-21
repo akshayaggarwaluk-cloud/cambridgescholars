@@ -30,7 +30,7 @@ export default function PreparingYourManuscript() {
           <ul className="space-y-4 list-disc list-inside font-nav text-[16px] text-[#696969]">
             <li>
               <span className="font-medium">2.1</span>{" "}
-              <Link to="#" className="text-red-500 text-primary hover:underline font-medium">
+              <Link to="#" className="text-[#E4573D] hover:text-[#E4573D]/70 transition-colors font-medium">
                 Submission Checklist
               </Link>
               <span className="text-muted-foreground">
@@ -40,7 +40,7 @@ export default function PreparingYourManuscript() {
             </li>
             <li>
               <span className="font-medium">2.2</span>{" "}
-              <Link to="#" className="text-red-500 text-primary hover:underline font-medium">
+              <Link to="#" className="text-[#E4573D] hover:text-[#E4573D]/70 transition-colors font-medium">
                 Manuscript Guidelines
               </Link>
               <span className="text-muted-foreground">
@@ -50,7 +50,7 @@ export default function PreparingYourManuscript() {
             </li>
             <li>
               <span className="font-medium">2.3</span>{" "}
-              <Link to="#" className="text-red-500 text-primary hover:underline font-medium">
+              <Link to="#" className="text-[#E4573D] hover:text-[#E4573D]/70 transition-colors font-medium">
                 Referencing and Proofreading Guide
               </Link>
               <span className="text-muted-foreground">
@@ -60,7 +60,7 @@ export default function PreparingYourManuscript() {
             </li>
             <li>
               <span className="font-medium">2.4</span>{" "}
-              <Link to="#" className="text-red-500 text-primary hover:underline font-medium">
+              <Link to="#" className="text-[#E4573D] hover:text-[#E4573D]/70 transition-colors font-medium">
                 Marketing Your Book: Guidelines
               </Link>
               <span className="text-muted-foreground">
@@ -70,7 +70,7 @@ export default function PreparingYourManuscript() {
             </li>
             <li>
               <span className="font-medium">2.5</span>{" "}
-              <Link to="#" className="text-red-500 text-primary hover:underline font-medium">
+              <Link to="#" className="text-[#E4573D] hover:text-[#E4573D]/70 transition-colors font-medium">
                 Copyright and Permissions Pack
               </Link>
               <span className="text-muted-foreground">
@@ -80,7 +80,7 @@ export default function PreparingYourManuscript() {
             </li>
             <li>
               <span className="font-medium">2.6</span>{" "}
-              <Link to="#" className="text-red-500 text-primary hover:underline font-medium">
+              <Link to="#" className="text-[#E4573D] hover:text-[#E4573D]/70 transition-colors font-medium">
                 BIC Codes
               </Link>
               <span className="text-muted-foreground"> - BIC codes to classify your book</span>

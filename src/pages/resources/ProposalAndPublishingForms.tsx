@@ -27,21 +27,21 @@ export default function ProposalAndPublishingForms() {
           <ul className="space-y-4 list-disc list-inside font-nav text-[16px] text-[#696969]">
             <li>
               <span className="font-medium">1.1</span>{" "}
-              <Link to="#" className="text-red-500 text-primary hover:underline font-medium">
+              <Link to="#" className="text-[#E4573D] hover:text-[#E4573D]/70 transition-colors font-medium">
                 Book Proposal Form
               </Link>
               <span className="text-muted-foreground"> - Outline and submit your book ideas for consideration</span>
             </li>
             <li>
               <span className="font-medium">1.2</span>{" "}
-              <Link to="#" className="text-red-500 text-primary hover:underline font-medium">
+              <Link to="#" className="text-[#E4573D] hover:text-[#E4573D]/70 transition-colors font-medium">
                 Guidelines for Adapting PhD Thesis
               </Link>
               <span className="text-muted-foreground"> - How to convert a PhD thesis into a publishable book</span>
             </li>
             <li>
               <span className="font-medium">1.3</span>{" "}
-              <Link to="#" className="text-red-500 text-primary hover:underline font-medium">
+              <Link to="#" className="text-[#E4573D] hover:text-[#E4573D]/70 transition-colors font-medium">
                 Guidelines for Adapting Conference Proceedings
               </Link>
               <span className="text-muted-foreground">
@@ -51,7 +51,7 @@ export default function ProposalAndPublishingForms() {
             </li>
             <li>
               <span className="font-medium">1.4</span>{" "}
-              <Link to="#" className="text-red-500 text-primary hover:underline font-medium">
+              <Link to="#" className="text-[#E4573D] hover:text-[#E4573D]/70 transition-colors font-medium">
                 Contributor Agreement Form
               </Link>
               <span className="text-muted-foreground">
