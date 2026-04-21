@@ -43,9 +43,6 @@ export default function PublishABook() {
         >
           <div className="absolute inset-0 bg-transparent" />
         </div>
-        <div className="relative z-10 text-center">
-          <h1 className="font-baskerville text-5xl md:text-6xl lg:text-7xl text-white font-normal">Publish a Book</h1>
-        </div>
       </section>
 
       {/* Breadcrumb */}
