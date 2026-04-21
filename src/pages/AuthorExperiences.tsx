@@ -107,11 +107,11 @@ export default function AuthorExperiences() {
                       </div>
 
                       {/* Content */}
-                      <div className="flex-1 min-w-0 text-center sm:text-left">
-                        <p className="font-nav font-normal leading-relaxed mb-5 text-[15px] text-[#333333] text-justify">
+                      <div className="flex-1 min-w-0 text-center sm:text-left flex flex-col sm:overflow-hidden">
+                        <p className="font-nav font-normal leading-relaxed mb-5 text-[15px] text-[#333333] text-justify sm:flex-1 sm:min-h-0 sm:overflow-hidden">
                           "{review.praise}"
                         </p>
-                        <p className="font-nav font-normal text-[15px] text-[#333333]">
+                        <p className="font-nav font-normal text-[15px] text-[#333333] sm:flex-shrink-0">
                           <span className="font-bold">{name}</span>
                           {title && (
                             <span> – {title}</span>
