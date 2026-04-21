@@ -219,24 +219,6 @@ export default function BookDetails() {
         {/* Tabs */}
         <BookDetailsTabs book={book} />
 
-        {/* Press Reviews from API */}
-        {book.apiReviews && book.apiReviews.length > 0 && (
-          <section className="container-wide mt-[100px]">
-            <h2 className="font-serif text-3xl font-bold text-foreground mb-8">Press Reviews</h2>
-            <div className="space-y-6">
-              {book.apiReviews.map((review, idx) => (
-                <blockquote key={idx} className="border-l-4 border-accent pl-6 py-2">
-                  <p className="text-foreground/80 italic leading-relaxed">{review.review}</p>
-                  <footer className="mt-3 text-sm text-muted-foreground">
-                    — <strong>{review.reviewer}</strong>
-                    {review.reviewer_position && `, ${review.reviewer_position}`}
-                  </footer>
-                </blockquote>
-              ))}
-            </div>
-          </section>
-        )}
-
         {/* Customer Reviews removed */}
 
         {/* Related */}

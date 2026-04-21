@@ -16,8 +16,9 @@ export function BookDetailsTabs({ book }: BookDetailsTabsProps) {
   const hasBlurb = book.blurb || book.description;
   const hasBiography = book.biography;
   const hasBookInfo = book.hardbackInfo || book.paperbackInfo || book.ebookInfo || book.categories || book.subjectCodes;
+  const hasReviews = book.apiReviews && book.apiReviews.length > 0;
 
-  if (!hasBlurb && !hasBiography && !hasBookInfo) {
+  if (!hasBlurb && !hasBiography && !hasBookInfo && !hasReviews) {
     return null;
   }
 
@@ -49,12 +50,14 @@ export function BookDetailsTabs({ book }: BookDetailsTabsProps) {
               Book Information
             </TabsTrigger>
           )}
-          <TabsTrigger 
-            value="review" 
-            className="rounded-none border-b-2 border-transparent data-[state=active]:border-accent data-[state=active]:bg-transparent data-[state=active]:shadow-none px-0 pb-3 text-base font-semibold uppercase tracking-wider"
-          >
-            Review
-          </TabsTrigger>
+          {hasReviews && (
+            <TabsTrigger
+              value="review"
+              className="rounded-none border-b-2 border-transparent data-[state=active]:border-accent data-[state=active]:bg-transparent data-[state=active]:shadow-none px-0 pb-3 text-base font-semibold uppercase tracking-wider"
+            >
+              Reviews
+            </TabsTrigger>
+          )}
         </TabsList>
 
         {hasBlurb && (
@@ -167,11 +170,21 @@ export function BookDetailsTabs({ book }: BookDetailsTabsProps) {
           </TabsContent>
         )}
 
-        <TabsContent value="review" className="pt-8">
-          <div className="prose prose-lg max-w-none text-foreground/80 leading-relaxed text-center py-8">
-            <p className="text-muted-foreground">No reviews yet.</p>
-          </div>
-        </TabsContent>
+        {hasReviews && (
+          <TabsContent value="review" className="pt-8">
+            <div className="space-y-6 max-w-4xl mx-auto">
+              {book.apiReviews!.map((review, idx) => (
+                <blockquote key={idx} className="border-l-4 border-accent pl-6 py-2">
+                  <p className="text-foreground/80 italic leading-relaxed text-base">{review.review}</p>
+                  <footer className="mt-3 text-sm text-muted-foreground">
+                    — <strong>{review.reviewer}</strong>
+                    {review.reviewer_position && `, ${review.reviewer_position}`}
+                  </footer>
+                </blockquote>
+              ))}
+            </div>
+          </TabsContent>
+        )}
       </Tabs>
 
       {/* Share this book section */}
