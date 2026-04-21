@@ -43,8 +43,8 @@ export interface Category {
   name: string;
   slug: string;
   description: string;
-  icon: string;
-  bookCount: number;
+  icon?: string;
+  bookCount?: number;
   image?: string;
   parentId?: string;
   subcategories?: Category[];
