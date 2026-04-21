@@ -34,7 +34,7 @@ export default function AboutSection() {
               physical sciences.
             </p>
 
-            <h2 className="text-4xl md:text-5xl font-baskerville font-normal text-gray-800 mt-10 mb-2">What We Do</h2>
+            <h2 className="text-[28px] font-baskerville font-normal text-[#333333] mt-10 mb-2">What We Do</h2>
 
             <p>
               At Cambridge Scholars, we support authors at every stage of the publishing journey. Whether you are an
@@ -58,7 +58,7 @@ export default function AboutSection() {
               </li>
             </ul>
 
-            <h2 className="text-4xl md:text-5xl font-baskerville font-normal text-gray-800 mt-10 mb-2">Global Distribution</h2>
+            <h2 className="text-[28px] font-baskerville font-normal text-[#333333] mt-10 mb-2">Global Distribution</h2>
 
             <p>
               Our titles are distributed globally to readers and libraries through an extensive network of academic and
@@ -97,7 +97,7 @@ export default function AboutSection() {
 
           {/* TEXT */}
           <div className="space-y-6 leading-relaxed text-black font-nav text-[15px] font-normal bg-white">
-            <h2 className="text-4xl md:text-5xl font-baskerville font-normal text-gray-800 mb-2">Why Publish With Us</h2>
+            <h2 className="text-[28px] font-baskerville font-normal text-[#333333] mb-2">Why Publish With Us</h2>
 
             <p>
               We understand the academic publishing process and the importance of having your work presented with
@@ -117,7 +117,7 @@ export default function AboutSection() {
               commitments.
             </p>
 
-            <h2 className="text-4xl md:text-5xl font-baskerville font-normal text-gray-800 mt-10 mb-2">Our Space</h2>
+            <h2 className="text-[28px] font-baskerville font-normal text-[#333333] mt-10 mb-2">Our Space</h2>
 
             <p>
               Our headquarters are located in the historic Lady Stephenson Library – a restored Victorian public library
