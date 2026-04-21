@@ -220,11 +220,6 @@ export default function Books() {
           <aside className="lg:w-72 flex-shrink-0">
             {/* Search Section */}
             <div className="mb-10">
-              {resultsSummary && (
-                <p className="mb-3 font-baskerville text-[16px] text-[#777]">
-                  {resultsSummary}
-                </p>
-              )}
               <h3 className="text-2xl font-serif text-foreground mb-6 pb-3 border-b-2 border-foreground/20">Search</h3>
               <div className="relative">
                 <Input
