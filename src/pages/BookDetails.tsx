@@ -187,8 +187,8 @@ export default function BookDetails() {
 
               {/* Actions */}
               <div className="flex items-center gap-3 sm:gap-4 flex-wrap my-[20px] sm:my-[30px] mb-0 mt-0">
-                 <div className="text-[#c4a273] text-base font-semibold" style={{ fontFamily: '"Nunito Sans", sans-serif' }}>
-                   <span className="font-semibold text-[#c4a273] text-base">From £{getPrice(selectedFormat).toFixed(2)}</span>
+                 <div className="text-[#c4a273] text-lg font-semibold" style={{ fontFamily: '"Nunito Sans", sans-serif' }}>
+                   <span className="font-semibold text-[#c4a273] text-lg">From £{getPrice(selectedFormat).toFixed(2)}</span>
                 </div>
                 <Button
                   size="lg"

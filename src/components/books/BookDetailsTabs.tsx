@@ -179,13 +179,13 @@ export function BookDetailsTabs({ book }: BookDetailsTabsProps) {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-10">
                 {book.categories && book.categories.length > 0 && (
                   <div>
-                    <span style={{ fontSize: "20px", color: "#000000", fontWeight: 700, letterSpacing: "0.02em" }}>CATEGORIES:</span>{" "}
+                    <span style={{ fontSize: "20px", color: "#696969", fontWeight: 700, letterSpacing: "0.02em" }}>CATEGORIES:</span>{" "}
                     <span style={{ fontSize: "18px", color: "#696969" }}>{book.categories.join(", ")}</span>
                   </div>
                 )}
                 {book.pages && (
                   <div>
-                    <span style={{ fontSize: "20px", color: "#000000", fontWeight: 700, letterSpacing: "0.02em" }}>PAGES:</span>{" "}
+                    <span style={{ fontSize: "20px", color: "#696969", fontWeight: 700, letterSpacing: "0.02em" }}>PAGES:</span>{" "}
                     <span style={{ fontSize: "18px", color: "#696969" }}>{book.pages}</span>
                   </div>
                 )}
@@ -198,17 +198,17 @@ export function BookDetailsTabs({ book }: BookDetailsTabsProps) {
                   <ul className="list-disc" style={{ paddingLeft: "20px", margin: 0 }}>
                     {book.subjectCodes.bic && book.subjectCodes.bic.length > 0 && (
                       <li style={{ fontSize: "18px", color: "#696969", marginBottom: "8px", lineHeight: 1.6 }}>
-                        <span style={{ color: "#000000", fontWeight: 700 }}>BIC:</span> {book.subjectCodes.bic.join(", ")}
+                        <span style={{ color: "#696969", fontWeight: 700 }}>BIC:</span> {book.subjectCodes.bic.join(", ")}
                       </li>
                     )}
                     {book.subjectCodes.bisac && book.subjectCodes.bisac.length > 0 && (
                       <li style={{ fontSize: "18px", color: "#696969", marginBottom: "8px", lineHeight: 1.6 }}>
-                        <span style={{ color: "#000000", fontWeight: 700 }}>BISAC:</span> {book.subjectCodes.bisac.join(", ")}
+                        <span style={{ color: "#696969", fontWeight: 700 }}>BISAC:</span> {book.subjectCodes.bisac.join(", ")}
                       </li>
                     )}
                     {book.subjectCodes.thema && book.subjectCodes.thema.length > 0 && (
                       <li style={{ fontSize: "18px", color: "#696969", marginBottom: "8px", lineHeight: 1.6 }}>
-                        <span style={{ color: "#000000", fontWeight: 700 }}>THEMA:</span> {book.subjectCodes.thema.join(", ")}
+                        <span style={{ color: "#696969", fontWeight: 700 }}>THEMA:</span> {book.subjectCodes.thema.join(", ")}
                       </li>
                     )}
                   </ul>
@@ -239,7 +239,7 @@ export function BookDetailsTabs({ book }: BookDetailsTabsProps) {
 
       {/* Share this book section */}
       <div className="mt-16 pt-8 border-t border-border text-center">
-        <p className="text-foreground font-medium mb-4">Share this book:</p>
+        <p className="text-foreground font-semibold mb-4 text-lg">Share this book:</p>
         <div className="flex justify-center gap-4">
           <button
             onClick={() => window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}`, '_blank')}
