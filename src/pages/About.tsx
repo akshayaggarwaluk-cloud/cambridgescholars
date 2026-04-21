@@ -9,9 +9,9 @@ export default function AboutSection() {
       <Header />
 
       {/* PAGE HEADER */}
-      <div className="bg-[#f4f3ec] pt-28 sm:pt-32 pb-10 sm:pb-14 px-6 md:px-16">
+      <div className="bg-[#F4F3EC] pt-28 sm:pt-32 pb-10 sm:pb-14 px-6 md:px-16">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
-          <h1 className="text-4xl sm:text-5xl font-serif text-gray-800">About Us</h1>
+          <h1 className="text-[40px] leading-[1.2] font-baskerville font-normal text-[#333333] my-[10px]">About Us</h1>
           <PageBreadcrumb currentPage="About Us" />
         </div>
       </div>
@@ -20,7 +20,7 @@ export default function AboutSection() {
       <section className="w-full px-6 md:px-20 py-16 bg-white">
         <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-[70%_30%] gap-12 items-stretch">
           {/* TEXT */}
-          <div className="space-y-6 leading-relaxed text-black font-nav text-[15px] font-normal">
+          <div className="space-y-6 leading-[1.7] text-[#333333] font-nav text-[16px] font-normal">
             <p>
               Founded in 2001 by a group of academics, Cambridge Scholars Publishing is an independent academic
               publisher with a strong commitment to original scholarship and academic excellence. We are based in
