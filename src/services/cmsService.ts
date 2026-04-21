@@ -423,4 +423,88 @@ export const adminApi = {
   updateAdmin: (payload: { id: string; email?: string; name?: string; password?: string; is_active?: boolean }) =>
     callAdmin<{ data: CmsAdminAccount }>({ action: "update_admin", ...payload }).then((r) => r.data),
   deleteAdmin: (id: string) => callAdmin({ action: "delete_admin", id }),
+
+  // ─── Featured Books ──────────────────────────────────────────
+  listFeaturedBooks: () =>
+    callAdmin<{ data: CmsFeaturedBook[] }>({ action: "list_featured_books" }).then((r) => r.data),
+  createFeaturedBook: (payload: Partial<CmsFeaturedBook>) =>
+    callAdmin<{ data: CmsFeaturedBook }>({ action: "create_featured_book", ...payload }).then((r) => r.data),
+  updateFeaturedBook: (payload: Partial<CmsFeaturedBook> & { id: string }) =>
+    callAdmin<{ data: CmsFeaturedBook }>({ action: "update_featured_book", ...payload }).then((r) => r.data),
+  deleteFeaturedBook: (id: string) => callAdmin({ action: "delete_featured_book", id }),
+
+  // ─── Author Reviews ──────────────────────────────────────────
+  listAuthorReviews: () =>
+    callAdmin<{ data: CmsAuthorReview[] }>({ action: "list_author_reviews" }).then((r) => r.data),
+  createAuthorReview: (payload: Partial<CmsAuthorReview>) =>
+    callAdmin<{ data: CmsAuthorReview }>({ action: "create_author_review", ...payload }).then((r) => r.data),
+  updateAuthorReview: (payload: Partial<CmsAuthorReview> & { id: string }) =>
+    callAdmin<{ data: CmsAuthorReview }>({ action: "update_author_review", ...payload }).then((r) => r.data),
+  deleteAuthorReview: (id: string) => callAdmin({ action: "delete_author_review", id }),
+
+  // ─── FAQs ────────────────────────────────────────────────────
+  listFaqs: () =>
+    callAdmin<{ data: CmsFaq[] }>({ action: "list_faqs" }).then((r) => r.data),
+  createFaq: (payload: Partial<CmsFaq>) =>
+    callAdmin<{ data: CmsFaq }>({ action: "create_faq", ...payload }).then((r) => r.data),
+  updateFaq: (payload: Partial<CmsFaq> & { id: string }) =>
+    callAdmin<{ data: CmsFaq }>({ action: "update_faq", ...payload }).then((r) => r.data),
+  deleteFaq: (id: string) => callAdmin({ action: "delete_faq", id }),
+
+  // ─── Resources ───────────────────────────────────────────────
+  listResources: () =>
+    callAdmin<{ data: CmsResource[] }>({ action: "list_resources" }).then((r) => r.data),
+  createResource: (payload: Partial<CmsResource>) =>
+    callAdmin<{ data: CmsResource }>({ action: "create_resource", ...payload }).then((r) => r.data),
+  updateResource: (payload: Partial<CmsResource> & { id: string }) =>
+    callAdmin<{ data: CmsResource }>({ action: "update_resource", ...payload }).then((r) => r.data),
+  deleteResource: (id: string) => callAdmin({ action: "delete_resource", id }),
+
+  // ─── Footer Documents ────────────────────────────────────────
+  listFooterDocuments: () =>
+    callAdmin<{ data: CmsFooterDocument[] }>({ action: "list_footer_documents" }).then((r) => r.data),
+  createFooterDocument: (payload: Partial<CmsFooterDocument>) =>
+    callAdmin<{ data: CmsFooterDocument }>({ action: "create_footer_document", ...payload }).then((r) => r.data),
+  updateFooterDocument: (payload: Partial<CmsFooterDocument> & { id: string }) =>
+    callAdmin<{ data: CmsFooterDocument }>({ action: "update_footer_document", ...payload }).then((r) => r.data),
+  deleteFooterDocument: (id: string) => callAdmin({ action: "delete_footer_document", id }),
+
+  // ─── Contact Submissions ─────────────────────────────────────
+  listContactSubmissions: () =>
+    callAdmin<{ data: CmsContactSubmission[] }>({ action: "list_contact_submissions" }).then((r) => r.data),
+  updateContactSubmission: (payload: { id: string; status?: string; admin_notes?: string }) =>
+    callAdmin<{ data: CmsContactSubmission }>({ action: "update_contact_submission", ...payload }).then((r) => r.data),
+  deleteContactSubmission: (id: string) => callAdmin({ action: "delete_contact_submission", id }),
+
+  // ─── Proposal Submissions ────────────────────────────────────
+  listProposalSubmissions: () =>
+    callAdmin<{ data: CmsProposalSubmission[] }>({ action: "list_proposal_submissions" }).then((r) => r.data),
+  updateProposalSubmission: (payload: { id: string; status?: string; admin_notes?: string }) =>
+    callAdmin<{ data: CmsProposalSubmission }>({ action: "update_proposal_submission", ...payload }).then((r) => r.data),
+  deleteProposalSubmission: (id: string) => callAdmin({ action: "delete_proposal_submission", id }),
+
+  // ─── Orders ──────────────────────────────────────────────────
+  listOrders: () =>
+    callAdmin<{ data: CmsOrderRow[] }>({ action: "list_orders" }).then((r) => r.data),
+  updateOrder: (payload: {
+    id: string;
+    status?: string;
+    payment_status?: string;
+    fulfillment_status?: string;
+    admin_notes?: string;
+  }) => callAdmin({ action: "update_order", ...payload }),
+
+  // ─── Users (Lovable Cloud auth) ──────────────────────────────
+  listUsers: (opts: { page?: number; per_page?: number } = {}) =>
+    callAdmin<{ data: CmsAuthUser[] }>({ action: "list_users", ...opts }).then((r) => r.data),
+  sendPasswordReset: (email: string, redirect_to?: string) =>
+    callAdmin<{ ok: true; action_link: string | null }>({
+      action: "send_password_reset", email, redirect_to,
+    }),
+  setUserDisabled: (id: string, disabled: boolean) =>
+    callAdmin({ action: "set_user_disabled", id, disabled }),
+
+  // ─── CSP external user password reset (stub) ─────────────────
+  cspResetPassword: (email: string) =>
+    callAdmin<{ ok: true } | { stub: true; error: string }>({ action: "csp_reset_password", email }),
 };
