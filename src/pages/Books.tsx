@@ -6,10 +6,28 @@ import { Footer } from "@/components/layout/Footer";
 import { PageBreadcrumb } from "@/components/layout/PageBreadcrumb";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { fetchBooks, fetchCategories, CSPPagination, CSPCategory } from "@/services/cspApi";
 import { Book } from "@/contexts/CartContext";
 import { useWishlist } from "@/contexts/WishlistContext";
 import { cn } from "@/lib/utils";
+
+// Sort options matching the reference WooCommerce shop
+const SORT_OPTIONS: { value: string; label: string; order?: "asc" | "desc" }[] = [
+  { value: "revenue", label: "Best Selling" },
+  { value: "menu_order", label: "Default sorting" },
+  { value: "popularity", label: "Sort by popularity" },
+  { value: "rating", label: "Sort by average rating" },
+  { value: "date", label: "Sort by latest", order: "desc" },
+  { value: "price", label: "Sort by price: low to high", order: "asc" },
+  { value: "price-desc", label: "Sort by price: high to low", order: "desc" },
+];
 
 export default function Books() {
   const [searchParams, setSearchParams] = useSearchParams();
