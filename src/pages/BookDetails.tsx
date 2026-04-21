@@ -105,7 +105,7 @@ export default function BookDetails() {
             {/* Content */}
             <div className="flex flex-col justify-between" style={imageHeight && window.innerWidth >= 1024 ? { height: imageHeight } : undefined}>
               <div>
-                <h1 className="font-baskerville text-[22px] font-normal text-[#333333] mb-[20px] leading-tight">{book.title}</h1>
+                <h1 className="font-baskerville font-normal text-[#333333] mb-[20px] leading-tight text-xl">{book.title}</h1>
                 {book.description && (
                   <p className="font-baskerville text-[18px] italic text-[#333333] mb-[24px] leading-snug line-clamp-2">
                     {book.description}
