@@ -48,7 +48,7 @@ export default function PublishABook() {
       {/* Breadcrumb */}
 
       {/* Content Section */}
-      <section className="container-wide py-16">
+      <section className="container-wide py-16 bg-white">
         <div className="max-w-6xl mx-auto text-center mb-16">
           <p className="leading-relaxed mb-6 text-[#333333] text-base">
             Are you ready to publish your book? This section provides a comprehensive guide to the next steps in the
