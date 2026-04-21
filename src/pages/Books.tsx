@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useSearchParams, Link } from "react-router-dom";
-import { Search, ChevronDown, Heart, Loader2 } from "lucide-react";
+import { Search, ChevronDown, Heart, Loader2, SlidersHorizontal } from "lucide-react";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { PageBreadcrumb } from "@/components/layout/PageBreadcrumb";
@@ -382,29 +382,38 @@ export default function Books() {
           {/* Books List */}
           <div className="flex-1">
             {/* Results count + Sort By header */}
-            {!loading && pagination && pagination.total != null && (
-              <div className="flex items-center justify-between mb-8 flex-wrap gap-4">
-                <p className="font-baskerville text-[15px] text-[#777]">
-                  Showing{" "}
-                  {((pagination.page ?? 1) - 1) * (pagination.per_page ?? 0) + 1}
-                  –
-                  {Math.min((pagination.page ?? 1) * (pagination.per_page ?? 0), pagination.total)}{" "}
-                  of {(pagination.total ?? 0).toLocaleString()} results
-                </p>
-                <Select value={orderBy} onValueChange={handleSortChange}>
-                  <SelectTrigger className="w-auto min-w-[180px] border-0 shadow-none bg-transparent font-baskerville text-[15px] text-[#333] focus:ring-0 gap-2">
-                    <SelectValue placeholder="Sort By" />
-                  </SelectTrigger>
-                  <SelectContent className="font-baskerville">
-                    {SORT_OPTIONS.map((opt) => (
-                      <SelectItem key={opt.value} value={opt.value}>
-                        {opt.label}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-            )}
+            {/* Results count + Sort By header (matches cambridgescholars.com/shop) */}
+            <div className="flex items-center justify-between mb-8 flex-wrap gap-4 pb-4">
+              <p className="font-baskerville text-[16px] text-[#777]">
+                {pagination && pagination.total != null && pagination.total > 0 ? (
+                  <>
+                    Showing{" "}
+                    {((pagination.page ?? 1) - 1) * (pagination.per_page ?? 0) + 1}
+                    –
+                    {Math.min(
+                      (pagination.page ?? 1) * (pagination.per_page ?? 0),
+                      pagination.total
+                    )}{" "}
+                    of {(pagination.total ?? 0).toLocaleString()} results
+                  </>
+                ) : (
+                  <>&nbsp;</>
+                )}
+              </p>
+              <Select value={orderBy} onValueChange={handleSortChange}>
+                <SelectTrigger className="w-auto min-w-[160px] border-0 shadow-none bg-transparent font-baskerville text-[16px] text-[#333] focus:ring-0 gap-2 px-0 hover:text-[#C75B2A] transition-colors">
+                  <SlidersHorizontal className="h-4 w-4 text-[#777]" />
+                  <SelectValue placeholder="Sort By" />
+                </SelectTrigger>
+                <SelectContent className="font-baskerville">
+                  {SORT_OPTIONS.map((opt) => (
+                    <SelectItem key={opt.value} value={opt.value}>
+                      {opt.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
 
             {loading ? (
               <div className="flex items-center justify-center py-16">
