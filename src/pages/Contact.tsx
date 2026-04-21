@@ -87,8 +87,8 @@ export default function Contact() {
                 <div key={info.title} className="flex items-start gap-4">
                   <info.icon className="h-6 w-6 text-accent" />
                   <div>
-                    <h3 className="mb-2 text-2xl font-semibold">{info.title}</h3>
-                    <p className="text-muted-foreground text-lg">{info.content}</p>
+                    <h3 className="mb-2 font-semibold text-xl">{info.title}</h3>
+                    <p className="text-muted-foreground text-base">{info.content}</p>
                   </div>
                 </div>
               ))}
