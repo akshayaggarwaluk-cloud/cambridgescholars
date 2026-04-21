@@ -86,7 +86,7 @@ export function RelatedBooksSection({ currentBook }: RelatedBooksSectionProps) {
         )}
 
         {/* Books Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 lg:gap-10 px-4 md:px-8">
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 lg:gap-10 px-4 md:px-8">
           {visibleBooks.map((book) => (
             <Link
               key={book.id}
