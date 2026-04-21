@@ -111,11 +111,6 @@ export default function BookDetails() {
                     {book.subtitle}
                   </p>
                 )}
-                {book.description && book.description !== book.subtitle && (
-                  <p className="font-baskerville italic text-[#333333] mb-[24px] leading-snug line-clamp-2 text-base">
-                    {book.description}
-                  </p>
-                )}
                 <p className="font-baskerville text-[#696969] mb-[24px] text-base">
                   <span className="font-semibold text-black">By:</span> {book.author}
                 </p>
