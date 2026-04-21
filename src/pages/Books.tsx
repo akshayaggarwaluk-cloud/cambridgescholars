@@ -123,6 +123,9 @@ export default function Books() {
           if (sortDef.value === "price-desc") {
             params.orderby = "price";
             params.order = "desc";
+          } else if (sortDef.value === "date-asc") {
+            params.orderby = "date";
+            params.order = "asc";
           } else {
             params.orderby = sortDef.value;
             if (sortDef.order) params.order = sortDef.order;
