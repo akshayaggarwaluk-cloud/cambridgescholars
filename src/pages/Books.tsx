@@ -276,8 +276,8 @@ export default function Books() {
                             className={cn(
                               "text-left font-baskerville text-[17px] py-2 transition-colors",
                               selectedCategory === cat.slug
-                                ? "text-[#C75B2A] font-semibold"
-                                : "text-[#C75B2A] hover:text-[#9c4521]",
+                                ? "text-[#9c8253] font-semibold"
+                                : "text-[#C5A374] hover:text-[#9c8253]",
                             )}
                           >
                             {cat.name}
@@ -296,7 +296,7 @@ export default function Books() {
                                     return next;
                                   });
                                 }}
-                                className="p-0.5 text-[#C75B2A] hover:text-[#9c4521]"
+                                className="p-0.5 text-[#C5A374] hover:text-[#9c8253]"
                               >
                                 <ChevronDown
                                   className={cn("h-4 w-4 transition-transform", isExpanded && "rotate-180")}
@@ -319,8 +319,8 @@ export default function Books() {
                                       className={cn(
                                         "text-left font-baskerville text-[15px] py-1.5 transition-colors",
                                         selectedCategory === sub.slug
-                                          ? "text-[#C75B2A] font-semibold"
-                                          : "text-[#C75B2A] hover:text-[#9c4521]",
+                                          ? "text-[#9c8253] font-semibold"
+                                          : "text-[#C5A374] hover:text-[#9c8253]",
                                       )}
                                     >
                                       {sub.name}
@@ -339,7 +339,7 @@ export default function Books() {
                                               return next;
                                             });
                                           }}
-                                          className="p-0.5 text-[#C75B2A] hover:text-[#9c4521]"
+                                          className="p-0.5 text-[#C5A374] hover:text-[#9c8253]"
                                         >
                                           <ChevronDown
                                             className={cn(
@@ -362,8 +362,8 @@ export default function Books() {
                                               className={cn(
                                                 "text-left font-baskerville text-[14px] py-1 transition-colors",
                                                 selectedCategory === spec.slug
-                                                  ? "text-[#C75B2A] font-semibold"
-                                                  : "text-[#C75B2A] hover:text-[#9c4521]",
+                                                  ? "text-[#9c8253] font-semibold"
+                                                  : "text-[#C5A374] hover:text-[#9c8253]",
                                               )}
                                             >
                                               {spec.name}
@@ -392,8 +392,8 @@ export default function Books() {
                         className={cn(
                           "text-left font-baskerville text-[17px] py-2 transition-colors",
                           selectedCategory === "all"
-                            ? "text-[#C75B2A] font-semibold"
-                            : "text-[#C75B2A] hover:text-[#9c4521]",
+                            ? "text-[#9c8253] font-semibold"
+                            : "text-[#C5A374] hover:text-[#9c8253]",
                         )}
                       >
                         All Categories
