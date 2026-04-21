@@ -63,12 +63,12 @@ export default function Resources() {
 
                 {/* Content */}
                 <div className="mt-6">
-                  <h2 className="font-serif text-xl text-foreground mb-2">{item.title}</h2>
-                  <p className="text-sm text-muted-foreground leading-relaxed mb-4 max-w-md">{item.description}</p>
+                  <h2 className="font-baskerville text-[21px] text-[#333333] mb-3">{item.title}</h2>
+                  <p className="font-nav text-[15px] text-[#7E7E7E] leading-relaxed mb-4 max-w-md">{item.description}</p>
 
                   <Link
                     to={item.link}
-                    className="inline-flex items-center text-xs font-semibold tracking-widest text-red-500 hover:underline"
+                    className="inline-flex items-center text-[13px] font-nav font-semibold tracking-widest text-[#E4573D] hover:underline"
                   >
                     READ MORE
                     <span className="ml-1">›</span>
