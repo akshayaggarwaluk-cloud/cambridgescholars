@@ -155,10 +155,10 @@ export function SearchOverlay({ onClose }: SearchOverlayProps) {
                   key={field.key}
                   onClick={() => setSearchByField(field.key)}
                   className={cn(
-                    "px-5 py-2 text-[14px] font-medium rounded-full border transition-all",
+                    "px-5 py-2 text-[14px] font-medium border transition-all",
                     searchByField === field.key
-                      ? "bg-accent text-accent-foreground border-accent"
-                      : "bg-transparent text-white border-white/40 hover:border-white"
+                      ? "bg-accent text-accent-foreground border-accent rounded-none"
+                      : "bg-transparent text-white border-white/40 hover:border-white rounded-none"
                   )}
                 >
                   {field.label}
