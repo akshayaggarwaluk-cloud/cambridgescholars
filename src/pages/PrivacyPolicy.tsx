@@ -25,15 +25,15 @@ const PrivacyPolicy = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-black">
           {/* Introduction */}
           <div className="mb-8">
-            <p className="leading-relaxed text-black text-[15px]">
+            <p className="leading-[1.7] text-[#333333] text-[16px] font-nav">
               Cambridge Scholars Publishing is committed to protecting your privacy and ensuring that your personal
               information is handled securely and responsibly.
             </p>
-            <p className="leading-relaxed mt-4 text-black text-[15px]">
+            <p className="leading-relaxed mt-4 text-[#333333] text-[16px] font-nav">
               This policy, together with our Terms and Conditions of Sale and any other referenced documents, explains
               how we collect, use and store your personal data when you use our website or interact with us.
             </p>
-            <p className="leading-relaxed mt-4 text-black text-[15px]">
+            <p className="leading-relaxed mt-4 text-[#333333] text-[16px] font-nav">
               We encourage you to read this policy carefully so that you understand how we process your information and
               your rights under the UK General Data Protection Regulation (UK GDPR) and the Data Protection Act 2018.
             </p>
@@ -43,9 +43,9 @@ const PrivacyPolicy = () => {
 
           {/* Who We Are */}
           <section className="mb-8">
-            <h2 className="font-playfair text-[26px] font-medium text-black mb-4">Who We Are</h2>
+            <h2 className="font-nav text-[18px] font-bold text-[#333333] mb-3">Who We Are</h2>
             <p
-              className="leading-relaxed text-black text-[15px]
+              className="leading-[1.7] text-[#333333] text-[16px] font-nav
 "
             >
               For the purposes of data protection law, the data controller is Cambridge Scholars Publishing, Lady
@@ -57,15 +57,15 @@ const PrivacyPolicy = () => {
 
           {/* Information We Collect */}
           <section className="mb-8">
-            <h2 className="font-playfair text-[26px] font-medium text-black mb-4">Information We Collect</h2>
+            <h2 className="font-nav text-[18px] font-bold text-[#333333] mb-3">Information We Collect</h2>
             <p
-              className="leading-relaxed mb-4 text-black text-[15px]
+              className="leading-relaxed mb-4 text-[#333333] text-[16px] font-nav
 "
             >
               We may collect and process the following information about you:
             </p>
             <ul
-              className="list-disc list-inside space-y-2 text-black text-[15px]
+              className="list-disc list-inside space-y-2 text-[#333333] text-[16px] font-nav
 "
             >
               <li>
@@ -85,11 +85,11 @@ const PrivacyPolicy = () => {
 
           {/* How We Use Your Information */}
           <section className="mb-8">
-            <h2 className="font-playfair text-[26px] font-medium text-black mb-4">How We Use Your Information</h2>
-            <p className="leading-relaxed mb-4 text-black text-[15px]">
+            <h2 className="font-nav text-[18px] font-bold text-[#333333] mb-3">How We Use Your Information</h2>
+            <p className="leading-relaxed mb-4 text-[#333333] text-[16px] font-nav">
               We process personal data for the following purposes:
             </p>
-            <ul className="list-disc list-inside space-y-2 text-black text-[15px]">
+            <ul className="list-disc list-inside space-y-2 text-[#333333] text-[16px] font-nav">
               <li>To provide information, products or services that you request from us</li>
               <li>To fulfil our contractual obligations such as processing and delivering book orders</li>
               <li>To communicate important updates about our services</li>
@@ -105,15 +105,15 @@ const PrivacyPolicy = () => {
 
           {/* Cookies */}
           <section className="mb-8">
-            <h2 className="font-playfair text-[26px] font-medium text-black mb-4">Cookies</h2>
+            <h2 className="font-nav text-[18px] font-bold text-[#333333] mb-3">Cookies</h2>
             <p
-              className="leading-relaxed text-black text-[15px]
+              className="leading-[1.7] text-[#333333] text-[16px] font-nav
 "
             >
               Our website uses cookies to improve your browsing experience. Cookies help us to:
             </p>
             <ul
-              className="list-disc list-inside space-y-2 text-black text-[15px]
+              className="list-disc list-inside space-y-2 text-[#333333] text-[16px] font-nav
 "
             >
               <li>Estimate visitor numbers and usage patterns</li>
@@ -123,7 +123,7 @@ const PrivacyPolicy = () => {
             </ul>
             <br></br>
             <p
-              className="text-black text-[15px]
+              className="text-[#333333] text-[16px] font-nav
 "
             >
               You can disable cookies in your browser settings but some parts of the site may not function properly if
@@ -135,9 +135,9 @@ const PrivacyPolicy = () => {
 
           {/* Where We Store Your Data */}
           <section className="mb-8">
-            <h2 className="font-playfair text-[26px] font-medium text-black mb-4">Where We Store Your Data</h2>
+            <h2 className="font-nav text-[18px] font-bold text-[#333333] mb-3">Where We Store Your Data</h2>
             <p
-              className="leading-relaxed mb-4 text-black text-[15px]
+              className="leading-relaxed mb-4 text-[#333333] text-[16px] font-nav
 "
             >
               Your information may be transferred to and stored in locations outside the UK or European Economic Area.
@@ -145,7 +145,7 @@ const PrivacyPolicy = () => {
               policy.
             </p>
             <p
-              className="text-black text-[15px]
+              className="text-[#333333] text-[16px] font-nav
 "
             >
               All information is stored on secure servers. Payment transactions are encrypted. Where you are given a
@@ -157,9 +157,9 @@ const PrivacyPolicy = () => {
 
           {/* Data Security */}
           <section className="mb-8">
-            <h2 className="font-playfair text-[26px] font-medium text-black mb-4">Data Security</h2>
+            <h2 className="font-nav text-[18px] font-bold text-[#333333] mb-3">Data Security</h2>
             <p
-              className="leading-relaxed text-black text-[15px]
+              className="leading-[1.7] text-[#333333] text-[16px] font-nav
 "
             >
               While we take all reasonable measures to protect your data, transmission over the internet is not
@@ -173,15 +173,15 @@ const PrivacyPolicy = () => {
 
           {/* Sharing Your Information */}
           <section className="mb-8">
-            <h2 className="font-playfair text-[26px] font-medium text-black mb-4">Sharing Your Information</h2>
+            <h2 className="font-nav text-[18px] font-bold text-[#333333] mb-3">Sharing Your Information</h2>
             <p
-              className="leading-relaxed text-black text-[15px]
+              className="leading-[1.7] text-[#333333] text-[16px] font-nav
 "
             >
               We may share your personal data in the following situations:
             </p>
             <ul
-              className="list-disc list-inside space-y-2 text-black text-[15px]
+              className="list-disc list-inside space-y-2 text-[#333333] text-[16px] font-nav
 "
             >
               <li>Where we are required to do so by law</li>
@@ -193,7 +193,7 @@ const PrivacyPolicy = () => {
             </ul>
             <br></br>
             <p
-              className="text-black text-[15px]
+              className="text-[#333333] text-[16px] font-nav
 "
             >
               We do not sell your personal data to third parties.
@@ -204,15 +204,15 @@ const PrivacyPolicy = () => {
 
           {/* Your Rights */}
           <section className="mb-8">
-            <h2 className="font-playfair text-[26px] font-medium text-black mb-4">Your Rights</h2>
+            <h2 className="font-nav text-[18px] font-bold text-[#333333] mb-3">Your Rights</h2>
             <p
-              className="leading-relaxed text-black text-[15px]
+              className="leading-[1.7] text-[#333333] text-[16px] font-nav
 "
             >
               Under UK GDPR you have the right to:
             </p>
             <ul
-              className="list-disc list-inside space-y-2 text-black text-[15px]
+              className="list-disc list-inside space-y-2 text-[#333333] text-[16px] font-nav
 "
             >
               <li>Access the personal data we hold about you</li>
@@ -222,7 +222,7 @@ const PrivacyPolicy = () => {
             </ul>
             <br></br>
             <p
-              className="text-black text-[15px]
+              className="text-[#333333] text-[16px] font-nav
 "
             >
               To exercise your rights please contact us using the details below.
@@ -233,11 +233,11 @@ const PrivacyPolicy = () => {
 
           {/* Marketing Communications */}
           <section className="mb-8">
-            <h2 className="font-playfair text-[26px] font-medium text-black mb-4">
+            <h2 className="font-nav text-[18px] font-bold text-[#333333] mb-3">
               Marketing Communications and Legitimate Interest
             </h2>
             <p
-              className="leading-relaxed text-black text-[15px]
+              className="leading-[1.7] text-[#333333] text-[16px] font-nav
 "
             >
               We may contact you where we have a legitimate business interest, for example to provide information
@@ -245,7 +245,7 @@ const PrivacyPolicy = () => {
             </p>
             <br></br>
             <p
-              className="text-black text-[15px]
+              className="text-[#333333] text-[16px] font-nav
 "
             >
               You can opt out of marketing communications at any time by using the unsubscribe link in emails or by
@@ -253,7 +253,7 @@ const PrivacyPolicy = () => {
             </p>
             <br></br>
             <p
-              className="text-black text-[15px]
+              className="text-[#333333] text-[16px] font-nav
 "
             >
               Our legitimate interests do not override your rights. We will not process your data where the impact on
@@ -265,9 +265,9 @@ const PrivacyPolicy = () => {
 
           {/* Changes */}
           <section className="mb-8">
-            <h2 className="font-playfair text-[26px] text-black mb-4 font-medium">Changes to This Policy</h2>
+            <h2 className="font-nav text-[18px] text-[#333333] mb-3 font-bold">Changes to This Policy</h2>
             <p
-              className="leading-relaxed text-black text-[15px]
+              className="leading-[1.7] text-[#333333] text-[16px] font-nav
 "
             >
               We may update this privacy policy from time to time. Any changes will be published on this page and we
@@ -279,45 +279,45 @@ const PrivacyPolicy = () => {
 
           {/* Contact */}
           <section className="mb-8">
-            <h2 className="font-playfair text-[26px] font-medium text-black mb-4">Contact Us</h2>
+            <h2 className="font-nav text-[18px] font-bold text-[#333333] mb-3">Contact Us</h2>
             <p
-              className="leading-relaxed text-black text-[15px]
+              className="leading-[1.7] text-[#333333] text-[16px] font-nav
 "
             >
               If you have any questions about this policy or how we process your data, please contact:
             </p>
             <p
-              className="text-black text-[15px]
+              className="text-[#333333] text-[16px] font-nav
 "
             >
               Cambridge Scholars Publishing
             </p>
             <p
-              className="text-black text-[15px]
+              className="text-[#333333] text-[16px] font-nav
 "
             >
               Lady Stephenson Library
             </p>
             <p
-              className="text-black text-[15px]
+              className="text-[#333333] text-[16px] font-nav
 "
             >
               Welbeck Road
             </p>
             <p
-              className="text-black text-[15px]
+              className="text-[#333333] text-[16px] font-nav
 "
             >
               Newcastle upon Tyne
             </p>
             <p
-              className="text-black text-[15px]
+              className="text-[#333333] text-[16px] font-nav
 "
             >
               NE6 2PA
             </p>
             <p
-              className="text-black text-[15px]
+              className="text-[#333333] text-[16px] font-nav
 "
             >
               Email: admin@cambridgescholars.com

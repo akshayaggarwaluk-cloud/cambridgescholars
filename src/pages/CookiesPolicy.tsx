@@ -20,11 +20,11 @@ const CookiesPolicy = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-black">
           {/* Introduction */}
           <div className="mb-8 text-black">
-            <p className="leading-relaxed text-black text-[15px]">
+            <p className="leading-[1.7] text-[#333333] text-[16px] font-nav">
               Cambridge Scholars Publishing uses cookies to improve your browsing experience and to understand how our
               website is used.
             </p>
-            <p className="leading-relaxed mt-4 text-black text-[15px]">
+            <p className="leading-relaxed mt-4 text-[#333333] text-[16px] font-nav">
               A cookie is a small text file that is placed on your computer or device when you visit a website. Cookies
               allow websites to recognise your device and store certain information about your preferences or past
               actions.
@@ -35,14 +35,14 @@ const CookiesPolicy = () => {
 
           {/* How We Use Cookies */}
           <section className="mb-8 text-black">
-            <h2 className="font-playfair text-[26px] font-medium text-black mb-4">How We Use Cookies</h2>
-            <p className="leading-relaxed mb-4 text-black text-[15px]">We use cookies to:</p>
-            <ul className="list-disc list-inside space-y-2 text-black text-[15px]">
+            <h2 className="font-nav text-[18px] font-bold text-[#333333] mb-3">How We Use Cookies</h2>
+            <p className="leading-relaxed mb-4 text-[#333333] text-[16px] font-nav">We use cookies to:</p>
+            <ul className="list-disc list-inside space-y-2 text-[#333333] text-[16px] font-nav">
               <li>Analyse website traffic and understand how visitors use our site</li>
               <li>Improve the performance and usability of the website</li>
               <li>Remember your preferences so that the site is more relevant to you</li>
             </ul>
-            <p className="leading-relaxed mt-4 text-black text-[15px]">
+            <p className="leading-relaxed mt-4 text-[#333333] text-[16px] font-nav">
               The information collected is used for statistical purposes only and does not personally identify you.
             </p>
           </section>
@@ -51,18 +51,18 @@ const CookiesPolicy = () => {
 
           {/* Types of Cookies We Use */}
           <section className="mb-8 text-black">
-            <h2 className="font-playfair text-[26px] font-medium text-black mb-4">Types of Cookies We Use</h2>
+            <h2 className="font-nav text-[18px] font-bold text-[#333333] mb-3">Types of Cookies We Use</h2>
             <ul className="space-y-3 text-black">
               <li>
-                <strong className="text-black text-[15px]">Essential cookies</strong> – required for the website to
+                <strong className="text-[#333333] text-[16px] font-nav">Essential cookies</strong> – required for the website to
                 function properly
               </li>
               <li>
-                <strong className="text-black text-[15px]">Analytics cookies</strong> – help us understand how visitors
+                <strong className="text-[#333333] text-[16px] font-nav">Analytics cookies</strong> – help us understand how visitors
                 use our site so we can improve it
               </li>
               <li>
-                <strong className="text-black text-[15px]">Preference cookies</strong> – remember choices you make to
+                <strong className="text-[#333333] text-[16px] font-nav">Preference cookies</strong> – remember choices you make to
                 enhance your experience
               </li>
             </ul>
@@ -72,12 +72,12 @@ const CookiesPolicy = () => {
 
           {/* Your Choices */}
           <section className="mb-8 text-black">
-            <h2 className="font-playfair text-[26px] font-medium text-black mb-4">Your Choices</h2>
-            <p className="leading-relaxed text-black text-[15px]">
+            <h2 className="font-nav text-[18px] font-bold text-[#333333] mb-3">Your Choices</h2>
+            <p className="leading-[1.7] text-[#333333] text-[16px] font-nav">
               You can choose to accept or decline cookies. Most web browsers automatically accept cookies but you can
               change your browser settings to refuse them if you prefer.
             </p>
-            <p className="leading-relaxed mt-4 text-black text-[15px]">
+            <p className="leading-relaxed mt-4 text-[#333333] text-[16px] font-nav">
               Please note that disabling cookies may limit the functionality of the website.
             </p>
           </section>

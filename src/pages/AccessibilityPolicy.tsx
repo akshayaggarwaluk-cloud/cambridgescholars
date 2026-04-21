@@ -31,7 +31,7 @@ const AccessibilityPolicy = () => {
 
           {/* Our Legal Commitment */}
           <section className="mb-8">
-            <h2 className="font-playfair text-[26px] font-medium text-black mb-4">Our Legal Commitment</h2>
+            <h2 className="font-nav text-[18px] font-bold text-[#333333] mb-3">Our Legal Commitment</h2>
             <p className="text-black leading-relaxed text-[15px]">
               As a private company operating in the United Kingdom we comply with the Equality Act 2010. This requires
               us to make reasonable adjustments to ensure that people with disabilities are not placed at a substantial
@@ -45,8 +45,8 @@ const AccessibilityPolicy = () => {
 
           {/* What We Offer */}
           <section className="mb-8">
-            <h2 className="font-playfair text-[26px] font-medium text-black mb-4">What We Offer</h2>
-            <ul className="list-disc list-inside space-y-2 text-black text-[15px]">
+            <h2 className="font-nav text-[18px] font-bold text-[#333333] mb-3">What We Offer</h2>
+            <ul className="list-disc list-inside space-y-2 text-[#333333] text-[16px] font-nav">
               <li>Academic publishing services</li>
               <li>Sale of books and eBooks to individuals and institutions</li>
               <li>
@@ -64,11 +64,11 @@ const AccessibilityPolicy = () => {
 
           {/* Accessibility Features */}
           <section className="mb-8">
-            <h2 className="font-playfair text-[26px] font-medium text-black mb-4">Accessibility Features</h2>
+            <h2 className="font-nav text-[18px] font-bold text-[#333333] mb-3">Accessibility Features</h2>
             <p className="text-black leading-relaxed mb-4 text-[15px]">
               We have designed our website and digital content to be:
             </p>
-            <ul className="space-y-3 text-black text-[15px]">
+            <ul className="space-y-3 text-[#333333] text-[16px] font-nav">
               <li>
                 <strong className="text-black">Perceivable:</strong> Text alternatives are provided for images and
                 multimedia, captions are included for videos and content is clear and readable.
@@ -92,7 +92,7 @@ const AccessibilityPolicy = () => {
 
           {/* Ongoing Improvements and Testing */}
           <section className="mb-8">
-            <h2 className="font-playfair text-[26px] font-medium text-black mb-4">Ongoing Improvements and Testing</h2>
+            <h2 className="font-nav text-[18px] font-bold text-[#333333] mb-3">Ongoing Improvements and Testing</h2>
             <p className="text-black leading-relaxed text-[15px]">
               Accessibility is an ongoing priority for us. We test our website using both automated tools and manual
               checks, including keyboard navigation and screen readers, to identify and fix any issues. We plan to carry
@@ -104,12 +104,12 @@ const AccessibilityPolicy = () => {
 
           {/* Feedback and Assistance */}
           <section className="mb-8">
-            <h2 className="font-playfair text-[26px] font-medium text-black mb-4">Feedback and Assistance</h2>
+            <h2 className="font-nav text-[18px] font-bold text-[#333333] mb-3">Feedback and Assistance</h2>
             <p className="text-black leading-relaxed mb-4 text-[15px]">
               If you experience any difficulty accessing any part of our website or digital content, or if you require
               materials in an alternative format, please contact us:
             </p>
-            <ul className="list-disc list-inside space-y-2 text-black text-[15px]">
+            <ul className="list-disc list-inside space-y-2 text-[#333333] text-[16px] font-nav">
               <li>
                 Email:{" "}
                 <a href="mailto:admin@cambridgescholars.com" className="text-red-500 hover:underline">
