@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useSearchParams, Link } from "react-router-dom";
-import { Search, ChevronDown, Heart, Loader2, AlignLeft } from "lucide-react";
+import { Search, ChevronDown, Heart, Loader2 } from "lucide-react";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { PageBreadcrumb } from "@/components/layout/PageBreadcrumb";
@@ -395,8 +395,7 @@ export default function Books() {
                   })()}
                 </p>
                 <Select value={orderBy} onValueChange={handleSortChange}>
-                  <SelectTrigger className="w-auto min-w-[160px] border-0 shadow-none bg-transparent font-baskerville text-[15px] text-[#666] focus:ring-0 focus:ring-offset-0 gap-2 px-0 h-auto py-1 [&>svg:last-child]:hidden hover:text-[#C75B2A] transition-colors">
-                    <AlignLeft className="h-4 w-4 -rotate-90" strokeWidth={2} />
+                  <SelectTrigger className="w-auto min-w-[180px] border-0 shadow-none bg-transparent font-baskerville text-[15px] text-[#333] focus:ring-0 gap-2">
                     <SelectValue placeholder="Sort By" />
                   </SelectTrigger>
                   <SelectContent className="font-baskerville">
@@ -441,19 +440,21 @@ export default function Books() {
                         {/* Book Details */}
                         <div className="flex-1 flex flex-col justify-center">
                           <Link to={`/books/${book.id}`}>
-                            <h2 className="font-baskerville text-[#222] hover:text-[#C75B2A] transition-colors leading-[1.25] text-[28px] font-normal">
+                            <h2 className="font-['Libre_Baskerville'] text-foreground hover:text-[#E4573D] transition-colors leading-tight text-2xl font-medium">
                               {book.title}
                             </h2>
                           </Link>
 
-                          {(book.subtitle || book.description) && (
-                            <p className="font-baskerville text-[19px] italic mt-3 leading-snug text-[#222]">
-                              {book.subtitle || book.description}
+                          {book.description && (
+                            <p className="font-['Libre_Baskerville'] text-xl italic mt-3 leading-snug text-black">
+                              {book.description.length > 80
+                                ? book.description.substring(0, 80) + "..."
+                                : book.description}
                             </p>
                           )}
 
                           <p className="font-nav mt-4 text-[15px] text-[#333]">
-                            By: {book.author}
+                            By: <span>{book.author}</span>
                           </p>
 
                           {book.blurb && (
