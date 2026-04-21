@@ -54,7 +54,7 @@ export default function Wishlist() {
 
       <div className="w-full bg-[#F4F3EC] pt-24 sm:pt-28">
         <div className="container-wide h-[200px] flex items-center justify-between">
-          <h1 className="text-[40px] leading-[1.2] font-baskerville font-normal text-[#333333] my-[10px]">My Wishlist</h1>
+          <h1 className="text-[40px] leading-[1.2] font-baskerville font-normal text-[#333333] my-[10px]">Wishlist</h1>
           <PageBreadcrumb currentPage="Wishlist" />
         </div>
       </div>
