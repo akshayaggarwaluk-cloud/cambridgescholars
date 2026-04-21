@@ -31,8 +31,8 @@ const RefundAndReturns = () => {
 
           {/* Returning Faulty Books */}
           <section className="mb-8">
-            <h2 className="font-playfair text-[26px] font-medium text-black mb-4">Returning Faulty Books</h2>
-            <ul className="list-disc list-inside space-y-2 text-black text-[15px]">
+            <h2 className="font-nav text-[18px] font-bold text-[#333333] mb-3">Returning Faulty Books</h2>
+            <ul className="list-disc list-inside space-y-2 text-[#333333] text-[16px] font-nav">
               <li>Faulty books can be returned for a full refund or replacement.</li>
               <li>
                 To arrange this, please email{" "}
@@ -54,8 +54,8 @@ const RefundAndReturns = () => {
 
           {/* Returning Non-Faulty Books */}
           <section className="mb-8">
-            <h2 className="font-playfair text-[26px] font-medium text-black mb-4">Returning Non-Faulty Books</h2>
-            <ul className="list-disc list-inside space-y-2 text-black text-[15px]">
+            <h2 className="font-nav text-[18px] font-bold text-[#333333] mb-3">Returning Non-Faulty Books</h2>
+            <ul className="list-disc list-inside space-y-2 text-[#333333] text-[16px] font-nav">
               <li>
                 If your books are not faulty, you may return them within{" "}
                 <strong className="text-black">14 days of receipt</strong> for a refund.
@@ -84,7 +84,7 @@ const RefundAndReturns = () => {
 
           {/* How to Return Books */}
           <section className="mb-8">
-            <h2 className="font-playfair text-[26px] font-medium text-black mb-4">How to Return Books</h2>
+            <h2 className="font-nav text-[18px] font-bold text-[#333333] mb-3">How to Return Books</h2>
             <p className="text-black leading-relaxed mb-4 text-[15px]">Please send all returns to:</p>
             <address className="text-black not-italic leading-relaxed text-[15px]">
               Cambridge Scholars Publishing
@@ -105,7 +105,7 @@ const RefundAndReturns = () => {
 
           {/* Postage Costs */}
           <section className="mb-8">
-            <h2 className="font-playfair text-[26px] font-medium text-black mb-4">Postage Costs</h2>
+            <h2 className="font-nav text-[18px] font-bold text-[#333333] mb-3">Postage Costs</h2>
             <p className="text-black leading-relaxed mb-6 text-[15px]">
               Postage costs depend on the number of books and the delivery destination. For large orders, please contact{" "}
               <a href="mailto:admin@cambridgescholars.com" className="text-red-500 hover:underline">
@@ -119,26 +119,26 @@ const RefundAndReturns = () => {
             <Table className="mb-8">
               <TableHeader>
                 <TableRow>
-                  <TableHead className="text-black text-[15px]">Number of Books</TableHead>
-                  <TableHead className="text-black text-[15px]">Price per Shipment</TableHead>
+                  <TableHead className="text-[#333333] text-[16px] font-nav">Number of Books</TableHead>
+                  <TableHead className="text-[#333333] text-[16px] font-nav">Price per Shipment</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 <TableRow>
-                  <TableCell className="text-black text-[15px]">1 book</TableCell>
-                  <TableCell className="text-black text-[15px]">£3.00</TableCell>
+                  <TableCell className="text-[#333333] text-[16px] font-nav">1 book</TableCell>
+                  <TableCell className="text-[#333333] text-[16px] font-nav">£3.00</TableCell>
                 </TableRow>
                 <TableRow>
-                  <TableCell className="text-black text-[15px]">2-9 books</TableCell>
-                  <TableCell className="text-black text-[15px]">£4.15</TableCell>
+                  <TableCell className="text-[#333333] text-[16px] font-nav">2-9 books</TableCell>
+                  <TableCell className="text-[#333333] text-[16px] font-nav">£4.15</TableCell>
                 </TableRow>
                 <TableRow>
-                  <TableCell className="text-black text-[15px]">10-25 books</TableCell>
-                  <TableCell className="text-black text-[15px]">£9.95</TableCell>
+                  <TableCell className="text-[#333333] text-[16px] font-nav">10-25 books</TableCell>
+                  <TableCell className="text-[#333333] text-[16px] font-nav">£9.95</TableCell>
                 </TableRow>
                 <TableRow>
-                  <TableCell className="text-black text-[15px]">25+ books</TableCell>
-                  <TableCell className="text-black text-[15px]">Contact us</TableCell>
+                  <TableCell className="text-[#333333] text-[16px] font-nav">25+ books</TableCell>
+                  <TableCell className="text-[#333333] text-[16px] font-nav">Contact us</TableCell>
                 </TableRow>
               </TableBody>
             </Table>
@@ -148,30 +148,30 @@ const RefundAndReturns = () => {
             <Table className="mb-8">
               <TableHeader>
                 <TableRow>
-                  <TableHead className="text-black text-[15px]">Delivery Method</TableHead>
-                  <TableHead className="text-black text-[15px]">Delivery Time</TableHead>
-                  <TableHead className="text-black text-[15px]">Number of Books</TableHead>
-                  <TableHead className="text-black text-[15px]">Price per Item</TableHead>
+                  <TableHead className="text-[#333333] text-[16px] font-nav">Delivery Method</TableHead>
+                  <TableHead className="text-[#333333] text-[16px] font-nav">Delivery Time</TableHead>
+                  <TableHead className="text-[#333333] text-[16px] font-nav">Number of Books</TableHead>
+                  <TableHead className="text-[#333333] text-[16px] font-nav">Price per Item</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 <TableRow>
-                  <TableCell className="text-black text-[15px]">Standard Postage Europe</TableCell>
-                  <TableCell className="text-black text-[15px]">2-3 weeks</TableCell>
-                  <TableCell className="text-black text-[15px]">1-5 books</TableCell>
-                  <TableCell className="text-black text-[15px]">£6.50</TableCell>
+                  <TableCell className="text-[#333333] text-[16px] font-nav">Standard Postage Europe</TableCell>
+                  <TableCell className="text-[#333333] text-[16px] font-nav">2-3 weeks</TableCell>
+                  <TableCell className="text-[#333333] text-[16px] font-nav">1-5 books</TableCell>
+                  <TableCell className="text-[#333333] text-[16px] font-nav">£6.50</TableCell>
                 </TableRow>
                 <TableRow>
-                  <TableCell className="text-black text-[15px]">Standard Postage Rest of World</TableCell>
-                  <TableCell className="text-black text-[15px]">2-5 weeks</TableCell>
-                  <TableCell className="text-black text-[15px]">1-5 books</TableCell>
-                  <TableCell className="text-black text-[15px]">£6.50</TableCell>
+                  <TableCell className="text-[#333333] text-[16px] font-nav">Standard Postage Rest of World</TableCell>
+                  <TableCell className="text-[#333333] text-[16px] font-nav">2-5 weeks</TableCell>
+                  <TableCell className="text-[#333333] text-[16px] font-nav">1-5 books</TableCell>
+                  <TableCell className="text-[#333333] text-[16px] font-nav">£6.50</TableCell>
                 </TableRow>
                 <TableRow>
-                  <TableCell className="text-black text-[15px]">Courier Tracked Postage</TableCell>
-                  <TableCell className="text-black text-[15px]">4-5 working days</TableCell>
-                  <TableCell className="text-black text-[15px]">6+ books</TableCell>
-                  <TableCell className="text-black text-[15px]">£6.50</TableCell>
+                  <TableCell className="text-[#333333] text-[16px] font-nav">Courier Tracked Postage</TableCell>
+                  <TableCell className="text-[#333333] text-[16px] font-nav">4-5 working days</TableCell>
+                  <TableCell className="text-[#333333] text-[16px] font-nav">6+ books</TableCell>
+                  <TableCell className="text-[#333333] text-[16px] font-nav">£6.50</TableCell>
                 </TableRow>
               </TableBody>
             </Table>
@@ -181,31 +181,31 @@ const RefundAndReturns = () => {
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead className="text-black text-[15px]">Destination</TableHead>
-                  <TableHead className="text-black text-[15px]">Courier</TableHead>
-                  <TableHead className="text-black text-[15px]">Standard Post</TableHead>
+                  <TableHead className="text-[#333333] text-[16px] font-nav">Destination</TableHead>
+                  <TableHead className="text-[#333333] text-[16px] font-nav">Courier</TableHead>
+                  <TableHead className="text-[#333333] text-[16px] font-nav">Standard Post</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 <TableRow>
-                  <TableCell className="text-black text-[15px]">UK</TableCell>
-                  <TableCell className="text-black text-[15px]">24 hours</TableCell>
-                  <TableCell className="text-black text-[15px]">N/A</TableCell>
+                  <TableCell className="text-[#333333] text-[16px] font-nav">UK</TableCell>
+                  <TableCell className="text-[#333333] text-[16px] font-nav">24 hours</TableCell>
+                  <TableCell className="text-[#333333] text-[16px] font-nav">N/A</TableCell>
                 </TableRow>
                 <TableRow>
-                  <TableCell className="text-black text-[15px]">Europe</TableCell>
-                  <TableCell className="text-black text-[15px]">2-3 days</TableCell>
-                  <TableCell className="text-black text-[15px]">2-3 weeks</TableCell>
+                  <TableCell className="text-[#333333] text-[16px] font-nav">Europe</TableCell>
+                  <TableCell className="text-[#333333] text-[16px] font-nav">2-3 days</TableCell>
+                  <TableCell className="text-[#333333] text-[16px] font-nav">2-3 weeks</TableCell>
                 </TableRow>
                 <TableRow>
-                  <TableCell className="text-black text-[15px]">North America</TableCell>
-                  <TableCell className="text-black text-[15px]">3-5 days</TableCell>
-                  <TableCell className="text-black text-[15px]">2-5 weeks</TableCell>
+                  <TableCell className="text-[#333333] text-[16px] font-nav">North America</TableCell>
+                  <TableCell className="text-[#333333] text-[16px] font-nav">3-5 days</TableCell>
+                  <TableCell className="text-[#333333] text-[16px] font-nav">2-5 weeks</TableCell>
                 </TableRow>
                 <TableRow>
-                  <TableCell className="text-black text-[15px]">Rest of the World</TableCell>
-                  <TableCell className="text-black text-[15px]">Up to 7 days</TableCell>
-                  <TableCell className="text-black text-[15px]">4–5 weeks</TableCell>
+                  <TableCell className="text-[#333333] text-[16px] font-nav">Rest of the World</TableCell>
+                  <TableCell className="text-[#333333] text-[16px] font-nav">Up to 7 days</TableCell>
+                  <TableCell className="text-[#333333] text-[16px] font-nav">4–5 weeks</TableCell>
                 </TableRow>
               </TableBody>
             </Table>
@@ -215,7 +215,7 @@ const RefundAndReturns = () => {
 
           {/* Contact Us */}
           <section className="mb-8">
-            <h2 className="font-playfair text-[26px] font-medium text-black mb-4">Contact Us</h2>
+            <h2 className="font-nav text-[18px] font-bold text-[#333333] mb-3">Contact Us</h2>
             <p className="text-black leading-relaxed text-[15px]">
               If you have any questions about returns or refunds, please contact us at{" "}
               <a href="mailto:orders@cambridgescholars.com" className="text-red-500 hover:underline">
