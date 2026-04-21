@@ -292,13 +292,13 @@ export async function fetchPublishedFooterDocuments(): Promise<CmsFooterDocument
 export async function submitContactForm(input: {
   name: string; email: string; message: string; subject?: string; phone?: string;
 }): Promise<void> {
-  const { error } = await supabase.from("cms_contact_submissions").insert({
+  const { error } = await supabase.from("cms_contact_submissions").insert([{
     name: input.name.trim(),
     email: input.email.trim(),
     message: input.message.trim(),
     subject: input.subject?.trim() || null,
     phone: input.phone?.trim() || null,
-  });
+  }]);
   if (error) throw error;
 }
 
@@ -309,13 +309,13 @@ export async function submitProposalForm(input: {
   book_subject?: string;
   data: Record<string, unknown>;
 }): Promise<void> {
-  const { error } = await supabase.from("cms_proposal_submissions").insert({
+  const { error } = await supabase.from("cms_proposal_submissions").insert([{
     author_name: input.author_name.trim(),
     author_email: input.author_email.trim(),
     book_title: input.book_title?.trim() || null,
     book_subject: input.book_subject?.trim() || null,
-    data: input.data,
-  });
+    data: input.data as never,
+  }]);
   if (error) throw error;
 }
 
