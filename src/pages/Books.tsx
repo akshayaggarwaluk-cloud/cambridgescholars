@@ -299,16 +299,16 @@ export default function Books() {
                                     <button
                                       onClick={() => handleCategoryChange(sub.slug)}
                                       className={cn(
-                                        "text-left font-baskerville text-[15px] py-1.5 transition-colors",
+                                        "text-left font-baskerville text-[14px] py-1.5 transition-colors",
                                         selectedCategory === sub.slug
-                                          ? "text-[#C75B2A] font-semibold"
-                                          : "text-[#C75B2A] hover:text-[#9c4521]",
+                                          ? "text-[#C75B2A] font-normal"
+                                          : "text-[#C5A374] hover:text-[#C75B2A] font-normal",
                                       )}
                                     >
                                       {sub.name}
                                     </button>
                                     <div className="flex items-center gap-2">
-                                      <span className="text-xs text-[#C75B2A] bg-[#F1EFEA] rounded-full px-2.5 py-0.5 min-w-[40px] text-center font-baskerville">
+                                      <span className="text-[12px] text-[#C5A374] bg-[#F1EFEA] rounded-full px-2.5 py-0.5 min-w-[40px] text-center font-baskerville">
                                         {sub.book_count}
                                       </span>
                                       {hasSubSubs && (
@@ -321,7 +321,7 @@ export default function Books() {
                                               return next;
                                             });
                                           }}
-                                          className="p-0.5 text-[#C75B2A] hover:text-[#9c4521]"
+                                          className="p-0.5 text-[#C5A374] hover:text-[#C75B2A]"
                                         >
                                           <ChevronDown
                                             className={cn(
