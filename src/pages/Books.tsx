@@ -274,7 +274,7 @@ export default function Books() {
                           <button
                             onClick={() => handleCategoryChange(cat.slug)}
                             className={cn(
-                              "text-left font-baskerville text-[20px] py-3 transition-colors",
+                              "text-left font-baskerville text-[15px] py-2 transition-colors",
                               selectedCategory === cat.slug
                                 ? "text-[#9c8253] font-semibold"
                                 : "text-[#C5A374] hover:text-[#9c8253]",
@@ -283,7 +283,7 @@ export default function Books() {
                             {cat.name}
                           </button>
                           <div className="flex items-center gap-2">
-                            <span className="text-[13px] text-[#C5A374] bg-[#F1EFEA] rounded-full px-3 py-1 min-w-[44px] text-center font-baskerville">
+                            <span className="text-[12px] text-[#999] bg-[#F1EFEA] rounded-full px-3 py-1 min-w-[44px] text-center font-baskerville">
                               {cat.book_count}
                             </span>
                             {hasSubs && (
@@ -326,7 +326,7 @@ export default function Books() {
                                       {sub.name}
                                     </button>
                                     <div className="flex items-center gap-2">
-                                      <span className="text-[13px] text-[#C5A374] bg-[#F1EFEA] rounded-full px-2.5 py-0.5 min-w-[40px] text-center font-baskerville">
+                                      <span className="text-[12px] text-[#999] bg-[#F1EFEA] rounded-full px-2.5 py-0.5 min-w-[40px] text-center font-baskerville">
                                         {sub.book_count}
                                       </span>
                                       {hasSubSubs && (
@@ -368,7 +368,7 @@ export default function Books() {
                                             >
                                               {spec.name}
                                             </button>
-                                            <span className="text-[13px] text-[#C5A374] bg-[#F1EFEA] rounded-full px-2.5 py-0.5 min-w-[36px] text-center font-baskerville">
+                                            <span className="text-[12px] text-[#999] bg-[#F1EFEA] rounded-full px-2.5 py-0.5 min-w-[36px] text-center font-baskerville">
                                               {spec.book_count}
                                             </span>
                                           </div>
@@ -390,7 +390,7 @@ export default function Books() {
                       <button
                         onClick={() => handleCategoryChange("all")}
                         className={cn(
-                          "text-left font-baskerville text-[20px] py-3 transition-colors",
+                          "text-left font-baskerville text-[15px] py-2 transition-colors",
                           selectedCategory === "all"
                             ? "text-[#9c8253] font-semibold"
                             : "text-[#C5A374] hover:text-[#9c8253]",
@@ -398,7 +398,7 @@ export default function Books() {
                       >
                         All Categories
                       </button>
-                      <span className="text-[13px] text-[#C5A374] bg-[#F1EFEA] rounded-full px-3 py-1 min-w-[44px] text-center font-baskerville">
+                      <span className="text-[12px] text-[#999] bg-[#F1EFEA] rounded-full px-3 py-1 min-w-[44px] text-center font-baskerville">
                         {categories.reduce((sum, c) => sum + c.book_count, 0)}
                       </span>
                     </div>
