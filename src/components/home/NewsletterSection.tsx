@@ -69,7 +69,7 @@ export function NewsletterSection() {
     <section className="py-8 md:py-12">
       <div className="mx-4 sm:mx-6 lg:mx-8 bg-white py-10 md:py-14 px-6 sm:px-10 lg:px-16">
         {/* Mailing List */}
-        <div className="max-w-4xl mx-auto text-center mb-14 md:mb-20 border border-[#ededed] py-12 md:py-16 px-6 sm:px-10">
+        <div className="max-w-4xl mx-auto text-center mb-14 md:mb-20 border border-[#ededed] py-12 md:py-16 px-6 sm:px-10 text-[#8a8a8a]">
           <h2 className="font-serif text-3xl md:text-4xl lg:text-4xl font-normal text-foreground mb-4">
             Sign Up for Mailing List.
           </h2>
