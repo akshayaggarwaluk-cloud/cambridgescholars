@@ -61,18 +61,18 @@ export default function FAQ() {
 
       <main className="pb-16 bg-white">
         <section className="container-wide py-16">
-          <div className="max-w-7xl mx-auto">
-            <Accordion type="single" collapsible className="w-full space-y-6">
+          <div className="max-w-4xl mx-auto">
+            <Accordion type="single" collapsible className="w-full space-y-3">
               {faqs.map((faq, index) => (
                 <AccordionItem
                   key={index}
                   value={`faq-${index}`}
-                  className="border border-[#E5E5E5] rounded-lg bg-[#F8F8F8] px-8"
+                  className="border border-[#E5E5E5] rounded-md bg-[#F8F8F8] px-5"
                 >
-                  <AccordionTrigger className="text-left font-normal text-[#333333] hover:text-accent hover:no-underline py-6 text-[20px] [&[data-state=open]>svg]:rotate-180">
+                  <AccordionTrigger className="text-left font-normal text-[#333333] hover:text-accent hover:no-underline py-3 text-base [&[data-state=open]>svg]:rotate-180">
                     {faq.question}
                   </AccordionTrigger>
-                  <AccordionContent className="text-[#696969] leading-relaxed pb-6 text-base">
+                  <AccordionContent className="text-[#696969] leading-relaxed pb-4 text-sm">
                     {faq.answer}
                   </AccordionContent>
                 </AccordionItem>
