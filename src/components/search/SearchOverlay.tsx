@@ -108,36 +108,31 @@ export function SearchOverlay({ onClose }: SearchOverlayProps) {
       <div className="relative z-10 w-full mt-[120px]">
         <div className="max-w-5xl mx-auto px-6">
           {/* Main search row */}
-          <div className="flex items-center gap-0">
-            {/* Search input - white background */}
-            <div className="flex-1 relative">
-              <input
-                ref={inputRef}
-                type="text"
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
-                onKeyDown={handleKeyDown}
-                placeholder={showAdvanced ? `Search by ${searchByField.charAt(0).toUpperCase() + searchByField.slice(1)}...` : "Search by Title, Subtitle, or Author/Editor name..."}
-                className="w-full h-[56px] px-5 pr-14 bg-black focus:outline-none border border-white text-lg font-light text-white"
-                style={{ fontFamily: "'Nunito Sans', sans-serif" }}
-              />
-              <button
-                onClick={handleSearch}
-                className="absolute right-4 top-1/2 -translate-y-1/2 text-white/70 hover:text-white transition-colors"
-                aria-label="Search"
-              >
-                <Search className="h-5 w-5" />
-              </button>
-            </div>
-
-            {/* Advanced button - outlined, right side */}
+          <div className="relative border border-white bg-black h-[56px] flex items-center">
+            <input
+              ref={inputRef}
+              type="text"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              onKeyDown={handleKeyDown}
+              placeholder={showAdvanced ? `Search by ${searchByField.charAt(0).toUpperCase() + searchByField.slice(1)}...` : "Search by Title, Subtitle, or Author/Editor name..."}
+              className="flex-1 h-full px-5 bg-transparent focus:outline-none text-lg font-light text-white"
+              style={{ fontFamily: "'Nunito Sans', sans-serif" }}
+            />
+            <button
+              onClick={handleSearch}
+              className="text-white/70 hover:text-white transition-colors px-3"
+              aria-label="Search"
+            >
+              <Search className="h-5 w-5" />
+            </button>
             <button
               onClick={() => setShowAdvanced(!showAdvanced)}
               className={cn(
-                "h-[56px] px-7 text-[15px] font-medium tracking-wide border-2 transition-all whitespace-nowrap",
+                "h-[42px] mr-2 px-7 text-[15px] font-medium tracking-wide border transition-all whitespace-nowrap",
                 showAdvanced
                   ? "bg-white text-[#333] border-white"
-                  : "bg-transparent text-white border-white/50 hover:border-white"
+                  : "bg-transparent text-white border-white/70 hover:border-white"
               )}
             >
               Advanced
