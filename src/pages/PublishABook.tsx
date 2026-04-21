@@ -75,7 +75,7 @@ export default function PublishABook() {
               </div>
               <Link
                 to={card.href}
-                className="inline-flex items-center gap-2 text-accent hover:text-accent/80 transition-colors uppercase tracking-wide group-hover:gap-3 font-semibold text-sm"
+                className="inline-flex items-center gap-2 text-accent hover:text-accent/80 transition-colors uppercase tracking-wide group-hover:gap-3 text-sm font-medium"
               >
                 View More
                 <ChevronRight className="h-4 w-4" />
