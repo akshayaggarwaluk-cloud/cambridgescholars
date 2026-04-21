@@ -396,9 +396,12 @@ export default function Books() {
                       >
                         All Categories
                       </button>
-                      <span className="text-xs text-[#C75B2A] bg-[#F1EFEA] rounded-full px-3 py-1 min-w-[44px] text-center font-baskerville">
-                        {categories.reduce((sum, c) => sum + c.book_count, 0)}
-                      </span>
+                      <div className="flex items-center gap-2">
+                        <span className="text-[13px] text-[#C75B2A] bg-[#F1EFEA] rounded-full px-3 py-1 min-w-[44px] text-center font-baskerville">
+                          {categories.reduce((sum, c) => sum + c.book_count, 0)}
+                        </span>
+                        <span className="w-5 h-5 invisible" aria-hidden="true" />
+                      </div>
                     </div>
                   </li>
                 </ul>
