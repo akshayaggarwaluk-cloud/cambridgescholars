@@ -21,13 +21,13 @@ export default function PreparingYourBookCover() {
 
       <main className="py-16 bg-white">
         <section className="max-w-7xl mx-auto px-6 md:px-16">
-          <p className="text-muted-foreground leading-relaxed mb-10">
+          <p className="font-nav text-[16px] text-[#696969] leading-relaxed mb-10">
             A strong book cover is essential for both professional presentation and wider visibility. In this section,
             you will find the specifications and permissions guidance needed to design and submit your cover in line
             with publishing requirements.
           </p>
 
-          <ul className="space-y-4 list-disc list-inside text-foreground">
+          <ul className="space-y-4 list-disc list-inside font-nav text-[16px] text-[#696969]">
             <li>
               <span className="font-medium">3.1</span>{" "}
               <Link to="#" className="text-red-500 text-primary hover:underline font-medium">
