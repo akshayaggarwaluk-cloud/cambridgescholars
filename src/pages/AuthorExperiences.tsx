@@ -89,12 +89,12 @@ export default function AuthorExperiences() {
                     <Separator className="my-0" />
                     <div className="flex flex-col items-center sm:flex-row sm:items-stretch gap-6 md:gap-8 py-8 md:py-10">
                       {/* Book cover */}
-                      <div className="flex-shrink-0 w-40 sm:w-28 md:w-36 lg:w-40 sm:self-stretch">
+                      <div className="flex-shrink-0 w-40 sm:w-28 md:w-36 lg:w-40 sm:self-stretch relative">
                         {review.coverImage ? (
                           <img
                             src={review.coverImage}
                             alt={review.book_title}
-                            className="w-full h-full object-contain object-top shadow-md"
+                            className="sm:absolute sm:inset-0 w-full h-full object-cover shadow-md"
                             onError={(e) => {
                               (e.target as HTMLImageElement).style.display = "none";
                             }}
