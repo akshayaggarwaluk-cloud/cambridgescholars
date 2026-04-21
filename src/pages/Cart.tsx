@@ -98,7 +98,7 @@ export default function Cart() {
 
                 {/* Price */}
                 <div className="text-base text-muted-foreground">
-                  ${item.price.toFixed(2)}
+                  From ${item.price.toFixed(2)}
                 </div>
 
                 {/* Quantity */}
