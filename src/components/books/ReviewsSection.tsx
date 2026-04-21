@@ -48,7 +48,7 @@ export function ReviewsSection({ bookId: _bookId }: ReviewsSectionProps) {
   };
 
   return (
-    <section className="container-wide mt-16">
+    <section className="container-wide mt-[100px]">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
         <div>
           <h2 className="font-serif text-3xl font-bold text-foreground">
