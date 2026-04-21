@@ -41,7 +41,7 @@ export default function PublishABook() {
             backgroundImage: `url(${heroImage})`,
           }}
         >
-          <div className="absolute inset-0 bg-primary/70" />
+          <div className="absolute inset-0 bg-transparent" />
         </div>
       </section>
 
