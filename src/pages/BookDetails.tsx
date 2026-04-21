@@ -105,10 +105,15 @@ export default function BookDetails() {
             {/* Content */}
             <div className="flex flex-col justify-between" style={imageHeight && window.innerWidth >= 1024 ? { height: imageHeight } : undefined}>
               <div>
-                <h1 className="font-baskerville text-xl sm:text-2xl font-medium mb-2 sm:mb-3 lg:text-2xl">{book.title}</h1>
-                <p className="font-baskerville text-sm sm:text-base italic mb-3 sm:mb-4 text-black line-clamp-2">{book.description}</p>
-                <p className="mb-3 sm:mb-4 text-sm sm:text-base">
-                  <span className="font-semibold">By:</span> {book.author}
+                <h1 className="font-baskerville text-[22px] font-normal text-[#333333] mb-[15px] leading-tight">{book.title}</h1>
+                {book.description && (
+                  <p className="font-baskerville text-[18px] italic text-[#333333] mb-[20px] leading-snug">
+                    {book.description}
+                  </p>
+                )}
+                <p className="font-baskerville text-[16px] text-[#333333] mb-3 sm:mb-4">
+                  <span className="font-semibold">By:</span>{" "}
+                  <span className="text-[#C75B2A]">{book.author}</span>
                 </p>
                 <p className="hidden sm:block text-muted-foreground leading-relaxed max-w-3xl mb-4 lg:mb-6 text-base lg:text-lg">
                   {book.blurb?.slice(0, 200)}
