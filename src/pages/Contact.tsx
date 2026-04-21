@@ -100,7 +100,7 @@ export default function Contact() {
         <section className="pb-24">
           <div className="container-wide">
             <div className="max-w-2xl mx-auto">
-              <h2 className="font-serif text-center mb-12 text-5xl">Send A Message</h2>
+              <h2 className="font-serif text-center mb-12 text-4xl">Send A Message</h2>
 
               <form onSubmit={handleSubmit} className="space-y-6">
                 {/* Name + Email */}
