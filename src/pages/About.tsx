@@ -9,7 +9,7 @@ export default function AboutSection() {
       <Header />
 
       {/* PAGE HEADER */}
-      <div className="w-full bg-[#F4F3EC] pt-24 sm:pt-28 px-10 md:px-24 lg:px-32">
+      <div className="w-full bg-[#F4F3EC] pt-24 sm:pt-28 px-12 md:px-32 lg:px-48 xl:px-56">
         <div className="w-full max-w-7xl mx-auto h-[200px] flex items-center justify-between">
           <h1 className="text-[40px] leading-[1.2] font-baskerville font-normal text-[#333333] my-[10px]">About Us</h1>
           <PageBreadcrumb currentPage="About Us" />
