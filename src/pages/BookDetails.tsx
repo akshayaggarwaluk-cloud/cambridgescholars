@@ -114,7 +114,10 @@ export default function BookDetails() {
                 <p className="font-baskerville text-[#696969] mb-[24px] text-base">
                   <span className="font-semibold text-black">By:</span> {book.author}
                 </p>
-                <p className="hidden sm:block font-light text-muted-foreground leading-relaxed max-w-3xl mb-6 lg:mb-8 text-lg">
+                <p
+                  className="hidden sm:block font-light text-muted-foreground leading-relaxed max-w-3xl mb-6 lg:mb-8 text-lg"
+                  style={{ fontFamily: '"Nunito Sans", sans-serif' }}
+                >
                   {book.blurb?.slice(0, 200)}
                   {book.blurb && book.blurb.length > 200 ? "..." : ""}
                 </p>
@@ -184,7 +187,7 @@ export default function BookDetails() {
 
               {/* Actions */}
               <div className="flex items-center gap-3 sm:gap-4 flex-wrap my-[20px] sm:my-[30px] mb-0 mt-0">
-                <div className="text-[#c4a273] text-lg">
+                <div className="text-[#c4a273] text-lg" style={{ fontFamily: '"Nunito Sans", sans-serif' }}>
                   <span className="font-semibold text-[#c4a273] text-lg">From £{getPrice(selectedFormat).toFixed(2)}</span>
                 </div>
                 <Button
