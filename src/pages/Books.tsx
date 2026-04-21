@@ -243,24 +243,24 @@ export default function Books() {
           <aside className="lg:w-72 flex-shrink-0">
             {/* Search Section */}
             <div className="mb-10">
-              <h3 className="text-2xl font-serif text-foreground mb-6 pb-3 border-b-2 border-foreground/20">Search</h3>
+              <h3 className="font-baskerville text-[24px] font-normal text-[#333333] mb-5 pb-3 border-b border-[#C75B2A]/30">Search</h3>
               <div className="relative">
                 <Input
                   type="text"
-                  placeholder="Search books..."
+                  placeholder="Search products…"
                   value={searchQuery}
                   onChange={(e) => handleSearchChange(e.target.value)}
-                  className="pr-12 h-12 border-border bg-background text-base"
+                  className="pr-12 h-12 border-0 bg-[#F8F8F8] text-[15px] font-baskerville text-[#333] placeholder:text-[#999] rounded-none focus-visible:ring-0 px-5"
                 />
-                <button className="absolute right-0 top-0 h-12 w-12 flex items-center justify-center bg-muted/50 border-l border-border hover:bg-muted transition-colors">
-                  <Search className="h-5 w-5 text-muted-foreground" />
+                <button className="absolute right-0 top-0 h-12 w-12 flex items-center justify-center text-[#666] hover:text-[#C75B2A] transition-colors">
+                  <Search className="h-4 w-4" />
                 </button>
               </div>
             </div>
 
             {/* Category filter */}
             <div>
-              <h3 className="text-2xl font-serif text-foreground mb-6 pb-3 border-b-2 border-foreground/20">
+              <h3 className="font-baskerville text-[24px] font-normal text-[#333333] mb-5 pb-3 border-b border-[#C75B2A]/30">
                 Subject Categories
               </h3>
               {categories.length > 0 ? (
@@ -274,16 +274,16 @@ export default function Books() {
                           <button
                             onClick={() => handleCategoryChange(cat.slug)}
                             className={cn(
-                              "text-left font-baskerville text-[17px] py-2 transition-colors",
+                              "text-left font-baskerville text-[15px] py-2 transition-colors",
                               selectedCategory === cat.slug
-                                ? "text-[#C75B2A] font-semibold"
-                                : "text-[#C75B2A] hover:text-[#9c4521]",
+                                ? "text-[#9c8253] font-semibold"
+                                : "text-[#C5A374] hover:text-[#9c8253]",
                             )}
                           >
                             {cat.name}
                           </button>
                           <div className="flex items-center gap-2">
-                            <span className="text-xs text-[#C75B2A] bg-[#F1EFEA] rounded-full px-3 py-1 min-w-[44px] text-center font-baskerville">
+                            <span className="text-[12px] text-[#999] bg-[#F1EFEA] rounded-full px-3 py-1 min-w-[44px] text-center font-baskerville">
                               {cat.book_count}
                             </span>
                             {hasSubs && (
@@ -296,7 +296,7 @@ export default function Books() {
                                     return next;
                                   });
                                 }}
-                                className="p-0.5 text-[#C75B2A] hover:text-[#9c4521]"
+                                className="p-0.5 text-[#C5A374] hover:text-[#9c8253]"
                               >
                                 <ChevronDown
                                   className={cn("h-4 w-4 transition-transform", isExpanded && "rotate-180")}
@@ -319,14 +319,14 @@ export default function Books() {
                                       className={cn(
                                         "text-left font-baskerville text-[15px] py-1.5 transition-colors",
                                         selectedCategory === sub.slug
-                                          ? "text-[#C75B2A] font-semibold"
-                                          : "text-[#C75B2A] hover:text-[#9c4521]",
+                                          ? "text-[#9c8253] font-semibold"
+                                          : "text-[#C5A374] hover:text-[#9c8253]",
                                       )}
                                     >
                                       {sub.name}
                                     </button>
                                     <div className="flex items-center gap-2">
-                                      <span className="text-xs text-[#C75B2A] bg-[#F1EFEA] rounded-full px-2.5 py-0.5 min-w-[40px] text-center font-baskerville">
+                                      <span className="text-[12px] text-[#999] bg-[#F1EFEA] rounded-full px-2.5 py-0.5 min-w-[40px] text-center font-baskerville">
                                         {sub.book_count}
                                       </span>
                                       {hasSubSubs && (
@@ -339,7 +339,7 @@ export default function Books() {
                                               return next;
                                             });
                                           }}
-                                          className="p-0.5 text-[#C75B2A] hover:text-[#9c4521]"
+                                          className="p-0.5 text-[#C5A374] hover:text-[#9c8253]"
                                         >
                                           <ChevronDown
                                             className={cn(
@@ -362,13 +362,13 @@ export default function Books() {
                                               className={cn(
                                                 "text-left font-baskerville text-[14px] py-1 transition-colors",
                                                 selectedCategory === spec.slug
-                                                  ? "text-[#C75B2A] font-semibold"
-                                                  : "text-[#C75B2A] hover:text-[#9c4521]",
+                                                  ? "text-[#9c8253] font-semibold"
+                                                  : "text-[#C5A374] hover:text-[#9c8253]",
                                               )}
                                             >
                                               {spec.name}
                                             </button>
-                                            <span className="text-xs text-[#C75B2A] bg-[#F1EFEA] rounded-full px-2.5 py-0.5 min-w-[36px] text-center font-baskerville">
+                                            <span className="text-[12px] text-[#999] bg-[#F1EFEA] rounded-full px-2.5 py-0.5 min-w-[36px] text-center font-baskerville">
                                               {spec.book_count}
                                             </span>
                                           </div>
@@ -390,15 +390,15 @@ export default function Books() {
                       <button
                         onClick={() => handleCategoryChange("all")}
                         className={cn(
-                          "text-left font-baskerville text-[17px] py-2 transition-colors",
+                          "text-left font-baskerville text-[15px] py-2 transition-colors",
                           selectedCategory === "all"
-                            ? "text-[#C75B2A] font-semibold"
-                            : "text-[#C75B2A] hover:text-[#9c4521]",
+                            ? "text-[#9c8253] font-semibold"
+                            : "text-[#C5A374] hover:text-[#9c8253]",
                         )}
                       >
                         All Categories
                       </button>
-                      <span className="text-xs text-[#C75B2A] bg-[#F1EFEA] rounded-full px-3 py-1 min-w-[44px] text-center font-baskerville">
+                      <span className="text-[12px] text-[#999] bg-[#F1EFEA] rounded-full px-3 py-1 min-w-[44px] text-center font-baskerville">
                         {categories.reduce((sum, c) => sum + c.book_count, 0)}
                       </span>
                     </div>
