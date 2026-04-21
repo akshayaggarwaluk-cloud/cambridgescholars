@@ -106,9 +106,9 @@ export function SearchOverlay({ onClose }: SearchOverlayProps) {
 
       {/* Search bar - positioned below header area */}
       <div className="relative z-10 w-full mt-[120px]">
-        <div className="max-w-5xl mx-auto px-6">
+        <div className="max-w-[1500px] mx-auto px-6">
           {/* Main search row */}
-          <div className="relative border border-white bg-black h-[72px] flex items-center">
+          <div className="relative border border-white bg-black h-[96px] flex items-center">
             <input
               ref={inputRef}
               type="text"
@@ -116,20 +116,20 @@ export function SearchOverlay({ onClose }: SearchOverlayProps) {
               onChange={(e) => setQuery(e.target.value)}
               onKeyDown={handleKeyDown}
               placeholder={showAdvanced ? `Search by ${searchByField.charAt(0).toUpperCase() + searchByField.slice(1)}...` : "Search by Title, Subtitle, or Author/Editor name..."}
-              className="flex-1 h-full px-6 bg-transparent focus:outline-none text-xl font-light text-white"
+              className="flex-1 h-full px-8 bg-transparent focus:outline-none text-2xl font-light text-white"
               style={{ fontFamily: "'Nunito Sans', sans-serif" }}
             />
             <button
               onClick={handleSearch}
-              className="text-white/70 hover:text-white transition-colors px-4"
+              className="text-white/70 hover:text-white transition-colors px-5"
               aria-label="Search"
             >
-              <Search className="h-6 w-6" />
+              <Search className="h-7 w-7" />
             </button>
             <button
               onClick={() => setShowAdvanced(!showAdvanced)}
               className={cn(
-                "h-[52px] mr-3 px-8 text-base font-medium tracking-wide border transition-all whitespace-nowrap",
+                "h-[64px] mr-4 px-10 text-lg font-medium tracking-wide border transition-all whitespace-nowrap",
                 showAdvanced
                   ? "bg-white text-[#333] border-white"
                   : "text-white border-white/70 hover:border-white bg-[#525151]"
