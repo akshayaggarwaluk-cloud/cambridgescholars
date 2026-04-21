@@ -52,7 +52,7 @@ export default function AuthorPromises() {
       <Header />
 
       {/* PAGE HEADER */}
-      <div className="w-full bg-[#F4F3EC] pt-24 sm:pt-28 px-10 md:px-24 lg:px-36 xl:px-40">
+      <div className="w-full bg-[#F4F3EC] pt-24 sm:pt-28 px-10 md:px-28 lg:px-40 xl:px-48">
         <div className="w-full max-w-7xl mx-auto h-[200px] flex items-center justify-between">
           <h1 className="text-[40px] leading-[1.2] font-baskerville font-normal text-[#333333] my-[10px]">Our Author Promises</h1>
           <PageBreadcrumb currentPage="Our Author Promises" />
