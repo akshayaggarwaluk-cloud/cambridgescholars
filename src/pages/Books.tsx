@@ -505,7 +505,7 @@ export default function Books() {
                                 }
                               }}
                               className={cn(
-                                "h-11 w-11 rounded-none border border-[#E5E5E5] bg-white text-[#333] hover:text-[#C75B2A] hover:border-[#C75B2A] transition-colors",
+                                "h-11 w-11 rounded-none border border-[#E5E5E5] bg-white text-[#333] hover:bg-white hover:text-[#333] hover:border-black transition-colors",
                                 isInWishlist(book.id) && "text-[#C75B2A] border-[#C75B2A]",
                               )}
                             >
