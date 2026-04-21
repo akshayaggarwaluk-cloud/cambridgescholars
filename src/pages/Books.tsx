@@ -220,11 +220,6 @@ export default function Books() {
           <aside className="lg:w-72 flex-shrink-0">
             {/* Search Section */}
             <div className="mb-10">
-              {resultsSummary && (
-                <p className="mb-3 font-baskerville text-[16px] text-[#777]">
-                  {resultsSummary}
-                </p>
-              )}
               <h3 className="text-2xl font-serif text-foreground mb-6 pb-3 border-b-2 border-foreground/20">Search</h3>
               <div className="relative">
                 <Input
@@ -397,11 +392,13 @@ export default function Books() {
             {/* Results count + Sort By header */}
             {/* Results count + Sort By header (matches cambridgescholars.com/shop) */}
             <div className="flex items-center justify-between mb-8 flex-wrap gap-4 pb-4">
-              <div className="min-h-[24px]" />
+              <p className="font-baskerville text-[16px] text-[#777] min-h-[24px]">
+                {resultsSummary}
+              </p>
               <Select value={orderBy} onValueChange={handleSortChange}>
                 <SelectTrigger className="w-auto min-w-[160px] border-0 shadow-none bg-transparent font-baskerville text-[16px] text-[#333] focus:ring-0 gap-2 px-0 hover:text-[#C75B2A] transition-colors">
                   <SlidersHorizontal className="h-4 w-4 text-[#777]" />
-                  <SelectValue placeholder="Sort By" />
+                  <span>Sort By</span>
                 </SelectTrigger>
                 <SelectContent className="font-baskerville">
                   {SORT_OPTIONS.map((opt) => (
