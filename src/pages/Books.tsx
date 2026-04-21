@@ -206,8 +206,39 @@ export default function Books() {
       </div>
 
       <main className="px-6 md:px-16 py-12 bg-white">
-        <div className="max-w-7xl mx-auto flex flex-col lg:flex-row gap-12">
+        <div className="max-w-7xl mx-auto">
           {/* Top bar: results count + sort dropdown — full-width above the columns */}
+          {!loading && (
+            <div className="flex items-center justify-between mb-8 flex-wrap gap-4">
+              <p className="font-baskerville text-[15px] text-[#777]">
+                {(() => {
+                  const page = pagination?.page ?? 1;
+                  const perPage = pagination?.per_page ?? 20;
+                  const total = pagination?.total ?? books.length;
+                  const from = total === 0 ? 0 : (page - 1) * perPage + 1;
+                  const to = Math.min(page * perPage, total);
+                  return `Showing ${from}–${to} of ${total.toLocaleString()} results`;
+                })()}
+              </p>
+              <Select value={orderBy} onValueChange={handleSortChange}>
+                <SelectTrigger className="w-auto min-w-[140px] border-0 shadow-none bg-transparent font-baskerville text-[15px] text-[#333] focus:ring-0 gap-2">
+                  <span className="flex items-center gap-2">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="6" y1="12" x2="18" y2="12"/><line x1="10" y1="18" x2="14" y2="18"/></svg>
+                    Sort By
+                  </span>
+                </SelectTrigger>
+                <SelectContent className="font-baskerville">
+                  {SORT_OPTIONS.map((opt) => (
+                    <SelectItem key={opt.value} value={opt.value}>
+                      {opt.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+          )}
+
+          <div className="flex flex-col lg:flex-row gap-12">
           {/* Sidebar */}
           <aside className="lg:w-72 flex-shrink-0">
             {/* Search Section */}
@@ -381,34 +412,6 @@ export default function Books() {
 
           {/* Books List */}
           <div className="flex-1">
-            {/* Results count + Sort By header */}
-            {!loading && pagination && (
-              <div className="flex items-center justify-between mb-8 flex-wrap gap-4">
-                <p className="font-baskerville text-[15px] text-[#777]">
-                  {(() => {
-                    const page = pagination.page ?? 1;
-                    const perPage = pagination.per_page ?? 20;
-                    const total = pagination.total ?? books.length;
-                    const from = total === 0 ? 0 : (page - 1) * perPage + 1;
-                    const to = Math.min(page * perPage, total);
-                    return `Showing ${from}–${to} of ${total.toLocaleString()} results`;
-                  })()}
-                </p>
-                <Select value={orderBy} onValueChange={handleSortChange}>
-                  <SelectTrigger className="w-auto min-w-[180px] border-0 shadow-none bg-transparent font-baskerville text-[15px] text-[#333] focus:ring-0 gap-2">
-                    <SelectValue placeholder="Sort By" />
-                  </SelectTrigger>
-                  <SelectContent className="font-baskerville">
-                    {SORT_OPTIONS.map((opt) => (
-                      <SelectItem key={opt.value} value={opt.value}>
-                        {opt.label}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-            )}
-
             {loading ? (
               <div className="flex items-center justify-center py-16">
                 <Loader2 className="h-8 w-8 animate-spin text-accent" />
@@ -535,6 +538,7 @@ export default function Books() {
                 )}
               </>
             )}
+          </div>
           </div>
         </div>
       </main>
