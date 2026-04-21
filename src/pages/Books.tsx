@@ -89,7 +89,15 @@ export default function Books() {
     const loadBooks = async () => {
       setLoading(true);
       try {
-        const params: { page: number; per_page: number; search?: string; search_field?: string; category?: string } = {
+        const params: {
+          page: number;
+          per_page: number;
+          search?: string;
+          search_field?: string;
+          category?: string;
+          orderby?: string;
+          order?: string;
+        } = {
           page: currentPage,
           per_page: 20,
         };
@@ -99,6 +107,17 @@ export default function Books() {
           const catName = findCategoryName(selectedCategory, categories);
           if (catName) params.category = catName;
           else params.category = selectedCategory;
+        }
+        // Map UI sort value to API params (handles price-desc → price + order=desc)
+        const sortDef = SORT_OPTIONS.find((s) => s.value === orderBy);
+        if (sortDef) {
+          if (sortDef.value === "price-desc") {
+            params.orderby = "price";
+            params.order = "desc";
+          } else {
+            params.orderby = sortDef.value;
+            if (sortDef.order) params.order = sortDef.order;
+          }
         }
 
         const result = await fetchBooks(params);
@@ -112,7 +131,7 @@ export default function Books() {
       }
     };
     loadBooks();
-  }, [searchQuery, selectedCategory, currentPage, categories, activeSearchField]);
+  }, [searchQuery, selectedCategory, currentPage, categories, activeSearchField, orderBy]);
 
   const handleCategoryChange = (category: string) => {
     setSelectedCategory(category);
