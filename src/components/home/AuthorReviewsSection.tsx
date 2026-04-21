@@ -111,7 +111,7 @@ export function AuthorReviewsSection() {
           {visible.map((review, index) => {
             const { name, title } = parseAuthor(review.author);
             return (
-              <div key={index} className="flex flex-col items-center sm:flex-row sm:items-start gap-6 cursor-pointer hover:bg-muted/30 rounded-lg p-2 -m-2 transition-colors" onClick={() => navigate("/author-experiences")}>
+              <div key={index} className="flex flex-col items-center sm:flex-row sm:items-stretch gap-6 cursor-pointer hover:bg-muted/30 rounded-lg p-2 -m-2 transition-colors" onClick={() => navigate("/author-experiences")}>
                 {/* Book cover */}
                 <div className="flex-shrink-0 w-40 sm:w-32 md:w-40 lg:w-44">
                   {review.coverImage ? (
@@ -130,11 +130,11 @@ export function AuthorReviewsSection() {
                   )}
                 </div>
                 {/* Quote and author */}
-                <div className="flex-1 min-w-0 pt-1 text-center sm:text-left">
-                  <p className="font-nav font-normal text-[#333333] leading-relaxed mb-5 text-justify text-[15px]">
+                <div className="flex-1 min-w-0 pt-1 text-center sm:text-left flex flex-col sm:overflow-hidden">
+                  <p className="font-nav font-normal text-[#333333] leading-relaxed mb-5 text-justify text-[15px] sm:flex-1 sm:min-h-0 sm:overflow-hidden">
                     "{review.praise}"
                   </p>
-                  <p className="font-baskerville text-[15px] text-[#333333]">
+                  <p className="font-baskerville text-[15px] text-[#333333] sm:flex-shrink-0">
                     <span className="font-bold">{name}</span>
                     {title && (
                       <span> – {title}</span>
