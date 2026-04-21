@@ -111,7 +111,7 @@ export default function BookDetails() {
                     {book.description}
                   </p>
                 )}
-                <p className="font-baskerville text-[16px] text-[#696969] mb-[24px]">
+                <p className="font-baskerville text-[#696969] mb-[24px] text-base">
                   <span className="font-semibold text-black">By:</span> {book.author}
                 </p>
                 <p className="hidden sm:block text-muted-foreground leading-relaxed max-w-3xl mb-6 lg:mb-8 text-base lg:text-base">
