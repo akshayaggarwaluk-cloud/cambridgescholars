@@ -35,6 +35,7 @@ export default function Books() {
   const initialCategory = searchParams.get("category") || "all";
   const [searchQuery, setSearchQuery] = useState(initialSearch);
   const [selectedCategory, setSelectedCategory] = useState(initialCategory);
+  const [orderBy, setOrderBy] = useState<string>(searchParams.get("orderby") || "revenue");
   const [books, setBooks] = useState<Book[]>([]);
   const [loading, setLoading] = useState(true);
   const [pagination, setPagination] = useState<CSPPagination | null>(null);
@@ -57,10 +58,12 @@ export default function Books() {
     const category = searchParams.get("category") || "all";
     const page = parseInt(searchParams.get("page") || "1", 10);
     const searchField = searchParams.get("search_field") || "";
+    const orderbyParam = searchParams.get("orderby") || "revenue";
     setSearchQuery(search);
     setSelectedCategory(category);
     setCurrentPage(page);
     setActiveSearchField(searchField);
+    setOrderBy(orderbyParam);
   }, [searchParams]);
 
   // Find category name from slug (API expects name, not slug)
