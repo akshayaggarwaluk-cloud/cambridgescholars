@@ -206,61 +206,30 @@ export default function Books() {
       </div>
 
       <main className="px-6 md:px-16 py-12 bg-white">
-        <div className="max-w-7xl mx-auto">
+        <div className="max-w-7xl mx-auto flex flex-col lg:flex-row gap-12">
           {/* Top bar: results count + sort dropdown — full-width above the columns */}
-          {!loading && (
-            <div className="flex items-center justify-between mb-8 flex-wrap gap-4">
-              <p className="font-baskerville text-[15px] text-[#777]">
-                {(() => {
-                  const page = pagination?.page ?? 1;
-                  const perPage = pagination?.per_page ?? 20;
-                  const total = pagination?.total ?? books.length;
-                  const from = total === 0 ? 0 : (page - 1) * perPage + 1;
-                  const to = Math.min(page * perPage, total);
-                  return `Showing ${from}–${to} of ${total.toLocaleString()} results`;
-                })()}
-              </p>
-              <Select value={orderBy} onValueChange={handleSortChange}>
-                <SelectTrigger className="w-auto min-w-[140px] border-0 shadow-none bg-transparent font-baskerville text-[15px] text-[#333] focus:ring-0 gap-2">
-                  <span className="flex items-center gap-2">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="6" y1="12" x2="18" y2="12"/><line x1="10" y1="18" x2="14" y2="18"/></svg>
-                    Sort By
-                  </span>
-                </SelectTrigger>
-                <SelectContent className="font-baskerville">
-                  {SORT_OPTIONS.map((opt) => (
-                    <SelectItem key={opt.value} value={opt.value}>
-                      {opt.label}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-          )}
-
-          <div className="flex flex-col lg:flex-row gap-12">
           {/* Sidebar */}
           <aside className="lg:w-72 flex-shrink-0">
             {/* Search Section */}
             <div className="mb-10">
-              <h3 className="font-baskerville text-[24px] font-normal text-[#333333] mb-5 pb-3 border-b border-[#C75B2A]/30">Search</h3>
+              <h3 className="text-2xl font-serif text-foreground mb-6 pb-3 border-b-2 border-foreground/20">Search</h3>
               <div className="relative">
                 <Input
                   type="text"
-                  placeholder="Search products…"
+                  placeholder="Search books..."
                   value={searchQuery}
                   onChange={(e) => handleSearchChange(e.target.value)}
-                  className="pr-12 h-12 border-0 bg-[#F8F8F8] text-[15px] font-baskerville text-[#333] placeholder:text-[#999] rounded-none focus-visible:ring-0 px-5"
+                  className="pr-12 h-12 border-border bg-background text-base"
                 />
-                <button className="absolute right-0 top-0 h-12 w-12 flex items-center justify-center text-[#666] hover:text-[#C75B2A] transition-colors">
-                  <Search className="h-4 w-4" />
+                <button className="absolute right-0 top-0 h-12 w-12 flex items-center justify-center bg-muted/50 border-l border-border hover:bg-muted transition-colors">
+                  <Search className="h-5 w-5 text-muted-foreground" />
                 </button>
               </div>
             </div>
 
             {/* Category filter */}
             <div>
-              <h3 className="font-baskerville text-[24px] font-normal text-[#333333] mb-5 pb-3 border-b border-[#C75B2A]/30">
+              <h3 className="text-2xl font-serif text-foreground mb-6 pb-3 border-b-2 border-foreground/20">
                 Subject Categories
               </h3>
               {categories.length > 0 ? (
@@ -274,16 +243,16 @@ export default function Books() {
                           <button
                             onClick={() => handleCategoryChange(cat.slug)}
                             className={cn(
-                              "text-left font-baskerville text-[15px] py-2 transition-colors",
+                              "text-left font-baskerville text-[17px] py-2 transition-colors",
                               selectedCategory === cat.slug
-                                ? "text-[#9c8253] font-semibold"
-                                : "text-[#C5A374] hover:text-[#9c8253]",
+                                ? "text-[#C75B2A] font-semibold"
+                                : "text-[#C75B2A] hover:text-[#9c4521]",
                             )}
                           >
                             {cat.name}
                           </button>
                           <div className="flex items-center gap-2">
-                            <span className="text-[12px] text-[#999] bg-[#F1EFEA] rounded-full px-3 py-1 min-w-[44px] text-center font-baskerville">
+                            <span className="text-xs text-[#C75B2A] bg-[#F1EFEA] rounded-full px-3 py-1 min-w-[44px] text-center font-baskerville">
                               {cat.book_count}
                             </span>
                             {hasSubs && (
@@ -296,7 +265,7 @@ export default function Books() {
                                     return next;
                                   });
                                 }}
-                                className="p-0.5 text-[#C5A374] hover:text-[#9c8253]"
+                                className="p-0.5 text-[#C75B2A] hover:text-[#9c4521]"
                               >
                                 <ChevronDown
                                   className={cn("h-4 w-4 transition-transform", isExpanded && "rotate-180")}
@@ -319,14 +288,14 @@ export default function Books() {
                                       className={cn(
                                         "text-left font-baskerville text-[15px] py-1.5 transition-colors",
                                         selectedCategory === sub.slug
-                                          ? "text-[#9c8253] font-semibold"
-                                          : "text-[#C5A374] hover:text-[#9c8253]",
+                                          ? "text-[#C75B2A] font-semibold"
+                                          : "text-[#C75B2A] hover:text-[#9c4521]",
                                       )}
                                     >
                                       {sub.name}
                                     </button>
                                     <div className="flex items-center gap-2">
-                                      <span className="text-[12px] text-[#999] bg-[#F1EFEA] rounded-full px-2.5 py-0.5 min-w-[40px] text-center font-baskerville">
+                                      <span className="text-xs text-[#C75B2A] bg-[#F1EFEA] rounded-full px-2.5 py-0.5 min-w-[40px] text-center font-baskerville">
                                         {sub.book_count}
                                       </span>
                                       {hasSubSubs && (
@@ -339,7 +308,7 @@ export default function Books() {
                                               return next;
                                             });
                                           }}
-                                          className="p-0.5 text-[#C5A374] hover:text-[#9c8253]"
+                                          className="p-0.5 text-[#C75B2A] hover:text-[#9c4521]"
                                         >
                                           <ChevronDown
                                             className={cn(
@@ -362,13 +331,13 @@ export default function Books() {
                                               className={cn(
                                                 "text-left font-baskerville text-[14px] py-1 transition-colors",
                                                 selectedCategory === spec.slug
-                                                  ? "text-[#9c8253] font-semibold"
-                                                  : "text-[#C5A374] hover:text-[#9c8253]",
+                                                  ? "text-[#C75B2A] font-semibold"
+                                                  : "text-[#C75B2A] hover:text-[#9c4521]",
                                               )}
                                             >
                                               {spec.name}
                                             </button>
-                                            <span className="text-[12px] text-[#999] bg-[#F1EFEA] rounded-full px-2.5 py-0.5 min-w-[36px] text-center font-baskerville">
+                                            <span className="text-xs text-[#C75B2A] bg-[#F1EFEA] rounded-full px-2.5 py-0.5 min-w-[36px] text-center font-baskerville">
                                               {spec.book_count}
                                             </span>
                                           </div>
@@ -390,15 +359,15 @@ export default function Books() {
                       <button
                         onClick={() => handleCategoryChange("all")}
                         className={cn(
-                          "text-left font-baskerville text-[15px] py-2 transition-colors",
+                          "text-left font-baskerville text-[17px] py-2 transition-colors",
                           selectedCategory === "all"
-                            ? "text-[#9c8253] font-semibold"
-                            : "text-[#C5A374] hover:text-[#9c8253]",
+                            ? "text-[#C75B2A] font-semibold"
+                            : "text-[#C75B2A] hover:text-[#9c4521]",
                         )}
                       >
                         All Categories
                       </button>
-                      <span className="text-[12px] text-[#999] bg-[#F1EFEA] rounded-full px-3 py-1 min-w-[44px] text-center font-baskerville">
+                      <span className="text-xs text-[#C75B2A] bg-[#F1EFEA] rounded-full px-3 py-1 min-w-[44px] text-center font-baskerville">
                         {categories.reduce((sum, c) => sum + c.book_count, 0)}
                       </span>
                     </div>
@@ -412,6 +381,34 @@ export default function Books() {
 
           {/* Books List */}
           <div className="flex-1">
+            {/* Results count + Sort By header */}
+            {!loading && pagination && (
+              <div className="flex items-center justify-between mb-8 flex-wrap gap-4">
+                <p className="font-baskerville text-[15px] text-[#777]">
+                  {(() => {
+                    const page = pagination.page ?? 1;
+                    const perPage = pagination.per_page ?? 20;
+                    const total = pagination.total ?? books.length;
+                    const from = total === 0 ? 0 : (page - 1) * perPage + 1;
+                    const to = Math.min(page * perPage, total);
+                    return `Showing ${from}–${to} of ${total.toLocaleString()} results`;
+                  })()}
+                </p>
+                <Select value={orderBy} onValueChange={handleSortChange}>
+                  <SelectTrigger className="w-auto min-w-[180px] border-0 shadow-none bg-transparent font-baskerville text-[15px] text-[#333] focus:ring-0 gap-2">
+                    <SelectValue placeholder="Sort By" />
+                  </SelectTrigger>
+                  <SelectContent className="font-baskerville">
+                    {SORT_OPTIONS.map((opt) => (
+                      <SelectItem key={opt.value} value={opt.value}>
+                        {opt.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+            )}
+
             {loading ? (
               <div className="flex items-center justify-center py-16">
                 <Loader2 className="h-8 w-8 animate-spin text-accent" />
@@ -538,7 +535,6 @@ export default function Books() {
                 )}
               </>
             )}
-          </div>
           </div>
         </div>
       </main>
