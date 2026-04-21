@@ -102,21 +102,27 @@ export function BookDetailsTabs({ book }: BookDetailsTabsProps) {
 
         {hasBookInfo && (
           <TabsContent value="book-info" className="pt-8">
-            <div className="space-y-8 text-base">
+            <div style={{ fontFamily: '"Nunito Sans", sans-serif' }}>
               {/* Format-specific ISBN information */}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-10">
                 {book.hardbackInfo && (
                   <div>
-                    <h3 className="font-semibold text-foreground uppercase tracking-wider mb-4">Hardback</h3>
-                    <ul className="space-y-2 text-foreground/80 list-disc list-inside">
+                    <h4 style={{ fontSize: "18px", color: "#333333", fontWeight: 700, margin: "0 0 10px" }}>HARDBACK</h4>
+                    <ul className="list-disc" style={{ paddingLeft: "20px", margin: 0 }}>
                       {book.hardbackInfo.isbn && (
-                        <li><span className="font-bold">ISBN:</span> {book.hardbackInfo.isbn}</li>
+                        <li style={{ fontSize: "16px", color: "#696969", marginBottom: "4px" }}>
+                          <span style={{ color: "#000000", fontWeight: 700 }}>ISBN:</span> {book.hardbackInfo.isbn}
+                        </li>
                       )}
                       {book.hardbackInfo.isbn13 && (
-                        <li><span className="font-bold">ISBN13:</span> {book.hardbackInfo.isbn13}</li>
+                        <li style={{ fontSize: "16px", color: "#696969", marginBottom: "4px" }}>
+                          <span style={{ color: "#000000", fontWeight: 700 }}>ISBN13:</span> {book.hardbackInfo.isbn13}
+                        </li>
                       )}
                       {book.hardbackInfo.publicationDate && (
-                        <li><span className="font-bold">Date of Publication:</span> {book.hardbackInfo.publicationDate}</li>
+                        <li style={{ fontSize: "16px", color: "#696969", marginBottom: "4px" }}>
+                          <span style={{ color: "#000000", fontWeight: 700 }}>Date of Publication:</span> {book.hardbackInfo.publicationDate}
+                        </li>
                       )}
                     </ul>
                   </div>
@@ -124,16 +130,22 @@ export function BookDetailsTabs({ book }: BookDetailsTabsProps) {
 
                 {book.paperbackInfo && (
                   <div>
-                    <h3 className="font-semibold text-foreground uppercase tracking-wider mb-4">Paperback</h3>
-                    <ul className="space-y-2 text-foreground/80 list-disc list-inside">
+                    <h4 style={{ fontSize: "18px", color: "#333333", fontWeight: 700, margin: "0 0 10px" }}>PAPERBACK</h4>
+                    <ul className="list-disc" style={{ paddingLeft: "20px", margin: 0 }}>
                       {book.paperbackInfo.isbn && (
-                        <li><span className="font-bold">ISBN:</span> {book.paperbackInfo.isbn}</li>
+                        <li style={{ fontSize: "16px", color: "#696969", marginBottom: "4px" }}>
+                          <span style={{ color: "#000000", fontWeight: 700 }}>ISBN:</span> {book.paperbackInfo.isbn}
+                        </li>
                       )}
                       {book.paperbackInfo.isbn13 && (
-                        <li><span className="font-bold">ISBN13:</span> {book.paperbackInfo.isbn13}</li>
+                        <li style={{ fontSize: "16px", color: "#696969", marginBottom: "4px" }}>
+                          <span style={{ color: "#000000", fontWeight: 700 }}>ISBN13:</span> {book.paperbackInfo.isbn13}
+                        </li>
                       )}
                       {book.paperbackInfo.publicationDate && (
-                        <li><span className="font-bold">Date of Publication:</span> {book.paperbackInfo.publicationDate}</li>
+                        <li style={{ fontSize: "16px", color: "#696969", marginBottom: "4px" }}>
+                          <span style={{ color: "#000000", fontWeight: 700 }}>Date of Publication:</span> {book.paperbackInfo.publicationDate}
+                        </li>
                       )}
                     </ul>
                   </div>
@@ -141,16 +153,22 @@ export function BookDetailsTabs({ book }: BookDetailsTabsProps) {
 
                 {book.ebookInfo && (
                   <div>
-                    <h3 className="font-semibold text-foreground uppercase tracking-wider mb-4">eBook</h3>
-                    <ul className="space-y-2 text-foreground/80 list-disc list-inside">
+                    <h4 style={{ fontSize: "18px", color: "#333333", fontWeight: 700, margin: "0 0 10px" }}>EBOOK</h4>
+                    <ul className="list-disc" style={{ paddingLeft: "20px", margin: 0 }}>
                       {book.ebookInfo.isbn && (
-                        <li><span className="font-bold">ISBN:</span> {book.ebookInfo.isbn}</li>
+                        <li style={{ fontSize: "16px", color: "#696969", marginBottom: "4px" }}>
+                          <span style={{ color: "#000000", fontWeight: 700 }}>ISBN:</span> {book.ebookInfo.isbn}
+                        </li>
                       )}
                       {book.ebookInfo.isbn13 && (
-                        <li><span className="font-bold">ISBN13:</span> {book.ebookInfo.isbn13}</li>
+                        <li style={{ fontSize: "16px", color: "#696969", marginBottom: "4px" }}>
+                          <span style={{ color: "#000000", fontWeight: 700 }}>ISBN13:</span> {book.ebookInfo.isbn13}
+                        </li>
                       )}
                       {book.ebookInfo.publicationDate && (
-                        <li><span className="font-bold">Date of Publication:</span> {book.ebookInfo.publicationDate}</li>
+                        <li style={{ fontSize: "16px", color: "#696969", marginBottom: "4px" }}>
+                          <span style={{ color: "#000000", fontWeight: 700 }}>Date of Publication:</span> {book.ebookInfo.publicationDate}
+                        </li>
                       )}
                     </ul>
                   </div>
@@ -158,34 +176,40 @@ export function BookDetailsTabs({ book }: BookDetailsTabsProps) {
               </div>
 
               {/* Categories and Pages */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 pt-4 border-t border-border">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-10">
                 {book.categories && book.categories.length > 0 && (
                   <div>
-                    <span className="font-semibold text-foreground uppercase tracking-wider">Categories:</span>{" "}
-                    <span className="text-foreground/80">{book.categories.join(", ")}</span>
+                    <span style={{ fontSize: "18px", color: "#000000", fontWeight: 700 }}>CATEGORIES:</span>{" "}
+                    <span style={{ fontSize: "18px", color: "#696969" }}>{book.categories.join(", ")}</span>
                   </div>
                 )}
                 {book.pages && (
                   <div>
-                    <span className="font-semibold text-foreground uppercase tracking-wider">Pages:</span>{" "}
-                    <span className="text-foreground/80">{book.pages}</span>
+                    <span style={{ fontSize: "18px", color: "#000000", fontWeight: 700 }}>PAGES:</span>{" "}
+                    <span style={{ fontSize: "18px", color: "#696969" }}>{book.pages}</span>
                   </div>
                 )}
               </div>
 
               {/* Subject Codes */}
               {book.subjectCodes && (
-                <div className="pt-4 border-t border-border">
-                  <h3 className="font-semibold text-foreground uppercase tracking-wider mb-4">Subject Codes:</h3>
-                  <ul className="space-y-2 text-foreground/80 list-disc list-inside">
+                <div>
+                  <h4 style={{ fontSize: "18px", color: "#333333", fontWeight: 700, margin: "35px 0 10px" }}>SUBJECT CODES:</h4>
+                  <ul className="list-disc" style={{ paddingLeft: "20px", margin: 0 }}>
                     {book.subjectCodes.bic && book.subjectCodes.bic.length > 0 && (
-                      <li><span className="font-bold">BIC:</span> {book.subjectCodes.bic.join(", ")}</li>
+                      <li style={{ fontSize: "16px", color: "#696969", marginBottom: "4px" }}>
+                        <span style={{ color: "#000000", fontWeight: 700 }}>BIC:</span> {book.subjectCodes.bic.join(", ")}
+                      </li>
                     )}
                     {book.subjectCodes.bisac && book.subjectCodes.bisac.length > 0 && (
-                      <li><span className="font-bold">BISAC:</span> {book.subjectCodes.bisac.join(", ")}</li>
+                      <li style={{ fontSize: "16px", color: "#696969", marginBottom: "4px" }}>
+                        <span style={{ color: "#000000", fontWeight: 700 }}>BISAC:</span> {book.subjectCodes.bisac.join(", ")}
+                      </li>
                     )}
                     {book.subjectCodes.thema && book.subjectCodes.thema.length > 0 && (
-                      <li><span className="font-bold">THEMA:</span> {book.subjectCodes.thema.join(", ")}</li>
+                      <li style={{ fontSize: "16px", color: "#696969", marginBottom: "4px" }}>
+                        <span style={{ color: "#000000", fontWeight: 700 }}>THEMA:</span> {book.subjectCodes.thema.join(", ")}
+                      </li>
                     )}
                   </ul>
                 </div>
