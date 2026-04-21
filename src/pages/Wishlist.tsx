@@ -100,7 +100,7 @@ export default function Wishlist() {
 
                     {/* Price */}
                     <div className="text-base text-[#6e6e6e]">
-                      ${item.book_price.toFixed(2)}
+                      From ${item.book_price.toFixed(2)}
                     </div>
 
                     {/* Stock */}
