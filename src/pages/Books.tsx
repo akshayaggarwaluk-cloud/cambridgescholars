@@ -256,16 +256,16 @@ export default function Books() {
                           <button
                             onClick={() => handleCategoryChange(cat.slug)}
                             className={cn(
-                              "text-left font-baskerville text-[17px] py-2 transition-colors",
+                              "text-left font-baskerville text-[15px] py-2 transition-colors",
                               selectedCategory === cat.slug
-                                ? "text-[#C75B2A] font-semibold"
-                                : "text-[#C75B2A] hover:text-[#9c4521]",
+                                ? "text-[#C75B2A] font-normal"
+                                : "text-[#C5A374] hover:text-[#C75B2A] font-normal",
                             )}
                           >
                             {cat.name}
                           </button>
                           <div className="flex items-center gap-2">
-                            <span className="text-xs text-[#C75B2A] bg-[#F1EFEA] rounded-full px-3 py-1 min-w-[44px] text-center font-baskerville">
+                            <span className="text-[13px] text-[#C5A374] bg-[#F1EFEA] rounded-full px-3 py-1 min-w-[44px] text-center font-baskerville">
                               {cat.book_count}
                             </span>
                             {hasSubs && (
@@ -278,7 +278,7 @@ export default function Books() {
                                     return next;
                                   });
                                 }}
-                                className="p-0.5 text-[#C75B2A] hover:text-[#9c4521]"
+                                className="p-0.5 text-[#C5A374] hover:text-[#C75B2A]"
                               >
                                 <ChevronDown
                                   className={cn("h-4 w-4 transition-transform", isExpanded && "rotate-180")}
