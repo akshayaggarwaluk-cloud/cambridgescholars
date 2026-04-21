@@ -315,6 +315,10 @@ export async function fetchBooks(params?: {
   isbn?: string;
   orderby?: string;
   order?: string;
+  series?: string;
+  format?: "hardback" | "paperback" | "ebook";
+  sort?: "latest" | "oldest" | "title_az" | "featured";
+  has_cover?: boolean;
 }): Promise<{ books: Book[]; pagination: CSPPagination }> {
   const url = new URL(`${CSP_API_BASE}/books`);
   if (params?.page) url.searchParams.set("page", String(params.page));
@@ -325,6 +329,10 @@ export async function fetchBooks(params?: {
   if (params?.isbn) url.searchParams.set("isbn", params.isbn);
   if (params?.orderby) url.searchParams.set("orderby", params.orderby);
   if (params?.order) url.searchParams.set("order", params.order);
+  if (params?.series) url.searchParams.set("series", params.series);
+  if (params?.format) url.searchParams.set("format", params.format);
+  if (params?.sort) url.searchParams.set("sort", params.sort);
+  if (params?.has_cover !== undefined) url.searchParams.set("has_cover", String(params.has_cover));
 
   const res = await fetch(url.toString());
   if (!res.ok) throw new Error(`API error: ${res.status}`);
