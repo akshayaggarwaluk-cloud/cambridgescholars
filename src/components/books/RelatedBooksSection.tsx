@@ -132,24 +132,30 @@ export function RelatedBooksSection({ currentBook }: RelatedBooksSectionProps) {
         )}
       </div>
 
-      {/* Dot Indicators */}
-      {totalPages > 1 && (
-        <div className="flex justify-center items-center gap-3 mt-10">
-          {Array.from({ length: totalPages }).map((_, i) => (
-            <button
-              key={i}
-              onClick={() => setCurrentPage(i)}
-              className={cn(
-                "w-3 h-3 rounded-full transition-all duration-300",
-                i === currentPage
-                  ? "bg-accent scale-110"
-                  : "bg-muted-foreground/30 hover:bg-muted-foreground/50"
-              )}
-              aria-label={`Page ${i + 1}`}
-            />
-          ))}
-        </div>
-      )}
+      {/* Dot Indicators (max 3) */}
+      {totalPages > 1 && (() => {
+        const dotCount = Math.min(3, totalPages);
+        const activeDot = totalPages <= 3
+          ? currentPage
+          : Math.floor((currentPage / totalPages) * dotCount);
+        return (
+          <div className="flex justify-center items-center gap-3 mt-10">
+            {Array.from({ length: dotCount }).map((_, i) => (
+              <button
+                key={i}
+                onClick={() => setCurrentPage(Math.floor((i / dotCount) * totalPages))}
+                className={cn(
+                  "w-3 h-3 rounded-full transition-all duration-300",
+                  i === activeDot
+                    ? "bg-accent scale-110"
+                    : "bg-muted-foreground/30 hover:bg-muted-foreground/50"
+                )}
+                aria-label={`Page ${i + 1}`}
+              />
+            ))}
+          </div>
+        );
+      })()}
     </section>
   );
 }
