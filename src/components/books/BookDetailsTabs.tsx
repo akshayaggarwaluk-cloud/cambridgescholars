@@ -111,17 +111,17 @@ export function BookDetailsTabs({ book }: BookDetailsTabsProps) {
                     <ul className="list-disc" style={{ paddingLeft: "20px", margin: 0 }}>
                       {book.hardbackInfo.isbn && (
                         <li style={{ fontSize: "16px", color: "#696969", marginBottom: "8px", lineHeight: 1.6, fontFamily: '"Nunito Sans", sans-serif' }}>
-                          <span style={{ color: "#000000", fontWeight: 700 }}>ISBN:</span> {book.hardbackInfo.isbn}
+                          <span style={{ color: "#696969", fontWeight: 700 }}>ISBN:</span> {book.hardbackInfo.isbn}
                         </li>
                       )}
                       {book.hardbackInfo.isbn13 && (
                         <li style={{ fontSize: "16px", color: "#696969", marginBottom: "8px", lineHeight: 1.6, fontFamily: '"Nunito Sans", sans-serif' }}>
-                          <span style={{ color: "#000000", fontWeight: 700 }}>ISBN13:</span> {book.hardbackInfo.isbn13}
+                          <span style={{ color: "#696969", fontWeight: 700 }}>ISBN13:</span> {book.hardbackInfo.isbn13}
                         </li>
                       )}
                       {book.hardbackInfo.publicationDate && (
                         <li style={{ fontSize: "16px", color: "#696969", marginBottom: "8px", lineHeight: 1.6, fontFamily: '"Nunito Sans", sans-serif' }}>
-                          <span style={{ color: "#000000", fontWeight: 700 }}>Date of Publication:</span> {book.hardbackInfo.publicationDate}
+                          <span style={{ color: "#696969", fontWeight: 700 }}>Date of Publication:</span> {book.hardbackInfo.publicationDate}
                         </li>
                       )}
                     </ul>
