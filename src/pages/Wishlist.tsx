@@ -99,14 +99,14 @@ export default function Wishlist() {
                     </div>
 
                     {/* Price */}
-                    <div className="text-base text-foreground">
+                    <div className="text-base text-[#6e6e6e]">
                       ${item.book_price.toFixed(2)}
                     </div>
 
                     {/* Stock */}
                     <div className="flex items-center gap-2">
                       <Check className="h-4 w-4 text-green-600" strokeWidth={3} />
-                      <span className="text-base text-foreground">In Stock</span>
+                      <span className="text-base text-[#6e6e6e]">In Stock</span>
                     </div>
 
                     {/* Actions */}

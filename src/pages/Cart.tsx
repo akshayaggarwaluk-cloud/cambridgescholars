@@ -121,7 +121,7 @@ export default function Cart() {
                 </div>
 
                 {/* Total */}
-                <div className="text-base text-foreground">
+                <div className="text-base text-[#6e6e6e]">
                   ${(item.price * item.quantity).toFixed(2)}
                 </div>
 
