@@ -47,7 +47,7 @@ export function RelatedBooksSection({ currentBook }: RelatedBooksSectionProps) {
       .catch(() => setRelatedBooks([]));
   }, [currentBook]);
 
-  const itemsPerPage = 4;
+  const itemsPerPage = 3;
   const totalPages = Math.ceil(relatedBooks.length / itemsPerPage);
   const visibleBooks = relatedBooks.slice(
     currentPage * itemsPerPage,
