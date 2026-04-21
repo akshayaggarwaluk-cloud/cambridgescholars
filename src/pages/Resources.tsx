@@ -2,34 +2,38 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { PageBreadcrumb } from "@/components/layout/PageBreadcrumb";
 import { Link } from "react-router-dom";
+import proposalImg from "@/assets/resources/proposal-and-publishing-forms.jpg";
+import manuscriptImg from "@/assets/resources/preparing-your-manuscript.jpg";
+import coverImg from "@/assets/resources/preparing-your-book-cover.jpg";
+import postPubImg from "@/assets/resources/post-publication.jpg";
 
 const resources = [
   {
     title: "Proposal and Publishing Forms",
     description:
       "Guidance and templates for submitting your book proposal and formalising the publishing agreement – used at the start of the process.",
-    image: "https://images.unsplash.com/photo-1512820790803-83ca734da794",
+    image: proposalImg,
     link: "/resources/proposal-and-publishing-forms",
   },
   {
     title: "Preparing Your Manuscript",
     description:
       "Instructions on formatting, style, and submission requirements – needed when finalising your manuscript for production.",
-    image: "https://images.unsplash.com/photo-1519682337058-a94d519337bc",
+    image: manuscriptImg,
     link: "/resources/preparing-your-manuscript",
   },
   {
     title: "Preparing Your Book Cover",
     description:
       "Guidelines for cover design elements, including images and author information – completed before the book enters production.",
-    image: "https://images.unsplash.com/photo-1516979187457-637abb4f9353",
+    image: coverImg,
     link: "/resources/preparing-your-book-cover",
   },
   {
     title: "Post Publication",
     description:
       "Resources on marketing, author discounts, and how to promote your book – used once your title is published.",
-    image: "https://images.unsplash.com/photo-1509021436665-8f07dbf5bf1d",
+    image: postPubImg,
     link: "/resources/post-publication",
   },
 ];
