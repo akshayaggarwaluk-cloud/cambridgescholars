@@ -84,7 +84,7 @@ export default function Cart() {
                   </Link>
                   <div className="min-w-0">
                     <Link to={`/books/${item.id}`}>
-                      <h3 className="font-serif text-lg text-foreground hover:text-accent transition-colors leading-snug">
+                      <h3 className="font-serif transition-colors leading-snug text-base text-[#999999]">
                         {item.title} - {formatLabel(item.format)}
                       </h3>
                     </Link>
