@@ -16,8 +16,9 @@ export function BookDetailsTabs({ book }: BookDetailsTabsProps) {
   const hasBlurb = book.blurb || book.description;
   const hasBiography = book.biography;
   const hasBookInfo = book.hardbackInfo || book.paperbackInfo || book.ebookInfo || book.categories || book.subjectCodes;
+  const hasReviews = (book.apiReviews?.length ?? 0) > 0;
 
-  if (!hasBlurb && !hasBiography && !hasBookInfo) {
+  if (!hasBlurb && !hasBiography && !hasBookInfo && !hasReviews) {
     return null;
   }
 
@@ -76,6 +77,33 @@ export function BookDetailsTabs({ book }: BookDetailsTabsProps) {
         {hasBookInfo && (
           <TabsContent value="book-info" className="pt-8">
             <div className="space-y-8 text-base">
+              {/* Top-level meta: series, publisher, publication date */}
+              {(book.series || book.publisher || book.publishDate) && (
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pb-4 border-b border-border">
+                  {book.series && (
+                    <div>
+                      <span className="font-semibold text-foreground uppercase tracking-wider">Series:</span>{" "}
+                      <span className="text-foreground/80">
+                        {book.series.title}
+                        {book.series.volume ? ` (Vol. ${book.series.volume})` : ""}
+                      </span>
+                    </div>
+                  )}
+                  {book.publisher && (
+                    <div>
+                      <span className="font-semibold text-foreground uppercase tracking-wider">Publisher:</span>{" "}
+                      <span className="text-foreground/80">{book.publisher}</span>
+                    </div>
+                  )}
+                  {book.publishDate && (
+                    <div>
+                      <span className="font-semibold text-foreground uppercase tracking-wider">Published:</span>{" "}
+                      <span className="text-foreground/80">{book.publishDate}</span>
+                    </div>
+                  )}
+                </div>
+              )}
+
               {/* Format-specific ISBN information */}
               <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                 {book.hardbackInfo && (
@@ -168,9 +196,26 @@ export function BookDetailsTabs({ book }: BookDetailsTabsProps) {
         )}
 
         <TabsContent value="review" className="pt-8">
-          <div className="prose prose-lg max-w-none text-foreground/80 leading-relaxed text-center py-8">
-            <p className="text-muted-foreground">No reviews yet.</p>
-          </div>
+          {hasReviews ? (
+            <div className="space-y-6 max-w-4xl mx-auto">
+              {book.apiReviews!.map((review, idx) => (
+                <blockquote key={idx} className="border-l-4 border-accent pl-6 py-2">
+                  <p className="text-foreground/80 italic leading-relaxed text-base">
+                    {review.review}
+                  </p>
+                  <footer className="mt-3 text-sm text-muted-foreground">
+                    — <strong className="text-foreground">{review.reviewer}</strong>
+                    {review.reviewer_position && `, ${review.reviewer_position}`}
+                    {review.date && ` (${review.date})`}
+                  </footer>
+                </blockquote>
+              ))}
+            </div>
+          ) : (
+            <div className="prose prose-lg max-w-none text-foreground/80 leading-relaxed text-center py-8">
+              <p className="text-muted-foreground">No reviews yet.</p>
+            </div>
+          )}
         </TabsContent>
       </Tabs>
 
