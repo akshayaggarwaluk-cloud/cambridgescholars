@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
 import ReCAPTCHA from "react-google-recaptcha";
+import contactHero from "@/assets/contact-hero.jpg";
 
 // Google's test site key - replace with your own for production
 const RECAPTCHA_SITE_KEY = "6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI";
@@ -99,6 +100,14 @@ export default function Contact() {
         {/* Centered Contact Form */}
         <section className="pb-24">
           <div className="container-wide">
+            <div className="mb-16">
+              <img
+                src={contactHero}
+                alt="Cambridge Scholars Publishing interior — staircase and seating"
+                className="w-full h-auto object-cover"
+                loading="lazy"
+              />
+            </div>
             <div className="max-w-2xl mx-auto">
               <h2 className="font-serif text-center mb-12 text-4xl">Send A Message</h2>
 
