@@ -193,6 +193,14 @@ export default function Books() {
     return pages;
   };
 
+  const resultsSummary =
+    pagination && pagination.total != null && pagination.total > 0
+      ? `Showing ${((pagination.page ?? 1) - 1) * (pagination.per_page ?? 0) + 1}–${Math.min(
+          (pagination.page ?? 1) * (pagination.per_page ?? 0),
+          pagination.total,
+        )} of ${(pagination.total ?? 0).toLocaleString()} results`
+      : "";
+
   return (
     <div className="min-h-screen bg-background">
       <Header />
@@ -213,6 +221,11 @@ export default function Books() {
             {/* Search Section */}
             <div className="mb-10">
               <h3 className="text-2xl font-serif text-foreground mb-6 pb-3 border-b-2 border-foreground/20">Search</h3>
+              {resultsSummary && (
+                <p className="mb-4 font-baskerville text-[16px] text-[#777]">
+                  {resultsSummary}
+                </p>
+              )}
               <div className="relative">
                 <Input
                   type="text"
@@ -384,22 +397,7 @@ export default function Books() {
             {/* Results count + Sort By header */}
             {/* Results count + Sort By header (matches cambridgescholars.com/shop) */}
             <div className="flex items-center justify-between mb-8 flex-wrap gap-4 pb-4">
-              <p className="font-baskerville text-[16px] text-[#777]">
-                {pagination && pagination.total != null && pagination.total > 0 ? (
-                  <>
-                    Showing{" "}
-                    {((pagination.page ?? 1) - 1) * (pagination.per_page ?? 0) + 1}
-                    –
-                    {Math.min(
-                      (pagination.page ?? 1) * (pagination.per_page ?? 0),
-                      pagination.total
-                    )}{" "}
-                    of {(pagination.total ?? 0).toLocaleString()} results
-                  </>
-                ) : (
-                  <>&nbsp;</>
-                )}
-              </p>
+              <div className="min-h-[24px]" />
               <Select value={orderBy} onValueChange={handleSortChange}>
                 <SelectTrigger className="w-auto min-w-[160px] border-0 shadow-none bg-transparent font-baskerville text-[16px] text-[#333] focus:ring-0 gap-2 px-0 hover:text-[#C75B2A] transition-colors">
                   <SlidersHorizontal className="h-4 w-4 text-[#777]" />
