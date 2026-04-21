@@ -77,6 +77,195 @@ export type Database = {
         }
         Relationships: []
       }
+      cms_author_reviews: {
+        Row: {
+          author_name: string
+          book_title: string | null
+          created_at: string
+          display_order: number
+          id: string
+          is_published: boolean
+          photo_url: string | null
+          position: string | null
+          quote: string
+          updated_at: string
+        }
+        Insert: {
+          author_name: string
+          book_title?: string | null
+          created_at?: string
+          display_order?: number
+          id?: string
+          is_published?: boolean
+          photo_url?: string | null
+          position?: string | null
+          quote: string
+          updated_at?: string
+        }
+        Update: {
+          author_name?: string
+          book_title?: string | null
+          created_at?: string
+          display_order?: number
+          id?: string
+          is_published?: boolean
+          photo_url?: string | null
+          position?: string | null
+          quote?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      cms_contact_submissions: {
+        Row: {
+          admin_notes: string | null
+          created_at: string
+          email: string
+          id: string
+          message: string
+          name: string
+          phone: string | null
+          status: string
+          subject: string | null
+          updated_at: string
+        }
+        Insert: {
+          admin_notes?: string | null
+          created_at?: string
+          email: string
+          id?: string
+          message: string
+          name: string
+          phone?: string | null
+          status?: string
+          subject?: string | null
+          updated_at?: string
+        }
+        Update: {
+          admin_notes?: string | null
+          created_at?: string
+          email?: string
+          id?: string
+          message?: string
+          name?: string
+          phone?: string | null
+          status?: string
+          subject?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      cms_faqs: {
+        Row: {
+          answer: string
+          category: string | null
+          created_at: string
+          display_order: number
+          id: string
+          is_published: boolean
+          question: string
+          updated_at: string
+        }
+        Insert: {
+          answer: string
+          category?: string | null
+          created_at?: string
+          display_order?: number
+          id?: string
+          is_published?: boolean
+          question: string
+          updated_at?: string
+        }
+        Update: {
+          answer?: string
+          category?: string | null
+          created_at?: string
+          display_order?: number
+          id?: string
+          is_published?: boolean
+          question?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      cms_featured_books: {
+        Row: {
+          author: string | null
+          book_id: string | null
+          cover_image: string | null
+          created_at: string
+          description: string | null
+          display_order: number
+          id: string
+          is_published: boolean
+          link_url: string | null
+          subtitle: string | null
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          author?: string | null
+          book_id?: string | null
+          cover_image?: string | null
+          created_at?: string
+          description?: string | null
+          display_order?: number
+          id?: string
+          is_published?: boolean
+          link_url?: string | null
+          subtitle?: string | null
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          author?: string | null
+          book_id?: string | null
+          cover_image?: string | null
+          created_at?: string
+          description?: string | null
+          display_order?: number
+          id?: string
+          is_published?: boolean
+          link_url?: string | null
+          subtitle?: string | null
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      cms_footer_documents: {
+        Row: {
+          created_at: string
+          description: string | null
+          display_order: number
+          file_url: string
+          id: string
+          is_published: boolean
+          label: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          display_order?: number
+          file_url: string
+          id?: string
+          is_published?: boolean
+          label: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          display_order?: number
+          file_url?: string
+          id?: string
+          is_published?: boolean
+          label?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       cms_hero_slides: {
         Row: {
           author: string | null
@@ -164,6 +353,114 @@ export type Database = {
           id?: string
           is_published?: boolean
           published_at?: string
+          slug?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      cms_order_notes: {
+        Row: {
+          admin_notes: string | null
+          created_at: string
+          fulfillment_status: string | null
+          id: string
+          order_id: string
+          payment_status: string | null
+          updated_at: string
+        }
+        Insert: {
+          admin_notes?: string | null
+          created_at?: string
+          fulfillment_status?: string | null
+          id?: string
+          order_id: string
+          payment_status?: string | null
+          updated_at?: string
+        }
+        Update: {
+          admin_notes?: string | null
+          created_at?: string
+          fulfillment_status?: string | null
+          id?: string
+          order_id?: string
+          payment_status?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      cms_proposal_submissions: {
+        Row: {
+          admin_notes: string | null
+          author_email: string
+          author_name: string
+          book_subject: string | null
+          book_title: string | null
+          created_at: string
+          data: Json
+          id: string
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          admin_notes?: string | null
+          author_email: string
+          author_name: string
+          book_subject?: string | null
+          book_title?: string | null
+          created_at?: string
+          data?: Json
+          id?: string
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          admin_notes?: string | null
+          author_email?: string
+          author_name?: string
+          book_subject?: string | null
+          book_title?: string | null
+          created_at?: string
+          data?: Json
+          id?: string
+          status?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      cms_resources: {
+        Row: {
+          content: string | null
+          cover_image: string | null
+          created_at: string
+          display_order: number
+          excerpt: string | null
+          id: string
+          is_published: boolean
+          slug: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          content?: string | null
+          cover_image?: string | null
+          created_at?: string
+          display_order?: number
+          excerpt?: string | null
+          id?: string
+          is_published?: boolean
+          slug: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          content?: string | null
+          cover_image?: string | null
+          created_at?: string
+          display_order?: number
+          excerpt?: string | null
+          id?: string
+          is_published?: boolean
           slug?: string
           title?: string
           updated_at?: string
