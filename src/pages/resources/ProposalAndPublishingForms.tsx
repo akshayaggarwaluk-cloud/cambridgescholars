@@ -16,7 +16,7 @@ export default function ProposalAndPublishingForms() {
         </div>
       </div>
 
-      <main className="py-16">
+      <main className="py-16 bg-white">
         <section className="max-w-7xl mx-auto px-6 md:px-16">
           <p className="text-muted-foreground leading-relaxed mb-10">
             To begin your publishing journey, you will need to submit a proposal and provide some initial documentation.

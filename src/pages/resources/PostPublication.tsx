@@ -16,7 +16,7 @@ export default function PostPublication() {
         </div>
       </div>
 
-      <main className="py-16">
+      <main className="py-16 bg-white">
         <section className="max-w-7xl mx-auto px-6 md:px-16">
           <p className="text-muted-foreground leading-relaxed mb-10">
             Publication marks the beginning of the next stage in your book's journey. This section provides resources to
