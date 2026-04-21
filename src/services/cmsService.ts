@@ -76,6 +76,127 @@ export interface CmsAdminAccount {
   created_at: string;
 }
 
+// ─── New CMS entity types ────────────────────────────────────
+
+export interface CmsFeaturedBook {
+  id: string;
+  book_id: string | null;
+  title: string;
+  subtitle: string | null;
+  author: string | null;
+  cover_image: string | null;
+  link_url: string | null;
+  description: string | null;
+  display_order: number;
+  is_published: boolean;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface CmsAuthorReview {
+  id: string;
+  author_name: string;
+  position: string | null;
+  quote: string;
+  photo_url: string | null;
+  book_title: string | null;
+  display_order: number;
+  is_published: boolean;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface CmsFaq {
+  id: string;
+  question: string;
+  answer: string;
+  category: string | null;
+  display_order: number;
+  is_published: boolean;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface CmsResource {
+  id: string;
+  slug: string;
+  title: string;
+  excerpt: string | null;
+  content: string | null;
+  cover_image: string | null;
+  display_order: number;
+  is_published: boolean;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface CmsFooterDocument {
+  id: string;
+  label: string;
+  file_url: string;
+  description: string | null;
+  display_order: number;
+  is_published: boolean;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface CmsContactSubmission {
+  id: string;
+  name: string;
+  email: string;
+  subject: string | null;
+  message: string;
+  phone: string | null;
+  status: string;
+  admin_notes: string | null;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface CmsProposalSubmission {
+  id: string;
+  author_name: string;
+  author_email: string;
+  book_title: string | null;
+  book_subject: string | null;
+  data: Record<string, unknown>;
+  status: string;
+  admin_notes: string | null;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface CmsOrderRow {
+  id: string;
+  user_id: string;
+  status: string;
+  total: number;
+  shipping_address: Record<string, unknown> | null;
+  created_at: string;
+  updated_at: string;
+  items: Array<{
+    id: string; book_id: string; book_title: string; book_author: string;
+    book_image: string | null; price: number; quantity: number;
+  }>;
+  notes: {
+    payment_status: string | null;
+    fulfillment_status: string | null;
+    admin_notes: string | null;
+  } | null;
+}
+
+export interface CmsAuthUser {
+  id: string;
+  email: string | null;
+  phone: string | null;
+  created_at: string;
+  last_sign_in_at: string | null;
+  email_confirmed_at: string | null;
+  banned_until: string | null;
+  user_metadata: Record<string, unknown>;
+}
+
 // ─── Public reads (no auth) ─────────────────────────────────────
 
 export async function fetchPublishedHeroSlides(): Promise<CmsHeroSlide[]> {
@@ -108,6 +229,94 @@ export async function fetchPublishedNewsBySlug(slug: string): Promise<CmsNewsArt
     .maybeSingle();
   if (error) throw error;
   return (data || null) as CmsNewsArticle | null;
+}
+
+export async function fetchPublishedFeaturedBooks(): Promise<CmsFeaturedBook[]> {
+  const { data, error } = await supabase
+    .from("cms_featured_books").select("*")
+    .eq("is_published", true)
+    .order("display_order", { ascending: true })
+    .order("created_at", { ascending: false });
+  if (error) throw error;
+  return (data || []) as CmsFeaturedBook[];
+}
+
+export async function fetchPublishedAuthorReviews(): Promise<CmsAuthorReview[]> {
+  const { data, error } = await supabase
+    .from("cms_author_reviews").select("*")
+    .eq("is_published", true)
+    .order("display_order", { ascending: true })
+    .order("created_at", { ascending: false });
+  if (error) throw error;
+  return (data || []) as CmsAuthorReview[];
+}
+
+export async function fetchPublishedFaqs(): Promise<CmsFaq[]> {
+  const { data, error } = await supabase
+    .from("cms_faqs").select("*")
+    .eq("is_published", true)
+    .order("category", { ascending: true })
+    .order("display_order", { ascending: true });
+  if (error) throw error;
+  return (data || []) as CmsFaq[];
+}
+
+export async function fetchPublishedResources(): Promise<CmsResource[]> {
+  const { data, error } = await supabase
+    .from("cms_resources").select("*")
+    .eq("is_published", true)
+    .order("display_order", { ascending: true });
+  if (error) throw error;
+  return (data || []) as CmsResource[];
+}
+
+export async function fetchPublishedResourceBySlug(slug: string): Promise<CmsResource | null> {
+  const { data, error } = await supabase
+    .from("cms_resources").select("*")
+    .eq("slug", slug).eq("is_published", true).maybeSingle();
+  if (error) throw error;
+  return (data || null) as CmsResource | null;
+}
+
+export async function fetchPublishedFooterDocuments(): Promise<CmsFooterDocument[]> {
+  const { data, error } = await supabase
+    .from("cms_footer_documents").select("*")
+    .eq("is_published", true)
+    .order("display_order", { ascending: true });
+  if (error) throw error;
+  return (data || []) as CmsFooterDocument[];
+}
+
+// ─── Public writes — submissions ────────────────────────────────
+
+export async function submitContactForm(input: {
+  name: string; email: string; message: string; subject?: string; phone?: string;
+}): Promise<void> {
+  const { error } = await supabase.from("cms_contact_submissions").insert([{
+    name: input.name.trim(),
+    email: input.email.trim(),
+    message: input.message.trim(),
+    subject: input.subject?.trim() || null,
+    phone: input.phone?.trim() || null,
+  }]);
+  if (error) throw error;
+}
+
+export async function submitProposalForm(input: {
+  author_name: string;
+  author_email: string;
+  book_title?: string;
+  book_subject?: string;
+  data: Record<string, unknown>;
+}): Promise<void> {
+  const { error } = await supabase.from("cms_proposal_submissions").insert([{
+    author_name: input.author_name.trim(),
+    author_email: input.author_email.trim(),
+    book_title: input.book_title?.trim() || null,
+    book_subject: input.book_subject?.trim() || null,
+    data: input.data as never,
+  }]);
+  if (error) throw error;
 }
 
 // ─── Admin calls (via edge function) ────────────────────────────
@@ -214,4 +423,88 @@ export const adminApi = {
   updateAdmin: (payload: { id: string; email?: string; name?: string; password?: string; is_active?: boolean }) =>
     callAdmin<{ data: CmsAdminAccount }>({ action: "update_admin", ...payload }).then((r) => r.data),
   deleteAdmin: (id: string) => callAdmin({ action: "delete_admin", id }),
+
+  // ─── Featured Books ──────────────────────────────────────────
+  listFeaturedBooks: () =>
+    callAdmin<{ data: CmsFeaturedBook[] }>({ action: "list_featured_books" }).then((r) => r.data),
+  createFeaturedBook: (payload: Partial<CmsFeaturedBook>) =>
+    callAdmin<{ data: CmsFeaturedBook }>({ action: "create_featured_book", ...payload }).then((r) => r.data),
+  updateFeaturedBook: (payload: Partial<CmsFeaturedBook> & { id: string }) =>
+    callAdmin<{ data: CmsFeaturedBook }>({ action: "update_featured_book", ...payload }).then((r) => r.data),
+  deleteFeaturedBook: (id: string) => callAdmin({ action: "delete_featured_book", id }),
+
+  // ─── Author Reviews ──────────────────────────────────────────
+  listAuthorReviews: () =>
+    callAdmin<{ data: CmsAuthorReview[] }>({ action: "list_author_reviews" }).then((r) => r.data),
+  createAuthorReview: (payload: Partial<CmsAuthorReview>) =>
+    callAdmin<{ data: CmsAuthorReview }>({ action: "create_author_review", ...payload }).then((r) => r.data),
+  updateAuthorReview: (payload: Partial<CmsAuthorReview> & { id: string }) =>
+    callAdmin<{ data: CmsAuthorReview }>({ action: "update_author_review", ...payload }).then((r) => r.data),
+  deleteAuthorReview: (id: string) => callAdmin({ action: "delete_author_review", id }),
+
+  // ─── FAQs ────────────────────────────────────────────────────
+  listFaqs: () =>
+    callAdmin<{ data: CmsFaq[] }>({ action: "list_faqs" }).then((r) => r.data),
+  createFaq: (payload: Partial<CmsFaq>) =>
+    callAdmin<{ data: CmsFaq }>({ action: "create_faq", ...payload }).then((r) => r.data),
+  updateFaq: (payload: Partial<CmsFaq> & { id: string }) =>
+    callAdmin<{ data: CmsFaq }>({ action: "update_faq", ...payload }).then((r) => r.data),
+  deleteFaq: (id: string) => callAdmin({ action: "delete_faq", id }),
+
+  // ─── Resources ───────────────────────────────────────────────
+  listResources: () =>
+    callAdmin<{ data: CmsResource[] }>({ action: "list_resources" }).then((r) => r.data),
+  createResource: (payload: Partial<CmsResource>) =>
+    callAdmin<{ data: CmsResource }>({ action: "create_resource", ...payload }).then((r) => r.data),
+  updateResource: (payload: Partial<CmsResource> & { id: string }) =>
+    callAdmin<{ data: CmsResource }>({ action: "update_resource", ...payload }).then((r) => r.data),
+  deleteResource: (id: string) => callAdmin({ action: "delete_resource", id }),
+
+  // ─── Footer Documents ────────────────────────────────────────
+  listFooterDocuments: () =>
+    callAdmin<{ data: CmsFooterDocument[] }>({ action: "list_footer_documents" }).then((r) => r.data),
+  createFooterDocument: (payload: Partial<CmsFooterDocument>) =>
+    callAdmin<{ data: CmsFooterDocument }>({ action: "create_footer_document", ...payload }).then((r) => r.data),
+  updateFooterDocument: (payload: Partial<CmsFooterDocument> & { id: string }) =>
+    callAdmin<{ data: CmsFooterDocument }>({ action: "update_footer_document", ...payload }).then((r) => r.data),
+  deleteFooterDocument: (id: string) => callAdmin({ action: "delete_footer_document", id }),
+
+  // ─── Contact Submissions ─────────────────────────────────────
+  listContactSubmissions: () =>
+    callAdmin<{ data: CmsContactSubmission[] }>({ action: "list_contact_submissions" }).then((r) => r.data),
+  updateContactSubmission: (payload: { id: string; status?: string; admin_notes?: string }) =>
+    callAdmin<{ data: CmsContactSubmission }>({ action: "update_contact_submission", ...payload }).then((r) => r.data),
+  deleteContactSubmission: (id: string) => callAdmin({ action: "delete_contact_submission", id }),
+
+  // ─── Proposal Submissions ────────────────────────────────────
+  listProposalSubmissions: () =>
+    callAdmin<{ data: CmsProposalSubmission[] }>({ action: "list_proposal_submissions" }).then((r) => r.data),
+  updateProposalSubmission: (payload: { id: string; status?: string; admin_notes?: string }) =>
+    callAdmin<{ data: CmsProposalSubmission }>({ action: "update_proposal_submission", ...payload }).then((r) => r.data),
+  deleteProposalSubmission: (id: string) => callAdmin({ action: "delete_proposal_submission", id }),
+
+  // ─── Orders ──────────────────────────────────────────────────
+  listOrders: () =>
+    callAdmin<{ data: CmsOrderRow[] }>({ action: "list_orders" }).then((r) => r.data),
+  updateOrder: (payload: {
+    id: string;
+    status?: string;
+    payment_status?: string;
+    fulfillment_status?: string;
+    admin_notes?: string;
+  }) => callAdmin({ action: "update_order", ...payload }),
+
+  // ─── Users (Lovable Cloud auth) ──────────────────────────────
+  listUsers: (opts: { page?: number; per_page?: number } = {}) =>
+    callAdmin<{ data: CmsAuthUser[] }>({ action: "list_users", ...opts }).then((r) => r.data),
+  sendPasswordReset: (email: string, redirect_to?: string) =>
+    callAdmin<{ ok: true; action_link: string | null }>({
+      action: "send_password_reset", email, redirect_to,
+    }),
+  setUserDisabled: (id: string, disabled: boolean) =>
+    callAdmin({ action: "set_user_disabled", id, disabled }),
+
+  // ─── CSP external user password reset (stub) ─────────────────
+  cspResetPassword: (email: string) =>
+    callAdmin<{ ok: true } | { stub: true; error: string }>({ action: "csp_reset_password", email }),
 };

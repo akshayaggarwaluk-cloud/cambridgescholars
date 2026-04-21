@@ -47,6 +47,11 @@ import AdminDashboard from "@/pages/admin/AdminDashboard";
 import AdminHeroSlides from "@/pages/admin/AdminHeroSlides";
 import AdminNews from "@/pages/admin/AdminNews";
 import AdminAdmins from "@/pages/admin/AdminAdmins";
+import AdminFeaturedBooks from "@/pages/admin/AdminFeaturedBooks";
+import AdminAuthorReviews from "@/pages/admin/AdminAuthorReviews";
+import AdminFaqs from "@/pages/admin/AdminFaqs";
+import AdminResources from "@/pages/admin/AdminResources";
+import AdminComingSoon from "@/pages/admin/AdminComingSoon";
 
 export function AnimatedRoutes() {
   const location = useLocation();
@@ -94,7 +99,16 @@ export function AnimatedRoutes() {
         <Route path="/admin" element={<AdminGate><AdminLayout /></AdminGate>}>
           <Route index element={<AdminDashboard />} />
           <Route path="hero-slides" element={<AdminHeroSlides />} />
+          <Route path="featured-books" element={<AdminFeaturedBooks />} />
           <Route path="news" element={<AdminNews />} />
+          <Route path="author-reviews" element={<AdminAuthorReviews />} />
+          <Route path="faqs" element={<AdminFaqs />} />
+          <Route path="resources" element={<AdminResources />} />
+          <Route path="footer-documents" element={<AdminComingSoon title="Footer Documents" description="Backend ready (table + edge function actions). UI coming next." />} />
+          <Route path="contact-submissions" element={<AdminComingSoon title="Contact Submissions" description="Backend ready. Inbox UI coming next." />} />
+          <Route path="proposal-submissions" element={<AdminComingSoon title="Proposal Submissions" description="Backend ready. Inbox UI coming next." />} />
+          <Route path="orders" element={<AdminComingSoon title="Orders" description="Backend ready (list_orders + update_order). UI coming next." />} />
+          <Route path="users" element={<AdminComingSoon title="Users" description="Backend ready (Lovable Cloud auth users + CSP password-reset stub). UI coming next." />} />
           <Route path="admins" element={<AdminAdmins />} />
         </Route>
 

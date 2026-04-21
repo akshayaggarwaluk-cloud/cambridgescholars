@@ -1,39 +1,32 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { Sparkles, Newspaper, Users, ArrowRight } from "lucide-react";
+import { Sparkles, Newspaper, Users, ArrowRight, BookOpen, MessageSquareQuote, HelpCircle, FileText } from "lucide-react";
 import { adminApi } from "@/services/cmsService";
 
 export default function AdminDashboard() {
-  const [counts, setCounts] = useState({ hero: 0, news: 0, admins: 0 });
+  const [counts, setCounts] = useState({ hero: 0, news: 0, admins: 0, featured: 0, reviews: 0, faqs: 0, resources: 0 });
 
   useEffect(() => {
-    Promise.all([adminApi.listHero(), adminApi.listNews(), adminApi.listAdmins()])
-      .then(([h, n, a]) => setCounts({ hero: h.length, news: n.length, admins: a.length }))
+    Promise.all([
+      adminApi.listHero(), adminApi.listNews(), adminApi.listAdmins(),
+      adminApi.listFeaturedBooks(), adminApi.listAuthorReviews(),
+      adminApi.listFaqs(), adminApi.listResources(),
+    ])
+      .then(([h, n, a, fb, ar, fq, rs]) => setCounts({
+        hero: h.length, news: n.length, admins: a.length,
+        featured: fb.length, reviews: ar.length, faqs: fq.length, resources: rs.length,
+      }))
       .catch(() => undefined);
   }, []);
 
   const tiles = [
-    {
-      to: "/admin/hero-slides",
-      label: "Featured Reviews",
-      count: counts.hero,
-      desc: "Manage the homepage Featured Reviews carousel.",
-      icon: Sparkles,
-    },
-    {
-      to: "/admin/news",
-      label: "News",
-      count: counts.news,
-      desc: "Add, edit and publish news articles.",
-      icon: Newspaper,
-    },
-    {
-      to: "/admin/admins",
-      label: "Admins",
-      count: counts.admins,
-      desc: "Manage who has access to this CMS portal.",
-      icon: Users,
-    },
+    { to: "/admin/hero-slides", label: "Featured Reviews", count: counts.hero, desc: "Homepage Featured Reviews carousel.", icon: Sparkles },
+    { to: "/admin/featured-books", label: "Featured Books", count: counts.featured, desc: "Homepage Featured Books slider.", icon: BookOpen },
+    { to: "/admin/news", label: "News", count: counts.news, desc: "Add, edit and publish news articles.", icon: Newspaper },
+    { to: "/admin/author-reviews", label: "Author Reviews", count: counts.reviews, desc: "Quotes shown on the homepage.", icon: MessageSquareQuote },
+    { to: "/admin/faqs", label: "FAQs", count: counts.faqs, desc: "Q&A entries on the FAQ page.", icon: HelpCircle },
+    { to: "/admin/resources", label: "Resources", count: counts.resources, desc: "Resource pages under /resources.", icon: FileText },
+    { to: "/admin/admins", label: "Admins", count: counts.admins, desc: "Manage who has access to this CMS portal.", icon: Users },
   ];
 
   return (

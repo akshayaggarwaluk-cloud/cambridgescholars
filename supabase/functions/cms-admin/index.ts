@@ -329,6 +329,386 @@ Deno.serve(async (req) => {
         return json({ ok: true });
       }
 
+      // ─── Featured Books ─────────────────────────────────────
+      case "list_featured_books": {
+        const { data, error } = await supabaseAdmin
+          .from("cms_featured_books").select("*")
+          .order("display_order", { ascending: true })
+          .order("created_at", { ascending: false });
+        if (error) throw error;
+        return json({ data });
+      }
+      case "create_featured_book": {
+        if (!body.title) return json({ error: "Title is required" }, 400);
+        const { data, error } = await supabaseAdmin
+          .from("cms_featured_books").insert({
+            book_id: body.book_id ?? null,
+            title: body.title,
+            subtitle: body.subtitle ?? null,
+            author: body.author ?? null,
+            cover_image: body.cover_image ?? null,
+            link_url: body.link_url ?? null,
+            description: body.description ?? null,
+            display_order: body.display_order ?? 0,
+            is_published: body.is_published ?? true,
+          }).select().single();
+        if (error) throw error;
+        return json({ data });
+      }
+      case "update_featured_book": {
+        if (!body.id) return json({ error: "Missing id" }, 400);
+        const patch: Record<string, unknown> = {};
+        for (const k of ["book_id","title","subtitle","author","cover_image","link_url","description","display_order","is_published"])
+          if (k in body) patch[k] = body[k];
+        const { data, error } = await supabaseAdmin
+          .from("cms_featured_books").update(patch).eq("id", body.id).select().single();
+        if (error) throw error;
+        return json({ data });
+      }
+      case "delete_featured_book": {
+        if (!body.id) return json({ error: "Missing id" }, 400);
+        const { error } = await supabaseAdmin.from("cms_featured_books").delete().eq("id", body.id);
+        if (error) throw error;
+        return json({ ok: true });
+      }
+
+      // ─── Author Reviews ─────────────────────────────────────
+      case "list_author_reviews": {
+        const { data, error } = await supabaseAdmin
+          .from("cms_author_reviews").select("*")
+          .order("display_order", { ascending: true })
+          .order("created_at", { ascending: false });
+        if (error) throw error;
+        return json({ data });
+      }
+      case "create_author_review": {
+        if (!body.author_name || !body.quote) return json({ error: "Author name and quote are required" }, 400);
+        const { data, error } = await supabaseAdmin
+          .from("cms_author_reviews").insert({
+            author_name: body.author_name,
+            position: body.position ?? null,
+            quote: body.quote,
+            photo_url: body.photo_url ?? null,
+            book_title: body.book_title ?? null,
+            display_order: body.display_order ?? 0,
+            is_published: body.is_published ?? true,
+          }).select().single();
+        if (error) throw error;
+        return json({ data });
+      }
+      case "update_author_review": {
+        if (!body.id) return json({ error: "Missing id" }, 400);
+        const patch: Record<string, unknown> = {};
+        for (const k of ["author_name","position","quote","photo_url","book_title","display_order","is_published"])
+          if (k in body) patch[k] = body[k];
+        const { data, error } = await supabaseAdmin
+          .from("cms_author_reviews").update(patch).eq("id", body.id).select().single();
+        if (error) throw error;
+        return json({ data });
+      }
+      case "delete_author_review": {
+        if (!body.id) return json({ error: "Missing id" }, 400);
+        const { error } = await supabaseAdmin.from("cms_author_reviews").delete().eq("id", body.id);
+        if (error) throw error;
+        return json({ ok: true });
+      }
+
+      // ─── FAQs ────────────────────────────────────────────────
+      case "list_faqs": {
+        const { data, error } = await supabaseAdmin
+          .from("cms_faqs").select("*")
+          .order("category", { ascending: true })
+          .order("display_order", { ascending: true })
+          .order("created_at", { ascending: false });
+        if (error) throw error;
+        return json({ data });
+      }
+      case "create_faq": {
+        if (!body.question || !body.answer) return json({ error: "Question and answer are required" }, 400);
+        const { data, error } = await supabaseAdmin
+          .from("cms_faqs").insert({
+            question: body.question,
+            answer: body.answer,
+            category: body.category ?? null,
+            display_order: body.display_order ?? 0,
+            is_published: body.is_published ?? true,
+          }).select().single();
+        if (error) throw error;
+        return json({ data });
+      }
+      case "update_faq": {
+        if (!body.id) return json({ error: "Missing id" }, 400);
+        const patch: Record<string, unknown> = {};
+        for (const k of ["question","answer","category","display_order","is_published"])
+          if (k in body) patch[k] = body[k];
+        const { data, error } = await supabaseAdmin
+          .from("cms_faqs").update(patch).eq("id", body.id).select().single();
+        if (error) throw error;
+        return json({ data });
+      }
+      case "delete_faq": {
+        if (!body.id) return json({ error: "Missing id" }, 400);
+        const { error } = await supabaseAdmin.from("cms_faqs").delete().eq("id", body.id);
+        if (error) throw error;
+        return json({ ok: true });
+      }
+
+      // ─── Resources ───────────────────────────────────────────
+      case "list_resources": {
+        const { data, error } = await supabaseAdmin
+          .from("cms_resources").select("*")
+          .order("display_order", { ascending: true })
+          .order("created_at", { ascending: false });
+        if (error) throw error;
+        return json({ data });
+      }
+      case "create_resource": {
+        if (!body.slug || !body.title) return json({ error: "Slug and title are required" }, 400);
+        const { data, error } = await supabaseAdmin
+          .from("cms_resources").insert({
+            slug: body.slug,
+            title: body.title,
+            excerpt: body.excerpt ?? null,
+            content: body.content ?? null,
+            cover_image: body.cover_image ?? null,
+            display_order: body.display_order ?? 0,
+            is_published: body.is_published ?? true,
+          }).select().single();
+        if (error) {
+          if (error.code === "23505") return json({ error: "A resource with that slug already exists" }, 409);
+          throw error;
+        }
+        return json({ data });
+      }
+      case "update_resource": {
+        if (!body.id) return json({ error: "Missing id" }, 400);
+        const patch: Record<string, unknown> = {};
+        for (const k of ["slug","title","excerpt","content","cover_image","display_order","is_published"])
+          if (k in body) patch[k] = body[k];
+        const { data, error } = await supabaseAdmin
+          .from("cms_resources").update(patch).eq("id", body.id).select().single();
+        if (error) throw error;
+        return json({ data });
+      }
+      case "delete_resource": {
+        if (!body.id) return json({ error: "Missing id" }, 400);
+        const { error } = await supabaseAdmin.from("cms_resources").delete().eq("id", body.id);
+        if (error) throw error;
+        return json({ ok: true });
+      }
+
+      // ─── Footer Documents ───────────────────────────────────
+      case "list_footer_documents": {
+        const { data, error } = await supabaseAdmin
+          .from("cms_footer_documents").select("*")
+          .order("display_order", { ascending: true })
+          .order("created_at", { ascending: false });
+        if (error) throw error;
+        return json({ data });
+      }
+      case "create_footer_document": {
+        if (!body.label || !body.file_url) return json({ error: "Label and file URL are required" }, 400);
+        const { data, error } = await supabaseAdmin
+          .from("cms_footer_documents").insert({
+            label: body.label,
+            file_url: body.file_url,
+            description: body.description ?? null,
+            display_order: body.display_order ?? 0,
+            is_published: body.is_published ?? true,
+          }).select().single();
+        if (error) throw error;
+        return json({ data });
+      }
+      case "update_footer_document": {
+        if (!body.id) return json({ error: "Missing id" }, 400);
+        const patch: Record<string, unknown> = {};
+        for (const k of ["label","file_url","description","display_order","is_published"])
+          if (k in body) patch[k] = body[k];
+        const { data, error } = await supabaseAdmin
+          .from("cms_footer_documents").update(patch).eq("id", body.id).select().single();
+        if (error) throw error;
+        return json({ data });
+      }
+      case "delete_footer_document": {
+        if (!body.id) return json({ error: "Missing id" }, 400);
+        const { error } = await supabaseAdmin.from("cms_footer_documents").delete().eq("id", body.id);
+        if (error) throw error;
+        return json({ ok: true });
+      }
+
+      // ─── Contact submissions ────────────────────────────────
+      case "list_contact_submissions": {
+        const { data, error } = await supabaseAdmin
+          .from("cms_contact_submissions").select("*")
+          .order("created_at", { ascending: false }).limit(500);
+        if (error) throw error;
+        return json({ data });
+      }
+      case "update_contact_submission": {
+        if (!body.id) return json({ error: "Missing id" }, 400);
+        const patch: Record<string, unknown> = {};
+        for (const k of ["status","admin_notes"]) if (k in body) patch[k] = body[k];
+        const { data, error } = await supabaseAdmin
+          .from("cms_contact_submissions").update(patch).eq("id", body.id).select().single();
+        if (error) throw error;
+        return json({ data });
+      }
+      case "delete_contact_submission": {
+        if (!body.id) return json({ error: "Missing id" }, 400);
+        const { error } = await supabaseAdmin.from("cms_contact_submissions").delete().eq("id", body.id);
+        if (error) throw error;
+        return json({ ok: true });
+      }
+
+      // ─── Proposal submissions ───────────────────────────────
+      case "list_proposal_submissions": {
+        const { data, error } = await supabaseAdmin
+          .from("cms_proposal_submissions").select("*")
+          .order("created_at", { ascending: false }).limit(500);
+        if (error) throw error;
+        return json({ data });
+      }
+      case "update_proposal_submission": {
+        if (!body.id) return json({ error: "Missing id" }, 400);
+        const patch: Record<string, unknown> = {};
+        for (const k of ["status","admin_notes"]) if (k in body) patch[k] = body[k];
+        const { data, error } = await supabaseAdmin
+          .from("cms_proposal_submissions").update(patch).eq("id", body.id).select().single();
+        if (error) throw error;
+        return json({ data });
+      }
+      case "delete_proposal_submission": {
+        if (!body.id) return json({ error: "Missing id" }, 400);
+        const { error } = await supabaseAdmin.from("cms_proposal_submissions").delete().eq("id", body.id);
+        if (error) throw error;
+        return json({ ok: true });
+      }
+
+      // ─── Orders (read existing tables via service role) ─────
+      case "list_orders": {
+        const { data: orders, error } = await supabaseAdmin
+          .from("orders")
+          .select("id, user_id, status, total, shipping_address, created_at, updated_at")
+          .order("created_at", { ascending: false }).limit(500);
+        if (error) throw error;
+        const ids = (orders || []).map((o) => o.id);
+        let items: Record<string, Array<Record<string, unknown>>> = {};
+        let notes: Record<string, Record<string, unknown>> = {};
+        if (ids.length) {
+          const { data: it } = await supabaseAdmin
+            .from("order_items").select("*").in("order_id", ids);
+          for (const row of it || []) {
+            const arr = items[row.order_id] || (items[row.order_id] = []);
+            arr.push(row);
+          }
+          const { data: nt } = await supabaseAdmin
+            .from("cms_order_notes").select("*").in("order_id", ids);
+          for (const row of nt || []) notes[row.order_id] = row;
+        }
+        const enriched = (orders || []).map((o) => ({
+          ...o,
+          items: items[o.id] || [],
+          notes: notes[o.id] || null,
+        }));
+        return json({ data: enriched });
+      }
+      case "update_order": {
+        if (!body.id) return json({ error: "Missing id" }, 400);
+        if ("status" in body) {
+          const { error } = await supabaseAdmin
+            .from("orders").update({ status: body.status }).eq("id", body.id);
+          if (error) throw error;
+        }
+        if ("payment_status" in body || "fulfillment_status" in body || "admin_notes" in body) {
+          const noteRow: Record<string, unknown> = { order_id: body.id };
+          if ("payment_status" in body) noteRow.payment_status = body.payment_status;
+          if ("fulfillment_status" in body) noteRow.fulfillment_status = body.fulfillment_status;
+          if ("admin_notes" in body) noteRow.admin_notes = body.admin_notes;
+          const { error } = await supabaseAdmin
+            .from("cms_order_notes")
+            .upsert(noteRow, { onConflict: "order_id" });
+          if (error) throw error;
+        }
+        return json({ ok: true });
+      }
+
+      // ─── Public users (Lovable Cloud auth) ──────────────────
+      case "list_users": {
+        const page = Number(body.page || 1);
+        const perPage = Math.min(Number(body.per_page || 100), 200);
+        const { data, error } = await supabaseAdmin.auth.admin.listUsers({ page, perPage });
+        if (error) throw error;
+        const users = (data?.users || []).map((u) => ({
+          id: u.id,
+          email: u.email,
+          phone: u.phone,
+          created_at: u.created_at,
+          last_sign_in_at: u.last_sign_in_at,
+          email_confirmed_at: u.email_confirmed_at,
+          banned_until: (u as unknown as { banned_until?: string }).banned_until ?? null,
+          user_metadata: u.user_metadata,
+        }));
+        return json({ data: users });
+      }
+      case "send_password_reset": {
+        const email = String(body.email || "").trim().toLowerCase();
+        if (!email) return json({ error: "Email is required" }, 400);
+        const redirectTo = body.redirect_to
+          ? String(body.redirect_to)
+          : `${new URL(req.url).origin.replace(/\/+$/, "")}/reset-password`;
+        const { data, error } = await supabaseAdmin.auth.admin.generateLink({
+          type: "recovery",
+          email,
+          options: { redirectTo },
+        });
+        if (error) throw error;
+        return json({
+          ok: true,
+          action_link: data?.properties?.action_link || null,
+          email_otp: data?.properties?.email_otp || null,
+        });
+      }
+      case "set_user_disabled": {
+        if (!body.id) return json({ error: "Missing id" }, 400);
+        const ban_duration = body.disabled ? "876000h" : "none"; // 100 years vs unban
+        const { error } = await supabaseAdmin.auth.admin.updateUserById(body.id, {
+          ban_duration,
+        } as { ban_duration: string });
+        if (error) throw error;
+        return json({ ok: true });
+      }
+
+      // ─── CSP user password reset (stub for external CSP API) ─
+      case "csp_reset_password": {
+        const cspBase = Deno.env.get("CSP_AUTH_API_BASE");
+        const cspKey = Deno.env.get("CSP_ADMIN_API_KEY");
+        if (!cspBase) {
+          return json({
+            error: "CSP password reset is not configured. Add CSP_AUTH_API_BASE and CSP_ADMIN_API_KEY secrets to enable.",
+            stub: true,
+          }, 501);
+        }
+        const email = String(body.email || "").trim().toLowerCase();
+        if (!email) return json({ error: "Email is required" }, 400);
+        try {
+          const r = await fetch(`${cspBase.replace(/\/+$/, "")}/admin/reset-password`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              ...(cspKey ? { "Authorization": `Bearer ${cspKey}` } : {}),
+            },
+            body: JSON.stringify({ email }),
+          });
+          const text = await r.text();
+          let payload: unknown = text;
+          try { payload = JSON.parse(text); } catch { /* keep as text */ }
+          if (!r.ok) return json({ error: `CSP API error (${r.status})`, detail: payload }, 502);
+          return json({ ok: true, detail: payload });
+        } catch (e) {
+          return json({ error: e instanceof Error ? e.message : String(e) }, 502);
+        }
+      }
+
       default:
         return json({ error: `Unknown action: ${action}` }, 400);
     }
