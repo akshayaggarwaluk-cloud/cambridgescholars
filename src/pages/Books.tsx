@@ -241,7 +241,7 @@ export default function Books() {
               <div className="relative">
                 <Input
                   type="text"
-                  placeholder="Search books..."
+                  placeholder="Search products..."
                   value={searchQuery}
                   onChange={(e) => handleSearchChange(e.target.value)}
                   className="pr-12 h-12 border-border text-base bg-[#f7f7f7]"
