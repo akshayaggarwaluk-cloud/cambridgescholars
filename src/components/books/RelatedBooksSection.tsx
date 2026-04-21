@@ -47,7 +47,7 @@ export function RelatedBooksSection({ currentBook }: RelatedBooksSectionProps) {
       .catch(() => setRelatedBooks([]));
   }, [currentBook]);
 
-  const itemsPerPage = 4;
+  const itemsPerPage = 3;
   const totalPages = Math.ceil(relatedBooks.length / itemsPerPage);
   const visibleBooks = relatedBooks.slice(
     currentPage * itemsPerPage,
@@ -67,7 +67,7 @@ export function RelatedBooksSection({ currentBook }: RelatedBooksSectionProps) {
   return (
     <section className="container-wide py-16">
       {/* Title */}
-      <h2 className="font-baskerville text-3xl md:text-4xl italic text-center text-foreground mb-12">
+      <h2 className="font-baskerville text-[32px] md:text-[40px] font-normal text-center text-[#333333] mb-12">
         Recommended
       </h2>
 
@@ -85,7 +85,7 @@ export function RelatedBooksSection({ currentBook }: RelatedBooksSectionProps) {
         )}
 
         {/* Books Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 lg:gap-10 px-4 md:px-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-10 px-4 md:px-8">
           {visibleBooks.map((book) => (
             <Link
               key={book.id}
@@ -102,19 +102,18 @@ export function RelatedBooksSection({ currentBook }: RelatedBooksSectionProps) {
               </div>
 
               {/* Title */}
-              <h3 className="font-serif text-base md:text-lg font-semibold text-foreground leading-tight line-clamp-2 mb-1">
+              <h3 className="font-baskerville text-[18px] md:text-[20px] font-normal text-[#333333] leading-tight line-clamp-2 mb-2">
                 {book.title}
               </h3>
 
               {/* Author */}
-              <p className="text-sm text-muted-foreground line-clamp-2 mb-2">
+              <p className="font-baskerville text-[15px] text-[#696969] line-clamp-2 mb-3">
                 {book.author}
               </p>
 
               {/* Price */}
-              <p className="text-sm">
-                <span className="text-accent font-medium">From </span>
-                <span className="text-accent font-semibold">£{book.price.toFixed(2)}</span>
+              <p className="font-baskerville text-[16px] text-[#C5A374]">
+                From <span className="font-semibold">£{book.price.toFixed(2)}</span>
               </p>
             </Link>
           ))}
