@@ -178,13 +178,13 @@ export function BookDetailsTabs({ book }: BookDetailsTabsProps) {
               {/* Categories and Pages */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-10">
                 {book.categories && book.categories.length > 0 && (
-                  <div>
+                  <div className="text-lg">
                     <span style={{ fontSize: "20px", color: "#696969", fontWeight: 700, letterSpacing: "0.02em" }}>CATEGORIES:</span>{" "}
                     <span style={{ fontSize: "18px", color: "#696969" }}>{book.categories.join(", ")}</span>
                   </div>
                 )}
                 {book.pages && (
-                  <div>
+                  <div className="text-lg">
                     <span style={{ fontSize: "20px", color: "#696969", fontWeight: 700, letterSpacing: "0.02em" }}>PAGES:</span>{" "}
                     <span style={{ fontSize: "18px", color: "#696969" }}>{book.pages}</span>
                   </div>
