@@ -26,7 +26,7 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-16">
           {/* Connect */}
           <div>
-            <h3 className="text-white tracking-widest uppercase mb-6 text-[15px] font-normal font-baskerville">
+            <h3 className="text-white tracking-widest uppercase mb-6 text-[14px] font-bold font-nav">
               Connect
             </h3>
             <div className="space-y-1 text-[15px] leading-[1.8] font-baskerville italic text-[#ABABAB]">
@@ -44,7 +44,7 @@ export function Footer() {
 
           {/* Pages */}
           <div>
-            <h3 className="text-white tracking-widest uppercase mb-6 text-[15px] font-normal font-baskerville">
+            <h3 className="text-white tracking-widest uppercase mb-6 text-[14px] font-bold font-nav">
               Pages
             </h3>
             <ul className="space-y-4">
@@ -63,7 +63,7 @@ export function Footer() {
 
           {/* Other Links */}
           <div>
-            <h3 className="text-white tracking-widest uppercase mb-6 text-[15px] font-normal font-baskerville">
+            <h3 className="text-white tracking-widest uppercase mb-6 text-[14px] font-bold font-nav">
               Other Links
             </h3>
             <ul className="space-y-4">
