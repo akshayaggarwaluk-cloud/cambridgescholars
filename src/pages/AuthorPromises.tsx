@@ -61,21 +61,21 @@ export default function AuthorPromises() {
 
       {/* CONTENT */}
       <section className="w-full px-6 md:px-20 py-16 bg-white">
-        <div className="max-w-5xl mx-auto font-nav text-[15px] text-black leading-relaxed">
+        <div className="max-w-5xl mx-auto font-nav text-[16px] font-normal text-[#333333] leading-[1.7]">
           <p className="mb-10">
             We are dedicated to academic publishing and place our authors at the centre of our work. Whether you are an experienced writer or publishing for the first time, in Humanities and Social Sciences, Health Sciences, Physical Sciences or Life Sciences, we make these ten commitments:
           </p>
 
-          <ol className="list-decimal pl-6 space-y-6">
+          <ol className="list-decimal pl-6 space-y-6 marker:font-normal marker:text-[#333333]">
             {promises.map((p, i) => (
-              <li key={i}>
-                <p className="font-bold mb-2">{p.title}</p>
-                <p>{p.body}</p>
+              <li key={i} className="pl-2">
+                <p className="font-bold text-[16px] mb-2 text-[#333333]">{p.title}</p>
+                <p className="font-normal text-[16px] text-[#333333] leading-[1.7]">{p.body}</p>
               </li>
             ))}
           </ol>
 
-          <p className="mt-10 pt-6 border-t border-gray-200">
+          <p className="mt-10 pt-6 border-t border-gray-200 text-[16px]">
             *Where extensive language editing is required, we may suggest an external service. A limited Scholarship Fund is available to assist in cases of financial difficulty
           </p>
         </div>
