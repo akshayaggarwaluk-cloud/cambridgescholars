@@ -381,6 +381,31 @@ export default function Books() {
 
           {/* Books List */}
           <div className="flex-1">
+            {/* Results count + Sort By header */}
+            {!loading && pagination && (
+              <div className="flex items-center justify-between mb-8 flex-wrap gap-4">
+                <p className="font-baskerville text-[15px] text-[#777]">
+                  Showing{" "}
+                  {(pagination.page - 1) * pagination.per_page + 1}
+                  –
+                  {Math.min(pagination.page * pagination.per_page, pagination.total)}{" "}
+                  of {pagination.total.toLocaleString()} results
+                </p>
+                <Select value={orderBy} onValueChange={handleSortChange}>
+                  <SelectTrigger className="w-auto min-w-[180px] border-0 shadow-none bg-transparent font-baskerville text-[15px] text-[#333] focus:ring-0 gap-2">
+                    <SelectValue placeholder="Sort By" />
+                  </SelectTrigger>
+                  <SelectContent className="font-baskerville">
+                    {SORT_OPTIONS.map((opt) => (
+                      <SelectItem key={opt.value} value={opt.value}>
+                        {opt.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+            )}
+
             {loading ? (
               <div className="flex items-center justify-center py-16">
                 <Loader2 className="h-8 w-8 animate-spin text-accent" />
