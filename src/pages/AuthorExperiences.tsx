@@ -72,7 +72,7 @@ export default function AuthorExperiences() {
 
         {/* Content */}
         <div className="max-w-5xl mx-auto px-6 sm:px-10 py-10 md:py-14 bg-white">
-          <p className="font-nav text-[#333333] leading-relaxed text-[15px] mb-10">
+          <p className="font-nav font-normal text-[#333333] leading-relaxed text-[15px] mb-10">
             There is no clearer indication of the successful relationships we have built with thousands of academics over the years than their own views of the experience.
           </p>
 
@@ -108,11 +108,11 @@ export default function AuthorExperiences() {
 
                       {/* Content */}
                       <div className="flex-1 min-w-0 text-center sm:text-left">
-                        <p className="font-nav leading-relaxed mb-5 text-[15px] text-[#333333] text-justify">
+                        <p className="font-nav font-normal leading-relaxed mb-5 text-[15px] text-[#333333] text-justify">
                           "{review.praise}"
                         </p>
-                        <p className="font-nav text-[15px] text-[#333333]">
-                          <span className="font-semibold">{name}</span>
+                        <p className="font-nav font-normal text-[15px] text-[#333333]">
+                          <span className="font-bold">{name}</span>
                           {title && (
                             <span> – {title}</span>
                           )}
