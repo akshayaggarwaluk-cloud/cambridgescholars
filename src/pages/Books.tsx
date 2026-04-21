@@ -207,6 +207,7 @@ export default function Books() {
 
       <main className="px-6 md:px-16 py-12 bg-white">
         <div className="max-w-7xl mx-auto flex flex-col lg:flex-row gap-12">
+          {/* Top bar: results count + sort dropdown — full-width above the columns */}
           {/* Sidebar */}
           <aside className="lg:w-72 flex-shrink-0">
             {/* Search Section */}
@@ -242,14 +243,18 @@ export default function Books() {
                           <button
                             onClick={() => handleCategoryChange(cat.slug)}
                             className={cn(
-                              "text-left text-sm py-1.5 hover:text-accent transition-colors",
-                              selectedCategory === cat.slug ? "text-accent font-semibold" : "text-foreground",
+                              "text-left font-baskerville text-[17px] py-2 transition-colors",
+                              selectedCategory === cat.slug
+                                ? "text-[#C75B2A] font-semibold"
+                                : "text-[#C75B2A] hover:text-[#9c4521]",
                             )}
                           >
                             {cat.name}
                           </button>
-                          <div className="flex items-center gap-1">
-                            <span className="text-xs text-muted-foreground">{cat.book_count}</span>
+                          <div className="flex items-center gap-2">
+                            <span className="text-xs text-[#C75B2A] bg-[#F1EFEA] rounded-full px-3 py-1 min-w-[44px] text-center font-baskerville">
+                              {cat.book_count}
+                            </span>
                             {hasSubs && (
                               <button
                                 onClick={() => {
@@ -260,7 +265,7 @@ export default function Books() {
                                     return next;
                                   });
                                 }}
-                                className="p-0.5 text-muted-foreground hover:text-foreground"
+                                className="p-0.5 text-[#C75B2A] hover:text-[#9c4521]"
                               >
                                 <ChevronDown
                                   className={cn("h-4 w-4 transition-transform", isExpanded && "rotate-180")}
