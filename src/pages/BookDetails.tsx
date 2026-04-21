@@ -107,7 +107,7 @@ export default function BookDetails() {
               <div>
                 <h1 className="font-baskerville text-[22px] font-normal text-[#333333] mb-[15px] leading-tight">{book.title}</h1>
                 {book.description && (
-                  <p className="font-baskerville text-[18px] italic text-[#333333] mb-[20px] leading-snug">
+                  <p className="font-baskerville text-[18px] italic text-[#333333] mb-[20px] leading-snug line-clamp-2">
                     {book.description}
                   </p>
                 )}
