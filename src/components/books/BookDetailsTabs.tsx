@@ -196,9 +196,26 @@ export function BookDetailsTabs({ book }: BookDetailsTabsProps) {
         )}
 
         <TabsContent value="review" className="pt-8">
-          <div className="prose prose-lg max-w-none text-foreground/80 leading-relaxed text-center py-8">
-            <p className="text-muted-foreground">No reviews yet.</p>
-          </div>
+          {hasReviews ? (
+            <div className="space-y-6 max-w-4xl mx-auto">
+              {book.apiReviews!.map((review, idx) => (
+                <blockquote key={idx} className="border-l-4 border-accent pl-6 py-2">
+                  <p className="text-foreground/80 italic leading-relaxed text-base">
+                    {review.review}
+                  </p>
+                  <footer className="mt-3 text-sm text-muted-foreground">
+                    — <strong className="text-foreground">{review.reviewer}</strong>
+                    {review.reviewer_position && `, ${review.reviewer_position}`}
+                    {review.date && ` (${review.date})`}
+                  </footer>
+                </blockquote>
+              ))}
+            </div>
+          ) : (
+            <div className="prose prose-lg max-w-none text-foreground/80 leading-relaxed text-center py-8">
+              <p className="text-muted-foreground">No reviews yet.</p>
+            </div>
+          )}
         </TabsContent>
       </Tabs>
 
