@@ -17,32 +17,32 @@ const promises = [
     body: "We do not charge authors to publish.*",
   },
   {
-    title: "Royalties from the first sale",
-    body: "Authors begin earning royalties from the very first copy sold — there are no minimum thresholds.",
+    title: "Transparent royalties",
+    body: "Our royalty structure is clear, escalating as sales increase. Payments begin from the first copy sold.",
   },
   {
-    title: "Editorial respect",
-    body: "We provide thorough editorial support while preserving your individual voice and academic integrity.",
+    title: "Global sales and distribution",
+    body: "Our titles are available in over 120 countries through major academic channels including EBSCO/GOBI, ProQuest and Amazon.",
   },
   {
-    title: "Transparent process",
-    body: "We keep authors informed at every stage of the publishing journey, with clear timelines and accessible communication.",
+    title: "Author discounts",
+    body: "Authors receive a 40% discount on their book for personal use or events.",
   },
   {
-    title: "Quality production",
-    body: "Our books are produced to the highest standards in hardback and digital formats, with professional typesetting and cover design.",
+    title: "Special offers",
+    body: "Authors have access to discounts on other titles and support at conferences and events.",
   },
   {
-    title: "Global distribution",
-    body: "Your work is distributed worldwide through Amazon, ProQuest, EBSCO, Ingram and other leading academic channels.",
+    title: "Continuous availability",
+    body: "Our Print-on-Time system ensures your book is always available and never goes out of print.",
   },
   {
-    title: "Ongoing availability",
-    body: "Our Print-on-Time system ensures titles remain continuously available, with no risk of going out of print.",
+    title: "High-quality format",
+    body: "All titles are published in hardback and as an eBook, to international standards.",
   },
   {
-    title: "Long-term partnership",
-    body: "We view publishing as the start of a relationship — supporting authors with marketing, promotion and future projects.",
+    title: "Opportunities to contribute",
+    body: "Authors may join our Editorial Advisory Groups to help identify and mentor future scholars, supporting the growth and exchange of knowledge.",
   },
 ];
 
@@ -75,8 +75,8 @@ export default function AuthorPromises() {
             ))}
           </ol>
 
-          <p className="mt-10 text-sm text-gray-600">
-            * A small contribution towards production costs may be requested in specific circumstances and is always discussed transparently with the author.
+          <p className="mt-10 pt-6 border-t border-gray-200">
+            *Where extensive language editing is required, we may suggest an external service. A limited Scholarship Fund is available to assist in cases of financial difficulty
           </p>
         </div>
       </section>
