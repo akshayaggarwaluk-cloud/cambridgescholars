@@ -47,7 +47,7 @@ export default function Resources() {
         </div>
       </div>
 
-      <main className="py-16">
+      <main className="py-16 bg-white">
         <section className="container-wide">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-16 max-w-7xl mx-auto">
             {resources.map((item, index) => (
