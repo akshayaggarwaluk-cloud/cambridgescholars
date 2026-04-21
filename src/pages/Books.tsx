@@ -244,9 +244,9 @@ export default function Books() {
                   placeholder="Search books..."
                   value={searchQuery}
                   onChange={(e) => handleSearchChange(e.target.value)}
-                  className="pr-12 h-12 border-border bg-background text-base"
+                  className="pr-12 h-12 border-border text-base bg-[#f7f7f7]"
                 />
-                <button className="absolute right-0 top-0 h-12 w-12 flex items-center justify-center bg-muted/50 border-l border-border hover:bg-muted transition-colors">
+                <button className="absolute right-0 top-0 h-12 w-12 flex items-center justify-center border-l border-border transition-colors bg-[#f7f7f7]">
                   <Search className="h-5 w-5 text-muted-foreground" />
                 </button>
               </div>
