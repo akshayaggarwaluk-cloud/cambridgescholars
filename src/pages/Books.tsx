@@ -385,11 +385,14 @@ export default function Books() {
             {!loading && pagination && (
               <div className="flex items-center justify-between mb-8 flex-wrap gap-4">
                 <p className="font-baskerville text-[15px] text-[#777]">
-                  Showing{" "}
-                  {(pagination.page - 1) * pagination.per_page + 1}
-                  –
-                  {Math.min(pagination.page * pagination.per_page, pagination.total)}{" "}
-                  of {pagination.total.toLocaleString()} results
+                  {(() => {
+                    const page = pagination.page ?? 1;
+                    const perPage = pagination.per_page ?? 20;
+                    const total = pagination.total ?? books.length;
+                    const from = total === 0 ? 0 : (page - 1) * perPage + 1;
+                    const to = Math.min(page * perPage, total);
+                    return `Showing ${from}–${to} of ${total.toLocaleString()} results`;
+                  })()}
                 </p>
                 <Select value={orderBy} onValueChange={handleSortChange}>
                   <SelectTrigger className="w-auto min-w-[180px] border-0 shadow-none bg-transparent font-baskerville text-[15px] text-[#333] focus:ring-0 gap-2">
