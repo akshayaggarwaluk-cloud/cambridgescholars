@@ -38,6 +38,7 @@ import TermsAndConditions from "@/pages/TermsAndConditions";
 import AccessibilityPolicy from "@/pages/AccessibilityPolicy";
 import RefundAndReturns from "@/pages/RefundAndReturns";
 import AuthorExperiences from "@/pages/AuthorExperiences";
+import AuthorPromises from "@/pages/AuthorPromises";
 
 import AdminGate from "@/components/admin/AdminGate";
 import AdminLayout from "@/components/admin/AdminLayout";
@@ -86,6 +87,7 @@ export function AnimatedRoutes() {
         <Route path="/accessibility" element={<PageTransition><AccessibilityPolicy /></PageTransition>} />
         <Route path="/returns" element={<PageTransition><RefundAndReturns /></PageTransition>} />
         <Route path="/author-experiences" element={<PageTransition><AuthorExperiences /></PageTransition>} />
+        <Route path="/our-author-promises" element={<PageTransition><AuthorPromises /></PageTransition>} />
 
         {/* CMS Admin */}
         <Route path="/admin/login" element={<AdminLogin />} />
