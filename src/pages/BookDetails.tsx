@@ -216,7 +216,7 @@ export default function BookDetails() {
 
         {/* Press Reviews from API */}
         {book.apiReviews && book.apiReviews.length > 0 && (
-          <section className="container-wide mt-16">
+          <section className="container-wide mt-[100px]">
             <h2 className="font-serif text-3xl font-bold text-foreground mb-8">Press Reviews</h2>
             <div className="space-y-6">
               {book.apiReviews.map((review, idx) => (
