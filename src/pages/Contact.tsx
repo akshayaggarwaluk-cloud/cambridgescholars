@@ -105,33 +105,19 @@ export default function Contact() {
               <form onSubmit={handleSubmit} className="space-y-6">
                 {/* Name + Email */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div>
-                    <label htmlFor="name" className="block text-sm font-medium text-foreground mb-1">
-                      Name
-                    </label>
-                    <Input id="name" placeholder="Your name" value={formData.name} onChange={handleChange} required />
-                  </div>
-                  <div>
-                    <label htmlFor="email" className="block text-sm font-medium text-foreground mb-1">
-                      Email
-                    </label>
-                    <Input
-                      id="email"
-                      type="email"
-                      placeholder="Your email"
-                      value={formData.email}
-                      onChange={handleChange}
-                      required
-                    />
-                  </div>
+                  <Input id="name" placeholder="Name" value={formData.name} onChange={handleChange} required />
+                  <Input
+                    id="email"
+                    type="email"
+                    placeholder="Email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    required
+                  />
                 </div>
 
                 {/* Subject */}
-                <div>
-                  <label htmlFor="subject" className="block text-sm font-medium text-foreground mb-1">
-                    Subject
-                  </label>
-                  <select
+                <select
                     id="subject"
                     value={formData.subject}
                     onChange={handleChange}
@@ -142,23 +128,17 @@ export default function Contact() {
                     <option value="Proposals">Proposals</option>
                     <option value="Mailing">Mailing</option>
                     <option value="Queries">Queries</option>
-                  </select>
-                </div>
+                </select>
 
                 {/* Message */}
-                <div>
-                  <label htmlFor="message" className="block text-sm font-medium text-foreground mb-1">
-                    Message
-                  </label>
-                  <Textarea
-                    id="message"
-                    rows={6}
-                    placeholder="Your message"
-                    value={formData.message}
-                    onChange={handleChange}
-                    required
-                  />
-                </div>
+                <Textarea
+                  id="message"
+                  rows={6}
+                  placeholder="Message"
+                  value={formData.message}
+                  onChange={handleChange}
+                  required
+                />
 
                 {/* reCAPTCHA */}
                 <div className="py-2">
