@@ -490,7 +490,7 @@ export default function Books() {
                           <div className="flex items-center gap-3 mt-6">
                             <Button
                               asChild
-                              className="font-nav bg-[#E4573D] hover:bg-[hsl(var(--mustard))] hover:text-[hsl(var(--mustard-foreground))] text-white px-7 h-11 text-[13px] font-bold tracking-[0.12em] uppercase rounded-none transition-colors"
+                              className="font-nav bg-[#E4573D] hover:bg-[#E4573D]/80 text-white px-7 h-11 text-[13px] font-bold tracking-[0.12em] uppercase rounded-none transition-colors"
                             >
                               <Link to={`/books/${book.id}`}>VIEW MORE</Link>
                             </Button>
