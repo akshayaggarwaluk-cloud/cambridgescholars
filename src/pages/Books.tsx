@@ -243,24 +243,24 @@ export default function Books() {
           <aside className="lg:w-72 flex-shrink-0">
             {/* Search Section */}
             <div className="mb-10">
-              <h3 className="text-2xl font-serif text-foreground mb-6 pb-3 border-b-2 border-foreground/20">Search</h3>
+              <h3 className="font-baskerville text-[24px] font-normal text-[#333333] mb-5 pb-3 border-b border-[#C75B2A]/30">Search</h3>
               <div className="relative">
                 <Input
                   type="text"
-                  placeholder="Search books..."
+                  placeholder="Search products…"
                   value={searchQuery}
                   onChange={(e) => handleSearchChange(e.target.value)}
-                  className="pr-12 h-12 border-border bg-background text-base"
+                  className="pr-12 h-12 border-0 bg-[#F8F8F8] text-[15px] font-baskerville text-[#333] placeholder:text-[#999] rounded-none focus-visible:ring-0 px-5"
                 />
-                <button className="absolute right-0 top-0 h-12 w-12 flex items-center justify-center bg-muted/50 border-l border-border hover:bg-muted transition-colors">
-                  <Search className="h-5 w-5 text-muted-foreground" />
+                <button className="absolute right-0 top-0 h-12 w-12 flex items-center justify-center text-[#666] hover:text-[#C75B2A] transition-colors">
+                  <Search className="h-4 w-4" />
                 </button>
               </div>
             </div>
 
             {/* Category filter */}
             <div>
-              <h3 className="text-2xl font-serif text-foreground mb-6 pb-3 border-b-2 border-foreground/20">
+              <h3 className="font-baskerville text-[24px] font-normal text-[#333333] mb-5 pb-3 border-b border-[#C75B2A]/30">
                 Subject Categories
               </h3>
               {categories.length > 0 ? (
