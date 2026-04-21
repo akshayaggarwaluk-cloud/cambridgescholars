@@ -30,7 +30,7 @@ export default function PreparingYourBookCover() {
           <ul className="space-y-4 list-disc list-inside font-nav text-[16px] text-[#696969]">
             <li>
               <span className="font-medium">3.1</span>{" "}
-              <Link to="#" className="text-red-500 text-primary hover:underline font-medium">
+              <Link to="#" className="text-[#E4573D] hover:text-[#E4573D]/70 transition-colors font-medium">
                 Cover Guidelines and Specifications
               </Link>
               <span className="text-muted-foreground">
@@ -40,7 +40,7 @@ export default function PreparingYourBookCover() {
             </li>
             <li>
               <span className="font-medium">3.2</span>{" "}
-              <Link to="#" className="text-red-500 text-primary hover:underline font-medium">
+              <Link to="#" className="text-[#E4573D] hover:text-[#E4573D]/70 transition-colors font-medium">
                 External Permissions
               </Link>
               <span className="text-muted-foreground">
@@ -50,7 +50,7 @@ export default function PreparingYourBookCover() {
             </li>
             <li>
               <span className="font-medium">3.3</span>{" "}
-              <Link to="#" className="text-red-500 text-primary hover:underline font-medium">
+              <Link to="#" className="text-[#E4573D] hover:text-[#E4573D]/70 transition-colors font-medium">
                 Cover Image Permissions
               </Link>
               <span className="text-muted-foreground">
@@ -60,7 +60,7 @@ export default function PreparingYourBookCover() {
             </li>
             <li>
               <span className="font-medium">3.4</span>{" "}
-              <Link to="#" className="text-red-500 text-primary hover:underline font-medium">
+              <Link to="#" className="text-[#E4573D] hover:text-[#E4573D]/70 transition-colors font-medium">
                 Cover Image Permissions - Parental Consent Form
               </Link>
               <span className="text-muted-foreground">

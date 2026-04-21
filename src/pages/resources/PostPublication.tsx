@@ -27,7 +27,7 @@ export default function PostPublication() {
           <ul className="space-y-4 list-disc list-inside font-nav text-[16px] text-[#696969]">
             <li>
               <span className="font-medium">4.1</span>{" "}
-              <Link to="#" className="text-red-500 text-primary hover:underline font-medium">
+              <Link to="#" className="text-[#E4573D] hover:text-[#E4573D]/70 transition-colors font-medium">
                 Promotion Information Form
               </Link>
               <span className="text-muted-foreground"> - Promotion Information Form</span>
