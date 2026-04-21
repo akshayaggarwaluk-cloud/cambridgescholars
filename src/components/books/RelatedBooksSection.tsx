@@ -103,18 +103,18 @@ export function RelatedBooksSection({ currentBook }: RelatedBooksSectionProps) {
               </div>
 
               {/* Title */}
-              <h3 className="font-baskerville text-[18px] md:text-[20px] font-normal text-[#333333] leading-tight line-clamp-2 mb-2">
+              <h3 className="font-baskerville text-[16px] font-normal text-[#333333] leading-tight line-clamp-2 mb-2">
                 {book.title}
               </h3>
 
               {/* Author */}
-              <p className="font-baskerville text-[15px] text-[#696969] line-clamp-2 mb-3">
+              <p className="font-baskerville text-[13px] font-normal text-[#696969] line-clamp-2 mb-3">
                 {book.author}
               </p>
 
               {/* Price */}
-              <p className="font-baskerville text-[16px] text-[#C5A374]">
-                From <span className="font-semibold">£{book.price.toFixed(2)}</span>
+              <p className="font-nav text-[14px] font-normal text-[#C5A374]">
+                From <span>£{book.price.toFixed(2)}</span>
               </p>
             </Link>
           ))}
