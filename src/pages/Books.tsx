@@ -450,21 +450,21 @@ export default function Books() {
                             </p>
                           )}
 
-                          <p className="font-['Libre_Baskerville'] text-muted-foreground mt-4 text-base">
-                            By: <span className="text-muted-foreground">{book.author}</span>
+                          <p className="font-nav mt-4 text-[15px] text-[#333]">
+                            By: <span>{book.author}</span>
                           </p>
 
                           {book.blurb && (
-                            <p className="font-['Nunito_Sans'] text-base text-muted-foreground mt-5 leading-relaxed line-clamp-4">
+                            <p className="font-nav text-[15px] text-[#555] mt-5 leading-[1.7] line-clamp-4">
                               {book.blurb}
                             </p>
                           )}
 
                           {/* Actions */}
-                          <div className="flex items-center gap-4 mt-5">
+                          <div className="flex items-center gap-3 mt-6">
                             <Button
                               asChild
-                              className="font-['Nunito_Sans'] bg-[#E4573D] hover:bg-[#c94a32] text-white px-10 h-14 text-lg font-medium rounded-none"
+                              className="font-nav bg-[#E4573D] hover:bg-[hsl(var(--mustard))] hover:text-[hsl(var(--mustard-foreground))] text-white px-7 h-11 text-[13px] font-bold tracking-[0.12em] uppercase rounded-none transition-colors"
                             >
                               <Link to={`/books/${book.id}`}>VIEW MORE</Link>
                             </Button>
@@ -479,11 +479,11 @@ export default function Books() {
                                 }
                               }}
                               className={cn(
-                                "h-14 w-14 rounded-none border-border",
-                                isInWishlist(book.id) && "text-red-500 border-red-500 bg-red-50",
+                                "h-11 w-11 rounded-none border border-[#E5E5E5] bg-white text-[#333] hover:text-[#C75B2A] hover:border-[#C75B2A] transition-colors",
+                                isInWishlist(book.id) && "text-[#C75B2A] border-[#C75B2A]",
                               )}
                             >
-                              <Heart className={cn("h-6 w-6", isInWishlist(book.id) && "fill-current")} />
+                              <Heart className={cn("h-5 w-5", isInWishlist(book.id) && "fill-current")} />
                             </Button>
                           </div>
                         </div>
