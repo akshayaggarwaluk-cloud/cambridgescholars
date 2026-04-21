@@ -133,7 +133,32 @@ export default function Books() {
         }
 
         const result = await fetchBooks(params);
-        setBooks(result.books);
+        // Client-side sort fallback — the upstream API currently ignores
+        // orderby/order params and always returns the same ordering, so we
+        // re-sort the page here based on the selected option.
+        const sorted = [...result.books];
+        const parseDate = (b: Book) => {
+          const d = b.publishDate ? Date.parse(b.publishDate) : NaN;
+          return Number.isFinite(d) ? d : 0;
+        };
+        switch (orderBy) {
+          case "date":
+            sorted.sort((a, b) => parseDate(b) - parseDate(a));
+            break;
+          case "date-asc":
+            sorted.sort((a, b) => parseDate(a) - parseDate(b));
+            break;
+          case "price":
+            sorted.sort((a, b) => (a.price ?? 0) - (b.price ?? 0));
+            break;
+          case "price-desc":
+            sorted.sort((a, b) => (b.price ?? 0) - (a.price ?? 0));
+            break;
+          // "revenue" / Best Selling — keep API order
+          default:
+            break;
+        }
+        setBooks(sorted);
         setPagination(result.pagination);
       } catch (error) {
         console.error("Error fetching books:", error);
