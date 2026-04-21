@@ -279,24 +279,27 @@ export default function Books() {
                             <span className="text-[13px] text-[#C5A374] bg-[#F1EFEA] rounded-full px-3 py-1 min-w-[44px] text-center font-baskerville">
                               {cat.book_count}
                             </span>
-                            {hasSubs && (
-                              <button
-                                onClick={() => {
-                                  setExpandedCats((prev) => {
-                                    const next = new Set(prev);
-                                    if (next.has(cat.slug)) next.delete(cat.slug);
-                                    else next.add(cat.slug);
-                                    return next;
-                                  });
-                                }}
-                                className="p-0.5 text-[#C5A374] hover:text-[#C75B2A]"
-                              >
-                                <ChevronDown
-                                  className={cn("h-4 w-4 transition-transform", isExpanded && "rotate-180")}
-                                />
-                              </button>
-                            )}
-                            {!hasSubs && <span className="w-5 h-5 inline-block" aria-hidden />}
+                            <button
+                              onClick={() => {
+                                if (!hasSubs) return;
+                                setExpandedCats((prev) => {
+                                  const next = new Set(prev);
+                                  if (next.has(cat.slug)) next.delete(cat.slug);
+                                  else next.add(cat.slug);
+                                  return next;
+                                });
+                              }}
+                              className={cn(
+                                "p-0.5 w-5 h-5 flex items-center justify-center",
+                                hasSubs ? "text-[#C5A374] hover:text-[#C75B2A]" : "invisible pointer-events-none",
+                              )}
+                              aria-hidden={!hasSubs}
+                              tabIndex={hasSubs ? 0 : -1}
+                            >
+                              <ChevronDown
+                                className={cn("h-4 w-4 transition-transform", isExpanded && "rotate-180")}
+                              />
+                            </button>
                           </div>
                         </div>
                         {/* Level 2 */}
