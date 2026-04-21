@@ -92,7 +92,7 @@ export default function Wishlist() {
                         />
                       </Link>
                       <Link to={`/books/${item.book_id}`} className="min-w-0">
-                        <h3 className="font-serif transition-colors leading-snug text-base text-[#999999]">
+                        <h3 className="font-serif transition-colors leading-snug text-base text-[#6e6e6e]">
                           {item.book_title}
                         </h3>
                       </Link>
