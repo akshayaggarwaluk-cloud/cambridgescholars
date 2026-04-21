@@ -18,7 +18,7 @@ export default function AboutSection() {
 
       {/* FIRST SECTION */}
       <section className="w-full px-6 md:px-20 py-16 bg-white">
-        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-[70%_30%] gap-12 items-stretch">
+        <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-[70%_30%] gap-12 items-stretch">
           {/* TEXT */}
           <div className="space-y-6 leading-[1.7] text-[#333333] font-nav text-[16px] font-normal">
             <p>
@@ -113,11 +113,8 @@ export default function AboutSection() {
             </ul>
 
             <p>
-              Click{" "}
-              <a href="/our-author-promises" className="text-[#C75B2A] hover:underline">
-                here
-              </a>{" "}
-              to read more about our author commitments.
+              Click <a href="/our-author-promises" className="text-[#C75B2A] hover:underline">here</a> to read more about our author
+              commitments.
             </p>
 
             <h2 className="text-[28px] font-baskerville font-normal text-[#333333] mt-10 mb-2">Our Space</h2>
