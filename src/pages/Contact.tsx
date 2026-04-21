@@ -76,7 +76,7 @@ export default function Contact() {
         <section className="pb-20">
           <div className="container-wide">
             <h2 className="font-serif text-foreground mb-4 text-4xl">Keep In Touch With Us</h2>
-            <p className="text-muted-foreground max-w-5xl mb-12 text-lg">
+            <p className="text-muted-foreground max-w-5xl mb-12 text-base">
               If you have any questions regarding proposal submissions, book purchases, or any aspect of our publication
               process, we would be happy to hear from you. Please use the contact details below to get in touch, and we
               will respond as promptly as possible.
