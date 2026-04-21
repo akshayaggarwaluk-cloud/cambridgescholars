@@ -549,7 +549,7 @@ export default function Books() {
                     {pagination.page < pagination.total_pages && (
                       <button
                         onClick={() => handlePageChange(pagination.page + 1)}
-                        className="font-baskerville text-[15px] tracking-[0.15em] uppercase text-[#333] hover:text-[#C75B2A] transition-colors ml-2"
+                        className="font-baskerville text-[15px] tracking-[0.15em] uppercase transition-colors ml-2 text-[#999999]"
                         aria-label="Next page"
                       >
                         Next
