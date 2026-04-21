@@ -184,9 +184,9 @@ export default function BookDetails() {
 
               {/* Actions */}
               <div className="flex items-center gap-3 sm:gap-4 flex-wrap my-[20px] sm:my-[30px] mb-0 mt-0">
-                <span className="text-[#c4a273] text-xl">
-                  From <span className="font-semibold text-[#c4a273]">£{getPrice(selectedFormat).toFixed(2)}</span>
-                </span>
+                <div className="text-[#c4a273] text-xl">
+                  From <span className="font-semibold text-[#c4a273]">From £{getPrice(selectedFormat).toFixed(2)}</span>
+                </div>
                 <Button
                   size="lg"
                   className="px-8"
