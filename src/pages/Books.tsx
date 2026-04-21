@@ -168,6 +168,31 @@ export default function Books() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
+  const handleSortChange = (value: string) => {
+    setOrderBy(value);
+    const params = new URLSearchParams(searchParams);
+    if (value && value !== "revenue") {
+      params.set("orderby", value);
+    } else {
+      params.delete("orderby");
+    }
+    params.delete("page");
+    setSearchParams(params);
+  };
+
+  // Build a numbered page list with ellipses (1 … 4 5 6 … 20)
+  const buildPageList = (current: number, total: number): (number | "…")[] => {
+    if (total <= 7) return Array.from({ length: total }, (_, i) => i + 1);
+    const pages: (number | "…")[] = [1];
+    const start = Math.max(2, current - 1);
+    const end = Math.min(total - 1, current + 1);
+    if (start > 2) pages.push("…");
+    for (let p = start; p <= end; p++) pages.push(p);
+    if (end < total - 1) pages.push("…");
+    pages.push(total);
+    return pages;
+  };
+
   return (
     <div className="min-h-screen bg-background">
       <Header />
