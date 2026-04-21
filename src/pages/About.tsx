@@ -96,7 +96,7 @@ export default function AboutSection() {
           </div>
 
           {/* TEXT */}
-          <div className="space-y-6 leading-relaxed text-black font-nav text-[15px] font-normal bg-white">
+          <div className="space-y-6 leading-[1.7] text-[#333333] font-nav text-[16px] font-normal bg-white">
             <h2 className="text-[28px] font-baskerville font-normal text-[#333333] mb-2">Why Publish With Us</h2>
 
             <p>
