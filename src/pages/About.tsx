@@ -20,7 +20,7 @@ export default function AboutSection() {
       <section className="w-full px-6 md:px-20 py-16 bg-white">
         <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-[70%_30%] gap-12 items-start">
           {/* TEXT */}
-          <div className="space-y-6 leading-relaxed text-[#333333] font-nav text-[15px]">
+          <div className="space-y-6 leading-relaxed text-black font-nav text-[15px] font-normal">
             <p>
               Founded in 2001 by a group of academics, Cambridge Scholars Publishing is an independent academic
               publisher with a strong commitment to original scholarship and academic excellence. We are based in
@@ -96,7 +96,7 @@ export default function AboutSection() {
           </div>
 
           {/* TEXT */}
-          <div className="space-y-6 leading-relaxed text-[#333333] font-nav text-[15px] bg-white">
+          <div className="space-y-6 leading-relaxed text-black font-nav text-[15px] font-normal bg-white">
             <h2 className="text-4xl md:text-5xl font-baskerville font-normal text-gray-800 mb-2">Why Publish With Us</h2>
 
             <p>
