@@ -113,7 +113,7 @@ export default function AboutSection() {
             </ul>
 
             <p>
-              Click <a href="/how-to-publish" className="text-[#C75B2A] hover:underline">here</a> to read more about our author
+              Click <a href="/our-author-promises" className="text-[#C75B2A] hover:underline">here</a> to read more about our author
               commitments.
             </p>
 
