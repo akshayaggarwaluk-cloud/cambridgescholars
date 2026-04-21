@@ -69,10 +69,10 @@ export default function FAQ() {
                   value={`faq-${index}`}
                   className="border border-[#E5E5E5] rounded-md bg-[#F8F8F8] px-5"
                 >
-                  <AccordionTrigger className="text-left font-normal text-[#333333] hover:text-accent hover:no-underline py-3 text-base [&[data-state=open]>svg]:rotate-180">
+                  <AccordionTrigger className="text-left font-nav font-normal text-[#333333] hover:text-accent hover:no-underline py-5 text-[17px] [&[data-state=open]>svg]:rotate-180">
                     {faq.question}
                   </AccordionTrigger>
-                  <AccordionContent className="text-[#696969] leading-relaxed pb-4 text-sm">
+                  <AccordionContent className="font-nav text-[#696969] leading-relaxed pb-5 text-[15px]">
                     {faq.answer}
                   </AccordionContent>
                 </AccordionItem>
