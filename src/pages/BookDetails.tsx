@@ -123,21 +123,6 @@ export default function BookDetails() {
                 <div className="mb-4 sm:mb-0">
                   <p className="text-sm font-semibold mb-3">Select Format</p>
                   <div className="flex gap-3">
-                    {hasEbook && (
-                      <button
-                        onClick={() => setSelectedFormat("ebook")}
-                        className={cn(
-                          "flex items-center gap-2 px-6 py-3 border-2 rounded transition-colors min-w-[120px]",
-                          selectedFormat === "ebook"
-                            ? "border-accent bg-accent/5"
-                            : "border-border bg-background hover:border-accent/50"
-                        )}
-                      >
-                        <BookIcon className={cn("h-5 w-5", selectedFormat === "ebook" ? "text-accent" : "text-muted-foreground")} />
-                        <span className={cn("text-sm font-semibold", selectedFormat === "ebook" ? "text-accent" : "text-foreground")}>eBook</span>
-                        
-                      </button>
-                    )}
                     {hasHardback && (
                       <button
                         onClick={() => setSelectedFormat("hardbook")}
@@ -165,6 +150,21 @@ export default function BookDetails() {
                       >
                         <BookIcon className={cn("h-5 w-5", selectedFormat === "paperback" ? "text-accent" : "text-muted-foreground")} />
                         <span className={cn("text-sm font-semibold", selectedFormat === "paperback" ? "text-accent" : "text-foreground")}>Paperback</span>
+                        
+                      </button>
+                    )}
+                    {hasEbook && (
+                      <button
+                        onClick={() => setSelectedFormat("ebook")}
+                        className={cn(
+                          "flex items-center gap-2 px-6 py-3 border-2 rounded transition-colors min-w-[120px]",
+                          selectedFormat === "ebook"
+                            ? "border-accent bg-accent/5"
+                            : "border-border bg-background hover:border-accent/50"
+                        )}
+                      >
+                        <BookIcon className={cn("h-5 w-5", selectedFormat === "ebook" ? "text-accent" : "text-muted-foreground")} />
+                        <span className={cn("text-sm font-semibold", selectedFormat === "ebook" ? "text-accent" : "text-foreground")}>eBook</span>
                         
                       </button>
                     )}
