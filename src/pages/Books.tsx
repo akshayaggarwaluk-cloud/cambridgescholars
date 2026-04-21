@@ -20,7 +20,6 @@ import { cn } from "@/lib/utils";
 
 // Sort options matching the reference WooCommerce shop
 const SORT_OPTIONS: { value: string; label: string; order?: "asc" | "desc" }[] = [
-  { value: "revenue", label: "Sort by" },
   { value: "revenue", label: "Best Selling" },
   { value: "date", label: "Date: New to Old", order: "desc" },
   { value: "date-asc", label: "Date: Old to New", order: "asc" },
