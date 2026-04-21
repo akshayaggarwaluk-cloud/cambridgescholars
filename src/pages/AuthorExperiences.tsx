@@ -87,31 +87,31 @@ export default function AuthorExperiences() {
                 return (
                   <div key={index}>
                     <Separator className="my-0" />
-                    <div className="flex flex-col items-center sm:flex-row sm:items-stretch gap-6 md:gap-8 py-8 md:py-10">
+                    <div className="flex flex-col items-center sm:flex-row sm:items-start gap-6 md:gap-8 py-8 md:py-10">
                       {/* Book cover */}
-                      <div className="flex-shrink-0 w-40 sm:w-28 md:w-36 lg:w-40 sm:self-stretch relative">
+                      <div className="flex-shrink-0 w-40 sm:w-28 md:w-36 lg:w-40">
                         {review.coverImage ? (
                           <img
                             src={review.coverImage}
                             alt={review.book_title}
-                            className="sm:absolute sm:inset-0 w-full h-full object-cover shadow-md"
+                            className="w-full h-auto shadow-md"
                             onError={(e) => {
                               (e.target as HTMLImageElement).style.display = "none";
                             }}
                           />
                         ) : (
-                          <div className="w-full h-full min-h-[200px] bg-muted rounded flex items-center justify-center animate-pulse">
+                          <div className="w-full aspect-[2/3] bg-muted rounded flex items-center justify-center animate-pulse">
                             <span className="text-xs text-muted-foreground text-center px-2">{review.book_title}</span>
                           </div>
                         )}
                       </div>
 
                       {/* Content */}
-                      <div className="flex-1 min-w-0 text-center sm:text-left flex flex-col sm:overflow-hidden">
-                        <p className="font-nav font-normal leading-relaxed mb-5 text-[15px] text-[#333333] text-justify sm:flex-1 sm:min-h-0 sm:overflow-hidden">
+                      <div className="flex-1 min-w-0 text-center sm:text-left">
+                        <p className="font-nav font-normal leading-relaxed mb-5 text-[15px] text-[#333333] text-justify">
                           "{review.praise}"
                         </p>
-                        <p className="font-nav font-normal text-[15px] text-[#333333] sm:flex-shrink-0">
+                        <p className="font-nav font-normal text-[15px] text-[#333333]">
                           <span className="font-bold">{name}</span>
                           {title && (
                             <span> – {title}</span>
