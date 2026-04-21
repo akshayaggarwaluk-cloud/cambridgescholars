@@ -1,29 +1,15 @@
 import { Link } from "react-router-dom";
-import { Heart, ShoppingCart, Loader2, X, Check, Facebook, Twitter, Mail } from "lucide-react";
+import { Heart, Eye, Loader2, X, Check, Facebook, Twitter, Mail } from "lucide-react";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { PageBreadcrumb } from "@/components/layout/PageBreadcrumb";
 import { Button } from "@/components/ui/button";
 import { useWishlist } from "@/contexts/WishlistContext";
-import { useCart } from "@/contexts/CartContext";
 import { useExternalAuth } from "@/contexts/ExternalAuthContext";
 
 export default function Wishlist() {
   const { user } = useExternalAuth();
   const { wishlistItems, removeFromWishlist, loading } = useWishlist();
-  const { addToCart } = useCart();
-
-  const handleAddToCart = (item: typeof wishlistItems[0]) => {
-    addToCart({
-      id: item.book_id,
-      title: item.book_title,
-      author: item.book_author,
-      price: item.book_price,
-      image: item.book_image || "/placeholder.svg",
-      rating: 4.0,
-      category: "General",
-    }, "hardbook");
-  };
 
   if (!user) {
     return (
@@ -125,13 +111,13 @@ export default function Wishlist() {
 
                     {/* Actions */}
                     <div className="flex items-center gap-3 justify-end">
-                      <button
-                        onClick={() => handleAddToCart(item)}
+                      <Link
+                        to={`/books/${item.book_id}`}
                         className="flex-1 bg-[#C75B2A] hover:bg-[#a84a22] text-white text-sm font-semibold tracking-wider uppercase px-4 py-3 rounded-none transition-colors flex items-center justify-center gap-2"
                       >
-                        <ShoppingCart className="h-4 w-4" />
-                        Add to Cart
-                      </button>
+                        <Eye className="h-4 w-4" />
+                        View More
+                      </Link>
                       <button
                         onClick={() => removeFromWishlist(item.book_id)}
                         aria-label="Remove from wishlist"
