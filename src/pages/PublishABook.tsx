@@ -3,7 +3,7 @@ import { ChevronRight } from "lucide-react";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { PageBreadcrumb } from "@/components/layout/PageBreadcrumb";
-import heroImage from "@/assets/hero-bookstore.jpg";
+import heroImage from "@/assets/publish-a-book-hero.jpg";
 import howToPublishIcon from "@/assets/how-to-publish-icon.png";
 import submitProposalIcon from "@/assets/submit-proposal-icon.png";
 import resourcesIcon from "@/assets/resources-icon.png";
