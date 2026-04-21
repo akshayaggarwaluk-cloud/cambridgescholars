@@ -332,11 +332,12 @@ export async function fetchBooks(params?: {
 
   // Handle both response shapes: { data: [...], pagination } and { books: [...], pagination }
   const rawBooks: CSPBookRaw[] = json.data || json.books || [];
-  const pagination: CSPPagination = json.pagination || {
-    total: rawBooks.length,
-    page: 1,
-    per_page: rawBooks.length,
-    total_pages: 1,
+  const rawPag = json.pagination || {};
+  const pagination: CSPPagination = {
+    total: rawPag.total ?? rawPag.total_items ?? rawBooks.length,
+    page: rawPag.page ?? rawPag.current_page ?? 1,
+    per_page: rawPag.per_page ?? rawBooks.length,
+    total_pages: rawPag.total_pages ?? 1,
   };
 
   return {
