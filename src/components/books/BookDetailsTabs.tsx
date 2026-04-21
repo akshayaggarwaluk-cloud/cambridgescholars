@@ -77,6 +77,33 @@ export function BookDetailsTabs({ book }: BookDetailsTabsProps) {
         {hasBookInfo && (
           <TabsContent value="book-info" className="pt-8">
             <div className="space-y-8 text-base">
+              {/* Top-level meta: series, publisher, publication date */}
+              {(book.series || book.publisher || book.publishDate) && (
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pb-4 border-b border-border">
+                  {book.series && (
+                    <div>
+                      <span className="font-semibold text-foreground uppercase tracking-wider">Series:</span>{" "}
+                      <span className="text-foreground/80">
+                        {book.series.title}
+                        {book.series.volume ? ` (Vol. ${book.series.volume})` : ""}
+                      </span>
+                    </div>
+                  )}
+                  {book.publisher && (
+                    <div>
+                      <span className="font-semibold text-foreground uppercase tracking-wider">Publisher:</span>{" "}
+                      <span className="text-foreground/80">{book.publisher}</span>
+                    </div>
+                  )}
+                  {book.publishDate && (
+                    <div>
+                      <span className="font-semibold text-foreground uppercase tracking-wider">Published:</span>{" "}
+                      <span className="text-foreground/80">{book.publishDate}</span>
+                    </div>
+                  )}
+                </div>
+              )}
+
               {/* Format-specific ISBN information */}
               <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                 {book.hardbackInfo && (
