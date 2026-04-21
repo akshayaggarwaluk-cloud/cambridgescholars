@@ -34,7 +34,7 @@ export default function PublishABook() {
     <div className="min-h-screen bg-white">
       <Header />
       {/* Hero Section */}
-      <section className="relative h-[350px] flex items-center justify-center">
+      <section className="relative h-[80vh] min-h-[600px] flex items-center justify-center">
         <div
           className="absolute inset-0 bg-cover bg-center"
           style={{
@@ -42,6 +42,9 @@ export default function PublishABook() {
           }}
         >
           <div className="absolute inset-0 bg-transparent" />
+        </div>
+        <div className="relative z-10 text-center">
+          <h1 className="font-baskerville text-5xl md:text-6xl lg:text-7xl text-white font-normal">Publish a Book</h1>
         </div>
       </section>
 
