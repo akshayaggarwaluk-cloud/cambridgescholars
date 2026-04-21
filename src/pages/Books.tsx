@@ -20,13 +20,11 @@ import { cn } from "@/lib/utils";
 
 // Sort options matching the reference WooCommerce shop
 const SORT_OPTIONS: { value: string; label: string; order?: "asc" | "desc" }[] = [
-  { value: "revenue", label: "Sort by" },
-  { value: "menu_order", label: "Default sorting" },
-  { value: "popularity", label: "Sort by popularity" },
-  { value: "rating", label: "Sort by average rating" },
-  { value: "date", label: "Sort by latest", order: "desc" },
-  { value: "price", label: "Sort by price: low to high", order: "asc" },
-  { value: "price-desc", label: "Sort by price: high to low", order: "desc" },
+  { value: "revenue", label: "Best Selling" },
+  { value: "date", label: "Date: New to Old", order: "desc" },
+  { value: "date-asc", label: "Date: Old to New", order: "asc" },
+  { value: "price", label: "Price: Low to High", order: "asc" },
+  { value: "price-desc", label: "Price: High to Low", order: "desc" },
 ];
 
 export default function Books() {
@@ -125,6 +123,9 @@ export default function Books() {
           if (sortDef.value === "price-desc") {
             params.orderby = "price";
             params.order = "desc";
+          } else if (sortDef.value === "date-asc") {
+            params.orderby = "date";
+            params.order = "asc";
           } else {
             params.orderby = sortDef.value;
             if (sortDef.order) params.order = sortDef.order;
