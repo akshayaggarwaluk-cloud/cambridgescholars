@@ -296,6 +296,7 @@ export default function Books() {
                                 />
                               </button>
                             )}
+                            {!hasSubs && <span className="w-5 h-5 inline-block" aria-hidden />}
                           </div>
                         </div>
                         {/* Level 2 */}
