@@ -3,6 +3,7 @@
 // - login: verify email/password, return signed JWT (HS256)
 // - whoami / all CRUD: verify Bearer JWT issued by this function
 // - manage_admins: list/create/update/delete admin accounts (admin-only)
+// - v2: featured_books, author_reviews, faqs, resources, footer_documents, submissions, orders, users
 //
 // All writes use the service role key. Never trust the client.
 
