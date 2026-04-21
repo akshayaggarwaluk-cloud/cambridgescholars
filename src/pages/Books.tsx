@@ -494,27 +494,41 @@ export default function Books() {
 
                 {/* Pagination */}
                 {pagination && pagination.total_pages > 1 && (
-                  <div className="flex items-center justify-center gap-2 mt-12">
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      disabled={currentPage <= 1}
-                      onClick={() => handlePageChange(currentPage - 1)}
-                    >
-                      Previous
-                    </Button>
-                    <span className="text-sm text-muted-foreground px-4">
-                      Page {pagination.page} of {pagination.total_pages}
-                    </span>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      disabled={currentPage >= pagination.total_pages}
-                      onClick={() => handlePageChange(currentPage + 1)}
-                    >
-                      Next
-                    </Button>
-                  </div>
+                  <nav className="flex items-center justify-center gap-2 mt-16 flex-wrap" aria-label="Pagination">
+                    {buildPageList(pagination.page, pagination.total_pages).map((p, idx) =>
+                      p === "…" ? (
+                        <span
+                          key={`ellipsis-${idx}`}
+                          className="font-baskerville text-[15px] text-[#999] px-2"
+                        >
+                          …
+                        </span>
+                      ) : (
+                        <button
+                          key={p}
+                          onClick={() => handlePageChange(p)}
+                          aria-current={p === pagination.page ? "page" : undefined}
+                          className={cn(
+                            "min-w-[40px] h-10 px-3 font-baskerville text-[15px] transition-colors",
+                            p === pagination.page
+                              ? "bg-[#C75B2A] text-white"
+                              : "bg-[#F1EFEA] text-[#C75B2A] hover:bg-[#C75B2A] hover:text-white",
+                          )}
+                        >
+                          {p}
+                        </button>
+                      ),
+                    )}
+                    {pagination.page < pagination.total_pages && (
+                      <button
+                        onClick={() => handlePageChange(pagination.page + 1)}
+                        className="min-w-[40px] h-10 px-3 font-baskerville text-[15px] bg-[#F1EFEA] text-[#C75B2A] hover:bg-[#C75B2A] hover:text-white transition-colors"
+                        aria-label="Next page"
+                      >
+                        →
+                      </button>
+                    )}
+                  </nav>
                 )}
               </>
             )}
