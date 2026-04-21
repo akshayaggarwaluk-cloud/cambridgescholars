@@ -110,17 +110,17 @@ export function BookDetailsTabs({ book }: BookDetailsTabsProps) {
                     <h4 style={{ fontSize: "20px", color: "#333333", fontWeight: 600, margin: "0 0 14px", letterSpacing: "0.02em" }}>HARDBACK</h4>
                     <ul className="list-disc" style={{ paddingLeft: "20px", margin: 0 }}>
                       {book.hardbackInfo.isbn && (
-                        <li style={{ fontSize: "18px", color: "#696969", marginBottom: "8px", lineHeight: 1.6 }}>
+                        <li style={{ fontSize: "16px", color: "#696969", marginBottom: "8px", lineHeight: 1.6, fontFamily: '"Nunito Sans", sans-serif' }}>
                           <span style={{ color: "#000000", fontWeight: 700 }}>ISBN:</span> {book.hardbackInfo.isbn}
                         </li>
                       )}
                       {book.hardbackInfo.isbn13 && (
-                        <li style={{ fontSize: "18px", color: "#696969", marginBottom: "8px", lineHeight: 1.6 }}>
+                        <li style={{ fontSize: "16px", color: "#696969", marginBottom: "8px", lineHeight: 1.6, fontFamily: '"Nunito Sans", sans-serif' }}>
                           <span style={{ color: "#000000", fontWeight: 700 }}>ISBN13:</span> {book.hardbackInfo.isbn13}
                         </li>
                       )}
                       {book.hardbackInfo.publicationDate && (
-                        <li style={{ fontSize: "18px", color: "#696969", marginBottom: "8px", lineHeight: 1.6 }}>
+                        <li style={{ fontSize: "16px", color: "#696969", marginBottom: "8px", lineHeight: 1.6, fontFamily: '"Nunito Sans", sans-serif' }}>
                           <span style={{ color: "#000000", fontWeight: 700 }}>Date of Publication:</span> {book.hardbackInfo.publicationDate}
                         </li>
                       )}
@@ -133,17 +133,17 @@ export function BookDetailsTabs({ book }: BookDetailsTabsProps) {
                     <h4 style={{ fontSize: "20px", color: "#333333", fontWeight: 600, margin: "0 0 14px", letterSpacing: "0.02em" }}>PAPERBACK</h4>
                     <ul className="list-disc" style={{ paddingLeft: "20px", margin: 0 }}>
                       {book.paperbackInfo.isbn && (
-                        <li style={{ fontSize: "18px", color: "#696969", marginBottom: "8px", lineHeight: 1.6 }}>
+                        <li style={{ fontSize: "16px", color: "#696969", marginBottom: "8px", lineHeight: 1.6, fontFamily: '"Nunito Sans", sans-serif' }}>
                           <span style={{ color: "#000000", fontWeight: 700 }}>ISBN:</span> {book.paperbackInfo.isbn}
                         </li>
                       )}
                       {book.paperbackInfo.isbn13 && (
-                        <li style={{ fontSize: "18px", color: "#696969", marginBottom: "8px", lineHeight: 1.6 }}>
+                        <li style={{ fontSize: "16px", color: "#696969", marginBottom: "8px", lineHeight: 1.6, fontFamily: '"Nunito Sans", sans-serif' }}>
                           <span style={{ color: "#000000", fontWeight: 700 }}>ISBN13:</span> {book.paperbackInfo.isbn13}
                         </li>
                       )}
                       {book.paperbackInfo.publicationDate && (
-                        <li style={{ fontSize: "18px", color: "#696969", marginBottom: "8px", lineHeight: 1.6 }}>
+                        <li style={{ fontSize: "16px", color: "#696969", marginBottom: "8px", lineHeight: 1.6, fontFamily: '"Nunito Sans", sans-serif' }}>
                           <span style={{ color: "#000000", fontWeight: 700 }}>Date of Publication:</span> {book.paperbackInfo.publicationDate}
                         </li>
                       )}
@@ -156,17 +156,17 @@ export function BookDetailsTabs({ book }: BookDetailsTabsProps) {
                     <h4 style={{ fontSize: "20px", color: "#333333", fontWeight: 600, margin: "0 0 14px", letterSpacing: "0.02em" }}>EBOOK</h4>
                     <ul className="list-disc" style={{ paddingLeft: "20px", margin: 0 }}>
                       {book.ebookInfo.isbn && (
-                        <li style={{ fontSize: "18px", color: "#696969", marginBottom: "8px", lineHeight: 1.6 }}>
+                        <li style={{ fontSize: "16px", color: "#696969", marginBottom: "8px", lineHeight: 1.6, fontFamily: '"Nunito Sans", sans-serif' }}>
                           <span style={{ color: "#000000", fontWeight: 700 }}>ISBN:</span> {book.ebookInfo.isbn}
                         </li>
                       )}
                       {book.ebookInfo.isbn13 && (
-                        <li style={{ fontSize: "18px", color: "#696969", marginBottom: "8px", lineHeight: 1.6 }}>
+                        <li style={{ fontSize: "16px", color: "#696969", marginBottom: "8px", lineHeight: 1.6, fontFamily: '"Nunito Sans", sans-serif' }}>
                           <span style={{ color: "#000000", fontWeight: 700 }}>ISBN13:</span> {book.ebookInfo.isbn13}
                         </li>
                       )}
                       {book.ebookInfo.publicationDate && (
-                        <li style={{ fontSize: "18px", color: "#696969", marginBottom: "8px", lineHeight: 1.6 }}>
+                        <li style={{ fontSize: "16px", color: "#696969", marginBottom: "8px", lineHeight: 1.6, fontFamily: '"Nunito Sans", sans-serif' }}>
                           <span style={{ color: "#000000", fontWeight: 700 }}>Date of Publication:</span> {book.ebookInfo.publicationDate}
                         </li>
                       )}
