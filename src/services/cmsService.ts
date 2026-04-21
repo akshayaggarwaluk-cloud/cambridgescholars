@@ -338,7 +338,19 @@ async function callAdmin<T = unknown>(
     if (ctxBody) {
       try {
         const parsed = JSON.parse(ctxBody);
-        if (parsed?.error) throw new Error(parsed.error);
+        if (parsed?.error) {
+          // Auto-clear expired/invalid admin session and bounce to login
+          if (
+            typeof parsed.error === "string" &&
+            /admin session|admin token|not.*admin/i.test(parsed.error)
+          ) {
+            adminSession.clear();
+            if (typeof window !== "undefined" && !window.location.pathname.startsWith("/admin/login")) {
+              window.location.replace("/admin/login");
+            }
+          }
+          throw new Error(parsed.error);
+        }
       } catch {
         /* fall through */
       }
