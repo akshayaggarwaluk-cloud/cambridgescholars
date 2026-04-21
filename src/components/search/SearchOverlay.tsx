@@ -117,7 +117,7 @@ export function SearchOverlay({ onClose }: SearchOverlayProps) {
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 onKeyDown={handleKeyDown}
-                placeholder={showAdvanced ? `Search by ${searchByField.charAt(0).toUpperCase() + searchByField.slice(1)}...` : "Enter search term, then choose a field below..."}
+                placeholder={showAdvanced ? `Search by ${searchByField.charAt(0).toUpperCase() + searchByField.slice(1)}...` : "Search by Title, Subtitle, or Author/Editor name..."}
                 className="w-full h-[56px] px-5 pr-14 bg-black focus:outline-none border border-white text-lg font-light text-white"
                 style={{ fontFamily: "'Nunito Sans', sans-serif" }}
               />
