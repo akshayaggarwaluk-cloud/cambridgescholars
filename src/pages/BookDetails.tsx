@@ -112,7 +112,7 @@ export default function BookDetails() {
                   </p>
                 )}
                 <p className="font-baskerville text-[16px] text-[#696969] mb-[10px]">
-                  <span className="font-semibold">By:</span> {book.author}
+                  <span className="font-semibold text-black">By:</span> {book.author}
                 </p>
                 <p className="hidden sm:block text-muted-foreground leading-relaxed max-w-3xl mb-4 lg:mb-6 text-base lg:text-lg">
                   {book.blurb?.slice(0, 200)}
