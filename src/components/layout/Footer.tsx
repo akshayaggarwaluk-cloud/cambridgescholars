@@ -29,14 +29,14 @@ export function Footer() {
             <h3 className="text-white tracking-widest uppercase mb-6 text-[14px] font-bold font-nav">
               Connect
             </h3>
-            <div className="space-y-1 text-[15px] leading-[1.8] font-baskerville italic text-[#ABABAB]">
+            <div className="space-y-1 text-[15px] leading-[1.8] font-baskerville text-[#ABABAB]">
               <p>Lady Stephenson Library,</p>
               <p>Newcastle upon Tyne</p>
               <p>NE6 2PA, United Kingdom</p>
             </div>
             <a
               href="mailto:admin@cambridgescholars.com"
-              className="mt-6 text-[15px] block hover:text-white transition-colors font-baskerville italic text-[#ABABAB]"
+              className="mt-6 text-[15px] block hover:text-white transition-colors font-baskerville text-[#ABABAB]"
             >
               admin@cambridgescholars.com
             </a>
