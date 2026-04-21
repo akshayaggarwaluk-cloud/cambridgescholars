@@ -62,16 +62,26 @@ export function BookDetailsTabs({ book }: BookDetailsTabsProps) {
 
         {hasBlurb && (
           <TabsContent value="blurb" className="pt-8">
-            <div className="prose prose-lg max-w-none text-foreground/80 leading-relaxed">
-              <p className="text-base">{book.blurb || book.description}</p>
+            <div className="max-w-none">
+              <p
+                className="text-[16px] leading-relaxed mb-5 whitespace-pre-line"
+                style={{ color: "#696969", fontFamily: '"Nunito Sans", sans-serif' }}
+              >
+                {book.blurb || book.description}
+              </p>
             </div>
           </TabsContent>
         )}
 
         {hasBiography && (
           <TabsContent value="biography" className="pt-8">
-            <div className="prose prose-lg max-w-none text-foreground/80 leading-relaxed">
-              <p className="text-base">{book.biography}</p>
+            <div className="max-w-none">
+              <p
+                className="text-[16px] leading-relaxed mb-5 whitespace-pre-line"
+                style={{ color: "#696969", fontFamily: '"Nunito Sans", sans-serif' }}
+              >
+                {book.biography}
+              </p>
             </div>
           </TabsContent>
         )}
