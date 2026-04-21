@@ -21,13 +21,13 @@ export default function PreparingYourManuscript() {
 
       <main className="py-16 bg-white">
         <section className="max-w-7xl mx-auto px-6 md:px-16">
-          <p className="text-muted-foreground leading-relaxed mb-10">
+          <p className="font-nav text-[16px] text-[#696969] leading-relaxed mb-10">
             When your proposal has been approved, the next step is to prepare your manuscript for submission. Here you
             will find guidance on formatting, referencing, permissions, and best practices to ensure your work meets
             professional publishing standards.
           </p>
 
-          <ul className="space-y-4 list-disc list-inside text-foreground">
+          <ul className="space-y-4 list-disc list-inside font-nav text-[16px] text-[#696969]">
             <li>
               <span className="font-medium">2.1</span>{" "}
               <Link to="#" className="text-red-500 text-primary hover:underline font-medium">

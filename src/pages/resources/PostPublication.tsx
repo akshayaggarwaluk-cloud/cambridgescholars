@@ -18,13 +18,13 @@ export default function PostPublication() {
 
       <main className="py-16 bg-white">
         <section className="max-w-7xl mx-auto px-6 md:px-16">
-          <p className="text-muted-foreground leading-relaxed mb-10">
+          <p className="font-nav text-[16px] text-[#696969] leading-relaxed mb-10">
             Publication marks the beginning of the next stage in your book's journey. This section provides resources to
             help you promote your work, extend its reach, and ensure it has the greatest possible impact with your
             intended readership.
           </p>
 
-          <ul className="space-y-4 list-disc list-inside text-foreground">
+          <ul className="space-y-4 list-disc list-inside font-nav text-[16px] text-[#696969]">
             <li>
               <span className="font-medium">4.1</span>{" "}
               <Link to="#" className="text-red-500 text-primary hover:underline font-medium">
