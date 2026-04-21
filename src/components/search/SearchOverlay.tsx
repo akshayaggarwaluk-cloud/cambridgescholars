@@ -118,7 +118,7 @@ export function SearchOverlay({ onClose }: SearchOverlayProps) {
                 onChange={(e) => setQuery(e.target.value)}
                 onKeyDown={handleKeyDown}
                 placeholder={showAdvanced ? `Search by ${searchByField.charAt(0).toUpperCase() + searchByField.slice(1)}...` : "Enter search term, then choose a field below..."}
-                className="w-full h-[56px] px-5 pr-14 text-[16px] bg-black text-white placeholder:text-white/60 focus:outline-none border border-white"
+                className="w-full h-[56px] px-5 pr-14 bg-black focus:outline-none border border-white text-lg font-light text-white"
                 style={{ fontFamily: "'Nunito Sans', sans-serif" }}
               />
               <button
