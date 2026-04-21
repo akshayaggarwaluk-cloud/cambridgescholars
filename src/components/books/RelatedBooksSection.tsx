@@ -48,11 +48,12 @@ export function RelatedBooksSection({ currentBook }: RelatedBooksSectionProps) {
   }, [currentBook]);
 
   const itemsPerPage = 4;
-  const totalPages = Math.ceil(relatedBooks.length / itemsPerPage);
-  const visibleBooks = relatedBooks.slice(
-    currentPage * itemsPerPage,
-    currentPage * itemsPerPage + itemsPerPage
-  );
+  // Sliding window: advance one book at a time, wrap around so each view shows 4 books
+  const totalPages = relatedBooks.length > itemsPerPage ? relatedBooks.length : 1;
+  const visibleBooks =
+    relatedBooks.length <= itemsPerPage
+      ? relatedBooks
+      : Array.from({ length: itemsPerPage }, (_, i) => relatedBooks[(currentPage + i) % relatedBooks.length]);
 
   const goNext = useCallback(() => {
     setCurrentPage((p) => (p + 1) % totalPages);
