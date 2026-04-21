@@ -225,7 +225,7 @@ export default function Books() {
                   {resultsSummary}
                 </p>
               )}
-              <h3 className="text-2xl font-serif text-foreground mb-6 pb-3 border-b-2 border-foreground/20">Search</h3>
+              <h3 className="font-baskerville text-[24px] font-normal text-[#333333] mb-4 pb-3 border-b border-[#E5E1D8]">Search</h3>
               <div className="relative">
                 <Input
                   type="text"
@@ -242,7 +242,7 @@ export default function Books() {
 
             {/* Category filter */}
             <div>
-              <h3 className="text-2xl font-serif text-foreground mb-6 pb-3 border-b-2 border-foreground/20">
+              <h3 className="font-baskerville text-[24px] font-normal text-[#333333] mb-4 pb-3 border-b border-[#E5E1D8]">
                 Subject Categories
               </h3>
               {categories.length > 0 ? (
