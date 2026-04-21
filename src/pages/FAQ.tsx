@@ -67,9 +67,9 @@ export default function FAQ() {
                 <AccordionItem
                   key={index}
                   value={`faq-${index}`}
-                  className="border border-[#E5E5E5] rounded-md bg-[#F8F8F8] px-5"
+                  className="border border-[#E5E5E5] rounded-md bg-[#F8F8F8] px-5 data-[state=open]:bg-accent data-[state=open]:border-accent transition-colors"
                 >
-                  <AccordionTrigger className="text-left font-nav font-normal text-[#333333] hover:text-accent hover:no-underline py-5 text-[17px] [&[data-state=open]>svg]:rotate-180">
+                  <AccordionTrigger className="text-left font-nav font-normal text-[#333333] hover:text-accent hover:no-underline py-5 text-[17px] [&[data-state=open]>svg]:rotate-180 data-[state=open]:text-white data-[state=open]:hover:text-white">
                     {faq.question}
                   </AccordionTrigger>
                   <AccordionContent className="font-nav text-[#696969] leading-relaxed pb-5 text-[15px]">
