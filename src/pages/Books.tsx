@@ -395,7 +395,8 @@ export default function Books() {
                   })()}
                 </p>
                 <Select value={orderBy} onValueChange={handleSortChange}>
-                  <SelectTrigger className="w-auto min-w-[180px] border-0 shadow-none bg-transparent font-baskerville text-[15px] text-[#333] focus:ring-0 gap-2">
+                  <SelectTrigger className="w-auto min-w-[160px] border-0 shadow-none bg-transparent font-baskerville text-[15px] text-[#666] focus:ring-0 focus:ring-offset-0 gap-2 px-0 h-auto py-1 [&>svg:last-child]:hidden hover:text-[#C75B2A] transition-colors">
+                    <AlignLeft className="h-4 w-4 -rotate-90" strokeWidth={2} />
                     <SelectValue placeholder="Sort By" />
                   </SelectTrigger>
                   <SelectContent className="font-baskerville">
