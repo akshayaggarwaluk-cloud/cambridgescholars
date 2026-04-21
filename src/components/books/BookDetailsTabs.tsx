@@ -16,8 +16,9 @@ export function BookDetailsTabs({ book }: BookDetailsTabsProps) {
   const hasBlurb = book.blurb || book.description;
   const hasBiography = book.biography;
   const hasBookInfo = book.hardbackInfo || book.paperbackInfo || book.ebookInfo || book.categories || book.subjectCodes;
+  const hasReviews = (book.apiReviews?.length ?? 0) > 0;
 
-  if (!hasBlurb && !hasBiography && !hasBookInfo) {
+  if (!hasBlurb && !hasBiography && !hasBookInfo && !hasReviews) {
     return null;
   }
 
