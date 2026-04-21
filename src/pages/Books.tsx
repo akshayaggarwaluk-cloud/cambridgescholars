@@ -6,10 +6,28 @@ import { Footer } from "@/components/layout/Footer";
 import { PageBreadcrumb } from "@/components/layout/PageBreadcrumb";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { fetchBooks, fetchCategories, CSPPagination, CSPCategory } from "@/services/cspApi";
 import { Book } from "@/contexts/CartContext";
 import { useWishlist } from "@/contexts/WishlistContext";
 import { cn } from "@/lib/utils";
+
+// Sort options matching the reference WooCommerce shop
+const SORT_OPTIONS: { value: string; label: string; order?: "asc" | "desc" }[] = [
+  { value: "revenue", label: "Best Selling" },
+  { value: "menu_order", label: "Default sorting" },
+  { value: "popularity", label: "Sort by popularity" },
+  { value: "rating", label: "Sort by average rating" },
+  { value: "date", label: "Sort by latest", order: "desc" },
+  { value: "price", label: "Sort by price: low to high", order: "asc" },
+  { value: "price-desc", label: "Sort by price: high to low", order: "desc" },
+];
 
 export default function Books() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -17,6 +35,7 @@ export default function Books() {
   const initialCategory = searchParams.get("category") || "all";
   const [searchQuery, setSearchQuery] = useState(initialSearch);
   const [selectedCategory, setSelectedCategory] = useState(initialCategory);
+  const [orderBy, setOrderBy] = useState<string>(searchParams.get("orderby") || "revenue");
   const [books, setBooks] = useState<Book[]>([]);
   const [loading, setLoading] = useState(true);
   const [pagination, setPagination] = useState<CSPPagination | null>(null);
@@ -39,10 +58,12 @@ export default function Books() {
     const category = searchParams.get("category") || "all";
     const page = parseInt(searchParams.get("page") || "1", 10);
     const searchField = searchParams.get("search_field") || "";
+    const orderbyParam = searchParams.get("orderby") || "revenue";
     setSearchQuery(search);
     setSelectedCategory(category);
     setCurrentPage(page);
     setActiveSearchField(searchField);
+    setOrderBy(orderbyParam);
   }, [searchParams]);
 
   // Find category name from slug (API expects name, not slug)
@@ -68,7 +89,15 @@ export default function Books() {
     const loadBooks = async () => {
       setLoading(true);
       try {
-        const params: { page: number; per_page: number; search?: string; search_field?: string; category?: string } = {
+        const params: {
+          page: number;
+          per_page: number;
+          search?: string;
+          search_field?: string;
+          category?: string;
+          orderby?: string;
+          order?: string;
+        } = {
           page: currentPage,
           per_page: 20,
         };
@@ -78,6 +107,17 @@ export default function Books() {
           const catName = findCategoryName(selectedCategory, categories);
           if (catName) params.category = catName;
           else params.category = selectedCategory;
+        }
+        // Map UI sort value to API params (handles price-desc → price + order=desc)
+        const sortDef = SORT_OPTIONS.find((s) => s.value === orderBy);
+        if (sortDef) {
+          if (sortDef.value === "price-desc") {
+            params.orderby = "price";
+            params.order = "desc";
+          } else {
+            params.orderby = sortDef.value;
+            if (sortDef.order) params.order = sortDef.order;
+          }
         }
 
         const result = await fetchBooks(params);
@@ -91,7 +131,7 @@ export default function Books() {
       }
     };
     loadBooks();
-  }, [searchQuery, selectedCategory, currentPage, categories, activeSearchField]);
+  }, [searchQuery, selectedCategory, currentPage, categories, activeSearchField, orderBy]);
 
   const handleCategoryChange = (category: string) => {
     setSelectedCategory(category);
@@ -128,6 +168,31 @@ export default function Books() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
+  const handleSortChange = (value: string) => {
+    setOrderBy(value);
+    const params = new URLSearchParams(searchParams);
+    if (value && value !== "revenue") {
+      params.set("orderby", value);
+    } else {
+      params.delete("orderby");
+    }
+    params.delete("page");
+    setSearchParams(params);
+  };
+
+  // Build a numbered page list with ellipses (1 … 4 5 6 … 20)
+  const buildPageList = (current: number, total: number): (number | "…")[] => {
+    if (total <= 7) return Array.from({ length: total }, (_, i) => i + 1);
+    const pages: (number | "…")[] = [1];
+    const start = Math.max(2, current - 1);
+    const end = Math.min(total - 1, current + 1);
+    if (start > 2) pages.push("…");
+    for (let p = start; p <= end; p++) pages.push(p);
+    if (end < total - 1) pages.push("…");
+    pages.push(total);
+    return pages;
+  };
+
   return (
     <div className="min-h-screen bg-background">
       <Header />
@@ -142,6 +207,7 @@ export default function Books() {
 
       <main className="px-6 md:px-16 py-12 bg-white">
         <div className="max-w-7xl mx-auto flex flex-col lg:flex-row gap-12">
+          {/* Top bar: results count + sort dropdown — full-width above the columns */}
           {/* Sidebar */}
           <aside className="lg:w-72 flex-shrink-0">
             {/* Search Section */}
@@ -177,14 +243,18 @@ export default function Books() {
                           <button
                             onClick={() => handleCategoryChange(cat.slug)}
                             className={cn(
-                              "text-left text-sm py-1.5 hover:text-accent transition-colors",
-                              selectedCategory === cat.slug ? "text-accent font-semibold" : "text-foreground",
+                              "text-left font-baskerville text-[17px] py-2 transition-colors",
+                              selectedCategory === cat.slug
+                                ? "text-[#C75B2A] font-semibold"
+                                : "text-[#C75B2A] hover:text-[#9c4521]",
                             )}
                           >
                             {cat.name}
                           </button>
-                          <div className="flex items-center gap-1">
-                            <span className="text-xs text-muted-foreground">{cat.book_count}</span>
+                          <div className="flex items-center gap-2">
+                            <span className="text-xs text-[#C75B2A] bg-[#F1EFEA] rounded-full px-3 py-1 min-w-[44px] text-center font-baskerville">
+                              {cat.book_count}
+                            </span>
                             {hasSubs && (
                               <button
                                 onClick={() => {
@@ -195,7 +265,7 @@ export default function Books() {
                                     return next;
                                   });
                                 }}
-                                className="p-0.5 text-muted-foreground hover:text-foreground"
+                                className="p-0.5 text-[#C75B2A] hover:text-[#9c4521]"
                               >
                                 <ChevronDown
                                   className={cn("h-4 w-4 transition-transform", isExpanded && "rotate-180")}
@@ -216,16 +286,18 @@ export default function Books() {
                                     <button
                                       onClick={() => handleCategoryChange(sub.slug)}
                                       className={cn(
-                                        "text-left text-sm py-1 hover:text-accent transition-colors",
+                                        "text-left font-baskerville text-[15px] py-1.5 transition-colors",
                                         selectedCategory === sub.slug
-                                          ? "text-accent font-semibold"
-                                          : "text-muted-foreground",
+                                          ? "text-[#C75B2A] font-semibold"
+                                          : "text-[#C75B2A] hover:text-[#9c4521]",
                                       )}
                                     >
                                       {sub.name}
                                     </button>
-                                    <div className="flex items-center gap-1">
-                                      <span className="text-xs text-muted-foreground">{sub.book_count}</span>
+                                    <div className="flex items-center gap-2">
+                                      <span className="text-xs text-[#C75B2A] bg-[#F1EFEA] rounded-full px-2.5 py-0.5 min-w-[40px] text-center font-baskerville">
+                                        {sub.book_count}
+                                      </span>
                                       {hasSubSubs && (
                                         <button
                                           onClick={() => {
@@ -236,7 +308,7 @@ export default function Books() {
                                               return next;
                                             });
                                           }}
-                                          className="p-0.5 text-muted-foreground hover:text-foreground"
+                                          className="p-0.5 text-[#C75B2A] hover:text-[#9c4521]"
                                         >
                                           <ChevronDown
                                             className={cn(
@@ -257,15 +329,17 @@ export default function Books() {
                                             <button
                                               onClick={() => handleCategoryChange(spec.slug)}
                                               className={cn(
-                                                "text-left text-xs py-0.5 hover:text-accent transition-colors",
+                                                "text-left font-baskerville text-[14px] py-1 transition-colors",
                                                 selectedCategory === spec.slug
-                                                  ? "text-accent font-semibold"
-                                                  : "text-muted-foreground",
+                                                  ? "text-[#C75B2A] font-semibold"
+                                                  : "text-[#C75B2A] hover:text-[#9c4521]",
                                               )}
                                             >
                                               {spec.name}
                                             </button>
-                                            <span className="text-xs text-muted-foreground">{spec.book_count}</span>
+                                            <span className="text-xs text-[#C75B2A] bg-[#F1EFEA] rounded-full px-2.5 py-0.5 min-w-[36px] text-center font-baskerville">
+                                              {spec.book_count}
+                                            </span>
                                           </div>
                                         </li>
                                       ))}
@@ -281,17 +355,19 @@ export default function Books() {
                   })}
                   {/* All Categories */}
                   <li>
-                    <div className="flex items-center justify-between mt-2 pt-2 border-t border-border">
+                    <div className="flex items-center justify-between mt-2 pt-2">
                       <button
                         onClick={() => handleCategoryChange("all")}
                         className={cn(
-                          "text-left text-sm py-1.5 hover:text-accent transition-colors",
-                          selectedCategory === "all" ? "text-accent font-semibold" : "text-foreground",
+                          "text-left font-baskerville text-[17px] py-2 transition-colors",
+                          selectedCategory === "all"
+                            ? "text-[#C75B2A] font-semibold"
+                            : "text-[#C75B2A] hover:text-[#9c4521]",
                         )}
                       >
                         All Categories
                       </button>
-                      <span className="text-xs text-muted-foreground">
+                      <span className="text-xs text-[#C75B2A] bg-[#F1EFEA] rounded-full px-3 py-1 min-w-[44px] text-center font-baskerville">
                         {categories.reduce((sum, c) => sum + c.book_count, 0)}
                       </span>
                     </div>
@@ -305,6 +381,31 @@ export default function Books() {
 
           {/* Books List */}
           <div className="flex-1">
+            {/* Results count + Sort By header */}
+            {!loading && pagination && (
+              <div className="flex items-center justify-between mb-8 flex-wrap gap-4">
+                <p className="font-baskerville text-[15px] text-[#777]">
+                  Showing{" "}
+                  {(pagination.page - 1) * pagination.per_page + 1}
+                  –
+                  {Math.min(pagination.page * pagination.per_page, pagination.total)}{" "}
+                  of {pagination.total.toLocaleString()} results
+                </p>
+                <Select value={orderBy} onValueChange={handleSortChange}>
+                  <SelectTrigger className="w-auto min-w-[180px] border-0 shadow-none bg-transparent font-baskerville text-[15px] text-[#333] focus:ring-0 gap-2">
+                    <SelectValue placeholder="Sort By" />
+                  </SelectTrigger>
+                  <SelectContent className="font-baskerville">
+                    {SORT_OPTIONS.map((opt) => (
+                      <SelectItem key={opt.value} value={opt.value}>
+                        {opt.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+            )}
+
             {loading ? (
               <div className="flex items-center justify-center py-16">
                 <Loader2 className="h-8 w-8 animate-spin text-accent" />
@@ -349,21 +450,21 @@ export default function Books() {
                             </p>
                           )}
 
-                          <p className="font-['Libre_Baskerville'] text-muted-foreground mt-4 text-base">
-                            By: <span className="text-muted-foreground">{book.author}</span>
+                          <p className="font-nav mt-4 text-[15px] text-[#333]">
+                            By: <span>{book.author}</span>
                           </p>
 
                           {book.blurb && (
-                            <p className="font-['Nunito_Sans'] text-base text-muted-foreground mt-5 leading-relaxed line-clamp-4">
+                            <p className="font-nav text-[15px] text-[#555] mt-5 leading-[1.7] line-clamp-4">
                               {book.blurb}
                             </p>
                           )}
 
                           {/* Actions */}
-                          <div className="flex items-center gap-4 mt-5">
+                          <div className="flex items-center gap-3 mt-6">
                             <Button
                               asChild
-                              className="font-['Nunito_Sans'] bg-[#E4573D] hover:bg-[#c94a32] text-white px-10 h-14 text-lg font-medium rounded-none"
+                              className="font-nav bg-[#E4573D] hover:bg-[hsl(var(--mustard))] hover:text-[hsl(var(--mustard-foreground))] text-white px-7 h-11 text-[13px] font-bold tracking-[0.12em] uppercase rounded-none transition-colors"
                             >
                               <Link to={`/books/${book.id}`}>VIEW MORE</Link>
                             </Button>
@@ -378,11 +479,11 @@ export default function Books() {
                                 }
                               }}
                               className={cn(
-                                "h-14 w-14 rounded-none border-border",
-                                isInWishlist(book.id) && "text-red-500 border-red-500 bg-red-50",
+                                "h-11 w-11 rounded-none border border-[#E5E5E5] bg-white text-[#333] hover:text-[#C75B2A] hover:border-[#C75B2A] transition-colors",
+                                isInWishlist(book.id) && "text-[#C75B2A] border-[#C75B2A]",
                               )}
                             >
-                              <Heart className={cn("h-6 w-6", isInWishlist(book.id) && "fill-current")} />
+                              <Heart className={cn("h-5 w-5", isInWishlist(book.id) && "fill-current")} />
                             </Button>
                           </div>
                         </div>
@@ -393,27 +494,41 @@ export default function Books() {
 
                 {/* Pagination */}
                 {pagination && pagination.total_pages > 1 && (
-                  <div className="flex items-center justify-center gap-2 mt-12">
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      disabled={currentPage <= 1}
-                      onClick={() => handlePageChange(currentPage - 1)}
-                    >
-                      Previous
-                    </Button>
-                    <span className="text-sm text-muted-foreground px-4">
-                      Page {pagination.page} of {pagination.total_pages}
-                    </span>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      disabled={currentPage >= pagination.total_pages}
-                      onClick={() => handlePageChange(currentPage + 1)}
-                    >
-                      Next
-                    </Button>
-                  </div>
+                  <nav className="flex items-center justify-center gap-2 mt-16 flex-wrap" aria-label="Pagination">
+                    {buildPageList(pagination.page, pagination.total_pages).map((p, idx) =>
+                      p === "…" ? (
+                        <span
+                          key={`ellipsis-${idx}`}
+                          className="font-baskerville text-[15px] text-[#999] px-2"
+                        >
+                          …
+                        </span>
+                      ) : (
+                        <button
+                          key={p}
+                          onClick={() => handlePageChange(p)}
+                          aria-current={p === pagination.page ? "page" : undefined}
+                          className={cn(
+                            "min-w-[40px] h-10 px-3 font-baskerville text-[15px] transition-colors",
+                            p === pagination.page
+                              ? "bg-[#C75B2A] text-white"
+                              : "bg-[#F1EFEA] text-[#C75B2A] hover:bg-[#C75B2A] hover:text-white",
+                          )}
+                        >
+                          {p}
+                        </button>
+                      ),
+                    )}
+                    {pagination.page < pagination.total_pages && (
+                      <button
+                        onClick={() => handlePageChange(pagination.page + 1)}
+                        className="min-w-[40px] h-10 px-3 font-baskerville text-[15px] bg-[#F1EFEA] text-[#C75B2A] hover:bg-[#C75B2A] hover:text-white transition-colors"
+                        aria-label="Next page"
+                      >
+                        →
+                      </button>
+                    )}
+                  </nav>
                 )}
               </>
             )}
