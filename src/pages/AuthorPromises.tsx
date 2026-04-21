@@ -60,8 +60,8 @@ export default function AuthorPromises() {
       </div>
 
       {/* CONTENT */}
-      <section className="w-full px-6 md:px-20 py-16 bg-white">
-        <div className="max-w-5xl mx-auto font-nav text-[16px] font-normal text-[#333333] leading-[1.7]">
+      <section className="w-full py-16 bg-white">
+        <div className="container-wide font-nav text-[16px] font-normal text-[#333333] leading-[1.7]">
           <p className="mb-10">
             We are dedicated to academic publishing and place our authors at the centre of our work. Whether you are an experienced writer or publishing for the first time, in Humanities and Social Sciences, Health Sciences, Physical Sciences or Life Sciences, we make these ten commitments:
           </p>

@@ -17,8 +17,8 @@ export default function AboutSection() {
       </div>
 
       {/* FIRST SECTION */}
-      <section className="w-full px-6 md:px-20 py-16 bg-white">
-        <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-[70%_30%] gap-12 items-stretch">
+      <section className="w-full py-16 bg-white">
+        <div className="container-wide grid grid-cols-1 lg:grid-cols-[70%_30%] gap-12 items-stretch">
           {/* TEXT */}
           <div className="space-y-6 leading-[1.7] text-[#333333] font-nav text-[16px] font-normal">
             <p>
@@ -84,8 +84,8 @@ export default function AboutSection() {
       </section>
 
       {/* SECOND SECTION */}
-      <section className="w-full px-6 md:px-20 py-16 bg-white">
-        <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-[30%_70%] gap-12 items-stretch">
+      <section className="w-full py-16 bg-white">
+        <div className="container-wide grid grid-cols-1 lg:grid-cols-[30%_70%] gap-12 items-stretch">
           {/* IMAGE */}
           <div className="relative w-full h-full min-h-[300px]">
             <img
