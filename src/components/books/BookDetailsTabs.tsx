@@ -64,8 +64,15 @@ export function BookDetailsTabs({ book }: BookDetailsTabsProps) {
           <TabsContent value="blurb" className="pt-8">
             <div className="max-w-none">
               <p
-                className="text-[16px] leading-relaxed mb-5 whitespace-pre-line"
-                style={{ color: "#696969", fontFamily: '"Nunito Sans", sans-serif' }}
+                className="whitespace-pre-line"
+                style={{
+                  color: "#696969",
+                  fontFamily: '"Nunito Sans", sans-serif',
+                  fontSize: "16px",
+                  fontWeight: 400,
+                  lineHeight: 1.7,
+                  margin: "0 0 20px",
+                }}
               >
                 {book.blurb || book.description}
               </p>
@@ -77,8 +84,15 @@ export function BookDetailsTabs({ book }: BookDetailsTabsProps) {
           <TabsContent value="biography" className="pt-8">
             <div className="max-w-none">
               <p
-                className="text-[16px] leading-relaxed mb-5 whitespace-pre-line"
-                style={{ color: "#696969", fontFamily: '"Nunito Sans", sans-serif' }}
+                className="whitespace-pre-line"
+                style={{
+                  color: "#696969",
+                  fontFamily: '"Nunito Sans", sans-serif',
+                  fontSize: "16px",
+                  fontWeight: 400,
+                  lineHeight: 1.7,
+                  margin: "0 0 20px",
+                }}
               >
                 {book.biography}
               </p>
