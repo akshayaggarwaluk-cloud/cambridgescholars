@@ -65,11 +65,8 @@ export default function AdminFaqs() {
       {editing && (
         <div className="border border-border p-4 sm:p-6 space-y-4 bg-[#fafafa]">
           <div className="flex justify-between"><h2 className="font-baskerville text-xl">{editing._new ? "New FAQ" : "Edit"}</h2><Button variant="ghost" size="sm" onClick={() => setEditing(null)}><X className="h-4 w-4" /></Button></div>
-          <Field label="Category (optional, e.g. 'Ordering', 'Publishing')"><input className="w-full border border-border px-3 py-2 text-sm" value={editing.category || ""} onChange={(e) => setEditing({ ...editing, category: e.target.value })} /></Field>
           <Field label="Question"><input className="w-full border border-border px-3 py-2 text-sm" value={editing.question || ""} onChange={(e) => setEditing({ ...editing, question: e.target.value })} /></Field>
           <Field label="Answer (Markdown supported)"><textarea rows={8} className="w-full border border-border px-3 py-2 text-sm font-mono" value={editing.answer || ""} onChange={(e) => setEditing({ ...editing, answer: e.target.value })} /></Field>
-          <Field label="Display order"><input type="number" className="w-32 border border-border px-3 py-2 text-sm" value={editing.display_order ?? 0} onChange={(e) => setEditing({ ...editing, display_order: Number(e.target.value) })} /></Field>
-          <label className="flex items-center gap-2 text-sm"><input type="checkbox" checked={editing.is_published ?? true} onChange={(e) => setEditing({ ...editing, is_published: e.target.checked })} /> Published</label>
           <div className="flex gap-2 pt-2"><Button onClick={save} disabled={saving} className="bg-accent hover:bg-accent/90">{saving ? <Loader2 className="h-4 w-4 animate-spin mr-1" /> : <Save className="h-4 w-4 mr-1" />}{editing._new ? "Create" : "Save"}</Button><Button variant="outline" onClick={() => setEditing(null)}>Cancel</Button></div>
         </div>
       )}
