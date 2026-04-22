@@ -50,6 +50,7 @@ export interface CSPBookRaw {
   slug: string;
   isbn: string;
   description: string | null;
+  full_description?: string | null;
   cover_image: string;
   sample_pdf: string | null;
   pages: number | null;
@@ -194,12 +195,12 @@ function transformNewBook(raw: CSPBookRaw): Book {
     image: raw.cover_image,
     rating: 0,
     category: categories[0] || "General",
-    description: raw.subtitle || raw.description?.trim() || undefined,
+    description: raw.subtitle || raw.full_description?.trim() || raw.description?.trim() || undefined,
     isbn: raw.isbn,
     pages: raw.pages || hardback?.pages || paperback?.pages || undefined,
     publisher: "Cambridge Scholars Publishing",
     publishDate: raw.publication_date || hardback?.publication_date || paperback?.publication_date || undefined,
-    blurb: raw.description?.trim() || undefined,
+    blurb: raw.full_description?.trim() || raw.description?.trim() || undefined,
     biography: raw.author_biography?.trim() || undefined,
     hardbackInfo: buildFormatInfo(hardback),
     paperbackInfo: buildFormatInfo(paperback),
