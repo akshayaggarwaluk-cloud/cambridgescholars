@@ -2,43 +2,21 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { PageBreadcrumb } from "@/components/layout/PageBreadcrumb";
 import { Link } from "react-router-dom";
-import proposalImg from "@/assets/resources/proposal-and-publishing-forms.jpg";
-import manuscriptImg from "@/assets/resources/preparing-your-manuscript.jpg";
-import coverImg from "@/assets/resources/preparing-your-book-cover.jpg";
-import postPubImg from "@/assets/resources/post-publication.jpg";
-
-const resources = [
-  {
-    title: "Proposal and Publishing Forms",
-    description:
-      "Guidance and templates for submitting your book proposal and formalising the publishing agreement – used at the start of the process.",
-    image: proposalImg,
-    link: "/resources/proposal-and-publishing-forms",
-  },
-  {
-    title: "Preparing Your Manuscript",
-    description:
-      "Instructions on formatting, style, and submission requirements – needed when finalising your manuscript for production.",
-    image: manuscriptImg,
-    link: "/resources/preparing-your-manuscript",
-  },
-  {
-    title: "Preparing Your Book Cover",
-    description:
-      "Guidelines for cover design elements, including images and author information – completed before the book enters production.",
-    image: coverImg,
-    link: "/resources/preparing-your-book-cover",
-  },
-  {
-    title: "Post Publication",
-    description:
-      "Resources on marketing, author discounts, and how to promote your book – used once your title is published.",
-    image: postPubImg,
-    link: "/resources/post-publication",
-  },
-];
+import { useEffect, useState } from "react";
+import { Loader2 } from "lucide-react";
+import { fetchPublishedResources, type CmsResource } from "@/services/cmsService";
 
 export default function Resources() {
+  const [resources, setResources] = useState<CmsResource[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchPublishedResources()
+      .then(setResources)
+      .catch((e) => console.error("Failed to load resources:", e))
+      .finally(() => setLoading(false));
+  }, []);
+
   return (
     <div className="min-h-screen bg-background">
       <Header />
@@ -53,34 +31,42 @@ export default function Resources() {
 
       <main className="py-16 bg-white">
         <section className="container-wide">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-16 max-w-7xl mx-auto">
-            {resources.map((item, index) => (
-              <div key={index} className="group">
-                {/* Image */}
-                <div className="overflow-hidden">
-                  <img
-                    src={item.image}
-                    alt={item.title}
-                    className="w-full h-80 md:h-96 object-cover transition-transform duration-500 group-hover:scale-105"
-                  />
+          {loading ? (
+            <div className="py-16 text-center text-muted-foreground">
+              <Loader2 className="h-5 w-5 animate-spin inline mr-2" /> Loading resources…
+            </div>
+          ) : resources.length === 0 ? (
+            <div className="py-16 text-center text-muted-foreground">No resources available yet.</div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-16 max-w-7xl mx-auto">
+              {resources.map((item) => (
+                <div key={item.id} className="group">
+                  {item.cover_image && (
+                    <div className="overflow-hidden">
+                      <img
+                        src={item.cover_image}
+                        alt={item.title}
+                        className="w-full h-80 md:h-96 object-cover transition-transform duration-500 group-hover:scale-105"
+                      />
+                    </div>
+                  )}
+                  <div className="mt-6">
+                    <h2 className="font-baskerville text-[21px] text-[#333333] mb-3">{item.title}</h2>
+                    {item.excerpt && (
+                      <p className="font-nav text-[15px] text-[#7E7E7E] leading-relaxed mb-4 max-w-md">{item.excerpt}</p>
+                    )}
+                    <Link
+                      to={`/resources/${item.slug}`}
+                      className="inline-flex items-center text-[13px] font-nav font-semibold tracking-widest text-[#E4573D] hover:underline"
+                    >
+                      READ MORE
+                      <span className="ml-1">›</span>
+                    </Link>
+                  </div>
                 </div>
-
-                {/* Content */}
-                <div className="mt-6">
-                  <h2 className="font-baskerville text-[21px] text-[#333333] mb-3">{item.title}</h2>
-                  <p className="font-nav text-[15px] text-[#7E7E7E] leading-relaxed mb-4 max-w-md">{item.description}</p>
-
-                  <Link
-                    to={item.link}
-                    className="inline-flex items-center text-[13px] font-nav font-semibold tracking-widest text-[#E4573D] hover:underline"
-                  >
-                    READ MORE
-                    <span className="ml-1">›</span>
-                  </Link>
-                </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
         </section>
       </main>
 
