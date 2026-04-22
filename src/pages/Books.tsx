@@ -503,9 +503,9 @@ export default function Books() {
                             By: <span>{book.author}</span>
                           </p>
 
-                          {book.blurb && (
+                          {(book.shortDescription || book.blurb) && (
                             <p className="font-nav text-[15px] text-[#555] mt-5 leading-[1.7] whitespace-pre-line">
-                              {book.blurb}
+                              {book.shortDescription || book.blurb}
                             </p>
                           )}
 
