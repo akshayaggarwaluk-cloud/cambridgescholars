@@ -9,7 +9,7 @@ export const NewsSection = () => {
 
   useEffect(() => {
     fetchPublishedNews()
-      .then((data) => setArticles(data.slice(0, 3)))
+      .then((data) => setArticles(data))
       .catch((err) => console.error("Failed to load news:", err))
       .finally(() => setLoading(false));
   }, []);
