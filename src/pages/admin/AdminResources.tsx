@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { adminApi, type CmsResource } from "@/services/cmsService";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
+import ImageUploadField from "@/components/admin/ImageUploadField";
 
 type EditState = Partial<CmsResource> & { _new?: boolean };
 const empty: EditState = { _new: true, slug: "", title: "", display_order: 0, is_published: true };
@@ -64,7 +65,7 @@ export default function AdminResources() {
           <Field label="URL slug (e.g. preparing-your-manuscript)"><input className="w-full border border-border px-3 py-2 text-sm font-mono" value={editing.slug || ""} onChange={(e) => setEditing({ ...editing, slug: e.target.value.toLowerCase().replace(/[^a-z0-9-]/g, "-") })} /></Field>
           <Field label="Title"><input className="w-full border border-border px-3 py-2 text-sm" value={editing.title || ""} onChange={(e) => setEditing({ ...editing, title: e.target.value })} /></Field>
           <Field label="Excerpt (shown on the resources index)"><textarea rows={2} className="w-full border border-border px-3 py-2 text-sm" value={editing.excerpt || ""} onChange={(e) => setEditing({ ...editing, excerpt: e.target.value })} /></Field>
-          <Field label="Cover image URL"><input className="w-full border border-border px-3 py-2 text-sm" value={editing.cover_image || ""} onChange={(e) => setEditing({ ...editing, cover_image: e.target.value })} />{editing.cover_image && <img src={editing.cover_image} alt="" className="mt-2 w-32 h-20 object-cover" />}</Field>
+          <ImageUploadField label="Cover image" value={editing.cover_image || null} onChange={(url) => setEditing({ ...editing, cover_image: url || "" })} />
           <Field label="Body (Markdown / HTML)"><textarea rows={14} className="w-full border border-border px-3 py-2 text-sm font-mono" value={editing.content || ""} onChange={(e) => setEditing({ ...editing, content: e.target.value })} /></Field>
           <Field label="Display order"><input type="number" className="w-32 border border-border px-3 py-2 text-sm" value={editing.display_order ?? 0} onChange={(e) => setEditing({ ...editing, display_order: Number(e.target.value) })} /></Field>
           <label className="flex items-center gap-2 text-sm"><input type="checkbox" checked={editing.is_published ?? true} onChange={(e) => setEditing({ ...editing, is_published: e.target.checked })} /> Published</label>
