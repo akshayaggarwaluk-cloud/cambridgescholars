@@ -179,7 +179,7 @@ export function BookDetailsTabs({ book }: BookDetailsTabsProps) {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-10">
                 {book.categories && book.categories.length > 0 && (
                   <div className="text-lg" style={{ fontFamily: '"Nunito Sans", sans-serif' }}>
-                    <span style={{ fontSize: "18px", color: "#696969", fontWeight: 600, letterSpacing: "0.02em", fontFamily: '"Nunito Sans", sans-serif' }}>CATEGORIES:</span>{" "}
+                    <span style={{ fontSize: "18px", color: "#000000", fontWeight: 600, letterSpacing: "0.02em", fontFamily: '"Nunito Sans", sans-serif' }}>CATEGORIES:</span>{" "}
                     <span style={{ fontSize: "18px", color: "#696969", fontWeight: 600, fontFamily: '"Nunito Sans", sans-serif' }}>{book.categories.join(", ")}</span>
                   </div>
                 )}
