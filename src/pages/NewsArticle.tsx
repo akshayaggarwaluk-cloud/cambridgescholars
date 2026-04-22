@@ -73,16 +73,22 @@ const NewsArticle = () => {
   return (
     <div className="min-h-screen bg-background">
       <Header />
-      <main className="container mx-auto px-4 py-8">
-        <PageBreadcrumb
-          items={[
-            { label: "Home", href: "/" },
-            { label: "News", href: "/news" },
-            { label: article.title },
-          ]}
-        />
 
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 mt-8">
+      <div className="w-full bg-[#F4F3EC] pt-24 sm:pt-28">
+        <div className="container-wide h-[200px] flex items-center justify-between">
+          <h1 className="text-[40px] leading-[1.2] font-baskerville font-normal text-[#333333] my-[10px]">News</h1>
+          <PageBreadcrumb
+            items={[
+              { label: "Home", href: "/" },
+              { label: "News", href: "/news" },
+              { label: article.title },
+            ]}
+          />
+        </div>
+      </div>
+
+      <main className="container mx-auto px-4 py-8">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
           <aside className="lg:col-span-1 order-2 lg:order-1">
             <div className="mb-8">
               <h3 className="text-lg font-serif text-foreground mb-4 pb-2 border-b border-border">Search</h3>
