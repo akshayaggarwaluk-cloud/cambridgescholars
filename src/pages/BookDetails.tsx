@@ -114,14 +114,6 @@ export default function BookDetails() {
                 <p className="font-baskerville text-[#696969] mb-[24px] text-base">
                   <span className="font-semibold text-black">By:</span> {book.author}
                 </p>
-                {book.shortDescription && (
-                  <p
-                    className="hidden sm:block leading-relaxed max-w-3xl mb-4 text-base font-light text-[#696969]"
-                    style={{ fontFamily: '"Nunito Sans", sans-serif' }}
-                  >
-                    {book.shortDescription}
-                  </p>
-                )}
                 <p
                   className="hidden sm:block font-light text-muted-foreground leading-relaxed max-w-3xl mb-6 lg:mb-8 whitespace-pre-line text-base"
                   style={{ fontFamily: '"Nunito Sans", sans-serif' }}
