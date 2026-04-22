@@ -327,22 +327,26 @@ export default function AdminHeroSlides() {
           </Field>
 
           <Field label="Reviewer credit (auto-filled from catalog)">
-            <div className="grid sm:grid-cols-2 gap-3">
-              <input
-                type="text"
-                value={editing.reviewer_name || ""}
-                onChange={(e) => setEditing({ ...editing, reviewer_name: e.target.value })}
-                placeholder="Reviewer name"
-                className="w-full border border-border px-3 py-2 text-sm bg-background"
-              />
-              <input
-                type="text"
-                value={editing.reviewer_position || ""}
-                onChange={(e) => setEditing({ ...editing, reviewer_position: e.target.value })}
-                placeholder="Position / institution"
-                className="w-full border border-border px-3 py-2 text-sm bg-background"
-              />
-            </div>
+            <textarea
+              rows={4}
+              value={[editing.reviewer_name, editing.reviewer_position].filter(Boolean).join(" — ")}
+              onChange={(e) => {
+                const raw = e.target.value;
+                const seps = [" — ", " – ", " - ", ", "];
+                let name = raw, position = "";
+                for (const s of seps) {
+                  const i = raw.indexOf(s);
+                  if (i > 0) {
+                    name = raw.slice(0, i).trim();
+                    position = raw.slice(i + s.length).trim();
+                    break;
+                  }
+                }
+                setEditing({ ...editing, reviewer_name: name, reviewer_position: position });
+              }}
+              placeholder="Reviewer name — Position / institution"
+              className="w-full border border-border px-3 py-2 text-sm bg-background"
+            />
           </Field>
 
           <Field label="Book cover (auto-filled from catalog)">
