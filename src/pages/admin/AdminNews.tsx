@@ -4,6 +4,7 @@ import { adminApi, type CmsNewsArticle } from "@/services/cmsService";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import ImageUploadField from "@/components/admin/ImageUploadField";
+import RichTextEditor from "@/components/admin/RichTextEditor";
 
 type EditState = Partial<CmsNewsArticle> & { _new?: boolean };
 
@@ -150,11 +151,10 @@ export default function AdminNews() {
           </Field>
 
           <Field label="Body content (full article — Markdown or plain text)">
-            <textarea
-              rows={10}
+            <RichTextEditor
               value={editing.content || ""}
-              onChange={(e) => setEditing({ ...editing, content: e.target.value })}
-              className="w-full border border-border px-3 py-2 text-sm bg-background font-mono"
+              onChange={(html) => setEditing({ ...editing, content: html })}
+              rows={10}
             />
           </Field>
 
