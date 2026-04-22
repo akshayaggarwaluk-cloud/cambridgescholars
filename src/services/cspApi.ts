@@ -69,6 +69,11 @@ export interface CSPBookRaw {
   author_biography?: string | null;
   reviews?: CSPReviewRaw[];
   recommended_books?: CSPBookRaw[];
+  subject_codes?: {
+    bic?: string[] | null;
+    bisac?: string[] | null;
+    thema?: string[] | null;
+  } | null;
   featured_reviewer?: {
     name: string;
     position: string;
@@ -212,6 +217,13 @@ function transformNewBook(raw: CSPBookRaw): Book {
     apiReviews: apiReviews.length > 0 ? apiReviews : undefined,
     recommendedBooks: recommendedBooks.length > 0 ? recommendedBooks : undefined,
     series,
+    subjectCodes: raw.subject_codes
+      ? {
+          bic: raw.subject_codes.bic || undefined,
+          bisac: raw.subject_codes.bisac || undefined,
+          thema: raw.subject_codes.thema || undefined,
+        }
+      : undefined,
     _hardbackPrice: hardback?.price_gbp ?? null,
     _paperbackPrice: paperback?.price_gbp ?? null,
   } as Book & { _hardbackPrice?: number | null; _paperbackPrice?: number | null };
