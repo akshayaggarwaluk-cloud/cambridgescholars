@@ -290,6 +290,25 @@ export default function AdminHeroSlides() {
           </Field>
 
           <Field label="Quote / review">
+            {apiReviewOptions.length > 0 && (
+              <div className="mb-2 flex items-center gap-2 flex-wrap">
+                <label className="text-xs uppercase tracking-wider text-muted-foreground">
+                  API review ({apiReviewOptions.length} available):
+                </label>
+                <select
+                  value={selectedReviewIndex}
+                  onChange={(e) => applyApiReview(Number(e.target.value))}
+                  className="border border-border px-2 py-1 text-xs bg-background flex-1 min-w-0"
+                >
+                  {apiReviewOptions.map((r, i) => (
+                    <option key={i} value={i}>
+                      #{i + 1} — {r.reviewer || "Unknown reviewer"}
+                      {r.reviewer_position ? ` (${r.reviewer_position})` : ""}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            )}
             <textarea
               rows={4}
               value={editing.quote || ""}
