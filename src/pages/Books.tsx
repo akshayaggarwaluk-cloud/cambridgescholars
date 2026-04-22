@@ -504,7 +504,7 @@ export default function Books() {
                           </p>
 
                           {book.blurb && (
-                            <p className="font-nav text-[15px] text-[#555] mt-5 leading-[1.7] line-clamp-4">
+                            <p className="font-nav text-[15px] text-[#555] mt-5 leading-[1.7] whitespace-pre-line">
                               {book.blurb}
                             </p>
                           )}
