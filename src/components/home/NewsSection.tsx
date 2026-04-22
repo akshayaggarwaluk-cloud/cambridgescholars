@@ -37,7 +37,7 @@ export const NewsSection = () => {
                     />
                   </div>
                 )}
-                <h3 className="text-xl md:text-2xl font-serif font-normal text-foreground mb-4 leading-snug">
+                <h3 className="text-xl md:text-2xl font-serif text-foreground mb-4 leading-snug font-medium">
                   {article.title}
                 </h3>
                 {article.excerpt && (
