@@ -63,6 +63,7 @@ export interface CmsNewsArticle {
   author: string | null;
   published_at: string;
   is_published: boolean;
+  display_order: number;
   created_at: string;
   updated_at: string;
 }
@@ -215,6 +216,7 @@ export async function fetchPublishedNews(): Promise<CmsNewsArticle[]> {
     .from("cms_news_articles")
     .select("*")
     .eq("is_published", true)
+    .order("display_order", { ascending: true })
     .order("published_at", { ascending: false });
   if (error) throw error;
   return (data || []) as CmsNewsArticle[];

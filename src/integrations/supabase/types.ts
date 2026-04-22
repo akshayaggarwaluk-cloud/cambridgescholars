@@ -321,6 +321,7 @@ export type Database = {
           content: string | null
           cover_image: string | null
           created_at: string
+          display_order: number
           excerpt: string | null
           id: string
           is_published: boolean
@@ -335,6 +336,7 @@ export type Database = {
           content?: string | null
           cover_image?: string | null
           created_at?: string
+          display_order?: number
           excerpt?: string | null
           id?: string
           is_published?: boolean
@@ -349,6 +351,7 @@ export type Database = {
           content?: string | null
           cover_image?: string | null
           created_at?: string
+          display_order?: number
           excerpt?: string | null
           id?: string
           is_published?: boolean

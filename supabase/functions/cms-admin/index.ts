@@ -197,6 +197,7 @@ Deno.serve(async (req) => {
         const { data, error } = await supabaseAdmin
           .from("cms_news_articles")
           .select("*")
+          .order("display_order", { ascending: true })
           .order("published_at", { ascending: false });
         if (error) throw error;
         return json({ data });
@@ -217,6 +218,7 @@ Deno.serve(async (req) => {
             author: body.author ?? null,
             published_at: body.published_at || new Date().toISOString(),
             is_published: body.is_published ?? true,
+            display_order: body.display_order ?? 0,
           })
           .select()
           .single();
@@ -228,7 +230,7 @@ Deno.serve(async (req) => {
         const patch: Record<string, unknown> = {};
         for (const k of [
           "slug", "title", "excerpt", "content", "cover_image",
-          "category", "author", "published_at", "is_published",
+          "category", "author", "published_at", "is_published", "display_order",
         ]) if (k in body) patch[k] = body[k];
         const { data, error } = await supabaseAdmin
           .from("cms_news_articles")
