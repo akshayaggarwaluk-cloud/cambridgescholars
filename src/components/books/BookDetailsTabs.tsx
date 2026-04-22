@@ -185,7 +185,7 @@ export function BookDetailsTabs({ book }: BookDetailsTabsProps) {
                 )}
                 {book.pages && (
                   <div className="text-lg" style={{ fontFamily: '"Nunito Sans", sans-serif' }}>
-                    <span style={{ fontSize: "18px", color: "#696969", fontWeight: 600, letterSpacing: "0.02em", fontFamily: '"Nunito Sans", sans-serif' }}>PAGES:</span>{" "}
+                    <span style={{ fontSize: "18px", color: "#000000", fontWeight: 600, letterSpacing: "0.02em", fontFamily: '"Nunito Sans", sans-serif' }}>PAGES:</span>{" "}
                     <span style={{ fontSize: "18px", color: "#696969", fontWeight: 600, fontFamily: '"Nunito Sans", sans-serif' }}>{book.pages}</span>
                   </div>
                 )}
