@@ -178,36 +178,36 @@ export function BookDetailsTabs({ book }: BookDetailsTabsProps) {
               {/* Categories and Pages */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-10">
                 {book.categories && book.categories.length > 0 && (
-                  <div className="text-lg">
-                    <span style={{ fontSize: "20px", color: "#696969", fontWeight: 700, letterSpacing: "0.02em" }}>CATEGORIES:</span>{" "}
-                    <span style={{ fontSize: "18px", color: "#696969" }}>{book.categories.join(", ")}</span>
+                  <div className="text-lg" style={{ fontFamily: '"Nunito Sans", sans-serif' }}>
+                    <span style={{ fontSize: "20px", color: "#696969", fontWeight: 700, letterSpacing: "0.02em", fontFamily: '"Nunito Sans", sans-serif' }}>CATEGORIES:</span>{" "}
+                    <span style={{ fontSize: "18px", color: "#696969", fontFamily: '"Nunito Sans", sans-serif' }}>{book.categories.join(", ")}</span>
                   </div>
                 )}
                 {book.pages && (
-                  <div className="text-lg">
-                    <span style={{ fontSize: "20px", color: "#696969", fontWeight: 700, letterSpacing: "0.02em" }}>PAGES:</span>{" "}
-                    <span style={{ fontSize: "18px", color: "#696969" }}>{book.pages}</span>
+                  <div className="text-lg" style={{ fontFamily: '"Nunito Sans", sans-serif' }}>
+                    <span style={{ fontSize: "20px", color: "#696969", fontWeight: 700, letterSpacing: "0.02em", fontFamily: '"Nunito Sans", sans-serif' }}>PAGES:</span>{" "}
+                    <span style={{ fontSize: "18px", color: "#696969", fontFamily: '"Nunito Sans", sans-serif' }}>{book.pages}</span>
                   </div>
                 )}
               </div>
 
               {/* Subject Codes */}
               {book.subjectCodes && (
-                <div className="text-lg font-sans">
-                  <h4 style={{ fontSize: "20px", color: "#333333", fontWeight: 600, margin: "35px 0 14px", letterSpacing: "0.02em" }}>SUBJECT CODES:</h4>
+                <div className="text-lg" style={{ fontFamily: '"Nunito Sans", sans-serif' }}>
+                  <h4 style={{ fontSize: "20px", color: "#333333", fontWeight: 600, margin: "35px 0 14px", letterSpacing: "0.02em", fontFamily: '"Nunito Sans", sans-serif' }}>SUBJECT CODES:</h4>
                   <ul className="list-disc" style={{ paddingLeft: "20px", margin: 0 }}>
                     {book.subjectCodes.bic && book.subjectCodes.bic.length > 0 && (
-                      <li style={{ fontSize: "18px", color: "#696969", marginBottom: "8px", lineHeight: 1.6 }}>
+                      <li style={{ fontSize: "18px", color: "#696969", marginBottom: "8px", lineHeight: 1.6, fontFamily: '"Nunito Sans", sans-serif' }}>
                         <span style={{ color: "#696969", fontWeight: 700 }}>BIC:</span> {book.subjectCodes.bic.join(", ")}
                       </li>
                     )}
                     {book.subjectCodes.bisac && book.subjectCodes.bisac.length > 0 && (
-                      <li style={{ fontSize: "18px", color: "#696969", marginBottom: "8px", lineHeight: 1.6 }}>
+                      <li style={{ fontSize: "18px", color: "#696969", marginBottom: "8px", lineHeight: 1.6, fontFamily: '"Nunito Sans", sans-serif' }}>
                         <span style={{ color: "#696969", fontWeight: 700 }}>BISAC:</span> {book.subjectCodes.bisac.join(", ")}
                       </li>
                     )}
                     {book.subjectCodes.thema && book.subjectCodes.thema.length > 0 && (
-                      <li style={{ fontSize: "18px", color: "#696969", marginBottom: "8px", lineHeight: 1.6 }}>
+                      <li style={{ fontSize: "18px", color: "#696969", marginBottom: "8px", lineHeight: 1.6, fontFamily: '"Nunito Sans", sans-serif' }}>
                         <span style={{ color: "#696969", fontWeight: 700 }}>THEMA:</span> {book.subjectCodes.thema.join(", ")}
                       </li>
                     )}
