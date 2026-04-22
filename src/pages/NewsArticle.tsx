@@ -35,7 +35,7 @@ const NewsArticle = () => {
     return (
       <div className="min-h-screen bg-background">
         <Header />
-        <main className="container mx-auto px-4 py-8">
+        <main className="container mx-auto px-4 py-8 bg-white">
           <p className="text-center text-muted-foreground py-16">Loading…</p>
         </main>
         <Footer />
@@ -47,7 +47,7 @@ const NewsArticle = () => {
     return (
       <div className="min-h-screen bg-background">
         <Header />
-        <main className="container mx-auto px-4 py-8">
+        <main className="container mx-auto px-4 py-8 bg-white">
           <PageBreadcrumb
             items={[
               { label: "Home", href: "/" },
@@ -86,7 +86,7 @@ const NewsArticle = () => {
         </div>
       </div>
 
-      <main className="container mx-auto px-4 py-8">
+      <main className="container mx-auto px-4 py-8 bg-white">
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
           <aside className="lg:col-span-1 order-2 lg:order-1">
             <div className="mb-8">
