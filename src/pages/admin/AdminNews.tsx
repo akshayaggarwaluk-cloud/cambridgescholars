@@ -28,6 +28,7 @@ const empty: EditState = {
   author: "",
   published_at: new Date().toISOString(),
   is_published: true,
+  display_order: 0,
 };
 
 export default function AdminNews() {
@@ -211,6 +212,21 @@ export default function AdminNews() {
             </Field>
           </div>
 
+          <Field label="Display order (lower numbers appear first: 1 = first, 2 = second, …)">
+            <input
+              type="number"
+              min={0}
+              value={editing.display_order ?? 0}
+              onChange={(e) =>
+                setEditing({ ...editing, display_order: Number(e.target.value) || 0 })
+              }
+              className="w-full sm:w-40 border border-border px-3 py-2 text-sm bg-background"
+            />
+            <p className="text-xs text-muted-foreground mt-1">
+              Articles with the same number fall back to most-recently published first.
+            </p>
+          </Field>
+
           <div className="flex gap-2 pt-2">
             <Button onClick={save} disabled={saving} className="bg-accent hover:bg-accent/90">
               {saving ? <Loader2 className="h-4 w-4 animate-spin mr-1" /> : <Save className="h-4 w-4 mr-1" />}
@@ -231,13 +247,23 @@ export default function AdminNews() {
         </div>
       ) : (
         <div className="space-y-3">
-          {articles.map((a) => (
+          {[...articles]
+            .sort((a, b) => {
+              const ao = a.display_order ?? 0;
+              const bo = b.display_order ?? 0;
+              if (ao !== bo) return ao - bo;
+              return new Date(b.published_at).getTime() - new Date(a.published_at).getTime();
+            })
+            .map((a) => (
             <div key={a.id} className="border border-border p-4 flex gap-4 items-start">
               {a.cover_image && (
                 <img src={a.cover_image} alt="" className="w-24 h-16 object-cover" />
               )}
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2 flex-wrap">
+                  <span className="text-xs font-mono px-2 py-0.5 bg-muted text-muted-foreground rounded">
+                    #{a.display_order ?? 0}
+                  </span>
                   <h3 className="font-baskerville text-lg text-foreground">{a.title}</h3>
                   {!a.is_published && (
                     <span className="text-xs uppercase tracking-wider px-2 py-0.5 bg-muted text-muted-foreground">
