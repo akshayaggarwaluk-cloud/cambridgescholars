@@ -193,7 +193,7 @@ export function BookDetailsTabs({ book }: BookDetailsTabsProps) {
 
               {/* Subject Codes */}
               {book.subjectCodes && (
-                <div className="text-lg">
+                <div className="text-lg font-sans">
                   <h4 style={{ fontSize: "20px", color: "#333333", fontWeight: 600, margin: "35px 0 14px", letterSpacing: "0.02em" }}>SUBJECT CODES:</h4>
                   <ul className="list-disc" style={{ paddingLeft: "20px", margin: 0 }}>
                     {book.subjectCodes.bic && book.subjectCodes.bic.length > 0 && (
