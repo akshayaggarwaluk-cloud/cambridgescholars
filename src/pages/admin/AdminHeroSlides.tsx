@@ -218,10 +218,6 @@ export default function AdminHeroSlides() {
         )}
       </div>
 
-      {editing && apiReviewOptions.length > 1 && (
-        <></>
-      )}
-
       {editing && (
         <div className="border border-border p-4 sm:p-6 space-y-4 bg-[#fafafa]">
           <div className="flex items-center justify-between">
