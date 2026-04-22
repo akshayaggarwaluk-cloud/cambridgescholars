@@ -346,6 +346,17 @@ export default function AdminHeroSlides() {
                 </select>
               </div>
             )}
+            {apiReviewOptions.length > 0 && (() => {
+              const r = apiReviewOptions[selectedReviewIndex];
+              const hasCredit = !!(r?.reviewer || r?.reviewer_position);
+              return (
+                <p className="mb-2 text-xs text-muted-foreground">
+                  {hasCredit
+                    ? `Catalog returned: ${r?.reviewer || "—"}${r?.reviewer_position ? ` · ${r.reviewer_position}` : ""}`
+                    : "Catalog API did not return a reviewer name for this review. Type the credit manually below."}
+                </p>
+              );
+            })()}
             <textarea
               rows={4}
               value={[editing.reviewer_name, editing.reviewer_position].filter(Boolean).join(" — ")}
