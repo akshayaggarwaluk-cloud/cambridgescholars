@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Plus, Pencil, Trash2, Loader2, Save, X } from "lucide-react";
+import { Plus, Pencil, Trash2, Loader2, Save, X, ArrowUp, ArrowDown } from "lucide-react";
 import { adminApi, type CmsNewsArticle } from "@/services/cmsService";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
@@ -81,6 +81,40 @@ export default function AdminNews() {
       reload();
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "Delete failed");
+    }
+  };
+
+  const sortedArticles = [...articles].sort((a, b) => {
+    const ao = a.display_order ?? 0;
+    const bo = b.display_order ?? 0;
+    if (ao !== bo) return ao - bo;
+    return new Date(b.published_at).getTime() - new Date(a.published_at).getTime();
+  });
+
+  const move = async (index: number, direction: -1 | 1) => {
+    const target = index + direction;
+    if (target < 0 || target >= sortedArticles.length) return;
+    const a = sortedArticles[index];
+    const b = sortedArticles[target];
+    // Optimistic swap of display_order values
+    const newA = { ...a, display_order: b.display_order ?? 0 };
+    const newB = { ...b, display_order: a.display_order ?? 0 };
+    // If both end up equal, force a tie-break so they actually swap
+    if (newA.display_order === newB.display_order) {
+      if (direction === -1) newA.display_order = (newB.display_order ?? 0) - 1;
+      else newA.display_order = (newB.display_order ?? 0) + 1;
+    }
+    setArticles((prev) =>
+      prev.map((x) => (x.id === newA.id ? newA : x.id === newB.id ? newB : x)),
+    );
+    try {
+      await Promise.all([
+        adminApi.updateNews({ id: newA.id, display_order: newA.display_order }),
+        adminApi.updateNews({ id: newB.id, display_order: newB.display_order }),
+      ]);
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "Reorder failed");
+      reload();
     }
   };
 
@@ -247,15 +281,30 @@ export default function AdminNews() {
         </div>
       ) : (
         <div className="space-y-3">
-          {[...articles]
-            .sort((a, b) => {
-              const ao = a.display_order ?? 0;
-              const bo = b.display_order ?? 0;
-              if (ao !== bo) return ao - bo;
-              return new Date(b.published_at).getTime() - new Date(a.published_at).getTime();
-            })
-            .map((a) => (
+          {sortedArticles.map((a, idx) => (
             <div key={a.id} className="border border-border p-4 flex gap-4 items-start">
+              <div className="flex flex-col gap-1">
+                <Button
+                  variant="outline"
+                  size="icon"
+                  className="h-7 w-7"
+                  disabled={idx === 0}
+                  onClick={() => move(idx, -1)}
+                  title="Move up"
+                >
+                  <ArrowUp className="h-4 w-4" />
+                </Button>
+                <Button
+                  variant="outline"
+                  size="icon"
+                  className="h-7 w-7"
+                  disabled={idx === sortedArticles.length - 1}
+                  onClick={() => move(idx, 1)}
+                  title="Move down"
+                >
+                  <ArrowDown className="h-4 w-4" />
+                </Button>
+              </div>
               {a.cover_image && (
                 <img src={a.cover_image} alt="" className="w-24 h-16 object-cover" />
               )}
