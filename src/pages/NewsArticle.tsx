@@ -80,8 +80,7 @@ const NewsArticle = () => {
           <PageBreadcrumb
             items={[
               { label: "Home", href: "/" },
-              { label: "News", href: "/news" },
-              { label: article.title },
+              { label: "News" },
             ]}
           />
         </div>
