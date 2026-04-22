@@ -13,6 +13,13 @@ interface BookSuggestion {
   cover_image: string;
 }
 
+interface ApiReviewOption {
+  reviewer?: string;
+  reviewer_position?: string;
+  review?: string;
+  date?: string;
+}
+
 type EditState = Partial<CmsHeroSlide> & { _new?: boolean };
 
 const empty: EditState = {
@@ -41,6 +48,19 @@ export default function AdminHeroSlides() {
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [importing, setImporting] = useState(false);
   const debounceRef = useRef<number | null>(null);
+
+  // API reviews loaded for the currently picked book
+  const [apiReviewOptions, setApiReviewOptions] = useState<ApiReviewOption[]>([]);
+  const [selectedReviewIndex, setSelectedReviewIndex] = useState(0);
+
+  // Clear API review options whenever the editor is closed (so stale
+  // options don't leak across slides).
+  useEffect(() => {
+    if (!editing) {
+      setApiReviewOptions([]);
+      setSelectedReviewIndex(0);
+    }
+  }, [editing]);
 
   const searchBooks = (q: string) => {
     if (debounceRef.current) window.clearTimeout(debounceRef.current);
@@ -73,7 +93,8 @@ export default function AdminHeroSlides() {
     setImporting(true);
     try {
       const book = await fetchBookByIsbn(s.isbn);
-      const reviewer = book?.apiReviews?.[0];
+      const reviews = (book?.apiReviews || []) as ApiReviewOption[];
+      const reviewer = reviews[0];
       const authorName = book?.author || s.authors || "";
       setEditing((prev) => prev ? {
         ...prev,
@@ -85,12 +106,29 @@ export default function AdminHeroSlides() {
         reviewer_name: reviewer?.reviewer || prev.reviewer_name || "",
         reviewer_position: reviewer?.reviewer_position || prev.reviewer_position || "",
       } : prev);
+      setApiReviewOptions(reviews);
+      setSelectedReviewIndex(0);
       toast.success(`Loaded "${book?.title || s.title}"`);
+      if (reviews.length === 0) {
+        toast.info("No reviews returned by the catalog API for this book.");
+      }
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "Failed to load book");
     } finally {
       setImporting(false);
     }
+  };
+
+  const applyApiReview = (idx: number) => {
+    const r = apiReviewOptions[idx];
+    if (!r || !editing) return;
+    setSelectedReviewIndex(idx);
+    setEditing({
+      ...editing,
+      quote: r.review || "",
+      reviewer_name: r.reviewer || "",
+      reviewer_position: r.reviewer_position || "",
+    });
   };
 
 
@@ -261,6 +299,25 @@ export default function AdminHeroSlides() {
           </Field>
 
           <Field label="Quote / review">
+            {apiReviewOptions.length > 0 && (
+              <div className="mb-2 flex items-center gap-2 flex-wrap">
+                <label className="text-xs uppercase tracking-wider text-muted-foreground">
+                  API review ({apiReviewOptions.length} available):
+                </label>
+                <select
+                  value={selectedReviewIndex}
+                  onChange={(e) => applyApiReview(Number(e.target.value))}
+                  className="border border-border px-2 py-1 text-xs bg-background flex-1 min-w-0"
+                >
+                  {apiReviewOptions.map((r, i) => (
+                    <option key={i} value={i}>
+                      #{i + 1} — {r.reviewer || "Unknown reviewer"}
+                      {r.reviewer_position ? ` (${r.reviewer_position})` : ""}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            )}
             <textarea
               rows={4}
               value={editing.quote || ""}
