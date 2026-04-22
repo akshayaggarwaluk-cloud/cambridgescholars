@@ -107,7 +107,7 @@ export function BookDetailsTabs({ book }: BookDetailsTabsProps) {
               <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-10">
                 {book.hardbackInfo && (
                   <div>
-                    <h4 style={{ fontSize: "20px", color: "#333333", fontWeight: 600, margin: "0 0 14px", letterSpacing: "0.02em", fontFamily: '"Nunito Sans", sans-serif' }}>HARDBACK</h4>
+                    <h4 style={{ fontSize: "18px", color: "#333333", fontWeight: 600, margin: "0 0 14px", letterSpacing: "0.02em", fontFamily: '"Nunito Sans", sans-serif' }}>HARDBACK</h4>
                     <ul className="list-disc" style={{ paddingLeft: "20px", margin: 0 }}>
                       {book.hardbackInfo.isbn && (
                         <li style={{ fontSize: "16px", color: "#696969", marginBottom: "8px", lineHeight: 1.6, fontFamily: '"Nunito Sans", sans-serif' }}>
@@ -130,7 +130,7 @@ export function BookDetailsTabs({ book }: BookDetailsTabsProps) {
 
                 {book.paperbackInfo && (
                   <div>
-                    <h4 style={{ fontSize: "20px", color: "#333333", fontWeight: 600, margin: "0 0 14px", letterSpacing: "0.02em", fontFamily: '"Nunito Sans", sans-serif' }}>PAPERBACK</h4>
+                    <h4 style={{ fontSize: "18px", color: "#333333", fontWeight: 600, margin: "0 0 14px", letterSpacing: "0.02em", fontFamily: '"Nunito Sans", sans-serif' }}>PAPERBACK</h4>
                     <ul className="list-disc" style={{ paddingLeft: "20px", margin: 0 }}>
                       {book.paperbackInfo.isbn && (
                         <li style={{ fontSize: "16px", color: "#696969", marginBottom: "8px", lineHeight: 1.6, fontFamily: '"Nunito Sans", sans-serif' }}>
@@ -153,7 +153,7 @@ export function BookDetailsTabs({ book }: BookDetailsTabsProps) {
 
                 {book.ebookInfo && (
                   <div>
-                    <h4 style={{ fontSize: "20px", color: "#333333", fontWeight: 600, margin: "0 0 14px", letterSpacing: "0.02em", fontFamily: '"Nunito Sans", sans-serif' }}>EBOOK</h4>
+                    <h4 style={{ fontSize: "18px", color: "#333333", fontWeight: 600, margin: "0 0 14px", letterSpacing: "0.02em", fontFamily: '"Nunito Sans", sans-serif' }}>EBOOK</h4>
                     <ul className="list-disc" style={{ paddingLeft: "20px", margin: 0 }}>
                       {book.ebookInfo.isbn && (
                         <li style={{ fontSize: "16px", color: "#696969", marginBottom: "8px", lineHeight: 1.6, fontFamily: '"Nunito Sans", sans-serif' }}>
@@ -179,14 +179,14 @@ export function BookDetailsTabs({ book }: BookDetailsTabsProps) {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-10">
                 {book.categories && book.categories.length > 0 && (
                   <div className="text-lg" style={{ fontFamily: '"Nunito Sans", sans-serif' }}>
-                    <span style={{ fontSize: "20px", color: "#696969", fontWeight: 700, letterSpacing: "0.02em", fontFamily: '"Nunito Sans", sans-serif' }}>CATEGORIES:</span>{" "}
-                    <span style={{ fontSize: "18px", color: "#696969", fontFamily: '"Nunito Sans", sans-serif' }}>{book.categories.join(", ")}</span>
+                    <span style={{ fontSize: "18px", color: "#696969", fontWeight: 600, letterSpacing: "0.02em", fontFamily: '"Nunito Sans", sans-serif' }}>CATEGORIES:</span>{" "}
+                    <span style={{ fontSize: "18px", color: "#696969", fontWeight: 600, fontFamily: '"Nunito Sans", sans-serif' }}>{book.categories.join(", ")}</span>
                   </div>
                 )}
                 {book.pages && (
                   <div className="text-lg" style={{ fontFamily: '"Nunito Sans", sans-serif' }}>
-                    <span style={{ fontSize: "20px", color: "#696969", fontWeight: 700, letterSpacing: "0.02em", fontFamily: '"Nunito Sans", sans-serif' }}>PAGES:</span>{" "}
-                    <span style={{ fontSize: "18px", color: "#696969", fontFamily: '"Nunito Sans", sans-serif' }}>{book.pages}</span>
+                    <span style={{ fontSize: "18px", color: "#696969", fontWeight: 600, letterSpacing: "0.02em", fontFamily: '"Nunito Sans", sans-serif' }}>PAGES:</span>{" "}
+                    <span style={{ fontSize: "18px", color: "#696969", fontWeight: 600, fontFamily: '"Nunito Sans", sans-serif' }}>{book.pages}</span>
                   </div>
                 )}
               </div>
@@ -194,7 +194,7 @@ export function BookDetailsTabs({ book }: BookDetailsTabsProps) {
               {/* Subject Codes */}
               {book.subjectCodes && (
                 <div className="text-lg" style={{ fontFamily: '"Nunito Sans", sans-serif' }}>
-                  <h4 style={{ fontSize: "20px", color: "#333333", fontWeight: 600, margin: "35px 0 14px", letterSpacing: "0.02em", fontFamily: '"Nunito Sans", sans-serif' }}>SUBJECT CODES:</h4>
+                  <h4 style={{ fontSize: "18px", color: "#333333", fontWeight: 600, margin: "35px 0 14px", letterSpacing: "0.02em", fontFamily: '"Nunito Sans", sans-serif' }}>SUBJECT CODES:</h4>
                   <ul className="list-disc" style={{ paddingLeft: "20px", margin: 0 }}>
                     {book.subjectCodes.bic && book.subjectCodes.bic.length > 0 && (
                       <li style={{ fontSize: "18px", color: "#696969", marginBottom: "8px", lineHeight: 1.6, fontFamily: '"Nunito Sans", sans-serif' }}>
