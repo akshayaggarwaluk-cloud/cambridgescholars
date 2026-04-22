@@ -41,6 +41,7 @@ export interface Book {
   publisher?: string;
   publishDate?: string;
   blurb?: string;
+  shortDescription?: string;
   biography?: string;
   hardbackInfo?: BookFormatInfo;
   paperbackInfo?: BookFormatInfo;

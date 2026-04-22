@@ -51,6 +51,7 @@ export interface CSPBookRaw {
   isbn: string;
   description: string | null;
   full_description?: string | null;
+  short_description?: string | null;
   cover_image: string;
   sample_pdf: string | null;
   pages: number | null;
@@ -202,6 +203,7 @@ function transformNewBook(raw: CSPBookRaw): Book {
     publishDate: raw.publication_date || hardback?.publication_date || paperback?.publication_date || undefined,
     blurb: raw.full_description?.trim() || raw.description?.trim() || undefined,
     biography: raw.author_biography?.trim() || undefined,
+    shortDescription: raw.short_description?.trim() || undefined,
     hardbackInfo: buildFormatInfo(hardback),
     paperbackInfo: buildFormatInfo(paperback),
     ebookInfo: buildFormatInfo(ebook),
