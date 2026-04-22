@@ -37,10 +37,45 @@ export function PageBreadcrumb({
 }: PageBreadcrumbProps) {
   const location = useLocation();
 
-  // Auto-generate breadcrumb items if not provided
+  // When items are explicitly provided, render them as-is (no auto Home prefix / Page suffix)
+  const useCustomItems = Array.isArray(items) && items.length > 0;
   const breadcrumbItems: BreadcrumbItem[] = items || [];
   const finalPage = currentPage || routeLabels[location.pathname] || "Page";
-  
+
+  if (useCustomItems) {
+    return (
+      <Breadcrumb className={className}>
+        <BreadcrumbList className="text-base">
+          {breadcrumbItems.map((item, index) => {
+            const isLast = index === breadcrumbItems.length - 1;
+            return (
+              <div key={index} className="flex items-center gap-1.5 sm:gap-2.5">
+                {index > 0 && (
+                  <BreadcrumbSeparator>
+                    <span className="font-baskerville italic text-[#696969]">/</span>
+                  </BreadcrumbSeparator>
+                )}
+                <BreadcrumbItem>
+                  {item.href && !isLast ? (
+                    <BreadcrumbLink asChild>
+                      <Link to={item.href} className="font-baskerville italic text-[#696969] hover:text-[#e5573e]">
+                        {item.label}
+                      </Link>
+                    </BreadcrumbLink>
+                  ) : (
+                    <BreadcrumbPage className="font-baskerville italic text-[#e5573e]">
+                      {item.label}
+                    </BreadcrumbPage>
+                  )}
+                </BreadcrumbItem>
+              </div>
+            );
+          })}
+        </BreadcrumbList>
+      </Breadcrumb>
+    );
+  }
+
   return (
     <Breadcrumb className={className}>
       <BreadcrumbList className="text-base">
