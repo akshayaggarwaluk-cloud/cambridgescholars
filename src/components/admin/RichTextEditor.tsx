@@ -69,6 +69,40 @@ export default function RichTextEditor({ value, onChange, rows = 10 }: RichTextE
     if (editorRef.current) onChange(editorRef.current.innerHTML);
   };
 
+  const handlePaste = (e: React.ClipboardEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    const html = e.clipboardData.getData("text/html");
+    const text = e.clipboardData.getData("text/plain");
+
+    if (html) {
+      // Strip background colors and other unwanted styles from pasted HTML
+      const temp = document.createElement("div");
+      temp.innerHTML = html;
+
+      const cleanNode = (node: Element) => {
+        // Remove background-related styles
+        const el = node as HTMLElement;
+        if (el.style) {
+          el.style.backgroundColor = "";
+          el.style.background = "";
+        }
+        // Remove bgcolor attribute
+        el.removeAttribute("bgcolor");
+        // Remove class attributes that may carry styling
+        el.removeAttribute("class");
+        // Recurse
+        Array.from(el.children).forEach((child) => cleanNode(child as Element));
+      };
+
+      Array.from(temp.children).forEach((child) => cleanNode(child as Element));
+      document.execCommand("insertHTML", false, temp.innerHTML);
+    } else if (text) {
+      document.execCommand("insertText", false, text);
+    }
+
+    if (editorRef.current) onChange(editorRef.current.innerHTML);
+  };
+
   return (
     <div className="border border-border bg-background">
       <div className="flex items-center gap-1 flex-wrap border-b border-border p-2 bg-[#fafafa]">
@@ -160,6 +194,7 @@ export default function RichTextEditor({ value, onChange, rows = 10 }: RichTextE
         ref={editorRef}
         contentEditable
         onInput={handleInput}
+        onPaste={handlePaste}
         className="px-3 py-2 text-sm focus:outline-none prose prose-sm max-w-none"
         style={{ minHeight: `${rows * 1.5}rem` }}
         suppressContentEditableWarning
