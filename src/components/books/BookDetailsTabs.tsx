@@ -197,17 +197,17 @@ export function BookDetailsTabs({ book }: BookDetailsTabsProps) {
                   <h4 style={{ fontSize: "18px", color: "#333333", fontWeight: 600, margin: "35px 0 14px", letterSpacing: "0.02em", fontFamily: '"Nunito Sans", sans-serif' }}>SUBJECT CODES:</h4>
                   <ul className="list-disc" style={{ paddingLeft: "20px", margin: 0 }}>
                     {book.subjectCodes.bic && book.subjectCodes.bic.length > 0 && (
-                      <li style={{ fontSize: "18px", color: "#696969", marginBottom: "8px", lineHeight: 1.6, fontFamily: '"Nunito Sans", sans-serif' }}>
+                      <li style={{ fontSize: "16px", color: "#696969", marginBottom: "8px", lineHeight: 1.6, fontFamily: '"Nunito Sans", sans-serif' }}>
                         <span style={{ color: "#696969", fontWeight: 700 }}>BIC:</span> {book.subjectCodes.bic.join(", ")}
                       </li>
                     )}
                     {book.subjectCodes.bisac && book.subjectCodes.bisac.length > 0 && (
-                      <li style={{ fontSize: "18px", color: "#696969", marginBottom: "8px", lineHeight: 1.6, fontFamily: '"Nunito Sans", sans-serif' }}>
+                      <li style={{ fontSize: "16px", color: "#696969", marginBottom: "8px", lineHeight: 1.6, fontFamily: '"Nunito Sans", sans-serif' }}>
                         <span style={{ color: "#696969", fontWeight: 700 }}>BISAC:</span> {book.subjectCodes.bisac.join(", ")}
                       </li>
                     )}
                     {book.subjectCodes.thema && book.subjectCodes.thema.length > 0 && (
-                      <li style={{ fontSize: "18px", color: "#696969", marginBottom: "8px", lineHeight: 1.6, fontFamily: '"Nunito Sans", sans-serif' }}>
+                      <li style={{ fontSize: "16px", color: "#696969", marginBottom: "8px", lineHeight: 1.6, fontFamily: '"Nunito Sans", sans-serif' }}>
                         <span style={{ color: "#696969", fontWeight: 700 }}>THEMA:</span> {book.subjectCodes.thema.join(", ")}
                       </li>
                     )}
