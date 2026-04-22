@@ -107,7 +107,7 @@ export function BookDetailsTabs({ book }: BookDetailsTabsProps) {
               <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-10">
                 {book.hardbackInfo && (
                   <div>
-                    <h4 style={{ fontSize: "20px", color: "#333333", fontWeight: 600, margin: "0 0 14px", letterSpacing: "0.02em" }}>HARDBACK</h4>
+                    <h4 style={{ fontSize: "20px", color: "#333333", fontWeight: 600, margin: "0 0 14px", letterSpacing: "0.02em", fontFamily: '"Nunito Sans", sans-serif' }}>HARDBACK</h4>
                     <ul className="list-disc" style={{ paddingLeft: "20px", margin: 0 }}>
                       {book.hardbackInfo.isbn && (
                         <li style={{ fontSize: "16px", color: "#696969", marginBottom: "8px", lineHeight: 1.6, fontFamily: '"Nunito Sans", sans-serif' }}>
