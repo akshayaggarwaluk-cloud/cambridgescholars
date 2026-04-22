@@ -1,8 +1,26 @@
 import { useEffect, useState } from "react";
-import { Plus, Pencil, Trash2, Loader2, Save, X, ArrowUp, ArrowDown } from "lucide-react";
+import { Plus, Pencil, Trash2, Loader2, Save, X, ArrowUp, ArrowDown, Download, Search } from "lucide-react";
 import { adminApi, type CmsAuthorReview } from "@/services/cmsService";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
+import { fetchAuthorReviews } from "@/services/cspApi";
+
+interface ApiReview {
+  author: string;
+  book_title: string;
+  praise: string;
+  date: string;
+}
+
+function parseAuthor(raw: string): { name: string; position: string } {
+  if (!raw) return { name: "", position: "" };
+  const seps = [" - ", " – ", ", "];
+  for (const s of seps) {
+    const i = raw.indexOf(s);
+    if (i > 0) return { name: raw.slice(0, i).trim(), position: raw.slice(i + s.length).trim() };
+  }
+  return { name: raw, position: "" };
+}
 
 type EditState = Partial<CmsAuthorReview> & { _new?: boolean };
 const empty: EditState = { _new: true, author_name: "", quote: "", display_order: 0, is_published: true };
@@ -12,6 +30,10 @@ export default function AdminAuthorReviews() {
   const [loading, setLoading] = useState(true);
   const [editing, setEditing] = useState<EditState | null>(null);
   const [saving, setSaving] = useState(false);
+  const [pickerOpen, setPickerOpen] = useState(false);
+  const [apiReviews, setApiReviews] = useState<ApiReview[] | null>(null);
+  const [apiLoading, setApiLoading] = useState(false);
+  const [search, setSearch] = useState("");
 
   const reload = async () => {
     setLoading(true);
