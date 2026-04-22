@@ -24,10 +24,7 @@ import FAQ from "@/pages/FAQ";
 import HowToPublish from "@/pages/HowToPublish";
 import SubmitProposal from "@/pages/SubmitProposal";
 import Resources from "@/pages/Resources";
-import ProposalAndPublishingForms from "@/pages/resources/ProposalAndPublishingForms";
-import PreparingYourManuscript from "@/pages/resources/PreparingYourManuscript";
-import PreparingYourBookCover from "@/pages/resources/PreparingYourBookCover";
-import PostPublication from "@/pages/resources/PostPublication";
+import ResourceDetail from "@/pages/resources/ResourceDetail";
 import EndorsementSubmission from "@/pages/EndorsementSubmission";
 import News from "@/pages/News";
 import NewsArticle from "@/pages/NewsArticle";
@@ -79,10 +76,7 @@ export function AnimatedRoutes() {
         <Route path="/how-to-publish" element={<PageTransition><HowToPublish /></PageTransition>} />
         <Route path="/submit-proposal" element={<PageTransition><SubmitProposal /></PageTransition>} />
         <Route path="/resources" element={<PageTransition><Resources /></PageTransition>} />
-        <Route path="/resources/proposal-and-publishing-forms" element={<PageTransition><ProposalAndPublishingForms /></PageTransition>} />
-        <Route path="/resources/preparing-your-manuscript" element={<PageTransition><PreparingYourManuscript /></PageTransition>} />
-        <Route path="/resources/preparing-your-book-cover" element={<PageTransition><PreparingYourBookCover /></PageTransition>} />
-        <Route path="/resources/post-publication" element={<PageTransition><PostPublication /></PageTransition>} />
+        <Route path="/resources/:slug" element={<PageTransition><ResourceDetail /></PageTransition>} />
         <Route path="/endorsement-submission" element={<PageTransition><EndorsementSubmission /></PageTransition>} />
         <Route path="/news" element={<PageTransition><News /></PageTransition>} />
         <Route path="/news/:slug" element={<PageTransition><NewsArticle /></PageTransition>} />
