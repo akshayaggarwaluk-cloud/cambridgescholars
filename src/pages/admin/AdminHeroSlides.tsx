@@ -126,8 +126,8 @@ export default function AdminHeroSlides() {
     setEditing({
       ...editing,
       quote: r.review || "",
-      reviewer_name: r.reviewer || "",
-      reviewer_position: r.reviewer_position || "",
+      reviewer_name: r.reviewer || editing.reviewer_name || "",
+      reviewer_position: r.reviewer_position || editing.reviewer_position || "",
     });
   };
 
