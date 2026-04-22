@@ -115,11 +115,10 @@ export default function BookDetails() {
                   <span className="font-semibold text-black">By:</span> {book.author}
                 </p>
                 <p
-                  className="hidden sm:block font-light text-muted-foreground leading-relaxed max-w-3xl mb-6 lg:mb-8 text-lg"
+                  className="hidden sm:block font-light text-muted-foreground leading-relaxed max-w-3xl mb-6 lg:mb-8 text-lg whitespace-pre-line"
                   style={{ fontFamily: '"Nunito Sans", sans-serif' }}
                 >
-                  {book.blurb?.slice(0, 200)}
-                  {book.blurb && book.blurb.length > 200 ? "..." : ""}
+                  {book.blurb}
                 </p>
 
                 {/* Format Selection */}
