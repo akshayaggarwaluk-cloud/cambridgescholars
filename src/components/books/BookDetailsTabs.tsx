@@ -130,7 +130,7 @@ export function BookDetailsTabs({ book }: BookDetailsTabsProps) {
 
                 {book.paperbackInfo && (
                   <div>
-                    <h4 style={{ fontSize: "20px", color: "#333333", fontWeight: 600, margin: "0 0 14px", letterSpacing: "0.02em" }}>PAPERBACK</h4>
+                    <h4 style={{ fontSize: "20px", color: "#333333", fontWeight: 600, margin: "0 0 14px", letterSpacing: "0.02em", fontFamily: '"Nunito Sans", sans-serif' }}>PAPERBACK</h4>
                     <ul className="list-disc" style={{ paddingLeft: "20px", margin: 0 }}>
                       {book.paperbackInfo.isbn && (
                         <li style={{ fontSize: "16px", color: "#696969", marginBottom: "8px", lineHeight: 1.6, fontFamily: '"Nunito Sans", sans-serif' }}>
