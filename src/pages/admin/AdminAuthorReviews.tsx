@@ -71,6 +71,44 @@ export default function AdminAuthorReviews() {
     reload();
   };
 
+  const openPicker = async () => {
+    setPickerOpen(true);
+    if (apiReviews !== null) return;
+    setApiLoading(true);
+    try {
+      const data = await fetchAuthorReviews();
+      setApiReviews(data);
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : "Failed to load API reviews");
+      setApiReviews([]);
+    } finally {
+      setApiLoading(false);
+    }
+  };
+
+  const importFromApi = (r: ApiReview) => {
+    const { name, position } = parseAuthor(r.author);
+    setEditing({
+      ...empty,
+      author_name: name,
+      position,
+      quote: r.praise,
+      book_title: r.book_title,
+    });
+    setPickerOpen(false);
+    toast.success("Loaded from API — review and Save to publish");
+  };
+
+  const filteredApi = (apiReviews || []).filter((r) => {
+    if (!search.trim()) return true;
+    const q = search.toLowerCase();
+    return (
+      r.author?.toLowerCase().includes(q) ||
+      r.book_title?.toLowerCase().includes(q) ||
+      r.praise?.toLowerCase().includes(q)
+    );
+  });
+
   return (
     <div className="space-y-6">
       <div className="flex justify-between gap-3 flex-wrap">
@@ -78,7 +116,16 @@ export default function AdminAuthorReviews() {
           <h1 className="font-baskerville text-2xl sm:text-3xl">Author Reviews</h1>
           <p className="text-muted-foreground text-sm">Quotes shown in the homepage Author Reviews grid.</p>
         </div>
-        {!editing && <Button onClick={() => setEditing({ ...empty })} className="bg-accent hover:bg-accent/90"><Plus className="h-4 w-4 mr-1" /> New</Button>}
+        {!editing && (
+          <div className="flex gap-2">
+            <Button variant="outline" onClick={openPicker}>
+              <Download className="h-4 w-4 mr-1" /> Import from API
+            </Button>
+            <Button onClick={() => setEditing({ ...empty })} className="bg-accent hover:bg-accent/90">
+              <Plus className="h-4 w-4 mr-1" /> New
+            </Button>
+          </div>
+        )}
       </div>
 
       {editing && (
