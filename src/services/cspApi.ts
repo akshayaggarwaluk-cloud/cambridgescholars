@@ -50,6 +50,7 @@ export interface CSPBookRaw {
   slug: string;
   isbn: string;
   description: string | null;
+  full_description?: string | null;
   cover_image: string;
   sample_pdf: string | null;
   pages: number | null;
