@@ -269,6 +269,25 @@ export default function AdminHeroSlides() {
             />
           </Field>
 
+          <Field label="Reviewer credit (auto-filled from catalog)">
+            <div className="grid sm:grid-cols-2 gap-3">
+              <input
+                type="text"
+                value={editing.reviewer_name || ""}
+                onChange={(e) => setEditing({ ...editing, reviewer_name: e.target.value })}
+                placeholder="Reviewer name"
+                className="w-full border border-border px-3 py-2 text-sm bg-background"
+              />
+              <input
+                type="text"
+                value={editing.reviewer_position || ""}
+                onChange={(e) => setEditing({ ...editing, reviewer_position: e.target.value })}
+                placeholder="Position / institution"
+                className="w-full border border-border px-3 py-2 text-sm bg-background"
+              />
+            </div>
+          </Field>
+
           <Field label="Book cover (auto-filled from catalog)">
             {editing.cover_image ? (
               <div className="flex items-center gap-3 border border-border bg-background p-3">
