@@ -53,14 +53,14 @@ export default function AdminHeroSlides() {
   const [apiReviewOptions, setApiReviewOptions] = useState<ApiReviewOption[]>([]);
   const [selectedReviewIndex, setSelectedReviewIndex] = useState(0);
 
-  // Clear API review options whenever the editor is closed or a different
-  // record starts being edited (so stale options don't leak across slides).
+  // Clear API review options whenever the editor is closed (so stale
+  // options don't leak across slides).
   useEffect(() => {
     if (!editing) {
       setApiReviewOptions([]);
       setSelectedReviewIndex(0);
     }
-  }, [editing?.id, editing?._new, editing === null]);
+  }, [editing]);
 
   const searchBooks = (q: string) => {
     if (debounceRef.current) window.clearTimeout(debounceRef.current);
