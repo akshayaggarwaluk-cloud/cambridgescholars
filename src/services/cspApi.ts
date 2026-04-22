@@ -69,6 +69,11 @@ export interface CSPBookRaw {
   author_biography?: string | null;
   reviews?: CSPReviewRaw[];
   recommended_books?: CSPBookRaw[];
+  subject_codes?: {
+    bic?: string[] | null;
+    bisac?: string[] | null;
+    thema?: string[] | null;
+  } | null;
   featured_reviewer?: {
     name: string;
     position: string;
