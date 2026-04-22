@@ -16,6 +16,10 @@ export default function AdminGate({ children }: AdminGateProps) {
     setChecking(true);
     adminWhoAmI()
       .then((u) => { if (!cancelled) setUser(u); })
+      .catch(() => {
+        adminSession.clear();
+        if (!cancelled) setUser(null);
+      })
       .finally(() => { if (!cancelled) setChecking(false); });
     return () => { cancelled = true; };
   }, []);
