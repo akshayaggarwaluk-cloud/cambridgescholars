@@ -55,7 +55,7 @@ export default function Cart() {
         </div>
       </div>
 
-      <main className="pb-16">
+       <main className="pb-16 bg-white">
         <div className="max-w-7xl mx-auto px-6 md:px-16 py-12 bg-white">
           {/* Table header */}
           <div className="grid grid-cols-[1fr_120px_180px_140px_60px] gap-6 pb-5 border-b border-border items-center">
