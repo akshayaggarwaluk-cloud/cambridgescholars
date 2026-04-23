@@ -169,7 +169,7 @@ export default function Cart() {
               </button>
               <Button
                 asChild
-                className="text-white rounded-none uppercase tracking-wider font-nav font-medium px-10 py-4 text-sm h-auto bg-[#e5573e]"
+                className="text-white rounded-none uppercase tracking-wider font-nav font-medium px-10 py-4 text-sm h-auto bg-[#e5573e] hover:bg-[#e5573e]"
               >
                 <Link to="/checkout">Proceed to Checkout</Link>
               </Button>
