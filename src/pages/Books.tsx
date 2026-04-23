@@ -297,7 +297,7 @@ export default function Books() {
                             {cat.name}
                           </button>
                           <div className="flex items-center gap-2">
-                            <span className="text-[#C5A374] bg-[#F1EFEA] rounded-full px-3 py-1 min-w-[44px] text-center font-baskerville text-xs">
+                            <span className="bg-[#F1EFEA] rounded-full px-3 py-1 min-w-[44px] text-center font-baskerville text-xs text-[#c4a273]">
                               {cat.book_count}
                             </span>
                             <button
@@ -412,7 +412,7 @@ export default function Books() {
                         All Categories
                       </button>
                       <div className="flex items-center gap-2">
-                        <span className="text-[#C75B2A] bg-[#F1EFEA] rounded-full px-3 py-1 min-w-[44px] text-center font-baskerville text-xs">
+                        <span className="bg-[#F1EFEA] rounded-full px-3 py-1 min-w-[44px] text-center font-baskerville text-xs text-[#c4a273]">
                           {categories.reduce((sum, c) => sum + c.book_count, 0)}
                         </span>
                         <span className="w-5 h-5 invisible" aria-hidden="true" />
