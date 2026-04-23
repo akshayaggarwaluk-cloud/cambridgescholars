@@ -246,11 +246,11 @@ const SubmitProposal = () => {
                         </SelectContent>
                       </Select>
                     </div>
-                    <FieldInput label="State / Province / Region / County" required />
-                    <FieldInput label="City" required />
-                    <FieldInput label="Address" required />
+                    <FieldInput label="State / Province / Region / County" required value={formData.state} onChange={(v) => updateField("state", v)} />
+                    <FieldInput label="City" required value={formData.city} onChange={(v) => updateField("city", v)} />
+                    <FieldInput label="Address" required value={formData.address} onChange={(v) => updateField("address", v)} />
                     <div className="md:col-span-1">
-                      <FieldInput label="ZIP / Postal Code" required />
+                      <FieldInput label="ZIP / Postal Code" required value={formData.zip} onChange={(v) => updateField("zip", v)} />
                     </div>
                   </div>
                 </>
@@ -259,8 +259,8 @@ const SubmitProposal = () => {
               {currentStep === 3 && (
                 <>
                   <h2 className="text-2xl font-serif text-foreground pb-2">Book Details</h2>
-                  <FieldInput label="Proposed Title" required />
-                  <FieldInput label="Proposed Subtitle" required />
+                  <FieldInput label="Proposed Title" required value={formData.proposedTitle} onChange={(v) => updateField("proposedTitle", v)} />
+                  <FieldInput label="Proposed Subtitle" required value={formData.proposedSubtitle} onChange={(v) => updateField("proposedSubtitle", v)} />
                   <div className="space-y-1">
                     <Label className="text-foreground font-semibold">
                       Type of Book <span className="text-accent font-normal italic">(Required)</span>
