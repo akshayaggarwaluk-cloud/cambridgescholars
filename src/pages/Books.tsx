@@ -450,10 +450,10 @@ export default function Books() {
 
               {sortOpen && (
                 <div className="mt-10">
-                  <div className="pb-3 border-b border-[#d9d9d9]">
-                    <h3 className="font-baskerville text-[26px] text-black">Sort By</h3>
+                  <div className="pb-2 border-b border-[#d9d9d9]">
+                    <h3 className="font-baskerville text-[20px] font-normal text-black">Sort By</h3>
                   </div>
-                  <ul className="mt-8 space-y-6">
+                  <ul className="mt-7 space-y-5 pl-1">
                     {SORT_OPTIONS.map((opt) => {
                       const active = orderBy === opt.value;
                       return (
