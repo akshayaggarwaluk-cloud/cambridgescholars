@@ -546,24 +546,37 @@ const FieldInput = ({
   type = "text",
   value,
   onChange,
+  error,
+  maxLength,
 }: {
   label: string;
   required?: boolean;
   type?: string;
   value?: string;
   onChange?: (value: string) => void;
+  error?: string;
+  maxLength?: number;
 }) => (
   <div className="space-y-1">
     <Label className="text-foreground font-medium font-nav tracking-wider">
       {label} {required && <span className="text-accent font-normal italic tracking-normal">(Required)</span>}
     </Label>
     <Input
-      type={type}
+      type={type === "number" ? "text" : type}
+      inputMode={type === "tel" ? "tel" : type === "number" ? "numeric" : undefined}
       required={required}
       value={value ?? ""}
-      onChange={(e) => onChange?.(e.target.value)}
-      className="border border-input rounded-none shadow-none focus-visible:ring-0 px-3 py-2 bg-[#f5f5f5]"
+      maxLength={maxLength ?? (type === "email" ? 255 : type === "tel" ? 20 : 500)}
+      onChange={(e) => {
+        let v = e.target.value;
+        if (type === "tel") v = v.replace(/[^0-9+\s\-()]/g, "");
+        if (type === "number") v = v.replace(/[^0-9]/g, "");
+        onChange?.(v);
+      }}
+      className={`border rounded-none shadow-none focus-visible:ring-0 px-3 py-2 bg-[#f5f5f5] ${error ? "border-destructive" : "border-input"}`}
+      aria-invalid={!!error}
     />
+    {error && <p className="text-xs text-destructive mt-1">{error}</p>}
   </div>
 );
 
@@ -573,12 +586,16 @@ const FieldTextarea = ({
   rows = 4,
   value,
   onChange,
+  error,
+  maxLength = 2000,
 }: {
   label: string;
   required?: boolean;
   rows?: number;
   value?: string;
   onChange?: (value: string) => void;
+  error?: string;
+  maxLength?: number;
 }) => (
   <div className="space-y-1">
     <Label className="text-foreground font-semibold">
@@ -588,9 +605,12 @@ const FieldTextarea = ({
       required={required}
       rows={rows}
       value={value ?? ""}
+      maxLength={maxLength}
       onChange={(e) => onChange?.(e.target.value)}
-      className="border border-input rounded-none shadow-none focus-visible:ring-0 px-3 py-2 bg-[#f5f5f5] resize-vertical"
+      className={`border rounded-none shadow-none focus-visible:ring-0 px-3 py-2 bg-[#f5f5f5] resize-vertical ${error ? "border-destructive" : "border-input"}`}
+      aria-invalid={!!error}
     />
+    {error && <p className="text-xs text-destructive mt-1">{error}</p>}
   </div>
 );
 
