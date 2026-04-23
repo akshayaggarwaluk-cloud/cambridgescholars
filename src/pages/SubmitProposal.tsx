@@ -26,6 +26,11 @@ const SubmitProposal = () => {
   const [sampleFiles, setSampleFiles] = useState<File[]>([]);
   const [supportingFiles, setSupportingFiles] = useState<File[]>([]);
   const [country, setCountry] = useState("");
+  const [formData, setFormData] = useState<Record<string, string>>({});
+  const [coAuthorRoles, setCoAuthorRoles] = useState<Record<number, string>>({});
+
+  const updateField = (key: string, value: string) =>
+    setFormData((prev) => ({ ...prev, [key]: value }));
 
   const progress = Math.round((currentStep / TOTAL_STEPS) * 100);
 
@@ -64,7 +69,11 @@ const SubmitProposal = () => {
           <Label className="text-foreground font-semibold">
             Role <span className="text-accent font-normal italic">(Required)</span>
           </Label>
-          <RadioGroup className="flex flex-wrap gap-4 pt-1">
+          <RadioGroup
+            value={coAuthorRoles[i] || ""}
+            onValueChange={(v) => setCoAuthorRoles((prev) => ({ ...prev, [i]: v }))}
+            className="flex flex-wrap gap-4 pt-1"
+          >
             {["Co-authors", "Editors", "Contributors", "Translators"].map((role) => (
               <div key={role} className="flex items-center space-x-2">
                 <RadioGroupItem value={role.toLowerCase()} id={`role-${i}-${role}`} />
@@ -75,9 +84,9 @@ const SubmitProposal = () => {
             ))}
           </RadioGroup>
         </div>
-        <FieldInput label="Name" required />
-        <FieldInput label="Email" type="email" required />
-        <FieldInput label="Affiliation" required />
+        <FieldInput label={`Co-author ${i + 1} Name`} required value={formData[`coauthor-${i}-name`] || ""} onChange={(v) => updateField(`coauthor-${i}-name`, v)} />
+        <FieldInput label={`Co-author ${i + 1} Email`} type="email" required value={formData[`coauthor-${i}-email`] || ""} onChange={(v) => updateField(`coauthor-${i}-email`, v)} />
+        <FieldInput label={`Co-author ${i + 1} Affiliation`} required value={formData[`coauthor-${i}-affiliation`] || ""} onChange={(v) => updateField(`coauthor-${i}-affiliation`, v)} />
       </div>
     ));
   };
@@ -122,12 +131,12 @@ const SubmitProposal = () => {
             <div className="space-y-6">
               {currentStep === 1 && (
                 <>
-                  <FieldInput label="Full Name" required />
-                  <FieldInput label="Email Address" type="email" required />
-                  <FieldInput label="Phone Number" type="tel" required />
-                  <FieldInput label="Institution or Organisation" required />
-                  <FieldInput label="Current Position" required />
-                  <FieldInput label="Academic/Professional Qualifications" required />
+                  <FieldInput label="Full Name" required value={formData.fullName} onChange={(v) => updateField("fullName", v)} />
+                  <FieldInput label="Email Address" type="email" required value={formData.email} onChange={(v) => updateField("email", v)} />
+                  <FieldInput label="Phone Number" type="tel" required value={formData.phone} onChange={(v) => updateField("phone", v)} />
+                  <FieldInput label="Institution or Organisation" required value={formData.institution} onChange={(v) => updateField("institution", v)} />
+                  <FieldInput label="Current Position" required value={formData.position} onChange={(v) => updateField("position", v)} />
+                  <FieldInput label="Academic/Professional Qualifications" required value={formData.qualifications} onChange={(v) => updateField("qualifications", v)} />
 
                   <div className="space-y-1">
                     <Label className="text-foreground font-semibold">
@@ -237,11 +246,11 @@ const SubmitProposal = () => {
                         </SelectContent>
                       </Select>
                     </div>
-                    <FieldInput label="State / Province / Region / County" required />
-                    <FieldInput label="City" required />
-                    <FieldInput label="Address" required />
+                    <FieldInput label="State / Province / Region / County" required value={formData.state} onChange={(v) => updateField("state", v)} />
+                    <FieldInput label="City" required value={formData.city} onChange={(v) => updateField("city", v)} />
+                    <FieldInput label="Address" required value={formData.address} onChange={(v) => updateField("address", v)} />
                     <div className="md:col-span-1">
-                      <FieldInput label="ZIP / Postal Code" required />
+                      <FieldInput label="ZIP / Postal Code" required value={formData.zip} onChange={(v) => updateField("zip", v)} />
                     </div>
                   </div>
                 </>
@@ -250,8 +259,8 @@ const SubmitProposal = () => {
               {currentStep === 3 && (
                 <>
                   <h2 className="text-2xl font-serif text-foreground pb-2">Book Details</h2>
-                  <FieldInput label="Proposed Title" required />
-                  <FieldInput label="Proposed Subtitle" required />
+                  <FieldInput label="Proposed Title" required value={formData.proposedTitle} onChange={(v) => updateField("proposedTitle", v)} />
+                  <FieldInput label="Proposed Subtitle" required value={formData.proposedSubtitle} onChange={(v) => updateField("proposedSubtitle", v)} />
                   <div className="space-y-1">
                     <Label className="text-foreground font-semibold">
                       Type of Book <span className="text-accent font-normal italic">(Required)</span>
@@ -277,12 +286,12 @@ const SubmitProposal = () => {
               {currentStep === 4 && (
                 <>
                   <h2 className="text-2xl font-serif text-foreground pb-2">Book Description</h2>
-                  <FieldTextarea label="Brief Summary of the Book (approx. 200–500 words)" required rows={6} />
-                  <FieldTextarea label="Key Features or Selling Points" required rows={4} />
-                  <FieldTextarea label="Intended Audience" required rows={3} />
-                  <FieldInput label="Estimated final word count (between 35,000 and 200,000 words)" required />
-                  <FieldInput label="Number of illustrations/figures/tables (if any)" required />
-                  <FieldInput label="Languages used (if more than English)" required />
+                  <FieldTextarea label="Brief Summary of the Book (approx. 200–500 words)" required rows={6} value={formData.briefSummary} onChange={(v) => updateField("briefSummary", v)} />
+                  <FieldTextarea label="Key Features or Selling Points" required rows={4} value={formData.keyFeatures} onChange={(v) => updateField("keyFeatures", v)} />
+                  <FieldTextarea label="Intended Audience" required rows={3} value={formData.audience} onChange={(v) => updateField("audience", v)} />
+                  <FieldInput label="Estimated final word count (between 35,000 and 200,000 words)" required value={formData.wordCount} onChange={(v) => updateField("wordCount", v)} />
+                  <FieldInput label="Number of illustrations/figures/tables (if any)" required value={formData.illustrations} onChange={(v) => updateField("illustrations", v)} />
+                  <FieldInput label="Languages used (if more than English)" required value={formData.languages} onChange={(v) => updateField("languages", v)} />
                 </>
               )}
 
@@ -293,11 +302,15 @@ const SubmitProposal = () => {
                     label="Competing Titles (minimum two examples with author, title, and publisher)"
                     required
                     rows={4}
+                    value={formData.competingTitles}
+                    onChange={(v) => updateField("competingTitles", v)}
                   />
                   <FieldTextarea
                     label="What unique contribution does your book make compared to these existing titles?"
                     required
                     rows={4}
+                    value={formData.uniqueContribution}
+                    onChange={(v) => updateField("uniqueContribution", v)}
                   />
                 </>
               )}
@@ -321,7 +334,7 @@ const SubmitProposal = () => {
                       </SelectContent>
                     </Select>
                   </div>
-                  <FieldInput label="When do you expect to submit the final manuscript?" type="date" required />
+                  <FieldInput label="When do you expect to submit the final manuscript?" type="date" required value={formData.submissionDate} onChange={(v) => updateField("submissionDate", v)} />
                 </>
               )}
 
@@ -374,11 +387,13 @@ const SubmitProposal = () => {
                   </div>
 
                   <h2 className="text-2xl font-serif text-foreground pb-2 pt-4">Additional Comments and Permissions</h2>
-                  <FieldTextarea label="Any additional notes or context from the author" required rows={4} />
+                  <FieldTextarea label="Any additional notes or context from the author" required rows={4} value={formData.additionalNotes} onChange={(v) => updateField("additionalNotes", v)} />
                   <FieldTextarea
                     label="Are there any permissions you need to obtain from other copyright holders?"
                     required
                     rows={3}
+                    value={formData.permissions}
+                    onChange={(v) => updateField("permissions", v)}
                   />
 
                   <p className="text-sm text-muted-foreground pt-4">
@@ -421,7 +436,19 @@ const SubmitProposal = () => {
   );
 };
 
-const FieldInput = ({ label, required, type = "text" }: { label: string; required?: boolean; type?: string }) => (
+const FieldInput = ({
+  label,
+  required,
+  type = "text",
+  value,
+  onChange,
+}: {
+  label: string;
+  required?: boolean;
+  type?: string;
+  value?: string;
+  onChange?: (value: string) => void;
+}) => (
   <div className="space-y-1">
     <Label className="text-foreground font-medium font-nav tracking-wider">
       {label} {required && <span className="text-accent font-normal italic tracking-normal">(Required)</span>}
@@ -429,12 +456,26 @@ const FieldInput = ({ label, required, type = "text" }: { label: string; require
     <Input
       type={type}
       required={required}
+      value={value ?? ""}
+      onChange={(e) => onChange?.(e.target.value)}
       className="border border-input rounded-none shadow-none focus-visible:ring-0 px-3 py-2 bg-[#f5f5f5]"
     />
   </div>
 );
 
-const FieldTextarea = ({ label, required, rows = 4 }: { label: string; required?: boolean; rows?: number }) => (
+const FieldTextarea = ({
+  label,
+  required,
+  rows = 4,
+  value,
+  onChange,
+}: {
+  label: string;
+  required?: boolean;
+  rows?: number;
+  value?: string;
+  onChange?: (value: string) => void;
+}) => (
   <div className="space-y-1">
     <Label className="text-foreground font-semibold">
       {label} {required && <span className="text-accent font-normal italic">(Required)</span>}
@@ -442,6 +483,8 @@ const FieldTextarea = ({ label, required, rows = 4 }: { label: string; required?
     <Textarea
       required={required}
       rows={rows}
+      value={value ?? ""}
+      onChange={(e) => onChange?.(e.target.value)}
       className="border border-input rounded-none shadow-none focus-visible:ring-0 px-3 py-2 bg-[#f5f5f5] resize-vertical"
     />
   </div>
