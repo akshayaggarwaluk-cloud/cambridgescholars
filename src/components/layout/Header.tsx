@@ -115,7 +115,7 @@ export function Header() {
                   to={item.href}
                   className={cn(
                     "text-sm py-2 transition-colors hover:text-foreground font-bold border-b-2",
-                    isActiveRoute(item.href) ? "text-foreground border-accent" : "text-muted-foreground border-transparent"
+                    isActiveRoute(item.href) ? "text-foreground border-black" : "text-muted-foreground border-transparent"
                   )}
                 >
                   {item.name}
@@ -127,7 +127,7 @@ export function Header() {
                 to="/books"
                 className={cn(
                   "text-sm py-2 transition-colors hover:text-foreground font-bold border-b-2",
-                  isActiveRoute("/books") ? "text-foreground border-accent" : "text-muted-foreground border-transparent"
+                  isActiveRoute("/books") ? "text-foreground border-black" : "text-muted-foreground border-transparent"
                 )}
               >
                 Buy a Book
@@ -143,7 +143,7 @@ export function Header() {
                   to="/publish-a-book"
                   className={cn(
                     "text-sm flex items-center gap-1.5 py-2 hover:text-foreground font-bold border-b-2",
-                    isPublishActive ? "text-foreground border-accent" : "text-muted-foreground border-transparent"
+                    isPublishActive ? "text-foreground border-black" : "text-muted-foreground border-transparent"
                   )}
                 >
                   Publish a Book
@@ -183,7 +183,7 @@ export function Header() {
                   to={item.href}
                   className={cn(
                     "text-sm py-2 hover:text-foreground font-bold border-b-2",
-                    isActiveRoute(item.href) ? "text-foreground border-accent" : "text-muted-foreground border-transparent"
+                    isActiveRoute(item.href) ? "text-foreground border-black" : "text-muted-foreground border-transparent"
                   )}
                 >
                   {item.name}
