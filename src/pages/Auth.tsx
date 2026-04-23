@@ -258,7 +258,7 @@ export default function Auth() {
                     autoComplete="username"
                     value={loginIdentifier}
                     onChange={(e) => setLoginIdentifier(e.target.value)}
-                    className={`h-12 rounded-none border-border bg-background ${
+                    className={`h-12 rounded-none border-border bg-white ${
                       loginErrors.identifier
                         ? "border-destructive focus-visible:ring-destructive"
                         : "focus-visible:ring-accent"
