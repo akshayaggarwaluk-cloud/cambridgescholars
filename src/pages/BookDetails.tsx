@@ -146,10 +146,10 @@ export default function BookDetails() {
                       <button
                         onClick={() => setSelectedFormat("paperback")}
                         className={cn(
-                          "flex items-center gap-2 px-6 py-3 border-2 rounded transition-colors min-w-[120px]",
+                          "flex items-center gap-2 px-6 py-3 transition-colors min-w-[120px] rounded-none",
                           selectedFormat === "paperback"
-                            ? "border-black bg-white"
-                            : "border-border bg-background hover:border-accent/50"
+                            ? "border-black bg-white border-none"
+                            : "border border-border bg-background hover:border-accent/50"
                         )}
                       >
                         <BookIcon className={cn("h-5 w-5", selectedFormat === "paperback" ? "text-accent" : "text-muted-foreground")} />
@@ -161,10 +161,10 @@ export default function BookDetails() {
                       <button
                         onClick={() => setSelectedFormat("ebook")}
                         className={cn(
-                          "flex items-center gap-2 px-6 py-3 border-2 rounded transition-colors min-w-[120px]",
+                          "flex items-center gap-2 px-6 py-3 transition-colors min-w-[120px] rounded-none",
                           selectedFormat === "ebook"
-                            ? "border-black bg-white"
-                            : "border-border bg-background hover:border-accent/50"
+                            ? "border-black bg-white border-none"
+                            : "border border-border bg-background hover:border-accent/50"
                         )}
                       >
                         <BookIcon className={cn("h-5 w-5", selectedFormat === "ebook" ? "text-accent" : "text-muted-foreground")} />
