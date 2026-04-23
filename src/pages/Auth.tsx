@@ -494,7 +494,7 @@ export default function Auth() {
 
                   <Button
                     type="submit"
-                    className="bg-[#E4573D] hover:bg-[#E4573D]/90 text-accent-foreground font-medium h-12 px-8 rounded-none uppercase tracking-wider transition-colors duration-300"
+                    className="bg-[#e4573d] hover:bg-[#e4573d]/90 text-accent-foreground font-medium h-12 px-8 rounded-none uppercase tracking-wider transition-colors duration-300"
                     disabled={registerLoading}
                   >
                     {registerLoading ? (
