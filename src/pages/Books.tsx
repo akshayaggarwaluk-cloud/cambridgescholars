@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useSearchParams, Link } from "react-router-dom";
-import { Search, ChevronDown, Heart, Loader2, SlidersHorizontal } from "lucide-react";
+import { Search, ChevronDown, Heart, Loader2, AlignLeft } from "lucide-react";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { PageBreadcrumb } from "@/components/layout/PageBreadcrumb";
