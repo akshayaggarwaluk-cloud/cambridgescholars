@@ -125,7 +125,7 @@ export default function BookDetails() {
 
                 {/* Format Selection */}
                 <div className="mb-4 sm:mb-0">
-                  <p className="text-sm font-semibold mb-3">Select Format</p>
+                  <p className="text-sm font-semibold mb-3">BINDING</p>
                   <div className="flex gap-3">
                     {hasHardback && (
                       <button
