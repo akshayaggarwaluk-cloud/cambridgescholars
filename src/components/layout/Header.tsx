@@ -163,7 +163,7 @@ export function Header() {
                           key={item.name}
                           to={item.href}
                           className={cn(
-                            "block px-5 py-2.5 text-base font-semibold capitalize hover:bg-secondary transition-colors",
+                            "block px-5 py-2.5 text-base font-semibold capitalize hover:bg-white hover:text-accent transition-colors",
                             isActiveRoute(item.href)
                               ? "text-accent"
                               : "text-foreground"
