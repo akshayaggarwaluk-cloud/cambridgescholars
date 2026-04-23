@@ -28,13 +28,109 @@ const SubmitProposal = () => {
   const [country, setCountry] = useState("");
   const [formData, setFormData] = useState<Record<string, string>>({});
   const [coAuthorRoles, setCoAuthorRoles] = useState<Record<number, string>>({});
+  const [errors, setErrors] = useState<Record<string, string>>({});
 
-  const updateField = (key: string, value: string) =>
+  const updateField = (key: string, value: string) => {
     setFormData((prev) => ({ ...prev, [key]: value }));
+    setErrors((prev) => {
+      if (!prev[key]) return prev;
+      const next = { ...prev };
+      delete next[key];
+      return next;
+    });
+  };
+
+  const validateField = (key: string, value: string, type: string): string => {
+    const v = (value || "").trim();
+    if (!v) return "This field is required.";
+    if (type === "email") {
+      const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRe.test(v)) return "Please enter a valid email address.";
+      if (v.length > 255) return "Email must be 255 characters or fewer.";
+    } else if (type === "tel") {
+      const phoneRe = /^\+?[0-9\s\-()]{7,20}$/;
+      if (!phoneRe.test(v)) return "Please enter a valid phone number (digits only, 7–20 chars).";
+    } else if (type === "number") {
+      if (!/^\d+$/.test(v)) return "Please enter digits only.";
+    } else if (type === "date") {
+      if (Number.isNaN(Date.parse(v))) return "Please enter a valid date.";
+    } else {
+      if (v.length > 2000) return "Input is too long.";
+    }
+    return "";
+  };
 
   const progress = Math.round((currentStep / TOTAL_STEPS) * 100);
 
+  const stepFieldSpecs: Record<number, Array<{ key: string; type: string }>> = {
+    1: [
+      { key: "fullName", type: "text" },
+      { key: "email", type: "email" },
+      { key: "phone", type: "tel" },
+      { key: "institution", type: "text" },
+      { key: "position", type: "text" },
+      { key: "qualifications", type: "text" },
+    ],
+    2: [
+      { key: "state", type: "text" },
+      { key: "city", type: "text" },
+      { key: "address", type: "text" },
+      { key: "zip", type: "text" },
+    ],
+    3: [
+      { key: "proposedTitle", type: "text" },
+      { key: "proposedSubtitle", type: "text" },
+    ],
+    4: [
+      { key: "briefSummary", type: "text" },
+      { key: "keyFeatures", type: "text" },
+      { key: "audience", type: "text" },
+      { key: "wordCount", type: "number" },
+      { key: "illustrations", type: "number" },
+      { key: "languages", type: "text" },
+    ],
+    5: [
+      { key: "competingTitles", type: "text" },
+      { key: "uniqueContribution", type: "text" },
+    ],
+    6: [{ key: "submissionDate", type: "date" }],
+    7: [
+      { key: "additionalNotes", type: "text" },
+      { key: "permissions", type: "text" },
+    ],
+  };
+
+  const validateCurrentStep = (): boolean => {
+    const specs = stepFieldSpecs[currentStep] || [];
+    const newErrors: Record<string, string> = {};
+    specs.forEach(({ key, type }) => {
+      const err = validateField(key, formData[key] || "", type);
+      if (err) newErrors[key] = err;
+    });
+    if (currentStep === 1 && hasCoAuthors === "yes") {
+      const count = parseInt(coAuthorCount) || 1;
+      for (let i = 0; i < count; i++) {
+        const nameErr = validateField(`coauthor-${i}-name`, formData[`coauthor-${i}-name`] || "", "text");
+        if (nameErr) newErrors[`coauthor-${i}-name`] = nameErr;
+        const emailErr = validateField(`coauthor-${i}-email`, formData[`coauthor-${i}-email`] || "", "email");
+        if (emailErr) newErrors[`coauthor-${i}-email`] = emailErr;
+        const affErr = validateField(`coauthor-${i}-affiliation`, formData[`coauthor-${i}-affiliation`] || "", "text");
+        if (affErr) newErrors[`coauthor-${i}-affiliation`] = affErr;
+      }
+    }
+    setErrors((prev) => ({ ...prev, ...newErrors }));
+    return Object.keys(newErrors).length === 0;
+  };
+
   const handleNext = () => {
+    if (!validateCurrentStep()) {
+      toast({
+        title: "Please complete the required fields",
+        description: "Some entries are missing or invalid.",
+        variant: "destructive",
+      });
+      return;
+    }
     if (currentStep < TOTAL_STEPS) {
       setCurrentStep(currentStep + 1);
       window.scrollTo({ top: 0, behavior: "smooth" });
@@ -49,6 +145,14 @@ const SubmitProposal = () => {
   };
 
   const handleSubmit = async () => {
+    if (!validateCurrentStep()) {
+      toast({
+        title: "Please complete the required fields",
+        description: "Some entries are missing or invalid.",
+        variant: "destructive",
+      });
+      return;
+    }
     setIsSubmitting(true);
     await new Promise((resolve) => setTimeout(resolve, 1500));
     toast({
