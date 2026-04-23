@@ -505,7 +505,7 @@ export default function Books() {
                         </Link>
 
                         {/* Book Details */}
-                        <div className="flex-1 flex flex-col justify-center">
+                        <div className="flex-1 flex flex-col">
                           <Link to={`/books/${book.id}`}>
                             <h2 className="font-['Libre_Baskerville'] text-foreground hover:text-[#E4573D] transition-colors leading-tight text-2xl font-medium">
                               {book.title}
@@ -529,7 +529,7 @@ export default function Books() {
                           )}
 
                           {/* Actions */}
-                          <div className="flex items-center gap-3 mt-6">
+                          <div className="flex items-center gap-3 mt-auto pt-6">
                             <Button
                               asChild
                               className="font-nav bg-[#E4573D] hover:bg-[#E4573D]/80 text-white px-7 h-11 text-[13px] font-bold tracking-[0.12em] uppercase rounded-none transition-colors"
