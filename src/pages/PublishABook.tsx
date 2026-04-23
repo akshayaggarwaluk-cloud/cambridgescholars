@@ -80,7 +80,7 @@ export default function PublishABook() {
               >
                 View More
                 <ChevronRight className="h-4 w-4" />
-                <ChevronRight className="h-4 w-4 -ml-3.5" />
+                <ChevronRight className="h-4 w-4 -ml-[14px]" />
               </Link>
             </div>
           ))}
