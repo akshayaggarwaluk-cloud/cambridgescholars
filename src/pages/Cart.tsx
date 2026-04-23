@@ -1,11 +1,11 @@
 import { Link } from "react-router-dom";
 import { Minus, Plus, X, Info, ShoppingCart } from "lucide-react";
-import { toast } from "sonner";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { PageBreadcrumb } from "@/components/layout/PageBreadcrumb";
 import { Button } from "@/components/ui/button";
 import { useCart } from "@/contexts/CartContext";
+import { showCartNotification } from "@/components/cart/CartBanner";
 
 export default function Cart() {
   const { items, updateQuantity, removeFromCart, cartTotal } = useCart();
@@ -174,7 +174,7 @@ export default function Cart() {
 
             <div className="flex flex-col sm:flex-row gap-4 sm:items-center">
               <button
-                onClick={() => toast.success("Cart updated")}
+                onClick={() => showCartNotification("Cart updated.")}
                 className="bg-[#E89B7A] hover:bg-[#d88863] text-white rounded-none uppercase tracking-wider font-nav font-medium px-10 py-4 text-sm transition-colors"
               >
                 Update Cart
