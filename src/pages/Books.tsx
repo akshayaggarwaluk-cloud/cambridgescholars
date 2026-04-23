@@ -407,7 +407,7 @@ export default function Books() {
                     <div className="flex items-center justify-between mt-2 pt-2">
                       <button
                         onClick={() => handleCategoryChange("all")}
-                        className={cn("text-left font-baskerville text-sm py-2 transition-colors font-semibold text-[#c4a273]")}
+                        className={cn("text-left font-baskerville text-sm py-2 transition-colors text-[#c4a273] font-normal")}
                       >
                         All Categories
                       </button>
