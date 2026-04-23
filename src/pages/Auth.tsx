@@ -238,7 +238,7 @@ export default function Auth() {
               {loginError && (
                 <div className="mb-6 bg-red-50 border-l-4 border-red-500 p-4 flex items-start gap-3">
                   <AlertTriangle className="h-5 w-5 text-red-500 flex-shrink-0 mt-0.5" />
-                  <p className="text-foreground text-base">
+                  <p className="text-foreground/80 text-base tracking-wide">
                     <span className="font-semibold text-red-600">Error:</span> {loginError}
                   </p>
                 </div>
@@ -248,7 +248,7 @@ export default function Auth() {
                 <div className="space-y-2">
                   <Label
                     htmlFor="loginIdentifier"
-                    className="text-xs font-medium tracking-wider uppercase text-foreground"
+                    className="text-xs font-medium tracking-widest uppercase text-foreground/70"
                   >
                     Username or email address <span className="text-accent">*</span>
                   </Label>
@@ -272,7 +272,7 @@ export default function Auth() {
                 <div className="space-y-2">
                   <Label
                     htmlFor="loginPassword"
-                    className="text-xs font-medium tracking-wider uppercase text-foreground"
+                    className="text-xs font-medium tracking-widest uppercase text-foreground/70"
                   >
                     Password <span className="text-accent">*</span>
                   </Label>
@@ -331,7 +331,7 @@ export default function Auth() {
                     />
                     <Label
                       htmlFor="rememberMe"
-                      className="text-sm uppercase tracking-wider text-foreground cursor-pointer"
+                      className="text-sm uppercase tracking-widest text-foreground/70 cursor-pointer"
                     >
                       Remember me
                     </Label>
@@ -361,7 +361,7 @@ export default function Auth() {
               {registerError && (
                 <div className="mb-6 bg-red-50 border-l-4 border-red-500 p-4 flex items-start gap-3">
                   <AlertTriangle className="h-5 w-5 text-red-500 flex-shrink-0 mt-0.5" />
-                  <p className="text-foreground text-base">
+                  <p className="text-foreground/80 text-base tracking-wide">
                     <span className="font-semibold text-red-600">Error:</span> {registerError}
                   </p>
                 </div>
@@ -373,7 +373,7 @@ export default function Auth() {
                     <div className="space-y-2">
                       <Label
                         htmlFor="regFirstName"
-                        className="text-xs font-medium tracking-wider uppercase text-foreground"
+                        className="text-xs font-medium tracking-widest uppercase text-foreground/70"
                       >
                         First name <span className="text-accent">*</span>
                       </Label>
@@ -397,7 +397,7 @@ export default function Auth() {
                     <div className="space-y-2">
                       <Label
                         htmlFor="regLastName"
-                        className="text-xs font-medium tracking-wider uppercase text-foreground"
+                        className="text-xs font-medium tracking-widest uppercase text-foreground/70"
                       >
                         Last name <span className="text-accent">*</span>
                       </Label>
@@ -422,7 +422,7 @@ export default function Auth() {
                   <div className="space-y-2">
                     <Label
                       htmlFor="regEmail"
-                      className="text-xs font-medium tracking-wider uppercase text-foreground"
+                      className="text-xs font-medium tracking-widest uppercase text-foreground/70"
                     >
                       Email address <span className="text-accent">*</span>
                     </Label>
@@ -446,7 +446,7 @@ export default function Auth() {
                   <div className="space-y-2">
                     <Label
                       htmlFor="regPassword"
-                      className="text-xs font-medium tracking-wider uppercase text-foreground"
+                      className="text-xs font-medium tracking-widest uppercase text-foreground/70"
                     >
                       Password <span className="text-accent">*</span>
                     </Label>
@@ -484,7 +484,7 @@ export default function Auth() {
                     </p>
                   </div>
 
-                  <p className="text-base text-foreground leading-relaxed">
+                  <p className="text-base text-foreground/80 leading-relaxed tracking-wide">
                     Your personal data will be used to support your experience throughout this
                     website, to manage access to your account, and for other purposes described
                     in our{" "}
@@ -511,7 +511,7 @@ export default function Auth() {
                 </form>
               ) : (
                 <form onSubmit={handleVerifyOtp} className="space-y-6">
-                  <p className="text-base text-foreground leading-relaxed">
+                  <p className="text-base text-foreground/80 leading-relaxed tracking-wide">
                     We've sent a 6-digit verification code to{" "}
                     <span className="font-semibold">{regEmail}</span>. Enter it below to finish
                     creating your account. The code expires in 15 minutes.
@@ -520,7 +520,7 @@ export default function Auth() {
                   <div className="space-y-2">
                     <Label
                       htmlFor="regOtp"
-                      className="text-xs font-medium tracking-wider uppercase text-foreground"
+                      className="text-xs font-medium tracking-widest uppercase text-foreground/70"
                     >
                       Verification code <span className="text-accent">*</span>
                     </Label>
