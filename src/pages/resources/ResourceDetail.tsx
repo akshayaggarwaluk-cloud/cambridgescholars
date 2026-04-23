@@ -52,13 +52,13 @@ export default function ResourceDetail() {
           ) : (
             <>
               {resource.excerpt && (
-                <p className="font-nav text-[16px] font-light text-[#8a8a8a] leading-snug tracking-wide mb-8">
+                <p className="font-nav text-[16px] font-normal text-[#333333] leading-[1.7] mb-10">
                   {resource.excerpt}
                 </p>
               )}
               {resource.content && (
                 <div
-                  className="font-nav text-[16px] font-light text-[#8a8a8a] leading-snug tracking-wide prose prose-neutral max-w-none whitespace-pre-wrap [&_strong]:font-normal [&_li]:my-1 [&_p]:mb-2"
+                  className="font-nav text-[16px] font-normal text-[#333333] leading-[1.7] max-w-none whitespace-pre-wrap [&_strong]:font-normal [&_ul]:list-disc [&_ul]:pl-6 [&_li]:my-2 [&_li::marker]:text-[#333333] [&_p]:mb-2"
                   dangerouslySetInnerHTML={{ __html: renderContent(resource.content) }}
                 />
               )}
@@ -89,7 +89,7 @@ function renderContent(src: string): string {
   for (const raw of lines) {
     const line = raw.trim();
     if (line.startsWith("- ")) {
-      if (!inList) { out.push('<ul class="space-y-1 list-disc list-inside my-3">'); inList = true; }
+      if (!inList) { out.push('<ul class="my-4">'); inList = true; }
       out.push(`<li>${inline(line.slice(2))}</li>`);
     } else {
       if (inList) { out.push("</ul>"); inList = false; }
