@@ -89,12 +89,12 @@ function renderContent(src: string): string {
   for (const raw of lines) {
     const line = raw.trim();
     if (line.startsWith("- ")) {
-      if (!inList) { out.push('<ul class="my-4">'); inList = true; }
+      if (!inList) { out.push('<ul>'); inList = true; }
       out.push(`<li>${inline(line.slice(2))}</li>`);
     } else {
       if (inList) { out.push("</ul>"); inList = false; }
-      if (line === "") out.push("<br/>");
-      else out.push(`<p class="mb-2">${inline(line)}</p>`);
+      if (line === "") continue;
+      out.push(`<p>${inline(line)}</p>`);
     }
   }
   if (inList) out.push("</ul>");
