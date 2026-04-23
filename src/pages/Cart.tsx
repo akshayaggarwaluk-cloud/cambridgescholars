@@ -163,7 +163,7 @@ export default function Cart() {
             <Button
               asChild
               variant="outline"
-              className="rounded-none uppercase tracking-wider font-nav font-medium px-8 py-6 text-sm border-border hover:bg-secondary self-start"
+              className="rounded-none uppercase tracking-wider font-nav font-medium px-8 py-4 text-sm border border-[#e5573e] text-[#e5573e] bg-transparent hover:bg-[#e5573e]/5 hover:text-[#e5573e] self-start h-auto"
             >
               <Link to="/books" className="flex items-center gap-2">
                 <ShoppingCart className="h-4 w-4" />
@@ -171,7 +171,7 @@ export default function Cart() {
               </Link>
             </Button>
 
-            <div className="flex flex-col gap-4 sm:items-end">
+            <div className="flex flex-col sm:flex-row gap-4 sm:items-center">
               <button
                 onClick={() => window.location.reload()}
                 className="bg-[#E89B7A] hover:bg-[#d88863] text-white rounded-none uppercase tracking-wider font-nav font-medium px-10 py-4 text-sm transition-colors"
