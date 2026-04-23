@@ -115,9 +115,6 @@ export default function ForgotPassword() {
                   "RESET PASSWORD"
                 )}
               </Button>
-              <Link to="/auth" className="text-accent hover:underline text-base">
-                Back to login
-              </Link>
             </div>
           </form>
         </div>
