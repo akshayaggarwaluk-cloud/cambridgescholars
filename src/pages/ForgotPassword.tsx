@@ -8,6 +8,7 @@ import { toast } from "sonner";
 import { z } from "zod";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import { PageBreadcrumb } from "@/components/layout/PageBreadcrumb";
 import { forgotPassword } from "@/services/authService";
 
 const emailSchema = z
@@ -56,13 +57,13 @@ export default function ForgotPassword() {
           <h1 className="text-[40px] leading-[1.2] font-baskerville font-normal text-[#333333] my-[10px]">
             My account
           </h1>
-          <nav className="flex items-center gap-2 text-base text-muted-foreground">
-            <Link to="/" className="hover:text-accent transition-colors">Home</Link>
-            <span>/</span>
-            <Link to="/books" className="hover:text-accent transition-colors">Bookshop</Link>
-            <span>/</span>
-            <span className="text-accent font-medium">My account</span>
-          </nav>
+          <PageBreadcrumb
+            items={[
+              { label: "Home", href: "/" },
+              { label: "Bookshop", href: "/books" },
+              { label: "My account" },
+            ]}
+          />
         </div>
       </section>
 
