@@ -42,6 +42,7 @@ export default function Books() {
   const [categories, setCategories] = useState<CSPCategory[]>([]);
   const [expandedCats, setExpandedCats] = useState<Set<string>>(new Set());
   const [activeSearchField, setActiveSearchField] = useState("");
+  const [sortOpen, setSortOpen] = useState(false);
 
   // Fetch categories
   useEffect(() => {
