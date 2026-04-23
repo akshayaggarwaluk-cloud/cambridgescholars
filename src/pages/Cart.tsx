@@ -212,7 +212,7 @@ export default function Cart() {
               <button
                 onClick={handleUpdateCart}
                 disabled={!hasChanges}
-                className="bg-[#E89B7A] hover:bg-white text-white hover:text-[#E89B7A] border border-[#E89B7A] rounded-none uppercase font-serif tracking-wider normal-case text-sm px-10 py-4 transition-colors font-semibold disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-[#E89B7A] disabled:hover:text-white"
+                className="bg-[#C75B2A] hover:bg-white text-white hover:text-[#C75B2A] border border-[#C75B2A] rounded-none uppercase font-serif tracking-wider normal-case text-sm px-10 py-4 transition-colors font-semibold disabled:bg-[#E89B7A] disabled:border-[#E89B7A] disabled:cursor-not-allowed disabled:hover:bg-[#E89B7A] disabled:hover:text-white"
               >
                 UPDATE CART
               </button>
