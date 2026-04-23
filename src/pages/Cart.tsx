@@ -210,8 +210,9 @@ export default function Cart() {
 
             <div className="flex flex-col sm:flex-row gap-4 sm:items-center">
               <button
-                onClick={() => showCartNotification("Cart updated.")}
-                className="bg-[#E89B7A] hover:bg-white text-white hover:text-[#E89B7A] border border-[#E89B7A] rounded-none uppercase font-serif tracking-wider normal-case text-sm px-10 py-4 transition-colors font-semibold"
+                onClick={handleUpdateCart}
+                disabled={!hasChanges}
+                className="bg-[#E89B7A] hover:bg-white text-white hover:text-[#E89B7A] border border-[#E89B7A] rounded-none uppercase font-serif tracking-wider normal-case text-sm px-10 py-4 transition-colors font-semibold disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-[#E89B7A] disabled:hover:text-white"
               >
                 UPDATE CART
               </button>
