@@ -40,7 +40,7 @@ const EndorsementSubmission = () => {
       <main className="flex-1">
 
         {/* Verification Form Section */}
-        <section className="py-16 md:py-24">
+        <section className="py-16 md:py-24 bg-white">
           <div className="container-wide flex justify-center">
             <div className="w-full max-w-2xl bg-card border border-border rounded-lg p-8 md:p-12">
               <form onSubmit={handleVerify} className="space-y-6 text-center">
