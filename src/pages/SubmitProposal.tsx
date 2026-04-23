@@ -541,11 +541,11 @@ const SubmitProposal = () => {
               )}
 
               {currentStep < TOTAL_STEPS ? (
-                <Button onClick={handleNext} className="px-8 py-3 rounded-none text-sm font-semibold tracking-wider bg-accent hover:bg-accent/90 text-white">
+                <Button onClick={handleNext} className="px-8 py-3 rounded-none text-sm font-semibold tracking-wider bg-[#e4573d] hover:bg-[#e4573d]/90 text-white">
                   NEXT
                 </Button>
               ) : (
-                <Button onClick={handleSubmit} disabled={isSubmitting} className="px-8 py-3 rounded-none text-sm font-semibold tracking-wider bg-accent hover:bg-accent/90 text-white gap-2">
+                <Button onClick={handleSubmit} disabled={isSubmitting} className="px-8 py-3 rounded-none text-sm font-semibold tracking-wider bg-[#e4573d] hover:bg-[#e4573d]/90 text-white gap-2">
                   {isSubmitting ? (
                     "SUBMITTING..."
                   ) : (
