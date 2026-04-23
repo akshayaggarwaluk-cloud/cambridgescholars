@@ -52,11 +52,13 @@ export default function ResourceDetail() {
           ) : (
             <>
               {resource.excerpt && (
-                <p className="font-nav text-[16px] text-[#696969] leading-relaxed mb-10">{resource.excerpt}</p>
+                <p className="font-nav text-[16px] font-light text-[#8a8a8a] leading-snug tracking-wide mb-8">
+                  {resource.excerpt}
+                </p>
               )}
               {resource.content && (
                 <div
-                  className="font-nav text-[16px] text-[#696969] leading-relaxed prose prose-neutral max-w-none whitespace-pre-wrap"
+                  className="font-nav text-[16px] font-light text-[#8a8a8a] leading-snug tracking-wide prose prose-neutral max-w-none whitespace-pre-wrap [&_strong]:font-normal [&_li]:my-1 [&_p]:mb-2"
                   dangerouslySetInnerHTML={{ __html: renderContent(resource.content) }}
                 />
               )}
@@ -82,17 +84,17 @@ function renderContent(src: string): string {
       .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
       .replace(
         /\[([^\]]+)\]\(([^)]+)\)/g,
-        '<a href="$2" class="text-[#E4573D] hover:underline font-medium" target="_blank" rel="noopener noreferrer">$1</a>',
+        '<a href="$2" class="text-[#E4573D] hover:underline font-normal" target="_blank" rel="noopener noreferrer">$1</a>',
       );
   for (const raw of lines) {
     const line = raw.trim();
     if (line.startsWith("- ")) {
-      if (!inList) { out.push('<ul class="space-y-3 list-disc list-inside my-4">'); inList = true; }
+      if (!inList) { out.push('<ul class="space-y-1 list-disc list-inside my-3">'); inList = true; }
       out.push(`<li>${inline(line.slice(2))}</li>`);
     } else {
       if (inList) { out.push("</ul>"); inList = false; }
       if (line === "") out.push("<br/>");
-      else out.push(`<p class="mb-4">${inline(line)}</p>`);
+      else out.push(`<p class="mb-2">${inline(line)}</p>`);
     }
   }
   if (inList) out.push("</ul>");
