@@ -157,7 +157,7 @@ export function Header() {
 
                 {isPublishDropdownOpen && (
                   <div className="absolute top-full left-1/2 -translate-x-1/2 pt-3 z-50">
-                    <div className="bg-background border rounded-lg shadow-xl py-2 w-60">
+                     <div className="bg-white border rounded-lg shadow-xl py-2 w-60">
                       {publishDropdownItems.map((item) => (
                         <Link
                           key={item.name}
