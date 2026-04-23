@@ -57,7 +57,7 @@ export default function Resources() {
                     )}
                     <Link
                       to={`/resources/${item.slug}`}
-                      className="inline-flex items-center text-[13px] font-nav font-semibold tracking-widest text-[#E4573D] hover:underline"
+                      className="inline-flex items-center text-[13px] font-nav font-semibold tracking-widest text-[#e4573d] hover:underline"
                     >
                       READ MORE
                       <span className="ml-1">›</span>
