@@ -10,7 +10,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Progress } from "@/components/ui/progress";
 import { useToast } from "@/hooks/use-toast";
-import { ArrowLeft, ArrowRight, Send, Upload } from "lucide-react";
+import { ArrowLeft, ArrowRight, Send, Upload, CheckCircle2 } from "lucide-react";
 
 const TOTAL_STEPS = 7;
 
@@ -18,6 +18,7 @@ const SubmitProposal = () => {
   const { toast } = useToast();
   const [currentStep, setCurrentStep] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
   const [hasCoAuthors, setHasCoAuthors] = useState<string>("");
   const [coAuthorCount, setCoAuthorCount] = useState("1");
   const [bookType, setBookType] = useState("");
@@ -155,11 +156,9 @@ const SubmitProposal = () => {
     }
     setIsSubmitting(true);
     await new Promise((resolve) => setTimeout(resolve, 1500));
-    toast({
-      title: "Proposal Submitted",
-      description: "Thank you for your submission. We'll review it and get back to you within 4-6 weeks.",
-    });
     setIsSubmitting(false);
+    setIsSubmitted(true);
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const renderCoAuthorFields = () => {
