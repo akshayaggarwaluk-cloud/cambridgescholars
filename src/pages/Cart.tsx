@@ -90,7 +90,7 @@ export default function Cart() {
                     </Link>
                     {item.isbn && (
                       <p className="text-sm text-muted-foreground mt-2">
-                        <span className="font-semibold text-foreground">ISBN:</span> {item.isbn}
+                        <span className="font-semibold text-foreground">ISBN:</span> {formatIsbn(item.isbn)}
                       </p>
                     )}
                   </div>
@@ -98,7 +98,7 @@ export default function Cart() {
 
                 {/* Price */}
                 <div className="text-base text-muted-foreground">
-                  From ${item.price.toFixed(2)}
+                  £{item.price.toFixed(2)}
                 </div>
 
                 {/* Quantity */}
@@ -122,7 +122,7 @@ export default function Cart() {
 
                 {/* Total */}
                 <div className="text-base text-[#6e6e6e]">
-                  ${(item.price * item.quantity).toFixed(2)}
+                  £{(item.price * item.quantity).toFixed(2)}
                 </div>
 
                 {/* Remove */}
@@ -141,7 +141,7 @@ export default function Cart() {
           <div className="flex justify-end items-center gap-12 mt-8 pr-6">
             <span className="text-base text-muted-foreground">Total</span>
             <span className="text-xl font-semibold text-foreground">
-              ${cartTotal.toFixed(2)}
+              £{cartTotal.toFixed(2)}
             </span>
           </div>
 
