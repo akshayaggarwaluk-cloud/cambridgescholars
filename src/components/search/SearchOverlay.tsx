@@ -117,7 +117,7 @@ export function SearchOverlay({ onClose }: SearchOverlayProps) {
               onKeyDown={handleKeyDown}
               placeholder={showAdvanced ? `Search by ${searchByField.charAt(0).toUpperCase() + searchByField.slice(1)}...` : "Search by Title, Subtitle, or Author/Editor name..."}
               className="flex-1 h-full px-6 bg-transparent focus:outline-none text-xl font-light text-white"
-              style={{ fontFamily: "'Nunito Sans', sans-serif" }}
+              style={{ fontFamily: "'Libre Baskerville', serif" }}
             />
             <button
               onClick={handleSearch}
