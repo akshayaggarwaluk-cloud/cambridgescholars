@@ -67,14 +67,12 @@ export default function PublishABook() {
         <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
           {publishCards.map((card) => (
             <div key={card.title} className="group">
-              <div className="flex items-start gap-4 mb-4">
-                <div className="flex-shrink-0">
-                  <img src={card.icon} alt={card.title} className="h-14 w-14 object-contain" />
+              <div className="mb-4">
+                <div className="flex items-center gap-4 mb-2">
+                  <img src={card.icon} alt={card.title} className="h-14 w-14 object-contain flex-shrink-0" />
+                  <h3 className="font-serif text-2xl text-foreground">{card.title}</h3>
                 </div>
-                <div>
-                  <h3 className="font-serif text-2xl text-foreground mb-2">{card.title}</h3>
-                  <p className="text-sm text-[#333333] whitespace-nowrap">{card.description}</p>
-                </div>
+                <p className="text-sm text-[#333333]">{card.description}</p>
               </div>
               <Link
                 to={card.href}
