@@ -26,6 +26,11 @@ const SubmitProposal = () => {
   const [sampleFiles, setSampleFiles] = useState<File[]>([]);
   const [supportingFiles, setSupportingFiles] = useState<File[]>([]);
   const [country, setCountry] = useState("");
+  const [formData, setFormData] = useState<Record<string, string>>({});
+  const [coAuthorRoles, setCoAuthorRoles] = useState<Record<number, string>>({});
+
+  const updateField = (key: string, value: string) =>
+    setFormData((prev) => ({ ...prev, [key]: value }));
 
   const progress = Math.round((currentStep / TOTAL_STEPS) * 100);
 
@@ -64,7 +69,11 @@ const SubmitProposal = () => {
           <Label className="text-foreground font-semibold">
             Role <span className="text-accent font-normal italic">(Required)</span>
           </Label>
-          <RadioGroup className="flex flex-wrap gap-4 pt-1">
+          <RadioGroup
+            value={coAuthorRoles[i] || ""}
+            onValueChange={(v) => setCoAuthorRoles((prev) => ({ ...prev, [i]: v }))}
+            className="flex flex-wrap gap-4 pt-1"
+          >
             {["Co-authors", "Editors", "Contributors", "Translators"].map((role) => (
               <div key={role} className="flex items-center space-x-2">
                 <RadioGroupItem value={role.toLowerCase()} id={`role-${i}-${role}`} />
@@ -75,9 +84,9 @@ const SubmitProposal = () => {
             ))}
           </RadioGroup>
         </div>
-        <FieldInput label="Name" required />
-        <FieldInput label="Email" type="email" required />
-        <FieldInput label="Affiliation" required />
+        <FieldInput label={`Co-author ${i + 1} Name`} required value={formData[`coauthor-${i}-name`] || ""} onChange={(v) => updateField(`coauthor-${i}-name`, v)} />
+        <FieldInput label={`Co-author ${i + 1} Email`} type="email" required value={formData[`coauthor-${i}-email`] || ""} onChange={(v) => updateField(`coauthor-${i}-email`, v)} />
+        <FieldInput label={`Co-author ${i + 1} Affiliation`} required value={formData[`coauthor-${i}-affiliation`] || ""} onChange={(v) => updateField(`coauthor-${i}-affiliation`, v)} />
       </div>
     ));
   };
