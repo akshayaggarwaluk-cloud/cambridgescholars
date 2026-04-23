@@ -457,10 +457,11 @@ export default function Books() {
               </div>
 
               {sortOpen && (
-                <div className="mt-8 border-t border-[#e5e5e5] pt-6">
-                  <h3 className="font-baskerville text-2xl text-black mb-2">Sort By</h3>
-                  <div className="border-b border-[#e5e5e5] mb-6" />
-                  <ul className="space-y-5">
+                <div className="mt-10">
+                  <div className="pb-3 border-b border-[#d9d9d9]">
+                    <h3 className="font-baskerville text-[26px] text-black">Sort By</h3>
+                  </div>
+                  <ul className="mt-8 space-y-6">
                     {SORT_OPTIONS.map((opt) => {
                       const active = orderBy === opt.value;
                       return (
@@ -474,7 +475,7 @@ export default function Books() {
                             className={cn(
                               "font-baskerville text-base text-left transition-colors hover:text-[#C75B2A]",
                               active
-                                ? "text-[#C75B2A] underline underline-offset-4"
+                                ? "text-[#C75B2A] underline underline-offset-[6px] decoration-1"
                                 : "text-[#333]",
                             )}
                           >
