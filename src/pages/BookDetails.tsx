@@ -138,7 +138,7 @@ export default function BookDetails() {
                         )}
                       >
                         <BookIcon className={cn("h-5 w-5", selectedFormat === "hardbook" ? "text-accent" : "text-muted-foreground")} />
-                        <span className={cn("text-sm font-semibold", selectedFormat === "hardbook" ? "text-accent" : "text-foreground")}>Hardback</span>
+                        <span className={cn("font-serif tracking-wider normal-case text-sm font-light", selectedFormat === "hardbook" ? "text-accent" : "text-foreground")}>HARDBACK</span>
                         
                       </button>
                     )}
@@ -153,7 +153,7 @@ export default function BookDetails() {
                         )}
                       >
                         <BookIcon className={cn("h-5 w-5", selectedFormat === "paperback" ? "text-accent" : "text-muted-foreground")} />
-                        <span className={cn("text-sm font-semibold", selectedFormat === "paperback" ? "text-accent" : "text-foreground")}>Paperback</span>
+                        <span className={cn("font-serif tracking-wider normal-case text-sm font-light", selectedFormat === "paperback" ? "text-accent" : "text-foreground")}>PAPERBACK</span>
                         
                       </button>
                     )}
@@ -168,7 +168,7 @@ export default function BookDetails() {
                         )}
                       >
                         <BookIcon className={cn("h-5 w-5", selectedFormat === "ebook" ? "text-accent" : "text-muted-foreground")} />
-                        <span className={cn("text-sm font-semibold", selectedFormat === "ebook" ? "text-accent" : "text-foreground")}>EBook</span>
+                        <span className={cn("font-serif tracking-wider normal-case text-sm font-light", selectedFormat === "ebook" ? "text-accent" : "text-foreground")}>EBOOK</span>
                         
                       </button>
                     )}
