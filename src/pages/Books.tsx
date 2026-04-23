@@ -269,8 +269,13 @@ export default function Books() {
             </button>
           </div>
 
-          {sortOpen && (
-            <div className="mb-12">
+          <div
+            className={cn(
+              "grid transition-all duration-500 ease-in-out overflow-hidden",
+              sortOpen ? "grid-rows-[1fr] opacity-100 mb-12" : "grid-rows-[0fr] opacity-0 mb-0",
+            )}
+          >
+            <div className="min-h-0 overflow-hidden">
               <div className="pb-2 border-b border-[#d9d9d9]">
                 <h3 className="font-baskerville text-[20px] font-normal text-black">Sort By</h3>
               </div>
@@ -299,7 +304,7 @@ export default function Books() {
                 })}
               </ul>
             </div>
-          )}
+          </div>
 
           <div className="flex flex-col lg:flex-row gap-12">
           {/* Sidebar */}
