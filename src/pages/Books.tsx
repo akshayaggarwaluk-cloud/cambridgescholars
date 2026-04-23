@@ -252,8 +252,56 @@ export default function Books() {
       </div>
 
       <main className="px-6 md:px-16 py-12 bg-white">
-        <div className="max-w-7xl mx-auto flex flex-col lg:flex-row gap-12">
-          {/* Top bar: results count + sort dropdown — full-width above the columns */}
+        <div className="max-w-7xl mx-auto">
+          {/* Top bar: results count + sort toggle — full-width above the columns */}
+          <div className="flex items-center justify-between flex-wrap gap-4 mb-6">
+            <p className="font-baskerville text-base text-[#333] italic">
+              {resultsSummary}
+            </p>
+            <button
+              type="button"
+              onClick={() => setSortOpen((v) => !v)}
+              className="flex items-center gap-1 font-baskerville text-base text-[#333] hover:text-[#C75B2A] transition-colors"
+              aria-expanded={sortOpen}
+            >
+              {sortOpen ? <X className="h-4 w-4" /> : <AlignLeft className="h-4 w-4" />}
+              <span className="underline underline-offset-4">Sort By</span>
+            </button>
+          </div>
+
+          {sortOpen && (
+            <div className="mb-12">
+              <div className="pb-2 border-b border-[#d9d9d9]">
+                <h3 className="font-baskerville text-[20px] font-normal text-black">Sort By</h3>
+              </div>
+              <ul className="mt-7 space-y-5 pl-1">
+                {SORT_OPTIONS.map((opt) => {
+                  const active = orderBy === opt.value;
+                  return (
+                    <li key={opt.value}>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          handleSortChange(opt.value);
+                          setSortOpen(false);
+                        }}
+                        className={cn(
+                          "font-baskerville text-base text-left transition-colors hover:text-[#C75B2A]",
+                          active
+                            ? "text-[#C75B2A] underline underline-offset-[6px] decoration-1"
+                            : "text-[#333]",
+                        )}
+                      >
+                        {opt.label}
+                      </button>
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
+          )}
+
+          <div className={cn("flex flex-col lg:flex-row gap-12", sortOpen && "hidden")}>
           {/* Sidebar */}
           <aside className="lg:w-72 flex-shrink-0">
             {/* Search Section */}
