@@ -139,7 +139,7 @@ export function SearchOverlay({ onClose }: SearchOverlayProps) {
 
           {/* Advanced search - Search By filter buttons */}
           {showAdvanced && (
-            <div className="border border-white/20 px-6 py-4 animate-fade-in flex items-center gap-3 flex-wrap bg-[#525151]">
+            <div className="border border-white/20 px-6 py-4 animate-fade-in flex items-center gap-3 flex-wrap bg-[#525151]" style={{ fontFamily: "'Libre Baskerville', serif" }}>
               <span className="text-white font-semibold text-[15px] mr-1">Search By :</span>
               {[
                 { key: "title", label: "Title" },
