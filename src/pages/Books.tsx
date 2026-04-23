@@ -549,7 +549,7 @@ export default function Books() {
                         <span
                           key={p}
                           aria-current="page"
-                          className="w-12 h-12 rounded-full flex items-center justify-center bg-[#C75B2A] text-white font-baskerville text-[18px]"
+                           className="w-12 h-12 rounded-full flex items-center justify-center bg-[#C75B2A] text-white font-baskerville text-base"
                         >
                           {p}
                         </span>
@@ -557,7 +557,7 @@ export default function Books() {
                         <button
                           key={p}
                           onClick={() => handlePageChange(p as number)}
-                          className="font-baskerville text-[18px] text-[#999] hover:text-[#C75B2A] transition-colors px-1"
+                           className="font-baskerville text-[18px] text-[#999] hover:text-[#C75B2A] transition-colors px-1"
                         >
                           {p}
                         </button>
