@@ -292,9 +292,7 @@ export default function Books() {
                         }}
                         className={cn(
                           "inline-block font-baskerville text-xs text-left transition-colors no-underline border-b border-transparent pb-px",
-                          active
-                            ? "text-[#696969] border-current"
-                            : "text-[#333] hover:text-[#C75B2A]",
+                           active ? "text-[#696969] border-current" : "text-[#696969]",
                         )}
                       >
                         {opt.label}
