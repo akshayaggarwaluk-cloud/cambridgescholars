@@ -89,7 +89,7 @@ function renderContent(src: string): string {
   for (const raw of lines) {
     const line = raw.trim();
     if (line.startsWith("- ")) {
-      if (!inList) { out.push('<ul class="space-y-1 list-disc list-inside my-3">'); inList = true; }
+      if (!inList) { out.push('<ul class="my-4">'); inList = true; }
       out.push(`<li>${inline(line.slice(2))}</li>`);
     } else {
       if (inList) { out.push("</ul>"); inList = false; }
