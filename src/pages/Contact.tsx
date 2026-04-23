@@ -100,7 +100,7 @@ export default function Contact() {
         {/* Centered Contact Form */}
         <section className="pb-24">
           <div className="container-wide">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-20">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-0 mb-20">
               <div
                 role="img"
                 aria-label="Cambridge Scholars Publishing interior — wooden staircase"
