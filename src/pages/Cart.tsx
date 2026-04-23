@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { useState, useEffect, useMemo } from "react";
 import { Minus, Plus, X, Info, ShoppingCart } from "lucide-react";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
@@ -9,6 +10,41 @@ import { showCartNotification } from "@/components/cart/CartBanner";
 
 export default function Cart() {
   const { items, updateQuantity, removeFromCart, cartTotal } = useCart();
+
+  // Snapshot of quantities at last "save" (initial load or after Update Cart)
+  const [savedQuantities, setSavedQuantities] = useState<Record<string, number>>(() => {
+    const map: Record<string, number> = {};
+    items.forEach((i) => {
+      map[`${i.id}_${i.format}`] = i.quantity;
+    });
+    return map;
+  });
+
+  // When items are added/removed externally, refresh the baseline for new/removed keys
+  useEffect(() => {
+    setSavedQuantities((prev) => {
+      const next: Record<string, number> = {};
+      items.forEach((i) => {
+        const key = `${i.id}_${i.format}`;
+        next[key] = key in prev ? prev[key] : i.quantity;
+      });
+      return next;
+    });
+  }, [items.map((i) => `${i.id}_${i.format}`).join("|")]);
+
+  const hasChanges = useMemo(
+    () => items.some((i) => savedQuantities[`${i.id}_${i.format}`] !== i.quantity),
+    [items, savedQuantities]
+  );
+
+  const handleUpdateCart = () => {
+    const map: Record<string, number> = {};
+    items.forEach((i) => {
+      map[`${i.id}_${i.format}`] = i.quantity;
+    });
+    setSavedQuantities(map);
+    showCartNotification("Cart updated.");
+  };
 
   const formatIsbn = (isbn: string) => {
     const digits = isbn.replace(/[^0-9Xx]/g, "");
@@ -174,8 +210,9 @@ export default function Cart() {
 
             <div className="flex flex-col sm:flex-row gap-4 sm:items-center">
               <button
-                onClick={() => showCartNotification("Cart updated.")}
-                className="bg-[#E89B7A] hover:bg-white text-white hover:text-[#E89B7A] border border-[#E89B7A] rounded-none uppercase font-serif tracking-wider normal-case text-sm px-10 py-4 transition-colors font-semibold"
+                onClick={handleUpdateCart}
+                disabled={!hasChanges}
+                className="bg-[#E89B7A] hover:bg-white text-white hover:text-[#E89B7A] border border-[#E89B7A] rounded-none uppercase font-serif tracking-wider normal-case text-sm px-10 py-4 transition-colors font-semibold disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-[#E89B7A] disabled:hover:text-white"
               >
                 UPDATE CART
               </button>
