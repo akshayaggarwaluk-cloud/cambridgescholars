@@ -296,9 +296,9 @@ export default function Auth() {
                       className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
                     >
                       {showLoginPassword ? (
-                        <EyeOff className="h-5 w-5" />
-                      ) : (
                         <Eye className="h-5 w-5" />
+                      ) : (
+                        <EyeOff className="h-5 w-5" />
                       )}
                     </button>
                   </div>
@@ -470,9 +470,9 @@ export default function Auth() {
                         className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
                       >
                         {showRegPassword ? (
-                          <EyeOff className="h-5 w-5" />
-                        ) : (
                           <Eye className="h-5 w-5" />
+                        ) : (
+                          <EyeOff className="h-5 w-5" />
                         )}
                       </button>
                     </div>
