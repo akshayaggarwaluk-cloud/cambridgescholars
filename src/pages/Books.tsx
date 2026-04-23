@@ -292,12 +292,7 @@ export default function Books() {
                         <div className="flex items-center justify-between">
                           <button
                             onClick={() => handleCategoryChange(cat.slug)}
-                            className={cn(
-                              "text-left font-baskerville text-sm py-2 transition-colors",
-                              selectedCategory === cat.slug
-                                ? "text-[#C75B2A] font-normal"
-                                : "text-[#C5A374] hover:text-[#C75B2A] font-normal",
-                            )}
+                            className={cn("text-left font-baskerville text-sm py-2 transition-colors font-normal text-[#c4a273]")}
                           >
                             {cat.name}
                           </button>
@@ -412,12 +407,7 @@ export default function Books() {
                     <div className="flex items-center justify-between mt-2 pt-2">
                       <button
                         onClick={() => handleCategoryChange("all")}
-                        className={cn(
-                          "text-left font-baskerville text-sm py-2 transition-colors",
-                          selectedCategory === "all"
-                            ? "text-[#C75B2A] font-semibold"
-                            : "text-[#C75B2A] hover:text-[#9c4521]",
-                        )}
+                        className={cn("text-left font-baskerville text-sm py-2 transition-colors font-semibold text-[#c4a273]")}
                       >
                         All Categories
                       </button>
