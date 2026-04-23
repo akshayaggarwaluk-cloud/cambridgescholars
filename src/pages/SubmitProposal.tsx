@@ -97,7 +97,7 @@ const SubmitProposal = () => {
         <section className="py-12 bg-white">
           <div className="container-wide max-w-7xl mx-auto">
             {/* Notice */}
-            <p className="text-muted-foreground mb-8 text-sm md:text-base">
+            <p className="text-muted-foreground mb-8 text-sm md:text-sm">
               Please note that we publish in English only and do not provide translation services at this time.
               Submissions in languages other than English will not be considered for publication.
             </p>
