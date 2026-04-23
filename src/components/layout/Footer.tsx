@@ -84,6 +84,7 @@ export function Footer() {
         {/* Legal Section */}
         <div className="mt-16 pt-8 space-y-4 text-[#FFFAFA] font-sans text-sm">
           <p>Cambridge Scholars Publishing | Registration Number: 04333775</p>
+          <br></br>
           <p>
             Please note that Cambridge Scholars Publishing Limited is not
             affiliated to or associated with Cambridge University Press or the
