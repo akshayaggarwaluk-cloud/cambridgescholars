@@ -433,8 +433,8 @@ export default function Books() {
             <div className="flex items-center justify-between mb-8 flex-wrap gap-4 pb-4 text-sm">
               <div className="min-h-[24px]" />
               <Select value={orderBy} onValueChange={handleSortChange}>
-                <SelectTrigger className="w-auto min-w-[160px] border-0 shadow-none bg-transparent font-sans text-xs font-semibold text-[#ababab] focus:ring-0 gap-2 px-0 hover:text-[#C75B2A] transition-colors">
-                  <SlidersHorizontal className="h-3.5 w-3.5 text-[#ababab]" />
+                <SelectTrigger className="w-auto min-w-[120px] border-0 shadow-none bg-transparent font-sans text-xs font-semibold text-[#ababab] focus:ring-0 gap-1 px-0 hover:text-[#C75B2A] transition-colors">
+                  <AlignLeft className="h-3.5 w-3.5 text-[#ababab]" />
                   <span>Sort By</span>
                 </SelectTrigger>
                 <SelectContent className="font-sans">
