@@ -9,6 +9,17 @@ import { useCart } from "@/contexts/CartContext";
 export default function Cart() {
   const { items, updateQuantity, removeFromCart, cartTotal } = useCart();
 
+  const formatIsbn = (isbn: string) => {
+    const digits = isbn.replace(/[^0-9Xx]/g, "");
+    if (digits.length === 13) {
+      return `${digits.slice(0, 3)}-${digits.slice(3, 4)}-${digits.slice(4, 8)}-${digits.slice(8, 12)}-${digits.slice(12)}`;
+    }
+    if (digits.length === 10) {
+      return `${digits.slice(0, 1)}-${digits.slice(1, 5)}-${digits.slice(5, 9)}-${digits.slice(9)}`;
+    }
+    return isbn;
+  };
+
   if (items.length === 0) {
     return (
       <div className="min-h-screen bg-background">
