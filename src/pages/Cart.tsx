@@ -164,26 +164,26 @@ export default function Cart() {
             <Button
               asChild
               variant="outline"
-              className="rounded-none uppercase tracking-wider font-nav font-medium px-8 py-4 text-sm border border-[#e5573e] text-[#e5573e] bg-transparent hover:bg-[#e5573e]/5 hover:text-[#e5573e] self-start h-auto"
+              className="rounded-none uppercase font-serif tracking-wider normal-case text-sm font-light px-8 py-4 border border-[#e5573e] text-[#e5573e] bg-transparent hover:bg-[#e5573e]/5 hover:text-[#e5573e] self-start h-auto"
             >
               <Link to="/books" className="flex items-center gap-2">
                 <ShoppingCart className="h-4 w-4" />
-                Continue Shopping
+                CONTINUE SHOPPING
               </Link>
             </Button>
 
             <div className="flex flex-col sm:flex-row gap-4 sm:items-center">
               <button
                 onClick={() => showCartNotification("Cart updated.")}
-                className="bg-[#E89B7A] hover:bg-[#d88863] text-white rounded-none uppercase tracking-wider font-nav font-medium px-10 py-4 text-sm transition-colors"
+                className="bg-[#E89B7A] hover:bg-[#d88863] text-white rounded-none uppercase font-serif tracking-wider normal-case text-sm font-light px-10 py-4 transition-colors"
               >
-                Update Cart
+                UPDATE CART
               </button>
               <Button
                 asChild
-                className="text-white rounded-none uppercase tracking-wider font-nav font-medium px-10 py-4 text-sm h-auto bg-[#e5573e] hover:bg-[#e5573e]"
+                className="text-white rounded-none uppercase font-serif tracking-wider normal-case text-sm font-light px-10 py-4 h-auto bg-[#e5573e] hover:bg-[#e5573e]"
               >
-                <Link to="/checkout">Proceed to Checkout</Link>
+                <Link to="/checkout">PROCEED TO CHECKOUT</Link>
               </Button>
             </div>
           </div>
