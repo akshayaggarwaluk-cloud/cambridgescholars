@@ -307,7 +307,7 @@ export default function Auth() {
                   )}
                 </div>
 
-                <div className="flex items-center gap-4 flex-wrap">
+                <div className="flex items-center gap-8 flex-wrap">
                   <Button
                     type="submit"
                     className="bg-[#E4573D] text-accent-foreground font-medium h-12 px-8 rounded-none uppercase tracking-wider transition-colors duration-300 hover:bg-[#E4573D]/90"
@@ -323,7 +323,7 @@ export default function Auth() {
                     )}
                   </Button>
 
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-3 ml-4">
                     <Checkbox
                       id="rememberMe"
                       checked={rememberMe}
@@ -331,7 +331,7 @@ export default function Auth() {
                     />
                     <Label
                       htmlFor="rememberMe"
-                      className="text-sm uppercase tracking-widest text-foreground/70 cursor-pointer"
+                      className="text-sm uppercase tracking-[0.2em] text-foreground/70 cursor-pointer"
                     >
                       Remember me
                     </Label>
