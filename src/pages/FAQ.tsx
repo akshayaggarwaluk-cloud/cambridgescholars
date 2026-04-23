@@ -43,7 +43,7 @@ export default function FAQ() {
                     value={`faq-${faq.id}`}
                     className="border-0 rounded-md bg-[#F8F8F8] px-5"
                   >
-                    <AccordionTrigger className="text-left font-nav font-normal text-[#333333] hover:text-accent hover:no-underline py-5 text-[17px] leading-[1.6] [&[data-state=open]>svg]:rotate-180">
+                    <AccordionTrigger className="text-left font-nav font-normal text-[#333333] hover:text-accent hover:no-underline py-5 text-[17px] leading-[1.6] [&>svg]:hidden">
                       {faq.question}
                     </AccordionTrigger>
                     <AccordionContent className="font-nav text-[#696969] leading-[1.6] pb-5 text-[16px] whitespace-pre-wrap">
