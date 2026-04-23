@@ -164,7 +164,7 @@ export default function Cart() {
             <Button
               asChild
               variant="outline"
-              className="rounded-none font-serif tracking-wider normal-case text-sm font-semibold px-8 py-4 border border-[#e5573e] text-[#e5573e] bg-transparent hover:bg-[#e5573e]/5 hover:text-[#e5573e] self-start h-auto"
+              className="rounded-none font-serif tracking-wider normal-case text-sm font-semibold px-8 py-4 border border-[#e5573e] text-[#e5573e] bg-transparent hover:bg-[#e5573e] hover:text-white self-start h-auto"
             >
               <Link to="/books" className="flex items-center gap-2">
                 <ShoppingCart className="h-4 w-4" />
