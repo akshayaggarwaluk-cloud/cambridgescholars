@@ -291,12 +291,11 @@ export default function Books() {
                           setSortOpen(false);
                         }}
                         className={cn(
-                          "font-baskerville text-xs text-left transition-colors",
+                          "font-baskerville text-xs text-left transition-colors underline-offset-[6px] decoration-1",
                           active
-                            ? "underline underline-offset-[6px] decoration-1 text-[#696969]"
-                            : "text-[#333] hover:text-[#C75B2A]",
+                            ? "underline text-[#696969]"
+                            : "text-[#333] hover:underline hover:text-[#C75B2A]",
                         )}
-                        style={undefined}
                       >
                         {opt.label}
                       </button>
