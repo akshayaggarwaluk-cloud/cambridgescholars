@@ -58,7 +58,7 @@ export default function ResourceDetail() {
               )}
               {resource.content && (
                 <div
-                  className="font-nav text-[16px] font-normal text-[#333333] leading-[1.4] max-w-none whitespace-pre-wrap [&_strong]:font-normal [&_ul]:list-disc [&_ul]:pl-6 [&_ul]:my-2 [&_li]:my-0 [&_li]:leading-[1.4] [&_li::marker]:text-[#333333] [&_p]:mb-1"
+                  className="font-nav text-[16px] font-normal text-[#333333] leading-[1.6] max-w-none [&_strong]:font-normal [&_ul]:list-disc [&_ul]:pl-6 [&_ul]:my-3 [&_li]:my-0 [&_li]:leading-[1.6] [&_li::marker]:text-[#333333] [&_p]:my-2"
                   dangerouslySetInnerHTML={{ __html: renderContent(resource.content) }}
                 />
               )}
@@ -89,12 +89,12 @@ function renderContent(src: string): string {
   for (const raw of lines) {
     const line = raw.trim();
     if (line.startsWith("- ")) {
-      if (!inList) { out.push('<ul class="my-4">'); inList = true; }
+      if (!inList) { out.push('<ul>'); inList = true; }
       out.push(`<li>${inline(line.slice(2))}</li>`);
     } else {
       if (inList) { out.push("</ul>"); inList = false; }
-      if (line === "") out.push("<br/>");
-      else out.push(`<p class="mb-2">${inline(line)}</p>`);
+      if (line === "") continue;
+      out.push(`<p>${inline(line)}</p>`);
     }
   }
   if (inList) out.push("</ul>");
