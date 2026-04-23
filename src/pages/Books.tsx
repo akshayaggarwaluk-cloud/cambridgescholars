@@ -432,15 +432,7 @@ export default function Books() {
             {/* Results count + Sort By header */}
             {/* Results count + Sort By header (matches cambridgescholars.com/shop) */}
             <div className="mb-8 pb-4 text-sm">
-              <div className="flex items-center justify-between flex-wrap gap-4">
-                <div className="min-h-[24px] font-baskerville text-[#666] italic">
-                  {pagination && books.length > 0 ? (
-                    <span>
-                      Showing {(currentPage - 1) * 20 + 1}–
-                      {(currentPage - 1) * 20 + books.length} of {pagination.total} results
-                    </span>
-                  ) : null}
-                </div>
+              <div className="flex items-center justify-end flex-wrap gap-4">
                 <button
                   type="button"
                   onClick={() => setSortOpen((v) => !v)}
