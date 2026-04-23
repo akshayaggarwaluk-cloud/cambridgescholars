@@ -10,7 +10,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Progress } from "@/components/ui/progress";
 import { useToast } from "@/hooks/use-toast";
-import { ArrowLeft, ArrowRight, Send, Upload } from "lucide-react";
+import { ArrowLeft, ArrowRight, Send, Upload, CheckCircle2 } from "lucide-react";
 
 const TOTAL_STEPS = 7;
 
@@ -18,6 +18,7 @@ const SubmitProposal = () => {
   const { toast } = useToast();
   const [currentStep, setCurrentStep] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
   const [hasCoAuthors, setHasCoAuthors] = useState<string>("");
   const [coAuthorCount, setCoAuthorCount] = useState("1");
   const [bookType, setBookType] = useState("");
@@ -155,11 +156,9 @@ const SubmitProposal = () => {
     }
     setIsSubmitting(true);
     await new Promise((resolve) => setTimeout(resolve, 1500));
-    toast({
-      title: "Proposal Submitted",
-      description: "Thank you for your submission. We'll review it and get back to you within 4-6 weeks.",
-    });
     setIsSubmitting(false);
+    setIsSubmitted(true);
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const renderCoAuthorFields = () => {
@@ -208,6 +207,29 @@ const SubmitProposal = () => {
       <main>
         {/* Form Section */}
         <section className="py-12 bg-white">
+          {isSubmitted ? (
+            <div className="container-wide max-w-3xl mx-auto text-center py-16">
+              <p className="text-muted-foreground mb-12 text-sm">
+                Please note that we publish in English only and do not provide translation services at this time.
+                Submissions in languages other than English will not be considered for publication.
+              </p>
+              <h2 className="font-baskerville text-[40px] leading-[1.2] text-[#333333] mb-10">Submission Successful</h2>
+              <div className="flex justify-center mb-10">
+                <CheckCircle2 className="w-24 h-24 text-[#1F9D55] stroke-[1.5]" />
+              </div>
+              <p className="text-[#333333] text-base leading-relaxed mb-8 max-w-2xl mx-auto">
+                Once you have completed and submitted your proposal, it will be carefully reviewed by our editorial team.
+                We will evaluate its suitability for publication, taking into account factors such as originality,
+                scholarly contribution, and alignment with our publishing programme. You can expect to receive a
+                response within six weeks of submission. At that stage, we will inform you whether your proposal has
+                been accepted for publication, requires further development, or cannot be taken forward.
+              </p>
+              <p className="text-[#333333] text-base leading-relaxed max-w-2xl mx-auto">
+                If your proposal is successful, we will guide you through the next steps, which include formalizing the
+                contributor agreement and preparing your manuscript for submission.
+              </p>
+            </div>
+          ) : (
           <div className="container-wide max-w-7xl mx-auto">
             {/* Notice */}
             <p className="text-muted-foreground mb-8 text-sm md:text-sm">
@@ -536,6 +558,7 @@ const SubmitProposal = () => {
               )}
             </div>
           </div>
+          )}
         </section>
       </main>
       <Footer />
