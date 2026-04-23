@@ -258,7 +258,7 @@ export default function Auth() {
                     autoComplete="username"
                     value={loginIdentifier}
                     onChange={(e) => setLoginIdentifier(e.target.value)}
-                    className={`h-12 rounded-none border-border bg-white ${
+                    className={`h-12 rounded-none border-black bg-white opacity-80 ${
                       loginErrors.identifier
                         ? "border-destructive focus-visible:ring-destructive"
                         : "focus-visible:ring-accent"
@@ -283,7 +283,7 @@ export default function Auth() {
                       autoComplete="current-password"
                       value={loginPassword}
                       onChange={(e) => setLoginPassword(e.target.value)}
-                      className={`h-12 pr-12 rounded-none border-border bg-white ${
+                      className={`h-12 pr-12 rounded-none border-black bg-white opacity-80 ${
                         loginErrors.password
                           ? "border-destructive focus-visible:ring-destructive"
                           : "focus-visible:ring-accent"
