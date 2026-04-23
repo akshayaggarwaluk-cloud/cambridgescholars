@@ -130,10 +130,7 @@ export function SearchOverlay({ onClose }: SearchOverlayProps) {
               onClick={() => setShowAdvanced(!showAdvanced)}
               style={{ fontFamily: "'Libre Baskerville', serif" }}
               className={cn(
-                "h-[40px] mr-3 px-8 text-base font-medium tracking-wide border transition-all whitespace-nowrap",
-                showAdvanced
-                  ? "bg-white text-[#333] border-white"
-                  : "text-white border-white/70 hover:border-white bg-[#525151]"
+                "h-[40px] mr-3 px-8 text-base font-medium tracking-wide border transition-all whitespace-nowrap text-white border-white/70 hover:border-white bg-[#525151]"
               )}
             >
               Advanced
