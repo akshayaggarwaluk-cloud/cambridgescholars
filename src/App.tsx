@@ -10,6 +10,7 @@ import { WishlistProvider } from "@/contexts/WishlistContext";
 
 import { AnimatedRoutes } from "@/components/layout/AnimatedRoutes";
 import { ScrollToTop } from "@/components/layout/ScrollToTop";
+import { CartBanner } from "@/components/cart/CartBanner";
 
 const queryClient = new QueryClient();
 
@@ -24,6 +25,7 @@ function App() {
               <WishlistProvider>
                 <Toaster />
                 <Sonner />
+                <CartBanner />
                 <AnimatedRoutes />
               </WishlistProvider>
             </CartProvider>
