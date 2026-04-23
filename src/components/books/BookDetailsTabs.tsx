@@ -25,11 +25,11 @@ export function BookDetailsTabs({ book }: BookDetailsTabsProps) {
   return (
     <section className="container-wide mt-[100px]">
       <Tabs defaultValue="blurb" className="w-full">
-        <TabsList className="w-full justify-center bg-transparent h-auto p-0 gap-12 flex-wrap">
+        <TabsList className="w-full justify-center bg-transparent h-auto p-0 gap-20 flex-wrap">
           {hasBlurb && (
             <TabsTrigger 
               value="blurb" 
-              className="rounded-none border-b-2 border-transparent data-[state=active]:border-accent data-[state=active]:bg-transparent data-[state=active]:shadow-none px-0 pb-3 text-base font-semibold uppercase tracking-wider"
+              className="rounded-none border-b-2 border-transparent data-[state=active]:border-accent data-[state=active]:bg-transparent data-[state=active]:shadow-none px-0 pb-3 text-base font-semibold uppercase tracking-[0.2em]"
             >
               Blurb
             </TabsTrigger>
