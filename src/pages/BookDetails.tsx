@@ -92,7 +92,7 @@ export default function BookDetails() {
   return (
     <div className="min-h-screen bg-background">
       <Header />
-        <main className="pt-24 sm:pt-32 pb-12 sm:pb-16 bg-white">
+        <main className="pt-32 sm:pt-44 pb-12 sm:pb-16 bg-white">
         <section className="container-wide bg-white px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-[auto_1fr] gap-6 sm:gap-8 lg:gap-12 items-stretch">
             {/* Image */}
