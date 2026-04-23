@@ -307,7 +307,7 @@ export default function Auth() {
                 <div className="flex items-center gap-8 flex-wrap">
                   <Button
                     type="submit"
-                    className="bg-[#E4573D] text-accent-foreground font-medium h-12 px-8 rounded-none uppercase tracking-wider transition-colors duration-300 hover:bg-[#E4573D]/90"
+                    className="bg-[#e4573d] text-accent-foreground font-medium h-12 px-8 rounded-none uppercase tracking-wider transition-colors duration-300 hover:bg-[#e4573d]/90"
                     disabled={loginLoading}
                   >
                     {loginLoading ? (
