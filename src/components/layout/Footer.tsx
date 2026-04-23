@@ -82,14 +82,14 @@ export function Footer() {
         </div>
 
         {/* Legal Section */}
-        <div className="mt-16 pt-8 text-[#FFFAFA] font-sans text-sm flex flex-col gap-6">
+        <div className="mt-16 pt-8 text-[#FFFAFA] font-sans text-sm">
           <p>Cambridge Scholars Publishing | Registration Number: 04333775</p>
-          <p>
+          <p className="mt-6">
             Please note that Cambridge Scholars Publishing Limited is not
             affiliated to or associated with Cambridge University Press or the
             University of Cambridge.
           </p>
-          <p>
+          <p className="mt-1">
             Copyright © 2025 Cambridge Scholars Publishing.
             All rights reserved
           </p>
