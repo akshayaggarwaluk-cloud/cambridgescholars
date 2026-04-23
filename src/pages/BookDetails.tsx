@@ -205,10 +205,10 @@ export default function BookDetails() {
                 <Button
                   variant="outline"
                   size="lg"
-                   className="border-black border w-12 px-0 group text-muted-foreground hover:text-accent"
+                   className="border-black border w-12 px-0 group text-muted-foreground hover:bg-accent hover:border-accent hover:text-accent-foreground"
                   onClick={() => (isInWishlist(book.id) ? removeFromWishlist(book.id) : addToWishlist(book))}
                 >
-                  <Heart className={cn("h-5 w-5 text-muted-foreground group-hover:text-accent transition-colors", isInWishlist(book.id) && "fill-accent text-accent")} />
+                  <Heart className={cn("h-5 w-5 text-muted-foreground group-hover:text-accent-foreground transition-colors", isInWishlist(book.id) && "fill-accent text-accent")} />
                 </Button>
                 {book.samplePdfUrl && (
                   <Button variant="outline" size="lg" className="border-black text-black border" onClick={() => window.open(book.samplePdfUrl, "_blank")}>
