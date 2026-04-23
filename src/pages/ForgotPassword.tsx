@@ -103,7 +103,7 @@ export default function ForgotPassword() {
             <div className="flex items-center gap-4 flex-wrap">
               <Button
                 type="submit"
-                className="bg-[#e4573d] text-accent-foreground border border-[#e4573d] font-medium h-12 px-8 rounded-none uppercase tracking-wider transition-colors duration-300 hover:bg-white hover:text-[#e4573d]"
+                className="bg-[#e4573d] text-accent-foreground border border-[#e4573d] font-bold h-12 px-8 rounded-none uppercase tracking-wider transition-colors duration-300 hover:bg-white hover:text-[#e4573d]"
                 disabled={loading}
               >
                 {loading ? (
