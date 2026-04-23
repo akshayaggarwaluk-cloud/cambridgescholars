@@ -62,7 +62,7 @@ const SubmitProposal = () => {
         </h3>
         <div className="space-y-1">
           <Label className="text-foreground font-semibold">
-            Role <span className="text-accent font-normal">(Required)</span>
+            Role <span className="text-accent font-normal italic">(Required)</span>
           </Label>
           <RadioGroup className="flex flex-wrap gap-4 pt-1">
             {["Co-authors", "Editors", "Contributors", "Translators"].map((role) => (
@@ -131,7 +131,7 @@ const SubmitProposal = () => {
 
                   <div className="space-y-1">
                     <Label className="text-foreground font-semibold">
-                      CV Upload (PDF/DOCX) <span className="text-accent font-normal">(Required)</span>
+                      CV Upload (PDF/DOCX) <span className="text-accent font-normal italic">(Required)</span>
                     </Label>
                     <div className="flex items-center gap-3">
                       <label className="inline-flex items-center gap-2 px-4 py-2 border border-input bg-background cursor-pointer hover:bg-muted transition-colors text-sm">
@@ -152,7 +152,7 @@ const SubmitProposal = () => {
                   <div className="space-y-1">
                     <Label className="text-foreground font-semibold">
                       Co-authors / Editors / Contributors / Translators{" "}
-                      <span className="text-accent font-normal">(Required)</span>
+                      <span className="text-accent font-normal italic">(Required)</span>
                     </Label>
                     <RadioGroup value={hasCoAuthors} onValueChange={setHasCoAuthors} className="flex gap-6 pt-1">
                       <div className="flex items-center space-x-2">
@@ -175,7 +175,7 @@ const SubmitProposal = () => {
                       <div className="space-y-1">
                         <Label className="text-foreground font-semibold">
                           How many Co-authors / Editors / Contributors / Translators{" "}
-                          <span className="text-accent font-normal">(Required)</span>
+                          <span className="text-accent font-normal italic">(Required)</span>
                         </Label>
                         <Select value={coAuthorCount} onValueChange={setCoAuthorCount}>
                           <SelectTrigger className="max-w-[200px]">
@@ -202,7 +202,7 @@ const SubmitProposal = () => {
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
                     <div className="space-y-1">
                       <Label className="text-foreground font-semibold">
-                        Country <span className="text-accent font-normal">(Required)</span>
+                        Country <span className="text-accent font-normal italic">(Required)</span>
                       </Label>
                       <Select value={country} onValueChange={setCountry}>
                         <SelectTrigger>
@@ -254,7 +254,7 @@ const SubmitProposal = () => {
                   <FieldInput label="Proposed Subtitle" required />
                   <div className="space-y-1">
                     <Label className="text-foreground font-semibold">
-                      Type of Book <span className="text-accent font-normal">(Required)</span>
+                      Type of Book <span className="text-accent font-normal italic">(Required)</span>
                     </Label>
                     <RadioGroup value={bookType} onValueChange={setBookType} className="flex flex-col gap-3 pt-2">
                       <div className="flex items-center space-x-2">
@@ -307,7 +307,7 @@ const SubmitProposal = () => {
                   <h2 className="text-2xl font-serif text-foreground pb-2">Manuscript Status</h2>
                   <div className="space-y-1">
                     <Label className="text-foreground font-semibold">
-                      Current stage of the manuscript <span className="text-accent font-normal">(Required)</span>
+                      Current stage of the manuscript <span className="text-accent font-normal italic">(Required)</span>
                     </Label>
                     <Select value={manuscriptStage} onValueChange={setManuscriptStage}>
                       <SelectTrigger>
@@ -331,7 +331,7 @@ const SubmitProposal = () => {
 
                   <div className="space-y-1">
                     <Label className="text-foreground font-semibold">
-                      Upload at least one sample chapter <span className="text-accent font-normal">(Required)</span>
+                      Upload at least one sample chapter <span className="text-accent font-normal italic">(Required)</span>
                     </Label>
                     <div className="flex items-center gap-3">
                       <label className="inline-flex items-center gap-2 px-4 py-2 border border-input bg-background cursor-pointer hover:bg-muted transition-colors text-sm">
@@ -353,7 +353,7 @@ const SubmitProposal = () => {
 
                   <div className="space-y-1">
                     <Label className="text-foreground font-semibold">
-                      Upload additional supporting files <span className="text-accent font-normal">(Required)</span>
+                      Upload additional supporting files <span className="text-accent font-normal italic">(Required)</span>
                     </Label>
                     <div className="flex items-center gap-3">
                       <label className="inline-flex items-center gap-2 px-4 py-2 border border-input bg-background cursor-pointer hover:bg-muted transition-colors text-sm">
@@ -424,7 +424,7 @@ const SubmitProposal = () => {
 const FieldInput = ({ label, required, type = "text" }: { label: string; required?: boolean; type?: string }) => (
   <div className="space-y-1">
     <Label className="text-foreground font-semibold">
-      {label} {required && <span className="text-accent font-normal">(Required)</span>}
+      {label} {required && <span className="text-accent font-normal italic">(Required)</span>}
     </Label>
     <Input
       type={type}
@@ -437,7 +437,7 @@ const FieldInput = ({ label, required, type = "text" }: { label: string; require
 const FieldTextarea = ({ label, required, rows = 4 }: { label: string; required?: boolean; rows?: number }) => (
   <div className="space-y-1">
     <Label className="text-foreground font-semibold">
-      {label} {required && <span className="text-accent font-normal">(Required)</span>}
+      {label} {required && <span className="text-accent font-normal italic">(Required)</span>}
     </Label>
     <Textarea
       required={required}
