@@ -423,8 +423,8 @@ const SubmitProposal = () => {
 
 const FieldInput = ({ label, required, type = "text" }: { label: string; required?: boolean; type?: string }) => (
   <div className="space-y-1">
-    <Label className="text-foreground font-semibold">
-      {label} {required && <span className="text-accent font-normal italic">(Required)</span>}
+    <Label className="text-foreground font-semibold font-nav">
+      {label} {required && <span className="text-accent font-normal italic font-nav">(Required)</span>}
     </Label>
     <Input
       type={type}
