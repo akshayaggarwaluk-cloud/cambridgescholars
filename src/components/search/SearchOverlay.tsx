@@ -128,7 +128,7 @@ export function SearchOverlay({ onClose }: SearchOverlayProps) {
             </button>
             <button
               onClick={() => setShowAdvanced(!showAdvanced)}
-              style={{ fontFamily: "'Nunito Sans', sans-serif" }}
+              style={{ fontFamily: "'Libre Baskerville', serif" }}
               className={cn(
                 "h-[40px] mr-3 px-8 text-base font-medium tracking-wide border transition-all whitespace-nowrap",
                 showAdvanced
