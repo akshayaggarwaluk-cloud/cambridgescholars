@@ -47,7 +47,7 @@ export default function Books() {
   useEffect(() => {
     fetchCategories()
       .then((cats) => {
-        const order = ["Social Sciences", "Physical Sciences", "Life Sciences", "Health Sciences", "All Categories"];
+        const order = ["Social Sciences", "Physical Sciences", "Life Sciences", "Health Science", "Health Sciences", "All Categories"];
         const sorted = [...cats].sort((a, b) => {
           const ai = order.indexOf(a.name);
           const bi = order.indexOf(b.name);
