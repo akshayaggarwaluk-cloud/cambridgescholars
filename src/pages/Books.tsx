@@ -283,7 +283,7 @@ export default function Books() {
                 Subject Categories
               </h3>
               {categories.length > 0 ? (
-                <ul className="space-y-1">
+                <ul className="space-y-3">
                   {categories.map((cat) => {
                     const isExpanded = expandedCats.has(cat.slug);
                     const hasSubs = cat.subcategories && cat.subcategories.length > 0;
