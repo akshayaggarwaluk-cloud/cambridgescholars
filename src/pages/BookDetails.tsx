@@ -211,7 +211,7 @@ export default function BookDetails() {
                   <Heart className={cn("h-5 w-5", isInWishlist(book.id) && "fill-accent text-accent")} />
                 </Button>
                 {book.samplePdfUrl && (
-                  <Button variant="outline" size="lg" className="border-black" onClick={() => window.open(book.samplePdfUrl, "_blank")}>
+                  <Button variant="outline" size="lg" className="border-black text-black border" onClick={() => window.open(book.samplePdfUrl, "_blank")}>
                     READ SAMPLE
                   </Button>
                 )}
