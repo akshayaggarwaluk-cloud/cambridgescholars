@@ -291,10 +291,10 @@ export default function Books() {
                           setSortOpen(false);
                         }}
                         className={cn(
-                          "font-baskerville text-xs text-left transition-colors no-underline",
+                          "inline-block font-baskerville text-xs text-left transition-colors no-underline border-b border-transparent pb-px",
                           active
-                            ? "underline underline-offset-[6px] decoration-1 text-[#696969]"
-                            : "text-[#333] no-underline hover:no-underline hover:text-[#C75B2A]",
+                            ? "text-[#696969] border-current"
+                            : "text-[#333] hover:text-[#C75B2A]",
                         )}
                       >
                         {opt.label}
