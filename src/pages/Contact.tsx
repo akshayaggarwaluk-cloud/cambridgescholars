@@ -89,7 +89,7 @@ export default function Contact() {
                   <info.icon className="h-6 w-6 text-mustard" />
                   <div>
                     <h3 className="mb-2 font-semibold text-xl">{info.title}</h3>
-                    <p className="text-muted-foreground text-base">{info.content}</p>
+                    <p style={{ fontFamily: '"Nunito Sans", sans-serif', fontSize: "15px", color: "#7E7E7E" }}>{info.content}</p>
                   </div>
                 </div>
               ))}
