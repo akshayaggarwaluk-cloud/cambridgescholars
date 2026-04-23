@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 const footerLinks = {
   pages: [
@@ -19,6 +19,10 @@ const footerLinks = {
 };
 
 export function Footer() {
+  const location = useLocation();
+  const isActive = (href: string) =>
+    href === "/" ? location.pathname === "/" : location.pathname.startsWith(href);
+
   return (
     <footer className="bg-[#222222] text-[#ABABAB]">
       <div className="max-w-6xl mx-auto px-6 py-20">
@@ -52,7 +56,11 @@ export function Footer() {
                 <li key={link.name}>
                   <Link
                     to={link.href}
-                    className="text-[15px] hover:text-white transition-colors font-baskerville italic text-[#ABABAB]"
+                    className={`text-[15px] hover:text-white transition-colors font-baskerville italic ${
+                      isActive(link.href)
+                        ? "text-white border-b border-[#C75B2A] pb-0.5"
+                        : "text-[#ABABAB]"
+                    }`}
                   >
                     {link.name}
                   </Link>
@@ -71,7 +79,11 @@ export function Footer() {
                 <li key={link.name}>
                   <Link
                     to={link.href}
-                    className="text-[15px] hover:text-white transition-colors font-baskerville italic text-[#ABABAB]"
+                    className={`text-[15px] hover:text-white transition-colors font-baskerville italic ${
+                      isActive(link.href)
+                        ? "text-white border-b border-[#C75B2A] pb-0.5"
+                        : "text-[#ABABAB]"
+                    }`}
                   >
                     {link.name}
                   </Link>
