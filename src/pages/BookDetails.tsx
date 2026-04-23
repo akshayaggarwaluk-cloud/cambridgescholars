@@ -177,10 +177,10 @@ export default function BookDetails() {
 
                 {/* Quantity */}
                 <div className="flex items-center gap-4 sm:gap-6 mb-[15px] sm:mb-0 mt-[10px]">
-                  <span className="text-xs sm:text-sm font-semibold uppercase tracking-wide" style={{ fontFamily: '"Nunito Sans", sans-serif' }}>Quantity</span>
+                  <span className="font-serif tracking-wider normal-case text-sm font-medium uppercase">Quantity</span>
                   <div className="flex items-center border">
                     <button onClick={() => setQuantity(Math.max(1, quantity - 1))} className="px-2 sm:px-3 py-1.5 sm:py-2 hover:bg-muted"><Minus className="h-3.5 w-3.5 sm:h-4 sm:w-4" /></button>
-                    <span className="px-3 sm:px-4 py-1.5 sm:py-2 min-w-[40px] sm:min-w-[50px] text-center font-medium text-sm sm:text-base">{quantity}</span>
+                    <span className="px-3 sm:px-4 py-1.5 sm:py-2 min-w-[40px] sm:min-w-[50px] text-center font-serif tracking-wider text-sm font-medium">{quantity}</span>
                     <button onClick={() => setQuantity(quantity + 1)} className="px-2 sm:px-3 py-1.5 sm:py-2 hover:bg-muted"><Plus className="h-3.5 w-3.5 sm:h-4 sm:w-4" /></button>
                   </div>
                 </div>
