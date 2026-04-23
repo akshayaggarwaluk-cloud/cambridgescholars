@@ -71,10 +71,10 @@ export default function Cart() {
         <div className="max-w-7xl mx-auto px-6 md:px-16 py-12 bg-white">
           {/* Table header */}
           <div className="grid grid-cols-[1fr_120px_180px_140px_60px] gap-6 pb-5 border-b border-border items-center">
-            <div className="uppercase text-[#333333] font-baskerville tracking-wider font-medium" style={{ fontSize: "14px" }}>Product</div>
-            <div className="uppercase text-[#333333] font-baskerville tracking-wider font-medium" style={{ fontSize: "14px" }}>Price</div>
-            <div className="uppercase text-[#333333] font-baskerville tracking-wider font-medium" style={{ fontSize: "14px" }}>Quantity</div>
-            <div className="uppercase text-[#333333] font-baskerville tracking-wider font-medium" style={{ fontSize: "14px" }}>Total</div>
+            <div className="uppercase text-[#333333] font-baskerville tracking-wider text-sm font-semibold">Product</div>
+            <div className="uppercase text-[#333333] font-baskerville tracking-wider text-sm font-semibold">Price</div>
+            <div className="uppercase text-[#333333] font-baskerville tracking-wider text-sm font-semibold">Quantity</div>
+            <div className="uppercase text-[#333333] font-baskerville tracking-wider text-sm font-semibold">Total</div>
             <div></div>
           </div>
 
