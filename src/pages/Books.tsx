@@ -301,7 +301,7 @@ export default function Books() {
             </div>
           )}
 
-          <div className={cn("flex flex-col lg:flex-row gap-12", sortOpen && "hidden")}>
+          <div className="flex flex-col lg:flex-row gap-12">
           {/* Sidebar */}
           <aside className="lg:w-72 flex-shrink-0">
             {/* Search Section */}
