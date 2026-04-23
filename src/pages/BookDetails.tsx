@@ -134,7 +134,7 @@ export default function BookDetails() {
                           "flex items-center gap-2 px-6 py-3 transition-colors min-w-[120px] rounded-none",
                           selectedFormat === "hardbook"
                             ? "border-black bg-white border-solid border"
-                            : "border border-border bg-background hover:border-accent/50"
+                            : "border border-border hover:border-accent/50 bg-white"
                         )}
                       >
                         <BookIcon className={cn("h-5 w-5", selectedFormat === "hardbook" ? "text-accent" : "text-muted-foreground")} />
@@ -149,7 +149,7 @@ export default function BookDetails() {
                           "flex items-center gap-2 px-6 py-3 transition-colors min-w-[120px] rounded-none",
                           selectedFormat === "paperback"
                             ? "border-black bg-white border-solid border"
-                            : "border border-border bg-background hover:border-accent/50"
+                            : "border border-border hover:border-accent/50 bg-white"
                         )}
                       >
                         <BookIcon className={cn("h-5 w-5", selectedFormat === "paperback" ? "text-accent" : "text-muted-foreground")} />
@@ -164,7 +164,7 @@ export default function BookDetails() {
                           "flex items-center gap-2 px-6 py-3 transition-colors min-w-[120px] rounded-none",
                           selectedFormat === "ebook"
                             ? "border-black bg-white border-solid border"
-                            : "border border-border bg-background hover:border-accent/50"
+                            : "border border-border hover:border-accent/50 bg-white"
                         )}
                       >
                         <BookIcon className={cn("h-5 w-5", selectedFormat === "ebook" ? "text-accent" : "text-muted-foreground")} />
