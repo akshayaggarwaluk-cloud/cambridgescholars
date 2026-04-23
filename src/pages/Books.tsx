@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useSearchParams, Link } from "react-router-dom";
-import { Search, ChevronDown, Heart, Loader2, AlignLeft } from "lucide-react";
+import { Search, ChevronDown, Heart, Loader2, AlignLeft, X } from "lucide-react";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { PageBreadcrumb } from "@/components/layout/PageBreadcrumb";
@@ -42,6 +42,7 @@ export default function Books() {
   const [categories, setCategories] = useState<CSPCategory[]>([]);
   const [expandedCats, setExpandedCats] = useState<Set<string>>(new Set());
   const [activeSearchField, setActiveSearchField] = useState("");
+  const [sortOpen, setSortOpen] = useState(false);
 
   // Fetch categories
   useEffect(() => {
@@ -430,21 +431,61 @@ export default function Books() {
           <div className="flex-1">
             {/* Results count + Sort By header */}
             {/* Results count + Sort By header (matches cambridgescholars.com/shop) */}
-            <div className="flex items-center justify-between mb-8 flex-wrap gap-4 pb-4 text-sm">
-              <div className="min-h-[24px]" />
-              <Select value={orderBy} onValueChange={handleSortChange}>
-                <SelectTrigger className="w-auto border-0 shadow-none bg-transparent font-sans text-xs font-semibold text-[#ababab] focus:ring-0 gap-0 px-0 hover:text-[#C75B2A] transition-colors [&>svg:last-child]:ml-1">
-                  <AlignLeft className="h-3.5 w-3.5 text-[#ababab] mr-1" />
-                  <span>Sort By</span>
-                </SelectTrigger>
-                <SelectContent className="font-sans">
-                  {SORT_OPTIONS.map((opt) => (
-                    <SelectItem key={opt.value} value={opt.value}>
-                      {opt.label}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+            <div className="mb-8 pb-4 text-sm">
+              <div className="flex items-center justify-between flex-wrap gap-4">
+                <div className="min-h-[24px] font-baskerville text-[#666] italic">
+                  {pagination && books.length > 0 ? (
+                    <span>
+                      Showing {(currentPage - 1) * 20 + 1}–
+                      {(currentPage - 1) * 20 + books.length} of {pagination.total} results
+                    </span>
+                  ) : null}
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setSortOpen((v) => !v)}
+                  className="flex items-center gap-1 font-baskerville text-base text-[#333] hover:text-[#C75B2A] transition-colors"
+                  aria-expanded={sortOpen}
+                >
+                  {sortOpen ? (
+                    <X className="h-4 w-4" />
+                  ) : (
+                    <AlignLeft className="h-4 w-4" />
+                  )}
+                  <span className="underline underline-offset-4">Sort By</span>
+                </button>
+              </div>
+
+              {sortOpen && (
+                <div className="mt-8 border-t border-[#e5e5e5] pt-6">
+                  <h3 className="font-baskerville text-2xl text-black mb-2">Sort By</h3>
+                  <div className="border-b border-[#e5e5e5] mb-6" />
+                  <ul className="space-y-5">
+                    {SORT_OPTIONS.map((opt) => {
+                      const active = orderBy === opt.value;
+                      return (
+                        <li key={opt.value}>
+                          <button
+                            type="button"
+                            onClick={() => {
+                              handleSortChange(opt.value);
+                              setSortOpen(false);
+                            }}
+                            className={cn(
+                              "font-baskerville text-base text-left transition-colors hover:text-[#C75B2A]",
+                              active
+                                ? "text-[#C75B2A] underline underline-offset-4"
+                                : "text-[#333]",
+                            )}
+                          >
+                            {opt.label}
+                          </button>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </div>
+              )}
             </div>
 
             {loading ? (
