@@ -310,7 +310,7 @@ export default function Auth() {
                 <div className="flex items-center gap-4 flex-wrap">
                   <Button
                     type="submit"
-                    className="bg-[#e5573e] text-accent-foreground font-medium h-12 px-8 rounded-none uppercase tracking-wider transition-colors duration-300 hover:bg-[#e5573e]/90"
+                    className="bg-[#E4573D] text-accent-foreground font-medium h-12 px-8 rounded-none uppercase tracking-wider transition-colors duration-300 hover:bg-[#E4573D]/90"
                     disabled={loginLoading}
                   >
                     {loginLoading ? (
@@ -496,7 +496,7 @@ export default function Auth() {
 
                   <Button
                     type="submit"
-                    className="bg-[#e5573e] hover:bg-[#e5573e]/90 text-accent-foreground font-medium h-12 px-8 rounded-none uppercase tracking-wider transition-colors duration-300"
+                    className="bg-[#E4573D] hover:bg-[#E4573D]/90 text-accent-foreground font-medium h-12 px-8 rounded-none uppercase tracking-wider transition-colors duration-300"
                     disabled={registerLoading}
                   >
                     {registerLoading ? (
@@ -547,7 +547,7 @@ export default function Auth() {
                   <div className="flex items-center gap-4 flex-wrap">
                     <Button
                       type="submit"
-                      className="bg-[#e5573e] hover:bg-[#e5573e]/90 text-accent-foreground font-medium h-12 px-8 rounded-none uppercase tracking-wider transition-colors duration-300"
+                      className="bg-[#E4573D] hover:bg-[#E4573D]/90 text-accent-foreground font-medium h-12 px-8 rounded-none uppercase tracking-wider transition-colors duration-300"
                       disabled={registerLoading}
                     >
                       {registerLoading ? (
