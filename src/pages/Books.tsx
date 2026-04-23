@@ -265,7 +265,7 @@ export default function Books() {
               aria-expanded={sortOpen}
             >
               {sortOpen ? <X className="h-4 w-4" /> : <AlignLeft className="h-4 w-4" />}
-              <span className="underline underline-offset-4">Sort By</span>
+               <span className="underline underline-offset-4 text-sm">Sort By</span>
             </button>
           </div>
 
