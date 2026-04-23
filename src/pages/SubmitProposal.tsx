@@ -286,12 +286,12 @@ const SubmitProposal = () => {
               {currentStep === 4 && (
                 <>
                   <h2 className="text-2xl font-serif text-foreground pb-2">Book Description</h2>
-                  <FieldTextarea label="Brief Summary of the Book (approx. 200–500 words)" required rows={6} />
-                  <FieldTextarea label="Key Features or Selling Points" required rows={4} />
-                  <FieldTextarea label="Intended Audience" required rows={3} />
-                  <FieldInput label="Estimated final word count (between 35,000 and 200,000 words)" required />
-                  <FieldInput label="Number of illustrations/figures/tables (if any)" required />
-                  <FieldInput label="Languages used (if more than English)" required />
+                  <FieldTextarea label="Brief Summary of the Book (approx. 200–500 words)" required rows={6} value={formData.briefSummary} onChange={(v) => updateField("briefSummary", v)} />
+                  <FieldTextarea label="Key Features or Selling Points" required rows={4} value={formData.keyFeatures} onChange={(v) => updateField("keyFeatures", v)} />
+                  <FieldTextarea label="Intended Audience" required rows={3} value={formData.audience} onChange={(v) => updateField("audience", v)} />
+                  <FieldInput label="Estimated final word count (between 35,000 and 200,000 words)" required value={formData.wordCount} onChange={(v) => updateField("wordCount", v)} />
+                  <FieldInput label="Number of illustrations/figures/tables (if any)" required value={formData.illustrations} onChange={(v) => updateField("illustrations", v)} />
+                  <FieldInput label="Languages used (if more than English)" required value={formData.languages} onChange={(v) => updateField("languages", v)} />
                 </>
               )}
 
@@ -302,11 +302,15 @@ const SubmitProposal = () => {
                     label="Competing Titles (minimum two examples with author, title, and publisher)"
                     required
                     rows={4}
+                    value={formData.competingTitles}
+                    onChange={(v) => updateField("competingTitles", v)}
                   />
                   <FieldTextarea
                     label="What unique contribution does your book make compared to these existing titles?"
                     required
                     rows={4}
+                    value={formData.uniqueContribution}
+                    onChange={(v) => updateField("uniqueContribution", v)}
                   />
                 </>
               )}
@@ -330,7 +334,7 @@ const SubmitProposal = () => {
                       </SelectContent>
                     </Select>
                   </div>
-                  <FieldInput label="When do you expect to submit the final manuscript?" type="date" required />
+                  <FieldInput label="When do you expect to submit the final manuscript?" type="date" required value={formData.submissionDate} onChange={(v) => updateField("submissionDate", v)} />
                 </>
               )}
 
@@ -383,11 +387,13 @@ const SubmitProposal = () => {
                   </div>
 
                   <h2 className="text-2xl font-serif text-foreground pb-2 pt-4">Additional Comments and Permissions</h2>
-                  <FieldTextarea label="Any additional notes or context from the author" required rows={4} />
+                  <FieldTextarea label="Any additional notes or context from the author" required rows={4} value={formData.additionalNotes} onChange={(v) => updateField("additionalNotes", v)} />
                   <FieldTextarea
                     label="Are there any permissions you need to obtain from other copyright holders?"
                     required
                     rows={3}
+                    value={formData.permissions}
+                    onChange={(v) => updateField("permissions", v)}
                   />
 
                   <p className="text-sm text-muted-foreground pt-4">
