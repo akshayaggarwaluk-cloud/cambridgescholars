@@ -258,7 +258,7 @@ export default function Books() {
             {/* Search Section */}
             <div className="mb-10">
               {resultsSummary && (
-                <p className="mb-3 font-baskerville text-xs text-[#ababab] font-semibold">
+                <p className="mb-3 font-sans text-xs text-[#ababab] font-semibold">
                   {resultsSummary}
                 </p>
               )}
