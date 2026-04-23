@@ -71,10 +71,10 @@ export default function Cart() {
         <div className="max-w-7xl mx-auto px-6 md:px-16 py-12 bg-white">
           {/* Table header */}
           <div className="grid grid-cols-[1fr_120px_180px_140px_60px] gap-6 pb-5 border-b border-border items-center">
-            <div className="uppercase text-[#333333]" style={{ fontFamily: '"Nunito Sans", sans-serif', fontSize: "14px" }}>Product</div>
-            <div className="uppercase text-[#333333]" style={{ fontFamily: '"Nunito Sans", sans-serif', fontSize: "14px" }}>Price</div>
-            <div className="uppercase text-[#333333]" style={{ fontFamily: '"Nunito Sans", sans-serif', fontSize: "14px" }}>Quantity</div>
-            <div className="uppercase text-[#333333]" style={{ fontFamily: '"Nunito Sans", sans-serif', fontSize: "14px" }}>Total</div>
+            <div className="uppercase text-[#333333] font-baskerville tracking-wider" style={{ fontSize: "14px" }}>Product</div>
+            <div className="uppercase text-[#333333] font-baskerville tracking-wider" style={{ fontSize: "14px" }}>Price</div>
+            <div className="uppercase text-[#333333] font-baskerville tracking-wider" style={{ fontSize: "14px" }}>Quantity</div>
+            <div className="uppercase text-[#333333] font-baskerville tracking-wider" style={{ fontSize: "14px" }}>Total</div>
             <div></div>
           </div>
 
