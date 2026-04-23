@@ -339,7 +339,7 @@ export default function Auth() {
                 <div>
                   <Link
                     to="/forgot-password"
-                    className="text-accent hover:underline text-base"
+                    className="text-[#e4573d] hover:underline text-base"
                   >
                     Lost your password?
                   </Link>
