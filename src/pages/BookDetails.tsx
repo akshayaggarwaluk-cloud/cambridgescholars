@@ -205,7 +205,7 @@ export default function BookDetails() {
                 <Button
                   variant="outline"
                   size="lg"
-                   className="border-black border w-12 px-0 group text-muted-foreground hover:bg-accent hover:border-accent hover:text-accent-foreground"
+                    className="border-black border w-12 px-0 group text-muted-foreground hover:bg-[#e4573d] hover:border-[#e4573d] hover:text-white"
                   onClick={() => (isInWishlist(book.id) ? removeFromWishlist(book.id) : addToWishlist(book))}
                 >
                   <Heart className={cn("h-5 w-5 text-muted-foreground group-hover:text-accent-foreground transition-colors", isInWishlist(book.id) && "fill-accent text-accent")} />
