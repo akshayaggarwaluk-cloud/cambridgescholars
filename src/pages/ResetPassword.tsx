@@ -131,7 +131,7 @@ export default function ResetPassword() {
                 autoComplete="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className={`h-12 rounded-none border-border bg-background ${
+                className={`h-12 rounded-none border-border bg-white ${
                   errors.email ? "border-destructive focus-visible:ring-destructive" : "focus-visible:ring-accent"
                 }`}
               />
@@ -151,7 +151,7 @@ export default function ResetPassword() {
                 value={otp}
                 onChange={(e) => setOtp(e.target.value.replace(/\D/g, ""))}
                 placeholder="123456"
-                className={`h-12 rounded-none border-border bg-background tracking-[0.4em] font-mono text-center ${
+                className={`h-12 rounded-none border-border bg-white tracking-[0.4em] font-mono text-center ${
                   errors.otp ? "border-destructive focus-visible:ring-destructive" : "focus-visible:ring-accent"
                 }`}
               />
@@ -169,7 +169,7 @@ export default function ResetPassword() {
                   autoComplete="new-password"
                   value={newPassword}
                   onChange={(e) => setNewPassword(e.target.value)}
-                  className={`h-12 pr-12 rounded-none border-border bg-background ${
+                  className={`h-12 pr-12 rounded-none border-border bg-white ${
                     errors.new_password ? "border-destructive focus-visible:ring-destructive" : "focus-visible:ring-accent"
                   }`}
                 />

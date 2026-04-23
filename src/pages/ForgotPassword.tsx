@@ -93,7 +93,7 @@ export default function ForgotPassword() {
                 autoComplete="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className={`h-12 rounded-none border-border bg-background ${
+                className={`h-12 rounded-none border-border bg-white ${
                   fieldError ? "border-destructive focus-visible:ring-destructive" : "focus-visible:ring-accent"
                 }`}
               />
