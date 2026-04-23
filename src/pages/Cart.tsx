@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { Minus, Plus, X, Info, ShoppingCart } from "lucide-react";
+import { toast } from "sonner";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { PageBreadcrumb } from "@/components/layout/PageBreadcrumb";
@@ -173,7 +174,7 @@ export default function Cart() {
 
             <div className="flex flex-col sm:flex-row gap-4 sm:items-center">
               <button
-                onClick={() => window.location.reload()}
+                onClick={() => toast.success("Cart updated")}
                 className="bg-[#E89B7A] hover:bg-[#d88863] text-white rounded-none uppercase tracking-wider font-nav font-medium px-10 py-4 text-sm transition-colors"
               >
                 Update Cart
