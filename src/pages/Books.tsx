@@ -578,7 +578,7 @@ export default function Books() {
                         <span
                           key={p}
                           aria-current="page"
-                           className="w-12 h-12 rounded-full flex items-center justify-center bg-[#C75B2A] text-white font-baskerville text-base"
+                           className="w-12 h-12 rounded-full flex items-center justify-center text-white font-baskerville text-base bg-[#e5573e]"
                         >
                           {p}
                         </span>
