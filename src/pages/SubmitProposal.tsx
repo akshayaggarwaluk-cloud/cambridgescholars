@@ -558,6 +558,7 @@ const SubmitProposal = () => {
               )}
             </div>
           </div>
+          )}
         </section>
       </main>
       <Footer />
