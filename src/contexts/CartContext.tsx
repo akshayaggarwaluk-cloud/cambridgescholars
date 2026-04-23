@@ -92,7 +92,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
   }, [user]);
 
   const formatLabel = (format: BookFormat) =>
-    format === "ebook" ? "eBook" : format === "paperback" ? "Paperback" : "Hardback";
+    format === "ebook" ? "EBook" : format === "paperback" ? "Paperback" : "Hardback";
 
   const addToCart = (book: Book, format: BookFormat = "hardbook") => {
     setItems((prev) => {
