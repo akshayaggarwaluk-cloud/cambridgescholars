@@ -34,15 +34,8 @@ export default function PublishABook() {
     <div className="min-h-screen bg-white">
       <Header />
       {/* Hero Section */}
-      <section className="relative h-[45vh] min-h-[320px] flex items-center justify-center">
-        <div
-          className="absolute inset-0 bg-cover bg-center"
-          style={{
-            backgroundImage: `url(${heroImage})`,
-          }}
-        >
-          <div className="absolute inset-0 bg-transparent" />
-        </div>
+      <section className="relative w-full">
+        <img src={heroImage} alt="Publish a Book" className="w-full h-auto block" />
       </section>
 
       {/* Breadcrumb */}
