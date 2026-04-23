@@ -430,7 +430,7 @@ export default function Books() {
           <div className="flex-1">
             {/* Results count + Sort By header */}
             {/* Results count + Sort By header (matches cambridgescholars.com/shop) */}
-            <div className="flex items-center justify-between mb-8 flex-wrap gap-4 pb-4">
+            <div className="flex items-center justify-between mb-8 flex-wrap gap-4 pb-4 text-sm">
               <div className="min-h-[24px]" />
               <Select value={orderBy} onValueChange={handleSortChange}>
                 <SelectTrigger className="w-auto min-w-[160px] border-0 shadow-none bg-transparent font-baskerville text-[16px] text-[#333] focus:ring-0 gap-2 px-0 hover:text-[#C75B2A] transition-colors">
