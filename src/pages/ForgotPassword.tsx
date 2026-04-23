@@ -54,14 +54,14 @@ export default function ForgotPassword() {
       <section className="bg-[#f4f3ec] pt-28 sm:pt-32 pb-12 md:pb-16">
         <div className="max-w-7xl mx-auto px-4 flex items-center justify-between flex-wrap gap-4">
           <h1 className="font-serif text-3xl md:text-5xl font-normal text-foreground leading-tight py-2">
-            Lost your password?
+            My account
           </h1>
           <nav className="flex items-center gap-2 text-base text-muted-foreground">
             <Link to="/" className="hover:text-accent transition-colors">Home</Link>
             <span>/</span>
             <Link to="/auth" className="hover:text-accent transition-colors">My account</Link>
             <span>/</span>
-            <span className="text-accent font-medium">Lost password</span>
+            <span className="text-accent font-medium">My account</span>
           </nav>
         </div>
       </section>
