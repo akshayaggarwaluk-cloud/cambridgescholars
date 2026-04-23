@@ -131,12 +131,12 @@ const SubmitProposal = () => {
             <div className="space-y-6">
               {currentStep === 1 && (
                 <>
-                  <FieldInput label="Full Name" required />
-                  <FieldInput label="Email Address" type="email" required />
-                  <FieldInput label="Phone Number" type="tel" required />
-                  <FieldInput label="Institution or Organisation" required />
-                  <FieldInput label="Current Position" required />
-                  <FieldInput label="Academic/Professional Qualifications" required />
+                  <FieldInput label="Full Name" required value={formData.fullName} onChange={(v) => updateField("fullName", v)} />
+                  <FieldInput label="Email Address" type="email" required value={formData.email} onChange={(v) => updateField("email", v)} />
+                  <FieldInput label="Phone Number" type="tel" required value={formData.phone} onChange={(v) => updateField("phone", v)} />
+                  <FieldInput label="Institution or Organisation" required value={formData.institution} onChange={(v) => updateField("institution", v)} />
+                  <FieldInput label="Current Position" required value={formData.position} onChange={(v) => updateField("position", v)} />
+                  <FieldInput label="Academic/Professional Qualifications" required value={formData.qualifications} onChange={(v) => updateField("qualifications", v)} />
 
                   <div className="space-y-1">
                     <Label className="text-foreground font-semibold">
