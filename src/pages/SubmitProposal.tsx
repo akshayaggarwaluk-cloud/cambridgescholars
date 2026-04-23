@@ -188,9 +188,9 @@ const SubmitProposal = () => {
             ))}
           </RadioGroup>
         </div>
-        <FieldInput label={`Co-author ${i + 1} Name`} required value={formData[`coauthor-${i}-name`] || ""} onChange={(v) => updateField(`coauthor-${i}-name`, v)} />
-        <FieldInput label={`Co-author ${i + 1} Email`} type="email" required value={formData[`coauthor-${i}-email`] || ""} onChange={(v) => updateField(`coauthor-${i}-email`, v)} />
-        <FieldInput label={`Co-author ${i + 1} Affiliation`} required value={formData[`coauthor-${i}-affiliation`] || ""} onChange={(v) => updateField(`coauthor-${i}-affiliation`, v)} />
+        <FieldInput label={`Co-author ${i + 1} Name`} required value={formData[`coauthor-${i}-name`] || ""} onChange={(v) => updateField(`coauthor-${i}-name`, v)} error={errors[`coauthor-${i}-name`]} />
+        <FieldInput label={`Co-author ${i + 1} Email`} type="email" required value={formData[`coauthor-${i}-email`] || ""} onChange={(v) => updateField(`coauthor-${i}-email`, v)} error={errors[`coauthor-${i}-email`]} />
+        <FieldInput label={`Co-author ${i + 1} Affiliation`} required value={formData[`coauthor-${i}-affiliation`] || ""} onChange={(v) => updateField(`coauthor-${i}-affiliation`, v)} error={errors[`coauthor-${i}-affiliation`]} />
       </div>
     ));
   };
