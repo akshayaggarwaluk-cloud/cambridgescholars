@@ -193,7 +193,7 @@ export default function BookDetails() {
                 </div>
                 <Button
                   size="lg"
-                    className="px-8 font-serif tracking-wider normal-case text-sm font-light bg-[#e4573d] hover:bg-[#e4573d]/90 text-white"
+                    className="px-8 font-serif tracking-wider normal-case text-sm font-light bg-[#e4573d] hover:bg-[#c14529] text-white"
                   onClick={() => {
                     for (let i = 0; i < quantity; i++) {
                       addToCart({ ...book, price: getPrice(selectedFormat) }, selectedFormat);
