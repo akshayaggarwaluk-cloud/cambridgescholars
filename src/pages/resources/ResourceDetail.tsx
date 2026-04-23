@@ -52,11 +52,13 @@ export default function ResourceDetail() {
           ) : (
             <>
               {resource.excerpt && (
-                <p className="font-nav text-[16px] text-[#696969] leading-relaxed mb-10">{resource.excerpt}</p>
+                <p className="font-nav text-[16px] font-light text-[#8a8a8a] leading-snug tracking-wide mb-8">
+                  {resource.excerpt}
+                </p>
               )}
               {resource.content && (
                 <div
-                  className="font-nav text-[16px] text-[#696969] leading-relaxed prose prose-neutral max-w-none whitespace-pre-wrap"
+                  className="font-nav text-[16px] font-light text-[#8a8a8a] leading-snug tracking-wide prose prose-neutral max-w-none whitespace-pre-wrap [&_strong]:font-normal [&_li]:my-1 [&_p]:mb-2"
                   dangerouslySetInnerHTML={{ __html: renderContent(resource.content) }}
                 />
               )}
