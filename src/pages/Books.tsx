@@ -293,7 +293,7 @@ export default function Books() {
                           <button
                             onClick={() => handleCategoryChange(cat.slug)}
                             className={cn(
-                              "text-left font-baskerville text-[15px] py-2 transition-colors",
+                              "text-left font-baskerville text-sm py-2 transition-colors",
                               selectedCategory === cat.slug
                                 ? "text-[#C75B2A] font-normal"
                                 : "text-[#C5A374] hover:text-[#C75B2A] font-normal",
@@ -413,7 +413,7 @@ export default function Books() {
                       <button
                         onClick={() => handleCategoryChange("all")}
                         className={cn(
-                          "text-left font-baskerville text-[17px] py-2 transition-colors",
+                          "text-left font-baskerville text-sm py-2 transition-colors",
                           selectedCategory === "all"
                             ? "text-[#C75B2A] font-semibold"
                             : "text-[#C75B2A] hover:text-[#9c4521]",
