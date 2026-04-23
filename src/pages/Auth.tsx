@@ -258,7 +258,7 @@ export default function Auth() {
                     autoComplete="username"
                     value={loginIdentifier}
                     onChange={(e) => setLoginIdentifier(e.target.value)}
-                    className={`h-12 rounded-none border-border bg-background ${
+                    className={`h-12 rounded-none border-border bg-white ${
                       loginErrors.identifier
                         ? "border-destructive focus-visible:ring-destructive"
                         : "focus-visible:ring-accent"
@@ -283,7 +283,7 @@ export default function Auth() {
                       autoComplete="current-password"
                       value={loginPassword}
                       onChange={(e) => setLoginPassword(e.target.value)}
-                      className={`h-12 pr-12 rounded-none border-border bg-background ${
+                      className={`h-12 pr-12 rounded-none border-border bg-white ${
                         loginErrors.password
                           ? "border-destructive focus-visible:ring-destructive"
                           : "focus-visible:ring-accent"
@@ -383,7 +383,7 @@ export default function Auth() {
                         autoComplete="given-name"
                         value={regFirstName}
                         onChange={(e) => setRegFirstName(e.target.value)}
-                        className={`h-12 rounded-none border-border bg-background ${
+                        className={`h-12 rounded-none border-border bg-white ${
                           registerErrors.first_name
                             ? "border-destructive focus-visible:ring-destructive"
                             : "focus-visible:ring-accent"
@@ -407,7 +407,7 @@ export default function Auth() {
                         autoComplete="family-name"
                         value={regLastName}
                         onChange={(e) => setRegLastName(e.target.value)}
-                        className={`h-12 rounded-none border-border bg-background ${
+                        className={`h-12 rounded-none border-border bg-white ${
                           registerErrors.last_name
                             ? "border-destructive focus-visible:ring-destructive"
                             : "focus-visible:ring-accent"
@@ -432,7 +432,7 @@ export default function Auth() {
                       autoComplete="email"
                       value={regEmail}
                       onChange={(e) => setRegEmail(e.target.value)}
-                      className={`h-12 rounded-none border-border bg-background ${
+                      className={`h-12 rounded-none border-border bg-white ${
                         registerErrors.email
                           ? "border-destructive focus-visible:ring-destructive"
                           : "focus-visible:ring-accent"
@@ -457,7 +457,7 @@ export default function Auth() {
                         autoComplete="new-password"
                         value={regPassword}
                         onChange={(e) => setRegPassword(e.target.value)}
-                        className={`h-12 pr-12 rounded-none border-border bg-background ${
+                        className={`h-12 pr-12 rounded-none border-border bg-white ${
                           registerErrors.password
                             ? "border-destructive focus-visible:ring-destructive"
                             : "focus-visible:ring-accent"
@@ -533,7 +533,7 @@ export default function Auth() {
                       value={regOtp}
                       onChange={(e) => setRegOtp(e.target.value.replace(/\D/g, ""))}
                       placeholder="123456"
-                      className={`h-12 rounded-none border-border bg-background tracking-[0.4em] font-mono text-center text-lg ${
+                      className={`h-12 rounded-none border-border bg-white tracking-[0.4em] font-mono text-center text-lg ${
                         registerErrors.otp
                           ? "border-destructive focus-visible:ring-destructive"
                           : "focus-visible:ring-accent"
