@@ -149,14 +149,14 @@ export default function Cart() {
           </div>
 
           {/* Total */}
-          <div className="flex justify-end items-center gap-12 mt-8 pr-6">
-            <span className="text-base text-muted-foreground">Total</span>
-            <span className="text-xl font-semibold text-foreground">
-              £{cartTotal.toFixed(2)}
-            </span>
+          <div className="border-t border-border mt-8">
+            <div className="flex justify-end items-center gap-12 py-6 pr-6 border-b border-border">
+              <span className="text-base text-muted-foreground">Total</span>
+              <span className="text-xl font-semibold text-foreground">
+                £{cartTotal.toFixed(2)}
+              </span>
+            </div>
           </div>
-
-          <div className="border-t border-border mt-6"></div>
 
           {/* Actions */}
           <div className="flex flex-col sm:flex-row sm:justify-between gap-6 mt-8">
