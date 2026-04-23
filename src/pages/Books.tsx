@@ -255,7 +255,7 @@ export default function Books() {
         <div className="max-w-7xl mx-auto">
           {/* Top bar: results count + sort toggle — full-width above the columns */}
           <div className="flex items-center justify-between flex-wrap gap-4 mb-6">
-            <p className="font-baskerville text-base italic text-[#ababab]">
+            <p className="font-baskerville italic text-[#ababab] text-sm">
               {resultsSummary}
             </p>
             <button
