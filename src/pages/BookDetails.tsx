@@ -168,7 +168,7 @@ export default function BookDetails() {
                         )}
                       >
                         <BookIcon className={cn("h-5 w-5", selectedFormat === "ebook" ? "text-accent" : "text-muted-foreground")} />
-                        <span className={cn("text-sm font-semibold", selectedFormat === "ebook" ? "text-accent" : "text-foreground")}>eBook</span>
+                        <span className={cn("text-sm font-semibold", selectedFormat === "ebook" ? "text-accent" : "text-foreground")}>EBook</span>
                         
                       </button>
                     )}
