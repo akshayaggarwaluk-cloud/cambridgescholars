@@ -68,7 +68,7 @@ export default function ForgotPassword() {
       </section>
 
       <main className="flex-1 py-8 md:py-10 bg-white">
-        <div className="max-w-xl mx-auto px-4">
+        <div className="max-w-7xl mx-auto px-4">
           <p className="text-base text-foreground leading-relaxed mb-8">
             To initiate a new password reset, please enter your username or email address. You will receive a link to create a new password via email.
           </p>
