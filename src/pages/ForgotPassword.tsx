@@ -59,7 +59,7 @@ export default function ForgotPassword() {
           <nav className="flex items-center gap-2 text-base text-muted-foreground">
             <Link to="/" className="hover:text-accent transition-colors">Home</Link>
             <span>/</span>
-            <Link to="/auth" className="hover:text-accent transition-colors">My account</Link>
+            <Link to="/books" className="hover:text-accent transition-colors">Bookshop</Link>
             <span>/</span>
             <span className="text-accent font-medium">My account</span>
           </nav>
@@ -69,8 +69,7 @@ export default function ForgotPassword() {
       <main className="flex-1 py-12 md:py-16 bg-white">
         <div className="max-w-xl mx-auto px-4">
           <p className="text-base text-foreground leading-relaxed mb-8">
-            Enter the email address associated with your account and we'll send you a 6-digit
-            verification code to reset your password.
+            To initiate a new password reset, please enter your username or email address. You will receive a link to create a new password via email.
           </p>
 
           {error && (
@@ -85,7 +84,7 @@ export default function ForgotPassword() {
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="space-y-2">
               <Label htmlFor="email" className="text-xs font-medium tracking-wider uppercase text-foreground">
-                Email address <span className="text-accent">*</span>
+                Username or email <span className="text-accent">*</span>
               </Label>
               <Input
                 id="email"
@@ -112,7 +111,7 @@ export default function ForgotPassword() {
                     Sending...
                   </span>
                 ) : (
-                  "SEND RESET CODE"
+                  "RESET PASSWORD"
                 )}
               </Button>
               <Link to="/auth" className="text-accent hover:underline text-base">
