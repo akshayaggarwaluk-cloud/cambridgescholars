@@ -1,6 +1,7 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from "react";
 import { toast } from "sonner";
 import { useExternalAuth } from "./ExternalAuthContext";
+import { showCartNotification } from "@/components/cart/CartBanner";
 
 export type BookFormat = "ebook" | "hardbook" | "paperback";
 
@@ -97,14 +98,14 @@ export function CartProvider({ children }: { children: ReactNode }) {
     setItems((prev) => {
       const existing = prev.find((item) => item.id === book.id && item.format === format);
       if (existing) {
-        toast.success(`Added another ${formatLabel(format)} of "${book.title}"`);
+        showCartNotification(`&ldquo;${book.title}&rdquo; (${formatLabel(format)}) has been added to your cart.`);
         return prev.map((item) =>
           item.id === book.id && item.format === format
             ? { ...item, quantity: item.quantity + 1 }
             : item,
         );
       }
-      toast.success(`"${book.title}" (${formatLabel(format)}) added to cart`);
+      showCartNotification(`&ldquo;${book.title}&rdquo; (${formatLabel(format)}) has been added to your cart.`);
       return [...prev, { ...book, quantity: 1, format }];
     });
   };
