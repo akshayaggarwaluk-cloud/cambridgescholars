@@ -106,9 +106,9 @@ export function SearchOverlay({ onClose }: SearchOverlayProps) {
 
       {/* Search bar - positioned below header area */}
       <div className="relative z-10 w-full mt-[120px]">
-        <div className="max-w-5xl mx-auto px-6">
+        <div className="max-w-7xl mx-auto px-6">
           {/* Main search row */}
-          <div className="relative border border-white bg-black h-[72px] flex items-center">
+          <div className="relative border border-white bg-black h-[56px] flex items-center">
             <input
               ref={inputRef}
               type="text"
@@ -128,8 +128,9 @@ export function SearchOverlay({ onClose }: SearchOverlayProps) {
             </button>
             <button
               onClick={() => setShowAdvanced(!showAdvanced)}
+              style={{ fontFamily: "'Nunito Sans', sans-serif" }}
               className={cn(
-                "h-[52px] mr-3 px-8 text-base font-medium tracking-wide border transition-all whitespace-nowrap",
+                "h-[40px] mr-3 px-8 text-base font-medium tracking-wide border transition-all whitespace-nowrap",
                 showAdvanced
                   ? "bg-white text-[#333] border-white"
                   : "text-white border-white/70 hover:border-white bg-[#525151]"
