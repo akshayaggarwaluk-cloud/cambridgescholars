@@ -133,7 +133,7 @@ export default function BookDetails() {
                         className={cn(
                           "flex items-center gap-2 px-6 py-3 transition-colors min-w-[120px] rounded-none",
                           selectedFormat === "hardbook"
-                            ? "border-black bg-white border-none"
+                            ? "border-black bg-white border-none border"
                             : "border border-border bg-background hover:border-accent/50"
                         )}
                       >
@@ -148,7 +148,7 @@ export default function BookDetails() {
                         className={cn(
                           "flex items-center gap-2 px-6 py-3 transition-colors min-w-[120px] rounded-none",
                           selectedFormat === "paperback"
-                            ? "border-black bg-white border-none"
+                            ? "border-black bg-white border-none border"
                             : "border border-border bg-background hover:border-accent/50"
                         )}
                       >
@@ -163,7 +163,7 @@ export default function BookDetails() {
                         className={cn(
                           "flex items-center gap-2 px-6 py-3 transition-colors min-w-[120px] rounded-none",
                           selectedFormat === "ebook"
-                            ? "border-black bg-white border-none"
+                            ? "border-black bg-white border-none border"
                             : "border border-border bg-background hover:border-accent/50"
                         )}
                       >
