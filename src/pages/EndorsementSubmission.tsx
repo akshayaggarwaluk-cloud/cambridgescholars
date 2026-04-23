@@ -70,7 +70,7 @@ const EndorsementSubmission = () => {
                 <Button
                   type="submit"
                   size="lg"
-                  className="bg-accent hover:bg-accent/90 text-accent-foreground px-12 py-6 text-lg"
+                  className="text-accent-foreground px-12 py-6 text-lg bg-[#b33000]"
                   disabled={isVerifying}
                 >
                   {isVerifying ? "Verifying..." : "Verify Code"}
