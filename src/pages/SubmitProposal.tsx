@@ -430,7 +430,19 @@ const SubmitProposal = () => {
   );
 };
 
-const FieldInput = ({ label, required, type = "text" }: { label: string; required?: boolean; type?: string }) => (
+const FieldInput = ({
+  label,
+  required,
+  type = "text",
+  value,
+  onChange,
+}: {
+  label: string;
+  required?: boolean;
+  type?: string;
+  value?: string;
+  onChange?: (value: string) => void;
+}) => (
   <div className="space-y-1">
     <Label className="text-foreground font-medium font-nav tracking-wider">
       {label} {required && <span className="text-accent font-normal italic tracking-normal">(Required)</span>}
@@ -438,12 +450,26 @@ const FieldInput = ({ label, required, type = "text" }: { label: string; require
     <Input
       type={type}
       required={required}
+      value={value ?? ""}
+      onChange={(e) => onChange?.(e.target.value)}
       className="border border-input rounded-none shadow-none focus-visible:ring-0 px-3 py-2 bg-[#f5f5f5]"
     />
   </div>
 );
 
-const FieldTextarea = ({ label, required, rows = 4 }: { label: string; required?: boolean; rows?: number }) => (
+const FieldTextarea = ({
+  label,
+  required,
+  rows = 4,
+  value,
+  onChange,
+}: {
+  label: string;
+  required?: boolean;
+  rows?: number;
+  value?: string;
+  onChange?: (value: string) => void;
+}) => (
   <div className="space-y-1">
     <Label className="text-foreground font-semibold">
       {label} {required && <span className="text-accent font-normal italic">(Required)</span>}
@@ -451,6 +477,8 @@ const FieldTextarea = ({ label, required, rows = 4 }: { label: string; required?
     <Textarea
       required={required}
       rows={rows}
+      value={value ?? ""}
+      onChange={(e) => onChange?.(e.target.value)}
       className="border border-input rounded-none shadow-none focus-visible:ring-0 px-3 py-2 bg-[#f5f5f5] resize-vertical"
     />
   </div>
