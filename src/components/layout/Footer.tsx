@@ -58,7 +58,7 @@ export function Footer() {
                     to={link.href}
                     className={`text-[15px] hover:text-white transition-colors font-baskerville italic ${
                       isActive(link.href)
-                        ? "text-white border-b border-[#C75B2A] pb-0.5"
+                        ? "text-white border-b border-white pb-0.5"
                         : "text-[#ABABAB]"
                     }`}
                   >
@@ -81,7 +81,7 @@ export function Footer() {
                     to={link.href}
                     className={`text-[15px] hover:text-white transition-colors font-baskerville italic ${
                       isActive(link.href)
-                        ? "text-white border-b border-[#C75B2A] pb-0.5"
+                        ? "text-white border-b border-white pb-0.5"
                         : "text-[#ABABAB]"
                     }`}
                   >
