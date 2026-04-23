@@ -140,7 +140,7 @@ const HowToPublish = () => {
                     </div>
 
                     <div className="flex-1 pt-2">
-                      <h3 className="text-2xl font-display text-foreground mb-3 font-semibold">{step.title}</h3>
+                      <h3 className="text-2xl font-display text-foreground mb-3 font-semibold tracking-wider">{step.title}</h3>
                       {step.description && (
                         <p className="leading-relaxed mb-3 text-base text-black">{step.description}</p>
                       )}
