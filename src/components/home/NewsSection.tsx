@@ -47,7 +47,7 @@ export const NewsSection = () => {
                 )}
                 <Link
                   to={`/news/${article.slug}`}
-                  className="inline-flex items-center gap-1 font-semibold text-xs uppercase tracking-[0.15em] text-accent hover:text-accent/80 transition-colors"
+                  className="inline-flex items-center gap-1 font-semibold text-xs uppercase tracking-[0.15em] text-[#e4573d] hover:text-[#e4573d]/80 transition-colors"
                 >
                   READ MORE
                   <ChevronsRight className="h-4 w-4" />
