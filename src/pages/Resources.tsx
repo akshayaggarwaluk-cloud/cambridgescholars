@@ -42,13 +42,13 @@ export default function Resources() {
               {resources.map((item) => (
                 <div key={item.id} className="group">
                   {item.cover_image && (
-                    <div className="overflow-hidden">
+                    <Link to={`/resources/${item.slug}`} className="block overflow-hidden cursor-pointer">
                       <img
                         src={item.cover_image}
                         alt={item.title}
                         className="w-full h-80 md:h-96 object-cover"
                       />
-                    </div>
+                    </Link>
                   )}
                   <div className="mt-6">
                     <h2 className="font-baskerville text-[21px] text-[#333333] mb-3 tracking-wider">{item.title}</h2>
