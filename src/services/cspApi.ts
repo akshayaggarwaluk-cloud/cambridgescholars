@@ -332,7 +332,16 @@ export async function fetchBooks(params?: {
   order?: string;
   series?: string;
   format?: "hardback" | "paperback" | "ebook";
-  sort?: "latest" | "oldest" | "title_az" | "featured";
+  sort?:
+    | "best_selling"
+    | "date_new_old"
+    | "date_old_new"
+    | "price_low_high"
+    | "price_high_low"
+    | "latest"
+    | "oldest"
+    | "title_az"
+    | "featured";
   has_cover?: boolean;
 }): Promise<{ books: Book[]; pagination: CSPPagination }> {
   const url = new URL(`${CSP_API_BASE}/books`);
