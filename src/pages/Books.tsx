@@ -495,7 +495,7 @@ export default function Books() {
                       <div className="flex flex-col md:flex-row gap-10">
                         {/* Book Cover */}
                         <Link to={`/books/${book.id}`} className="flex-shrink-0 w-full md:w-56">
-                          <div className="aspect-[2/3] overflow-hidden shadow-xl">
+                          <div className="aspect-[3/4] overflow-hidden shadow-xl">
                             <img
                               src={book.image}
                               alt={book.title}
