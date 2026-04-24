@@ -59,7 +59,7 @@ export function BookDetailsTabs({ book }: BookDetailsTabsProps) {
               style={{ fontFamily: '"Nunito Sans", sans-serif' }}
               className="rounded-none border-b-2 border-transparent data-[state=active]:border-accent data-[state=active]:bg-transparent data-[state=active]:shadow-none px-0 pb-3 text-lg uppercase tracking-normal text-black font-medium"
             >
-              Reviews
+              Review
             </TabsTrigger>
           )}
         </TabsList>
