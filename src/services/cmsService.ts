@@ -63,6 +63,7 @@ export interface CmsNewsArticle {
   author: string | null;
   published_at: string;
   is_published: boolean;
+  show_on_homepage: boolean;
   display_order: number;
   created_at: string;
   updated_at: string;
@@ -216,6 +217,18 @@ export async function fetchPublishedNews(): Promise<CmsNewsArticle[]> {
     .from("cms_news_articles")
     .select("*")
     .eq("is_published", true)
+    .order("display_order", { ascending: true })
+    .order("published_at", { ascending: false });
+  if (error) throw error;
+  return (data || []) as CmsNewsArticle[];
+}
+
+export async function fetchHomepageNews(): Promise<CmsNewsArticle[]> {
+  const { data, error } = await supabase
+    .from("cms_news_articles")
+    .select("*")
+    .eq("is_published", true)
+    .eq("show_on_homepage", true)
     .order("display_order", { ascending: true })
     .order("published_at", { ascending: false });
   if (error) throw error;

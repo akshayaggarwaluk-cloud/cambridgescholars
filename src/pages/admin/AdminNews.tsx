@@ -28,6 +28,7 @@ const empty: EditState = {
   author: "",
   published_at: new Date().toISOString(),
   is_published: true,
+  show_on_homepage: true,
   display_order: 0,
 };
 
@@ -246,6 +247,20 @@ export default function AdminNews() {
             </Field>
           </div>
 
+          <Field label="Visibility on homepage">
+            <label className="inline-flex items-center gap-2 text-sm">
+              <input
+                type="checkbox"
+                checked={editing.show_on_homepage ?? true}
+                onChange={(e) => setEditing({ ...editing, show_on_homepage: e.target.checked })}
+              />
+              Show on homepage News section
+            </label>
+            <p className="text-xs text-muted-foreground mt-1">
+              When unchecked, the article still appears on the full /news page (if Published) but is hidden from the homepage 3-column News block.
+            </p>
+          </Field>
+
           <Field label="Display order (lower numbers appear first: 1 = first, 2 = second, …)">
             <input
               type="number"
@@ -323,6 +338,7 @@ export default function AdminNews() {
                 <p className="text-xs text-muted-foreground mt-0.5">
                   /{a.slug} · {new Date(a.published_at).toLocaleDateString()}
                   {a.category ? ` · ${a.category}` : ""}
+                  {a.show_on_homepage === false ? " · Hidden from homepage" : ""}
                 </p>
                 {a.excerpt && (
                   <p className="text-sm text-muted-foreground line-clamp-2 mt-1">{a.excerpt}</p>

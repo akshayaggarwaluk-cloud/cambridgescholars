@@ -1,14 +1,15 @@
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { ChevronsRight } from "lucide-react";
-import { fetchPublishedNews, type CmsNewsArticle } from "@/services/cmsService";
+import { fetchHomepageNews, type CmsNewsArticle } from "@/services/cmsService";
+import { Button } from "@/components/ui/button";
 
 export const NewsSection = () => {
   const [articles, setArticles] = useState<CmsNewsArticle[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetchPublishedNews()
+    fetchHomepageNews()
       .then((data) => setArticles(data))
       .catch((err) => console.error("Failed to load news:", err))
       .finally(() => setLoading(false));
@@ -25,6 +26,7 @@ export const NewsSection = () => {
         ) : articles.length === 0 ? (
           <p className="text-center text-muted-foreground">No news available at the moment.</p>
         ) : (
+          <>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {articles.map((article) => (
               <article key={article.id} className="group">
@@ -55,6 +57,12 @@ export const NewsSection = () => {
               </article>
             ))}
           </div>
+          <div className="flex justify-center mt-12">
+            <Button asChild variant="gold" size="lg">
+              <Link to="/news">View All News</Link>
+            </Button>
+          </div>
+          </>
         )}
       </div>
     </section>
