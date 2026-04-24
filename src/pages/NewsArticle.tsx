@@ -117,7 +117,7 @@ const NewsArticle = () => {
 
             {article.content && (
               <div
-                className="prose prose-lg max-w-none font-serif text-black leading-relaxed text-justify whitespace-pre-wrap"
+                className="prose prose-lg max-w-none font-sans text-[16px] leading-relaxed text-justify whitespace-pre-wrap text-[#696969]"
                 dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(article.content) }}
               />
             )}
