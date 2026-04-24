@@ -101,10 +101,6 @@ function mapApiItem(api: ApiCartItem, prev?: CartItem): CartItem {
   if (isbnMatch && !image.includes("/978")) {
     image = image.replace(`/${isbnMatch[1]}.jpg`, `/978${isbnMatch[1]}.jpg`);
   }
-  if (!image && api.isbn) {
-    const isbn = api.isbn.length === 10 ? `978${api.isbn}` : api.isbn;
-    image = `https://www.cambridgescholars.com/images/9781527500686/${isbn}.jpg`;
-  }
   return {
     id: prev?.id || api.isbn,
     title: api.title || prev?.title || "",
