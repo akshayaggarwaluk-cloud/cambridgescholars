@@ -34,11 +34,20 @@ export function CartHoverPanel({ onNavigate }: CartHoverPanelProps) {
                   onClick={onNavigate}
                   className="shrink-0"
                 >
-                  <img
-                    src={item.image}
-                    alt={item.title}
-                    className="w-16 h-20 object-contain bg-white"
-                  />
+                  {item.image ? (
+                    <img
+                      src={item.image}
+                      alt={item.title}
+                      className="w-16 h-20 object-contain bg-white"
+                      onError={(e) => {
+                        (e.currentTarget as HTMLImageElement).style.display = "none";
+                      }}
+                    />
+                  ) : (
+                    <div className="w-16 h-20 bg-muted flex items-center justify-center text-[10px] text-muted-foreground text-center px-1">
+                      No cover
+                    </div>
+                  )}
                 </Link>
                 <div className="flex-1 min-w-0">
                   <Link

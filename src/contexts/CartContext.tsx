@@ -94,12 +94,19 @@ function fromBookFormat(f: BookFormat): string {
 function mapApiItem(api: ApiCartItem, prev?: CartItem): CartItem {
   const format = toBookFormat(api.format);
   const price = api.unit_price_gbp ?? prev?.price ?? 0;
+  // Cover image: prefer the upstream URL but normalise short 10-digit ISBN
+  // filenames to the 978-prefixed variant the CDN actually serves.
+  let image = api.cover_image || prev?.image || "";
+  const isbnMatch = image.match(/\/(\d{10})\.jpg$/);
+  if (isbnMatch && !image.includes("/978")) {
+    image = image.replace(`/${isbnMatch[1]}.jpg`, `/978${isbnMatch[1]}.jpg`);
+  }
   return {
     id: prev?.id || api.isbn,
     title: api.title || prev?.title || "",
     author: api.author || prev?.author || "",
     price,
-    image: api.cover_image || prev?.image || "",
+    image,
     rating: prev?.rating ?? 0,
     category: prev?.category ?? "General",
     isbn: api.isbn,
