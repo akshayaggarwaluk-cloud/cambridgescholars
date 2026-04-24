@@ -623,8 +623,8 @@ export default function Checkout() {
                     </button>
 
                     {paymentMethod === "card" && (
-                       <div className="mt-4 p-5 space-y-4 bg-[#dbd6e1]">
-                        <p className="text-[13px] text-[#666]">
+                       <div className="mt-3 -mx-2 px-4 py-3 space-y-3 bg-[#dbd6e1]">
+                        <p className="text-[12px] text-[#666]">
                           Pay securely using your credit card.
                         </p>
                         <div>
@@ -635,7 +635,7 @@ export default function Checkout() {
                             onChange={(e) => setCardholder(e.target.value)}
                             placeholder="As shown on your card"
                             autoComplete="cc-name"
-                            className="h-12 rounded-none border-[#d8d6cd] bg-white focus-visible:ring-0 focus-visible:border-[#C75B2A]"
+                            className="h-9 rounded-none border-[#d8d6cd] bg-white focus-visible:ring-0 focus-visible:border-[#C75B2A]"
                           />
                         </div>
                         <div>
@@ -647,10 +647,10 @@ export default function Checkout() {
                             placeholder="•••• •••• •••• ••••"
                             autoComplete="cc-number"
                             inputMode="numeric"
-                            className="h-12 rounded-none border-[#d8d6cd] bg-white focus-visible:ring-0 focus-visible:border-[#C75B2A]"
+                            className="h-9 rounded-none border-[#d8d6cd] bg-white focus-visible:ring-0 focus-visible:border-[#C75B2A]"
                           />
                         </div>
-                        <div className="grid grid-cols-2 gap-4">
+                        <div className="grid grid-cols-2 gap-3">
                           <div>
                             <FieldLabel htmlFor="card-expiry" required>Expiry (MM/YY)</FieldLabel>
                             <Input
@@ -660,7 +660,7 @@ export default function Checkout() {
                               placeholder="MM / YY"
                               autoComplete="cc-exp"
                               inputMode="numeric"
-                              className="h-12 rounded-none border-[#d8d6cd] bg-white focus-visible:ring-0 focus-visible:border-[#C75B2A]"
+                              className="h-9 rounded-none border-[#d8d6cd] bg-white focus-visible:ring-0 focus-visible:border-[#C75B2A]"
                             />
                           </div>
                           <div>
@@ -672,7 +672,7 @@ export default function Checkout() {
                               placeholder="CVC"
                               autoComplete="cc-csc"
                               inputMode="numeric"
-                              className="h-12 rounded-none border-[#d8d6cd] bg-white focus-visible:ring-0 focus-visible:border-[#C75B2A]"
+                              className="h-9 rounded-none border-[#d8d6cd] bg-white focus-visible:ring-0 focus-visible:border-[#C75B2A]"
                             />
                           </div>
                         </div>
