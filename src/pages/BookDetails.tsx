@@ -197,7 +197,7 @@ export default function BookDetails() {
                   </div>
                   <Button
                     size="lg"
-                      className="px-8 lg:px-7 font-serif tracking-wider normal-case text-sm font-light bg-[#e4573d] hover:bg-black text-white"
+                      className="px-8 lg:px-7 font-baskerville uppercase tracking-normal text-base font-semibold bg-[#e4573d] hover:bg-black text-white"
                     onClick={() => {
                       const formatIsbn =
                         selectedFormat === "ebook"
