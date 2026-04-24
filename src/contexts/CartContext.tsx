@@ -1,7 +1,8 @@
-import { createContext, useContext, useState, useEffect, ReactNode, useCallback, useRef } from "react";
+import { useContext, useState, useEffect, ReactNode, useCallback, useRef } from "react";
 import { toast } from "sonner";
 import { useExternalAuth } from "./ExternalAuthContext";
 import { showCartNotification } from "@/components/cart/CartBanner";
+import { CartContext } from "./cart-context-instance";
 import {
   getCart as apiGetCart,
   addCartItem as apiAddCartItem,
@@ -75,24 +76,6 @@ export interface CartItem extends Book {
   quantity: number;
   format: BookFormat;
 }
-
-interface CartContextType {
-  items: CartItem[];
-  addToCart: (book: Book, format?: BookFormat) => void;
-  removeFromCart: (bookId: string, format?: BookFormat) => void;
-  updateQuantity: (bookId: string, format: BookFormat, quantity: number) => void;
-  clearCart: () => void;
-  cartCount: number;
-  cartTotal: number;
-  loading: boolean;
-  // Coupons / discount info from upstream
-  couponCode?: string | null;
-  discount?: number | null;
-  applyCoupon: (code: string) => Promise<void>;
-  removeCoupon: () => Promise<void>;
-}
-
-const CartContext = createContext<CartContextType | undefined>(undefined);
 
 // Map upstream cart format string → local BookFormat
 function toBookFormat(f?: string): BookFormat {
