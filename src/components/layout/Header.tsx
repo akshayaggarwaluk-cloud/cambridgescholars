@@ -196,6 +196,7 @@ export function Header() {
                   to={item.href}
                   className={cn(
                     "text-sm py-2 hover:text-foreground font-bold border-b-2",
+                    item.name === "FAQs" && "normal-case",
                     isActiveRoute(item.href) ? "text-foreground border-black" : "text-muted-foreground border-transparent"
                   )}
                 >
