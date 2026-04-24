@@ -1,8 +1,25 @@
 import { useEffect, useState } from "react";
-import { Plus, Pencil, Trash2, Loader2, Save, X, ArrowUp, ArrowDown } from "lucide-react";
+import { Plus, Pencil, Trash2, Loader2, Save, X, GripVertical } from "lucide-react";
 import { adminApi, type CmsFaq } from "@/services/cmsService";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
+import {
+  DndContext,
+  closestCenter,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+  type DragEndEvent,
+} from "@dnd-kit/core";
+import {
+  arrayMove,
+  SortableContext,
+  sortableKeyboardCoordinates,
+  useSortable,
+  verticalListSortingStrategy,
+} from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
 
 type EditState = Partial<CmsFaq> & { _new?: boolean };
 const empty: EditState = { _new: true, question: "", answer: "", display_order: 0, is_published: true };
@@ -37,14 +54,37 @@ export default function AdminFaqs() {
     try { await adminApi.deleteFaq(id); toast.success("Deleted"); reload(); }
     catch (e) { toast.error(e instanceof Error ? e.message : "Delete failed"); }
   };
-  const move = async (i: number, dir: -1 | 1) => {
-    const t = i + dir; if (t < 0 || t >= items.length) return;
-    const a = items[i], b = items[t];
-    await Promise.all([
-      adminApi.updateFaq({ ...a, display_order: b.display_order ?? 0 }),
-      adminApi.updateFaq({ ...b, display_order: a.display_order ?? 0 }),
-    ]);
-    reload();
+
+  const sensors = useSensors(
+    useSensor(PointerSensor, { activationConstraint: { distance: 5 } }),
+    useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates }),
+  );
+
+  const handleDragEnd = async (event: DragEndEvent, scopedItems: CmsFaq[]) => {
+    const { active, over } = event;
+    if (!over || active.id === over.id) return;
+    const oldIndex = scopedItems.findIndex((it) => it.id === active.id);
+    const newIndex = scopedItems.findIndex((it) => it.id === over.id);
+    if (oldIndex < 0 || newIndex < 0) return;
+    const reordered = arrayMove(scopedItems, oldIndex, newIndex);
+    // Optimistic merge back into items
+    setItems((prev) => {
+      const map = new Map(reordered.map((it, idx) => [it.id, idx]));
+      return prev.map((it) => map.has(it.id) ? { ...it, display_order: map.get(it.id)! } : it);
+    });
+    try {
+      await Promise.all(
+        reordered.map((it, idx) =>
+          (it.display_order ?? 0) === idx
+            ? Promise.resolve()
+            : adminApi.updateFaq({ ...it, display_order: idx }),
+        ),
+      );
+      toast.success("Order saved");
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : "Failed to save order");
+      reload();
+    }
   };
 
   const grouped = items.reduce<Record<string, CmsFaq[]>>((acc, f) => {
