@@ -134,7 +134,7 @@ export function HeroSection() {
                 animate="animate"
                 exit="exit"
                 transition={{ duration: 0.6, ease: [0.25, 0.4, 0.25, 1] }}
-                className="h-full flex items-center justify-end lg:translate-x-12"
+                className="h-full flex items-center justify-end lg:translate-x-24 xl:translate-x-32"
               >
                 <img
                   src={activeReview.image}
