@@ -134,55 +134,13 @@ export function HeroSection() {
                 animate="animate"
                 exit="exit"
                 transition={{ duration: 0.6, ease: [0.25, 0.4, 0.25, 1] }}
-                className="h-[85%]"
-                style={{ perspective: "900px" }}
+                className="h-[85%] flex items-center justify-center"
               >
-                <div
-                  className="relative h-full"
-                  style={{
-                    transform: "rotateY(-12deg) rotateX(18deg) rotateZ(1deg)",
-                    transformStyle: "preserve-3d",
-                  }}
-                >
-                  {/* Spine - left side */}
-                  <div
-                    className="absolute top-0 bottom-0 left-0 w-[22px]"
-                    style={{
-                      background: "linear-gradient(to right, #0a0a0a, #1a1a1a, #252525)",
-                      transform: "translateX(-21px) rotateY(90deg)",
-                      transformOrigin: "right center",
-                      borderRadius: "2px 0 0 2px",
-                    }}
-                  />
-                  {/* Pages - bottom edge */}
-                  <div
-                    className="absolute bottom-0 left-[-21px] right-0 h-[18px]"
-                    style={{
-                      background: "linear-gradient(to bottom, #f0ece4, #e2ded6, #d8d4cc)",
-                      transform: "translateY(17px) rotateX(-90deg)",
-                      transformOrigin: "top center",
-                      borderRadius: "0 0 2px 2px",
-                    }}
-                  />
-                  {/* Right edge (pages) */}
-                  <div
-                    className="absolute top-0 bottom-0 right-0 w-[18px]"
-                    style={{
-                      background: "linear-gradient(to right, #e8e4dc, #f0ece4, #e2ded6)",
-                      transform: "translateX(17px) rotateY(-90deg)",
-                      transformOrigin: "left center",
-                    }}
-                  />
-                  <img
-                    src={activeReview.image}
-                    alt={activeReview.bookTitle}
-                    className="h-full w-auto max-w-none object-contain"
-                    style={{
-                      boxShadow: "15px 25px 50px rgba(0,0,0,0.35), 5px 10px 20px rgba(0,0,0,0.2)",
-                      borderRadius: "2px",
-                    }}
-                  />
-                </div>
+                <img
+                  src={activeReview.image}
+                  alt={activeReview.bookTitle}
+                  className="h-full w-auto max-w-none object-contain"
+                />
               </motion.div>
             </AnimatePresence>
           </div>
