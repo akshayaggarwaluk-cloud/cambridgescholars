@@ -544,14 +544,14 @@ export default function Books() {
           {/* Pagination — centered across full container width */}
           {pagination && pagination.total_pages > 1 && !loading && books.length > 0 && (
             <nav
-              className="flex items-center justify-center gap-5 mt-16 flex-wrap w-full"
+              className="flex items-center justify-center gap-10 mt-16 flex-wrap w-full"
               aria-label="Pagination"
             >
               {buildPageList(pagination.page, pagination.total_pages).map((p, idx) =>
                 p === "…" ? (
                   <span
                     key={`ellipsis-${idx}`}
-                    className="font-baskerville italic text-[20px] text-[#cccccc]"
+                    className="font-baskerville italic text-[32px] text-[#cccccc] leading-none"
                   >
                     …
                   </span>
@@ -559,7 +559,7 @@ export default function Books() {
                   <span
                     key={p}
                     aria-current="page"
-                    className="w-12 h-12 rounded-full flex items-center justify-center text-white font-baskerville italic text-[20px] bg-[#e5573e]"
+                    className="w-20 h-20 rounded-full flex items-center justify-center text-white font-baskerville italic text-[32px] bg-[#e5573e]"
                   >
                     {p}
                   </span>
@@ -567,7 +567,7 @@ export default function Books() {
                   <button
                     key={p}
                     onClick={() => handlePageChange(p as number)}
-                    className="font-baskerville italic transition-colors px-1 text-[#cccccc] hover:text-[#C75B2A] text-base"
+                    className="font-baskerville italic transition-colors px-1 text-[#cccccc] hover:text-[#C75B2A] text-[32px] leading-none"
                   >
                     {p}
                   </button>
@@ -576,7 +576,7 @@ export default function Books() {
               {pagination.page < pagination.total_pages && (
                 <button
                   onClick={() => handlePageChange(pagination.page + 1)}
-                  className="font-nav text-[13px] font-bold tracking-[0.2em] uppercase transition-colors ml-2 text-[#999999] hover:text-[#C75B2A]"
+                  className="font-baskerville text-[28px] tracking-[0.15em] uppercase transition-colors ml-2 text-[#cccccc] hover:text-[#C75B2A]"
                   aria-label="Next page"
                 >
                   Next
