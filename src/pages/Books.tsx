@@ -19,7 +19,13 @@ import { useWishlist } from "@/contexts/WishlistContext";
 import { cn } from "@/lib/utils";
 
 // Sort options matching the CSP API (`sort` query param)
-const SORT_OPTIONS: { value: string; label: string }[] = [
+type SortValue =
+  | "best_selling"
+  | "date_new_old"
+  | "date_old_new"
+  | "price_low_high"
+  | "price_high_low";
+const SORT_OPTIONS: { value: SortValue; label: string }[] = [
   { value: "best_selling", label: "Best Selling" },
   { value: "date_new_old", label: "Date: New to Old" },
   { value: "date_old_new", label: "Date: Old to New" },
