@@ -97,9 +97,9 @@ export function HeroSection() {
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
-      <div className="max-w-7xl mx-auto px-8 sm:px-12 lg:px-16 relative z-10 w-full">
+      <div className="relative z-10 w-full">
         <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center">
-          <div className="text-foreground order-2 lg:order-1 min-h-[380px] md:min-h-[420px] flex flex-col justify-center">
+          <div className="text-foreground order-2 lg:order-1 min-h-[380px] md:min-h-[420px] flex flex-col justify-center pl-8 sm:pl-12 lg:pl-[max(4rem,calc((100vw-80rem)/2+4rem))] pr-8 sm:pr-12 lg:pr-0">
             <AnimatePresence mode="wait">
               <motion.div
                 key={activeIndex}
@@ -125,7 +125,7 @@ export function HeroSection() {
             </AnimatePresence>
           </div>
 
-          <div className="relative order-1 lg:order-2 h-[400px] md:h-[500px] lg:h-[600px] flex items-center justify-center lg:justify-end">
+          <div className="relative order-1 lg:order-2 h-[400px] md:h-[500px] lg:h-[640px] flex items-center justify-center lg:justify-end pr-0">
             <AnimatePresence mode="wait">
               <motion.div
                 key={activeIndex}
@@ -134,19 +134,19 @@ export function HeroSection() {
                 animate="animate"
                 exit="exit"
                 transition={{ duration: 0.6, ease: [0.25, 0.4, 0.25, 1] }}
-                className="h-full flex items-center justify-end"
+                className="h-full w-full flex items-center justify-end"
               >
                 <img
                   src={activeReview.image}
                   alt={activeReview.bookTitle}
-                  className="h-full w-auto max-w-full object-contain object-right"
+                  className="h-full w-auto max-w-none object-contain object-right"
                 />
               </motion.div>
             </AnimatePresence>
           </div>
         </div>
 
-        <div className="flex items-center justify-center gap-3 mt-8 md:mt-10">
+        <div className="flex items-center justify-center gap-3 mt-8 md:mt-10 px-8">
           {featuredReviews.map((_, index) => (
             <button key={index} onClick={() => { setIsAutoPlaying(false); setActiveIndex(index); }} aria-label={`Go to slide ${index + 1}`} className={cn("w-2.5 h-2.5 rounded-full transition-all duration-300", activeIndex === index ? "bg-accent scale-110" : "bg-muted-foreground/25 hover:bg-muted-foreground/40")} />
           ))}
