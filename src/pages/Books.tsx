@@ -105,7 +105,12 @@ export default function Books() {
           search?: string;
           search_field?: string;
           category?: string;
-          sort?: string;
+          sort?:
+            | "best_selling"
+            | "date_new_old"
+            | "date_old_new"
+            | "price_low_high"
+            | "price_high_low";
         } = {
           page: currentPage,
           per_page: 20,
