@@ -418,7 +418,7 @@ export function Header() {
                     />
                   </button>
                   {isPublishDropdownOpen && (
-                    <div className="bg-muted/30">
+                    <div className="bg-black/20">
                       {publishDropdownItems.map((item) => (
                         <Link
                           key={item.name}
