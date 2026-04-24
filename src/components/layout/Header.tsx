@@ -382,7 +382,7 @@ export function Header() {
                     className={cn(
                       "block px-6 py-3 text-sm font-bold uppercase tracking-wide transition-colors",
                       isActiveRoute(item.href)
-                        ? "text-[#cac4c4]"
+                        ? "text-accent"
                         : "text-[#cac4c4]"
                     )}
                   >
@@ -394,7 +394,7 @@ export function Header() {
                   to="/books"
                   className={cn(
                     "block px-6 py-3 text-sm font-bold uppercase tracking-wide transition-colors",
-                    isActiveRoute("/books") ? "text-[#cac4c4]" : "text-[#cac4c4]"
+                    isActiveRoute("/books") ? "text-accent" : "text-[#cac4c4]"
                   )}
                 >
                   Buy a Book
@@ -406,7 +406,7 @@ export function Header() {
                     onClick={() => setIsPublishDropdownOpen(!isPublishDropdownOpen)}
                     className={cn(
                       "flex items-center justify-between w-full px-6 py-3 text-sm font-bold uppercase tracking-wide transition-colors",
-                      isPublishActive ? "text-[#cac4c4]" : "text-[#cac4c4]"
+                      isPublishActive ? "text-accent" : "text-[#cac4c4]"
                     )}
                   >
                     Publish a Book
@@ -425,7 +425,7 @@ export function Header() {
                           to={item.href}
                           className={cn(
                             "block px-10 py-2.5 text-sm font-medium transition-colors",
-                            isActiveRoute(item.href) ? "text-[#cac4c4]" : "text-[#cac4c4]"
+                            isActiveRoute(item.href) ? "text-accent" : "text-[#cac4c4]"
                           )}
                         >
                           {item.name}
@@ -441,7 +441,7 @@ export function Header() {
                     to={item.href}
                     className={cn(
                       "block px-6 py-3 text-sm font-bold uppercase tracking-wide transition-colors",
-                      isActiveRoute(item.href) ? "text-[#cac4c4]" : "text-[#cac4c4]"
+                      isActiveRoute(item.href) ? "text-accent" : "text-[#cac4c4]"
                     )}
                   >
                     {item.name}
