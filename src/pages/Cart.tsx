@@ -108,9 +108,9 @@ export default function Cart() {
           {/* Table header */}
           <div className="grid grid-cols-[1fr_120px_180px_140px_60px] gap-6 pb-5 border-b border-border items-center">
             <div className="uppercase text-[#333333] font-baskerville tracking-wider text-sm font-semibold">Product</div>
-            <div className="uppercase text-[#333333] font-baskerville tracking-wider text-sm font-semibold">Price</div>
-            <div className="uppercase text-[#333333] font-baskerville tracking-wider text-sm font-semibold">Quantity</div>
-            <div className="uppercase text-[#333333] font-baskerville tracking-wider text-sm font-semibold">Total</div>
+            <div className="uppercase text-[#333333] font-baskerville tracking-wider text-sm font-semibold text-right">Price</div>
+            <div className="uppercase text-[#333333] font-baskerville tracking-wider text-sm font-semibold text-center">Quantity</div>
+            <div className="uppercase text-[#333333] font-baskerville tracking-wider text-sm font-semibold text-right">Total</div>
             <div></div>
           </div>
 
@@ -148,12 +148,12 @@ export default function Cart() {
                 </div>
 
                 {/* Price */}
-                <div className="text-base text-[#ababab]">
+                <div className="text-base text-[#ababab] text-right">
                   £{item.price.toFixed(2)}
                 </div>
 
                 {/* Quantity */}
-                <div className="flex items-center border border-border w-fit">
+                <div className="flex items-center border border-border w-fit mx-auto">
                   <button
                     onClick={() => updateQuantity(item.id, item.format, item.quantity - 1)}
                     aria-label="Decrease quantity"
@@ -172,7 +172,7 @@ export default function Cart() {
                 </div>
 
                 {/* Total */}
-                <div className="text-base text-black font-light">
+                <div className="text-base text-black font-light text-right">
                   £{(item.price * item.quantity).toFixed(2)}
                 </div>
 
