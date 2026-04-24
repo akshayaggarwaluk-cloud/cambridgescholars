@@ -509,7 +509,7 @@ export default function Books() {
                           <div className="flex items-center gap-3 mt-auto pt-6">
                             <Button
                               asChild
-                               className="bg-[#e4573d] hover:bg-[#e4573d]/80 text-white px-7 h-11 text-sm font-bold tracking-[0.18em] uppercase rounded-none transition-colors font-baskerville"
+                               className="bg-[#e4573d] hover:bg-[#e4573d]/80 text-white px-6 h-10 text-xs font-bold tracking-[0.18em] uppercase rounded-none transition-colors font-baskerville"
                             >
                               <Link to={`/books/${book.id}`}>VIEW MORE</Link>
                             </Button>
@@ -524,11 +524,11 @@ export default function Books() {
                                 }
                               }}
                               className={cn(
-                                "h-11 w-11 rounded-none border border-[#E5E5E5] bg-white text-[#333] hover:bg-white hover:text-[#333] hover:border-black transition-colors",
+                                "h-10 w-10 rounded-none border border-[#E5E5E5] bg-white text-[#333] hover:bg-white hover:text-[#333] hover:border-black transition-colors",
                                 isInWishlist(book.id) && "text-[#C75B2A] border-[#C75B2A]",
                               )}
                             >
-                              <Heart className={cn("h-5 w-5", isInWishlist(book.id) && "fill-current")} />
+                              <Heart className={cn("h-4 w-4", isInWishlist(book.id) && "fill-current")} />
                             </Button>
                           </div>
                         </div>
