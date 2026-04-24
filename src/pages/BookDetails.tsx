@@ -179,22 +179,22 @@ export default function BookDetails() {
                 </div>
 
                 {/* Quantity */}
-                <div className="flex items-center gap-4 sm:gap-6">
+                <div className="flex items-center gap-4 sm:gap-6 lg:gap-5">
                   <span className="font-serif tracking-wider normal-case text-sm uppercase font-bold">QUANTITY</span>
                   <div className="flex items-center border">
-                    <button onClick={() => setQuantity(Math.max(1, quantity - 1))} className="px-2 sm:px-3 py-1.5 sm:py-2 hover:bg-muted"><Minus className="h-3.5 w-3.5 sm:h-4 sm:w-4" /></button>
-                    <span className="px-3 sm:px-4 py-1.5 sm:py-2 min-w-[40px] sm:min-w-[50px] text-center font-serif tracking-wider text-sm font-medium">{quantity}</span>
-                    <button onClick={() => setQuantity(quantity + 1)} className="px-2 sm:px-3 py-1.5 sm:py-2 hover:bg-muted"><Plus className="h-3.5 w-3.5 sm:h-4 sm:w-4" /></button>
+                    <button onClick={() => setQuantity(Math.max(1, quantity - 1))} className="px-2 sm:px-3 py-1.5 sm:py-2 lg:px-2.5 lg:py-1.5 hover:bg-muted"><Minus className="h-3.5 w-3.5 sm:h-4 sm:w-4" /></button>
+                    <span className="px-3 sm:px-4 py-1.5 sm:py-2 lg:px-3 lg:py-1.5 min-w-[40px] sm:min-w-[50px] text-center font-serif tracking-wider text-sm font-medium">{quantity}</span>
+                    <button onClick={() => setQuantity(quantity + 1)} className="px-2 sm:px-3 py-1.5 sm:py-2 lg:px-2.5 lg:py-1.5 hover:bg-muted"><Plus className="h-3.5 w-3.5 sm:h-4 sm:w-4" /></button>
                   </div>
                 </div>
                 {/* Actions */}
-                <div className="flex items-center gap-3 sm:gap-4 flex-wrap">
+                <div className="flex items-center gap-3 sm:gap-4 lg:gap-3 flex-wrap">
                  <div className="text-[#c4a273] text-lg font-semibold" style={{ fontFamily: '"Nunito Sans", sans-serif' }}>
                    <span className="font-semibold text-[#c4a273] text-lg">From £{getPrice(selectedFormat).toFixed(2)}</span>
                   </div>
                   <Button
                     size="lg"
-                      className="px-8 font-serif tracking-wider normal-case text-sm font-light bg-[#e4573d] hover:bg-black text-white"
+                      className="px-8 lg:px-7 font-serif tracking-wider normal-case text-sm font-light bg-[#e4573d] hover:bg-black text-white"
                     onClick={() => {
                       const formatIsbn =
                         selectedFormat === "ebook"
@@ -221,7 +221,7 @@ export default function BookDetails() {
                     <Heart className={cn("h-5 w-5 text-muted-foreground group-hover:text-accent-foreground transition-colors", isInWishlist(book.id) && "fill-accent text-accent")} />
                   </Button>
                   {book.samplePdfUrl && (
-                    <Button size="lg" variant="outline" className="px-8 font-serif tracking-wider normal-case text-sm font-light border border-black bg-white text-black hover:bg-[#e4573d] hover:text-white hover:border-[#e4573d]" onClick={() => window.open(book.samplePdfUrl, "_blank")}>
+                    <Button size="lg" variant="outline" className="px-8 lg:px-7 font-serif tracking-wider normal-case text-sm font-light border border-black bg-white text-black hover:bg-[#e4573d] hover:text-white hover:border-[#e4573d]" onClick={() => window.open(book.samplePdfUrl, "_blank")}>
                       READ SAMPLE
                     </Button>
                   )}
