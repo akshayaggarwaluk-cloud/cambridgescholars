@@ -135,7 +135,7 @@ export default function Cart() {
                   </Link>
                   <div className="min-w-0">
                     <Link to={`/books/${item.id}`}>
-                    <h3 className="font-sans transition-colors leading-snug text-base text-black" style={{ fontFamily: '"Nunito Sans", sans-serif' }}>
+                    <h3 className="font-sans transition-colors leading-snug text-base text-black font-light" style={{ fontFamily: '"Nunito Sans", sans-serif' }}>
                         {item.title} - {formatLabel(item.format)}
                       </h3>
                     </Link>
