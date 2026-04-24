@@ -31,7 +31,7 @@ export function BookDetailsTabs({ book }: BookDetailsTabsProps) {
             <TabsTrigger 
               value="blurb" 
               style={unifiedFontStyle}
-              className="rounded-none border-b-2 border-transparent data-[state=active]:border-accent data-[state=active]:bg-transparent data-[state=active]:shadow-none px-0 pb-3 text-lg uppercase tracking-normal text-black font-medium"
+              className="rounded-none border-b-2 border-transparent data-[state=active]:border-accent data-[state=active]:bg-transparent data-[state=active]:shadow-none px-0 pb-3 text-lg uppercase tracking-normal text-black font-medium font-sans"
             >
               Blurb
             </TabsTrigger>
@@ -40,7 +40,7 @@ export function BookDetailsTabs({ book }: BookDetailsTabsProps) {
             <TabsTrigger 
               value="biography" 
               style={unifiedFontStyle}
-              className="rounded-none border-b-2 border-transparent data-[state=active]:border-accent data-[state=active]:bg-transparent data-[state=active]:shadow-none px-0 pb-3 text-lg uppercase tracking-normal text-black font-medium"
+              className="rounded-none border-b-2 border-transparent data-[state=active]:border-accent data-[state=active]:bg-transparent data-[state=active]:shadow-none px-0 pb-3 text-lg uppercase tracking-normal text-black font-medium font-sans"
             >
               Biography
             </TabsTrigger>
@@ -49,7 +49,7 @@ export function BookDetailsTabs({ book }: BookDetailsTabsProps) {
             <TabsTrigger 
               value="book-info" 
               style={unifiedFontStyle}
-              className="rounded-none border-b-2 border-transparent data-[state=active]:border-accent data-[state=active]:bg-transparent data-[state=active]:shadow-none px-0 pb-3 text-lg uppercase tracking-normal text-black font-medium"
+              className="rounded-none border-b-2 border-transparent data-[state=active]:border-accent data-[state=active]:bg-transparent data-[state=active]:shadow-none px-0 pb-3 text-lg uppercase tracking-normal text-black font-medium font-sans"
             >
               Book Information
             </TabsTrigger>
@@ -58,7 +58,7 @@ export function BookDetailsTabs({ book }: BookDetailsTabsProps) {
             <TabsTrigger
               value="review"
               style={unifiedFontStyle}
-              className="rounded-none border-b-2 border-transparent data-[state=active]:border-accent data-[state=active]:bg-transparent data-[state=active]:shadow-none px-0 pb-3 text-lg uppercase tracking-normal text-black font-medium"
+              className="rounded-none border-b-2 border-transparent data-[state=active]:border-accent data-[state=active]:bg-transparent data-[state=active]:shadow-none px-0 pb-3 text-lg uppercase tracking-normal text-black font-medium font-sans"
             >
               Review
             </TabsTrigger>
