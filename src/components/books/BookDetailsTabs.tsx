@@ -30,7 +30,7 @@ export function BookDetailsTabs({ book }: BookDetailsTabsProps) {
           {hasBlurb && (
             <TabsTrigger 
               value="blurb" 
-              className="rounded-none border-b-2 border-transparent data-[state=active]:border-accent data-[state=active]:bg-transparent data-[state=active]:shadow-none px-0 pb-3 text-lg uppercase tracking-normal text-black font-medium font-sans"
+              className="rounded-none border-b-2 border-transparent data-[state=active]:border-accent data-[state=active]:bg-transparent data-[state=active]:shadow-none px-0 pb-3 text-lg uppercase tracking-normal text-black font-sans font-normal"
             >
               Blurb
             </TabsTrigger>
@@ -38,7 +38,7 @@ export function BookDetailsTabs({ book }: BookDetailsTabsProps) {
           {hasBiography && (
             <TabsTrigger 
               value="biography" 
-              className="rounded-none border-b-2 border-transparent data-[state=active]:border-accent data-[state=active]:bg-transparent data-[state=active]:shadow-none px-0 pb-3 text-lg uppercase tracking-normal text-black font-medium font-sans"
+              className="rounded-none border-b-2 border-transparent data-[state=active]:border-accent data-[state=active]:bg-transparent data-[state=active]:shadow-none px-0 pb-3 text-lg uppercase tracking-normal text-black font-sans font-normal"
             >
               Biography
             </TabsTrigger>
@@ -46,7 +46,7 @@ export function BookDetailsTabs({ book }: BookDetailsTabsProps) {
           {hasBookInfo && (
             <TabsTrigger 
               value="book-info" 
-              className="rounded-none border-b-2 border-transparent data-[state=active]:border-accent data-[state=active]:bg-transparent data-[state=active]:shadow-none px-0 pb-3 text-lg uppercase tracking-normal text-black font-medium font-sans"
+              className="rounded-none border-b-2 border-transparent data-[state=active]:border-accent data-[state=active]:bg-transparent data-[state=active]:shadow-none px-0 pb-3 text-lg uppercase tracking-normal text-black font-sans font-normal"
             >
               Book Information
             </TabsTrigger>
@@ -54,7 +54,7 @@ export function BookDetailsTabs({ book }: BookDetailsTabsProps) {
           {hasReviews && (
             <TabsTrigger
               value="review"
-              className="rounded-none border-b-2 border-transparent data-[state=active]:border-accent data-[state=active]:bg-transparent data-[state=active]:shadow-none px-0 pb-3 text-lg uppercase tracking-normal text-black font-medium font-sans"
+              className="rounded-none border-b-2 border-transparent data-[state=active]:border-accent data-[state=active]:bg-transparent data-[state=active]:shadow-none px-0 pb-3 text-lg uppercase tracking-normal text-black font-sans font-normal"
             >
               Review
             </TabsTrigger>
