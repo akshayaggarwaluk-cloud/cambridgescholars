@@ -329,8 +329,9 @@ export default function Checkout() {
         expiryDate: card.expiry,
         securityCode: card.cvc,
       });
-      if (tokenised.success !== true) {
-        throw new Error(tokenised.message);
+      if (!tokenised.success) {
+        const failure = tokenised as { message: string };
+        throw new Error(failure.message);
       }
 
       // 3. Build the /checkout/pay payload.
