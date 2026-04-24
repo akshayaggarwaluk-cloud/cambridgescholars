@@ -225,10 +225,10 @@ export function CartProvider({ children }: { children: ReactNode }) {
       }
       return [...prev, { ...book, isbn, quantity: 1, format }];
     });
-    showCartNotification(`&ldquo;${book.title}&rdquo; (${formatLabel(format)}) has been added to your cart.`);
     try {
       const res = await apiAddCartItem({ isbn, format: fromBookFormat(format), quantity: 1 });
       applyResponse(res);
+      showCartNotification(`&ldquo;${book.title}&rdquo; (${formatLabel(format)}) has been added to your cart.`);
     } catch (e) {
       toast.error(e instanceof Error ? e.message : "Failed to add item to cart");
       // Reload from server to recover from optimistic mismatch
