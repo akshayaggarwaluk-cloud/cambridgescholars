@@ -120,26 +120,15 @@ export default function AdminFaqs() {
           {Object.entries(grouped).map(([cat, list]) => (
             <div key={cat}>
               <h3 className="font-nav uppercase tracking-wider text-xs text-muted-foreground mb-2">{cat}</h3>
-              <div className="space-y-2">
-                {list.map((it) => {
-                  const i = items.indexOf(it);
-                  return (
-                    <div key={it.id} className="border border-border p-3 flex gap-3 items-start">
-                      <div className="flex flex-col items-center">
-                        <Button variant="ghost" size="sm" className="h-6 w-6 p-0" disabled={i===0} onClick={() => move(i,-1)}><ArrowUp className="h-3 w-3" /></Button>
-                        <Button variant="ghost" size="sm" className="h-6 w-6 p-0" disabled={i===items.length-1} onClick={() => move(i,1)}><ArrowDown className="h-3 w-3" /></Button>
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <div className="font-medium text-sm">{it.question}</div>
-                        <div className="text-xs text-muted-foreground line-clamp-2 mt-1">{it.answer}</div>
-                        {!it.is_published && <span className="text-[10px] uppercase text-muted-foreground">Draft</span>}
-                      </div>
-                      <Button variant="ghost" size="sm" onClick={() => setEditing({ ...it })}><Pencil className="h-4 w-4" /></Button>
-                      <Button variant="ghost" size="sm" onClick={() => remove(it.id)}><Trash2 className="h-4 w-4 text-destructive" /></Button>
-                    </div>
-                  );
-                })}
-              </div>
+              <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={(e) => handleDragEnd(e, list)}>
+                <SortableContext items={list.map((it) => it.id)} strategy={verticalListSortingStrategy}>
+                  <div className="space-y-2">
+                    {list.map((it) => (
+                      <SortableFaqRow key={it.id} item={it} onEdit={() => setEditing({ ...it })} onDelete={() => remove(it.id)} />
+                    ))}
+                  </div>
+                </SortableContext>
+              </DndContext>
             </div>
           ))}
         </div>
@@ -150,4 +139,34 @@ export default function AdminFaqs() {
 
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (<div className="space-y-1"><label className="block text-sm font-nav uppercase tracking-wider">{label}</label>{children}</div>);
+}
+
+function SortableFaqRow({ item, onEdit, onDelete }: { item: CmsFaq; onEdit: () => void; onDelete: () => void }) {
+  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: item.id });
+  const style: React.CSSProperties = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+    opacity: isDragging ? 0.5 : 1,
+    zIndex: isDragging ? 10 : "auto",
+  };
+  return (
+    <div ref={setNodeRef} style={style} className="border border-border p-3 flex gap-3 items-start bg-background">
+      <button
+        type="button"
+        {...attributes}
+        {...listeners}
+        className="touch-none cursor-grab active:cursor-grabbing text-muted-foreground hover:text-foreground p-1"
+        aria-label="Drag to reorder"
+      >
+        <GripVertical className="h-5 w-5" />
+      </button>
+      <div className="flex-1 min-w-0">
+        <div className="font-medium text-sm">{item.question}</div>
+        <div className="text-xs text-muted-foreground line-clamp-2 mt-1">{item.answer}</div>
+        {!item.is_published && <span className="text-[10px] uppercase text-muted-foreground">Draft</span>}
+      </div>
+      <Button variant="ghost" size="sm" onClick={onEdit}><Pencil className="h-4 w-4" /></Button>
+      <Button variant="ghost" size="sm" onClick={onDelete}><Trash2 className="h-4 w-4 text-destructive" /></Button>
+    </div>
+  );
 }
