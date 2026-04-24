@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { CheckCircle, AlertCircle, ChevronUp } from "lucide-react";
 import { Header } from "@/components/layout/Header";
@@ -19,6 +19,12 @@ import {
 import { useCart } from "@/contexts/CartContext";
 import { useExternalAuth } from "@/contexts/ExternalAuthContext";
 import { toast } from "sonner";
+import {
+  getMerchantSessionKey,
+  checkoutPay,
+  type CheckoutPayRequest,
+} from "@/services/cartService";
+import { loadOpayoSdk, tokeniseCard } from "@/lib/opayoSdk";
 
 type AddressData = {
   firstName: string;
