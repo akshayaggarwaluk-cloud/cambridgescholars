@@ -104,7 +104,7 @@ export default function BookDetails() {
 
             {/* Content */}
             <div
-              className="flex flex-col"
+              className="flex flex-col lg:justify-between"
               style={imageHeight && window.innerWidth >= 1024 ? { minHeight: imageHeight } : undefined}
             >
               <div>
@@ -128,7 +128,7 @@ export default function BookDetails() {
 
               </div>
 
-              <div className="flex flex-col gap-6 lg:flex-1 lg:pt-2">
+              <div className="flex flex-col gap-6 lg:pt-2">
                 {/* Format Selection */}
                 <div>
                   <p className="font-serif tracking-wider normal-case text-sm uppercase mb-3 font-bold">BINDING</p>
