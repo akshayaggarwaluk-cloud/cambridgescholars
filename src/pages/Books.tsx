@@ -524,11 +524,11 @@ export default function Books() {
                                 }
                               }}
                               className={cn(
-                                "h-11 w-11 rounded-none border border-[#E5E5E5] bg-white text-[#333] hover:bg-white hover:text-[#333] hover:border-black transition-colors",
+                                "h-10 w-10 rounded-none border border-[#E5E5E5] bg-white text-[#333] hover:bg-white hover:text-[#333] hover:border-black transition-colors",
                                 isInWishlist(book.id) && "text-[#C75B2A] border-[#C75B2A]",
                               )}
                             >
-                              <Heart className={cn("h-5 w-5", isInWishlist(book.id) && "fill-current")} />
+                              <Heart className={cn("h-4 w-4", isInWishlist(book.id) && "fill-current")} />
                             </Button>
                           </div>
                         </div>
