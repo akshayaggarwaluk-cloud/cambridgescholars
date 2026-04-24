@@ -108,9 +108,9 @@ export default function Cart() {
           {/* Table header */}
           <div className="grid grid-cols-[1fr_120px_180px_140px_60px] gap-6 pb-5 border-b border-border items-center">
             <div className="uppercase text-[#333333] font-baskerville tracking-wider text-sm font-semibold">Product</div>
-            <div className="uppercase text-[#333333] font-baskerville tracking-wider text-sm font-semibold text-center relative -left-8">Price</div>
-            <div className="uppercase text-[#333333] font-baskerville tracking-wider text-sm font-semibold text-center relative -left-8">Quantity</div>
-            <div className="uppercase text-[#333333] font-baskerville tracking-wider text-sm font-semibold text-center relative -left-8">Total</div>
+            <div className="uppercase text-[#333333] font-baskerville tracking-wider text-sm font-semibold text-center relative -left-5">Price</div>
+            <div className="uppercase text-[#333333] font-baskerville tracking-wider text-sm font-semibold text-center relative -left-5">Quantity</div>
+            <div className="uppercase text-[#333333] font-baskerville tracking-wider text-sm font-semibold text-center relative -left-5">Total</div>
             <div></div>
           </div>
 
