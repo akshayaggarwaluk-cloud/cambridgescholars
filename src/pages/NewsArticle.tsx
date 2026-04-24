@@ -8,11 +8,9 @@ import { Input } from "@/components/ui/input";
 import { Search, ChevronDown } from "lucide-react";
 import {
   fetchPublishedNewsBySlug,
-  fetchPublishedNews,
   type CmsNewsArticle,
 } from "@/services/cmsService";
-
-const ALL = "All Categories";
+import { fetchCategories, type CSPCategory } from "@/services/cspApi";
 
 const NewsArticle = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -20,7 +18,7 @@ const NewsArticle = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [article, setArticle] = useState<CmsNewsArticle | null>(null);
   const [loading, setLoading] = useState(true);
-  const [allArticles, setAllArticles] = useState<CmsNewsArticle[]>([]);
+  const [categories, setCategories] = useState<CSPCategory[]>([]);
 
   useEffect(() => {
     if (!slug) return;
@@ -32,27 +30,29 @@ const NewsArticle = () => {
   }, [slug]);
 
   useEffect(() => {
-    fetchPublishedNews()
-      .then(setAllArticles)
-      .catch((e) => console.error("Failed to load news list:", e));
+    fetchCategories()
+      .then((cats) => {
+        const order = [
+          "Social Sciences",
+          "Physical Sciences",
+          "Health Science",
+          "Health Sciences",
+          "Life Sciences",
+        ];
+        const sorted = [...cats].sort((a, b) => {
+          const ai = order.indexOf(a.name);
+          const bi = order.indexOf(b.name);
+          if (ai === -1 && bi === -1) return 0;
+          if (ai === -1) return 1;
+          if (bi === -1) return -1;
+          return ai - bi;
+        });
+        setCategories(sorted);
+      })
+      .catch(() => setCategories([]));
   }, []);
 
-  const categories = (() => {
-    const set = new Set<string>();
-    allArticles.forEach((a) => a.category && set.add(a.category));
-    return [ALL, ...Array.from(set)];
-  })();
-
-  const categoryCounts = categories.reduce(
-    (acc, c) => {
-      acc[c] =
-        c === ALL
-          ? allArticles.length
-          : allArticles.filter((a) => a.category === c).length;
-      return acc;
-    },
-    {} as Record<string, number>,
-  );
+  const totalBooks = categories.reduce((sum, c) => sum + (c.book_count || 0), 0);
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -139,25 +139,35 @@ const NewsArticle = () => {
               <h3 className="text-2xl font-baskerville text-[#C75B2A] mb-4 pb-3 border-b border-border">Categories</h3>
               <ul className="space-y-3">
                 {categories.map((category) => (
-                  <li key={category}>
+                  <li key={category.slug}>
                     <Link
-                      to={
-                        category === ALL
-                          ? "/news"
-                          : `/news?category=${encodeURIComponent(category)}`
-                      }
+                      to={`/books?category=${encodeURIComponent(category.name)}`}
                       className="w-full flex items-center justify-between text-[15px] py-1 transition-colors text-[#C75B2A]/90 hover:text-[#C75B2A]"
                     >
-                      <span className="font-serif">{category}</span>
+                      <span className="font-serif">{category.name}</span>
                       <div className="flex items-center gap-2">
                         <span className="inline-flex items-center justify-center min-w-[36px] h-6 px-2 rounded-full bg-[#F4F3EC] text-[#C75B2A] text-xs font-medium">
-                          {categoryCounts[category]}
+                          {category.book_count}
                         </span>
                         <ChevronDown className="h-3 w-3 text-[#C75B2A]" />
                       </div>
                     </Link>
                   </li>
                 ))}
+                <li>
+                  <Link
+                    to="/books"
+                    className="w-full flex items-center justify-between text-[15px] py-1 transition-colors text-[#C75B2A]/90 hover:text-[#C75B2A]"
+                  >
+                    <span className="font-serif">All Categories</span>
+                    <div className="flex items-center gap-2">
+                      <span className="inline-flex items-center justify-center min-w-[36px] h-6 px-2 rounded-full bg-[#F4F3EC] text-[#C75B2A] text-xs font-medium">
+                        {totalBooks}
+                      </span>
+                      <ChevronDown className="h-3 w-3 text-[#C75B2A]" />
+                    </div>
+                  </Link>
+                </li>
               </ul>
             </div>
           </aside>
