@@ -49,6 +49,7 @@ export interface AuthSuccessResponse {
 
 export interface RefreshResponse {
   access_token: string;
+  refresh_token?: string;
 }
 
 interface ErrorPayload {
@@ -208,7 +209,10 @@ export async function refreshAccessToken(): Promise<string | null> {
   const refresh_token = getRefreshToken();
   if (!refresh_token) return null;
   try {
-    const res = await postAuth<RefreshResponse>("refresh", { refresh_token });
+    const res = await postAuth<RefreshResponse>("refresh", { refresh_token }, refresh_token);
+    if (res?.refresh_token) {
+      setRefreshToken(res.refresh_token);
+    }
     return res?.access_token ?? null;
   } catch (e) {
     console.warn("[auth] refresh failed:", e);
