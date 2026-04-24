@@ -77,6 +77,10 @@ export interface CheckoutPayResponse {
 
 const CART_TOKEN_KEY = "cspCartToken";
 
+function normalizeIsbn(isbn: string): string {
+  return isbn.replace(/[^0-9Xx]/g, "").toUpperCase();
+}
+
 function getCartToken(): string | null {
   try { return localStorage.getItem(CART_TOKEN_KEY); } catch { return null; }
 }
@@ -149,19 +153,19 @@ export function addCartItem(params: {
 }): Promise<CartResponse> {
   return callCsp<CartResponse>("/cart/items", {
     method: "POST",
-    body: JSON.stringify({ quantity: 1, ...params }),
+    body: JSON.stringify({ quantity: 1, ...params, isbn: normalizeIsbn(params.isbn) }),
   });
 }
 
 export function updateCartItem(isbn: string, quantity: number): Promise<CartResponse> {
-  return callCsp<CartResponse>(`/cart/items/${encodeURIComponent(isbn)}`, {
+  return callCsp<CartResponse>(`/cart/items/${encodeURIComponent(normalizeIsbn(isbn))}`, {
     method: "PUT",
     body: JSON.stringify({ quantity }),
   });
 }
 
 export function removeCartItem(isbn: string): Promise<CartResponse> {
-  return callCsp<CartResponse>(`/cart/items/${encodeURIComponent(isbn)}`, {
+  return callCsp<CartResponse>(`/cart/items/${encodeURIComponent(normalizeIsbn(isbn))}`, {
     method: "DELETE",
   });
 }
