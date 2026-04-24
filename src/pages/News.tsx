@@ -125,7 +125,7 @@ const News = () => {
                       <Link to={`/news/${article.slug}`}>{article.title}</Link>
                     </h2>
                     {article.excerpt && (
-                      <p className="text-foreground/80 text-[15px] leading-relaxed mb-5 line-clamp-3">{article.excerpt}</p>
+                       <p className="text-[15px] leading-relaxed mb-5 line-clamp-3 font-serif text-black">{article.excerpt}</p>
                     )}
                   </article>
                 ))}
