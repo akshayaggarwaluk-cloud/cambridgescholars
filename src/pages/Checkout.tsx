@@ -623,7 +623,7 @@ export default function Checkout() {
                     </button>
 
                     {paymentMethod === "card" && (
-                      <div className="mt-4 bg-[#f4f3ec] p-5 space-y-4">
+                       <div className="mt-4 p-5 space-y-4 bg-[#dbd6e1]">
                         <p className="text-[13px] text-[#666]">
                           Pay securely using your credit card.
                         </p>
