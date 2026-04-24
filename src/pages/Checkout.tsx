@@ -324,9 +324,9 @@ export default function Checkout() {
             )}
           </div>
 
-          <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-x-20 xl:gap-x-28 gap-y-10">
+          <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-x-0 gap-y-10">
             {/* LEFT — Shipping + Billing */}
-            <div>
+            <div className="pr-10 xl:pr-16 border-r border-[#e3e1d8]">
               <SectionHeading>Shipping details</SectionHeading>
               <AddressFields
                 idPrefix="ship"
@@ -398,7 +398,7 @@ export default function Checkout() {
             </div>
 
             {/* RIGHT — Order summary */}
-            <aside>
+            <aside className="pl-10 xl:pl-16">
               <div className="sticky top-28">
                 <SectionHeading>Your order</SectionHeading>
 
