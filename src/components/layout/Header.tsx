@@ -380,7 +380,7 @@ export function Header() {
                     key={item.name}
                     to={item.href}
                     className={cn(
-                      "block px-6 py-3 text-sm font-bold uppercase tracking-wide transition-colors",
+                      "block px-6 py-3 text-xs font-bold uppercase tracking-wide transition-colors",
                       isActiveRoute(item.href)
                         ? "text-white"
                         : "text-[#cac4c4]"
@@ -393,7 +393,7 @@ export function Header() {
                 <Link
                   to="/books"
                   className={cn(
-                    "block px-6 py-3 text-sm font-bold uppercase tracking-wide transition-colors",
+                    "block px-6 py-3 text-xs font-bold uppercase tracking-wide transition-colors",
                     isActiveRoute("/books") ? "text-white" : "text-[#cac4c4]"
                   )}
                 >
@@ -405,7 +405,7 @@ export function Header() {
                   <button
                     onClick={() => setIsPublishDropdownOpen(!isPublishDropdownOpen)}
                     className={cn(
-                      "flex items-center justify-between w-full px-6 py-3 text-sm font-bold uppercase tracking-wide transition-colors",
+                      "flex items-center justify-between w-full px-6 py-3 text-xs font-bold uppercase tracking-wide transition-colors",
                       isPublishActive ? "text-white" : "text-[#cac4c4]"
                     )}
                   >
@@ -440,7 +440,7 @@ export function Header() {
                     key={item.name}
                     to={item.href}
                     className={cn(
-                      "block px-6 py-3 text-sm font-bold uppercase tracking-wide transition-colors",
+                      "block px-6 py-3 text-xs font-bold uppercase tracking-wide transition-colors",
                       isActiveRoute(item.href) ? "text-white" : "text-[#cac4c4]"
                     )}
                   >
