@@ -406,30 +406,36 @@ export default function Checkout() {
                   {items.map((item) => (
                     <div
                       key={`${item.id}_${item.format}`}
-                      className="flex items-start justify-between py-4 border-b border-[#e3e1d8] gap-4"
+                      className="py-4 border-b border-[#e3e1d8] space-y-1.5"
                     >
-                      <div className="flex-1 min-w-0">
-                        <p className="text-[15px] text-[#333333] leading-snug">
-                          <span className="text-[#7a7a7a]">{item.title}</span>
-                          {" — "}
-                          <span>
-                            {item.format === "ebook"
-                              ? "Ebook"
-                              : item.format === "paperback"
-                              ? "Paperback"
-                              : "Hardback"}
-                          </span>
-                          <span className="text-[#7a7a7a]"> × </span>
-                          <strong>{item.quantity}</strong>
-                        </p>
-                        {item.isbn && (
-                          <p className="text-[13px] text-[#333333] mt-1">
-                            <strong>ISBN:</strong> {item.isbn}
-                          </p>
-                        )}
+                      <p className="text-[15px] font-semibold text-[#333333] leading-snug">
+                        {item.title}
+                      </p>
+                      <div className="flex items-center justify-between">
+                        <span className="text-[14px] text-[#7a7a7a]">Format</span>
+                        <span className="text-[14px] text-[#333333]">
+                          {item.format === "ebook"
+                            ? "Ebook"
+                            : item.format === "paperback"
+                            ? "Paperback"
+                            : "Hardback"}
+                        </span>
                       </div>
-                      <div className="text-[15px] text-[#7a7a7a] whitespace-nowrap">
-                        {moneyGBP(item.price * item.quantity)}
+                      {item.isbn && (
+                        <div className="flex items-center justify-between">
+                          <span className="text-[14px] text-[#7a7a7a]">ISBN</span>
+                          <span className="text-[14px] text-[#333333]">{item.isbn}</span>
+                        </div>
+                      )}
+                      <div className="flex items-center justify-between">
+                        <span className="text-[14px] text-[#7a7a7a]">Quantity</span>
+                        <span className="text-[14px] text-[#333333]">{item.quantity}</span>
+                      </div>
+                      <div className="flex items-center justify-between pt-1">
+                        <span className="text-[14px] text-[#7a7a7a]">Price</span>
+                        <span className="text-[15px] font-semibold text-[#333333] whitespace-nowrap">
+                          {moneyGBP(item.price * item.quantity)}
+                        </span>
                       </div>
                     </div>
                   ))}
