@@ -329,7 +329,7 @@ export default function Checkout() {
         expiryDate: card.expiry,
         securityCode: card.cvc,
       });
-      if (!tokenised.success) {
+      if (tokenised.success !== true) {
         throw new Error(tokenised.message);
       }
 
