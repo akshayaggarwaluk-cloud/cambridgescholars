@@ -103,7 +103,10 @@ export default function BookDetails() {
             </div>
 
             {/* Content */}
-            <div className="flex flex-col">
+            <div
+              className="flex flex-col"
+              style={imageHeight && window.innerWidth >= 1024 ? { minHeight: imageHeight } : undefined}
+            >
               <div>
                 <h1 className="font-baskerville font-normal text-[#333333] mb-4 lg:mb-3 leading-tight text-2xl">{book.title}</h1>
                 {book.subtitle && (
@@ -125,7 +128,7 @@ export default function BookDetails() {
 
               </div>
 
-              <div className="flex flex-col gap-6 lg:pt-2">
+              <div className="flex flex-col gap-6 lg:flex-1 lg:pt-2">
                 {/* Format Selection */}
                 <div>
                   <p className="font-serif tracking-wider normal-case text-sm uppercase mb-3 font-bold">BINDING</p>
@@ -188,7 +191,7 @@ export default function BookDetails() {
                   </div>
                 </div>
                 {/* Actions */}
-                <div className="flex items-center gap-3 sm:gap-4 lg:gap-3 flex-wrap">
+                <div className="flex items-center gap-3 sm:gap-4 lg:gap-3 flex-wrap lg:mt-auto lg:flex-nowrap">
                  <div className="text-[#c4a273] text-lg font-semibold" style={{ fontFamily: '"Nunito Sans", sans-serif' }}>
                    <span className="font-semibold text-[#c4a273] text-lg">From £{getPrice(selectedFormat).toFixed(2)}</span>
                   </div>
