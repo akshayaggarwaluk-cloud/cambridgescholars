@@ -70,7 +70,7 @@ export default function Cart() {
         </div>
 
         <main className="pb-16">
-          <div className="max-w-7xl mx-auto px-6 md:px-16 py-12">
+          <div className="container-wide py-12">
             <div className="bg-[#5BAFA8] text-white px-6 py-5 flex items-center gap-3 mb-8">
               <Info className="h-5 w-5 flex-shrink-0" strokeWidth={2} />
               <span className="font-nav text-base">Your cart is currently empty.</span>
@@ -104,7 +104,7 @@ export default function Cart() {
       </div>
 
        <main className="pb-16 bg-white">
-        <div className="max-w-7xl mx-auto px-6 md:px-16 py-12 bg-white">
+        <div className="container-wide py-12 bg-white">
           {/* Table header */}
           <div className="grid grid-cols-[1fr_120px_180px_140px_60px] gap-6 pb-5 border-b border-border items-center">
             <div className="uppercase text-[#333333] font-baskerville tracking-wider text-sm font-semibold">Product</div>
