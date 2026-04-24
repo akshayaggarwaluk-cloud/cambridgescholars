@@ -15,11 +15,11 @@ export function BackToTop() {
 
   return (
     <button
-      onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-      aria-label="Back to top"
-      className="fixed bottom-8 right-8 z-50 w-12 h-12 flex items-center justify-center bg-white border border-[#e5e5e5] shadow-md hover:bg-[#f4f3ec] text-[#C75B2A] transition-colors"
+      onClick={() => window.scrollTo({ top: 0, left: 0, behavior: "smooth" })}
+      aria-label="Scroll to top"
+      className="fixed bottom-6 right-6 w-10 h-10 flex items-center justify-center transition-colors z-50 rounded bg-[#666666] text-white"
     >
-      <ChevronUp className="h-6 w-6" />
+      <ChevronUp className="w-5 h-5" />
     </button>
   );
 }
