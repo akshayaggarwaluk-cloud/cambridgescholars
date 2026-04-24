@@ -10,6 +10,7 @@ import { WishlistProvider } from "@/contexts/WishlistContext";
 
 import { AnimatedRoutes } from "@/components/layout/AnimatedRoutes";
 import { ScrollToTop } from "@/components/layout/ScrollToTop";
+import { BackToTop } from "@/components/layout/BackToTop";
 import { CartBanner } from "@/components/cart/CartBanner";
 
 const queryClient = new QueryClient();
@@ -27,6 +28,7 @@ function App() {
                 <Sonner />
                 <CartBanner />
                 <AnimatedRoutes />
+                <BackToTop />
               </WishlistProvider>
             </CartProvider>
           </ExternalAuthProvider>
