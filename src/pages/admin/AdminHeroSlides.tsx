@@ -379,18 +379,11 @@ export default function AdminHeroSlides() {
             />
           </Field>
 
-          <Field label="Book cover (auto-filled from catalog)">
-            {editing.cover_image ? (
-              <div className="flex items-center gap-3 border border-border bg-background p-3">
-                <img src={editing.cover_image} alt="" className="w-16 h-20 object-cover" />
-                <p className="text-xs text-muted-foreground break-all flex-1">{editing.cover_image}</p>
-              </div>
-            ) : (
-              <div className="border border-dashed border-border bg-background p-4 text-xs text-muted-foreground">
-                Search and select a book above to load its cover automatically.
-              </div>
-            )}
-          </Field>
+          <ImageUploadField
+            label="Book cover (upload an image)"
+            value={editing.cover_image || null}
+            onChange={(url) => setEditing({ ...editing, cover_image: url || "" })}
+          />
           <Field label="Link URL (e.g. /books/9781234567890)">
             <input
               type="text"
