@@ -326,7 +326,7 @@ export default function Checkout() {
 
           <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-x-0 gap-y-10">
             {/* LEFT — Shipping + Billing */}
-            <div className="pr-10 xl:pr-16 border-r border-[#e3e1d8]">
+            <div className="pr-10 xl:pr-16">
               <SectionHeading>Shipping details</SectionHeading>
               <AddressFields
                 idPrefix="ship"
