@@ -413,7 +413,7 @@ export default function Checkout() {
                       </p>
                       <div className="flex items-center justify-between gap-4">
                         <p className="text-[14px] text-[#7a7a7a]">
-                          <span>
+                          <span className="text-[#696969]">
                             {item.format === "ebook"
                               ? "Ebook"
                               : item.format === "paperback"
