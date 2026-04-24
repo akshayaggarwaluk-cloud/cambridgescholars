@@ -103,7 +103,7 @@ export default function BookDetails() {
             </div>
 
             {/* Content */}
-            <div className="flex flex-col">
+            <div className="flex flex-col lg:justify-between" style={imageHeight && window.innerWidth >= 1024 ? { height: imageHeight } : undefined}>
               <div>
                 <h1 className="font-baskerville font-normal text-[#333333] mb-[20px] leading-tight text-2xl">{book.title}</h1>
                 {book.subtitle && (
@@ -176,7 +176,7 @@ export default function BookDetails() {
                 </div>
 
                 {/* Quantity */}
-                <div className="flex items-center gap-4 sm:gap-6 mb-8">
+                <div className="flex items-center gap-4 sm:gap-6 mb-8 lg:mb-0">
                   <span className="font-serif tracking-wider normal-case text-sm uppercase font-bold">QUANTITY</span>
                   <div className="flex items-center border">
                     <button onClick={() => setQuantity(Math.max(1, quantity - 1))} className="px-2 sm:px-3 py-1.5 sm:py-2 hover:bg-muted"><Minus className="h-3.5 w-3.5 sm:h-4 sm:w-4" /></button>
