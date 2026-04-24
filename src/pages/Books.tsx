@@ -532,7 +532,7 @@ export default function Books() {
                           <div className="flex items-center gap-3 mt-auto pt-6">
                             <Button
                               asChild
-                              className="font-serif bg-[#e4573d] hover:bg-[#e4573d]/80 text-white px-7 h-11 text-xs font-semibold tracking-[0.18em] uppercase rounded-none transition-colors"
+                              className="bg-[#e4573d] hover:bg-[#e4573d]/80 text-white px-7 h-11 text-xs font-semibold tracking-[0.18em] uppercase rounded-none transition-colors font-['Nunito_Sans']"
                             >
                               <Link to={`/books/${book.id}`}>VIEW MORE</Link>
                             </Button>
