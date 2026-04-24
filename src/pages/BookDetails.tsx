@@ -195,8 +195,17 @@ export default function BookDetails() {
                   size="lg"
                     className="px-8 font-serif tracking-wider normal-case text-sm font-light bg-[#e4573d] hover:bg-black text-white"
                   onClick={() => {
+                    const formatIsbn =
+                      selectedFormat === "ebook"
+                        ? book.ebookInfo?.isbn13 || book.ebookInfo?.isbn
+                        : selectedFormat === "paperback"
+                          ? book.paperbackInfo?.isbn13 || book.paperbackInfo?.isbn
+                          : book.hardbackInfo?.isbn13 || book.hardbackInfo?.isbn;
                     for (let i = 0; i < quantity; i++) {
-                      addToCart({ ...book, price: getPrice(selectedFormat) }, selectedFormat);
+                      addToCart(
+                        { ...book, price: getPrice(selectedFormat), isbn: formatIsbn || book.isbn },
+                        selectedFormat,
+                      );
                     }
                   }}
                 >
