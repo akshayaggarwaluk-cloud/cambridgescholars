@@ -436,17 +436,18 @@ export default function Checkout() {
               </button>
             </p>
             {showCoupon && (
-              <div className="mt-4 flex flex-col sm:flex-row gap-3 max-w-xl">
+              <div className="mt-4 border border-[#d8d6cd] bg-white p-6">
                 <Input
                   value={couponInput}
                   onChange={(e) => setCouponInput(e.target.value)}
-                  placeholder="Coupon code"
-                  className="h-12 rounded-none border-[#d8d6cd] bg-white focus-visible:ring-0 focus-visible:border-[#C75B2A]"
+                  placeholder=""
+                  aria-label="Coupon code"
+                  className="h-12 rounded-none border border-[#1f1f1f] bg-white focus-visible:ring-0 focus-visible:border-[#C75B2A]"
                 />
                 <Button
                   type="button"
                   onClick={handleApplyCoupon}
-                  className="h-12 rounded-none uppercase tracking-[0.2em] bg-[#C75B2A] hover:bg-[#a84a22] text-white"
+                  className="mt-5 h-12 px-8 rounded-none uppercase tracking-[0.2em] bg-[#C75B2A] hover:bg-[#a84a22] text-white font-semibold"
                 >
                   Apply Coupon
                 </Button>
