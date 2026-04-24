@@ -540,7 +540,7 @@ export default function Books() {
                 {/* Pagination */}
                 {pagination && pagination.total_pages > 1 && (
                   <nav
-                    className="flex items-center justify-center gap-5 mt-16 flex-wrap"
+                    className="flex items-center justify-center gap-5 mt-16 flex-wrap w-full"
                     aria-label="Pagination"
                   >
                     {buildPageList(pagination.page, pagination.total_pages).map((p, idx) =>
