@@ -382,8 +382,8 @@ export function Header() {
                     className={cn(
                       "block px-6 py-3 text-sm font-bold uppercase tracking-wide transition-colors",
                       isActiveRoute(item.href)
-                        ? "text-white"
-                        : "text-white"
+                        ? "text-[#ebe5e5]"
+                        : "text-[#ebe5e5]"
                     )}
                   >
                     {item.name}
@@ -394,9 +394,7 @@ export function Header() {
                   to="/books"
                   className={cn(
                     "block px-6 py-3 text-sm font-bold uppercase tracking-wide transition-colors",
-                    isActiveRoute("/books")
-                      ? "text-white"
-                      : "text-white"
+                    isActiveRoute("/books") ? "text-[#ebe5e5]" : "text-[#ebe5e5]"
                   )}
                 >
                   Buy a Book
@@ -408,9 +406,7 @@ export function Header() {
                     onClick={() => setIsPublishDropdownOpen(!isPublishDropdownOpen)}
                     className={cn(
                       "flex items-center justify-between w-full px-6 py-3 text-sm font-bold uppercase tracking-wide transition-colors",
-                      isPublishActive
-                        ? "text-white"
-                        : "text-white"
+                      isPublishActive ? "text-[#ebe5e5]" : "text-[#ebe5e5]"
                     )}
                   >
                     Publish a Book
@@ -429,9 +425,7 @@ export function Header() {
                           to={item.href}
                           className={cn(
                             "block px-10 py-2.5 text-sm font-medium transition-colors",
-                            isActiveRoute(item.href)
-                              ? "text-white"
-                              : "text-white"
+                            isActiveRoute(item.href) ? "text-[#ebe5e5]" : "text-[#ebe5e5]"
                           )}
                         >
                           {item.name}
@@ -447,9 +441,7 @@ export function Header() {
                     to={item.href}
                     className={cn(
                       "block px-6 py-3 text-sm font-bold uppercase tracking-wide transition-colors",
-                      isActiveRoute(item.href)
-                        ? "text-white"
-                        : "text-white"
+                      isActiveRoute(item.href) ? "text-[#ebe5e5]" : "text-[#ebe5e5]"
                     )}
                   >
                     {item.name}
