@@ -49,6 +49,8 @@ export default function Books() {
   const [expandedCats, setExpandedCats] = useState<Set<string>>(new Set());
   const [activeSearchField, setActiveSearchField] = useState("");
   const [sortOpen, setSortOpen] = useState(false);
+  const [debugUrl, setDebugUrl] = useState<string>("");
+  const [debugOpen, setDebugOpen] = useState(true);
 
   // Fetch categories
   useEffect(() => {
@@ -137,9 +139,11 @@ export default function Books() {
         const result = await fetchBooks(params);
         setBooks(result.books);
         setPagination(result.pagination);
+        setDebugUrl(result.requestUrl);
       } catch (error) {
         console.error("Error fetching books:", error);
         setBooks([]);
+        setDebugUrl("");
       } finally {
         setLoading(false);
       }
