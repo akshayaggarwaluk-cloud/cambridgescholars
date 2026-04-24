@@ -1,7 +1,6 @@
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { PageBreadcrumb } from "@/components/layout/PageBreadcrumb";
-import { BackToTop } from "@/components/layout/BackToTop";
 
 const promises = [
   {
@@ -82,7 +81,6 @@ export default function AuthorPromises() {
       </section>
 
       <Footer />
-      <BackToTop />
     </>
   );
 }

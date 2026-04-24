@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
-import { Facebook, Instagram, Linkedin, ChevronUp } from "lucide-react";
-import { useEffect, useState } from "react";
+import { Facebook, Instagram, Linkedin } from "lucide-react";
 import logo from "@/assets/logo.png";
 
 const XIcon = () => (
@@ -26,19 +25,6 @@ const socialLinks = [
 ];
 
 export function HomeFooter() {
-  const [showScrollTop, setShowScrollTop] = useState(false);
-
-  useEffect(() => {
-    const onScroll = () => setShowScrollTop(window.scrollY > 300);
-    window.addEventListener("scroll", onScroll);
-    onScroll();
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
-  };
-
   return (
     <footer className="bg-[#f5f5f0] text-[#555555] relative">
       <div className="max-w-7xl mx-auto px-6 py-12">
@@ -97,17 +83,6 @@ export function HomeFooter() {
           </p>
         </div>
       </div>
-
-      {/* Scroll to Top Button */}
-      {showScrollTop && (
-        <button
-          onClick={scrollToTop}
-          aria-label="Scroll to top"
-          className="fixed bottom-6 right-6 w-10 h-10 flex items-center justify-center transition-colors z-50 rounded bg-[#666666] text-white"
-        >
-          <ChevronUp className="w-5 h-5" />
-        </button>
-      )}
     </footer>
   );
 }
