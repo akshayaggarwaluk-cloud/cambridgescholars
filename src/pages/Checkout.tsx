@@ -406,12 +406,13 @@ export default function Checkout() {
                   {items.map((item) => (
                     <div
                       key={`${item.id}_${item.format}`}
-                      className="flex items-center justify-between py-4 border-b border-[#e3e1d8] gap-4"
+                      className="py-4 border-b border-[#e3e1d8] space-y-1"
                     >
-                      <div className="flex-1 min-w-0">
-                        <p className="text-[15px] text-[#333333] leading-snug">
-                          <span className="text-[#7a7a7a]">{item.title}</span>
-                          {" — "}
+                      <p className="text-[15px] text-[#333333] leading-snug">
+                        {item.title}
+                      </p>
+                      <div className="flex items-center justify-between gap-4">
+                        <p className="text-[14px] text-[#7a7a7a]">
                           <span>
                             {item.format === "ebook"
                               ? "Ebook"
@@ -419,18 +420,18 @@ export default function Checkout() {
                               ? "Paperback"
                               : "Hardback"}
                           </span>
-                          <span className="text-[#7a7a7a]"> × </span>
-                          <strong>{item.quantity}</strong>
+                          <span> × </span>
+                          <strong className="text-[#333333]">{item.quantity}</strong>
                         </p>
-                        {item.isbn && (
-                          <p className="text-[13px] text-[#333333] mt-1">
-                            <strong>ISBN:</strong> {item.isbn}
-                          </p>
-                        )}
+                        <span className="text-[15px] text-[#7a7a7a] whitespace-nowrap">
+                          {moneyGBP(item.price * item.quantity)}
+                        </span>
                       </div>
-                      <div className="text-[15px] text-[#7a7a7a] whitespace-nowrap">
-                        {moneyGBP(item.price * item.quantity)}
-                      </div>
+                      {item.isbn && (
+                        <p className="text-[13px] text-[#333333]">
+                          <strong>ISBN:</strong> {item.isbn}
+                        </p>
+                      )}
                     </div>
                   ))}
 
