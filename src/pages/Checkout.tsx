@@ -399,7 +399,7 @@ export default function Checkout() {
 
             {/* RIGHT — Order summary */}
             <aside className="pl-10 xl:pl-16">
-              <div className="sticky top-28">
+              <div>
                 <SectionHeading>Your order</SectionHeading>
 
                 <div className="border-t border-[#e3e1d8]">
