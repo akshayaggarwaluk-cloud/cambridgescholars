@@ -148,7 +148,7 @@ export function HeroSection() {
 
         <div className="flex items-center justify-center gap-3 mt-8 md:mt-10 px-8">
           {featuredReviews.map((_, index) => (
-            <button key={index} onClick={() => { setIsAutoPlaying(false); setActiveIndex(index); }} aria-label={`Go to slide ${index + 1}`} className={cn("w-2.5 h-2.5 rounded-full transition-all duration-300", activeIndex === index ? "bg-accent scale-110" : "bg-muted-foreground/25 hover:bg-muted-foreground/40")} />
+            <button key={index} onClick={() => { setIsAutoPlaying(false); setActiveIndex(index); }} aria-label={`Go to slide ${index + 1}`} className={cn("w-3 h-3 rounded-full transition-all duration-300 border", activeIndex === index ? "border-accent bg-transparent scale-110" : "border-transparent bg-muted-foreground/30 hover:bg-muted-foreground/50")} />
           ))}
         </div>
       </div>
