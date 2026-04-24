@@ -197,7 +197,8 @@ export default function BookDetails() {
                   </div>
                   <Button
                     size="default"
-                      className="px-6 lg:px-5 h-10 font-sans uppercase tracking-normal text-[15px] font-semibold bg-[#e4573d] hover:bg-black text-white"
+                      style={{ fontFamily: '"Nunito Sans", sans-serif' }}
+                      className="px-[30px] py-[14px] h-auto uppercase tracking-normal text-[14px] font-semibold bg-[#e4573d] hover:bg-black text-white"
                     onClick={() => {
                       const formatIsbn =
                         selectedFormat === "ebook"
@@ -224,7 +225,7 @@ export default function BookDetails() {
                     <Heart className={cn("h-[18px] w-[18px] text-muted-foreground group-hover:text-accent-foreground transition-colors", isInWishlist(book.id) && "fill-accent text-accent")} />
                   </Button>
                   {book.samplePdfUrl && (
-                    <Button size="default" variant="outline" className="px-6 lg:px-5 h-10 font-sans uppercase tracking-normal text-[15px] font-semibold border border-black bg-white text-black hover:bg-[#e4573d] hover:text-white hover:border-[#e4573d]" onClick={() => window.open(book.samplePdfUrl, "_blank")}>
+                    <Button size="default" variant="outline" style={{ fontFamily: '"Nunito Sans", sans-serif' }} className="px-[30px] py-[14px] h-auto uppercase tracking-normal text-[14px] font-semibold border border-black bg-white text-black hover:bg-[#e4573d] hover:text-white hover:border-[#e4573d]" onClick={() => window.open(book.samplePdfUrl, "_blank")}>
                       READ SAMPLE
                     </Button>
                   )}
