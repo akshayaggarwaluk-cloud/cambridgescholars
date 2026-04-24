@@ -354,7 +354,7 @@ export function Header() {
                   <input
                     type="text"
                     placeholder="Search ..."
-                    className="w-full border rounded px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-accent bg-[#212121] text-[#cac4c4] placeholder:text-[#cac4c4]/60 border-[#212121]"
+                    className="w-full border rounded px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-accent text-[#cac4c4] placeholder:text-[#cac4c4]/60 bg-neutral-800 border-neutral-800"
                     onFocus={() => {
                       setIsMenuOpen(false);
                       setIsSearchOpen(true);
