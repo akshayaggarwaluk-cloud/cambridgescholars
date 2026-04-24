@@ -125,9 +125,12 @@ export default function Cart() {
                 <div className="flex items-center gap-5 min-w-0">
                   <Link to={`/books/${item.id}`} className="shrink-0">
                     <img
-                      src={item.image}
+                      src={item.image || "/placeholder.svg"}
                       alt={item.title}
                       className="w-20 h-28 object-cover hover:opacity-80 transition-opacity"
+                      onError={(e) => {
+                        e.currentTarget.src = "/placeholder.svg";
+                      }}
                     />
                   </Link>
                   <div className="min-w-0">
