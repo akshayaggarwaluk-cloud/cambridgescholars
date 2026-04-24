@@ -424,7 +424,7 @@ export function Header() {
                           key={item.name}
                           to={item.href}
                           className={cn(
-                            "block px-10 py-2.5 text-sm font-medium transition-colors",
+                            "block px-10 py-2.5 text-xs font-medium transition-colors",
                             isActiveRoute(item.href) ? "text-white" : "text-[#cac4c4]"
                           )}
                         >
