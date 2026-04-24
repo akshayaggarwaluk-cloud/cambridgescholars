@@ -168,12 +168,13 @@ function AddressFields({
 }
 
 export default function Checkout() {
-  const { items, cartTotal, couponCode, discount, applyCoupon } = useCart();
+  const { items, cartTotal, couponCode, discount, applyCoupon, clearCart } = useCart();
   const { user } = useExternalAuth();
   const navigate = useNavigate();
 
-  const [isComplete] = useState(false);
+  const [isComplete, setIsComplete] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [confirmedOrderId, setConfirmedOrderId] = useState<string | number | null>(null);
 
   const [showCoupon, setShowCoupon] = useState(false);
   const [couponInput, setCouponInput] = useState("");
@@ -192,6 +193,13 @@ export default function Checkout() {
 
   const [paymentMethod, setPaymentMethod] = useState<"card" | "paypal">("card");
   const [card, setCard] = useState({ number: "", expiry: "", cvc: "" });
+  const [cardholder, setCardholder] = useState("");
+
+  // Pre-warm the Opayo SDK so card tokenisation is instant when the user
+  // submits the form. Failures are non-fatal; we'll surface them on submit.
+  useEffect(() => {
+    loadOpayoSdk().catch(() => { /* surfaced on submit */ });
+  }, []);
 
   const subtotal = useMemo(
     () => items.reduce((sum, it) => sum + it.price * it.quantity, 0),
@@ -265,13 +273,133 @@ export default function Checkout() {
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const buildAddressPayload = (a: AddressData) => ({
+    first_name: a.firstName,
+    last_name: a.lastName,
+    address1: a.street1,
+    address2: a.street2 || undefined,
+    city: a.city,
+    state: a.state || undefined,
+    postal_code: a.postcode,
+    country: a.country,
+    phone: a.phone || undefined,
+  });
+
+  const collectBrowserInfo = () => ({
+    accept_header: "*/*",
+    user_agent: navigator.userAgent,
+    language: navigator.language,
+    java_enabled: typeof navigator.javaEnabled === "function" ? navigator.javaEnabled() : false,
+    color_depth: window.screen.colorDepth,
+    screen_width: window.screen.width,
+    screen_height: window.screen.height,
+    timezone_offset: new Date().getTimezoneOffset(),
+  });
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (loading) return;
+
+    if (paymentMethod !== "card") {
+      toast.info("PayPal checkout is coming soon. Please pay by card to complete your order.");
+      return;
+    }
+
+    if (!email.trim()) {
+      toast.error("Please enter an email address.");
+      return;
+    }
+    if (!card.number || !card.expiry || !card.cvc || !cardholder.trim()) {
+      toast.error("Please complete all card details.");
+      return;
+    }
+
     setLoading(true);
-    setTimeout(() => {
-      toast.info("Online checkout is coming soon. Please contact us to place an order.");
+    try {
+      // 1. Get a fresh Merchant Session Key (~60s lifetime).
+      const msk = await getMerchantSessionKey();
+      if (!msk?.merchant_session_key) {
+        throw new Error("Could not start a secure payment session. Please try again.");
+      }
+
+      // 2. Tokenise the card directly with Opayo from the browser.
+      const tokenised = await tokeniseCard(msk.merchant_session_key, {
+        cardholderName: cardholder,
+        cardNumber: card.number,
+        expiryDate: card.expiry,
+        securityCode: card.cvc,
+      });
+      if (!tokenised.success) {
+        throw new Error(tokenised.message);
+      }
+
+      // 3. Build the /checkout/pay payload.
+      const billingAddress = useShippingForBilling ? shipping : billing;
+      const payload: CheckoutPayRequest = {
+        card_identifier: tokenised.cardIdentifier,
+        merchant_session_key: msk.merchant_session_key,
+        customer: {
+          first_name: shipping.firstName,
+          last_name: shipping.lastName,
+          email: email.trim(),
+          phone: shipping.phone || undefined,
+        },
+        billing_address: buildAddressPayload(billingAddress),
+        shipping_address: buildAddressPayload(shipping),
+        browser: collectBrowserInfo(),
+      };
+
+      // 4. Submit the order. On 3DS we redirect to the bank's ACS URL.
+      const res = await checkoutPay(payload);
+
+      if (res.status === "3ds_required") {
+        const acsUrl = res.acs_url || res.redirect_url;
+        if (!acsUrl) throw new Error("3DS redirect URL missing from response.");
+        if (res.transaction_id) {
+          sessionStorage.setItem("opayo_pending_transaction_id", String(res.transaction_id));
+        }
+
+        // 3DS v1 used PaReq + MD; v2 uses cReq. Either is POSTed to the ACS.
+        const termUrl = `${window.location.origin}/checkout/3ds-return`;
+        const fields: Record<string, string> = { TermUrl: termUrl };
+        if (res.pareq) {
+          fields.PaReq = res.pareq;
+          if (res.transaction_id) fields.MD = String(res.transaction_id);
+        }
+        if (res.cReq) {
+          fields.creq = res.cReq;
+        }
+
+        const form = document.createElement("form");
+        form.method = "POST";
+        form.action = acsUrl;
+        Object.entries(fields).forEach(([name, value]) => {
+          const input = document.createElement("input");
+          input.type = "hidden";
+          input.name = name;
+          input.value = value;
+          form.appendChild(input);
+        });
+        document.body.appendChild(form);
+        form.submit();
+        return; // page will navigate away
+      }
+
+      if (res.status === "ok") {
+        try { await clearCart(); } catch { /* ignore */ }
+        if (res.order_id != null) setConfirmedOrderId(res.order_id);
+        setIsComplete(true);
+        toast.success("Payment received. Thank you for your order!");
+        return;
+      }
+
+      throw new Error(res.message || "Payment was not authorised. Please try a different card.");
+    } catch (err) {
+      const message = err instanceof Error ? err.message : "Checkout failed. Please try again.";
+      toast.error(message);
+    } finally {
       setLoading(false);
-    }, 400);
+    }
   };
 
   const moneyGBP = (n: number) =>
