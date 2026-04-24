@@ -3,6 +3,7 @@ import { ArrowRight } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
 import { useInView } from "framer-motion";
+import { subscribeNewsletter } from "@/services/cspApi";
 
 interface StatItem {
   value: number;
@@ -56,12 +57,20 @@ function AnimatedCounter({ value, suffix, format, duration = 2000 }: {
 
 export function NewsletterSection() {
   const [email, setEmail] = useState("");
+  const [submitting, setSubmitting] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (email) {
-      toast.success("Thank you for subscribing!");
+    if (!email || submitting) return;
+    setSubmitting(true);
+    try {
+      const res = await subscribeNewsletter(email.trim());
+      toast.success(res?.message || "Thank you for subscribing!");
       setEmail("");
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "Subscription failed. Please try again.");
+    } finally {
+      setSubmitting(false);
     }
   };
 
