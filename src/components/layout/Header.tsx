@@ -247,7 +247,7 @@ export function Header() {
                 onMouseEnter={() => setIsCartHoverOpen(true)}
                 onMouseLeave={() => setIsCartHoverOpen(false)}
               >
-                <Link to="/cart" className="relative inline-block" aria-label="Cart">
+                <Link to="/cart" className="relative inline-block">
                   <Button
                     variant="ghost"
                     size="icon"
@@ -263,7 +263,7 @@ export function Header() {
                   </Button>
                 </Link>
                 {isCartHoverOpen && (
-                  <div className="absolute top-full right-0 pt-3 z-50">
+                  <div className="absolute top-full right-0 z-[60] pt-3">
                     <CartHoverPanel onNavigate={() => setIsCartHoverOpen(false)} />
                   </div>
                 )}
