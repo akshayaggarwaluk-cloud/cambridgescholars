@@ -23,9 +23,12 @@ export function CartHoverPanel({ onNavigate }: CartHoverPanelProps) {
         </p>
       ) : (
         <>
-          <ul className="flex flex-col gap-5 max-h-[320px] overflow-y-auto pr-1">
+          <ul className="flex flex-col gap-5 max-h-[360px] overflow-y-auto pr-1">
             {items.map((item) => (
-              <li key={`${item.id}_${item.format}`} className="flex items-start gap-4">
+              <li
+                key={`${item.id}_${item.format}`}
+                className="flex items-start gap-4 pb-5 border-b border-border last:border-b-0 last:pb-0"
+              >
                 <Link
                   to={`/books/${item.id}`}
                   onClick={onNavigate}
@@ -34,14 +37,14 @@ export function CartHoverPanel({ onNavigate }: CartHoverPanelProps) {
                   <img
                     src={item.image}
                     alt={item.title}
-                    className="w-20 h-auto object-contain"
+                    className="w-16 h-20 object-contain bg-white"
                   />
                 </Link>
                 <div className="flex-1 min-w-0">
                   <Link
                     to={`/books/${item.id}`}
                     onClick={onNavigate}
-                    className="block font-serif text-lg leading-snug text-[#333333] hover:text-accent transition-colors"
+                    className="block font-serif text-base leading-snug text-[#333333] hover:text-accent transition-colors"
                     style={{ fontFamily: '"Playfair Display", serif' }}
                   >
                     {item.title} - {formatLabel(item.format)}
