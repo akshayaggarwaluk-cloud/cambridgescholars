@@ -95,11 +95,20 @@ function mapApiItem(api: ApiCartItem, prev?: CartItem): CartItem {
   const format = toBookFormat(api.format);
   const price = api.unit_price_gbp ?? prev?.price ?? 0;
   // Cover image: prefer the upstream URL but normalise short 10-digit ISBN
-  // filenames to the 978-prefixed variant the CDN actually serves.
+  // filenames to the 978-prefixed variant the CDN actually serves. The cart
+  // endpoint frequently omits cover_image entirely, so fall back to the
+  // canonical CDN path derived from the ISBN.
   let image = api.cover_image || prev?.image || "";
-  const isbnMatch = image.match(/\/(\d{10})\.jpg$/);
-  if (isbnMatch && !image.includes("/978")) {
-    image = image.replace(`/${isbnMatch[1]}.jpg`, `/978${isbnMatch[1]}.jpg`);
+  const shortIsbnInUrl = image.match(/\/(\d{10})\.jpg$/);
+  if (shortIsbnInUrl && !image.includes("/978")) {
+    image = image.replace(`/${shortIsbnInUrl[1]}.jpg`, `/978${shortIsbnInUrl[1]}.jpg`);
+  }
+  if (!image && api.isbn) {
+    const digits = api.isbn.replace(/[^0-9]/g, "");
+    const isbn13 = digits.length === 10 ? `978${digits}` : digits;
+    if (isbn13.length === 13) {
+      image = `https://cspcontents.s3.eu-west-1.amazonaws.com/master/croppedcovers/${isbn13}.jpg`;
+    }
   }
   return {
     id: prev?.id || api.isbn,
