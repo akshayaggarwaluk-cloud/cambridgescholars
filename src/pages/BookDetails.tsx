@@ -103,20 +103,20 @@ export default function BookDetails() {
             </div>
 
             {/* Content */}
-            <div className="flex flex-col" style={imageHeight && window.innerWidth >= 1024 ? { height: imageHeight } : undefined}>
-              <div className="lg:flex-1">
-                <h1 className="font-baskerville font-normal text-[#333333] mb-[20px] leading-tight text-2xl">{book.title}</h1>
+            <div className="flex flex-col lg:justify-between" style={imageHeight && window.innerWidth >= 1024 ? { height: imageHeight } : undefined}>
+              <div>
+                <h1 className="font-baskerville font-normal text-[#333333] mb-4 lg:mb-3 leading-tight text-2xl">{book.title}</h1>
                 {book.subtitle && (
-                  <p className="font-baskerville italic text-[#333333] mb-[24px] leading-snug text-base">
+                  <p className="font-baskerville italic text-[#333333] mb-5 lg:mb-3 leading-snug text-base">
                     {book.subtitle}
                   </p>
                 )}
-                <p className="font-baskerville text-[#696969] mb-[24px] text-base">
+                <p className="font-baskerville text-[#696969] mb-5 lg:mb-4 text-base">
                   <span className="font-semibold text-black">By:</span> {book.author}
                 </p>
                 {book.shortDescription && (
                   <p
-                    className="hidden sm:block leading-relaxed max-w-3xl mb-6 lg:mb-8 text-base font-light text-[#696969]"
+                    className="hidden sm:block leading-7 lg:leading-7 max-w-3xl mb-6 lg:mb-0 text-base font-light text-[#696969]"
                     style={{ fontFamily: '"Nunito Sans", sans-serif' }}
                   >
                     {book.shortDescription}
@@ -125,16 +125,16 @@ export default function BookDetails() {
 
               </div>
 
-              <div className="flex flex-col gap-8 lg:mt-auto">
+              <div className="flex flex-col gap-8 lg:gap-5 lg:pt-4">
                 {/* Format Selection */}
                 <div>
-                  <p className="font-serif tracking-wider normal-case text-sm uppercase mb-3 font-bold">BINDING</p>
-                  <div className="flex gap-3">
+                  <p className="font-serif tracking-wider normal-case text-sm uppercase mb-3 lg:mb-2 font-bold">BINDING</p>
+                  <div className="flex gap-3 lg:gap-2.5">
                     {hasHardback && (
                       <button
                         onClick={() => setSelectedFormat("hardbook")}
                         className={cn(
-                          "flex items-center gap-2 px-6 py-3 transition-colors min-w-[120px] rounded-none",
+                           "flex items-center gap-2 px-6 py-3 lg:px-5 lg:py-2.5 transition-colors min-w-[120px] rounded-none",
                           selectedFormat === "hardbook"
                             ? "border-black bg-white border-solid border"
                             : "border border-border hover:border-accent/50 bg-white"
@@ -149,7 +149,7 @@ export default function BookDetails() {
                       <button
                         onClick={() => setSelectedFormat("paperback")}
                         className={cn(
-                          "flex items-center gap-2 px-6 py-3 transition-colors min-w-[120px] rounded-none",
+                           "flex items-center gap-2 px-6 py-3 lg:px-5 lg:py-2.5 transition-colors min-w-[120px] rounded-none",
                           selectedFormat === "paperback"
                             ? "border-black bg-white border-solid border"
                             : "border border-border hover:border-accent/50 bg-white"
@@ -164,7 +164,7 @@ export default function BookDetails() {
                       <button
                         onClick={() => setSelectedFormat("ebook")}
                         className={cn(
-                          "flex items-center gap-2 px-6 py-3 transition-colors min-w-[120px] rounded-none",
+                           "flex items-center gap-2 px-6 py-3 lg:px-5 lg:py-2.5 transition-colors min-w-[120px] rounded-none",
                           selectedFormat === "ebook"
                             ? "border-black bg-white border-solid border"
                             : "border border-border hover:border-accent/50 bg-white"
@@ -179,22 +179,22 @@ export default function BookDetails() {
                 </div>
 
                 {/* Quantity */}
-                <div className="flex items-center gap-4 sm:gap-6">
+                <div className="flex items-center gap-4 sm:gap-6 lg:gap-5">
                   <span className="font-serif tracking-wider normal-case text-sm uppercase font-bold">QUANTITY</span>
                   <div className="flex items-center border">
-                    <button onClick={() => setQuantity(Math.max(1, quantity - 1))} className="px-2 sm:px-3 py-1.5 sm:py-2 hover:bg-muted"><Minus className="h-3.5 w-3.5 sm:h-4 sm:w-4" /></button>
-                    <span className="px-3 sm:px-4 py-1.5 sm:py-2 min-w-[40px] sm:min-w-[50px] text-center font-serif tracking-wider text-sm font-medium">{quantity}</span>
-                    <button onClick={() => setQuantity(quantity + 1)} className="px-2 sm:px-3 py-1.5 sm:py-2 hover:bg-muted"><Plus className="h-3.5 w-3.5 sm:h-4 sm:w-4" /></button>
+                    <button onClick={() => setQuantity(Math.max(1, quantity - 1))} className="px-2 sm:px-3 py-1.5 sm:py-2 lg:px-2.5 lg:py-1.5 hover:bg-muted"><Minus className="h-3.5 w-3.5 sm:h-4 sm:w-4" /></button>
+                    <span className="px-3 sm:px-4 py-1.5 sm:py-2 lg:px-3 lg:py-1.5 min-w-[40px] sm:min-w-[50px] text-center font-serif tracking-wider text-sm font-medium">{quantity}</span>
+                    <button onClick={() => setQuantity(quantity + 1)} className="px-2 sm:px-3 py-1.5 sm:py-2 lg:px-2.5 lg:py-1.5 hover:bg-muted"><Plus className="h-3.5 w-3.5 sm:h-4 sm:w-4" /></button>
                   </div>
                 </div>
                 {/* Actions */}
-                <div className="flex items-center gap-3 sm:gap-4 flex-wrap">
+                <div className="flex items-center gap-3 sm:gap-4 lg:gap-3 flex-wrap">
                  <div className="text-[#c4a273] text-lg font-semibold" style={{ fontFamily: '"Nunito Sans", sans-serif' }}>
                    <span className="font-semibold text-[#c4a273] text-lg">From £{getPrice(selectedFormat).toFixed(2)}</span>
                   </div>
                   <Button
                     size="lg"
-                      className="px-8 font-serif tracking-wider normal-case text-sm font-light bg-[#e4573d] hover:bg-black text-white"
+                      className="px-8 lg:px-7 font-serif tracking-wider normal-case text-sm font-light bg-[#e4573d] hover:bg-black text-white"
                     onClick={() => {
                       const formatIsbn =
                         selectedFormat === "ebook"
@@ -221,7 +221,7 @@ export default function BookDetails() {
                     <Heart className={cn("h-5 w-5 text-muted-foreground group-hover:text-accent-foreground transition-colors", isInWishlist(book.id) && "fill-accent text-accent")} />
                   </Button>
                   {book.samplePdfUrl && (
-                    <Button size="lg" variant="outline" className="px-8 font-serif tracking-wider normal-case text-sm font-light border border-black bg-white text-black hover:bg-[#e4573d] hover:text-white hover:border-[#e4573d]" onClick={() => window.open(book.samplePdfUrl, "_blank")}>
+                    <Button size="lg" variant="outline" className="px-8 lg:px-7 font-serif tracking-wider normal-case text-sm font-light border border-black bg-white text-black hover:bg-[#e4573d] hover:text-white hover:border-[#e4573d]" onClick={() => window.open(book.samplePdfUrl, "_blank")}>
                       READ SAMPLE
                     </Button>
                   )}
