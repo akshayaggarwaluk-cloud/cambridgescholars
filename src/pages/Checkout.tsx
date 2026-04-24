@@ -406,7 +406,7 @@ export default function Checkout() {
                   {items.map((item) => (
                     <div
                       key={`${item.id}_${item.format}`}
-                      className="flex items-start justify-between py-4 border-b border-[#e3e1d8] gap-4"
+                      className="flex items-center justify-between py-4 border-b border-[#e3e1d8] gap-4"
                     >
                       <div className="flex-1 min-w-0">
                         <p className="text-[15px] text-[#333333] leading-snug">
