@@ -108,9 +108,9 @@ export default function Cart() {
           {/* Table header */}
           <div className="grid grid-cols-[1fr_120px_180px_140px_60px] gap-6 pb-5 border-b border-border items-center">
             <div className="uppercase text-[#333333] font-baskerville tracking-wider text-sm font-semibold">Product</div>
-            <div className="uppercase text-[#333333] font-baskerville tracking-wider text-sm font-semibold text-center">Price</div>
+            <div className="uppercase text-[#333333] font-baskerville tracking-wider text-sm font-semibold text-right">Price</div>
             <div className="uppercase text-[#333333] font-baskerville tracking-wider text-sm font-semibold text-center">Quantity</div>
-            <div className="uppercase text-[#333333] font-baskerville tracking-wider text-sm font-semibold text-center">Total</div>
+            <div className="uppercase text-[#333333] font-baskerville tracking-wider text-sm font-semibold text-right">Total</div>
             <div></div>
           </div>
 
@@ -148,7 +148,7 @@ export default function Cart() {
                 </div>
 
                 {/* Price */}
-                <div className="text-base text-[#ababab] text-center">
+                <div className="text-base text-[#ababab] text-left">
                   £{item.price.toFixed(2)}
                 </div>
 
@@ -172,7 +172,7 @@ export default function Cart() {
                 </div>
 
                 {/* Total */}
-                <div className="text-base text-black font-light text-center">
+                <div className="text-base text-black font-light text-left">
                   £{(item.price * item.quantity).toFixed(2)}
                 </div>
 
