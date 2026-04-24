@@ -350,10 +350,10 @@ export function Header() {
 
         {/* Mobile Slide-out Menu */}
         {isMenuOpen && (
-          <div className="lg:hidden fixed inset-0 z-50 top-0">
+          <div className="lg:hidden fixed inset-0 z-[60] top-0">
             {/* Backdrop */}
             <div
-              className="absolute inset-0 bg-black/40"
+              className="absolute inset-0 bg-black/60"
               onClick={() => setIsMenuOpen(false)}
             />
             {/* Panel */}
