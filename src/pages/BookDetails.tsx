@@ -103,20 +103,20 @@ export default function BookDetails() {
             </div>
 
             {/* Content */}
-            <div className="flex flex-col" style={imageHeight && window.innerWidth >= 1024 ? { height: imageHeight } : undefined}>
-              <div className="lg:flex-1">
-                <h1 className="font-baskerville font-normal text-[#333333] mb-[20px] leading-tight text-2xl">{book.title}</h1>
+            <div className="flex flex-col lg:justify-between" style={imageHeight && window.innerWidth >= 1024 ? { height: imageHeight } : undefined}>
+              <div>
+                <h1 className="font-baskerville font-normal text-[#333333] mb-4 lg:mb-3 leading-tight text-2xl">{book.title}</h1>
                 {book.subtitle && (
-                  <p className="font-baskerville italic text-[#333333] mb-[24px] leading-snug text-base">
+                  <p className="font-baskerville italic text-[#333333] mb-5 lg:mb-3 leading-snug text-base">
                     {book.subtitle}
                   </p>
                 )}
-                <p className="font-baskerville text-[#696969] mb-[24px] text-base">
+                <p className="font-baskerville text-[#696969] mb-5 lg:mb-4 text-base">
                   <span className="font-semibold text-black">By:</span> {book.author}
                 </p>
                 {book.shortDescription && (
                   <p
-                    className="hidden sm:block leading-relaxed max-w-3xl mb-6 lg:mb-8 text-base font-light text-[#696969]"
+                    className="hidden sm:block leading-7 lg:leading-7 max-w-3xl mb-6 lg:mb-0 text-base font-light text-[#696969]"
                     style={{ fontFamily: '"Nunito Sans", sans-serif' }}
                   >
                     {book.shortDescription}
@@ -125,16 +125,16 @@ export default function BookDetails() {
 
               </div>
 
-              <div className="flex flex-col gap-8 lg:mt-auto">
+              <div className="flex flex-col gap-8 lg:gap-5 lg:pt-4">
                 {/* Format Selection */}
                 <div>
-                  <p className="font-serif tracking-wider normal-case text-sm uppercase mb-3 font-bold">BINDING</p>
-                  <div className="flex gap-3">
+                  <p className="font-serif tracking-wider normal-case text-sm uppercase mb-3 lg:mb-2 font-bold">BINDING</p>
+                  <div className="flex gap-3 lg:gap-2.5">
                     {hasHardback && (
                       <button
                         onClick={() => setSelectedFormat("hardbook")}
                         className={cn(
-                          "flex items-center gap-2 px-6 py-3 transition-colors min-w-[120px] rounded-none",
+                           "flex items-center gap-2 px-6 py-3 lg:px-5 lg:py-2.5 transition-colors min-w-[120px] rounded-none",
                           selectedFormat === "hardbook"
                             ? "border-black bg-white border-solid border"
                             : "border border-border hover:border-accent/50 bg-white"
@@ -149,7 +149,7 @@ export default function BookDetails() {
                       <button
                         onClick={() => setSelectedFormat("paperback")}
                         className={cn(
-                          "flex items-center gap-2 px-6 py-3 transition-colors min-w-[120px] rounded-none",
+                           "flex items-center gap-2 px-6 py-3 lg:px-5 lg:py-2.5 transition-colors min-w-[120px] rounded-none",
                           selectedFormat === "paperback"
                             ? "border-black bg-white border-solid border"
                             : "border border-border hover:border-accent/50 bg-white"
@@ -164,7 +164,7 @@ export default function BookDetails() {
                       <button
                         onClick={() => setSelectedFormat("ebook")}
                         className={cn(
-                          "flex items-center gap-2 px-6 py-3 transition-colors min-w-[120px] rounded-none",
+                           "flex items-center gap-2 px-6 py-3 lg:px-5 lg:py-2.5 transition-colors min-w-[120px] rounded-none",
                           selectedFormat === "ebook"
                             ? "border-black bg-white border-solid border"
                             : "border border-border hover:border-accent/50 bg-white"
