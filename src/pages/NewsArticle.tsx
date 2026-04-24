@@ -5,8 +5,14 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { PageBreadcrumb } from "@/components/layout/PageBreadcrumb";
 import { Input } from "@/components/ui/input";
-import { Search, ChevronRight } from "lucide-react";
-import { fetchPublishedNewsBySlug, type CmsNewsArticle } from "@/services/cmsService";
+import { Search, ChevronDown } from "lucide-react";
+import {
+  fetchPublishedNewsBySlug,
+  fetchPublishedNews,
+  type CmsNewsArticle,
+} from "@/services/cmsService";
+
+const ALL = "All Categories";
 
 const NewsArticle = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -14,6 +20,7 @@ const NewsArticle = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [article, setArticle] = useState<CmsNewsArticle | null>(null);
   const [loading, setLoading] = useState(true);
+  const [allArticles, setAllArticles] = useState<CmsNewsArticle[]>([]);
 
   useEffect(() => {
     if (!slug) return;
@@ -23,6 +30,29 @@ const NewsArticle = () => {
       .catch((e) => console.error("Failed to load article:", e))
       .finally(() => setLoading(false));
   }, [slug]);
+
+  useEffect(() => {
+    fetchPublishedNews()
+      .then(setAllArticles)
+      .catch((e) => console.error("Failed to load news list:", e));
+  }, []);
+
+  const categories = (() => {
+    const set = new Set<string>();
+    allArticles.forEach((a) => a.category && set.add(a.category));
+    return [ALL, ...Array.from(set)];
+  })();
+
+  const categoryCounts = categories.reduce(
+    (acc, c) => {
+      acc[c] =
+        c === ALL
+          ? allArticles.length
+          : allArticles.filter((a) => a.category === c).length;
+      return acc;
+    },
+    {} as Record<string, number>,
+  );
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -90,19 +120,45 @@ const NewsArticle = () => {
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
           <aside className="lg:col-span-1 order-2 lg:order-1">
             <div className="mb-8">
-              <h3 className="text-lg font-serif text-foreground mb-4 pb-2 border-b border-border">Search</h3>
+              <h3 className="text-2xl font-baskerville text-[#C75B2A] mb-4 pb-3 border-b border-border">Search</h3>
               <form onSubmit={handleSearch} className="relative">
                 <Input
                   type="text"
                   placeholder="Search ..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="pr-10"
+                  className="pr-10 rounded-none border-border bg-transparent h-11 font-serif italic text-muted-foreground placeholder:text-muted-foreground/70"
                 />
                 <button type="submit" className="absolute right-3 top-1/2 -translate-y-1/2">
                   <Search className="h-4 w-4 text-muted-foreground" />
                 </button>
               </form>
+            </div>
+
+            <div>
+              <h3 className="text-2xl font-baskerville text-[#C75B2A] mb-4 pb-3 border-b border-border">Categories</h3>
+              <ul className="space-y-3">
+                {categories.map((category) => (
+                  <li key={category}>
+                    <Link
+                      to={
+                        category === ALL
+                          ? "/news"
+                          : `/news?category=${encodeURIComponent(category)}`
+                      }
+                      className="w-full flex items-center justify-between text-[15px] py-1 transition-colors text-[#C75B2A]/90 hover:text-[#C75B2A]"
+                    >
+                      <span className="font-serif">{category}</span>
+                      <div className="flex items-center gap-2">
+                        <span className="inline-flex items-center justify-center min-w-[36px] h-6 px-2 rounded-full bg-[#F4F3EC] text-[#C75B2A] text-xs font-medium">
+                          {categoryCounts[category]}
+                        </span>
+                        <ChevronDown className="h-3 w-3 text-[#C75B2A]" />
+                      </div>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
             </div>
           </aside>
 
