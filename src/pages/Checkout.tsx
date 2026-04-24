@@ -408,7 +408,7 @@ export default function Checkout() {
                       key={`${item.id}_${item.format}`}
                       className="py-4 border-b border-[#e3e1d8] space-y-1"
                     >
-                      <p className="text-[15px] text-[#333333] leading-snug">
+                      <p className="text-[15px] leading-snug text-[#696969]">
                         {item.title}
                       </p>
                       <div className="flex items-center justify-between gap-4">
