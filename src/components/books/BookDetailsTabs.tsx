@@ -30,7 +30,7 @@ export function BookDetailsTabs({ book }: BookDetailsTabsProps) {
             <TabsTrigger 
               value="blurb" 
               style={{ fontFamily: '"Nunito Sans", sans-serif' }}
-              className="rounded-none border-b-2 border-transparent data-[state=active]:border-accent data-[state=active]:bg-transparent data-[state=active]:shadow-none px-0 pb-3 text-lg font-normal uppercase tracking-[0.15em] text-black"
+              className="rounded-none border-b-2 border-transparent data-[state=active]:border-accent data-[state=active]:bg-transparent data-[state=active]:shadow-none px-0 pb-3 text-lg font-normal uppercase tracking-normal text-black"
             >
               Blurb
             </TabsTrigger>
@@ -39,7 +39,7 @@ export function BookDetailsTabs({ book }: BookDetailsTabsProps) {
             <TabsTrigger 
               value="biography" 
               style={{ fontFamily: '"Nunito Sans", sans-serif' }}
-              className="rounded-none border-b-2 border-transparent data-[state=active]:border-accent data-[state=active]:bg-transparent data-[state=active]:shadow-none px-0 pb-3 text-lg font-normal uppercase tracking-[0.15em] text-black"
+              className="rounded-none border-b-2 border-transparent data-[state=active]:border-accent data-[state=active]:bg-transparent data-[state=active]:shadow-none px-0 pb-3 text-lg font-normal uppercase tracking-normal text-black"
             >
               Biography
             </TabsTrigger>
@@ -48,7 +48,7 @@ export function BookDetailsTabs({ book }: BookDetailsTabsProps) {
             <TabsTrigger 
               value="book-info" 
               style={{ fontFamily: '"Nunito Sans", sans-serif' }}
-              className="rounded-none border-b-2 border-transparent data-[state=active]:border-accent data-[state=active]:bg-transparent data-[state=active]:shadow-none px-0 pb-3 text-lg font-normal uppercase tracking-[0.15em] text-black"
+              className="rounded-none border-b-2 border-transparent data-[state=active]:border-accent data-[state=active]:bg-transparent data-[state=active]:shadow-none px-0 pb-3 text-lg font-normal uppercase tracking-normal text-black"
             >
               Book Information
             </TabsTrigger>
@@ -57,7 +57,7 @@ export function BookDetailsTabs({ book }: BookDetailsTabsProps) {
             <TabsTrigger
               value="review"
               style={{ fontFamily: '"Nunito Sans", sans-serif' }}
-              className="rounded-none border-b-2 border-transparent data-[state=active]:border-accent data-[state=active]:bg-transparent data-[state=active]:shadow-none px-0 pb-3 text-lg font-normal uppercase tracking-[0.15em] text-black"
+              className="rounded-none border-b-2 border-transparent data-[state=active]:border-accent data-[state=active]:bg-transparent data-[state=active]:shadow-none px-0 pb-3 text-lg font-normal uppercase tracking-normal text-black"
             >
               Reviews
             </TabsTrigger>
