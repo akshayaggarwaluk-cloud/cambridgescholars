@@ -8,6 +8,7 @@ import { useCart } from "@/contexts/CartContext";
 import { useWishlist } from "@/contexts/WishlistContext";
 import { useExternalAuth } from "@/contexts/ExternalAuthContext";
 import { SearchOverlay } from "@/components/search/SearchOverlay";
+import { CartHoverPanel } from "@/components/cart/CartHoverPanel";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -46,6 +47,7 @@ export function Header() {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   
   const [isPublishDropdownOpen, setIsPublishDropdownOpen] = useState(false);
+  const [isCartHoverOpen, setIsCartHoverOpen] = useState(false);
   const location = useLocation();
   const { cartCount } = useCart();
   const { wishlistCount } = useWishlist();
@@ -240,26 +242,32 @@ export function Header() {
                 <TooltipContent>Wishlist</TooltipContent>
               </Tooltip>
 
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Link to="/cart" className="relative">
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      className="hover:text-accent"
-                      aria-label="Cart"
-                    >
-                      <ShoppingCart className="h-7 w-7" />
-                      {cartCount > 0 && (
-                        <span className="absolute -top-1 -right-1 h-5 w-5 rounded-full bg-accent text-accent-foreground text-xs flex items-center justify-center">
-                          {cartCount}
-                        </span>
-                      )}
-                    </Button>
-                  </Link>
-                </TooltipTrigger>
-                <TooltipContent>Cart</TooltipContent>
-              </Tooltip>
+              <div
+                className="relative"
+                onMouseEnter={() => setIsCartHoverOpen(true)}
+                onMouseLeave={() => setIsCartHoverOpen(false)}
+              >
+                <Link to="/cart" className="relative inline-block" aria-label="Cart">
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="hover:text-accent"
+                    aria-label="Cart"
+                  >
+                    <ShoppingCart className="h-7 w-7" />
+                    {cartCount > 0 && (
+                      <span className="absolute -top-1 -right-1 h-5 w-5 rounded-full bg-accent text-accent-foreground text-xs flex items-center justify-center">
+                        {cartCount}
+                      </span>
+                    )}
+                  </Button>
+                </Link>
+                {isCartHoverOpen && (
+                  <div className="absolute top-full right-0 pt-3 z-50">
+                    <CartHoverPanel onNavigate={() => setIsCartHoverOpen(false)} />
+                  </div>
+                )}
+              </div>
 
               {user ? (
                 <DropdownMenu>
