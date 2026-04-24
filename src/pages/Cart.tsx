@@ -148,7 +148,7 @@ export default function Cart() {
                 </div>
 
                 {/* Price */}
-                <div className="text-base text-muted-foreground">
+                <div className="text-base text-[#ababab]">
                   £{item.price.toFixed(2)}
                 </div>
 
