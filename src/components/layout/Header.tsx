@@ -347,34 +347,34 @@ export function Header() {
               onClick={() => setIsMenuOpen(false)}
             />
             {/* Panel */}
-            <div className="relative w-72 h-full bg-background shadow-xl flex flex-col animate-in slide-in-from-left duration-200">
+            <div className="relative w-72 h-full bg-[#4a4a4a] shadow-xl flex flex-col animate-in slide-in-from-left duration-200">
               {/* Search bar + close */}
-              <div className="flex items-center gap-2 px-4 py-3 border-b border-border bg-black">
+              <div className="flex items-center gap-2 px-4 py-3 border-b border-white/10 bg-[#4a4a4a]">
                 <div className="flex-1 relative">
                   <input
                     type="text"
                     placeholder="Search ..."
-                    className="w-full border border-border rounded px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-accent bg-mustard-foreground"
+                    className="w-full border border-white/20 rounded px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-accent bg-[#4a4a4a] text-[#ebe5e5] placeholder:text-[#ebe5e5]/60"
                     onFocus={() => {
                       setIsMenuOpen(false);
                       setIsSearchOpen(true);
                     }}
                     readOnly
                   />
-                  <Search className="absolute right-2.5 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                  <Search className="absolute right-2.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[#ebe5e5]" />
                 </div>
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="h-8 w-8 shrink-0"
+                  className="h-8 w-8 shrink-0 text-[#ebe5e5] hover:bg-white/10 hover:text-[#ebe5e5]"
                   onClick={() => setIsMenuOpen(false)}
                 >
-                  <X className="h-5 w-5 bg-white" />
+                  <X className="h-5 w-5" />
                 </Button>
               </div>
 
               {/* Nav links */}
-              <nav className="flex-1 overflow-y-auto py-2 bg-black text-white">
+              <nav className="flex-1 overflow-y-auto py-2 bg-[#4a4a4a] text-[#ebe5e5]">
                 {navigation.map((item) => (
                   <Link
                     key={item.name}
@@ -418,7 +418,7 @@ export function Header() {
                     />
                   </button>
                   {isPublishDropdownOpen && (
-                    <div className="bg-muted/30">
+                    <div className="bg-black/20">
                       {publishDropdownItems.map((item) => (
                         <Link
                           key={item.name}
