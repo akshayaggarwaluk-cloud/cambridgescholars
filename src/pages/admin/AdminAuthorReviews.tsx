@@ -1,9 +1,26 @@
 import { useEffect, useState } from "react";
-import { Plus, Pencil, Trash2, Loader2, Save, X, ArrowUp, ArrowDown, Download, Search } from "lucide-react";
+import { Plus, Pencil, Trash2, Loader2, Save, X, GripVertical, Download, Search } from "lucide-react";
 import { adminApi, type CmsAuthorReview } from "@/services/cmsService";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { fetchAuthorReviews } from "@/services/cspApi";
+import {
+  DndContext,
+  closestCenter,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+  type DragEndEvent,
+} from "@dnd-kit/core";
+import {
+  arrayMove,
+  SortableContext,
+  sortableKeyboardCoordinates,
+  useSortable,
+  verticalListSortingStrategy,
+} from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
 
 interface ApiReview {
   author: string;
@@ -61,14 +78,33 @@ export default function AdminAuthorReviews() {
     try { await adminApi.deleteAuthorReview(id); toast.success("Deleted"); reload(); }
     catch (e) { toast.error(e instanceof Error ? e.message : "Delete failed"); }
   };
-  const move = async (i: number, dir: -1 | 1) => {
-    const t = i + dir; if (t < 0 || t >= items.length) return;
-    const a = items[i], b = items[t];
-    await Promise.all([
-      adminApi.updateAuthorReview({ ...a, display_order: b.display_order ?? 0 }),
-      adminApi.updateAuthorReview({ ...b, display_order: a.display_order ?? 0 }),
-    ]);
-    reload();
+
+  const sensors = useSensors(
+    useSensor(PointerSensor, { activationConstraint: { distance: 5 } }),
+    useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates }),
+  );
+
+  const handleDragEnd = async (event: DragEndEvent) => {
+    const { active, over } = event;
+    if (!over || active.id === over.id) return;
+    const oldIndex = items.findIndex((it) => it.id === active.id);
+    const newIndex = items.findIndex((it) => it.id === over.id);
+    if (oldIndex < 0 || newIndex < 0) return;
+    const reordered = arrayMove(items, oldIndex, newIndex);
+    setItems(reordered);
+    try {
+      await Promise.all(
+        reordered.map((it, idx) =>
+          (it.display_order ?? 0) === idx
+            ? Promise.resolve()
+            : adminApi.updateAuthorReview({ ...it, display_order: idx }),
+        ),
+      );
+      toast.success("Order saved");
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : "Failed to save order");
+      reload();
+    }
   };
 
   const openPicker = async () => {
@@ -147,26 +183,20 @@ export default function AdminAuthorReviews() {
       ) : items.length === 0 ? (
         <div className="py-12 text-center text-muted-foreground border border-dashed border-border">No author reviews yet.</div>
       ) : (
-        <div className="space-y-3">
-          {items.map((it, i) => (
-            <div key={it.id} className="border border-border p-3 flex gap-3 items-start">
-              <div className="flex flex-col items-center">
-                <span className="text-xs text-muted-foreground">#{i + 1}</span>
-                <Button variant="ghost" size="sm" className="h-6 w-6 p-0" disabled={i===0} onClick={() => move(i,-1)}><ArrowUp className="h-3 w-3" /></Button>
-                <Button variant="ghost" size="sm" className="h-6 w-6 p-0" disabled={i===items.length-1} onClick={() => move(i,1)}><ArrowDown className="h-3 w-3" /></Button>
-              </div>
-              {it.photo_url && <img src={it.photo_url} alt="" className="w-12 h-12 object-cover rounded-full" />}
-              <div className="flex-1 min-w-0">
-                <div className="font-baskerville text-base">{it.author_name}</div>
-                {it.position && <div className="text-xs text-muted-foreground">{it.position}</div>}
-                <div className="text-sm italic line-clamp-2 mt-1">"{it.quote}"</div>
-                {!it.is_published && <span className="text-[10px] uppercase text-muted-foreground">Draft</span>}
-              </div>
-              <Button variant="ghost" size="sm" onClick={() => setEditing({ ...it })}><Pencil className="h-4 w-4" /></Button>
-              <Button variant="ghost" size="sm" onClick={() => remove(it.id)}><Trash2 className="h-4 w-4 text-destructive" /></Button>
+        <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+          <SortableContext items={items.map((it) => it.id)} strategy={verticalListSortingStrategy}>
+            <div className="space-y-3">
+              {items.map((it) => (
+                <SortableReviewRow
+                  key={it.id}
+                  item={it}
+                  onEdit={() => setEditing({ ...it })}
+                  onDelete={() => remove(it.id)}
+                />
+              ))}
             </div>
-          ))}
-        </div>
+          </SortableContext>
+        </DndContext>
       )}
 
       {pickerOpen && (
@@ -225,4 +255,36 @@ export default function AdminAuthorReviews() {
 
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (<div className="space-y-1"><label className="block text-sm font-nav uppercase tracking-wider">{label}</label>{children}</div>);
+}
+
+function SortableReviewRow({ item: it, onEdit, onDelete }: { item: CmsAuthorReview; onEdit: () => void; onDelete: () => void }) {
+  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: it.id });
+  const style: React.CSSProperties = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+    opacity: isDragging ? 0.5 : 1,
+    zIndex: isDragging ? 10 : "auto",
+  };
+  return (
+    <div ref={setNodeRef} style={style} className="border border-border p-3 flex gap-3 items-start bg-background">
+      <button
+        type="button"
+        {...attributes}
+        {...listeners}
+        className="touch-none cursor-grab active:cursor-grabbing text-muted-foreground hover:text-foreground p-1"
+        aria-label="Drag to reorder"
+      >
+        <GripVertical className="h-5 w-5" />
+      </button>
+      {it.photo_url && <img src={it.photo_url} alt="" className="w-12 h-12 object-cover rounded-full" />}
+      <div className="flex-1 min-w-0">
+        <div className="font-baskerville text-base">{it.author_name}</div>
+        {it.position && <div className="text-xs text-muted-foreground">{it.position}</div>}
+        <div className="text-sm italic line-clamp-2 mt-1">"{it.quote}"</div>
+        {!it.is_published && <span className="text-[10px] uppercase text-muted-foreground">Draft</span>}
+      </div>
+      <Button variant="ghost" size="sm" onClick={onEdit}><Pencil className="h-4 w-4" /></Button>
+      <Button variant="ghost" size="sm" onClick={onDelete}><Trash2 className="h-4 w-4 text-destructive" /></Button>
+    </div>
+  );
 }
