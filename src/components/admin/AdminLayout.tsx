@@ -17,9 +17,7 @@ const navGroups: Array<{
     label: "Content",
     items: [
       { to: "/admin/hero-slides", label: "Featured Reviews", icon: Sparkles },
-      { to: "/admin/featured-books", label: "Featured Books", icon: BookOpen },
       { to: "/admin/news", label: "News", icon: Newspaper },
-      { to: "/admin/author-reviews", label: "Author Reviews", icon: MessageSquareQuote },
       { to: "/admin/faqs", label: "FAQs", icon: HelpCircle },
       { to: "/admin/resources", label: "Resources", icon: FileText },
       { to: "/admin/footer-documents", label: "Footer Documents", icon: FolderDown },
