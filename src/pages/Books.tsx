@@ -224,6 +224,47 @@ export default function Books() {
     <div className="min-h-screen bg-background">
       <Header />
 
+      {/* Debug panel — visible when Best Selling is active */}
+      {orderBy === "best_selling" && (
+        <div className="fixed bottom-4 left-4 z-[60] max-w-md w-[min(28rem,calc(100vw-2rem))] rounded-md border border-yellow-500 bg-black/85 text-white text-xs font-mono shadow-2xl">
+          <div className="flex items-center justify-between gap-2 px-3 py-2 border-b border-yellow-500/40">
+            <span className="font-bold text-yellow-300">DEBUG · Best Selling</span>
+            <button
+              type="button"
+              onClick={() => setDebugOpen((o) => !o)}
+              className="text-yellow-300 hover:text-yellow-100 px-2 py-0.5 border border-yellow-500/40 rounded"
+            >
+              {debugOpen ? "Hide" : "Show"}
+            </button>
+          </div>
+          {debugOpen && (
+            <div className="p-3 space-y-3 max-h-[60vh] overflow-auto">
+              <div>
+                <div className="text-yellow-300 mb-1">API URL</div>
+                <div className="break-all bg-white/5 p-2 rounded select-all">
+                  {loading ? "Loading…" : debugUrl || "(none)"}
+                </div>
+              </div>
+              <div>
+                <div className="text-yellow-300 mb-1">
+                  Top 10 titles ({books.length} returned)
+                </div>
+                <ol className="list-decimal list-inside space-y-1">
+                  {books.slice(0, 10).map((b, i) => (
+                    <li key={`${b.id}-${i}`} className="leading-snug">
+                      <span className="text-white/90">{b.title}</span>
+                    </li>
+                  ))}
+                  {!loading && books.length === 0 && (
+                    <li className="text-white/60 list-none">No books returned</li>
+                  )}
+                </ol>
+              </div>
+            </div>
+          )}
+        </div>
+      )}
+
       {/* Page Header Banner */}
       <div className="w-full bg-[#F4F3EC] pt-24 sm:pt-28">
         <div className="container-wide h-[200px] flex items-center justify-between">
