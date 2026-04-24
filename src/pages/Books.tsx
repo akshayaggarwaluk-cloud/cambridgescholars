@@ -33,7 +33,7 @@ export default function Books() {
   const initialCategory = searchParams.get("category") || "all";
   const [searchQuery, setSearchQuery] = useState(initialSearch);
   const [selectedCategory, setSelectedCategory] = useState(initialCategory);
-  const [orderBy, setOrderBy] = useState<string>(searchParams.get("orderby") || "revenue");
+  const [orderBy, setOrderBy] = useState<string>(searchParams.get("sort") || "best_selling");
   const [books, setBooks] = useState<Book[]>([]);
   const [loading, setLoading] = useState(true);
   const [pagination, setPagination] = useState<CSPPagination | null>(null);
@@ -68,7 +68,7 @@ export default function Books() {
     const category = searchParams.get("category") || "all";
     const page = parseInt(searchParams.get("page") || "1", 10);
     const searchField = searchParams.get("search_field") || "";
-    const orderbyParam = searchParams.get("orderby") || "revenue";
+    const orderbyParam = searchParams.get("sort") || "best_selling";
     setSearchQuery(search);
     setSelectedCategory(category);
     setCurrentPage(page);
@@ -105,8 +105,7 @@ export default function Books() {
           search?: string;
           search_field?: string;
           category?: string;
-          orderby?: string;
-          order?: string;
+          sort?: string;
         } = {
           page: currentPage,
           per_page: 20,
@@ -118,48 +117,14 @@ export default function Books() {
           if (catName) params.category = catName;
           else params.category = selectedCategory;
         }
-        // Map UI sort value to API params (handles price-desc → price + order=desc)
+        // Send the CSP API `sort` value directly
         const sortDef = SORT_OPTIONS.find((s) => s.value === orderBy);
         if (sortDef) {
-          if (sortDef.value === "price-desc") {
-            params.orderby = "price";
-            params.order = "desc";
-          } else if (sortDef.value === "date-asc") {
-            params.orderby = "date";
-            params.order = "asc";
-          } else {
-            params.orderby = sortDef.value;
-            if (sortDef.order) params.order = sortDef.order;
-          }
+          params.sort = sortDef.value;
         }
 
         const result = await fetchBooks(params);
-        // Client-side sort fallback — the upstream API currently ignores
-        // orderby/order params and always returns the same ordering, so we
-        // re-sort the page here based on the selected option.
-        const sorted = [...result.books];
-        const parseDate = (b: Book) => {
-          const d = b.publishDate ? Date.parse(b.publishDate) : NaN;
-          return Number.isFinite(d) ? d : 0;
-        };
-        switch (orderBy) {
-          case "date":
-            sorted.sort((a, b) => parseDate(b) - parseDate(a));
-            break;
-          case "date-asc":
-            sorted.sort((a, b) => parseDate(a) - parseDate(b));
-            break;
-          case "price":
-            sorted.sort((a, b) => (a.price ?? 0) - (b.price ?? 0));
-            break;
-          case "price-desc":
-            sorted.sort((a, b) => (b.price ?? 0) - (a.price ?? 0));
-            break;
-          // "revenue" / Best Selling — keep API order
-          default:
-            break;
-        }
-        setBooks(sorted);
+        setBooks(result.books);
         setPagination(result.pagination);
       } catch (error) {
         console.error("Error fetching books:", error);
