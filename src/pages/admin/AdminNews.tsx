@@ -109,27 +109,31 @@ export default function AdminNews() {
     return new Date(b.published_at).getTime() - new Date(a.published_at).getTime();
   });
 
-  const move = async (index: number, direction: -1 | 1) => {
-    const target = index + direction;
-    if (target < 0 || target >= sortedArticles.length) return;
-    const a = sortedArticles[index];
-    const b = sortedArticles[target];
-    // Optimistic swap of display_order values
-    const newA = { ...a, display_order: b.display_order ?? 0 };
-    const newB = { ...b, display_order: a.display_order ?? 0 };
-    // If both end up equal, force a tie-break so they actually swap
-    if (newA.display_order === newB.display_order) {
-      if (direction === -1) newA.display_order = (newB.display_order ?? 0) - 1;
-      else newA.display_order = (newB.display_order ?? 0) + 1;
-    }
-    setArticles((prev) =>
-      prev.map((x) => (x.id === newA.id ? newA : x.id === newB.id ? newB : x)),
-    );
+  const sensors = useSensors(
+    useSensor(PointerSensor, { activationConstraint: { distance: 5 } }),
+    useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates }),
+  );
+
+  const handleDragEnd = async (event: DragEndEvent) => {
+    const { active, over } = event;
+    if (!over || active.id === over.id) return;
+    const oldIndex = sortedArticles.findIndex((it) => it.id === active.id);
+    const newIndex = sortedArticles.findIndex((it) => it.id === over.id);
+    if (oldIndex < 0 || newIndex < 0) return;
+    const reordered = arrayMove(sortedArticles, oldIndex, newIndex);
+    setArticles((prev) => {
+      const map = new Map(reordered.map((it, idx) => [it.id, idx]));
+      return prev.map((it) => map.has(it.id) ? { ...it, display_order: map.get(it.id)! } : it);
+    });
     try {
-      await Promise.all([
-        adminApi.updateNews({ id: newA.id, display_order: newA.display_order }),
-        adminApi.updateNews({ id: newB.id, display_order: newB.display_order }),
-      ]);
+      await Promise.all(
+        reordered.map((it, idx) =>
+          (it.display_order ?? 0) === idx
+            ? Promise.resolve()
+            : adminApi.updateNews({ id: it.id, display_order: idx }),
+        ),
+      );
+      toast.success("Order saved");
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "Reorder failed");
       reload();
