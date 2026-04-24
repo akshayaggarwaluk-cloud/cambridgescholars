@@ -551,7 +551,7 @@ export default function Books() {
                 p === "…" ? (
                   <span
                     key={`ellipsis-${idx}`}
-                    className="font-baskerville text-[18px] text-[#999]"
+                    className="font-baskerville italic text-[20px] text-[#999]"
                   >
                     …
                   </span>
@@ -559,7 +559,7 @@ export default function Books() {
                   <span
                     key={p}
                     aria-current="page"
-                    className="w-12 h-12 rounded-full flex items-center justify-center text-white font-baskerville text-base bg-[#e5573e]"
+                    className="w-12 h-12 rounded-full flex items-center justify-center text-white font-baskerville italic text-[20px] bg-[#e5573e]"
                   >
                     {p}
                   </span>
@@ -567,7 +567,7 @@ export default function Books() {
                   <button
                     key={p}
                     onClick={() => handlePageChange(p as number)}
-                    className="font-baskerville text-[18px] text-[#999] hover:text-[#C75B2A] transition-colors px-1"
+                    className="font-baskerville italic text-[20px] text-[#999] hover:text-[#C75B2A] transition-colors px-1"
                   >
                     {p}
                   </button>
@@ -576,7 +576,7 @@ export default function Books() {
               {pagination.page < pagination.total_pages && (
                 <button
                   onClick={() => handlePageChange(pagination.page + 1)}
-                  className="font-baskerville text-[15px] tracking-[0.15em] uppercase transition-colors ml-2 text-[#999999]"
+                  className="font-nav text-[13px] font-bold tracking-[0.2em] uppercase transition-colors ml-2 text-[#999999] hover:text-[#C75B2A]"
                   aria-label="Next page"
                 >
                   Next
