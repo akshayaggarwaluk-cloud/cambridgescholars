@@ -97,13 +97,13 @@ export default function BookDetails() {
           <div className="grid grid-cols-1 lg:grid-cols-[auto_1fr] gap-6 sm:gap-8 lg:gap-12 items-stretch">
             {/* Image */}
             <div className="flex justify-center lg:justify-start">
-              <div className="w-full max-w-[210px] sm:max-w-[250px] md:max-w-[290px] lg:max-w-[340px]">
+              <div className="w-full max-w-[200px] sm:max-w-[240px] md:max-w-[280px] lg:max-w-[320px]">
                 <img ref={imageRef} src={book.image} alt={book.title} className="w-full object-contain" onLoad={updateImageHeight} />
               </div>
             </div>
 
             {/* Content */}
-            <div className="flex flex-col lg:justify-between" style={imageHeight && window.innerWidth >= 1024 ? { height: imageHeight } : undefined}>
+            <div className="flex flex-col">
               <div>
                 <h1 className="font-baskerville font-normal text-[#333333] mb-[20px] leading-tight text-2xl">{book.title}</h1>
                 {book.subtitle && (
@@ -176,7 +176,7 @@ export default function BookDetails() {
                 </div>
 
                 {/* Quantity */}
-                <div className="flex items-center gap-4 sm:gap-6 mb-6 lg:mb-0">
+                <div className="flex items-center gap-4 sm:gap-6 mb-6">
                   <span className="font-serif tracking-wider normal-case text-sm uppercase font-bold">QUANTITY</span>
                   <div className="flex items-center border">
                     <button onClick={() => setQuantity(Math.max(1, quantity - 1))} className="px-2 sm:px-3 py-1.5 sm:py-2 hover:bg-muted"><Minus className="h-3.5 w-3.5 sm:h-4 sm:w-4" /></button>
