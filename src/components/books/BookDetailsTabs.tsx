@@ -96,12 +96,12 @@ export function BookDetailsTabs({ book }: BookDetailsTabsProps) {
                     <ul className="list-disc" style={{ paddingLeft: "20px", margin: 0 }}>
                       {book.hardbackInfo.isbn && (
                         <li style={{ fontSize: "16px", color: "#696969", marginBottom: "8px", lineHeight: 1.6, fontFamily: 'Georgia, "Times New Roman", serif' }}>
-                          <span style={{ color: "#696969", fontWeight: 700 }}>ISBN:</span> {book.hardbackInfo.isbn}
+                          <span style={{ color: "#696969", fontWeight: 700 }}>ISBN:</span> <span style={{ fontFamily: 'Georgia, "Times New Roman", serif' }}>{book.hardbackInfo.isbn}</span>
                         </li>
                       )}
                       {book.hardbackInfo.isbn13 && (
                         <li style={{ fontSize: "16px", color: "#696969", marginBottom: "8px", lineHeight: 1.6, fontFamily: 'Georgia, "Times New Roman", serif' }}>
-                          <span style={{ color: "#696969", fontWeight: 700 }}>ISBN13:</span> {book.hardbackInfo.isbn13}
+                          <span style={{ color: "#696969", fontWeight: 700 }}>ISBN13:</span> <span style={{ fontFamily: 'Georgia, "Times New Roman", serif' }}>{book.hardbackInfo.isbn13}</span>
                         </li>
                       )}
                       {book.hardbackInfo.publicationDate && (
@@ -119,12 +119,12 @@ export function BookDetailsTabs({ book }: BookDetailsTabsProps) {
                     <ul className="list-disc" style={{ paddingLeft: "20px", margin: 0 }}>
                       {book.paperbackInfo.isbn && (
                         <li style={{ fontSize: "16px", color: "#696969", marginBottom: "8px", lineHeight: 1.6, fontFamily: 'Georgia, "Times New Roman", serif' }}>
-                          <span style={{ color: "#696969", fontWeight: 700 }}>ISBN:</span> {book.paperbackInfo.isbn}
+                          <span style={{ color: "#696969", fontWeight: 700 }}>ISBN:</span> <span style={{ fontFamily: 'Georgia, "Times New Roman", serif' }}>{book.paperbackInfo.isbn}</span>
                         </li>
                       )}
                       {book.paperbackInfo.isbn13 && (
                         <li style={{ fontSize: "16px", color: "#696969", marginBottom: "8px", lineHeight: 1.6, fontFamily: 'Georgia, "Times New Roman", serif' }}>
-                          <span style={{ color: "#696969", fontWeight: 700 }}>ISBN13:</span> {book.paperbackInfo.isbn13}
+                          <span style={{ color: "#696969", fontWeight: 700 }}>ISBN13:</span> <span style={{ fontFamily: 'Georgia, "Times New Roman", serif' }}>{book.paperbackInfo.isbn13}</span>
                         </li>
                       )}
                       {book.paperbackInfo.publicationDate && (
@@ -142,12 +142,12 @@ export function BookDetailsTabs({ book }: BookDetailsTabsProps) {
                     <ul className="list-disc" style={{ paddingLeft: "20px", margin: 0 }}>
                       {book.ebookInfo.isbn && (
                         <li style={{ fontSize: "16px", color: "#696969", marginBottom: "8px", lineHeight: 1.6, fontFamily: 'Georgia, "Times New Roman", serif' }}>
-                          <span style={{ color: "#696969", fontWeight: 700 }}>ISBN:</span> {book.ebookInfo.isbn}
+                          <span style={{ color: "#696969", fontWeight: 700 }}>ISBN:</span> <span style={{ fontFamily: 'Georgia, "Times New Roman", serif' }}>{book.ebookInfo.isbn}</span>
                         </li>
                       )}
                       {book.ebookInfo.isbn13 && (
                         <li style={{ fontSize: "16px", color: "#696969", marginBottom: "8px", lineHeight: 1.6, fontFamily: 'Georgia, "Times New Roman", serif' }}>
-                          <span style={{ color: "#696969", fontWeight: 700 }}>ISBN13:</span> {book.ebookInfo.isbn13}
+                          <span style={{ color: "#696969", fontWeight: 700 }}>ISBN13:</span> <span style={{ fontFamily: 'Georgia, "Times New Roman", serif' }}>{book.ebookInfo.isbn13}</span>
                         </li>
                       )}
                       {book.ebookInfo.publicationDate && (
