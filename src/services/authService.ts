@@ -2,7 +2,7 @@
  * CSP Auth Service — direct browser → API (no Supabase, no edge proxy)
  *
  * - Access token: held in memory
- * - Refresh token: persisted in sessionStorage (cleared when tab closes)
+ * - Refresh token: persisted in localStorage (survives reloads and browser restarts)
  *
  * ⚠️ This service makes raw cross-origin requests to api.cambridgescholars.com.
  * It will only work if CORS is configured upstream for the current origin.
@@ -117,13 +117,14 @@ async function postAuth<T>(
   }
 }
 
-// ── Refresh token storage (sessionStorage) ──────────────────────
+// ── Refresh token storage (localStorage) ────────────────────────
 
 const REFRESH_TOKEN_KEY = "cspRefreshToken";
 
 export function getRefreshToken(): string | null {
   try {
-    return sessionStorage.getItem(REFRESH_TOKEN_KEY);
+    return localStorage.getItem(REFRESH_TOKEN_KEY) ??
+      sessionStorage.getItem(REFRESH_TOKEN_KEY);
   } catch {
     return null;
   }
@@ -131,7 +132,9 @@ export function getRefreshToken(): string | null {
 
 export function setRefreshToken(token: string): void {
   try {
-    sessionStorage.setItem(REFRESH_TOKEN_KEY, token);
+    localStorage.setItem(REFRESH_TOKEN_KEY, token);
+    // Clean up any legacy sessionStorage value from older sessions.
+    try { sessionStorage.removeItem(REFRESH_TOKEN_KEY); } catch { /* ignore */ }
   } catch {
     // ignore (e.g. private mode)
   }
@@ -139,7 +142,8 @@ export function setRefreshToken(token: string): void {
 
 export function clearRefreshToken(): void {
   try {
-    sessionStorage.removeItem(REFRESH_TOKEN_KEY);
+    localStorage.removeItem(REFRESH_TOKEN_KEY);
+    try { sessionStorage.removeItem(REFRESH_TOKEN_KEY); } catch { /* ignore */ }
   } catch {
     // ignore
   }
