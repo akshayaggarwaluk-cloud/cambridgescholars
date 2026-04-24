@@ -127,13 +127,6 @@ const News = () => {
                     {article.excerpt && (
                       <p className="text-foreground/80 text-[15px] leading-relaxed mb-5 line-clamp-3">{article.excerpt}</p>
                     )}
-                    <Link
-                      to={`/news/${article.slug}`}
-                      className="inline-flex items-center font-semibold text-xs uppercase tracking-[0.15em] text-[#C75B2A] hover:text-[#C75B2A]/80 transition-colors"
-                    >
-                      READ MORE
-                      <span className="ml-1">›››</span>
-                    </Link>
                   </article>
                 ))}
               </div>
