@@ -224,7 +224,7 @@ export default function BookDetails() {
                     <Heart className={cn("h-5 w-5 text-muted-foreground group-hover:text-accent-foreground transition-colors", isInWishlist(book.id) && "fill-accent text-accent")} />
                   </Button>
                   {book.samplePdfUrl && (
-                    <Button size="lg" variant="outline" className="px-8 lg:px-7 font-serif tracking-wider normal-case text-sm font-light border border-black bg-white text-black hover:bg-[#e4573d] hover:text-white hover:border-[#e4573d]" onClick={() => window.open(book.samplePdfUrl, "_blank")}>
+                    <Button size="lg" variant="outline" className="px-8 lg:px-7 font-baskerville uppercase tracking-normal text-base font-semibold border border-black bg-white text-black hover:bg-[#e4573d] hover:text-white hover:border-[#e4573d]" onClick={() => window.open(book.samplePdfUrl, "_blank")}>
                       READ SAMPLE
                     </Button>
                   )}
