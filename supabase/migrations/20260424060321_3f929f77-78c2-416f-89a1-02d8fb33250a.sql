@@ -1,0 +1,1 @@
+ALTER TABLE public.cms_news_articles ADD COLUMN IF NOT EXISTS show_on_homepage boolean NOT NULL DEFAULT true;
