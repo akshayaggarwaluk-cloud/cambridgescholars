@@ -29,7 +29,8 @@ export function BookDetailsTabs({ book }: BookDetailsTabsProps) {
           {hasBlurb && (
             <TabsTrigger 
               value="blurb" 
-              className="rounded-none border-b-2 border-transparent data-[state=active]:border-accent data-[state=active]:bg-transparent data-[state=active]:shadow-none px-0 pb-3 text-base font-medium uppercase tracking-[0.2em]"
+              style={{ fontFamily: '"Libre Baskerville", "Playfair Display", Georgia, serif' }}
+              className="rounded-none border-b-2 border-transparent data-[state=active]:border-accent data-[state=active]:bg-transparent data-[state=active]:shadow-none px-0 pb-3 text-sm font-medium uppercase tracking-normal"
             >
               Blurb
             </TabsTrigger>
@@ -37,7 +38,8 @@ export function BookDetailsTabs({ book }: BookDetailsTabsProps) {
           {hasBiography && (
             <TabsTrigger 
               value="biography" 
-              className="rounded-none border-b-2 border-transparent data-[state=active]:border-accent data-[state=active]:bg-transparent data-[state=active]:shadow-none px-0 pb-3 text-base font-medium uppercase tracking-[0.2em]"
+              style={{ fontFamily: '"Libre Baskerville", "Playfair Display", Georgia, serif' }}
+              className="rounded-none border-b-2 border-transparent data-[state=active]:border-accent data-[state=active]:bg-transparent data-[state=active]:shadow-none px-0 pb-3 text-sm font-medium uppercase tracking-normal"
             >
               Biography
             </TabsTrigger>
@@ -45,7 +47,8 @@ export function BookDetailsTabs({ book }: BookDetailsTabsProps) {
           {hasBookInfo && (
             <TabsTrigger 
               value="book-info" 
-              className="rounded-none border-b-2 border-transparent data-[state=active]:border-accent data-[state=active]:bg-transparent data-[state=active]:shadow-none px-0 pb-3 text-base font-medium uppercase tracking-[0.2em]"
+              style={{ fontFamily: '"Libre Baskerville", "Playfair Display", Georgia, serif' }}
+              className="rounded-none border-b-2 border-transparent data-[state=active]:border-accent data-[state=active]:bg-transparent data-[state=active]:shadow-none px-0 pb-3 text-sm font-medium uppercase tracking-normal"
             >
               Book Information
             </TabsTrigger>
@@ -53,7 +56,8 @@ export function BookDetailsTabs({ book }: BookDetailsTabsProps) {
           {hasReviews && (
             <TabsTrigger
               value="review"
-              className="rounded-none border-b-2 border-transparent data-[state=active]:border-accent data-[state=active]:bg-transparent data-[state=active]:shadow-none px-0 pb-3 text-base font-medium uppercase tracking-[0.2em]"
+              style={{ fontFamily: '"Libre Baskerville", "Playfair Display", Georgia, serif' }}
+              className="rounded-none border-b-2 border-transparent data-[state=active]:border-accent data-[state=active]:bg-transparent data-[state=active]:shadow-none px-0 pb-3 text-sm font-medium uppercase tracking-normal"
             >
               Reviews
             </TabsTrigger>
