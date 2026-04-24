@@ -127,7 +127,7 @@ const NewsArticle = () => {
                   placeholder="Search ..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="pr-10 rounded-none border-border bg-transparent h-11 font-serif italic text-muted-foreground placeholder:text-muted-foreground/70"
+                  className="pr-10 rounded-none border-border h-11 font-serif italic text-muted-foreground placeholder:text-muted-foreground/70 bg-[#f7f7f7]"
                 />
                 <button type="submit" className="absolute right-3 top-1/2 -translate-y-1/2">
                   <Search className="h-4 w-4 text-muted-foreground" />
