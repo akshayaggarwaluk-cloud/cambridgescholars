@@ -37,7 +37,7 @@ export default function ResourceDetail() {
       </div>
 
       <main className="py-16 bg-white">
-        <section className="max-w-4xl mx-auto px-6 md:px-16">
+        <section className="max-w-7xl mx-auto px-6 md:px-16">
           {loading ? (
             <div className="py-16 text-center text-muted-foreground">
               <Loader2 className="h-5 w-5 animate-spin inline mr-2" /> Loading…
