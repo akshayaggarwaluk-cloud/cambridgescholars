@@ -163,7 +163,7 @@ export function Header() {
                           key={item.name}
                           to={item.href}
                           className={cn(
-                            "block px-5 py-2.5 text-base font-semibold capitalize hover:bg-white hover:text-white transition-colors",
+                            "block px-5 py-2.5 text-base font-semibold capitalize hover:bg-white hover:text-accent transition-colors",
                             isActiveRoute(item.href)
                               ? "text-white"
                               : "text-muted-foreground"
@@ -198,7 +198,7 @@ export function Header() {
                   <Button
                     variant="ghost"
                     size="icon"
-                    className="h-11 w-11 hover:text-white"
+                    className="h-11 w-11 hover:text-accent"
                     onClick={() => setIsSearchOpen(true)}
                     aria-label="Search"
                   >
@@ -214,12 +214,12 @@ export function Header() {
                     <Button
                       variant="ghost"
                       size="icon"
-                      className="hover:text-white"
+                      className="hover:text-accent"
                       aria-label="Wishlist"
                     >
                       <Heart className="h-7 w-7" />
                       {wishlistCount > 0 && (
-                        <span className="absolute -top-1 -right-1 h-5 w-5 rounded-full bg-accent text-white-foreground text-xs flex items-center justify-center">
+                        <span className="absolute -top-1 -right-1 h-5 w-5 rounded-full bg-accent text-accent-foreground text-xs flex items-center justify-center">
                           {wishlistCount}
                         </span>
                       )}
@@ -235,12 +235,12 @@ export function Header() {
                     <Button
                       variant="ghost"
                       size="icon"
-                      className="hover:text-white"
+                      className="hover:text-accent"
                       aria-label="Cart"
                     >
                       <ShoppingCart className="h-7 w-7" />
                       {cartCount > 0 && (
-                        <span className="absolute -top-1 -right-1 h-5 w-5 rounded-full bg-accent text-white-foreground text-xs flex items-center justify-center">
+                        <span className="absolute -top-1 -right-1 h-5 w-5 rounded-full bg-accent text-accent-foreground text-xs flex items-center justify-center">
                           {cartCount}
                         </span>
                       )}
@@ -258,7 +258,7 @@ export function Header() {
                         <Button
                           variant="ghost"
                           size="icon"
-                          className="hover:text-white"
+                          className="hover:text-accent"
                           aria-label="My Account"
                         >
                           <User className="h-7 w-7" />
@@ -287,7 +287,7 @@ export function Header() {
                       <Button
                         variant="ghost"
                         size="icon"
-                        className="hover:text-white"
+                        className="hover:text-accent"
                         aria-label="Sign In"
                       >
                         <User className="h-7 w-7" />
@@ -305,7 +305,7 @@ export function Header() {
                 <Button variant="ghost" size="icon" className="h-9 w-9" aria-label="Wishlist">
                   <Heart className="h-5 w-5" />
                   {wishlistCount > 0 && (
-                    <span className="absolute -top-1 -right-1 h-4 w-4 rounded-full bg-accent text-white-foreground text-[10px] flex items-center justify-center">
+                    <span className="absolute -top-1 -right-1 h-4 w-4 rounded-full bg-accent text-accent-foreground text-[10px] flex items-center justify-center">
                       {wishlistCount}
                     </span>
                   )}
@@ -315,7 +315,7 @@ export function Header() {
                 <Button variant="ghost" size="icon" className="h-9 w-9" aria-label="Cart">
                   <ShoppingCart className="h-5 w-5" />
                   {cartCount > 0 && (
-                    <span className="absolute -top-1 -right-1 h-4 w-4 rounded-full bg-accent text-white-foreground text-[10px] flex items-center justify-center">
+                    <span className="absolute -top-1 -right-1 h-4 w-4 rounded-full bg-accent text-accent-foreground text-[10px] flex items-center justify-center">
                       {cartCount}
                     </span>
                   )}
