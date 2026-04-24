@@ -450,7 +450,7 @@ export default function Checkout() {
                     <span className="text-[15px] text-[#333333]">Delivery Time</span>
                     <span className="text-[15px] font-semibold text-[#333333]">4–5 weeks</span>
                   </div>
-                  <div className="flex items-center justify-between py-5">
+                  <div className="flex items-center justify-between py-5 border-b border-[#e3e1d8]">
                     <span className="text-[18px] text-[#333333]">Total</span>
                     <span className="text-[22px] font-semibold text-[#C75B2A]">
                       {moneyGBP(total)}
