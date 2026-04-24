@@ -66,7 +66,7 @@ function FieldLabel({ htmlFor, children, required }: { htmlFor: string; children
   return (
     <Label
       htmlFor={htmlFor}
-      className="block text-[13px] font-semibold tracking-[0.18em] uppercase text-[#333333] mb-2"
+      className="block text-[13px] font-medium tracking-[0.18em] uppercase text-[#333333] mb-2"
     >
       {children}
       {required && <span className="text-[#C75B2A] ml-1">*</span>}
