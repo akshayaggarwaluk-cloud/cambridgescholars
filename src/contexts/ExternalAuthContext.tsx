@@ -31,9 +31,9 @@ function normalizeUser(u: AuthUserData): ExternalUser {
 }
 
 /**
- * Auth state lives entirely in memory + sessionStorage.
+ * Auth state lives entirely in memory + localStorage.
  * - Access token: in memory only (lost on reload — restored via refresh token).
- * - Refresh token: sessionStorage (cleared when tab closes).
+ * - Refresh token: localStorage (persists across reloads and browser restarts).
  * - User profile: NOT persisted; restored from /account/profile after refresh.
  */
 export function ExternalAuthProvider({ children }: { children: ReactNode }) {
