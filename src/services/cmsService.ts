@@ -350,25 +350,22 @@ async function callAdmin<T = unknown>(
   if (error) {
     type ErrCtx = { context?: { body?: string } };
     const ctxBody = (error as ErrCtx).context?.body;
+    let parsedError: string | null = null;
     if (ctxBody) {
       try {
         const parsed = JSON.parse(ctxBody);
-        if (parsed?.error) {
-          // Auto-clear expired/invalid admin session and bounce to login
-          if (
-            typeof parsed.error === "string" &&
-            /admin session|admin token|not.*admin/i.test(parsed.error)
-          ) {
-            adminSession.clear();
-            if (typeof window !== "undefined" && !window.location.pathname.startsWith("/admin/login")) {
-              window.location.replace("/admin/login");
-            }
-          }
-          throw new Error(parsed.error);
+        if (typeof parsed?.error === "string") parsedError = parsed.error;
+      } catch { /* not JSON */ }
+    }
+    if (parsedError) {
+      // Auto-clear expired/invalid admin session and bounce to login
+      if (/admin session|admin token|not.*admin/i.test(parsedError)) {
+        adminSession.clear();
+        if (typeof window !== "undefined" && !window.location.pathname.startsWith("/admin/login")) {
+          window.location.replace("/admin/login");
         }
-      } catch {
-        /* fall through */
       }
+      throw new Error(parsedError);
     }
     throw new Error(error.message || "Admin request failed");
   }
