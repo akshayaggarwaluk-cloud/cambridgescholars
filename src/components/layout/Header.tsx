@@ -354,19 +354,19 @@ export function Header() {
                   <input
                     type="text"
                     placeholder="Search ..."
-                    className="w-full border border-white/20 rounded px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-accent bg-[#212121] text-[#ebe5e5] placeholder:text-[#ebe5e5]/60"
+                    className="w-full border border-white/20 rounded px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-accent bg-[#212121] text-[#ffffff] placeholder:text-[#ffffff]/60"
                     onFocus={() => {
                       setIsMenuOpen(false);
                       setIsSearchOpen(true);
                     }}
                     readOnly
                   />
-                  <Search className="absolute right-2.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[#ebe5e5]" />
+                  <Search className="absolute right-2.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[#ffffff]" />
                 </div>
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="h-8 w-8 shrink-0 text-[#ebe5e5] hover:bg-white/10 hover:text-[#ebe5e5]"
+                  className="h-8 w-8 shrink-0 text-[#ffffff] hover:bg-white/10 hover:text-[#ffffff]"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   <X className="h-5 w-5" />
@@ -374,7 +374,7 @@ export function Header() {
               </div>
 
               {/* Nav links */}
-              <nav className="flex-1 overflow-y-auto py-2 bg-[#212121] text-[#ebe5e5]">
+              <nav className="flex-1 overflow-y-auto py-2 bg-[#212121] text-[#ffffff]">
                 {navigation.map((item) => (
                   <Link
                     key={item.name}
@@ -382,8 +382,8 @@ export function Header() {
                     className={cn(
                       "block px-6 py-3 text-sm font-bold uppercase tracking-wide transition-colors",
                       isActiveRoute(item.href)
-                        ? "text-[#ebe5e5]"
-                        : "text-[#ebe5e5]"
+                        ? "text-[#ffffff]"
+                        : "text-[#ffffff]"
                     )}
                   >
                     {item.name}
@@ -394,7 +394,7 @@ export function Header() {
                   to="/books"
                   className={cn(
                     "block px-6 py-3 text-sm font-bold uppercase tracking-wide transition-colors",
-                    isActiveRoute("/books") ? "text-[#ebe5e5]" : "text-[#ebe5e5]"
+                    isActiveRoute("/books") ? "text-[#ffffff]" : "text-[#ffffff]"
                   )}
                 >
                   Buy a Book
@@ -406,7 +406,7 @@ export function Header() {
                     onClick={() => setIsPublishDropdownOpen(!isPublishDropdownOpen)}
                     className={cn(
                       "flex items-center justify-between w-full px-6 py-3 text-sm font-bold uppercase tracking-wide transition-colors",
-                      isPublishActive ? "text-[#ebe5e5]" : "text-[#ebe5e5]"
+                      isPublishActive ? "text-[#ffffff]" : "text-[#ffffff]"
                     )}
                   >
                     Publish a Book
@@ -425,7 +425,7 @@ export function Header() {
                           to={item.href}
                           className={cn(
                             "block px-10 py-2.5 text-sm font-medium transition-colors",
-                            isActiveRoute(item.href) ? "text-[#ebe5e5]" : "text-[#ebe5e5]"
+                            isActiveRoute(item.href) ? "text-[#ffffff]" : "text-[#ffffff]"
                           )}
                         >
                           {item.name}
@@ -441,7 +441,7 @@ export function Header() {
                     to={item.href}
                     className={cn(
                       "block px-6 py-3 text-sm font-bold uppercase tracking-wide transition-colors",
-                      isActiveRoute(item.href) ? "text-[#ebe5e5]" : "text-[#ebe5e5]"
+                      isActiveRoute(item.href) ? "text-[#ffffff]" : "text-[#ffffff]"
                     )}
                   >
                     {item.name}
