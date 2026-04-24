@@ -343,7 +343,7 @@ export async function fetchBooks(params?: {
     | "title_az"
     | "featured";
   has_cover?: boolean;
-}): Promise<{ books: Book[]; pagination: CSPPagination }> {
+}): Promise<{ books: Book[]; pagination: CSPPagination; requestUrl: string }> {
   const url = new URL(`${CSP_API_BASE}/books`);
   if (params?.page) url.searchParams.set("page", String(params.page));
   if (params?.per_page) url.searchParams.set("per_page", String(params.per_page));
@@ -375,6 +375,7 @@ export async function fetchBooks(params?: {
   return {
     books: rawBooks.map(transformBook),
     pagination,
+    requestUrl: url.toString(),
   };
 }
 
