@@ -29,8 +29,8 @@ export function BookDetailsTabs({ book }: BookDetailsTabsProps) {
           {hasBlurb && (
             <TabsTrigger 
               value="blurb" 
-              style={{ fontFamily: '"Libre Baskerville", "Playfair Display", Georgia, serif' }}
-              className="rounded-none border-b-2 border-transparent data-[state=active]:border-accent data-[state=active]:bg-transparent data-[state=active]:shadow-none px-0 pb-3 text-sm font-medium uppercase tracking-normal"
+              style={{ fontFamily: '"Nunito Sans", sans-serif' }}
+              className="rounded-none border-b-2 border-transparent data-[state=active]:border-accent data-[state=active]:bg-transparent data-[state=active]:shadow-none px-0 pb-3 text-lg font-normal uppercase tracking-[0.15em] text-black"
             >
               Blurb
             </TabsTrigger>
@@ -38,8 +38,8 @@ export function BookDetailsTabs({ book }: BookDetailsTabsProps) {
           {hasBiography && (
             <TabsTrigger 
               value="biography" 
-              style={{ fontFamily: '"Libre Baskerville", "Playfair Display", Georgia, serif' }}
-              className="rounded-none border-b-2 border-transparent data-[state=active]:border-accent data-[state=active]:bg-transparent data-[state=active]:shadow-none px-0 pb-3 text-sm font-medium uppercase tracking-normal"
+              style={{ fontFamily: '"Nunito Sans", sans-serif' }}
+              className="rounded-none border-b-2 border-transparent data-[state=active]:border-accent data-[state=active]:bg-transparent data-[state=active]:shadow-none px-0 pb-3 text-lg font-normal uppercase tracking-[0.15em] text-black"
             >
               Biography
             </TabsTrigger>
@@ -47,8 +47,8 @@ export function BookDetailsTabs({ book }: BookDetailsTabsProps) {
           {hasBookInfo && (
             <TabsTrigger 
               value="book-info" 
-              style={{ fontFamily: '"Libre Baskerville", "Playfair Display", Georgia, serif' }}
-              className="rounded-none border-b-2 border-transparent data-[state=active]:border-accent data-[state=active]:bg-transparent data-[state=active]:shadow-none px-0 pb-3 text-sm font-medium uppercase tracking-normal"
+              style={{ fontFamily: '"Nunito Sans", sans-serif' }}
+              className="rounded-none border-b-2 border-transparent data-[state=active]:border-accent data-[state=active]:bg-transparent data-[state=active]:shadow-none px-0 pb-3 text-lg font-normal uppercase tracking-[0.15em] text-black"
             >
               Book Information
             </TabsTrigger>
@@ -56,8 +56,8 @@ export function BookDetailsTabs({ book }: BookDetailsTabsProps) {
           {hasReviews && (
             <TabsTrigger
               value="review"
-              style={{ fontFamily: '"Libre Baskerville", "Playfair Display", Georgia, serif' }}
-              className="rounded-none border-b-2 border-transparent data-[state=active]:border-accent data-[state=active]:bg-transparent data-[state=active]:shadow-none px-0 pb-3 text-sm font-medium uppercase tracking-normal"
+              style={{ fontFamily: '"Nunito Sans", sans-serif' }}
+              className="rounded-none border-b-2 border-transparent data-[state=active]:border-accent data-[state=active]:bg-transparent data-[state=active]:shadow-none px-0 pb-3 text-lg font-normal uppercase tracking-[0.15em] text-black"
             >
               Reviews
             </TabsTrigger>
