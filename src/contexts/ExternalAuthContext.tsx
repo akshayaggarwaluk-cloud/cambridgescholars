@@ -65,12 +65,7 @@ export function ExternalAuthProvider({ children }: { children: ReactNode }) {
           if (!cancelled) setUser(normalizeUser(profile));
         } catch (e) {
           console.warn("[auth] failed to load profile after refresh:", e);
-          // Refresh succeeded but profile failed — clear the session.
-          if (!cancelled) {
-            setAccessToken(null);
-            clearRefreshToken();
-            setToken(null);
-          }
+          // Keep the refreshed session alive; the profile endpoint may be temporarily unavailable.
         }
       } catch {
         clearRefreshToken();
