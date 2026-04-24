@@ -1,10 +1,27 @@
 import { useEffect, useState } from "react";
-import { Plus, Pencil, Trash2, Loader2, Save, X, ArrowUp, ArrowDown, ExternalLink } from "lucide-react";
+import { Plus, Pencil, Trash2, Loader2, Save, X, ExternalLink, GripVertical } from "lucide-react";
 import { Link } from "react-router-dom";
 import { adminApi, type CmsResource } from "@/services/cmsService";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import ImageUploadField from "@/components/admin/ImageUploadField";
+import {
+  DndContext,
+  closestCenter,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+  type DragEndEvent,
+} from "@dnd-kit/core";
+import {
+  arrayMove,
+  SortableContext,
+  sortableKeyboardCoordinates,
+  useSortable,
+  verticalListSortingStrategy,
+} from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
 
 type EditState = Partial<CmsResource> & { _new?: boolean };
 const empty: EditState = { _new: true, slug: "", title: "", display_order: 0, is_published: true };
@@ -39,14 +56,33 @@ export default function AdminResources() {
     try { await adminApi.deleteResource(id); toast.success("Deleted"); reload(); }
     catch (e) { toast.error(e instanceof Error ? e.message : "Delete failed"); }
   };
-  const move = async (i: number, dir: -1 | 1) => {
-    const t = i + dir; if (t < 0 || t >= items.length) return;
-    const a = items[i], b = items[t];
-    await Promise.all([
-      adminApi.updateResource({ ...a, display_order: b.display_order ?? 0 }),
-      adminApi.updateResource({ ...b, display_order: a.display_order ?? 0 }),
-    ]);
-    reload();
+
+  const sensors = useSensors(
+    useSensor(PointerSensor, { activationConstraint: { distance: 5 } }),
+    useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates }),
+  );
+
+  const handleDragEnd = async (event: DragEndEvent) => {
+    const { active, over } = event;
+    if (!over || active.id === over.id) return;
+    const oldIndex = items.findIndex((it) => it.id === active.id);
+    const newIndex = items.findIndex((it) => it.id === over.id);
+    if (oldIndex < 0 || newIndex < 0) return;
+    const reordered = arrayMove(items, oldIndex, newIndex);
+    setItems(reordered); // optimistic UI
+    try {
+      await Promise.all(
+        reordered.map((it, idx) =>
+          (it.display_order ?? 0) === idx
+            ? Promise.resolve()
+            : adminApi.updateResource({ ...it, display_order: idx }),
+        ),
+      );
+      toast.success("Order saved");
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : "Failed to save order");
+      reload();
+    }
   };
 
   return (
@@ -77,24 +113,20 @@ export default function AdminResources() {
       ) : items.length === 0 ? (
         <div className="py-12 text-center text-muted-foreground border border-dashed border-border">No resource pages yet.</div>
       ) : (
-        <div className="space-y-2">
-          {items.map((it, i) => (
-            <div key={it.id} className="border border-border p-3 flex gap-3 items-start">
-              <div className="flex flex-col items-center">
-                <Button variant="ghost" size="sm" className="h-6 w-6 p-0" disabled={i===0} onClick={() => move(i,-1)}><ArrowUp className="h-3 w-3" /></Button>
-                <Button variant="ghost" size="sm" className="h-6 w-6 p-0" disabled={i===items.length-1} onClick={() => move(i,1)}><ArrowDown className="h-3 w-3" /></Button>
-              </div>
-              {it.cover_image && <img src={it.cover_image} alt="" className="w-16 h-12 object-cover" />}
-              <div className="flex-1 min-w-0">
-                <div className="font-baskerville text-base">{it.title}</div>
-                <Link to={`/resources/${it.slug}`} className="text-xs text-accent inline-flex items-center gap-1" target="_blank">/resources/{it.slug} <ExternalLink className="h-3 w-3" /></Link>
-                {!it.is_published && <span className="text-[10px] uppercase text-muted-foreground ml-2">Draft</span>}
-              </div>
-              <Button variant="ghost" size="sm" onClick={() => setEditing({ ...it })}><Pencil className="h-4 w-4" /></Button>
-              <Button variant="ghost" size="sm" onClick={() => remove(it.id)}><Trash2 className="h-4 w-4 text-destructive" /></Button>
+        <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+          <SortableContext items={items.map((it) => it.id)} strategy={verticalListSortingStrategy}>
+            <div className="space-y-2">
+              {items.map((it) => (
+                <SortableRow
+                  key={it.id}
+                  item={it}
+                  onEdit={() => setEditing({ ...it })}
+                  onDelete={() => remove(it.id)}
+                />
+              ))}
             </div>
-          ))}
-        </div>
+          </SortableContext>
+        </DndContext>
       )}
     </div>
   );
@@ -102,4 +134,49 @@ export default function AdminResources() {
 
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (<div className="space-y-1"><label className="block text-sm font-nav uppercase tracking-wider">{label}</label>{children}</div>);
+}
+
+function SortableRow({
+  item,
+  onEdit,
+  onDelete,
+}: {
+  item: CmsResource;
+  onEdit: () => void;
+  onDelete: () => void;
+}) {
+  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: item.id });
+  const style: React.CSSProperties = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+    opacity: isDragging ? 0.5 : 1,
+    zIndex: isDragging ? 10 : "auto",
+  };
+  return (
+    <div
+      ref={setNodeRef}
+      style={style}
+      className="border border-border p-3 flex gap-3 items-center bg-background"
+    >
+      <button
+        type="button"
+        {...attributes}
+        {...listeners}
+        className="touch-none cursor-grab active:cursor-grabbing text-muted-foreground hover:text-foreground p-1"
+        aria-label="Drag to reorder"
+      >
+        <GripVertical className="h-5 w-5" />
+      </button>
+      {item.cover_image && <img src={item.cover_image} alt="" className="w-16 h-12 object-cover" />}
+      <div className="flex-1 min-w-0">
+        <div className="font-baskerville text-base">{item.title}</div>
+        <Link to={`/resources/${item.slug}`} className="text-xs text-accent inline-flex items-center gap-1" target="_blank">
+          /resources/{item.slug} <ExternalLink className="h-3 w-3" />
+        </Link>
+        {!item.is_published && <span className="text-[10px] uppercase text-muted-foreground ml-2">Draft</span>}
+      </div>
+      <Button variant="ghost" size="sm" onClick={onEdit}><Pencil className="h-4 w-4" /></Button>
+      <Button variant="ghost" size="sm" onClick={onDelete}><Trash2 className="h-4 w-4 text-destructive" /></Button>
+    </div>
+  );
 }
