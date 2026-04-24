@@ -103,8 +103,8 @@ export default function BookDetails() {
             </div>
 
             {/* Content */}
-            <div className="flex flex-col lg:justify-between" style={imageHeight && window.innerWidth >= 1024 ? { height: imageHeight } : undefined}>
-              <div>
+            <div className="flex flex-col" style={imageHeight && window.innerWidth >= 1024 ? { height: imageHeight } : undefined}>
+              <div className="lg:flex-1">
                 <h1 className="font-baskerville font-normal text-[#333333] mb-[20px] leading-tight text-2xl">{book.title}</h1>
                 {book.subtitle && (
                   <p className="font-baskerville italic text-[#333333] mb-[24px] leading-snug text-base">
@@ -123,8 +123,11 @@ export default function BookDetails() {
                   </p>
                 )}
 
+              </div>
+
+              <div className="flex flex-col gap-8 lg:mt-auto">
                 {/* Format Selection */}
-                <div className="mb-8">
+                <div>
                   <p className="font-serif tracking-wider normal-case text-sm uppercase mb-3 font-bold">BINDING</p>
                   <div className="flex gap-3">
                     {hasHardback && (
@@ -176,7 +179,7 @@ export default function BookDetails() {
                 </div>
 
                 {/* Quantity */}
-                <div className="flex items-center gap-4 sm:gap-6 mb-8 lg:mb-0">
+                <div className="flex items-center gap-4 sm:gap-6">
                   <span className="font-serif tracking-wider normal-case text-sm uppercase font-bold">QUANTITY</span>
                   <div className="flex items-center border">
                     <button onClick={() => setQuantity(Math.max(1, quantity - 1))} className="px-2 sm:px-3 py-1.5 sm:py-2 hover:bg-muted"><Minus className="h-3.5 w-3.5 sm:h-4 sm:w-4" /></button>
@@ -184,46 +187,45 @@ export default function BookDetails() {
                     <button onClick={() => setQuantity(quantity + 1)} className="px-2 sm:px-3 py-1.5 sm:py-2 hover:bg-muted"><Plus className="h-3.5 w-3.5 sm:h-4 sm:w-4" /></button>
                   </div>
                 </div>
-              </div>
-
-              {/* Actions */}
-              <div className="flex items-center gap-3 sm:gap-4 flex-wrap">
+                {/* Actions */}
+                <div className="flex items-center gap-3 sm:gap-4 flex-wrap">
                  <div className="text-[#c4a273] text-lg font-semibold" style={{ fontFamily: '"Nunito Sans", sans-serif' }}>
                    <span className="font-semibold text-[#c4a273] text-lg">From £{getPrice(selectedFormat).toFixed(2)}</span>
-                </div>
-                <Button
-                  size="lg"
-                    className="px-8 font-serif tracking-wider normal-case text-sm font-light bg-[#e4573d] hover:bg-black text-white"
-                  onClick={() => {
-                    const formatIsbn =
-                      selectedFormat === "ebook"
-                        ? book.ebookInfo?.isbn13 || book.ebookInfo?.isbn
-                        : selectedFormat === "paperback"
-                          ? book.paperbackInfo?.isbn13 || book.paperbackInfo?.isbn
-                          : book.hardbackInfo?.isbn13 || book.hardbackInfo?.isbn;
-                    for (let i = 0; i < quantity; i++) {
-                      addToCart(
-                        { ...book, price: getPrice(selectedFormat), isbn: formatIsbn || book.isbn },
-                        selectedFormat,
-                      );
-                    }
-                  }}
-                >
-                  ADD TO CART
-                </Button>
-                <Button
-                  variant="outline"
-                  size="lg"
-                    className="border-black border w-12 px-0 group text-muted-foreground hover:bg-[#e4573d] hover:border-[#e4573d] hover:text-white"
-                  onClick={() => (isInWishlist(book.id) ? removeFromWishlist(book.id) : addToWishlist(book))}
-                >
-                  <Heart className={cn("h-5 w-5 text-muted-foreground group-hover:text-accent-foreground transition-colors", isInWishlist(book.id) && "fill-accent text-accent")} />
-                </Button>
-                {book.samplePdfUrl && (
-                  <Button size="lg" variant="outline" className="px-8 font-serif tracking-wider normal-case text-sm font-light border border-black bg-white text-black hover:bg-[#e4573d] hover:text-white hover:border-[#e4573d]" onClick={() => window.open(book.samplePdfUrl, "_blank")}>
-                    READ SAMPLE
+                  </div>
+                  <Button
+                    size="lg"
+                      className="px-8 font-serif tracking-wider normal-case text-sm font-light bg-[#e4573d] hover:bg-black text-white"
+                    onClick={() => {
+                      const formatIsbn =
+                        selectedFormat === "ebook"
+                          ? book.ebookInfo?.isbn13 || book.ebookInfo?.isbn
+                          : selectedFormat === "paperback"
+                            ? book.paperbackInfo?.isbn13 || book.paperbackInfo?.isbn
+                            : book.hardbackInfo?.isbn13 || book.hardbackInfo?.isbn;
+                      for (let i = 0; i < quantity; i++) {
+                        addToCart(
+                          { ...book, price: getPrice(selectedFormat), isbn: formatIsbn || book.isbn },
+                          selectedFormat,
+                        );
+                      }
+                    }}
+                  >
+                    ADD TO CART
                   </Button>
-                )}
+                  <Button
+                    variant="outline"
+                    size="lg"
+                      className="border-black border w-12 px-0 group text-muted-foreground hover:bg-[#e4573d] hover:border-[#e4573d] hover:text-white"
+                    onClick={() => (isInWishlist(book.id) ? removeFromWishlist(book.id) : addToWishlist(book))}
+                  >
+                    <Heart className={cn("h-5 w-5 text-muted-foreground group-hover:text-accent-foreground transition-colors", isInWishlist(book.id) && "fill-accent text-accent")} />
+                  </Button>
+                  {book.samplePdfUrl && (
+                    <Button size="lg" variant="outline" className="px-8 font-serif tracking-wider normal-case text-sm font-light border border-black bg-white text-black hover:bg-[#e4573d] hover:text-white hover:border-[#e4573d]" onClick={() => window.open(book.samplePdfUrl, "_blank")}>
+                      READ SAMPLE
+                    </Button>
+                  )}
+                </div>
               </div>
             </div>
           </div>
