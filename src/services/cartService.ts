@@ -26,27 +26,20 @@ export interface CartItem {
   cover_image?: string | null;
   format?: string;
   quantity: number;
-  unit_price?: number | null;
-  subtotal?: number | null;
-  currency?: string;
-}
-
-export interface CartCoupon {
-  code: string;
-  discount?: number | null;
-  description?: string | null;
+  unit_price_gbp?: number | null;
+  subtotal_gbp?: number | null;
 }
 
 export interface CartResponse {
   cart_token?: string | null;
+  item_count?: number;
   items: CartItem[];
-  subtotal?: number | null;
-  shipping_total?: number | null;
-  tax_total?: number | null;
-  discount_total?: number | null;
-  total?: number | null;
-  currency?: string;
-  coupon?: CartCoupon | null;
+  subtotal_gbp?: number | null;
+  coupon_code?: string | null;
+  discount_type?: "percent" | "fixed" | null;
+  discount_value?: number | null;
+  discount_gbp?: number | null;
+  total_gbp?: number | null;
 }
 
 export interface MerchantSessionKeyResponse {
