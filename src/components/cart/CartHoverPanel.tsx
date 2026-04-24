@@ -63,7 +63,7 @@ export function CartHoverPanel({ onNavigate }: CartHoverPanelProps) {
                     style={{ fontFamily: '"Nunito Sans", sans-serif' }}
                   >
                     £{item.price.toFixed(2)}{" "}
-                    <span className="text-[#333333] ml-1">× {item.quantity}</span>
+                     <span className="text-[#333333] ml-1 font-medium">× {item.quantity}</span>
                   </div>
                 </div>
                 <button
