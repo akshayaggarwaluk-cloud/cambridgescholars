@@ -59,7 +59,7 @@ export const NewsSection = () => {
           </div>
           <div className="flex justify-center mt-12">
             <Button asChild variant="gold" size="lg">
-              <Link to="/news">View All News</Link>
+               <Link to="/news">VIEW</Link>
             </Button>
           </div>
           </>
