@@ -51,11 +51,6 @@ export default function ResourceDetail() {
             </div>
           ) : (
             <>
-              {resource.excerpt && (
-                <p className="font-nav text-[16px] font-normal text-[#333333] leading-[1.6] mb-3">
-                  {resource.excerpt}
-                </p>
-              )}
               {resource.content && (
                 <div
                   className="font-nav text-[16px] font-normal text-[#333333] leading-[1.6] max-w-none [&_strong]:font-normal [&_ul]:list-disc [&_ul]:pl-6 [&_ul]:mt-8 [&_ul]:mb-3 [&_li]:my-0 [&_li]:leading-[1.6] [&_li::marker]:text-[#333333] [&_p]:my-2"
