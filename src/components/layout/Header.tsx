@@ -347,14 +347,14 @@ export function Header() {
               onClick={() => setIsMenuOpen(false)}
             />
             {/* Panel */}
-            <div className="relative w-72 h-full bg-[#4a4a4a] shadow-xl flex flex-col animate-in slide-in-from-left duration-200">
+            <div className="relative w-72 h-full bg-[#212121] shadow-xl flex flex-col animate-in slide-in-from-left duration-200">
               {/* Search bar + close */}
-              <div className="flex items-center gap-2 px-4 py-3 border-b border-white/10 bg-[#4a4a4a]">
+              <div className="flex items-center gap-2 px-4 py-3 border-b border-white/10 bg-[#212121]">
                 <div className="flex-1 relative">
                   <input
                     type="text"
                     placeholder="Search ..."
-                    className="w-full border border-white/20 rounded px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-accent bg-[#4a4a4a] text-[#ebe5e5] placeholder:text-[#ebe5e5]/60"
+                    className="w-full border border-white/20 rounded px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-accent bg-[#212121] text-[#ebe5e5] placeholder:text-[#ebe5e5]/60"
                     onFocus={() => {
                       setIsMenuOpen(false);
                       setIsSearchOpen(true);
@@ -374,7 +374,7 @@ export function Header() {
               </div>
 
               {/* Nav links */}
-              <nav className="flex-1 overflow-y-auto py-2 bg-[#4a4a4a] text-[#ebe5e5]">
+              <nav className="flex-1 overflow-y-auto py-2 bg-[#212121] text-[#ebe5e5]">
                 {navigation.map((item) => (
                   <Link
                     key={item.name}
