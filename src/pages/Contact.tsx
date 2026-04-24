@@ -86,7 +86,7 @@ export default function Contact() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {contactInfo.map((info) => (
                 <div key={info.title} className="flex items-start gap-4">
-                  <info.icon className="h-10 w-10 text-mustard shrink-0" />
+                  <info.icon className="h-6 w-6 text-mustard shrink-0" />
                   <div>
                     <h3 className="mb-2 font-semibold text-xl">{info.title}</h3>
                     <p style={{ fontFamily: '"Libre Baskerville", serif', fontSize: "15px", color: "#7E7E7E" }}>{info.content}</p>
