@@ -124,7 +124,7 @@ export default function BookDetails() {
                 )}
 
                 {/* Format Selection */}
-                <div className="mb-6">
+                <div className="mb-8">
                   <p className="font-serif tracking-wider normal-case text-sm uppercase mb-3 font-bold">BINDING</p>
                   <div className="flex gap-3">
                     {hasHardback && (
@@ -176,7 +176,7 @@ export default function BookDetails() {
                 </div>
 
                 {/* Quantity */}
-                <div className="flex items-center gap-4 sm:gap-6 mb-6">
+                <div className="flex items-center gap-4 sm:gap-6 mb-8">
                   <span className="font-serif tracking-wider normal-case text-sm uppercase font-bold">QUANTITY</span>
                   <div className="flex items-center border">
                     <button onClick={() => setQuantity(Math.max(1, quantity - 1))} className="px-2 sm:px-3 py-1.5 sm:py-2 hover:bg-muted"><Minus className="h-3.5 w-3.5 sm:h-4 sm:w-4" /></button>
