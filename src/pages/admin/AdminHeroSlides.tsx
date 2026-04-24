@@ -4,6 +4,7 @@ import { adminApi, type CmsHeroSlide } from "@/services/cmsService";
 import { fetchAutocomplete, fetchBookByIsbn } from "@/services/cspApi";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
+import ImageUploadField from "@/components/admin/ImageUploadField";
 
 interface BookSuggestion {
   title: string;
@@ -100,7 +101,6 @@ export default function AdminHeroSlides() {
         ...prev,
         title: book?.title || s.title,
         author: authorName || prev.author || "",
-        cover_image: book?.image || s.cover_image || "",
         link_url: `/books/${s.isbn}`,
         quote: reviewer?.review || prev.quote || "",
         reviewer_name: reviewer?.reviewer || prev.reviewer_name || "",
