@@ -536,54 +536,54 @@ export default function Books() {
                     </article>
                   ))}
                 </div>
-
-                {/* Pagination */}
-                {pagination && pagination.total_pages > 1 && (
-                  <nav
-                    className="flex items-center justify-center gap-5 mt-16 flex-wrap w-full"
-                    aria-label="Pagination"
-                  >
-                    {buildPageList(pagination.page, pagination.total_pages).map((p, idx) =>
-                      p === "…" ? (
-                        <span
-                          key={`ellipsis-${idx}`}
-                          className="font-baskerville text-[18px] text-[#999]"
-                        >
-                          …
-                        </span>
-                      ) : p === pagination.page ? (
-                        <span
-                          key={p}
-                          aria-current="page"
-                           className="w-12 h-12 rounded-full flex items-center justify-center text-white font-baskerville text-base bg-[#e5573e]"
-                        >
-                          {p}
-                        </span>
-                      ) : (
-                        <button
-                          key={p}
-                          onClick={() => handlePageChange(p as number)}
-                           className="font-baskerville text-[18px] text-[#999] hover:text-[#C75B2A] transition-colors px-1"
-                        >
-                          {p}
-                        </button>
-                      ),
-                    )}
-                    {pagination.page < pagination.total_pages && (
-                      <button
-                        onClick={() => handlePageChange(pagination.page + 1)}
-                        className="font-baskerville text-[15px] tracking-[0.15em] uppercase transition-colors ml-2 text-[#999999]"
-                        aria-label="Next page"
-                      >
-                        Next
-                      </button>
-                    )}
-                  </nav>
-                )}
               </>
             )}
           </div>
           </div>
+
+          {/* Pagination — centered across full container width */}
+          {pagination && pagination.total_pages > 1 && !loading && books.length > 0 && (
+            <nav
+              className="flex items-center justify-center gap-5 mt-16 flex-wrap w-full"
+              aria-label="Pagination"
+            >
+              {buildPageList(pagination.page, pagination.total_pages).map((p, idx) =>
+                p === "…" ? (
+                  <span
+                    key={`ellipsis-${idx}`}
+                    className="font-baskerville text-[18px] text-[#999]"
+                  >
+                    …
+                  </span>
+                ) : p === pagination.page ? (
+                  <span
+                    key={p}
+                    aria-current="page"
+                    className="w-12 h-12 rounded-full flex items-center justify-center text-white font-baskerville text-base bg-[#e5573e]"
+                  >
+                    {p}
+                  </span>
+                ) : (
+                  <button
+                    key={p}
+                    onClick={() => handlePageChange(p as number)}
+                    className="font-baskerville text-[18px] text-[#999] hover:text-[#C75B2A] transition-colors px-1"
+                  >
+                    {p}
+                  </button>
+                ),
+              )}
+              {pagination.page < pagination.total_pages && (
+                <button
+                  onClick={() => handlePageChange(pagination.page + 1)}
+                  className="font-baskerville text-[15px] tracking-[0.15em] uppercase transition-colors ml-2 text-[#999999]"
+                  aria-label="Next page"
+                >
+                  Next
+                </button>
+              )}
+            </nav>
+          )}
         </div>
       </main>
 
