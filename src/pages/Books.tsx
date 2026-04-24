@@ -567,7 +567,7 @@ export default function Books() {
                   <button
                     key={p}
                     onClick={() => handlePageChange(p as number)}
-                    className="font-nav text-[16px] font-medium text-[#999] hover:text-[#C75B2A] transition-colors px-1"
+                    className="font-nav text-[16px] transition-colors px-1 text-[#cccccc] font-semibold"
                   >
                     {p}
                   </button>
