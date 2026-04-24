@@ -628,12 +628,25 @@ export default function Checkout() {
                           Pay securely using your credit card.
                         </p>
                         <div>
+                          <FieldLabel htmlFor="card-name" required>Name on Card</FieldLabel>
+                          <Input
+                            id="card-name"
+                            value={cardholder}
+                            onChange={(e) => setCardholder(e.target.value)}
+                            placeholder="As shown on your card"
+                            autoComplete="cc-name"
+                            className="h-12 rounded-none border-[#d8d6cd] bg-white focus-visible:ring-0 focus-visible:border-[#C75B2A]"
+                          />
+                        </div>
+                        <div>
                           <FieldLabel htmlFor="card-number" required>Card Number</FieldLabel>
                           <Input
                             id="card-number"
                             value={card.number}
                             onChange={(e) => setCard({ ...card, number: e.target.value })}
                             placeholder="•••• •••• •••• ••••"
+                            autoComplete="cc-number"
+                            inputMode="numeric"
                             className="h-12 rounded-none border-[#d8d6cd] bg-white focus-visible:ring-0 focus-visible:border-[#C75B2A]"
                           />
                         </div>
@@ -645,6 +658,8 @@ export default function Checkout() {
                               value={card.expiry}
                               onChange={(e) => setCard({ ...card, expiry: e.target.value })}
                               placeholder="MM / YY"
+                              autoComplete="cc-exp"
+                              inputMode="numeric"
                               className="h-12 rounded-none border-[#d8d6cd] bg-white focus-visible:ring-0 focus-visible:border-[#C75B2A]"
                             />
                           </div>
@@ -655,6 +670,8 @@ export default function Checkout() {
                               value={card.cvc}
                               onChange={(e) => setCard({ ...card, cvc: e.target.value })}
                               placeholder="CVC"
+                              autoComplete="cc-csc"
+                              inputMode="numeric"
                               className="h-12 rounded-none border-[#d8d6cd] bg-white focus-visible:ring-0 focus-visible:border-[#C75B2A]"
                             />
                           </div>
