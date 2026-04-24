@@ -106,11 +106,11 @@ export default function Cart() {
        <main className="pb-16 bg-white">
         <div className="container-wide py-12 bg-white">
           {/* Table header */}
-          <div className="grid grid-cols-[1fr_120px_160px_120px_60px] gap-6 pb-5 border-b border-border items-center">
+          <div className="grid grid-cols-[1fr_120px_180px_140px_60px] gap-6 pb-5 border-b border-border items-center">
             <div className="uppercase text-[#333333] font-baskerville tracking-wider text-sm font-semibold">Product</div>
-            <div className="uppercase text-[#333333] font-baskerville tracking-wider text-sm font-semibold text-center">Price</div>
-            <div className="uppercase text-[#333333] font-baskerville tracking-wider text-sm font-semibold text-center">Quantity</div>
-            <div className="uppercase text-[#333333] font-baskerville tracking-wider text-sm font-semibold text-center">Total</div>
+            <div className="uppercase text-[#333333] font-baskerville tracking-wider text-sm font-semibold text-center relative -left-5">Price</div>
+            <div className="uppercase text-[#333333] font-baskerville tracking-wider text-sm font-semibold text-center relative -left-5">Quantity</div>
+            <div className="uppercase text-[#333333] font-baskerville tracking-wider text-sm font-semibold text-center relative -left-5">Total</div>
             <div></div>
           </div>
 
@@ -119,7 +119,7 @@ export default function Cart() {
             {items.map((item) => (
               <div
                 key={`${item.id}_${item.format}`}
-                className="grid grid-cols-[1fr_120px_160px_120px_60px] gap-6 items-center px-6 py-6 border-t border-border"
+                className="grid grid-cols-[1fr_120px_180px_140px_60px] gap-6 items-center px-6 py-6 border-t border-border"
               >
                 {/* Product */}
                 <div className="flex items-center gap-5 min-w-0">
