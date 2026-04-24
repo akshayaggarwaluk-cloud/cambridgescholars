@@ -172,7 +172,7 @@ export default function Cart() {
                 </div>
 
                 {/* Total */}
-                <div className="text-base text-[#6e6e6e]">
+                <div className="text-base text-black font-light">
                   £{(item.price * item.quantity).toFixed(2)}
                 </div>
 
