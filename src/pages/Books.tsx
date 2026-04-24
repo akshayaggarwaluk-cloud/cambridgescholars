@@ -499,7 +499,7 @@ export default function Books() {
                             <img
                               src={book.image}
                               alt={book.title}
-                              className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+                              className="w-full h-full object-cover"
                             />
                           </div>
                         </Link>
