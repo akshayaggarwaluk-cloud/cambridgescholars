@@ -18,13 +18,13 @@ import { Book } from "@/contexts/CartContext";
 import { useWishlist } from "@/contexts/WishlistContext";
 import { cn } from "@/lib/utils";
 
-// Sort options matching the reference WooCommerce shop
-const SORT_OPTIONS: { value: string; label: string; order?: "asc" | "desc" }[] = [
-  { value: "revenue", label: "Best Selling" },
-  { value: "date", label: "Date: New to Old", order: "desc" },
-  { value: "date-asc", label: "Date: Old to New", order: "asc" },
-  { value: "price", label: "Price: Low to High", order: "asc" },
-  { value: "price-desc", label: "Price: High to Low", order: "desc" },
+// Sort options matching the CSP API (`sort` query param)
+const SORT_OPTIONS: { value: string; label: string }[] = [
+  { value: "best_selling", label: "Best Selling" },
+  { value: "date_new_old", label: "Date: New to Old" },
+  { value: "date_old_new", label: "Date: Old to New" },
+  { value: "price_low_high", label: "Price: Low to High" },
+  { value: "price_high_low", label: "Price: High to Low" },
 ];
 
 export default function Books() {
