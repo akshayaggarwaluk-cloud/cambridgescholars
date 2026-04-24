@@ -77,22 +77,6 @@ export interface CartItem extends Book {
   format: BookFormat;
 }
 
-interface CartContextType {
-  items: CartItem[];
-  addToCart: (book: Book, format?: BookFormat) => void;
-  removeFromCart: (bookId: string, format?: BookFormat) => void;
-  updateQuantity: (bookId: string, format: BookFormat, quantity: number) => void;
-  clearCart: () => void;
-  cartCount: number;
-  cartTotal: number;
-  loading: boolean;
-  // Coupons / discount info from upstream
-  couponCode?: string | null;
-  discount?: number | null;
-  applyCoupon: (code: string) => Promise<void>;
-  removeCoupon: () => Promise<void>;
-}
-
 // Map upstream cart format string → local BookFormat
 function toBookFormat(f?: string): BookFormat {
   if (f === "ebook") return "ebook";
