@@ -5,8 +5,14 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { PageBreadcrumb } from "@/components/layout/PageBreadcrumb";
 import { Input } from "@/components/ui/input";
-import { Search, ChevronRight } from "lucide-react";
-import { fetchPublishedNewsBySlug, type CmsNewsArticle } from "@/services/cmsService";
+import { Search, ChevronDown } from "lucide-react";
+import {
+  fetchPublishedNewsBySlug,
+  fetchPublishedNews,
+  type CmsNewsArticle,
+} from "@/services/cmsService";
+
+const ALL = "All Categories";
 
 const NewsArticle = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -14,6 +20,7 @@ const NewsArticle = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [article, setArticle] = useState<CmsNewsArticle | null>(null);
   const [loading, setLoading] = useState(true);
+  const [allArticles, setAllArticles] = useState<CmsNewsArticle[]>([]);
 
   useEffect(() => {
     if (!slug) return;
@@ -23,6 +30,29 @@ const NewsArticle = () => {
       .catch((e) => console.error("Failed to load article:", e))
       .finally(() => setLoading(false));
   }, [slug]);
+
+  useEffect(() => {
+    fetchPublishedNews()
+      .then(setAllArticles)
+      .catch((e) => console.error("Failed to load news list:", e));
+  }, []);
+
+  const categories = (() => {
+    const set = new Set<string>();
+    allArticles.forEach((a) => a.category && set.add(a.category));
+    return [ALL, ...Array.from(set)];
+  })();
+
+  const categoryCounts = categories.reduce(
+    (acc, c) => {
+      acc[c] =
+        c === ALL
+          ? allArticles.length
+          : allArticles.filter((a) => a.category === c).length;
+      return acc;
+    },
+    {} as Record<string, number>,
+  );
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
