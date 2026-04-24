@@ -120,7 +120,7 @@ const NewsArticle = () => {
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
           <aside className="lg:col-span-1 order-2 lg:order-1">
             <div className="mb-8">
-              <h3 className="text-2xl font-baskerville text-[#C75B2A] mb-4 pb-3 border-b border-border">Search</h3>
+              <h3 className="text-2xl font-baskerville mb-4 pb-3 border-b border-border text-black">Search</h3>
               <form onSubmit={handleSearch} className="relative">
                 <Input
                   type="text"
@@ -136,7 +136,7 @@ const NewsArticle = () => {
             </div>
 
             <div>
-              <h3 className="text-2xl font-baskerville text-[#C75B2A] mb-4 pb-3 border-b border-border">Categories</h3>
+              <h3 className="text-2xl font-baskerville mb-4 pb-3 border-b border-border text-black">Categories</h3>
               <ul className="space-y-3">
                 {categories.map((category) => (
                   <li key={category.slug}>
