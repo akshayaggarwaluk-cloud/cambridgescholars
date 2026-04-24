@@ -18,7 +18,7 @@ export const NewsSection = () => {
   return (
     <section className="py-14 md:py-[20px]">
       <div className="container-wide">
-        <h2 className="text-3xl md:text-4xl font-baskerville text-center text-foreground mb-12">
+        <h2 className="text-3xl md:text-4xl font-baskerville text-center text-foreground mb-12 tracking-[0.05em]">
           News
         </h2>
         {loading ? (
@@ -39,7 +39,7 @@ export const NewsSection = () => {
                     />
                   </div>
                 )}
-                <h3 className="text-xl md:text-2xl font-serif text-foreground mb-4 leading-snug font-medium">
+                <h3 className="text-xl md:text-2xl font-serif text-foreground mb-4 leading-snug font-medium tracking-[0.02em]">
                   {article.title}
                 </h3>
                 {article.excerpt && (
