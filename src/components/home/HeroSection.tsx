@@ -125,7 +125,7 @@ export function HeroSection() {
             </AnimatePresence>
           </div>
 
-          <div className="relative order-1 lg:order-2 h-[350px] md:h-[440px] lg:h-[540px] flex items-center justify-center lg:justify-end">
+          <div className="relative order-1 lg:order-2 h-[450px] md:h-[560px] lg:h-[680px] flex items-center justify-center lg:justify-end">
             <AnimatePresence mode="wait">
               <motion.div
                 key={activeIndex}
@@ -134,7 +134,7 @@ export function HeroSection() {
                 animate="animate"
                 exit="exit"
                 transition={{ duration: 0.6, ease: [0.25, 0.4, 0.25, 1] }}
-                className="h-[85%] flex items-center justify-center"
+                className="h-full flex items-center justify-center"
               >
                 <img
                   src={activeReview.image}
