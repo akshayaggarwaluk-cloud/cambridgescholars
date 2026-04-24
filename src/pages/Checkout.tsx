@@ -251,7 +251,8 @@ export default function Checkout() {
               Order Confirmed!
             </h1>
             <p className="text-muted-foreground mb-8">
-              Thank you for your purchase. Your books will be on their way soon.
+              Thank you for your purchase
+              {confirmedOrderId ? ` — order #${confirmedOrderId}` : ""}. Your books will be on their way soon.
             </p>
             <Button asChild variant="gold" size="lg">
               <Link to="/orders">View Orders</Link>
