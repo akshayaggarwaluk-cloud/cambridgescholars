@@ -96,6 +96,7 @@ export function NewsletterSection() {
               />
               <button
                 type="submit"
+                disabled={submitting}
                 className="absolute right-0 top-1/2 -translate-y-1/2 p-2 text-muted-foreground hover:text-foreground transition-colors"
                 aria-label="Subscribe"
               >
