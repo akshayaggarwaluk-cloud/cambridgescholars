@@ -163,9 +163,9 @@ export function Header() {
                           key={item.name}
                           to={item.href}
                           className={cn(
-                            "block px-5 py-2.5 text-base font-semibold capitalize hover:bg-white hover:text-accent transition-colors",
+                            "block px-5 py-2.5 text-base font-semibold capitalize hover:bg-white hover:text-white transition-colors",
                             isActiveRoute(item.href)
-                              ? "text-accent"
+                              ? "text-white"
                               : "text-muted-foreground"
                           )}
                         >
@@ -198,7 +198,7 @@ export function Header() {
                   <Button
                     variant="ghost"
                     size="icon"
-                    className="h-11 w-11 hover:text-accent"
+                    className="h-11 w-11 hover:text-white"
                     onClick={() => setIsSearchOpen(true)}
                     aria-label="Search"
                   >
@@ -214,12 +214,12 @@ export function Header() {
                     <Button
                       variant="ghost"
                       size="icon"
-                      className="hover:text-accent"
+                      className="hover:text-white"
                       aria-label="Wishlist"
                     >
                       <Heart className="h-7 w-7" />
                       {wishlistCount > 0 && (
-                        <span className="absolute -top-1 -right-1 h-5 w-5 rounded-full bg-accent text-accent-foreground text-xs flex items-center justify-center">
+                        <span className="absolute -top-1 -right-1 h-5 w-5 rounded-full bg-accent text-white-foreground text-xs flex items-center justify-center">
                           {wishlistCount}
                         </span>
                       )}
@@ -235,12 +235,12 @@ export function Header() {
                     <Button
                       variant="ghost"
                       size="icon"
-                      className="hover:text-accent"
+                      className="hover:text-white"
                       aria-label="Cart"
                     >
                       <ShoppingCart className="h-7 w-7" />
                       {cartCount > 0 && (
-                        <span className="absolute -top-1 -right-1 h-5 w-5 rounded-full bg-accent text-accent-foreground text-xs flex items-center justify-center">
+                        <span className="absolute -top-1 -right-1 h-5 w-5 rounded-full bg-accent text-white-foreground text-xs flex items-center justify-center">
                           {cartCount}
                         </span>
                       )}
@@ -258,7 +258,7 @@ export function Header() {
                         <Button
                           variant="ghost"
                           size="icon"
-                          className="hover:text-accent"
+                          className="hover:text-white"
                           aria-label="My Account"
                         >
                           <User className="h-7 w-7" />
@@ -287,7 +287,7 @@ export function Header() {
                       <Button
                         variant="ghost"
                         size="icon"
-                        className="hover:text-accent"
+                        className="hover:text-white"
                         aria-label="Sign In"
                       >
                         <User className="h-7 w-7" />
@@ -305,7 +305,7 @@ export function Header() {
                 <Button variant="ghost" size="icon" className="h-9 w-9" aria-label="Wishlist">
                   <Heart className="h-5 w-5" />
                   {wishlistCount > 0 && (
-                    <span className="absolute -top-1 -right-1 h-4 w-4 rounded-full bg-accent text-accent-foreground text-[10px] flex items-center justify-center">
+                    <span className="absolute -top-1 -right-1 h-4 w-4 rounded-full bg-accent text-white-foreground text-[10px] flex items-center justify-center">
                       {wishlistCount}
                     </span>
                   )}
@@ -315,7 +315,7 @@ export function Header() {
                 <Button variant="ghost" size="icon" className="h-9 w-9" aria-label="Cart">
                   <ShoppingCart className="h-5 w-5" />
                   {cartCount > 0 && (
-                    <span className="absolute -top-1 -right-1 h-4 w-4 rounded-full bg-accent text-accent-foreground text-[10px] flex items-center justify-center">
+                    <span className="absolute -top-1 -right-1 h-4 w-4 rounded-full bg-accent text-white-foreground text-[10px] flex items-center justify-center">
                       {cartCount}
                     </span>
                   )}
@@ -382,7 +382,7 @@ export function Header() {
                     className={cn(
                       "block px-6 py-3 text-sm font-bold uppercase tracking-wide transition-colors",
                       isActiveRoute(item.href)
-                        ? "text-accent"
+                        ? "text-white"
                         : "text-[#cac4c4]"
                     )}
                   >
@@ -394,7 +394,7 @@ export function Header() {
                   to="/books"
                   className={cn(
                     "block px-6 py-3 text-sm font-bold uppercase tracking-wide transition-colors",
-                    isActiveRoute("/books") ? "text-accent" : "text-[#cac4c4]"
+                    isActiveRoute("/books") ? "text-white" : "text-[#cac4c4]"
                   )}
                 >
                   Buy a Book
@@ -406,7 +406,7 @@ export function Header() {
                     onClick={() => setIsPublishDropdownOpen(!isPublishDropdownOpen)}
                     className={cn(
                       "flex items-center justify-between w-full px-6 py-3 text-sm font-bold uppercase tracking-wide transition-colors",
-                      isPublishActive ? "text-accent" : "text-[#cac4c4]"
+                      isPublishActive ? "text-white" : "text-[#cac4c4]"
                     )}
                   >
                     Publish a Book
@@ -425,7 +425,7 @@ export function Header() {
                           to={item.href}
                           className={cn(
                             "block px-10 py-2.5 text-sm font-medium transition-colors",
-                            isActiveRoute(item.href) ? "text-accent" : "text-[#cac4c4]"
+                            isActiveRoute(item.href) ? "text-white" : "text-[#cac4c4]"
                           )}
                         >
                           {item.name}
@@ -441,7 +441,7 @@ export function Header() {
                     to={item.href}
                     className={cn(
                       "block px-6 py-3 text-sm font-bold uppercase tracking-wide transition-colors",
-                      isActiveRoute(item.href) ? "text-accent" : "text-[#cac4c4]"
+                      isActiveRoute(item.href) ? "text-white" : "text-[#cac4c4]"
                     )}
                   >
                     {item.name}
