@@ -135,7 +135,7 @@ export default function Cart() {
                   </Link>
                   <div className="min-w-0">
                     <Link to={`/books/${item.id}`}>
-                      <h3 className="font-serif transition-colors leading-snug text-base text-[#6e6e6e]">
+                    <h3 className="font-serif transition-colors leading-snug text-base text-black">
                         {item.title} - {formatLabel(item.format)}
                       </h3>
                     </Link>
