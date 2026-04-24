@@ -228,8 +228,8 @@ export default function Books() {
         </div>
       </div>
 
-      <main className="px-6 md:px-16 py-12 bg-white">
-        <div className="max-w-7xl mx-auto">
+      <main className="py-12 bg-white">
+        <div className="container-wide">
           {/* Top bar: results count + sort toggle — full-width above the columns */}
           <div className="flex items-center justify-between flex-wrap gap-4 mb-6">
             <p className="italic text-[#ababab] text-sm font-medium" style={{ fontFamily: "'Nunito Sans', sans-serif" }}>
