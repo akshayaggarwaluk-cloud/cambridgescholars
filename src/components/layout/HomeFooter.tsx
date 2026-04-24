@@ -92,7 +92,7 @@ export function HomeFooter() {
       <button
         onClick={scrollToTop}
         aria-label="Scroll to top"
-        className="fixed bottom-6 right-6 w-10 h-10 bg-muted hover:bg-muted/80 text-foreground flex items-center justify-center transition-colors z-50 rounded"
+        className="fixed bottom-6 right-6 w-10 h-10 flex items-center justify-center transition-colors z-50 rounded bg-[#666666] text-white"
       >
         <ChevronUp className="w-5 h-5" />
       </button>
