@@ -72,9 +72,9 @@ export function BookDetailsTabs({ book }: BookDetailsTabsProps) {
                 style={{
                   color: "#696969",
                   fontFamily: '"Nunito Sans", sans-serif',
-                  fontSize: "16px",
-                  fontWeight: 400,
-                  lineHeight: 1.7,
+                  fontSize: "15px",
+                  fontWeight: 300,
+                  lineHeight: 1.8,
                   margin: "0 0 20px",
                 }}
               >
@@ -92,9 +92,9 @@ export function BookDetailsTabs({ book }: BookDetailsTabsProps) {
                 style={{
                   color: "#696969",
                   fontFamily: '"Nunito Sans", sans-serif',
-                  fontSize: "16px",
-                  fontWeight: 400,
-                  lineHeight: 1.7,
+                  fontSize: "15px",
+                  fontWeight: 300,
+                  lineHeight: 1.8,
                   margin: "0 0 20px",
                 }}
               >
