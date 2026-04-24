@@ -316,66 +316,20 @@ export default function AdminNews() {
           No articles yet.
         </div>
       ) : (
-        <div className="space-y-3">
-          {sortedArticles.map((a, idx) => (
-            <div key={a.id} className="border border-border p-4 flex gap-4 items-start">
-              <div className="flex flex-col gap-1">
-                <Button
-                  variant="outline"
-                  size="icon"
-                  className="h-7 w-7"
-                  disabled={idx === 0}
-                  onClick={() => move(idx, -1)}
-                  title="Move up"
-                >
-                  <ArrowUp className="h-4 w-4" />
-                </Button>
-                <Button
-                  variant="outline"
-                  size="icon"
-                  className="h-7 w-7"
-                  disabled={idx === sortedArticles.length - 1}
-                  onClick={() => move(idx, 1)}
-                  title="Move down"
-                >
-                  <ArrowDown className="h-4 w-4" />
-                </Button>
-              </div>
-              {a.cover_image && (
-                <img src={a.cover_image} alt="" className="w-24 h-16 object-cover" />
-              )}
-              <div className="flex-1 min-w-0">
-                <div className="flex items-center gap-2 flex-wrap">
-                  <span className="text-xs font-mono px-2 py-0.5 bg-muted text-muted-foreground rounded">
-                    #{a.display_order ?? 0}
-                  </span>
-                  <h3 className="font-baskerville text-lg text-foreground">{a.title}</h3>
-                  {!a.is_published && (
-                    <span className="text-xs uppercase tracking-wider px-2 py-0.5 bg-muted text-muted-foreground">
-                      Draft
-                    </span>
-                  )}
-                </div>
-                <p className="text-xs text-muted-foreground mt-0.5">
-                  /{a.slug} · {new Date(a.published_at).toLocaleDateString()}
-                  {a.category ? ` · ${a.category}` : ""}
-                  {a.show_on_homepage === false ? " · Hidden from homepage" : ""}
-                </p>
-                {a.excerpt && (
-                  <p className="text-sm text-muted-foreground line-clamp-2 mt-1">{a.excerpt}</p>
-                )}
-              </div>
-              <div className="flex gap-1">
-                <Button variant="ghost" size="sm" onClick={() => setEditing({ ...a })}>
-                  <Pencil className="h-4 w-4" />
-                </Button>
-                <Button variant="ghost" size="sm" onClick={() => remove(a.id)}>
-                  <Trash2 className="h-4 w-4 text-destructive" />
-                </Button>
-              </div>
+        <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+          <SortableContext items={sortedArticles.map((it) => it.id)} strategy={verticalListSortingStrategy}>
+            <div className="space-y-3">
+              {sortedArticles.map((a) => (
+                <SortableNewsRow
+                  key={a.id}
+                  article={a}
+                  onEdit={() => setEditing({ ...a })}
+                  onDelete={() => remove(a.id)}
+                />
+              ))}
             </div>
-          ))}
-        </div>
+          </SortableContext>
+        </DndContext>
       )}
     </div>
   );
@@ -386,6 +340,58 @@ function Field({ label, children }: { label: string; children: React.ReactNode }
     <div className="space-y-1">
       <label className="block text-sm font-nav uppercase tracking-wider text-foreground">{label}</label>
       {children}
+    </div>
+  );
+}
+
+function SortableNewsRow({ article: a, onEdit, onDelete }: { article: CmsNewsArticle; onEdit: () => void; onDelete: () => void }) {
+  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: a.id });
+  const style: React.CSSProperties = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+    opacity: isDragging ? 0.5 : 1,
+    zIndex: isDragging ? 10 : "auto",
+  };
+  return (
+    <div ref={setNodeRef} style={style} className="border border-border p-4 flex gap-4 items-start bg-background">
+      <button
+        type="button"
+        {...attributes}
+        {...listeners}
+        className="touch-none cursor-grab active:cursor-grabbing text-muted-foreground hover:text-foreground p-1 mt-1"
+        aria-label="Drag to reorder"
+      >
+        <GripVertical className="h-5 w-5" />
+      </button>
+      {a.cover_image && (
+        <img src={a.cover_image} alt="" className="w-24 h-16 object-cover" />
+      )}
+      <div className="flex-1 min-w-0">
+        <div className="flex items-center gap-2 flex-wrap">
+          <h3 className="font-baskerville text-lg text-foreground">{a.title}</h3>
+          {!a.is_published && (
+            <span className="text-xs uppercase tracking-wider px-2 py-0.5 bg-muted text-muted-foreground">
+              Draft
+            </span>
+          )}
+        </div>
+        <p className="text-xs text-muted-foreground mt-0.5">
+          /{a.slug} · {new Date(a.published_at).toLocaleDateString()}
+          {a.category ? ` · ${a.category}` : ""}
+          {a.show_on_homepage === false ? " · Hidden from homepage" : ""}
+        </p>
+        {a.excerpt && (
+          <p className="text-sm text-muted-foreground line-clamp-2 mt-1">{a.excerpt}</p>
+        )}
+      </div>
+      <div className="flex gap-1">
+        <Button variant="ghost" size="sm" onClick={onEdit}>
+          <Pencil className="h-4 w-4" />
+        </Button>
+        <Button variant="ghost" size="sm" onClick={onDelete}>
+          <Trash2 className="h-4 w-4 text-destructive" />
+        </Button>
+      </div>
     </div>
   );
 }

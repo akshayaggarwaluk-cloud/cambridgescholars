@@ -78,14 +78,33 @@ export default function AdminAuthorReviews() {
     try { await adminApi.deleteAuthorReview(id); toast.success("Deleted"); reload(); }
     catch (e) { toast.error(e instanceof Error ? e.message : "Delete failed"); }
   };
-  const move = async (i: number, dir: -1 | 1) => {
-    const t = i + dir; if (t < 0 || t >= items.length) return;
-    const a = items[i], b = items[t];
-    await Promise.all([
-      adminApi.updateAuthorReview({ ...a, display_order: b.display_order ?? 0 }),
-      adminApi.updateAuthorReview({ ...b, display_order: a.display_order ?? 0 }),
-    ]);
-    reload();
+
+  const sensors = useSensors(
+    useSensor(PointerSensor, { activationConstraint: { distance: 5 } }),
+    useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates }),
+  );
+
+  const handleDragEnd = async (event: DragEndEvent) => {
+    const { active, over } = event;
+    if (!over || active.id === over.id) return;
+    const oldIndex = items.findIndex((it) => it.id === active.id);
+    const newIndex = items.findIndex((it) => it.id === over.id);
+    if (oldIndex < 0 || newIndex < 0) return;
+    const reordered = arrayMove(items, oldIndex, newIndex);
+    setItems(reordered);
+    try {
+      await Promise.all(
+        reordered.map((it, idx) =>
+          (it.display_order ?? 0) === idx
+            ? Promise.resolve()
+            : adminApi.updateAuthorReview({ ...it, display_order: idx }),
+        ),
+      );
+      toast.success("Order saved");
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : "Failed to save order");
+      reload();
+    }
   };
 
   const openPicker = async () => {
