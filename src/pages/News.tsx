@@ -4,7 +4,7 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { PageBreadcrumb } from "@/components/layout/PageBreadcrumb";
 import { Input } from "@/components/ui/input";
-import { Search, ChevronRight } from "lucide-react";
+import { Search, ChevronDown } from "lucide-react";
 import { fetchPublishedNews, type CmsNewsArticle } from "@/services/cmsService";
 
 const ALL = "All Categories";
@@ -61,36 +61,38 @@ const News = () => {
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 mt-8">
           <aside className="lg:col-span-1">
             <div className="mb-8">
-              <h3 className="text-lg font-serif text-foreground mb-4 pb-2 border-b border-border">Search</h3>
+              <h3 className="text-2xl font-baskerville text-[#C75B2A] mb-4 pb-3 border-b border-border">Search</h3>
               <div className="relative">
                 <Input
                   type="text"
                   placeholder="Search ..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="pr-10"
+                  className="pr-10 rounded-none border-border bg-transparent h-11 font-serif italic text-muted-foreground placeholder:text-muted-foreground/70"
                 />
                 <Search className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
               </div>
             </div>
 
             <div>
-              <h3 className="text-lg font-serif text-foreground mb-4 pb-2 border-b border-border">Categories</h3>
-              <ul className="space-y-2">
+              <h3 className="text-2xl font-baskerville text-[#C75B2A] mb-4 pb-3 border-b border-border">Categories</h3>
+              <ul className="space-y-3">
                 {categories.map((category) => (
                   <li key={category}>
                     <button
                       onClick={() => setSelectedCategory(category)}
-                      className={`w-full flex items-center justify-between text-sm py-1 transition-colors ${
+                      className={`w-full flex items-center justify-between text-[15px] py-1 transition-colors ${
                         selectedCategory === category
-                          ? "text-accent font-medium"
-                          : "text-muted-foreground hover:text-accent"
+                          ? "text-[#C75B2A] font-medium"
+                          : "text-[#C75B2A]/90 hover:text-[#C75B2A]"
                       }`}
                     >
-                      <span>{category}</span>
-                      <div className="flex items-center gap-1">
-                        <span className="text-xs">{categoryCounts[category]}</span>
-                        <ChevronRight className="h-3 w-3" />
+                      <span className="font-serif">{category}</span>
+                      <div className="flex items-center gap-2">
+                        <span className="inline-flex items-center justify-center min-w-[36px] h-6 px-2 rounded-full bg-[#F4F3EC] text-[#C75B2A] text-xs font-medium">
+                          {categoryCounts[category]}
+                        </span>
+                        <ChevronDown className="h-3 w-3 text-[#C75B2A]" />
                       </div>
                     </button>
                   </li>
@@ -100,19 +102,17 @@ const News = () => {
           </aside>
 
           <div className="lg:col-span-3">
-            <h1 className="text-3xl md:text-4xl font-serif text-foreground mb-8">News</h1>
-
             {loading ? (
               <p className="text-muted-foreground">Loading…</p>
             ) : filteredArticles.length === 0 ? (
               <p className="text-muted-foreground">No articles found.</p>
             ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div className="space-y-12">
                 {filteredArticles.map((article) => (
                   <article key={article.id} className="group">
                     <Link to={`/news/${article.slug}`}>
                       {article.cover_image && (
-                        <div className="aspect-[4/3] overflow-hidden mb-4">
+                        <div className="aspect-[16/9] overflow-hidden mb-6">
                           <img
                             src={article.cover_image}
                             alt={article.title}
@@ -121,19 +121,18 @@ const News = () => {
                         </div>
                       )}
                     </Link>
-                    <h2 className="text-xl font-serif text-foreground mb-3 group-hover:text-accent transition-colors">
+                    <h2 className="text-3xl md:text-[34px] leading-tight font-baskerville text-foreground mb-4 group-hover:text-[#C75B2A] transition-colors">
                       <Link to={`/news/${article.slug}`}>{article.title}</Link>
                     </h2>
                     {article.excerpt && (
-                      <p className="text-muted-foreground text-sm leading-relaxed mb-4 line-clamp-3">{article.excerpt}</p>
+                      <p className="text-foreground/80 text-[15px] leading-relaxed mb-5 line-clamp-3">{article.excerpt}</p>
                     )}
                     <Link
                       to={`/news/${article.slug}`}
-                      className="inline-flex items-center text-[#E4573D] font-medium text-sm hover:text-[#E4573D]/80 transition-colors"
+                      className="inline-flex items-center font-semibold text-xs uppercase tracking-[0.15em] text-[#C75B2A] hover:text-[#C75B2A]/80 transition-colors"
                     >
                       READ MORE
-                      <ChevronRight className="h-4 w-4 ml-1" />
-                      <ChevronRight className="h-4 w-4 -ml-2" />
+                      <span className="ml-1">›››</span>
                     </Link>
                   </article>
                 ))}
