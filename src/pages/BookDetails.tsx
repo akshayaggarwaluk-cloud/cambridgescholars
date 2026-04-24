@@ -196,8 +196,8 @@ export default function BookDetails() {
                    <span className="font-semibold text-[#c4a273] text-lg">From £{getPrice(selectedFormat).toFixed(2)}</span>
                   </div>
                   <Button
-                    size="lg"
-                      className="px-8 lg:px-7 font-baskerville uppercase tracking-normal text-base font-semibold bg-[#e4573d] hover:bg-black text-white"
+                    size="default"
+                      className="px-5 lg:px-4 h-9 font-baskerville uppercase tracking-normal text-sm font-semibold bg-[#e4573d] hover:bg-black text-white"
                     onClick={() => {
                       const formatIsbn =
                         selectedFormat === "ebook"
@@ -217,14 +217,14 @@ export default function BookDetails() {
                   </Button>
                   <Button
                     variant="outline"
-                    size="lg"
-                      className="border-black border w-12 px-0 group text-muted-foreground hover:bg-[#e4573d] hover:border-[#e4573d] hover:text-white"
+                    size="default"
+                      className="border-black border h-9 w-9 px-0 group text-muted-foreground hover:bg-[#e4573d] hover:border-[#e4573d] hover:text-white"
                     onClick={() => (isInWishlist(book.id) ? removeFromWishlist(book.id) : addToWishlist(book))}
                   >
-                    <Heart className={cn("h-5 w-5 text-muted-foreground group-hover:text-accent-foreground transition-colors", isInWishlist(book.id) && "fill-accent text-accent")} />
+                    <Heart className={cn("h-4 w-4 text-muted-foreground group-hover:text-accent-foreground transition-colors", isInWishlist(book.id) && "fill-accent text-accent")} />
                   </Button>
                   {book.samplePdfUrl && (
-                    <Button size="lg" variant="outline" className="px-8 lg:px-7 font-baskerville uppercase tracking-normal text-base font-semibold border border-black bg-white text-black hover:bg-[#e4573d] hover:text-white hover:border-[#e4573d]" onClick={() => window.open(book.samplePdfUrl, "_blank")}>
+                    <Button size="default" variant="outline" className="px-5 lg:px-4 h-9 font-baskerville uppercase tracking-normal text-sm font-semibold border border-black bg-white text-black hover:bg-[#e4573d] hover:text-white hover:border-[#e4573d]" onClick={() => window.open(book.samplePdfUrl, "_blank")}>
                       READ SAMPLE
                     </Button>
                   )}
