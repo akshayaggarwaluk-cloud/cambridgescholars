@@ -479,3 +479,116 @@ export async function fetchForthcomingBooks(params?: {
 
   return { books: json.data || [], pagination };
 }
+
+// ─── Series ─────────────────────────────────────────────────────
+
+export interface CSPSeriesSummary {
+  id: number | string;
+  title: string;
+  slug: string;
+  book_count?: number;
+  description?: string | null;
+}
+
+export interface CSPSeriesListResponse {
+  series: CSPSeriesSummary[];
+  alphabet_counts?: Record<string, number>;
+  pagination?: CSPPagination;
+}
+
+export interface CSPSeriesDetail extends CSPSeriesSummary {
+  books?: CSPBookRaw[];
+}
+
+/** List all book series (A-Z, with per-letter counts) */
+export async function fetchSeriesList(params?: {
+  letter?: string;
+  page?: number;
+  per_page?: number;
+}): Promise<CSPSeriesListResponse> {
+  const url = new URL(`${CSP_API_BASE}/series`);
+  if (params?.letter) url.searchParams.set("letter", params.letter);
+  if (params?.page) url.searchParams.set("page", String(params.page));
+  if (params?.per_page) url.searchParams.set("per_page", String(params.per_page));
+
+  const res = await fetch(url.toString());
+  if (!res.ok) throw new Error(`API error: ${res.status}`);
+  const json = await res.json();
+  return {
+    series: json.data || json.series || [],
+    alphabet_counts: json.alphabet_counts,
+    pagination: json.pagination,
+  };
+}
+
+/** Get a single series with its books */
+export async function fetchSeriesDetail(idOrSlug: string): Promise<CSPSeriesDetail | null> {
+  const res = await fetch(`${CSP_API_BASE}/series/${encodeURIComponent(idOrSlug)}`);
+  if (res.status === 404) return null;
+  if (!res.ok) throw new Error(`API error: ${res.status}`);
+  const json = await res.json();
+  return json.data || json;
+}
+
+// ─── Newsletter ─────────────────────────────────────────────────
+
+export interface NewsletterSubscribeResponse {
+  message: string;
+  subscribed?: boolean;
+}
+
+/** Subscribe an email address to the CSP mailing list. */
+export async function subscribeNewsletter(
+  email: string,
+  extras?: { first_name?: string; last_name?: string },
+): Promise<NewsletterSubscribeResponse> {
+  const res = await fetch(`${CSP_API_BASE}/newsletter/subscribe`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email, ...(extras || {}) }),
+  });
+  const text = await res.text();
+  let parsed: NewsletterSubscribeResponse | { error?: string; detail?: string; message?: string } = {} as NewsletterSubscribeResponse;
+  try { parsed = text ? JSON.parse(text) : {}; } catch { /* ignore */ }
+  if (!res.ok) {
+    const msg = (parsed as { error?: string; detail?: string; message?: string })?.error
+      || (parsed as { detail?: string })?.detail
+      || (parsed as { message?: string })?.message
+      || `Subscription failed (${res.status})`;
+    throw new Error(msg);
+  }
+  return parsed as NewsletterSubscribeResponse;
+}
+
+// ─── System ─────────────────────────────────────────────────────
+
+export interface HealthResponse {
+  status: string;
+  uptime?: number;
+  version?: string;
+}
+
+/** Health check (uptime / version). */
+export async function fetchHealth(): Promise<HealthResponse> {
+  const res = await fetch(`https://api.cambridgescholars.com/health`);
+  if (!res.ok) throw new Error(`Health check failed: ${res.status}`);
+  return res.json();
+}
+
+// ─── Site statistics ────────────────────────────────────────────
+
+export interface SiteStatistics {
+  total_titles?: number;
+  total_pages?: number;
+  books_last_12_months?: number;
+  countries?: number;
+  [key: string]: number | string | undefined;
+}
+
+/** Site-wide aggregate statistics for the homepage. */
+export async function fetchSiteStatistics(): Promise<SiteStatistics> {
+  const res = await fetch(`${CSP_API_BASE}/homepage/statistics`);
+  if (!res.ok) throw new Error(`API error: ${res.status}`);
+  const json = await res.json();
+  return json.data || json;
+}
