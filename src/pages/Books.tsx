@@ -185,11 +185,12 @@ export default function Books() {
   const handleSortChange = (value: string) => {
     setOrderBy(value);
     const params = new URLSearchParams(searchParams);
-    if (value && value !== "revenue") {
-      params.set("orderby", value);
+    if (value && value !== "best_selling") {
+      params.set("sort", value);
     } else {
-      params.delete("orderby");
+      params.delete("sort");
     }
+    params.delete("orderby");
     params.delete("page");
     setSearchParams(params);
   };
