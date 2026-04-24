@@ -324,7 +324,7 @@ export default function Checkout() {
             )}
           </div>
 
-          <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-x-12 xl:gap-x-16 gap-y-10">
+          <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-x-20 xl:gap-x-28 gap-y-10">
             {/* LEFT — Shipping + Billing */}
             <div>
               <SectionHeading>Shipping details</SectionHeading>
