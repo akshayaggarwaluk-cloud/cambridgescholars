@@ -67,7 +67,7 @@ export default function Contact() {
       {/* Page Header */}
       <div className="w-full bg-[#F4F3EC] pt-24 sm:pt-28">
         <div className="container-wide h-[200px] flex items-center justify-between">
-          <h1 className="text-[40px] leading-[1.2] font-baskerville font-normal text-[#333333] my-[10px] tracking-wide">Contact Us</h1>
+          <h1 className="text-[40px] leading-[1.2] font-baskerville font-normal text-[#333333] my-[10px]">Contact Us</h1>
           <PageBreadcrumb currentPage="Contact" />
         </div>
       </div>
@@ -76,7 +76,7 @@ export default function Contact() {
         {/* Contact Info */}
         <section className="pb-20">
           <div className="container-wide">
-            <h2 className="font-serif text-foreground mb-4 text-4xl font-medium tracking-widest">Keep In Touch With Us</h2>
+            <h2 className="font-serif text-foreground mb-4 text-4xl font-medium tracking-wide">Keep In Touch With Us</h2>
             <p className="mb-12 w-full" style={{ fontFamily: '"Nunito Sans", sans-serif', fontSize: "15px", color: "#7E7E7E", marginTop: "14px" }}>
               If you have any questions regarding proposal submissions, book purchases, or any aspect of our publication
               process, we would be happy to hear from you. Please use the contact details below to get in touch, and we
@@ -88,7 +88,7 @@ export default function Contact() {
                 <div key={info.title} className="flex items-start gap-4">
                   <info.icon className="h-6 w-6 text-mustard" />
                   <div>
-                    <h3 className="mb-2 font-semibold text-xl tracking-wide">{info.title}</h3>
+                    <h3 className="mb-2 font-semibold text-xl">{info.title}</h3>
                     <p style={{ fontFamily: '"Libre Baskerville", serif', fontSize: "15px", color: "#7E7E7E" }}>{info.content}</p>
                   </div>
                 </div>
@@ -123,7 +123,7 @@ export default function Contact() {
               />
             </div>
             <div className="max-w-2xl mx-auto">
-              <h2 className="font-serif text-center mb-12 text-4xl tracking-widest">Send A Message</h2>
+              <h2 className="font-serif text-center mb-12 text-4xl tracking-wide">Send A Message</h2>
 
               <form onSubmit={handleSubmit} className="space-y-6">
                 {/* Name + Email */}
