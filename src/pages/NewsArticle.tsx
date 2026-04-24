@@ -144,9 +144,9 @@ const NewsArticle = () => {
                       to={`/books?category=${encodeURIComponent(category.name)}`}
                       className="w-full flex items-center justify-between text-[15px] py-1 transition-colors text-[#C75B2A]/90 hover:text-[#C75B2A]"
                     >
-                      <span className="font-serif">{category.name}</span>
+                      <span className="font-serif text-[#c4a273]">{category.name}</span>
                       <div className="flex items-center gap-2">
-                        <span className="inline-flex items-center justify-center min-w-[36px] h-6 px-2 rounded-full bg-[#F4F3EC] text-[#C75B2A] text-xs font-medium">
+                        <span className="inline-flex items-center justify-center min-w-[36px] h-6 px-2 rounded-full bg-[#F4F3EC] text-xs font-medium text-[#c4a273]">
                           {category.book_count}
                         </span>
                         <ChevronDown className="h-3 w-3 text-[#C75B2A]" />
@@ -159,9 +159,9 @@ const NewsArticle = () => {
                     to="/books"
                     className="w-full flex items-center justify-between text-[15px] py-1 transition-colors text-[#C75B2A]/90 hover:text-[#C75B2A]"
                   >
-                    <span className="font-serif">All Categories</span>
+                    <span className="font-serif text-[#c4a273]">All Categories</span>
                     <div className="flex items-center gap-2">
-                      <span className="inline-flex items-center justify-center min-w-[36px] h-6 px-2 rounded-full bg-[#F4F3EC] text-[#C75B2A] text-xs font-medium">
+                      <span className="inline-flex items-center justify-center min-w-[36px] h-6 px-2 rounded-full bg-[#F4F3EC] text-xs font-medium text-[#c4a273]">
                         {totalBooks}
                       </span>
                       <ChevronDown className="h-3 w-3 text-[#C75B2A]" />
