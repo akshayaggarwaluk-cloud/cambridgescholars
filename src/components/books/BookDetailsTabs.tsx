@@ -17,6 +17,7 @@ export function BookDetailsTabs({ book }: BookDetailsTabsProps) {
   const hasBiography = book.biography;
   const hasBookInfo = book.hardbackInfo || book.paperbackInfo || book.ebookInfo || book.categories || book.subjectCodes;
   const hasReviews = book.apiReviews && book.apiReviews.length > 0;
+  const unifiedFontStyle = { fontFamily: '"Nunito Sans", sans-serif' };
 
   if (!hasBlurb && !hasBiography && !hasBookInfo && !hasReviews) {
     return null;
@@ -29,7 +30,7 @@ export function BookDetailsTabs({ book }: BookDetailsTabsProps) {
           {hasBlurb && (
             <TabsTrigger 
               value="blurb" 
-              style={{ fontFamily: '"Nunito Sans", sans-serif' }}
+              style={unifiedFontStyle}
               className="rounded-none border-b-2 border-transparent data-[state=active]:border-accent data-[state=active]:bg-transparent data-[state=active]:shadow-none px-0 pb-3 text-lg uppercase tracking-normal text-black font-medium"
             >
               Blurb
@@ -38,7 +39,7 @@ export function BookDetailsTabs({ book }: BookDetailsTabsProps) {
           {hasBiography && (
             <TabsTrigger 
               value="biography" 
-              style={{ fontFamily: '"Nunito Sans", sans-serif' }}
+              style={unifiedFontStyle}
               className="rounded-none border-b-2 border-transparent data-[state=active]:border-accent data-[state=active]:bg-transparent data-[state=active]:shadow-none px-0 pb-3 text-lg uppercase tracking-normal text-black font-medium"
             >
               Biography
@@ -47,7 +48,7 @@ export function BookDetailsTabs({ book }: BookDetailsTabsProps) {
           {hasBookInfo && (
             <TabsTrigger 
               value="book-info" 
-              style={{ fontFamily: '"Nunito Sans", sans-serif' }}
+              style={unifiedFontStyle}
               className="rounded-none border-b-2 border-transparent data-[state=active]:border-accent data-[state=active]:bg-transparent data-[state=active]:shadow-none px-0 pb-3 text-lg uppercase tracking-normal text-black font-medium"
             >
               Book Information
@@ -56,7 +57,7 @@ export function BookDetailsTabs({ book }: BookDetailsTabsProps) {
           {hasReviews && (
             <TabsTrigger
               value="review"
-              style={{ fontFamily: '"Nunito Sans", sans-serif' }}
+              style={unifiedFontStyle}
               className="rounded-none border-b-2 border-transparent data-[state=active]:border-accent data-[state=active]:bg-transparent data-[state=active]:shadow-none px-0 pb-3 text-lg uppercase tracking-normal text-black font-medium"
             >
               Review
@@ -71,7 +72,7 @@ export function BookDetailsTabs({ book }: BookDetailsTabsProps) {
                 className="whitespace-pre-line"
                 style={{
                   color: "#696969",
-                  fontFamily: '"Nunito Sans", sans-serif',
+                  ...unifiedFontStyle,
                   fontSize: "15px",
                   fontWeight: 300,
                   lineHeight: 1.8,
@@ -91,7 +92,7 @@ export function BookDetailsTabs({ book }: BookDetailsTabsProps) {
                 className="whitespace-pre-line"
                 style={{
                   color: "#696969",
-                  fontFamily: '"Nunito Sans", sans-serif',
+                  ...unifiedFontStyle,
                   fontSize: "15px",
                   fontWeight: 300,
                   lineHeight: 1.8,
@@ -106,7 +107,7 @@ export function BookDetailsTabs({ book }: BookDetailsTabsProps) {
 
         {hasBookInfo && (
           <TabsContent value="book-info" className="pt-8">
-            <div style={{ fontFamily: '"Nunito Sans", sans-serif' }}>
+            <div style={unifiedFontStyle}>
               {/* Format-specific ISBN information */}
               <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-10">
                 {book.hardbackInfo && (
@@ -224,13 +225,13 @@ export function BookDetailsTabs({ book }: BookDetailsTabsProps) {
 
         {hasReviews && (
           <TabsContent value="review" className="pt-8">
-            <div className="space-y-8 max-w-none">
+            <div className="space-y-8 max-w-none" style={unifiedFontStyle}>
               {book.apiReviews!.map((review, idx) => (
                 <div key={idx} className="text-foreground/80">
-                  <p className="leading-relaxed text-base mb-2">
+                  <p className="leading-relaxed text-base mb-2" style={unifiedFontStyle}>
                     {review.review.replace(/^[“"']|[”"']$/g, "")}
                   </p>
-                  <p className="text-sm text-muted-foreground font-semibold">
+                  <p className="text-sm text-muted-foreground font-semibold" style={unifiedFontStyle}>
                     - —{review.reviewer}
                     {review.reviewer_position && ` ${review.reviewer_position}`}
                   </p>
@@ -243,7 +244,7 @@ export function BookDetailsTabs({ book }: BookDetailsTabsProps) {
 
       {/* Share this book section */}
       <div className="mt-16 pt-8 border-t border-border text-center">
-        <p className="text-foreground font-semibold mb-4 text-lg">Share this book:</p>
+        <p className="text-foreground font-semibold mb-4 text-lg" style={unifiedFontStyle}>Share this book:</p>
         <div className="flex justify-center gap-4">
           <button
             onClick={() => window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}`, '_blank')}
