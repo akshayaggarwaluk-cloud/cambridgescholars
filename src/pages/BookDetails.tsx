@@ -103,7 +103,7 @@ export default function BookDetails() {
             </div>
 
             {/* Content */}
-            <div className="flex flex-col lg:justify-between" style={imageHeight && window.innerWidth >= 1024 ? { height: imageHeight } : undefined}>
+            <div className="flex flex-col">
               <div>
                 <h1 className="font-baskerville font-normal text-[#333333] mb-4 lg:mb-3 leading-tight text-2xl">{book.title}</h1>
                 {book.subtitle && (
@@ -125,7 +125,7 @@ export default function BookDetails() {
 
               </div>
 
-              <div className="flex flex-col gap-8 lg:gap-5 lg:pt-4">
+              <div className="flex flex-col gap-8 lg:gap-5 lg:pt-2">
                 {/* Format Selection */}
                 <div>
                   <p className="font-serif tracking-wider normal-case text-sm uppercase mb-3 lg:mb-2 font-bold">BINDING</p>
