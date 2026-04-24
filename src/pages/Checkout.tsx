@@ -400,9 +400,7 @@ export default function Checkout() {
             {/* RIGHT — Order summary */}
             <aside>
               <div className="lg:sticky lg:top-28">
-                <h2 className="font-baskerville text-[32px] leading-tight text-[#333333] mb-6">
-                  Your order
-                </h2>
+                <SectionHeading>Your order</SectionHeading>
 
                 <div className="border-t border-[#e3e1d8]">
                   {items.map((item) => (
