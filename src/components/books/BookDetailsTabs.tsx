@@ -1,10 +1,16 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Book } from "@/contexts/CartContext";
-import { Facebook, Linkedin, Instagram } from "lucide-react";
+import { Facebook, Instagram } from "lucide-react";
 
 const XIcon = () => (
   <svg viewBox="0 0 24 24" className="h-6 w-6" fill="currentColor" aria-hidden="true">
     <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+  </svg>
+);
+
+const TumblrIcon = () => (
+  <svg viewBox="0 0 24 24" className="h-6 w-6" fill="currentColor" aria-hidden="true">
+    <path d="M14.563 24c-5.093 0-7.031-3.756-7.031-6.411V9.747H5.116V6.648c3.63-1.313 4.512-4.596 4.71-6.469.014-.124.117-.179.175-.179h3.504v6.146h4.812v3.601h-4.83v7.45c.012 1.012.376 2.396 2.224 2.355.609-.013 1.422-.191 1.84-.391l1.156 3.428C18.281 22.948 16.711 24 14.563 24z" />
   </svg>
 );
 
@@ -219,22 +225,22 @@ export function BookDetailsTabs({ book }: BookDetailsTabsProps) {
       </Tabs>
 
       {/* Share this book section */}
-      <div className="mt-16 pb-8 border-b border-border text-left">
+      <div className="mt-16 pb-8 border-b border-border text-center">
         <p className="text-foreground font-semibold mb-4 text-lg" style={{ fontFamily: '"Nunito Sans", system-ui, sans-serif' }}>Share this book:</p>
-        <div className="flex justify-start gap-5">
-          <button
-            onClick={() => window.open(`https://twitter.com/intent/tweet?url=${encodeURIComponent(window.location.href)}&text=${encodeURIComponent(`Check out "${book.title}" by ${book.author}`)}`, '_blank')}
-            className="text-muted-foreground hover:text-accent transition-colors"
-            aria-label="Share on X"
-          >
-            <XIcon />
-          </button>
+        <div className="flex justify-center gap-5">
           <button
             onClick={() => window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}`, '_blank')}
             className="text-muted-foreground hover:text-accent transition-colors"
             aria-label="Share on Facebook"
           >
             <Facebook className="h-6 w-6" />
+          </button>
+          <button
+            onClick={() => window.open(`https://twitter.com/intent/tweet?url=${encodeURIComponent(window.location.href)}&text=${encodeURIComponent(`Check out "${book.title}" by ${book.author}`)}`, '_blank')}
+            className="text-muted-foreground hover:text-accent transition-colors"
+            aria-label="Share on X"
+          >
+            <XIcon />
           </button>
           <button
             onClick={() => window.open(`https://www.instagram.com/`, '_blank')}
@@ -244,11 +250,11 @@ export function BookDetailsTabs({ book }: BookDetailsTabsProps) {
             <Instagram className="h-6 w-6" />
           </button>
           <button
-            onClick={() => window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(window.location.href)}`, '_blank')}
+            onClick={() => window.open(`https://www.tumblr.com/share/link?url=${encodeURIComponent(window.location.href)}&name=${encodeURIComponent(book.title)}`, '_blank')}
             className="text-muted-foreground hover:text-accent transition-colors"
-            aria-label="Share on LinkedIn"
+            aria-label="Share on Tumblr"
           >
-            <Linkedin className="h-6 w-6" />
+            <TumblrIcon />
           </button>
         </div>
       </div>
