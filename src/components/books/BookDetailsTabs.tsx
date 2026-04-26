@@ -32,7 +32,7 @@ export function BookDetailsTabs({ book }: BookDetailsTabsProps) {
               value="blurb" 
               className="rounded-none border-b-2 border-transparent data-[state=active]:border-accent data-[state=active]:bg-transparent data-[state=active]:shadow-none px-0 pb-3 text-lg uppercase tracking-normal text-black font-sans font-normal"
             >
-               <span className="font-medium">Blurb</span>
+               <span className="font-medium font-medium">Blurb</span>
             </TabsTrigger>
           )}
           {hasBiography && (
@@ -40,7 +40,7 @@ export function BookDetailsTabs({ book }: BookDetailsTabsProps) {
               value="biography" 
               className="rounded-none border-b-2 border-transparent data-[state=active]:border-accent data-[state=active]:bg-transparent data-[state=active]:shadow-none px-0 pb-3 text-lg uppercase tracking-normal text-black font-sans font-normal"
             >
-               <span className="font-medium">Biography</span>
+               <span className="font-medium font-medium">Biography</span>
             </TabsTrigger>
           )}
           {hasBookInfo && (
@@ -48,7 +48,7 @@ export function BookDetailsTabs({ book }: BookDetailsTabsProps) {
               value="book-info" 
               className="rounded-none border-b-2 border-transparent data-[state=active]:border-accent data-[state=active]:bg-transparent data-[state=active]:shadow-none px-0 pb-3 text-lg uppercase tracking-normal text-black font-sans font-normal"
             >
-               <span className="font-medium">Book Information</span>
+               <span className="font-medium font-medium">Book Information</span>
             </TabsTrigger>
           )}
           {hasReviews && (
@@ -56,7 +56,7 @@ export function BookDetailsTabs({ book }: BookDetailsTabsProps) {
               value="review"
               className="rounded-none border-b-2 border-transparent data-[state=active]:border-accent data-[state=active]:bg-transparent data-[state=active]:shadow-none px-0 pb-3 text-lg uppercase tracking-normal text-black font-sans font-normal"
             >
-               <span className="font-medium">Review</span>
+               <span className="font-medium font-medium">Review</span>
             </TabsTrigger>
           )}
         </TabsList>
