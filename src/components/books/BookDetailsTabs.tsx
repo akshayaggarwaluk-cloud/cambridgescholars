@@ -64,7 +64,7 @@ export function BookDetailsTabs({ book }: BookDetailsTabsProps) {
         {hasBlurb && (
           <TabsContent value="blurb" className="pt-8">
             <div className="max-w-none">
-              <p className="whitespace-pre-line text-[#696969] text-base font-sans font-normal" style={{ lineHeight: 1.8, margin: "0 0 20px" }}>
+              <p className="whitespace-pre-line text-[#696969] text-base font-normal" style={{ lineHeight: 1.8, margin: "0 0 20px", fontFamily: '"Nunito Sans", system-ui, sans-serif' }}>
                 {book.blurb || book.description}
               </p>
             </div>
@@ -74,7 +74,7 @@ export function BookDetailsTabs({ book }: BookDetailsTabsProps) {
         {hasBiography && (
           <TabsContent value="biography" className="pt-8">
             <div className="max-w-none">
-              <p className="whitespace-pre-line text-[#696969] text-base font-sans font-normal" style={{ lineHeight: 1.8, margin: "0 0 20px" }}>
+              <p className="whitespace-pre-line text-[#696969] text-base font-normal" style={{ lineHeight: 1.8, margin: "0 0 20px", fontFamily: '"Nunito Sans", system-ui, sans-serif' }}>
                 {book.biography}
               </p>
             </div>
