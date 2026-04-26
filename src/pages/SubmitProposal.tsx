@@ -169,7 +169,7 @@ const SubmitProposal = () => {
           Co-authors / Editors / Contributors / Translators {i + 1}
         </h3>
         <div className="space-y-1">
-          <Label className="text-foreground font-semibold">
+          <Label className="text-[16px] text-[#696969]" style={{ fontFamily: '"Nunito Sans", system-ui, sans-serif' }}>
             Role <span className="text-accent font-normal italic">(Required)</span>
           </Label>
           <RadioGroup
@@ -265,7 +265,7 @@ const SubmitProposal = () => {
                   <FieldInput label="Academic/Professional Qualifications" required value={formData.qualifications} onChange={(v) => updateField("qualifications", v)} error={errors.qualifications} />
 
                   <div className="space-y-1">
-                    <Label className="text-foreground font-semibold">
+                    <Label className="text-[16px] text-[#696969]" style={{ fontFamily: '"Nunito Sans", system-ui, sans-serif' }}>
                       CV Upload (PDF/DOCX) <span className="text-accent font-normal italic">(Required)</span>
                     </Label>
                     <div className="flex items-center gap-3">
@@ -285,7 +285,7 @@ const SubmitProposal = () => {
                   </div>
 
                   <div className="space-y-1">
-                    <Label className="text-foreground font-semibold">
+                    <Label className="text-[16px] text-[#696969]" style={{ fontFamily: '"Nunito Sans", system-ui, sans-serif' }}>
                       Co-authors / Editors / Contributors / Translators{" "}
                       <span className="text-accent font-normal italic">(Required)</span>
                     </Label>
@@ -308,7 +308,7 @@ const SubmitProposal = () => {
                   {hasCoAuthors === "yes" && (
                     <>
                       <div className="space-y-1">
-                        <Label className="text-foreground font-semibold">
+                        <Label className="text-[16px] text-[#696969]" style={{ fontFamily: '"Nunito Sans", system-ui, sans-serif' }}>
                           How many Co-authors / Editors / Contributors / Translators{" "}
                           <span className="text-accent font-normal italic">(Required)</span>
                         </Label>
@@ -336,7 +336,7 @@ const SubmitProposal = () => {
                   <h2 className="text-2xl font-serif text-foreground pb-2">Mailing</h2>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
                     <div className="space-y-1">
-                      <Label className="text-foreground font-semibold">
+                      <Label className="text-[16px] text-[#696969]" style={{ fontFamily: '"Nunito Sans", system-ui, sans-serif' }}>
                         Country <span className="text-accent font-normal italic">(Required)</span>
                       </Label>
                       <Select value={country} onValueChange={setCountry}>
@@ -388,7 +388,7 @@ const SubmitProposal = () => {
                   <FieldInput label="Proposed Title" required value={formData.proposedTitle} onChange={(v) => updateField("proposedTitle", v)} error={errors.proposedTitle} />
                   <FieldInput label="Proposed Subtitle" required value={formData.proposedSubtitle} onChange={(v) => updateField("proposedSubtitle", v)} error={errors.proposedSubtitle} />
                   <div className="space-y-1">
-                    <Label className="text-foreground font-semibold">
+                    <Label className="text-[16px] text-[#696969]" style={{ fontFamily: '"Nunito Sans", system-ui, sans-serif' }}>
                       Type of Book <span className="text-accent font-normal italic">(Required)</span>
                     </Label>
                     <RadioGroup value={bookType} onValueChange={setBookType} className="flex flex-col gap-3 pt-2">
@@ -447,7 +447,7 @@ const SubmitProposal = () => {
                 <>
                   <h2 className="text-2xl font-serif text-foreground pb-2">Manuscript Status</h2>
                   <div className="space-y-1">
-                    <Label className="text-foreground font-semibold">
+                    <Label className="text-[16px] text-[#696969]" style={{ fontFamily: '"Nunito Sans", system-ui, sans-serif' }}>
                       Current stage of the manuscript <span className="text-accent font-normal italic">(Required)</span>
                     </Label>
                     <Select value={manuscriptStage} onValueChange={setManuscriptStage}>
@@ -471,7 +471,7 @@ const SubmitProposal = () => {
                   <h2 className="text-2xl font-serif text-foreground pb-2">Sample Material</h2>
 
                   <div className="space-y-1">
-                    <Label className="text-foreground font-semibold">
+                    <Label className="text-[16px] text-[#696969]" style={{ fontFamily: '"Nunito Sans", system-ui, sans-serif' }}>
                       Upload at least one sample chapter <span className="text-accent font-normal italic">(Required)</span>
                     </Label>
                     <div className="flex items-center gap-3">
@@ -493,7 +493,7 @@ const SubmitProposal = () => {
                   </div>
 
                   <div className="space-y-1">
-                    <Label className="text-foreground font-semibold">
+                    <Label className="text-[16px] text-[#696969]" style={{ fontFamily: '"Nunito Sans", system-ui, sans-serif' }}>
                       Upload additional supporting files <span className="text-accent font-normal italic">(Required)</span>
                     </Label>
                     <div className="flex items-center gap-3">
@@ -624,7 +624,7 @@ const FieldTextarea = ({
   maxLength?: number;
 }) => (
   <div className="space-y-1">
-    <Label className="text-foreground font-semibold">
+    <Label className="text-[16px] text-[#696969]" style={{ fontFamily: '"Nunito Sans", system-ui, sans-serif' }}>
       {label} {required && <span className="text-accent font-normal italic">(Required)</span>}
     </Label>
     <Textarea
