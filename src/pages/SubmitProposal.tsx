@@ -584,8 +584,8 @@ const FieldInput = ({
   maxLength?: number;
 }) => (
   <div className="space-y-1">
-    <Label className="text-foreground font-medium font-nav tracking-wider">
-      {label} {required && <span className="text-accent font-normal italic tracking-normal">(Required)</span>}
+    <Label className="text-[16px] text-[#696969]" style={{ fontFamily: '"Nunito Sans", system-ui, sans-serif' }}>
+      {label} {required && <span className="text-accent font-normal italic">(Required)</span>}
     </Label>
     <Input
       type={type === "number" ? "text" : type}
