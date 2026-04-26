@@ -482,7 +482,7 @@ export default function Auth() {
                     </p>
                   </div>
 
-                  <p className="font-sans text-base text-foreground/80 leading-relaxed tracking-wide">
+                  <p className="text-base font-sans text-foreground/80 leading-relaxed tracking-wide">
                     Your personal data will be used to support your experience throughout this
                     website, to manage access to your account, and for other purposes described
                     in our{" "}
