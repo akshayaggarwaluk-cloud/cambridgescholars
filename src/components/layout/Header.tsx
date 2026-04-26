@@ -44,7 +44,7 @@ export function Header() {
   const location = useLocation();
   const { cartCount } = useCart();
   const { wishlistCount } = useWishlist();
-  const { user, logout } = useExternalAuth();
+  const { user } = useExternalAuth();
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 10);
