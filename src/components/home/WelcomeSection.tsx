@@ -67,7 +67,7 @@ export function WelcomeSection() {
                 {/* Read More Link */}
                 <Link
                   to={service.link}
-                  className="inline-flex items-center gap-1 font-semibold text-xs uppercase tracking-[0.15em] text-[#e4573d] hover:text-[#e4573d]/80 transition-colors"
+                  className="inline-flex items-center gap-1 font-extrabold text-xs uppercase tracking-[0.15em] text-[#e4573d] hover:text-[#e4573d]/80 transition-colors"
                   style={{ fontFamily: "'Nunito Sans', system-ui, sans-serif" }}
                 >
                   READ MORE
