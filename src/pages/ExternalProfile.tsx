@@ -363,10 +363,17 @@ export default function ExternalProfile() {
 
   const renderPaymentMethods = () => (
     <div className="space-y-6" style={{ fontFamily: '"Nunito Sans", sans-serif' }}>
-      <div className="bg-[#5BAFA8] text-white px-6 py-5 flex items-center gap-3">
+      <div className="bg-[#5BAFA8] text-white px-6 py-5 flex items-center gap-3 text-[15px]">
         <Info className="h-5 w-5 flex-shrink-0" strokeWidth={2} />
-        <span>No saved payment methods.</span>
+        <span>No saved methods found.</span>
       </div>
+      <Button
+        onClick={() => toast.info("Payment method management coming soon")}
+        className="bg-[#E4573D] hover:bg-[#c94a30] text-white rounded-none uppercase tracking-wider font-bold text-[14px] h-12 px-8"
+        style={{ fontFamily: '"Nunito Sans", sans-serif' }}
+      >
+        Add Payment Method
+      </Button>
     </div>
   );
 
