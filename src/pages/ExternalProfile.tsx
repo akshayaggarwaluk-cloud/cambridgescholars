@@ -368,15 +368,15 @@ export default function ExternalProfile() {
   );
 
   const renderOrders = () => (
-    <div className="space-y-6">
+    <div className="space-y-6" style={{ fontFamily: '"Nunito Sans", sans-serif' }}>
       {ordersLoading ? (
         <div className="flex items-center justify-center py-8">
           <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
         </div>
       ) : orders.length === 0 ? (
-        <div className="bg-teal-600 text-white p-4 rounded flex items-center justify-between">
+        <div className="bg-[#5BAFA8] text-white px-6 py-5 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <Info className="h-5 w-5" />
+            <Info className="h-5 w-5 flex-shrink-0" strokeWidth={2} />
             <span>No order has been made yet.</span>
           </div>
           <Link to="/books" className="flex items-center gap-2 hover:underline">
@@ -384,35 +384,60 @@ export default function ExternalProfile() {
           </Link>
         </div>
       ) : (
-        <div className="space-y-4">
-          {orders.map((order) => (
-            <div key={order.id} className="border rounded-lg p-4">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm text-muted-foreground">
-                    Order #{String(order.id).slice(0, 8).toUpperCase()}
-                  </p>
-                  <p className="text-sm text-muted-foreground">
-                    {new Date(order.created_at).toLocaleDateString()}
-                  </p>
+        <div className="w-full">
+          {/* Header row */}
+          <div className="grid grid-cols-5 bg-[#E4573D] text-white text-[14px] font-bold uppercase tracking-wider px-6 py-5">
+            <div>Order</div>
+            <div>Date</div>
+            <div>Status</div>
+            <div>Total</div>
+            <div className="text-right">Actions</div>
+          </div>
+          {/* Rows */}
+          {orders.map((order) => {
+            const statusLabel = order.status
+              .replace(/[-_]/g, " ")
+              .replace(/\b\w/g, (c) => c.toUpperCase());
+            const isPending =
+              order.status.toLowerCase().includes("pending") ||
+              order.status.toLowerCase() === "on-hold";
+            return (
+              <div
+                key={order.id}
+                className="grid grid-cols-5 items-center px-6 py-6 text-[14px] text-[#696969] border-b border-border"
+              >
+                <div className="text-[#E4573D] font-medium">
+                  #{order.id}
                 </div>
-                <div className="text-right">
-                  <span
-                    className={`px-3 py-1 rounded-full text-xs font-medium capitalize ${
-                      order.status === "completed"
-                        ? "bg-green-100 text-green-800"
-                        : order.status === "processing"
-                        ? "bg-blue-100 text-blue-800"
-                        : "bg-yellow-100 text-yellow-800"
-                    }`}
-                  >
-                    {order.status}
-                  </span>
-                  <p className="font-semibold mt-1">${order.total.toFixed(2)}</p>
+                <div>
+                  {new Date(order.created_at).toLocaleDateString("en-GB", {
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric",
+                  })}
+                </div>
+                <div>{statusLabel}</div>
+                <div>£{order.total.toFixed(2)}</div>
+                <div className="flex justify-end">
+                  <div className="bg-[#E4573D] flex items-center">
+                    {isPending && (
+                      <button className="text-white text-[13px] font-bold uppercase tracking-wider px-5 py-3 hover:bg-[#c94a30] transition-colors">
+                        Pay
+                      </button>
+                    )}
+                    <button className="text-white text-[13px] font-bold uppercase tracking-wider px-5 py-3 hover:bg-[#c94a30] transition-colors">
+                      View
+                    </button>
+                    {isPending && (
+                      <button className="text-white text-[13px] font-bold uppercase tracking-wider px-5 py-3 hover:bg-[#c94a30] transition-colors">
+                        Cancel
+                      </button>
+                    )}
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       )}
     </div>
