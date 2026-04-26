@@ -871,61 +871,6 @@ export default function ExternalProfile() {
     );
   };
 
-  const renderPassword = () => (
-    <div className="space-y-6 max-w-xl">
-      <h2 className="font-serif text-2xl font-semibold text-foreground">Change Password</h2>
-      <div className="space-y-4">
-        <div className="space-y-2">
-          <Label htmlFor="pw-current" className="uppercase text-xs font-medium tracking-wider text-muted-foreground">
-            Current Password
-          </Label>
-          <Input
-            id="pw-current"
-            type="password"
-            autoComplete="current-password"
-            className={addressInputClass}
-            value={pwForm.current_password}
-            onChange={(e) => setPwForm({ ...pwForm, current_password: e.target.value })}
-          />
-        </div>
-        <div className="space-y-2">
-          <Label htmlFor="pw-new" className="uppercase text-xs font-medium tracking-wider text-muted-foreground">
-            New Password
-          </Label>
-          <Input
-            id="pw-new"
-            type="password"
-            autoComplete="new-password"
-            className={addressInputClass}
-            value={pwForm.new_password}
-            onChange={(e) => setPwForm({ ...pwForm, new_password: e.target.value })}
-          />
-          <p className="text-xs text-muted-foreground">Must be at least 8 characters.</p>
-        </div>
-        <div className="space-y-2">
-          <Label htmlFor="pw-confirm" className="uppercase text-xs font-medium tracking-wider text-muted-foreground">
-            Confirm New Password
-          </Label>
-          <Input
-            id="pw-confirm"
-            type="password"
-            autoComplete="new-password"
-            className={addressInputClass}
-            value={pwForm.confirm_new_password}
-            onChange={(e) => setPwForm({ ...pwForm, confirm_new_password: e.target.value })}
-          />
-        </div>
-        <Button
-          onClick={handleChangePassword}
-          disabled={pwSaving}
-          className="bg-red-500 hover:bg-red-600 text-white rounded-none uppercase tracking-wider"
-        >
-          {pwSaving ? "Updating..." : "Update Password"}
-        </Button>
-      </div>
-    </div>
-  );
-
   const renderContent = () => {
     switch (activeTab) {
       case "dashboard":
