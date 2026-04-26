@@ -51,9 +51,9 @@ export default function Resources() {
                     </Link>
                   )}
                   <div className="mt-6">
-                    <h2 className="font-baskerville text-[21px] text-[#333333] mb-3 tracking-wider">{item.title}</h2>
+                     <h2 className="font-sans font-baskerville text-[21px] text-[#333333] mb-3 tracking-wider">{item.title}</h2>
                     {item.excerpt && (
-                      <p className="font-nav text-[15px] text-[#7E7E7E] leading-relaxed mb-4 max-w-2xl">
+                        <p className="font-normal font-sans text-lg text-[#7E7E7E] leading-relaxed mb-4 max-w-2xl">
                         {item.excerpt}
                       </p>
                     )}
