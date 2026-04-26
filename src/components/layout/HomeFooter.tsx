@@ -20,10 +20,10 @@ const navLinks = [
 ];
 
 const socialLinks = [
-  { icon: Facebook, href: "https://www.facebook.com/cambridgescholarspublishing/", label: "Facebook" },
   { icon: XIcon, href: "https://x.com/camscholars", label: "X (Twitter)" },
-  { icon: Linkedin, href: "https://www.linkedin.com/company/cambridgescholarspublishing/", label: "LinkedIn" },
+  { icon: Facebook, href: "https://www.facebook.com/cambridgescholarspublishing/", label: "Facebook" },
   { icon: Instagram, href: "https://www.instagram.com/cambridgescholarsofficial/", label: "Instagram" },
+  { icon: Linkedin, href: "https://www.linkedin.com/company/cambridgescholarspublishing/", label: "LinkedIn" },
 ];
 
 export function HomeFooter() {
