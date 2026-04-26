@@ -776,21 +776,21 @@ export default function ExternalProfile() {
                 <button
                   key={item.id}
                   onClick={() => setActiveTab(item.id)}
-                  className={`w-full text-left px-4 py-4 border-b border-border transition-colors flex items-center gap-3 font-nav font-medium text-sm ${
+                  style={{ fontFamily: '"Nunito Sans", sans-serif', fontSize: "14px", padding: "15px 20px" }}
+                  className={`w-full text-left border-b border-border transition-colors block ${
                     activeTab === item.id
-                      ? "bg-[#C75B2A] text-white border-[#C75B2A]"
+                      ? "bg-[#E4573D] text-white border-[#E4573D]"
                       : "hover:bg-secondary text-foreground"
                   }`}
                 >
-                  <item.icon className="h-4 w-4" />
                   {item.label}
                 </button>
               ))}
               <button
                 onClick={handleLogout}
-                className="w-full text-left px-4 py-4 border-b border-border transition-colors flex items-center gap-3 hover:bg-secondary text-foreground font-nav font-medium text-sm"
+                style={{ fontFamily: '"Nunito Sans", sans-serif', fontSize: "14px", padding: "15px 20px" }}
+                className="w-full text-left border-b border-border transition-colors block hover:bg-secondary text-foreground"
               >
-                <LogOut className="h-4 w-4" />
                 LOG OUT
               </button>
             </nav>
