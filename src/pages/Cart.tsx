@@ -148,7 +148,7 @@ export default function Cart() {
                 </div>
 
                 {/* Price */}
-                <div className="text-base text-[#ababab] text-center">
+                 <div className="text-base font-sans text-base text-[#ababab] text-center">
                   £{item.price.toFixed(2)}
                 </div>
 
@@ -161,7 +161,7 @@ export default function Cart() {
                   >
                     <Minus className="h-3 w-3" />
                   </button>
-                  <span className="w-12 text-center text-foreground">{item.quantity}</span>
+                   <span className="text-base font-sans w-12 text-center text-foreground">{item.quantity}</span>
                   <button
                     onClick={() => updateQuantity(item.id, item.format, item.quantity + 1)}
                     aria-label="Increase quantity"
