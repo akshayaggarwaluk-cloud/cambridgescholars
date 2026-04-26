@@ -507,10 +507,7 @@ export default function Books() {
 
                           {/* Actions */}
                           <div className="flex items-center gap-3 mt-auto pt-6">
-                            <Button
-                              asChild
-                               className="bg-[#e4573d] hover:bg-[#e4573d]/80 text-white px-6 h-10 text-xs font-bold tracking-[0.18em] uppercase rounded-none transition-colors font-baskerville"
-                            >
+                            <Button asChild variant="premium" className="px-6 h-10 text-xs tracking-[0.18em] uppercase rounded-none transition-colors font-baskerville">
                               <Link to={`/books/${book.id}`}>VIEW MORE</Link>
                             </Button>
                             <Button
