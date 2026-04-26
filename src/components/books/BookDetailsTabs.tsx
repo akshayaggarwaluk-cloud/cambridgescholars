@@ -201,13 +201,13 @@ export function BookDetailsTabs({ book }: BookDetailsTabsProps) {
 
         {hasReviews && (
           <TabsContent value="review" className="pt-8">
-            <div className="space-y-8 max-w-none" style={unifiedFontStyle}>
+            <div className="space-y-8 max-w-none" style={{ fontFamily: '"Nunito Sans", system-ui, sans-serif' }}>
               {book.apiReviews!.map((review, idx) => (
                 <div key={idx} className="text-foreground/80">
-                  <p className="leading-relaxed text-base mb-2" style={unifiedFontStyle}>
+                  <p className="leading-relaxed text-base mb-2" style={{ fontFamily: '"Nunito Sans", system-ui, sans-serif' }}>
                     {review.review.replace(/^[“"']|[”"']$/g, "")}
                   </p>
-                  <p className="text-sm text-muted-foreground font-semibold" style={unifiedFontStyle}>
+                  <p className="text-sm text-muted-foreground font-semibold" style={{ fontFamily: '"Nunito Sans", system-ui, sans-serif' }}>
                     - —{review.reviewer}
                     {review.reviewer_position && ` ${review.reviewer_position}`}
                   </p>
