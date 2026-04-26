@@ -1,6 +1,6 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Book } from "@/contexts/CartContext";
-import { Facebook, Linkedin } from "lucide-react";
+import { Facebook, Linkedin, Instagram } from "lucide-react";
 
 const XIcon = () => (
   <svg viewBox="0 0 24 24" className="h-6 w-6" fill="currentColor" aria-hidden="true">
@@ -219,9 +219,16 @@ export function BookDetailsTabs({ book }: BookDetailsTabsProps) {
       </Tabs>
 
       {/* Share this book section */}
-      <div className="mt-16 pb-8 border-b border-border text-center">
+      <div className="mt-16 pb-8 border-b border-border text-left">
         <p className="text-foreground font-semibold mb-4 text-lg" style={{ fontFamily: '"Nunito Sans", system-ui, sans-serif' }}>Share this book:</p>
-        <div className="flex justify-center gap-4">
+        <div className="flex justify-start gap-5">
+          <button
+            onClick={() => window.open(`https://twitter.com/intent/tweet?url=${encodeURIComponent(window.location.href)}&text=${encodeURIComponent(`Check out "${book.title}" by ${book.author}`)}`, '_blank')}
+            className="text-muted-foreground hover:text-accent transition-colors"
+            aria-label="Share on X"
+          >
+            <XIcon />
+          </button>
           <button
             onClick={() => window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}`, '_blank')}
             className="text-muted-foreground hover:text-accent transition-colors"
@@ -230,11 +237,11 @@ export function BookDetailsTabs({ book }: BookDetailsTabsProps) {
             <Facebook className="h-6 w-6" />
           </button>
           <button
-            onClick={() => window.open(`https://twitter.com/intent/tweet?url=${encodeURIComponent(window.location.href)}&text=${encodeURIComponent(`Check out "${book.title}" by ${book.author}`)}`, '_blank')}
+            onClick={() => window.open(`https://www.instagram.com/`, '_blank')}
             className="text-muted-foreground hover:text-accent transition-colors"
-            aria-label="Share on X"
+            aria-label="Share on Instagram"
           >
-            <XIcon />
+            <Instagram className="h-6 w-6" />
           </button>
           <button
             onClick={() => window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(window.location.href)}`, '_blank')}
