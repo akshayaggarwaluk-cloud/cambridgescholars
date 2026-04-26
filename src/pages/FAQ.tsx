@@ -44,7 +44,7 @@ export default function FAQ() {
                     className="border-0"
                   >
                     <AccordionTrigger
-                      className="text-left font-normal py-5 px-5 text-[17px] leading-[1.6] [&>svg]:hidden hover:no-underline bg-[#F8F8F8] text-[#333333] data-[state=open]:bg-[#C75B2A] data-[state=open]:text-white transition-colors"
+                      className="text-left font-normal py-3 px-[30px] text-[17px] leading-[1.6] [&>svg]:hidden hover:no-underline bg-[#F8F8F8] text-[#333333] data-[state=open]:bg-[#E4573D] data-[state=open]:text-white transition-colors"
                       style={{ fontFamily: '"Nunito Sans", sans-serif' }}
                     >
                       {faq.question}
