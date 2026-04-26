@@ -189,7 +189,13 @@ const NewsArticle = () => {
                   .news-article-content h3,
                   .news-article-content h4,
                   .news-article-content h5,
-                  .news-article-content h6 {
+                  .news-article-content h6,
+                  .news-article-content h1 *,
+                  .news-article-content h2 *,
+                  .news-article-content h3 *,
+                  .news-article-content h4 *,
+                  .news-article-content h5 *,
+                  .news-article-content h6 * {
                     font-family: 'Libre Baskerville', Georgia, serif !important;
                   }
                 `}</style>
