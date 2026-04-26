@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Heart, Eye, Loader2, X, Check, Facebook, Twitter, Mail } from "lucide-react";
+import { Heart, ShoppingCart, Loader2, X, Check, Facebook, Twitter, Mail } from "lucide-react";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { PageBreadcrumb } from "@/components/layout/PageBreadcrumb";
@@ -115,7 +115,7 @@ export default function Wishlist() {
                         to={`/books/${item.book_id}`}
                         className="flex-1 bg-[#C75B2A] hover:bg-[#a84a22] text-white text-sm font-semibold tracking-wider uppercase px-4 py-3 rounded-none transition-colors flex items-center justify-center gap-2"
                       >
-                        <Eye className="h-4 w-4" />
+                        <ShoppingCart className="h-4 w-4" />
                         View More
                       </Link>
                       <button
