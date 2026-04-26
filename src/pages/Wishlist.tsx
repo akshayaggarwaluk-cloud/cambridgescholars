@@ -92,28 +92,29 @@ export default function Wishlist() {
                         />
                       </Link>
                       <Link to={`/books/${item.book_id}`} className="min-w-0">
-                        <h3 className="font-serif transition-colors leading-snug text-base text-[#6e6e6e]">
+                        <h3 className="transition-colors leading-snug text-[15px] text-[#6D6C6C] hover:text-[#C75B2A]" style={{ fontFamily: '"Nunito Sans", system-ui, sans-serif' }}>
                           {item.book_title}
                         </h3>
                       </Link>
                     </div>
 
                     {/* Price */}
-                    <div className="text-base text-[#6e6e6e]">
-                      From ${item.book_price.toFixed(2)}
+                    <div className="text-[15px] text-[#ABABAB]" style={{ fontFamily: '"Nunito Sans", system-ui, sans-serif' }}>
+                      From £{item.book_price.toFixed(2)}
                     </div>
 
                     {/* Stock */}
                     <div className="flex items-center gap-2">
                       <Check className="h-4 w-4 text-green-600" strokeWidth={3} />
-                      <span className="text-base text-[#6e6e6e]">In Stock</span>
+                      <span className="text-[12.8px] text-[#333333]" style={{ fontFamily: '"Nunito Sans", system-ui, sans-serif' }}>In Stock</span>
                     </div>
 
                     {/* Actions */}
                     <div className="flex items-center gap-3 justify-end">
                       <Link
                         to={`/books/${item.book_id}`}
-                        className="flex-1 bg-[#C75B2A] hover:bg-[#a84a22] text-white text-sm font-semibold tracking-wider uppercase px-4 py-3 rounded-none transition-colors flex items-center justify-center gap-2"
+                        className="flex-1 bg-[#E4573D] hover:bg-[#C75B2A] text-white text-[14px] uppercase rounded-none transition-colors flex items-center justify-center gap-2"
+                        style={{ fontFamily: '"Nunito Sans", system-ui, sans-serif', padding: '13px 30px' }}
                       >
                         <ShoppingCart className="h-4 w-4" />
                         View More
