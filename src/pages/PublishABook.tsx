@@ -76,7 +76,7 @@ export default function PublishABook() {
               </div>
               <Link
                 to={card.href}
-                className="inline-flex items-center gap-1 text-[#e4573d] hover:text-[#e4573d]/80 transition-colors uppercase tracking-normal text-[13px] font-bold"
+                className="inline-flex items-center gap-1 text-[#e4573d] hover:text-[#e4573d]/80 transition-colors uppercase tracking-[0.18em] text-[13px] font-bold"
                 style={{ fontFamily: '"Nunito Sans", system-ui, sans-serif' }}
               >
                 View More
