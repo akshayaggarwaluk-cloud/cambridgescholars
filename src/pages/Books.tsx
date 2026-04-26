@@ -495,12 +495,12 @@ export default function Books() {
                             </p>
                           )}
 
-                          <p className="font-nav mt-4 text-[15px] text-[#333]">
+                          <p className="font-nav mt-4 text-[15px] text-[#333]" style={{ fontFamily: "'Nunito Sans', system-ui, sans-serif" }}>
                             By: <span>{book.author}</span>
                           </p>
 
                           {(book.shortDescription || book.blurb) && (
-                            <p className="font-nav text-[15px] text-[#555] mt-5 leading-[1.7] whitespace-pre-line">
+                            <p className="font-nav text-[15px] text-[#555] mt-5 leading-[1.7] whitespace-pre-line" style={{ fontFamily: "'Nunito Sans', system-ui, sans-serif" }}>
                               {book.shortDescription || book.blurb}
                             </p>
                           )}
@@ -509,7 +509,8 @@ export default function Books() {
                           <div className="flex items-center gap-3 mt-auto pt-6">
                             <Button
                               asChild
-                               className="bg-[#e4573d] hover:bg-[#e4573d]/80 text-white px-6 h-10 text-xs font-bold tracking-[0.18em] uppercase rounded-none transition-colors font-baskerville"
+                               className="bg-[#e4573d] hover:bg-[#e4573d]/80 text-white px-6 h-10 text-xs font-bold tracking-[0.18em] uppercase rounded-none transition-colors"
+                               style={{ fontFamily: "'Nunito Sans', system-ui, sans-serif" }}
                             >
                               <Link to={`/books/${book.id}`}>VIEW MORE</Link>
                             </Button>
