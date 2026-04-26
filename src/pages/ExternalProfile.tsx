@@ -316,21 +316,22 @@ export default function ExternalProfile() {
     user.username || user.email?.split("@")[0] || displayName;
 
   const renderDashboard = () => (
-    <div className="space-y-6" style={{ fontFamily: '"Nunito Sans", sans-serif' }}>
-      <p className="text-foreground text-lg">
-        Hello <span className="font-bold">{dashboardName}</span>{" "}
-        <span>
-          (not <span className="font-bold">{dashboardName}</span>?{" "}
-          <button
-            onClick={handleLogout}
-            className="text-[#C75B2A] hover:text-[#a84a20] transition-colors"
-          >
-            Log out
-          </button>
-          )
-        </span>
+    <div
+      className="space-y-5 text-[16px] text-[#696969]"
+      style={{ fontFamily: '"Nunito Sans", sans-serif' }}
+    >
+      <p>
+        Hello <strong className="font-bold text-[#696969]">{dashboardName}</strong>{" "}
+        (not <strong className="font-bold text-[#696969]">{dashboardName}</strong>?{" "}
+        <button
+          onClick={handleLogout}
+          className="text-[#C75B2A] hover:text-[#a84a20] transition-colors"
+        >
+          Log out
+        </button>
+        )
       </p>
-      <p className="text-foreground">
+      <p>
         From your account dashboard you can view your{" "}
         <button
           onClick={() => setActiveTab("orders")}
