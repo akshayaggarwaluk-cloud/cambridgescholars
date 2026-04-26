@@ -135,13 +135,19 @@ export default function Cart() {
                   </Link>
                   <div className="min-w-0">
                     <Link to={`/books/${item.id}`}>
-                    <h3 className="font-sans transition-colors leading-snug text-base text-black font-light" style={{ fontFamily: '"Nunito Sans", sans-serif' }}>
+                      <h3
+                        className="transition-colors leading-snug text-[15px] text-[#333333] font-normal"
+                        style={{ fontFamily: '"Nunito Sans", sans-serif' }}
+                      >
                         {item.title.split(":")[0].trim()} - {formatLabel(item.format)}
                       </h3>
                     </Link>
                     {item.isbn && (
-                      <p className="text-sm text-muted-foreground mt-2">
-                        <span className="font-semibold text-foreground">ISBN:</span> {formatIsbn(item.isbn)}
+                      <p
+                        className="text-[15px] text-[#333333] mt-2"
+                        style={{ fontFamily: '"Nunito Sans", sans-serif' }}
+                      >
+                        <span className="font-bold">ISBN:</span> {formatIsbn(item.isbn)}
                       </p>
                     )}
                   </div>
