@@ -190,10 +190,10 @@ export default function Cart() {
 
           {/* Total */}
           <div className="flex justify-end items-center gap-12 mt-10 pr-6">
-            <span className="text-base text-muted-foreground">Total</span>
-            <span className="text-foreground font-normal text-lg">
-              £{cartTotal.toFixed(2)}
-            </span>
+             <span className="text-base text-muted-foreground">Total</span>
+             <span className="text-foreground font-normal text-lg">
+               £{cartTotal.toFixed(2)}
+             </span>
           </div>
 
           <div className="border-t border-border mt-8"></div>

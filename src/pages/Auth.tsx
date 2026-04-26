@@ -225,12 +225,12 @@ export default function Auth() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-20">
             {/* ── LOGIN ───────────────────────────── */}
             <section aria-labelledby="login-heading">
-              <h2
-                id="login-heading"
-                className="font-serif text-3xl md:text-4xl font-normal text-foreground mb-8 tracking-wider"
-              >
-                Login
-              </h2>
+               <h2
+                 id="login-heading"
+                 className="font-serif text-3xl md:text-4xl font-normal text-foreground mb-8 tracking-wider"
+               >
+                 Login
+               </h2>
 
               {loginError && (
                 <div className="mb-6 bg-red-50 border-l-4 border-red-500 p-4 flex items-start gap-3">
