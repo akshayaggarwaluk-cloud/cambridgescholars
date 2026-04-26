@@ -203,7 +203,8 @@ export default function Cart() {
             <Button
               asChild
               variant="outline"
-              className="rounded-none font-serif tracking-wider normal-case text-sm font-semibold px-8 py-4 border border-[#e5573e] text-[#e5573e] bg-transparent hover:bg-[#e5573e] hover:text-white self-start h-auto"
+              className="rounded-none tracking-wider normal-case text-sm px-8 py-4 border border-[#e5573e] text-[#e5573e] bg-transparent hover:bg-[#e5573e] hover:text-white self-start h-auto"
+              style={{ fontFamily: '"Nunito Sans", sans-serif', fontWeight: 700 }}
             >
               <Link to="/books" className="flex items-center gap-2">
                 <ShoppingCart className="h-4 w-4" />
@@ -215,13 +216,15 @@ export default function Cart() {
               <button
                 onClick={handleUpdateCart}
                 disabled={!hasChanges}
-                className="bg-[#C75B2A] hover:bg-white text-white hover:text-[#C75B2A] border border-[#C75B2A] rounded-none uppercase font-serif tracking-wider normal-case text-sm px-10 py-4 transition-colors font-semibold disabled:bg-[#E89B7A] disabled:border-[#E89B7A] disabled:cursor-not-allowed disabled:hover:bg-[#E89B7A] disabled:hover:text-white"
+                className="bg-[#C75B2A] hover:bg-white text-white hover:text-[#C75B2A] border border-[#C75B2A] rounded-none uppercase tracking-wider normal-case text-sm px-10 py-4 transition-colors disabled:bg-[#E89B7A] disabled:border-[#E89B7A] disabled:cursor-not-allowed disabled:hover:bg-[#E89B7A] disabled:hover:text-white"
+                style={{ fontFamily: '"Nunito Sans", sans-serif', fontWeight: 700 }}
               >
                 UPDATE CART
               </button>
               <Button
                 asChild
-                className="rounded-none font-serif tracking-wider normal-case text-sm font-semibold px-10 py-4 h-auto bg-[#e5573e] text-white border border-[#e5573e] hover:bg-white hover:text-[#e5573e]"
+                className="rounded-none tracking-wider normal-case text-sm px-10 py-4 h-auto bg-[#e5573e] text-white border border-[#e5573e] hover:bg-white hover:text-[#e5573e]"
+                style={{ fontFamily: '"Nunito Sans", sans-serif', fontWeight: 700 }}
               >
                 <Link to="/checkout">PROCEED TO CHECKOUT</Link>
               </Button>
