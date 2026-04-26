@@ -58,8 +58,8 @@ export const NewsSection = () => {
             ))}
           </div>
           <div className="flex justify-center mt-12">
-            <Button asChild variant="gold" size="lg">
-               <Link to="/news">VIEW</Link>
+            <Button asChild className="bg-[#e4573d] hover:bg-[#e4573d]/90 text-accent-foreground px-10 py-3 text-sm tracking-wider rounded-none uppercase font-nav font-bold" style={{ fontFamily: "'Nunito Sans', system-ui, sans-serif" }}>
+               <Link to="/news">View</Link>
             </Button>
           </div>
           </>
