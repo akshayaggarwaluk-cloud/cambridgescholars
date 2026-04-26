@@ -198,6 +198,10 @@ const NewsArticle = () => {
                   .news-article-content h6 * {
                     font-family: 'Libre Baskerville', Georgia, serif !important;
                   }
+                  .news-article-content p,
+                  .news-article-content p * {
+                    font-family: 'Nunito Sans', system-ui, sans-serif !important;
+                  }
                 `}</style>
                 <div
                   className="news-article-content prose prose-lg max-w-none font-baskerville text-justify whitespace-pre-wrap"
