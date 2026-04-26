@@ -131,7 +131,7 @@ export default function BookDetails() {
               <div className="flex flex-col gap-6 lg:pt-2">
                 {/* Format Selection */}
                 <div>
-                  <p style={{ fontFamily: '"Libre Baskerville", "Playfair Display", Georgia, serif' }} className="tracking-wider normal-case text-sm uppercase mb-3 font-serif font-semibold">BINDING</p>
+                  <p style={{ fontFamily: '"Nunito Sans", system-ui, sans-serif' }} className="tracking-wider normal-case text-sm uppercase mb-3 font-semibold">BINDING</p>
                   <div className="flex gap-3 lg:gap-2.5">
                     {hasHardback && (
                       <button
@@ -144,7 +144,7 @@ export default function BookDetails() {
                         )}
                       >
                         <BookIcon className={cn("h-5 w-5", selectedFormat === "hardbook" ? "text-accent" : "text-muted-foreground")} />
-                        <span style={{ fontFamily: '"Libre Baskerville", "Playfair Display", Georgia, serif' }} className={cn("tracking-wider normal-case text-sm font-normal", selectedFormat === "hardbook" ? "text-accent" : "text-foreground")}>HARDBACK</span>
+                        <span style={{ fontFamily: '"Nunito Sans", system-ui, sans-serif' }} className={cn("tracking-wider normal-case text-sm font-normal", selectedFormat === "hardbook" ? "text-accent" : "text-foreground")}>HARDBACK</span>
                         
                       </button>
                     )}
@@ -159,7 +159,7 @@ export default function BookDetails() {
                         )}
                       >
                         <BookIcon className={cn("h-5 w-5", selectedFormat === "paperback" ? "text-accent" : "text-muted-foreground")} />
-                        <span style={{ fontFamily: '"Libre Baskerville", "Playfair Display", Georgia, serif' }} className={cn("tracking-wider normal-case text-sm font-normal", selectedFormat === "paperback" ? "text-accent" : "text-foreground")}>PAPERBACK</span>
+                        <span style={{ fontFamily: '"Nunito Sans", system-ui, sans-serif' }} className={cn("tracking-wider normal-case text-sm font-normal", selectedFormat === "paperback" ? "text-accent" : "text-foreground")}>PAPERBACK</span>
                         
                       </button>
                     )}
@@ -174,7 +174,7 @@ export default function BookDetails() {
                         )}
                       >
                         <BookIcon className={cn("h-5 w-5", selectedFormat === "ebook" ? "text-accent" : "text-muted-foreground")} />
-                        <span style={{ fontFamily: '"Libre Baskerville", "Playfair Display", Georgia, serif' }} className={cn("tracking-wider normal-case text-sm font-normal", selectedFormat === "ebook" ? "text-accent" : "text-foreground")}>EBOOK</span>
+                        <span style={{ fontFamily: '"Nunito Sans", system-ui, sans-serif' }} className={cn("tracking-wider normal-case text-sm font-normal", selectedFormat === "ebook" ? "text-accent" : "text-foreground")}>EBOOK</span>
                         
                       </button>
                     )}
@@ -183,10 +183,10 @@ export default function BookDetails() {
 
                 {/* Quantity */}
                 <div className="flex items-center gap-4 sm:gap-6">
-                  <span style={{ fontFamily: '"Libre Baskerville", "Playfair Display", Georgia, serif' }} className="tracking-wider normal-case text-sm uppercase font-serif font-semibold">QUANTITY</span>
+                  <span style={{ fontFamily: '"Nunito Sans", system-ui, sans-serif' }} className="tracking-wider normal-case text-sm uppercase font-semibold">QUANTITY</span>
                   <div className="flex items-center border">
                     <button onClick={() => setQuantity(Math.max(1, quantity - 1))} className="px-2 sm:px-3 py-1.5 sm:py-2 lg:px-2.5 lg:py-1.5 hover:bg-muted"><Minus className="h-3.5 w-3.5 sm:h-4 sm:w-4" /></button>
-                    <span style={{ fontFamily: '"Libre Baskerville", "Playfair Display", Georgia, serif' }} className="px-3 sm:px-4 py-1.5 sm:py-2 lg:px-3 lg:py-1.5 min-w-[40px] sm:min-w-[50px] text-center tracking-wider text-sm font-normal">{quantity}</span>
+                    <span style={{ fontFamily: '"Nunito Sans", system-ui, sans-serif' }} className="px-3 sm:px-4 py-1.5 sm:py-2 lg:px-3 lg:py-1.5 min-w-[40px] sm:min-w-[50px] text-center tracking-wider text-sm font-normal">{quantity}</span>
                     <button onClick={() => setQuantity(quantity + 1)} className="px-2 sm:px-3 py-1.5 sm:py-2 lg:px-2.5 lg:py-1.5 hover:bg-muted"><Plus className="h-3.5 w-3.5 sm:h-4 sm:w-4" /></button>
                   </div>
                 </div>
