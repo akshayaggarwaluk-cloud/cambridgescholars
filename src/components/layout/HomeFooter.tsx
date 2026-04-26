@@ -43,7 +43,8 @@ export function HomeFooter() {
             <Link
               key={link.name}
               to={link.href}
-              className="text-[#555555] tracking-wider hover:text-foreground transition-colors font-nav font-semibold text-sm"
+              className="text-[#ababab] tracking-[0.2em] hover:text-foreground transition-colors font-nav font-normal text-[14px] uppercase"
+              style={{ fontFamily: "'Nunito Sans', system-ui, sans-serif" }}
             >
               {link.name.toUpperCase()}
             </Link>
