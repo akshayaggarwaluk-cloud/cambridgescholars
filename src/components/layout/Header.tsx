@@ -271,35 +271,21 @@ export function Header() {
               </div>
 
               {user ? (
-                <DropdownMenu>
-                  <Tooltip>
-                    <TooltipTrigger asChild>
-                      <DropdownMenuTrigger asChild>
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          className="hover:text-accent"
-                          aria-label="My Account"
-                        >
-                          <User className="h-7 w-7" />
-                        </Button>
-                      </DropdownMenuTrigger>
-                    </TooltipTrigger>
-                    <TooltipContent>My Account</TooltipContent>
-                  </Tooltip>
-                  <DropdownMenuContent align="end" className="w-52">
-                    <DropdownMenuItem asChild>
-                      <Link to="/profile">Profile</Link>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem asChild>
-                      <Link to="/orders">Orders</Link>
-                    </DropdownMenuItem>
-                    <DropdownMenuSeparator />
-                    <DropdownMenuItem onClick={handleSignOut}>
-                      <LogOut className="mr-2 h-4 w-4" /> Sign Out
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Link to="/profile">
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        className="hover:text-accent"
+                        aria-label="My Account"
+                      >
+                        <User className="h-7 w-7" />
+                      </Button>
+                    </Link>
+                  </TooltipTrigger>
+                  <TooltipContent>My Account</TooltipContent>
+                </Tooltip>
               ) : (
                 <Tooltip>
                   <TooltipTrigger asChild>
