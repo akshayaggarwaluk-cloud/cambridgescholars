@@ -220,7 +220,7 @@ export function BookDetailsTabs({ book }: BookDetailsTabsProps) {
 
       {/* Share this book section */}
       <div className="mt-16 pt-8 border-t border-border text-center">
-        <p className="text-foreground font-semibold mb-4 text-lg" style={unifiedFontStyle}>Share this book:</p>
+        <p className="text-foreground font-semibold mb-4 text-lg" style={{ fontFamily: '"Nunito Sans", system-ui, sans-serif' }}>Share this book:</p>
         <div className="flex justify-center gap-4">
           <button
             onClick={() => window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}`, '_blank')}
