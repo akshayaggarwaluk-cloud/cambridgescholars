@@ -41,12 +41,15 @@ export default function FAQ() {
                   <AccordionItem
                     key={faq.id}
                     value={`faq-${faq.id}`}
-                    className="border-0 rounded-md bg-[#F8F8F8] px-5"
+                    className="border-0"
                   >
-                    <AccordionTrigger className="text-left font-normal text-[#333333] hover:text-accent hover:no-underline py-5 text-[17px] leading-[1.6] [&>svg]:hidden" style={{ fontFamily: '"Nunito Sans", sans-serif' }}>
+                    <AccordionTrigger
+                      className="text-left font-normal py-5 px-5 text-[17px] leading-[1.6] [&>svg]:hidden hover:no-underline bg-[#F8F8F8] text-[#333333] data-[state=open]:bg-[#C75B2A] data-[state=open]:text-white transition-colors"
+                      style={{ fontFamily: '"Nunito Sans", sans-serif' }}
+                    >
                       {faq.question}
                     </AccordionTrigger>
-                    <AccordionContent className="text-[#696969] leading-[1.6] pb-5 text-[16px] whitespace-pre-wrap" style={{ fontFamily: '"Nunito Sans", sans-serif' }}>
+                    <AccordionContent className="text-[#696969] leading-[1.6] pt-5 pb-5 px-5 text-[16px] whitespace-pre-wrap bg-transparent" style={{ fontFamily: '"Nunito Sans", sans-serif' }}>
                       {faq.answer}
                     </AccordionContent>
                   </AccordionItem>
