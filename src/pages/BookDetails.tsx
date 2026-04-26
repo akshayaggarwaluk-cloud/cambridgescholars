@@ -119,7 +119,7 @@ export default function BookDetails() {
                 </p>
                 {book.shortDescription && (
                   <p
-                    className="hidden sm:block leading-7 lg:leading-7 max-w-3xl mb-6 lg:mb-0 text-base font-light text-[#696969]"
+                    className="hidden sm:block leading-7 lg:leading-7 max-w-3xl mb-6 lg:mb-0 text-base font-medium text-[#696969]"
                     style={{ fontFamily: '"Nunito Sans", sans-serif' }}
                   >
                     {book.shortDescription}
