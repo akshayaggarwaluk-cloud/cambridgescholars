@@ -644,8 +644,8 @@ export default function ExternalProfile() {
 
     if (addressMode === "billing") {
       return (
-        <div className="space-y-6">
-          <h2 className="font-baskerville text-[32px] leading-tight font-normal text-[#333333]">
+        <div className="space-y-8">
+          <h2 className="font-baskerville text-[40px] leading-tight font-normal text-[#333333]">
             Billing address
           </h2>
           {renderAddressFields(
@@ -654,33 +654,25 @@ export default function ExternalProfile() {
             true,
             "billing",
           )}
-          <div className="flex gap-3">
-            <Button
-              onClick={async () => {
-                await handleSaveBilling();
-                setAddressMode("view");
-              }}
-              disabled={billingSaving}
-              className="bg-[#E4573D] hover:bg-[#c94a30] text-white rounded-none uppercase tracking-wider"
-            >
-              {billingSaving ? "Saving..." : "Save Address"}
-            </Button>
-            <Button
-              onClick={() => setAddressMode("view")}
-              variant="outline"
-              className="rounded-none uppercase tracking-wider"
-            >
-              Cancel
-            </Button>
-          </div>
+          <Button
+            onClick={async () => {
+              await handleSaveBilling();
+              setAddressMode("view");
+            }}
+            disabled={billingSaving}
+            className="bg-[#E4573D] hover:bg-[#c94a30] text-white rounded-none uppercase tracking-wider font-bold text-[14px] h-12 px-8"
+            style={{ fontFamily: '"Nunito Sans", sans-serif' }}
+          >
+            {billingSaving ? "Saving..." : "Save Address"}
+          </Button>
         </div>
       );
     }
 
     if (addressMode === "shipping") {
       return (
-        <div className="space-y-6">
-          <h2 className="font-baskerville text-[32px] leading-tight font-normal text-[#333333]">
+        <div className="space-y-8">
+          <h2 className="font-baskerville text-[40px] leading-tight font-normal text-[#333333]">
             Shipping address
           </h2>
           {renderAddressFields(
@@ -692,25 +684,17 @@ export default function ExternalProfile() {
             false,
             "shipping",
           )}
-          <div className="flex gap-3">
-            <Button
-              onClick={async () => {
-                await handleSaveShipping();
-                setAddressMode("view");
-              }}
-              disabled={shippingSaving}
-              className="bg-[#E4573D] hover:bg-[#c94a30] text-white rounded-none uppercase tracking-wider"
-            >
-              {shippingSaving ? "Saving..." : "Save Address"}
-            </Button>
-            <Button
-              onClick={() => setAddressMode("view")}
-              variant="outline"
-              className="rounded-none uppercase tracking-wider"
-            >
-              Cancel
-            </Button>
-          </div>
+          <Button
+            onClick={async () => {
+              await handleSaveShipping();
+              setAddressMode("view");
+            }}
+            disabled={shippingSaving}
+            className="bg-[#E4573D] hover:bg-[#c94a30] text-white rounded-none uppercase tracking-wider font-bold text-[14px] h-12 px-8"
+            style={{ fontFamily: '"Nunito Sans", sans-serif' }}
+          >
+            {shippingSaving ? "Saving..." : "Save Address"}
+          </Button>
         </div>
       );
     }
