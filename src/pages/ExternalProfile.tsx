@@ -11,6 +11,7 @@ import {
   Info,
   ArrowRight,
   KeyRound,
+  CreditCard,
 } from "lucide-react";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
@@ -29,7 +30,7 @@ import {
   type ProfileUpdatePayload,
 } from "@/services/accountService";
 
-type TabType = "dashboard" | "orders" | "addresses" | "account" | "password";
+type TabType = "dashboard" | "orders" | "addresses" | "payment" | "account" | "password";
 
 interface Order {
   id: number | string;
@@ -306,49 +307,62 @@ export default function ExternalProfile() {
     { id: "dashboard", label: "DASHBOARD", icon: User },
     { id: "orders", label: "ORDERS", icon: Package },
     { id: "addresses", label: "ADDRESSES", icon: MapPin },
+    { id: "payment", label: "PAYMENT METHODS", icon: CreditCard },
     { id: "account", label: "ACCOUNT DETAILS", icon: Settings },
     { id: "password", label: "CHANGE PASSWORD", icon: KeyRound },
   ];
 
+  const dashboardName =
+    user.username || user.email?.split("@")[0] || displayName;
+
   const renderDashboard = () => (
-    <div className="space-y-6">
+    <div className="space-y-6" style={{ fontFamily: '"Nunito Sans", sans-serif' }}>
       <p className="text-foreground text-lg">
-        Hello <span className="font-semibold">{displayName}</span>{" "}
-        <span className="text-muted-foreground">
-          (not {displayName}?{" "}
+        Hello <span className="font-bold">{dashboardName}</span>{" "}
+        <span>
+          (not <span className="font-bold">{dashboardName}</span>?{" "}
           <button
             onClick={handleLogout}
-            className="text-red-500 hover:text-red-600 transition-colors"
+            className="text-[#C75B2A] hover:text-[#a84a20] transition-colors"
           >
             Log out
           </button>
           )
         </span>
       </p>
-      <p className="text-muted-foreground">
+      <p className="text-foreground">
         From your account dashboard you can view your{" "}
         <button
           onClick={() => setActiveTab("orders")}
-          className="text-red-500 hover:text-red-600 transition-colors"
+          className="text-[#C75B2A] hover:text-[#a84a20] transition-colors"
         >
           recent orders
         </button>
         , manage your{" "}
         <button
           onClick={() => setActiveTab("addresses")}
-          className="text-red-500 hover:text-red-600 transition-colors"
+          className="text-[#C75B2A] hover:text-[#a84a20] transition-colors"
         >
           shipping and billing addresses
         </button>
         , and{" "}
         <button
-          onClick={() => setActiveTab("password")}
-          className="text-red-500 hover:text-red-600 transition-colors"
+          onClick={() => setActiveTab("account")}
+          className="text-[#C75B2A] hover:text-[#a84a20] transition-colors"
         >
           edit your password and account details
         </button>
         .
       </p>
+    </div>
+  );
+
+  const renderPaymentMethods = () => (
+    <div className="space-y-6" style={{ fontFamily: '"Nunito Sans", sans-serif' }}>
+      <div className="bg-[#5BAFA8] text-white px-6 py-5 flex items-center gap-3">
+        <Info className="h-5 w-5 flex-shrink-0" strokeWidth={2} />
+        <span>No saved payment methods.</span>
+      </div>
     </div>
   );
 
@@ -731,6 +745,8 @@ export default function ExternalProfile() {
         return renderOrders();
       case "addresses":
         return renderAddresses();
+      case "payment":
+        return renderPaymentMethods();
       case "account":
         return renderAccount();
       case "password":
@@ -761,7 +777,7 @@ export default function ExternalProfile() {
                   onClick={() => setActiveTab(item.id)}
                   className={`w-full text-left px-4 py-4 border-b border-border transition-colors flex items-center gap-3 font-nav font-medium text-sm ${
                     activeTab === item.id
-                      ? "bg-red-500 text-white border-red-500"
+                      ? "bg-[#C75B2A] text-white border-[#C75B2A]"
                       : "hover:bg-secondary text-foreground"
                   }`}
                 >
