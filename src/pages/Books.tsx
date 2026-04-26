@@ -495,12 +495,12 @@ export default function Books() {
                             </p>
                           )}
 
-                          <p className="font-nav mt-4 text-[15px] text-[#333]" style={{ fontFamily: "'Nunito Sans', system-ui, sans-serif" }}>
+                          <p className="mt-4 text-[13px] text-[#696969] font-['Libre_Baskerville']">
                             By: <span>{book.author}</span>
                           </p>
 
                           {(book.shortDescription || book.blurb) && (
-                            <p className="font-nav text-[15px] text-[#555] mt-5 leading-[1.7] whitespace-pre-line" style={{ fontFamily: "'Nunito Sans', system-ui, sans-serif" }}>
+                            <p className="text-[16px] text-[#696969] mt-5 leading-[1.7] whitespace-pre-line" style={{ fontFamily: "'Nunito Sans', system-ui, sans-serif" }}>
                               {book.shortDescription || book.blurb}
                             </p>
                           )}
