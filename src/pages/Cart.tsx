@@ -5,11 +5,11 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { PageBreadcrumb } from "@/components/layout/PageBreadcrumb";
 import { Button } from "@/components/ui/button";
-import { useCart } from "@/contexts/CartContext";
+import { useCart, type CartItem, type BookFormat } from "@/contexts/CartContext";
 import { showCartNotification } from "@/components/cart/CartBanner";
 
 export default function Cart() {
-  const { items, updateQuantity, removeFromCart, cartTotal } = useCart();
+  const { items, updateQuantity, removeFromCart, addToCart, cartTotal } = useCart();
 
   // Snapshot of quantities at last "save" (initial load or after Update Cart)
   const [savedQuantities, setSavedQuantities] = useState<Record<string, number>>(() => {
@@ -44,6 +44,21 @@ export default function Cart() {
     });
     setSavedQuantities(map);
     showCartNotification("Cart updated.");
+  };
+
+  const handleRemoveItem = (item: CartItem) => {
+    const undoEvent = `cart:undo-remove:${item.id}_${item.format}_${Date.now()}`;
+    const onUndo = () => {
+      window.removeEventListener(undoEvent, onUndo);
+      void addToCart(item, item.format as BookFormat);
+    };
+    window.addEventListener(undoEvent, onUndo, { once: true });
+    removeFromCart(item.id, item.format);
+    const cleanTitle = item.title.split(":")[0].trim();
+    showCartNotification(
+      `&ldquo;${cleanTitle}&rdquo; removed.`,
+      { variant: "removed", undoLabel: "Undo?", undoEvent },
+    );
   };
 
   const formatIsbn = (isbn: string) => {
@@ -184,7 +199,7 @@ export default function Cart() {
 
                 {/* Remove */}
                 <button
-                  onClick={() => removeFromCart(item.id, item.format)}
+                  onClick={() => handleRemoveItem(item)}
                   aria-label="Remove item"
                   className="w-10 h-10 border border-border flex items-center justify-center hover:bg-secondary transition-colors justify-self-end"
                 >
