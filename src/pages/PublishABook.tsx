@@ -76,11 +76,12 @@ export default function PublishABook() {
               </div>
               <Link
                 to={card.href}
-                className="inline-flex items-center gap-2 text-[#e4573d] hover:text-[#e4573d]/80 transition-colors uppercase tracking-[0.15em] group-hover:gap-3 text-sm font-medium"
+                className="inline-flex items-center gap-1 text-[#e4573d] hover:text-[#e4573d]/80 transition-colors uppercase tracking-normal text-[13px] font-bold"
+                style={{ fontFamily: '"Nunito Sans", system-ui, sans-serif' }}
               >
                 View More
                 <ChevronRight className="h-4 w-4" />
-                <ChevronRight className="h-4 w-4 -ml-[10px]" />
+                <ChevronRight className="h-4 w-4 -ml-[12px]" />
               </Link>
             </div>
           ))}
