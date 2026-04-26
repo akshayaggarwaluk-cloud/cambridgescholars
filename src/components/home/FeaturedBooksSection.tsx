@@ -73,7 +73,7 @@ export function FeaturedBooksSection() {
     return (
       <section className="py-20 bg-[#f4f3ec] overflow-hidden md:py-[20px]">
         <div className="container-wide">
-          <p className="font-baskerville text-accent uppercase tracking-[0.3em] mb-4 text-lg font-medium">Featured Book</p>
+          <p className="font-baskerville text-accent uppercase tracking-[0.3em] mb-4 text-lg font-medium font-medium">Featured Book</p>
           <p className="text-muted-foreground text-base">No featured books available at the moment.</p>
         </div>
       </section>
@@ -100,7 +100,7 @@ export function FeaturedBooksSection() {
                 exit={{ opacity: 0, y: -15 }}
                 transition={{ duration: 0.7, ease: [0.25, 0.4, 0.25, 1] }}
               >
-                <p className="font-baskerville text-[#e4573d] uppercase tracking-[0.3em] text-lg font-medium">Featured Book</p>
+                  <p className="font-baskerville text-[#e4573d] uppercase tracking-[0.3em] text-lg font-medium font-medium">Featured Book</p>
                 <h2 className="font-baskerville text-3xl md:text-4xl font-normal leading-[1.15] text-foreground lg:text-4xl">{book.title}</h2>
                 {book.description && (
                   <p className="font-nav text-muted-foreground leading-relaxed text-base italic font-normal">"{book.description}"</p>
