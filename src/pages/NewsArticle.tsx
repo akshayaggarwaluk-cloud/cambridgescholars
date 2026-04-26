@@ -182,10 +182,22 @@ const NewsArticle = () => {
             )}
 
             {article.content && (
-              <div
-                className="news-article-content prose prose-lg max-w-none font-baskerville text-justify whitespace-pre-wrap [&_h1]:font-baskerville [&_h2]:font-baskerville [&_h3]:font-baskerville [&_h4]:font-baskerville [&_h5]:font-baskerville [&_h6]:font-baskerville [&_h1]:font-['Libre_Baskerville'] [&_h2]:font-['Libre_Baskerville'] [&_h3]:font-['Libre_Baskerville'] [&_h4]:font-['Libre_Baskerville'] [&_h5]:font-['Libre_Baskerville'] [&_h6]:font-['Libre_Baskerville']"
-                dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(article.content) }}
-              />
+              <>
+                <style>{`
+                  .news-article-content h1,
+                  .news-article-content h2,
+                  .news-article-content h3,
+                  .news-article-content h4,
+                  .news-article-content h5,
+                  .news-article-content h6 {
+                    font-family: 'Libre Baskerville', Georgia, serif !important;
+                  }
+                `}</style>
+                <div
+                  className="news-article-content prose prose-lg max-w-none font-baskerville text-justify whitespace-pre-wrap"
+                  dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(article.content) }}
+                />
+              </>
             )}
 
             <div className="mt-6 text-sm text-muted-foreground">
