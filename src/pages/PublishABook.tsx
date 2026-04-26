@@ -43,7 +43,7 @@ export default function PublishABook() {
         >
           <div className="absolute inset-0 bg-transparent" />
         </div>
-        <h1 className="relative z-10 font-serif text-white text-5xl md:text-7xl text-center drop-shadow-lg">
+        <h1 className="relative z-10 font-serif text-white text-4xl md:text-6xl text-center drop-shadow-lg">
           Publish a Book
         </h1>
       </section>
