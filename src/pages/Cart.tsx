@@ -135,7 +135,7 @@ export default function Cart() {
                   </Link>
                   <div className="min-w-0">
                     <Link to={`/books/${item.id}`}>
-                    <h3 className="font-sans transition-colors leading-snug text-base text-black font-light" style={{ fontFamily: '"Nunito Sans", sans-serif' }}>
+                     <h3 className="text-base font-sans font-medium font-sans transition-colors leading-snug text-base text-black font-light" style={{ fontFamily: '"Nunito Sans", sans-serif' }}>
                         {item.title.split(":")[0].trim()} - {formatLabel(item.format)}
                       </h3>
                     </Link>
@@ -172,7 +172,7 @@ export default function Cart() {
                 </div>
 
                 {/* Total */}
-                <div className="text-base text-black font-light text-center">
+                 <div className="text-base font-sans font-medium text-base text-black font-light text-center">
                   £{(item.price * item.quantity).toFixed(2)}
                 </div>
 
@@ -190,8 +190,8 @@ export default function Cart() {
 
           {/* Total */}
           <div className="flex justify-end items-center gap-12 mt-10 pr-6">
-             <span className="text-base text-muted-foreground">Total</span>
-             <span className="text-foreground font-normal text-lg">
+             <span className="text-base font-sans font-medium text-base text-muted-foreground">Total</span>
+             <span className="text-base font-sans font-medium text-foreground font-normal text-lg">
                £{cartTotal.toFixed(2)}
              </span>
           </div>
