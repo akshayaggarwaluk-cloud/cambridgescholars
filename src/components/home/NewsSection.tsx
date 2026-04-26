@@ -50,6 +50,7 @@ export const NewsSection = () => {
                 <Link
                   to={`/news/${article.slug}`}
                   className="inline-flex items-center gap-1 font-semibold text-xs uppercase tracking-[0.15em] text-[#e4573d] hover:text-[#e4573d]/80 transition-colors"
+                  style={{ fontFamily: "'Nunito Sans', system-ui, sans-serif" }}
                 >
                   READ MORE
                   <ChevronsRight className="h-4 w-4" />
