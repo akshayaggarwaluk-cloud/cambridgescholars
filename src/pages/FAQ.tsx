@@ -49,7 +49,7 @@ export default function FAQ() {
                     >
                       {faq.question}
                     </AccordionTrigger>
-                    <AccordionContent className="text-[#696969] leading-[2.6] pt-6 pb-6 px-5 text-[16px] whitespace-pre-wrap bg-transparent" style={{ fontFamily: '"Nunito Sans", sans-serif' }}>
+                    <AccordionContent className="text-[#696969] leading-[4] pt-6 pb-6 px-5 text-[16px] whitespace-pre-wrap bg-transparent" style={{ fontFamily: '"Nunito Sans", sans-serif' }}>
                       {faq.answer}
                     </AccordionContent>
                   </AccordionItem>
