@@ -53,8 +53,8 @@ export function CartHoverPanel({ onNavigate }: CartHoverPanelProps) {
                   <Link
                     to={`/books/${item.id}`}
                     onClick={onNavigate}
-                    className="block font-serif text-base leading-snug transition-colors text-black"
-                    style={{ fontFamily: '"Playfair Display", serif' }}
+                    className="block text-base leading-snug transition-colors text-black"
+                    style={{ fontFamily: '"Libre Baskerville", serif' }}
                   >
                     {item.title} - {formatLabel(item.format)}
                   </Link>
