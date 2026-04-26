@@ -2,7 +2,6 @@ import { useState, useEffect, useCallback } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import {
   User,
-  Mail,
   LogOut,
   Package,
   MapPin,
@@ -10,7 +9,6 @@ import {
   Loader2,
   Info,
   ArrowRight,
-  KeyRound,
   CreditCard,
 } from "lucide-react";
 import { Header } from "@/components/layout/Header";
