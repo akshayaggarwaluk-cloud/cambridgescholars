@@ -894,8 +894,8 @@ export default function ExternalProfile() {
 
       <div className="w-full bg-[#F4F3EC] pt-24 sm:pt-28">
         <div className="container-wide h-[200px] flex items-center justify-between">
-          <h1 className="text-[40px] leading-[1.2] font-baskerville font-normal text-[#333333] my-[10px]">My Account</h1>
-          <PageBreadcrumb items={[{ label: "Bookshop", href: "/books" }]} currentPage="My Account" />
+          <h1 className="text-[40px] leading-[1.2] font-baskerville font-normal text-[#333333] my-[10px]">My account</h1>
+          <PageBreadcrumb items={[{ label: "Home", href: "/" }, { label: "Bookshop", href: "/books" }, { label: "My account" }]} />
         </div>
       </div>
 
