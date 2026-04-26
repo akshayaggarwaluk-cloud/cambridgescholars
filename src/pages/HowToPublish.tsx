@@ -141,19 +141,19 @@ const HowToPublish = () => {
                     </div>
 
                     <div className="flex-1 pt-2">
-                      <h3 className="text-2xl font-display text-foreground mb-3 font-semibold tracking-wider">{step.title}</h3>
+                      <h3 className="mb-3 text-[26px] text-[#333333]" style={{ fontFamily: '"Libre Baskerville", Georgia, serif' }}>{step.title}</h3>
                       {step.description && (
-                        <p className="leading-relaxed mb-3 text-base text-black">{step.description}</p>
+                        <p className="leading-relaxed mb-3 text-[16px] text-[#333333]" style={{ fontFamily: '"Nunito Sans", system-ui, sans-serif' }}>{step.description}</p>
                       )}
                       {step.bullets && (
-                        <ul className="list-disc list-inside text-muted-foreground space-y-1 mb-3 ml-1">
+                        <ul className="list-disc list-inside space-y-1 mb-3 ml-1 text-[16px] text-[#333333]" style={{ fontFamily: '"Nunito Sans", system-ui, sans-serif' }}>
                           {step.bullets.map((bullet, bulletIndex) => (
                             <li key={bulletIndex}>{bullet}</li>
                           ))}
                         </ul>
                       )}
                       {step.additionalText && (
-                        <p className="text-muted-foreground leading-relaxed">{step.additionalText}</p>
+                        <p className="leading-relaxed text-[16px] text-[#333333]" style={{ fontFamily: '"Nunito Sans", system-ui, sans-serif' }}>{step.additionalText}</p>
                       )}
                     </div>
                   </div>
