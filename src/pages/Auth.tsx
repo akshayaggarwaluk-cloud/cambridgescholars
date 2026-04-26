@@ -206,7 +206,7 @@ export default function Auth() {
       {/* Page Header Banner */}
       <section className="bg-[#f4f3ec] pt-28 sm:pt-32 pb-12 md:pb-16">
 
-        <div className="max-w-7xl mx-auto px-4 flex items-center justify-between flex-wrap gap-4">
+        <div className="container-wide flex items-center justify-between flex-wrap gap-4">
           <h1 className="text-[40px] leading-[1.2] font-baskerville font-normal text-[#333333] my-[10px]">
             My account
           </h1>
@@ -221,7 +221,7 @@ export default function Auth() {
       </section>
 
       <main className="flex-1 py-12 md:py-16 bg-white">
-        <div className="max-w-7xl mx-auto px-4">
+        <div className="container-wide">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-20">
             {/* ── LOGIN ───────────────────────────── */}
             <section aria-labelledby="login-heading">
