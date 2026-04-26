@@ -446,21 +446,33 @@ export default function ExternalProfile() {
     </div>
   );
 
-  const addressInputClass = "h-12 border-border bg-background";
+  const addressInputClass =
+    "h-12 rounded-none border border-[#d9d9d9] bg-white text-[15px] text-[#333333] focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:border-[#333333]";
 
   type AddressFormShape = typeof billingForm & Partial<typeof shippingForm>;
+
+  const addressLabelClass =
+    "uppercase text-[14px] font-bold tracking-wider text-[#333333] block mb-2";
+
+  const renderFieldLabel = (htmlFor: string, label: string, required: boolean) => (
+    <Label
+      htmlFor={htmlFor}
+      className={addressLabelClass}
+      style={{ fontFamily: '"Nunito Sans", sans-serif' }}
+    >
+      {label} {required && <span className="text-[#E4573D]">*</span>}
+    </Label>
+  );
 
   const renderAddressFields = (
     form: AddressFormShape,
     setForm: (next: AddressFormShape) => void,
     showEmail: boolean,
-    prefix: string
+    prefix: string,
   ) => (
-    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-      <div className="space-y-2">
-        <Label htmlFor={`${prefix}-first`} className="uppercase text-xs font-medium tracking-wider text-muted-foreground">
-          First Name
-        </Label>
+    <div className="space-y-6 max-w-3xl">
+      <div>
+        {renderFieldLabel(`${prefix}-first`, "First Name", true)}
         <Input
           id={`${prefix}-first`}
           className={addressInputClass}
@@ -468,10 +480,8 @@ export default function ExternalProfile() {
           onChange={(e) => setForm({ ...form, first_name: e.target.value })}
         />
       </div>
-      <div className="space-y-2">
-        <Label htmlFor={`${prefix}-last`} className="uppercase text-xs font-medium tracking-wider text-muted-foreground">
-          Last Name
-        </Label>
+      <div>
+        {renderFieldLabel(`${prefix}-last`, "Last Name", true)}
         <Input
           id={`${prefix}-last`}
           className={addressInputClass}
@@ -479,21 +489,20 @@ export default function ExternalProfile() {
           onChange={(e) => setForm({ ...form, last_name: e.target.value })}
         />
       </div>
-      <div className="space-y-2 sm:col-span-2">
-        <Label htmlFor={`${prefix}-company`} className="uppercase text-xs font-medium tracking-wider text-muted-foreground">
-          Company (optional)
-        </Label>
+      <div>
+        {renderFieldLabel(`${prefix}-country`, "Country / Region", true)}
         <Input
-          id={`${prefix}-company`}
+          id={`${prefix}-country`}
           className={addressInputClass}
-          value={form.company}
-          onChange={(e) => setForm({ ...form, company: e.target.value })}
+          placeholder="e.g. GB, US"
+          value={form.country}
+          onChange={(e) =>
+            setForm({ ...form, country: e.target.value.toUpperCase().slice(0, 2) })
+          }
         />
       </div>
-      <div className="space-y-2 sm:col-span-2">
-        <Label htmlFor={`${prefix}-addr1`} className="uppercase text-xs font-medium tracking-wider text-muted-foreground">
-          Street Address
-        </Label>
+      <div>
+        {renderFieldLabel(`${prefix}-addr1`, "Street Address", true)}
         <Input
           id={`${prefix}-addr1`}
           className={addressInputClass}
@@ -503,16 +512,14 @@ export default function ExternalProfile() {
         />
         <Input
           id={`${prefix}-addr2`}
-          className={`${addressInputClass} mt-2`}
+          className={`${addressInputClass} mt-3`}
           placeholder="Apartment, suite, unit, etc. (optional)"
           value={form.address_2}
           onChange={(e) => setForm({ ...form, address_2: e.target.value })}
         />
       </div>
-      <div className="space-y-2">
-        <Label htmlFor={`${prefix}-city`} className="uppercase text-xs font-medium tracking-wider text-muted-foreground">
-          Town / City
-        </Label>
+      <div>
+        {renderFieldLabel(`${prefix}-city`, "Town / City", true)}
         <Input
           id={`${prefix}-city`}
           className={addressInputClass}
@@ -520,10 +527,8 @@ export default function ExternalProfile() {
           onChange={(e) => setForm({ ...form, city: e.target.value })}
         />
       </div>
-      <div className="space-y-2">
-        <Label htmlFor={`${prefix}-state`} className="uppercase text-xs font-medium tracking-wider text-muted-foreground">
-          State / County
-        </Label>
+      <div>
+        {renderFieldLabel(`${prefix}-state`, "State / County", true)}
         <Input
           id={`${prefix}-state`}
           className={addressInputClass}
@@ -531,10 +536,8 @@ export default function ExternalProfile() {
           onChange={(e) => setForm({ ...form, state: e.target.value })}
         />
       </div>
-      <div className="space-y-2">
-        <Label htmlFor={`${prefix}-postcode`} className="uppercase text-xs font-medium tracking-wider text-muted-foreground">
-          Postcode / ZIP
-        </Label>
+      <div>
+        {renderFieldLabel(`${prefix}-postcode`, "Postcode / ZIP", true)}
         <Input
           id={`${prefix}-postcode`}
           className={addressInputClass}
@@ -542,22 +545,12 @@ export default function ExternalProfile() {
           onChange={(e) => setForm({ ...form, postcode: e.target.value })}
         />
       </div>
-      <div className="space-y-2">
-        <Label htmlFor={`${prefix}-country`} className="uppercase text-xs font-medium tracking-wider text-muted-foreground">
-          Country (ISO code)
-        </Label>
-        <Input
-          id={`${prefix}-country`}
-          className={addressInputClass}
-          placeholder="e.g. GB, US"
-          value={form.country}
-          onChange={(e) => setForm({ ...form, country: e.target.value.toUpperCase().slice(0, 2) })}
-        />
-      </div>
-      <div className="space-y-2">
-        <Label htmlFor={`${prefix}-phone`} className="uppercase text-xs font-medium tracking-wider text-muted-foreground">
-          Phone
-        </Label>
+      <div>
+        {renderFieldLabel(
+          `${prefix}-phone`,
+          showEmail ? "Phone (Optional)" : "Phone",
+          !showEmail,
+        )}
         <Input
           id={`${prefix}-phone`}
           className={addressInputClass}
@@ -566,10 +559,8 @@ export default function ExternalProfile() {
         />
       </div>
       {showEmail && "email" in form && (
-        <div className="space-y-2 sm:col-span-2">
-          <Label htmlFor={`${prefix}-email`} className="uppercase text-xs font-medium tracking-wider text-muted-foreground">
-            Billing Email
-          </Label>
+        <div>
+          {renderFieldLabel(`${prefix}-email`, "Email Address", true)}
           <Input
             id={`${prefix}-email`}
             type="email"
@@ -653,8 +644,8 @@ export default function ExternalProfile() {
 
     if (addressMode === "billing") {
       return (
-        <div className="space-y-6">
-          <h2 className="font-baskerville text-[32px] leading-tight font-normal text-[#333333]">
+        <div className="space-y-8">
+          <h2 className="font-baskerville text-[40px] leading-tight font-normal text-[#333333]">
             Billing address
           </h2>
           {renderAddressFields(
@@ -663,33 +654,25 @@ export default function ExternalProfile() {
             true,
             "billing",
           )}
-          <div className="flex gap-3">
-            <Button
-              onClick={async () => {
-                await handleSaveBilling();
-                setAddressMode("view");
-              }}
-              disabled={billingSaving}
-              className="bg-[#E4573D] hover:bg-[#c94a30] text-white rounded-none uppercase tracking-wider"
-            >
-              {billingSaving ? "Saving..." : "Save Address"}
-            </Button>
-            <Button
-              onClick={() => setAddressMode("view")}
-              variant="outline"
-              className="rounded-none uppercase tracking-wider"
-            >
-              Cancel
-            </Button>
-          </div>
+          <Button
+            onClick={async () => {
+              await handleSaveBilling();
+              setAddressMode("view");
+            }}
+            disabled={billingSaving}
+            className="bg-[#E4573D] hover:bg-[#c94a30] text-white rounded-none uppercase tracking-wider font-bold text-[14px] h-12 px-8"
+            style={{ fontFamily: '"Nunito Sans", sans-serif' }}
+          >
+            {billingSaving ? "Saving..." : "Save Address"}
+          </Button>
         </div>
       );
     }
 
     if (addressMode === "shipping") {
       return (
-        <div className="space-y-6">
-          <h2 className="font-baskerville text-[32px] leading-tight font-normal text-[#333333]">
+        <div className="space-y-8">
+          <h2 className="font-baskerville text-[40px] leading-tight font-normal text-[#333333]">
             Shipping address
           </h2>
           {renderAddressFields(
@@ -701,25 +684,17 @@ export default function ExternalProfile() {
             false,
             "shipping",
           )}
-          <div className="flex gap-3">
-            <Button
-              onClick={async () => {
-                await handleSaveShipping();
-                setAddressMode("view");
-              }}
-              disabled={shippingSaving}
-              className="bg-[#E4573D] hover:bg-[#c94a30] text-white rounded-none uppercase tracking-wider"
-            >
-              {shippingSaving ? "Saving..." : "Save Address"}
-            </Button>
-            <Button
-              onClick={() => setAddressMode("view")}
-              variant="outline"
-              className="rounded-none uppercase tracking-wider"
-            >
-              Cancel
-            </Button>
-          </div>
+          <Button
+            onClick={async () => {
+              await handleSaveShipping();
+              setAddressMode("view");
+            }}
+            disabled={shippingSaving}
+            className="bg-[#E4573D] hover:bg-[#c94a30] text-white rounded-none uppercase tracking-wider font-bold text-[14px] h-12 px-8"
+            style={{ fontFamily: '"Nunito Sans", sans-serif' }}
+          >
+            {shippingSaving ? "Saving..." : "Save Address"}
+          </Button>
         </div>
       );
     }
