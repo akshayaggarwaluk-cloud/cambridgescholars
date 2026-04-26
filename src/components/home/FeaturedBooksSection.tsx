@@ -113,7 +113,7 @@ export function FeaturedBooksSection() {
                     )}
                   </p>
                 )}
-                <Button asChild className="bg-[#e4573d] hover:bg-[#e4573d]/90 text-accent-foreground px-16 py-3.5 text-sm tracking-[0.2em] rounded-none uppercase font-bold">
+                <Button asChild className="bg-[#e4573d] hover:bg-[#e4573d]/90 text-accent-foreground px-16 py-3.5 text-sm tracking-[0.2em] rounded-none uppercase font-nav font-bold" style={{ fontFamily: "'Nunito Sans', system-ui, sans-serif" }}>
                   <Link to={`/books/${book.id}`}>View</Link>
                 </Button>
               </motion.div>
