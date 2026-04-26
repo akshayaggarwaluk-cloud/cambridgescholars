@@ -227,7 +227,8 @@ export default function Auth() {
             <section aria-labelledby="login-heading">
               <h2
                 id="login-heading"
-                className="font-serif text-3xl md:text-4xl font-normal text-foreground mb-8 tracking-wider"
+                className="font-baskerville font-normal text-[#333333] mb-8"
+                style={{ fontFamily: '"Libre Baskerville", serif', fontSize: "34px", lineHeight: 1.2 }}
               >
                 Login
               </h2>
@@ -245,9 +246,10 @@ export default function Auth() {
                 <div className="space-y-2">
                   <Label
                     htmlFor="loginIdentifier"
-                    className="text-xs font-medium tracking-widest uppercase text-foreground/70"
+                    className="uppercase text-[14px] font-bold text-[#333333] block"
+                    style={{ fontFamily: '"Nunito Sans", sans-serif' }}
                   >
-                    Username or email address <span className="text-accent">*</span>
+                    Username or email address <span className="text-[#E4573D]">*</span>
                   </Label>
                   <Input
                     id="loginIdentifier"
@@ -255,10 +257,10 @@ export default function Auth() {
                     autoComplete="username"
                     value={loginIdentifier}
                     onChange={(e) => setLoginIdentifier(e.target.value)}
-                    className={`h-12 rounded-none border-black bg-white opacity-80 ${
+                    className={`h-12 rounded-none border border-[#d9d9d9] bg-white text-[15px] text-[#333333] focus-visible:ring-0 ${
                       loginErrors.identifier
                         ? "border-destructive focus-visible:ring-destructive"
-                        : "focus-visible:ring-accent"
+                        : ""
                     }`}
                   />
                   {loginErrors.identifier && (
@@ -269,9 +271,10 @@ export default function Auth() {
                 <div className="space-y-2">
                   <Label
                     htmlFor="loginPassword"
-                    className="text-xs font-medium tracking-widest uppercase text-foreground/70"
+                    className="uppercase text-[14px] font-bold text-[#333333] block"
+                    style={{ fontFamily: '"Nunito Sans", sans-serif' }}
                   >
-                    Password <span className="text-accent">*</span>
+                    Password <span className="text-[#E4573D]">*</span>
                   </Label>
                   <div className="relative">
                     <Input
@@ -280,10 +283,10 @@ export default function Auth() {
                       autoComplete="current-password"
                       value={loginPassword}
                       onChange={(e) => setLoginPassword(e.target.value)}
-                      className={`h-12 pr-12 rounded-none border-black bg-white opacity-80 ${
+                      className={`h-12 pr-12 rounded-none border border-[#d9d9d9] bg-white text-[15px] text-[#333333] focus-visible:ring-0 ${
                         loginErrors.password
                           ? "border-destructive focus-visible:ring-destructive"
-                          : "focus-visible:ring-accent"
+                          : ""
                       }`}
                     />
                     <button
@@ -307,7 +310,8 @@ export default function Auth() {
                 <div className="flex items-center gap-8 flex-wrap">
                   <Button
                     type="submit"
-                    className="bg-[#e4573d] text-accent-foreground font-medium h-12 px-8 rounded-none uppercase tracking-wider transition-colors duration-300 hover:bg-[#e4573d]/90"
+                    className="bg-[#E4573D] hover:bg-[#c94a30] text-white font-bold h-12 px-[30px] rounded-none uppercase tracking-wider text-[14px] transition-colors duration-300"
+                    style={{ fontFamily: '"Nunito Sans", sans-serif' }}
                     disabled={loginLoading}
                   >
                     {loginLoading ? (
@@ -329,7 +333,8 @@ export default function Auth() {
                     />
                     <Label
                       htmlFor="rememberMe"
-                      className="text-sm uppercase tracking-[0.2em] text-foreground/70 cursor-pointer"
+                      className="uppercase tracking-wider text-[14px] font-bold text-[#333333] cursor-pointer"
+                      style={{ fontFamily: '"Nunito Sans", sans-serif' }}
                     >
                       Remember me
                     </Label>
@@ -339,7 +344,8 @@ export default function Auth() {
                 <div>
                   <Link
                     to="/forgot-password"
-                    className="text-[#e4573d] hover:underline text-base"
+                    className="text-[#E4573D] hover:underline text-[16px]"
+                    style={{ fontFamily: '"Nunito Sans", sans-serif' }}
                   >
                     Lost your password?
                   </Link>
@@ -351,7 +357,8 @@ export default function Auth() {
             <section aria-labelledby="register-heading" className="md:border-l md:border-border md:pl-12 lg:pl-20">
               <h2
                 id="register-heading"
-                className="font-serif text-3xl md:text-4xl font-normal text-foreground mb-8 tracking-wider"
+                className="font-baskerville font-normal text-[#333333] mb-8"
+                style={{ fontFamily: '"Libre Baskerville", serif', fontSize: "34px", lineHeight: 1.2 }}
               >
                 Register
               </h2>
