@@ -93,6 +93,9 @@ export default function ExternalProfile() {
   const [orders, setOrders] = useState<Order[]>([]);
   const [ordersLoading, setOrdersLoading] = useState(true);
 
+  // Address edit mode: 'view' | 'billing' | 'shipping'
+  const [addressMode, setAddressMode] = useState<"view" | "billing" | "shipping">("view");
+
   const loadProfile = useCallback(async () => {
     setProfileLoading(true);
     try {
@@ -581,54 +584,171 @@ export default function ExternalProfile() {
     </div>
   );
 
-  const renderAddresses = () => (
-    <div className="space-y-12">
-      {profileLoading ? (
+  const renderAddressBlock = (
+    title: string,
+    form: typeof billingForm,
+    onEdit: () => void,
+    showEmail: boolean,
+  ) => {
+    const fullName = [form.first_name, form.last_name].filter(Boolean).join(" ");
+    const lines = [
+      form.first_name,
+      form.last_name,
+      form.country,
+      form.address_1,
+      form.address_2,
+      form.city,
+      form.state,
+      form.postcode,
+    ].filter((l) => l && l.trim().length > 0);
+    const isEmpty = lines.length === 0 && !form.phone && !(showEmail && form.email);
+    return (
+      <div className="space-y-4">
+        <h2 className="font-baskerville text-[32px] leading-tight font-normal text-[#333333]">
+          {title}
+        </h2>
+        <button
+          onClick={onEdit}
+          className="text-[#E4573D] hover:text-[#c94a30] text-[14px] font-bold uppercase tracking-wider transition-colors block"
+          style={{ fontFamily: '"Nunito Sans", sans-serif' }}
+        >
+          Edit {title}
+        </button>
+        {isEmpty ? (
+          <p
+            className="text-[15px] italic text-[#696969]"
+            style={{ fontFamily: '"Nunito Sans", sans-serif' }}
+          >
+            You have not set up this type of address yet.
+          </p>
+        ) : (
+          <div
+            className="text-[15px] italic text-[#696969] space-y-1"
+            style={{ fontFamily: '"Nunito Sans", sans-serif' }}
+          >
+            {form.first_name && <p>{form.first_name}</p>}
+            {form.last_name && <p>{form.last_name}</p>}
+            {form.country && <p>{form.country}</p>}
+            {form.address_1 && <p>{form.address_1}</p>}
+            {form.address_2 && <p>{form.address_2}</p>}
+            {form.city && <p>{form.city}</p>}
+            {form.state && <p>{form.state}</p>}
+            {form.postcode && <p>{form.postcode}</p>}
+            <p>{form.phone || "Phone:"}</p>
+            {showEmail && <p>{form.email}</p>}
+          </div>
+        )}
+      </div>
+    );
+  };
+
+  const renderAddresses = () => {
+    if (profileLoading) {
+      return (
         <div className="flex items-center justify-center py-8">
           <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
         </div>
-      ) : (
-        <>
-          <section className="space-y-4">
-            <h2 className="font-serif text-2xl font-semibold text-foreground">Billing address</h2>
-            {renderAddressFields(
-              billingForm as AddressFormShape,
-              (next) => setBillingForm(next as typeof billingForm),
-              true,
-              "billing"
-            )}
-            <Button
-              onClick={handleSaveBilling}
-              disabled={billingSaving}
-              className="bg-red-500 hover:bg-red-600 text-white rounded-none uppercase tracking-wider"
-            >
-              {billingSaving ? "Saving..." : "Save Billing Address"}
-            </Button>
-          </section>
+      );
+    }
 
-          <section className="space-y-4">
-            <h2 className="font-serif text-2xl font-semibold text-foreground">Shipping address</h2>
-            {renderAddressFields(
-              shippingForm as AddressFormShape,
-              (next) => {
-                const { email: _email, ...rest } = next;
-                setShippingForm(rest as typeof shippingForm);
-              },
-              false,
-              "shipping"
-            )}
+    if (addressMode === "billing") {
+      return (
+        <div className="space-y-6">
+          <h2 className="font-baskerville text-[32px] leading-tight font-normal text-[#333333]">
+            Billing address
+          </h2>
+          {renderAddressFields(
+            billingForm as AddressFormShape,
+            (next) => setBillingForm(next as typeof billingForm),
+            true,
+            "billing",
+          )}
+          <div className="flex gap-3">
             <Button
-              onClick={handleSaveShipping}
-              disabled={shippingSaving}
-              className="bg-red-500 hover:bg-red-600 text-white rounded-none uppercase tracking-wider"
+              onClick={async () => {
+                await handleSaveBilling();
+                setAddressMode("view");
+              }}
+              disabled={billingSaving}
+              className="bg-[#E4573D] hover:bg-[#c94a30] text-white rounded-none uppercase tracking-wider"
             >
-              {shippingSaving ? "Saving..." : "Save Shipping Address"}
+              {billingSaving ? "Saving..." : "Save Address"}
             </Button>
-          </section>
-        </>
-      )}
-    </div>
-  );
+            <Button
+              onClick={() => setAddressMode("view")}
+              variant="outline"
+              className="rounded-none uppercase tracking-wider"
+            >
+              Cancel
+            </Button>
+          </div>
+        </div>
+      );
+    }
+
+    if (addressMode === "shipping") {
+      return (
+        <div className="space-y-6">
+          <h2 className="font-baskerville text-[32px] leading-tight font-normal text-[#333333]">
+            Shipping address
+          </h2>
+          {renderAddressFields(
+            shippingForm as AddressFormShape,
+            (next) => {
+              const { email: _email, ...rest } = next;
+              setShippingForm(rest as typeof shippingForm);
+            },
+            false,
+            "shipping",
+          )}
+          <div className="flex gap-3">
+            <Button
+              onClick={async () => {
+                await handleSaveShipping();
+                setAddressMode("view");
+              }}
+              disabled={shippingSaving}
+              className="bg-[#E4573D] hover:bg-[#c94a30] text-white rounded-none uppercase tracking-wider"
+            >
+              {shippingSaving ? "Saving..." : "Save Address"}
+            </Button>
+            <Button
+              onClick={() => setAddressMode("view")}
+              variant="outline"
+              className="rounded-none uppercase tracking-wider"
+            >
+              Cancel
+            </Button>
+          </div>
+        </div>
+      );
+    }
+
+    return (
+      <div className="space-y-8">
+        <p
+          className="text-[16px] text-[#696969]"
+          style={{ fontFamily: '"Nunito Sans", sans-serif' }}
+        >
+          The following addresses will be used on the checkout page by default.
+        </p>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+          {renderAddressBlock(
+            "Billing address",
+            billingForm,
+            () => setAddressMode("billing"),
+            true,
+          )}
+          {renderAddressBlock(
+            "Shipping address",
+            { ...shippingForm, email: "" } as typeof billingForm,
+            () => setAddressMode("shipping"),
+            false,
+          )}
+        </div>
+      </div>
+    );
+  };
 
   const renderAccount = () => (
     <div className="space-y-6">
