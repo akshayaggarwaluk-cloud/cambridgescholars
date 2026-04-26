@@ -354,7 +354,7 @@ export default function Auth() {
             </section>
 
             {/* ── REGISTER ────────────────────────── */}
-            <section aria-labelledby="register-heading" className="md:border-l md:border-border md:pl-12 lg:pl-20">
+            <section aria-labelledby="register-heading">
               <h2
                 id="register-heading"
                 className="font-baskerville font-normal text-[#333333] mb-8"
