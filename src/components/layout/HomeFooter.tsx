@@ -50,7 +50,7 @@ export function HomeFooter() {
               className={cn(
                 "tracking-[0.2em] transition-colors font-nav text-[14px] uppercase pb-1 border-b-2",
                 isActiveRoute(link.href)
-                  ? "text-foreground border-foreground font-extrabold"
+                  ? "text-[#ababab] border-[#ababab] font-extrabold"
                   : "text-[#ababab] border-transparent hover:text-foreground font-bold"
               )}
               style={{ fontFamily: "'Nunito Sans', system-ui, sans-serif" }}
