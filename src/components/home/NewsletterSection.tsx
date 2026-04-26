@@ -110,8 +110,8 @@ export function NewsletterSection() {
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12">
           {stats.map((stat, index) => (
             <div key={index} className="text-center">
-               <AnimatedCounter value={stat.value} suffix={stat.suffix} format={stat.format} />
-               <p className="mt-5 text-base tracking-[0.2em] text-[#696969] font-nav font-medium uppercase leading-relaxed">
+              <AnimatedCounter value={stat.value} suffix={stat.suffix} format={stat.format} />
+              <p className="mt-5 text-base tracking-[0.2em] text-[#696969] font-nav font-medium uppercase leading-relaxed">
                 {stat.label}
               </p>
             </div>

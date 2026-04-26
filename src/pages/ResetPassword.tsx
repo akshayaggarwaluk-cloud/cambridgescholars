@@ -107,14 +107,14 @@ export default function ResetPassword() {
 
       <main className="flex-1 py-12 md:py-16 bg-white">
         <div className="max-w-xl mx-auto px-4">
-            <p className="text-lg font-sans font-normal text-foreground leading-relaxed mb-8">
+          <p className="text-base text-foreground leading-relaxed mb-8">
             Enter the 6-digit code sent to your email along with your new password.
           </p>
 
           {error && (
             <div className="mb-6 bg-red-50 border-l-4 border-red-500 p-4 flex items-start gap-3">
               <AlertTriangle className="h-5 w-5 text-red-500 flex-shrink-0 mt-0.5" />
-                <p className="text-lg font-sans font-normal text-foreground">
+              <p className="text-foreground text-base">
                 <span className="font-semibold text-red-600">Error:</span> {error}
               </p>
             </div>
