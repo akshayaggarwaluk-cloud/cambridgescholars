@@ -378,9 +378,10 @@ export default function Auth() {
                     <div className="space-y-2">
                       <Label
                         htmlFor="regFirstName"
-                        className="text-xs font-medium tracking-widest uppercase text-foreground/70"
+                        className="uppercase text-[14px] font-bold text-[#333333] block"
+                        style={{ fontFamily: '"Nunito Sans", sans-serif' }}
                       >
-                        First name <span className="text-accent">*</span>
+                        First name <span className="text-[#E4573D]">*</span>
                       </Label>
                       <Input
                         id="regFirstName"
@@ -388,10 +389,10 @@ export default function Auth() {
                         autoComplete="given-name"
                         value={regFirstName}
                         onChange={(e) => setRegFirstName(e.target.value)}
-                        className={`h-12 rounded-none border-border bg-white ${
+                        className={`h-12 rounded-none border border-[#d9d9d9] bg-white text-[15px] text-[#333333] focus-visible:ring-0 ${
                           registerErrors.first_name
                             ? "border-destructive focus-visible:ring-destructive"
-                            : "focus-visible:ring-accent"
+                            : ""
                         }`}
                       />
                       {registerErrors.first_name && (
@@ -402,9 +403,10 @@ export default function Auth() {
                     <div className="space-y-2">
                       <Label
                         htmlFor="regLastName"
-                        className="text-xs font-medium tracking-widest uppercase text-foreground/70"
+                        className="uppercase text-[14px] font-bold text-[#333333] block"
+                        style={{ fontFamily: '"Nunito Sans", sans-serif' }}
                       >
-                        Last name <span className="text-accent">*</span>
+                        Last name <span className="text-[#E4573D]">*</span>
                       </Label>
                       <Input
                         id="regLastName"
@@ -412,10 +414,10 @@ export default function Auth() {
                         autoComplete="family-name"
                         value={regLastName}
                         onChange={(e) => setRegLastName(e.target.value)}
-                        className={`h-12 rounded-none border-border bg-white ${
+                        className={`h-12 rounded-none border border-[#d9d9d9] bg-white text-[15px] text-[#333333] focus-visible:ring-0 ${
                           registerErrors.last_name
                             ? "border-destructive focus-visible:ring-destructive"
-                            : "focus-visible:ring-accent"
+                            : ""
                         }`}
                       />
                       {registerErrors.last_name && (
@@ -427,9 +429,10 @@ export default function Auth() {
                   <div className="space-y-2">
                     <Label
                       htmlFor="regEmail"
-                      className="text-xs font-medium tracking-widest uppercase text-foreground/70"
+                      className="uppercase text-[14px] font-bold text-[#333333] block"
+                      style={{ fontFamily: '"Nunito Sans", sans-serif' }}
                     >
-                      Email address <span className="text-accent">*</span>
+                      Email address <span className="text-[#E4573D]">*</span>
                     </Label>
                     <Input
                       id="regEmail"
@@ -437,10 +440,10 @@ export default function Auth() {
                       autoComplete="email"
                       value={regEmail}
                       onChange={(e) => setRegEmail(e.target.value)}
-                      className={`h-12 rounded-none border-border bg-white ${
+                      className={`h-12 rounded-none border border-[#d9d9d9] bg-white text-[15px] text-[#333333] focus-visible:ring-0 ${
                         registerErrors.email
                           ? "border-destructive focus-visible:ring-destructive"
-                          : "focus-visible:ring-accent"
+                          : ""
                       }`}
                     />
                     {registerErrors.email && (
@@ -451,9 +454,10 @@ export default function Auth() {
                   <div className="space-y-2">
                     <Label
                       htmlFor="regPassword"
-                      className="text-xs font-medium tracking-widest uppercase text-foreground/70"
+                      className="uppercase text-[14px] font-bold text-[#333333] block"
+                      style={{ fontFamily: '"Nunito Sans", sans-serif' }}
                     >
-                      Password <span className="text-accent">*</span>
+                      Password <span className="text-[#E4573D]">*</span>
                     </Label>
                     <div className="relative">
                       <Input
@@ -462,10 +466,10 @@ export default function Auth() {
                         autoComplete="new-password"
                         value={regPassword}
                         onChange={(e) => setRegPassword(e.target.value)}
-                        className={`h-12 pr-12 rounded-none border-border bg-white ${
+                        className={`h-12 pr-12 rounded-none border border-[#d9d9d9] bg-white text-[15px] text-[#333333] focus-visible:ring-0 ${
                           registerErrors.password
                             ? "border-destructive focus-visible:ring-destructive"
-                            : "focus-visible:ring-accent"
+                            : ""
                         }`}
                       />
                       <button
@@ -493,7 +497,7 @@ export default function Auth() {
                     Your personal data will be used to support your experience throughout this
                     website, to manage access to your account, and for other purposes described
                     in our{" "}
-                    <Link to="/privacy-policy" className="text-accent hover:underline">
+                    <Link to="/privacy-policy" className="text-[#E4573D] hover:underline">
                       privacy policy
                     </Link>
                     .
@@ -501,7 +505,8 @@ export default function Auth() {
 
                   <Button
                     type="submit"
-                    className="bg-[#e4573d] hover:bg-[#e4573d]/90 text-accent-foreground font-medium h-12 px-8 rounded-none uppercase tracking-wider transition-colors duration-300"
+                    className="bg-[#E4573D] hover:bg-[#c94a30] text-white font-bold h-12 px-[30px] rounded-none uppercase tracking-wider text-[14px] transition-colors duration-300"
+                    style={{ fontFamily: '"Nunito Sans", sans-serif' }}
                     disabled={registerLoading}
                   >
                     {registerLoading ? (
