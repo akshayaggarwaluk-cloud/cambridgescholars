@@ -90,7 +90,7 @@ export function NewsletterSection() {
                 placeholder="Enter Your Email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="font-baskerville w-full bg-transparent border-0 text-foreground placeholder:text-muted-foreground/50 h-14 px-0 text-center text-lg focus-visible:ring-0 focus-visible:ring-offset-0"
+                className="font-baskerville font-bold w-full bg-transparent border-0 text-foreground placeholder:text-muted-foreground/50 placeholder:font-bold h-14 px-0 text-center text-lg focus-visible:ring-0 focus-visible:ring-offset-0"
                 required
                 aria-label="Email address for mailing list"
               />
