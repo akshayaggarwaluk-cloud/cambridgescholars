@@ -312,7 +312,6 @@ export default function ExternalProfile() {
     { id: "addresses", label: "ADDRESSES", icon: MapPin },
     { id: "payment", label: "PAYMENT METHODS", icon: CreditCard },
     { id: "account", label: "ACCOUNT DETAILS", icon: Settings },
-    { id: "password", label: "CHANGE PASSWORD", icon: KeyRound },
   ];
 
   const dashboardName =
@@ -941,8 +940,6 @@ export default function ExternalProfile() {
         return renderPaymentMethods();
       case "account":
         return renderAccount();
-      case "password":
-        return renderPassword();
       default:
         return renderDashboard();
     }
