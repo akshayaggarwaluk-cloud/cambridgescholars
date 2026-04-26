@@ -219,7 +219,7 @@ export function BookDetailsTabs({ book }: BookDetailsTabsProps) {
       </Tabs>
 
       {/* Share this book section */}
-      <div className="mt-16 pt-8 border-t border-border text-center">
+      <div className="mt-16 pb-8 border-b border-border text-center">
         <p className="text-foreground font-semibold mb-4 text-lg" style={{ fontFamily: '"Nunito Sans", system-ui, sans-serif' }}>Share this book:</p>
         <div className="flex justify-center gap-4">
           <button
