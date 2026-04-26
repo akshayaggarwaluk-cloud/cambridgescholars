@@ -89,13 +89,8 @@ export function CartHoverPanel({ onNavigate }: CartHoverPanelProps) {
           </div>
 
           <div className="mt-5 pt-5 border-t border-border grid grid-cols-2 gap-3">
-            <Link
-              to="/cart"
-              onClick={onNavigate}
-              className="text-center px-4 py-3 bg-accent text-accent-foreground text-xs font-bold uppercase tracking-wider hover:opacity-90 transition-opacity"
-              style={{ fontFamily: '"Nunito Sans", sans-serif' }}
-            >
-              View Cart
+            <Link to="/cart" onClick={onNavigate} className="font-nav inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-none text-sm tracking-wider ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 bg-accent text-accent-foreground shadow-md hover:bg-accent/90 hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 h-12 px-8 font-bold">
+              VIEW CART
             </Link>
             <Link
               to="/checkout"
