@@ -776,7 +776,7 @@ export default function ExternalProfile() {
                 <button
                   key={item.id}
                   onClick={() => setActiveTab(item.id)}
-                  style={{ fontFamily: '"Nunito Sans", sans-serif', fontSize: "14px", padding: "15px 20px" }}
+                  style={{ fontFamily: '"Nunito Sans", sans-serif', fontSize: "14px", fontWeight: 700, padding: "15px 20px" }}
                   className={`w-full text-left border-b border-border transition-colors block ${
                     activeTab === item.id
                       ? "bg-[#E4573D] text-white border-[#E4573D]"
@@ -788,7 +788,7 @@ export default function ExternalProfile() {
               ))}
               <button
                 onClick={handleLogout}
-                style={{ fontFamily: '"Nunito Sans", sans-serif', fontSize: "14px", padding: "15px 20px" }}
+                style={{ fontFamily: '"Nunito Sans", sans-serif', fontSize: "14px", fontWeight: 700, padding: "15px 20px" }}
                 className="w-full text-left border-b border-border transition-colors block hover:bg-secondary text-foreground"
               >
                 LOG OUT
