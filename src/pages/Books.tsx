@@ -509,8 +509,8 @@ export default function Books() {
                           <div className="flex items-center gap-3 mt-auto pt-6">
                             <Button
                               asChild
-                               className="bg-[#e4573d] hover:bg-[#e4573d]/80 text-white px-6 h-10 text-xs font-extrabold tracking-[0.18em] uppercase rounded-none transition-colors"
-                               style={{ fontFamily: "'Nunito Sans', system-ui, sans-serif" }}
+                               className="bg-[#e4573d] hover:bg-[#e4573d]/80 text-white text-[13px] font-bold tracking-[0.18em] uppercase rounded-none transition-colors h-auto"
+                               style={{ fontFamily: "'Nunito Sans', system-ui, sans-serif", padding: "13.5px 30px" }}
                             >
                               <Link to={`/books/${book.id}`}>VIEW MORE</Link>
                             </Button>
