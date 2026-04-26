@@ -59,10 +59,11 @@ export default function Resources() {
                     )}
                     <Link
                       to={`/resources/${item.slug}`}
-                      className="inline-flex items-center text-[13px] font-nav font-semibold tracking-widest text-[#e4573d] hover:underline"
+                      className="inline-flex items-center gap-1.5 text-[13px] font-bold uppercase tracking-widest text-[#E4573D] hover:underline"
+                      style={{ fontFamily: '"Nunito Sans", sans-serif' }}
                     >
                       READ MORE
-                      <span className="ml-1">›</span>
+                      <span aria-hidden="true" className="text-[14px] leading-none">»</span>
                     </Link>
                   </div>
                 </div>
