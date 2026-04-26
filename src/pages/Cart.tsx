@@ -107,10 +107,10 @@ export default function Cart() {
         <div className="container-wide py-12 bg-white">
           {/* Table header */}
           <div className="grid grid-cols-[1fr_120px_180px_140px_60px] gap-6 pb-5 border-b border-border items-center">
-            <div className="uppercase text-[#333333] tracking-wider text-sm font-semibold" style={{ fontFamily: '"Nunito Sans", sans-serif' }}>Product</div>
-            <div className="uppercase text-[#333333] tracking-wider text-sm font-semibold text-center relative -left-5" style={{ fontFamily: '"Nunito Sans", sans-serif' }}>Price</div>
-            <div className="uppercase text-[#333333] tracking-wider text-sm font-semibold text-center relative -left-5" style={{ fontFamily: '"Nunito Sans", sans-serif' }}>Quantity</div>
-            <div className="uppercase text-[#333333] tracking-wider text-sm font-semibold text-center relative -left-5" style={{ fontFamily: '"Nunito Sans", sans-serif' }}>Total</div>
+            <div className="uppercase text-[#333333] tracking-wider text-sm" style={{ fontFamily: '"Nunito Sans", sans-serif', fontWeight: 800 }}>Product</div>
+            <div className="uppercase text-[#333333] tracking-wider text-sm text-center relative -left-5" style={{ fontFamily: '"Nunito Sans", sans-serif', fontWeight: 800 }}>Price</div>
+            <div className="uppercase text-[#333333] tracking-wider text-sm text-center relative -left-5" style={{ fontFamily: '"Nunito Sans", sans-serif', fontWeight: 800 }}>Quantity</div>
+            <div className="uppercase text-[#333333] tracking-wider text-sm text-center relative -left-5" style={{ fontFamily: '"Nunito Sans", sans-serif', fontWeight: 800 }}>Total</div>
             <div></div>
           </div>
 
