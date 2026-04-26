@@ -113,8 +113,8 @@ export default function Wishlist() {
                     <div className="flex items-center gap-3 justify-end">
                       <Link
                         to={`/books/${item.book_id}`}
-                        className="flex-1 bg-[#E4573D] hover:bg-[#C75B2A] text-white text-[14px] uppercase rounded-none transition-colors flex items-center justify-center gap-2"
-                        style={{ fontFamily: '"Nunito Sans", system-ui, sans-serif', padding: '13px 30px' }}
+                        className="flex-1 bg-[#E4573D] hover:bg-[#C75B2A] text-white text-[14px] font-bold uppercase rounded-none transition-colors flex items-center justify-center gap-2"
+                        style={{ fontFamily: '"Nunito Sans", system-ui, sans-serif', padding: '13px 30px', fontWeight: 700 }}
                       >
                         <ShoppingCart className="h-4 w-4" />
                         View More
