@@ -146,7 +146,7 @@ const HowToPublish = () => {
                         <p className="leading-relaxed mb-3 text-[16px] text-[#333333]" style={{ fontFamily: '"Nunito Sans", system-ui, sans-serif' }}>{step.description}</p>
                       )}
                       {step.bullets && (
-                        <ul className="list-disc list-inside space-y-1 mb-3 ml-1 text-[16px] text-[#333333]" style={{ fontFamily: '"Nunito Sans", system-ui, sans-serif' }}>
+                        <ul className="list-disc list-inside space-y-1 mb-3 ml-1 text-[16px] text-[#696969]" style={{ fontFamily: '"Nunito Sans", system-ui, sans-serif' }}>
                           {step.bullets.map((bullet, bulletIndex) => (
                             <li key={bulletIndex}>{bullet}</li>
                           ))}
