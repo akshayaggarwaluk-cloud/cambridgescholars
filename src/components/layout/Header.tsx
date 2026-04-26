@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X, ShoppingCart, Search, User, LogOut, Heart, ChevronDown } from "lucide-react";
+import { Menu, X, ShoppingCart, Search, User, Heart, ChevronDown } from "lucide-react";
 import logoImage from "@/assets/logo.png";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -9,13 +9,6 @@ import { useWishlist } from "@/contexts/WishlistContext";
 import { useExternalAuth } from "@/contexts/ExternalAuthContext";
 import { SearchOverlay } from "@/components/search/SearchOverlay";
 import { CartHoverPanel } from "@/components/cart/CartHoverPanel";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import {
   Tooltip,
   TooltipContent,
@@ -51,7 +44,7 @@ export function Header() {
   const location = useLocation();
   const { cartCount } = useCart();
   const { wishlistCount } = useWishlist();
-  const { user, logout } = useExternalAuth();
+  const { user } = useExternalAuth();
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 10);
@@ -73,10 +66,6 @@ export function Header() {
       };
     }
   }, [isMenuOpen]);
-
-  const handleSignOut = async () => {
-    logout();
-  };
 
   const isActiveRoute = (href: string) => location.pathname === href;
   
@@ -271,35 +260,21 @@ export function Header() {
               </div>
 
               {user ? (
-                <DropdownMenu>
-                  <Tooltip>
-                    <TooltipTrigger asChild>
-                      <DropdownMenuTrigger asChild>
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          className="hover:text-accent"
-                          aria-label="My Account"
-                        >
-                          <User className="h-7 w-7" />
-                        </Button>
-                      </DropdownMenuTrigger>
-                    </TooltipTrigger>
-                    <TooltipContent>My Account</TooltipContent>
-                  </Tooltip>
-                  <DropdownMenuContent align="end" className="w-52">
-                    <DropdownMenuItem asChild>
-                      <Link to="/profile">Profile</Link>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem asChild>
-                      <Link to="/orders">Orders</Link>
-                    </DropdownMenuItem>
-                    <DropdownMenuSeparator />
-                    <DropdownMenuItem onClick={handleSignOut}>
-                      <LogOut className="mr-2 h-4 w-4" /> Sign Out
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Link to="/profile">
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        className="hover:text-accent"
+                        aria-label="My Account"
+                      >
+                        <User className="h-7 w-7" />
+                      </Button>
+                    </Link>
+                  </TooltipTrigger>
+                  <TooltipContent>My Account</TooltipContent>
+                </Tooltip>
               ) : (
                 <Tooltip>
                   <TooltipTrigger asChild>
