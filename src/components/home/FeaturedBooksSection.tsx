@@ -73,7 +73,7 @@ export function FeaturedBooksSection() {
     return (
       <section className="py-20 bg-[#f4f3ec] overflow-hidden md:py-[20px]">
         <div className="container-wide">
-          <p className="font-baskerville text-accent uppercase tracking-[0.3em] mb-4 text-lg font-sans font-normal">Featured Book</p>
+           <p className="font-baskerville text-accent uppercase tracking-[0.3em] mb-4 text-lg font-sans font-normal">Featured Book</p>
           <p className="text-muted-foreground text-base">No featured books available at the moment.</p>
         </div>
       </section>
