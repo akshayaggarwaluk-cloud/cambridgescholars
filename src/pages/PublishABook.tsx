@@ -70,7 +70,7 @@ export default function PublishABook() {
               <div className="mb-4">
                 <div className="flex items-center gap-4 mb-2">
                   <img src={card.icon} alt={card.title} className="h-14 w-14 object-contain flex-shrink-0" />
-                  <h3 className="font-serif text-2xl text-foreground">{card.title}</h3>
+                  <h3 className="text-[26px] text-[#333333]" style={{ fontFamily: '"Libre Baskerville", Georgia, serif' }}>{card.title}</h3>
                 </div>
                 <p className="text-sm text-[#333333]">{card.description}</p>
               </div>
