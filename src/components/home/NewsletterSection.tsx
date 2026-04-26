@@ -111,7 +111,7 @@ export function NewsletterSection() {
           {stats.map((stat, index) => (
             <div key={index} className="text-center">
               <AnimatedCounter value={stat.value} suffix={stat.suffix} format={stat.format} />
-              <p className="mt-5 text-base tracking-[0.2em] text-[#696969] font-nav font-medium uppercase leading-relaxed">
+              <p className="mt-5 text-base tracking-[0.2em] font-nav font-medium uppercase leading-relaxed text-[#ababab]">
                 {stat.label}
               </p>
             </div>
