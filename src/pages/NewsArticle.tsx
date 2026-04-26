@@ -184,6 +184,10 @@ const NewsArticle = () => {
             {article.content && (
               <>
                 <style>{`
+                  .news-article-content,
+                  .news-article-content * {
+                    font-family: 'Nunito Sans', system-ui, sans-serif !important;
+                  }
                   .news-article-content h1,
                   .news-article-content h2,
                   .news-article-content h3,
@@ -197,10 +201,6 @@ const NewsArticle = () => {
                   .news-article-content h5 *,
                   .news-article-content h6 * {
                     font-family: 'Libre Baskerville', Georgia, serif !important;
-                  }
-                  .news-article-content p,
-                  .news-article-content p * {
-                    font-family: 'Nunito Sans', system-ui, sans-serif !important;
                   }
                 `}</style>
                 <div
