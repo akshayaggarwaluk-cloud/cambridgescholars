@@ -93,6 +93,9 @@ export default function ExternalProfile() {
   const [orders, setOrders] = useState<Order[]>([]);
   const [ordersLoading, setOrdersLoading] = useState(true);
 
+  // Address edit mode: 'view' | 'billing' | 'shipping'
+  const [addressMode, setAddressMode] = useState<"view" | "billing" | "shipping">("view");
+
   const loadProfile = useCallback(async () => {
     setProfileLoading(true);
     try {
