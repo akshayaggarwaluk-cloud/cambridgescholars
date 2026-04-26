@@ -561,7 +561,7 @@ export default function Books() {
                   <span
                     key={p}
                     aria-current="page"
-                    className="w-12 h-12 rounded-full flex items-center justify-center text-white text-[18px] font-bold bg-[#e5573e]"
+                    className="w-12 h-12 rounded-full flex items-center justify-center text-white text-[18px] font-extrabold bg-[#e5573e]"
                     style={{ fontFamily: "'Nunito Sans', system-ui, sans-serif" }}
                   >
                     {p}
@@ -570,7 +570,7 @@ export default function Books() {
                   <button
                     key={p}
                     onClick={() => handlePageChange(p as number)}
-                    className="transition-colors px-1 text-[#cccccc] hover:text-[#C75B2A] text-[18px] font-semibold leading-none"
+                    className="transition-colors px-1 text-[#cccccc] hover:text-[#C75B2A] text-[18px] font-extrabold leading-none"
                     style={{ fontFamily: "'Nunito Sans', system-ui, sans-serif" }}
                   >
                     {p}
@@ -580,7 +580,7 @@ export default function Books() {
               {pagination.page < pagination.total_pages && (
                 <button
                   onClick={() => handlePageChange(pagination.page + 1)}
-                  className="text-[14px] tracking-[0.15em] uppercase transition-colors ml-2 text-[#cccccc] hover:text-[#C75B2A] font-bold"
+                  className="text-[14px] tracking-[0.15em] uppercase transition-colors ml-2 text-[#cccccc] hover:text-[#C75B2A] font-extrabold"
                   style={{ fontFamily: "'Nunito Sans', system-ui, sans-serif" }}
                   aria-label="Next page"
                 >
