@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X, ShoppingCart, Search, User, LogOut, Heart, ChevronDown } from "lucide-react";
+import { Menu, X, ShoppingCart, Search, User, Heart, ChevronDown } from "lucide-react";
 import logoImage from "@/assets/logo.png";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -9,13 +9,6 @@ import { useWishlist } from "@/contexts/WishlistContext";
 import { useExternalAuth } from "@/contexts/ExternalAuthContext";
 import { SearchOverlay } from "@/components/search/SearchOverlay";
 import { CartHoverPanel } from "@/components/cart/CartHoverPanel";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import {
   Tooltip,
   TooltipContent,
@@ -73,10 +66,6 @@ export function Header() {
       };
     }
   }, [isMenuOpen]);
-
-  const handleSignOut = async () => {
-    logout();
-  };
 
   const isActiveRoute = (href: string) => location.pathname === href;
   
