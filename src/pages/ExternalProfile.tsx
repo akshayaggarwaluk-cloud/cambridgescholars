@@ -2,7 +2,6 @@ import { useState, useEffect, useCallback } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import {
   User,
-  Mail,
   LogOut,
   Package,
   MapPin,
@@ -10,7 +9,6 @@ import {
   Loader2,
   Info,
   ArrowRight,
-  KeyRound,
   CreditCard,
 } from "lucide-react";
 import { Header } from "@/components/layout/Header";
@@ -312,7 +310,6 @@ export default function ExternalProfile() {
     { id: "addresses", label: "ADDRESSES", icon: MapPin },
     { id: "payment", label: "PAYMENT METHODS", icon: CreditCard },
     { id: "account", label: "ACCOUNT DETAILS", icon: Settings },
-    { id: "password", label: "CHANGE PASSWORD", icon: KeyRound },
   ];
 
   const dashboardName =
@@ -732,138 +729,147 @@ export default function ExternalProfile() {
     );
   };
 
-  const renderAccount = () => (
-    <div className="space-y-6">
-      <h2 className="font-serif text-2xl font-semibold text-foreground">Account Details</h2>
-
-      <div className="space-y-1">
-        <p className="text-xs font-medium tracking-wider uppercase text-muted-foreground flex items-center gap-1">
-          <Mail className="h-3 w-3" />
-          Email Address
-        </p>
-        <p className="text-foreground bg-secondary px-3 py-2 rounded">
-          {profile?.email || user.email || "—"}
-        </p>
-      </div>
-
-      {profileLoading ? (
-        <div className="flex items-center py-4">
-          <Loader2 className="h-5 w-5 animate-spin text-muted-foreground" />
+  const renderAccount = () => {
+    if (profileLoading) {
+      return (
+        <div className="flex items-center justify-center py-8">
+          <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
         </div>
-      ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div className="space-y-2">
-            <Label htmlFor="acc-first" className="uppercase text-xs font-medium tracking-wider text-muted-foreground">
-              First Name
-            </Label>
-            <Input
-              id="acc-first"
-              className={addressInputClass}
-              value={profileForm.first_name}
-              onChange={(e) => setProfileForm({ ...profileForm, first_name: e.target.value })}
-            />
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="acc-last" className="uppercase text-xs font-medium tracking-wider text-muted-foreground">
-              Last Name
-            </Label>
-            <Input
-              id="acc-last"
-              className={addressInputClass}
-              value={profileForm.last_name}
-              onChange={(e) => setProfileForm({ ...profileForm, last_name: e.target.value })}
-            />
-          </div>
-          <div className="space-y-2 sm:col-span-2">
-            <Label htmlFor="acc-display" className="uppercase text-xs font-medium tracking-wider text-muted-foreground">
-              Display Name
-            </Label>
-            <Input
-              id="acc-display"
-              className={addressInputClass}
-              value={profileForm.display_name}
-              onChange={(e) => setProfileForm({ ...profileForm, display_name: e.target.value })}
-            />
-          </div>
-          <div className="space-y-2 sm:col-span-2">
-            <Label htmlFor="acc-phone" className="uppercase text-xs font-medium tracking-wider text-muted-foreground">
-              Phone
-            </Label>
-            <Input
-              id="acc-phone"
-              className={addressInputClass}
-              value={profileForm.phone}
-              onChange={(e) => setProfileForm({ ...profileForm, phone: e.target.value })}
-            />
-          </div>
-          <div className="sm:col-span-2">
-            <Button
-              onClick={handleSaveProfile}
-              disabled={profileSaving}
-              className="bg-red-500 hover:bg-red-600 text-white rounded-none uppercase tracking-wider"
-            >
-              {profileSaving ? "Saving..." : "Save Changes"}
-            </Button>
-          </div>
-        </div>
-      )}
-    </div>
-  );
+      );
+    }
 
-  const renderPassword = () => (
-    <div className="space-y-6 max-w-xl">
-      <h2 className="font-serif text-2xl font-semibold text-foreground">Change Password</h2>
-      <div className="space-y-4">
-        <div className="space-y-2">
-          <Label htmlFor="pw-current" className="uppercase text-xs font-medium tracking-wider text-muted-foreground">
-            Current Password
-          </Label>
+    const handleSaveAll = async () => {
+      await handleSaveProfile();
+      const wantsPwChange =
+        pwForm.current_password ||
+        pwForm.new_password ||
+        pwForm.confirm_new_password;
+      if (wantsPwChange) {
+        await handleChangePassword();
+      }
+    };
+
+    return (
+      <div className="space-y-6 max-w-3xl">
+        <div>
+          {renderFieldLabel("acc-first", "First Name", true)}
           <Input
-            id="pw-current"
-            type="password"
-            autoComplete="current-password"
+            id="acc-first"
             className={addressInputClass}
-            value={pwForm.current_password}
-            onChange={(e) => setPwForm({ ...pwForm, current_password: e.target.value })}
+            value={profileForm.first_name}
+            onChange={(e) =>
+              setProfileForm({ ...profileForm, first_name: e.target.value })
+            }
           />
         </div>
-        <div className="space-y-2">
-          <Label htmlFor="pw-new" className="uppercase text-xs font-medium tracking-wider text-muted-foreground">
-            New Password
-          </Label>
+        <div>
+          {renderFieldLabel("acc-last", "Last Name", true)}
           <Input
-            id="pw-new"
-            type="password"
-            autoComplete="new-password"
+            id="acc-last"
             className={addressInputClass}
-            value={pwForm.new_password}
-            onChange={(e) => setPwForm({ ...pwForm, new_password: e.target.value })}
-          />
-          <p className="text-xs text-muted-foreground">Must be at least 8 characters.</p>
-        </div>
-        <div className="space-y-2">
-          <Label htmlFor="pw-confirm" className="uppercase text-xs font-medium tracking-wider text-muted-foreground">
-            Confirm New Password
-          </Label>
-          <Input
-            id="pw-confirm"
-            type="password"
-            autoComplete="new-password"
-            className={addressInputClass}
-            value={pwForm.confirm_new_password}
-            onChange={(e) => setPwForm({ ...pwForm, confirm_new_password: e.target.value })}
+            value={profileForm.last_name}
+            onChange={(e) =>
+              setProfileForm({ ...profileForm, last_name: e.target.value })
+            }
           />
         </div>
+        <div>
+          {renderFieldLabel("acc-display", "Display Name", true)}
+          <Input
+            id="acc-display"
+            className={addressInputClass}
+            value={profileForm.display_name}
+            onChange={(e) =>
+              setProfileForm({ ...profileForm, display_name: e.target.value })
+            }
+          />
+          <p
+            className="text-[14px] italic text-[#696969] mt-2"
+            style={{ fontFamily: '"Nunito Sans", sans-serif' }}
+          >
+            This will be how your name will be displayed in the account section
+            and in reviews
+          </p>
+        </div>
+        <div>
+          {renderFieldLabel("acc-email", "Email Address", true)}
+          <Input
+            id="acc-email"
+            type="email"
+            className={addressInputClass}
+            value={profile?.email || user.email || ""}
+            disabled
+          />
+        </div>
+
+        <fieldset className="border border-[#d9d9d9] px-6 pt-2 pb-6 mt-6">
+          <legend
+            className="px-3 text-[24px] text-[#696969] font-baskerville"
+          >
+            Password change
+          </legend>
+          <div className="space-y-6 pt-4">
+            <div>
+              {renderFieldLabel(
+                "pw-current",
+                "Current Password (leave blank to leave unchanged)",
+                false,
+              )}
+              <Input
+                id="pw-current"
+                type="password"
+                autoComplete="current-password"
+                className={addressInputClass}
+                value={pwForm.current_password}
+                onChange={(e) =>
+                  setPwForm({ ...pwForm, current_password: e.target.value })
+                }
+              />
+            </div>
+            <div>
+              {renderFieldLabel(
+                "pw-new",
+                "New Password (leave blank to leave unchanged)",
+                false,
+              )}
+              <Input
+                id="pw-new"
+                type="password"
+                autoComplete="new-password"
+                className={addressInputClass}
+                value={pwForm.new_password}
+                onChange={(e) =>
+                  setPwForm({ ...pwForm, new_password: e.target.value })
+                }
+              />
+            </div>
+            <div>
+              {renderFieldLabel("pw-confirm", "Confirm New Password", false)}
+              <Input
+                id="pw-confirm"
+                type="password"
+                autoComplete="new-password"
+                className={addressInputClass}
+                value={pwForm.confirm_new_password}
+                onChange={(e) =>
+                  setPwForm({ ...pwForm, confirm_new_password: e.target.value })
+                }
+              />
+            </div>
+          </div>
+        </fieldset>
+
         <Button
-          onClick={handleChangePassword}
-          disabled={pwSaving}
-          className="bg-red-500 hover:bg-red-600 text-white rounded-none uppercase tracking-wider"
+          onClick={handleSaveAll}
+          disabled={profileSaving || pwSaving}
+          className="bg-[#E4573D] hover:bg-[#c94a30] text-white rounded-none uppercase tracking-wider font-bold text-[14px] h-12 px-8"
+          style={{ fontFamily: '"Nunito Sans", sans-serif' }}
         >
-          {pwSaving ? "Updating..." : "Update Password"}
+          {profileSaving || pwSaving ? "Saving..." : "Save Changes"}
         </Button>
       </div>
-    </div>
-  );
+    );
+  };
 
   const renderContent = () => {
     switch (activeTab) {
@@ -877,8 +883,6 @@ export default function ExternalProfile() {
         return renderPaymentMethods();
       case "account":
         return renderAccount();
-      case "password":
-        return renderPassword();
       default:
         return renderDashboard();
     }
