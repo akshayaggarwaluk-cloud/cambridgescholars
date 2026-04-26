@@ -141,7 +141,7 @@ const HowToPublish = () => {
                     </div>
 
                     <div className="flex-1 pt-2">
-                      <h3 className="mb-3 text-[26px] text-[#333333]" style={{ fontFamily: '"Libre Baskerville", Georgia, serif' }}>{step.title}</h3>
+                      <h3 className="mb-3 text-[26px] font-bold text-[#333333]" style={{ fontFamily: '"Libre Baskerville", Georgia, serif' }}>{step.title}</h3>
                       {step.description && (
                         <p className="leading-relaxed mb-3 text-[16px] text-[#333333]" style={{ fontFamily: '"Nunito Sans", system-ui, sans-serif' }}>{step.description}</p>
                       )}
