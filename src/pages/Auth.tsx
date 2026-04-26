@@ -235,7 +235,7 @@ export default function Auth() {
               {loginError && (
                 <div className="mb-6 bg-red-50 border-l-4 border-red-500 p-4 flex items-start gap-3">
                   <AlertTriangle className="h-5 w-5 text-red-500 flex-shrink-0 mt-0.5" />
-                  <p className="text-foreground/80 text-base tracking-wide">
+                   <p className="text-base font-sans font-normal text-foreground/80 text-base tracking-wide">
                     <span className="font-semibold text-red-600">Error:</span> {loginError}
                   </p>
                 </div>
@@ -482,7 +482,7 @@ export default function Auth() {
                     </p>
                   </div>
 
-                  <p className="text-base font-sans text-foreground/80 leading-relaxed tracking-wide">
+                   <p className="text-base font-sans font-normal text-base font-sans text-foreground/80 leading-relaxed tracking-wide">
                     Your personal data will be used to support your experience throughout this
                     website, to manage access to your account, and for other purposes described
                     in our{" "}
@@ -509,7 +509,7 @@ export default function Auth() {
                 </form>
               ) : (
                 <form onSubmit={handleVerifyOtp} className="space-y-6">
-                  <p className="font-sans text-base text-foreground/80 leading-relaxed tracking-wide">
+                   <p className="text-base font-sans font-normal font-sans text-base text-foreground/80 leading-relaxed tracking-wide">
                     We've sent a 6-digit verification code to{" "}
                     <span className="font-semibold">{regEmail}</span>. Enter it below to finish
                     creating your account. The code expires in 15 minutes.
