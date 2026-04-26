@@ -119,9 +119,9 @@ const HowToPublish = () => {
               <h2 className="text-3xl font-display font-normal text-foreground mb-6 md:text-4xl">
                 Academic Publishing Timeline
               </h2>
-              <p className="text-muted-foreground max-w-3xl mx-auto leading-relaxed text-base">
-                Cambridge Scholars Publishing offers a clear and well-supported process from initial proposal to global
-                distribution. Below is an overview of each stage in the publishing journey.
+              <p className="text-muted-foreground max-w-5xl mx-auto leading-relaxed text-base">
+                Cambridge Scholars Publishing offers a clear and well-supported process from initial proposal to global distribution.
+                Below is an overview of each stage in the publishing journey.
               </p>
             </div>
 
