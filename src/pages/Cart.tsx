@@ -136,7 +136,7 @@ export default function Cart() {
                   <div className="min-w-0">
                     <Link to={`/books/${item.id}`}>
                     <h3 className="font-sans transition-colors leading-snug text-base text-black font-light" style={{ fontFamily: '"Nunito Sans", sans-serif' }}>
-                        {item.title} - {formatLabel(item.format)}
+                        {item.title.split(":")[0].trim()} - {formatLabel(item.format)}
                       </h3>
                     </Link>
                     {item.isbn && (
