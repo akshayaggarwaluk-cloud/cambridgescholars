@@ -1,5 +1,7 @@
 import { Link } from "react-router-dom";
 import { Facebook, Instagram, Linkedin } from "lucide-react";
+import { useLocation } from "react-router-dom";
+import { cn } from "@/lib/utils";
 import logo from "@/assets/logo.png";
 
 const XIcon = () => (
@@ -25,6 +27,8 @@ const socialLinks = [
 ];
 
 export function HomeFooter() {
+  const location = useLocation();
+  const isActiveRoute = (href: string) => location.pathname === href;
   return (
     <footer className="bg-[#f5f5f0] text-[#555555] relative">
       <div className="max-w-7xl mx-auto px-6 py-12">
@@ -43,7 +47,12 @@ export function HomeFooter() {
             <Link
               key={link.name}
               to={link.href}
-              className="text-[#ababab] tracking-[0.2em] hover:text-foreground transition-colors font-nav font-normal text-[14px] uppercase"
+              className={cn(
+                "tracking-[0.2em] transition-colors font-nav text-[14px] uppercase pb-1 border-b-2",
+                isActiveRoute(link.href)
+                  ? "text-foreground border-foreground font-semibold"
+                  : "text-[#ababab] border-transparent hover:text-foreground font-normal"
+              )}
               style={{ fontFamily: "'Nunito Sans', system-ui, sans-serif" }}
             >
               {link.name.toUpperCase()}
