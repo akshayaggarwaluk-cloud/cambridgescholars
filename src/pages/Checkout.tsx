@@ -175,7 +175,18 @@ function AddressFields({
 }
 
 export default function Checkout() {
-  const { items, cartTotal, couponCode, discount, applyCoupon, removeCoupon, clearCart } = useCart();
+  const {
+    items,
+    cartTotal,
+    cartSubtotal,
+    shipping: apiShipping,
+    shippingRequiresQuote,
+    couponCode,
+    discount,
+    applyCoupon,
+    removeCoupon,
+    clearCart,
+  } = useCart();
   const { user } = useExternalAuth();
   const navigate = useNavigate();
 
@@ -209,17 +220,19 @@ export default function Checkout() {
     loadOpayoSdk().catch(() => { /* surfaced on submit */ });
   }, []);
 
-  const subtotal = useMemo(
+  const localSubtotal = useMemo(
     () => items.reduce((sum, it) => sum + it.price * it.quantity, 0),
     [items],
   );
+  const subtotal = cartSubtotal || localSubtotal;
   // Ebook-only carts skip shipping entirely.
   const isEbookOnly = useMemo(
     () => items.length > 0 && items.every((it) => it.format === "ebook"),
     [items],
   );
-  const shippingCost = items.length > 0 && !isEbookOnly ? 19.5 : 0;
-  const total = (cartTotal || subtotal) + shippingCost;
+  // Shipping comes straight from the API (`shipping_gbp` on /cart).
+  const shippingCost = isEbookOnly ? 0 : apiShipping ?? 0;
+  const total = cartTotal || subtotal + shippingCost - (discount ?? 0);
 
   if (items.length === 0 && !isComplete) {
     navigate("/cart");
@@ -633,15 +646,11 @@ export default function Checkout() {
                     <>
                       <div className="flex items-center justify-between py-4 border-b border-[#e3e1d8]">
                         <span className="text-[15px] text-[#696969]">Shipping</span>
-                        <span className="text-[15px] text-[#333333]">{moneyGBP(shippingCost)}</span>
-                      </div>
-                      <div className="flex items-center justify-between py-4 border-b border-[#e3e1d8]">
-                        <span className="text-[15px] text-[#696969]">Delivery Method</span>
-                        <span className="text-[15px] font-semibold text-[#333333]">Standard Post</span>
-                      </div>
-                      <div className="flex items-center justify-between py-4 border-b border-[#e3e1d8]">
-                        <span className="text-[15px] text-[#696969]">Delivery Time</span>
-                        <span className="text-[15px] font-semibold text-[#333333]">4–5 weeks</span>
+                        <span className="text-[15px] text-[#333333]">
+                          {shippingRequiresQuote
+                            ? "Quote required"
+                            : moneyGBP(shippingCost)}
+                        </span>
                       </div>
                     </>
                   )}
