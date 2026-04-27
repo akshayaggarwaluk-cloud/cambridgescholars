@@ -41,12 +41,6 @@ export default function Cart() {
     [items, draftQuantities],
   );
 
-  const draftTotal = useMemo(
-    () => items.reduce((sum, i) => sum + i.price * getQty(i), 0),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [items, draftQuantities],
-  );
-
   const handleUpdateCart = async () => {
     const changed = items.filter(
       (i) => (draftQuantities[keyOf(i.id, i.format)] ?? i.quantity) !== i.quantity,
