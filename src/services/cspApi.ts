@@ -226,7 +226,8 @@ function transformNewBook(raw: CSPBookRaw): Book {
       : undefined,
     _hardbackPrice: hardback?.price_gbp ?? null,
     _paperbackPrice: paperback?.price_gbp ?? null,
-  } as Book & { _hardbackPrice?: number | null; _paperbackPrice?: number | null };
+    _ebookPrice: ebook?.price_gbp ?? null,
+  } as Book & { _hardbackPrice?: number | null; _paperbackPrice?: number | null; _ebookPrice?: number | null };
 }
 
 /**
@@ -303,8 +304,9 @@ function transformLegacyBook(raw: CSPBookRaw): Book {
     samplePdfUrl: raw.booksample || raw.sample_pdf || undefined,
     _hardbackPrice: hardbackPrice,
     _paperbackPrice: paperbackPrice,
+    _ebookPrice: null,
     _praise: raw.praise || undefined,
-  } as Book & { _hardbackPrice?: number | null; _paperbackPrice?: number | null; _praise?: string };
+  } as Book & { _hardbackPrice?: number | null; _paperbackPrice?: number | null; _ebookPrice?: number | null; _praise?: string };
 }
 
 /**
