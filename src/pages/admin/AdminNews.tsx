@@ -308,7 +308,13 @@ export default function AdminNews() {
           No articles yet.
         </div>
       ) : (
-        <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+        <>
+          <div className="border border-dashed border-border p-3 bg-background mb-3">
+            <p className="text-xs text-muted-foreground">
+              <strong className="text-foreground">Tip:</strong> Drag the <span className="font-mono">⋮⋮</span> handle on the left of any row to reorder articles. This order is what visitors see on the public <span className="font-mono">/news</span> page — there is no separate "display order" field set anywhere else.
+            </p>
+          </div>
+          <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
           <SortableContext items={sortedArticles.map((it) => it.id)} strategy={verticalListSortingStrategy}>
             <div className="space-y-3">
               {sortedArticles.map((a) => (
@@ -321,7 +327,8 @@ export default function AdminNews() {
               ))}
             </div>
           </SortableContext>
-        </DndContext>
+          </DndContext>
+        </>
       )}
     </div>
   );
