@@ -35,7 +35,6 @@ const navGroups: Array<{
     items: [
       { to: "/admin/orders", label: "Orders", icon: ShoppingBag },
       { to: "/admin/coupons", label: "Coupons", icon: Tag },
-      { to: "/admin/users", label: "Users", icon: UserCog },
       { to: "/admin/admins", label: "Admins", icon: Users },
     ],
   },
