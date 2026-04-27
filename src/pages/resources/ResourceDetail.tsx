@@ -21,7 +21,7 @@ export default function ResourceDetail() {
   }, [slug]);
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-white">
       <Header />
 
       <div className="w-full bg-[#F4F3EC] pt-24 sm:pt-28">

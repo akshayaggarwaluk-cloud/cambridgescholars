@@ -17,7 +17,7 @@ export default function FAQ() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-white">
       <Header />
 
       {/* Top Banner */}

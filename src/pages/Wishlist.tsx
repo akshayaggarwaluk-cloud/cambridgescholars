@@ -13,7 +13,7 @@ export default function Wishlist() {
 
   if (!user) {
     return (
-      <div className="min-h-screen bg-background">
+      <div className="min-h-screen bg-white">
         <Header />
         <main className="pt-32 pb-16">
           <div className="container-wide text-center">
@@ -35,7 +35,7 @@ export default function Wishlist() {
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-white">
       <Header />
 
       <div className="w-full bg-[#F4F3EC] pt-24 sm:pt-28">

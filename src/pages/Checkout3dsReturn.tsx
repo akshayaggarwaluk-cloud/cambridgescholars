@@ -69,7 +69,7 @@ export default function Checkout3dsReturn() {
   }, [navigate, clearCart]);
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-white">
       <Header />
       <main className="pt-32 pb-20">
         <div className="container-wide max-w-lg mx-auto text-center">

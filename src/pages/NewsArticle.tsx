@@ -63,7 +63,7 @@ const NewsArticle = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-background">
+      <div className="min-h-screen bg-white">
         <Header />
         <main className="container mx-auto px-4 py-8 bg-white">
           <p className="text-center text-muted-foreground py-16">Loading…</p>
@@ -75,7 +75,7 @@ const NewsArticle = () => {
 
   if (!article) {
     return (
-      <div className="min-h-screen bg-background">
+      <div className="min-h-screen bg-white">
         <Header />
         <main className="container mx-auto px-4 py-8 bg-white">
           <PageBreadcrumb
@@ -101,7 +101,7 @@ const NewsArticle = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-white">
       <Header />
 
       <div className="w-full bg-[#F4F3EC] pt-24 sm:pt-28">
