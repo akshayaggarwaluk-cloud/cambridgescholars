@@ -184,10 +184,11 @@ const NewsArticle = () => {
             {article.content && (
               <>
                 <style>{`
-                  .news-article-content,
-                  .news-article-content * {
+                  .news-article-content p,
+                  .news-article-content p * {
                     font-family: 'Nunito Sans', system-ui, sans-serif !important;
-                    color: #333333 !important;
+                    color: #696969 !important;
+                    font-size: 16px !important;
                   }
                   .news-article-content h1,
                   .news-article-content h2,
