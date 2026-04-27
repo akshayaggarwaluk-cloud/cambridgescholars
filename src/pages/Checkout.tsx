@@ -68,6 +68,25 @@ const COUNTRIES = [
   "United Arab Emirates",
 ];
 
+// Map UI country names → ISO 3166-1 alpha-2 codes used by the cart API.
+const COUNTRY_ISO: Record<string, string> = {
+  "United Kingdom": "GB",
+  "United States": "US",
+  "India": "IN",
+  "Australia": "AU",
+  "Canada": "CA",
+  "Germany": "DE",
+  "France": "FR",
+  "Italy": "IT",
+  "Spain": "ES",
+  "Netherlands": "NL",
+  "Ireland": "IE",
+  "New Zealand": "NZ",
+  "Singapore": "SG",
+  "South Africa": "ZA",
+  "United Arab Emirates": "AE",
+};
+
 function FieldLabel({ htmlFor, children, required }: { htmlFor: string; children: React.ReactNode; required?: boolean }) {
   return (
     <Label
