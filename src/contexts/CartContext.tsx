@@ -153,6 +153,17 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const [couponCode, setCouponCode] = useState<string | null>(null);
   const [discount, setDiscount] = useState<number | null>(null);
   const [serverTotal, setServerTotal] = useState<number | null>(null);
+  const [serverSubtotal, setServerSubtotal] = useState<number | null>(null);
+  const [shipping, setShipping] = useState<number | null>(null);
+  const [shippingRequiresQuote, setShippingRequiresQuote] = useState<boolean>(false);
+  const SHIPPING_COUNTRY_KEY = "cspShippingCountry";
+  const [shippingCountry, setShippingCountryState] = useState<string>(() => {
+    try { return localStorage.getItem(SHIPPING_COUNTRY_KEY) || "GB"; } catch { return "GB"; }
+  });
+  const setShippingCountry = useCallback((c: string) => {
+    setShippingCountryState(c);
+    try { localStorage.setItem(SHIPPING_COUNTRY_KEY, c); } catch { /* ignore */ }
+  }, []);
   const { user, isAuthenticated } = useExternalAuth();
   const itemsRef = useRef<CartItem[]>([]);
   itemsRef.current = items;
@@ -170,6 +181,9 @@ export function CartProvider({ children }: { children: ReactNode }) {
     setCouponCode(res.coupon_code ?? null);
     setDiscount(res.discount_gbp ?? null);
     setServerTotal(res.total_gbp ?? res.subtotal_gbp ?? null);
+    setServerSubtotal(res.subtotal_gbp ?? null);
+    setShipping(res.shipping_gbp ?? null);
+    setShippingRequiresQuote(Boolean(res.shipping_requires_quote));
   }, []);
 
   // Initial load + reload on auth state change (login → merge, logout → reset).
@@ -187,7 +201,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
             // Falling through to plain getCart below if merge had nothing to merge
           }
         }
-        const res = await apiGetCart();
+        const res = await apiGetCart(shippingCountry);
         if (!cancelled) applyResponse(res);
       } catch (e) {
         console.warn("[cart] failed to load cart:", e);
@@ -199,7 +213,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
     run();
     return () => { cancelled = true; };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isAuthenticated]);
+  }, [isAuthenticated, shippingCountry]);
 
   const formatLabel = (format: BookFormat) =>
     format === "ebook" ? "EBook" : format === "paperback" ? "Paperback" : "Hardback";
@@ -305,7 +319,8 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
   const cartCount = items.reduce((sum, item) => sum + item.quantity, 0);
   const computedSubtotal = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
-  const cartTotal = serverTotal ?? computedSubtotal;
+  const cartSubtotal = serverSubtotal ?? computedSubtotal;
+  const cartTotal = serverTotal ?? cartSubtotal + (shipping ?? 0) - (discount ?? 0);
 
   return (
     <CartContext.Provider
@@ -317,6 +332,11 @@ export function CartProvider({ children }: { children: ReactNode }) {
         clearCart,
         cartCount,
         cartTotal,
+        cartSubtotal,
+        shipping,
+        shippingRequiresQuote,
+        shippingCountry,
+        setShippingCountry,
         loading,
         couponCode,
         discount,

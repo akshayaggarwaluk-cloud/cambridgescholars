@@ -83,10 +83,10 @@ const GROUPS: Group[] = [
   {
     name: "Cart",
     endpoints: [
-      { method: "GET", path: "/cart", description: "Get current cart", integrated: true },
+      { method: "GET", path: "/cart", description: "Get current cart (incl. shipping by country)", integrated: true, note: "Now passes ?country= and reads shipping_gbp / shipping_requires_quote" },
       { method: "POST", path: "/cart/items", description: "Add item to cart", integrated: true },
-      { method: "PUT", path: "/cart/items/{id}", description: "Update cart item quantity", integrated: true },
-      { method: "DELETE", path: "/cart/items/{id}", description: "Remove cart item", integrated: true },
+      { method: "PUT", path: "/cart/items/{isbn}", description: "Update cart item quantity", integrated: true },
+      { method: "DELETE", path: "/cart/items/{isbn}", description: "Remove cart item", integrated: true },
       { method: "POST", path: "/cart/coupon", description: "Apply coupon code", integrated: true },
       { method: "DELETE", path: "/cart/coupon", description: "Remove coupon", integrated: true },
       { method: "POST", path: "/cart/merge", description: "Merge guest cart on login", integrated: true },
@@ -95,8 +95,9 @@ const GROUPS: Group[] = [
   {
     name: "Checkout",
     endpoints: [
-      { method: "POST", path: "/checkout/opayo", description: "Create Opayo/SagePay order", integrated: true },
-      { method: "POST", path: "/checkout/3ds-callback", description: "3DS authentication return", integrated: true },
+      { method: "GET", path: "/checkout/merchant-session-key", description: "Opayo merchant session key", integrated: true },
+      { method: "POST", path: "/checkout/pay", description: "Create order and process payment via Opayo Pi", integrated: true },
+      { method: "POST", path: "/checkout/3ds-complete", description: "Complete 3DS challenge", integrated: true },
     ],
   },
   {
