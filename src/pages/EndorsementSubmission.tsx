@@ -53,7 +53,7 @@ const EndorsementSubmission = () => {
                   value={code}
                   onChange={(e) => setCode(e.target.value)}
                   placeholder="Enter code"
-                  className="border-border text-left text-lg py-6 font-sans bg-[#f0efef]"
+                  className="border-border text-left text-lg py-6 font-baskerville bg-[#f0efef] placeholder:font-baskerville"
                   required
                 />
 
