@@ -11,8 +11,8 @@ const ADMIN_TOKEN_KEY = "cms_admin_token";
 const ADMIN_USER_KEY = "cms_admin_user";
 
 // External CMS API base — admin login + admin account management
-// are now handled by the external CSP CMS API.
-const CMS_API_BASE = "https://api.cambridgescholars.com/api/cms";
+// are handled by the external CSP CMS API under /api/website/cms.
+const CMS_API_BASE = "https://api.cambridgescholars.com/api/website/cms";
 
 export interface CmsAdminUser {
   id: string | number;
