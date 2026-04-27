@@ -211,7 +211,7 @@ export default function AdminAdmins() {
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2 flex-wrap">
                   <span className="font-baskerville text-base text-foreground">{a.email}</span>
-                  {a.id === currentUserId && (
+                  {String(a.id) === String(currentUserId) && (
                     <span className="text-xs uppercase tracking-wider px-2 py-0.5 bg-accent/10 text-accent">
                       You
                     </span>
