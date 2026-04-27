@@ -213,7 +213,12 @@ export default function Checkout() {
     () => items.reduce((sum, it) => sum + it.price * it.quantity, 0),
     [items],
   );
-  const shippingCost = items.length > 0 ? 19.5 : 0;
+  // Ebook-only carts skip shipping entirely.
+  const isEbookOnly = useMemo(
+    () => items.length > 0 && items.every((it) => it.format === "ebook"),
+    [items],
+  );
+  const shippingCost = items.length > 0 && !isEbookOnly ? 19.5 : 0;
   const total = (cartTotal || subtotal) + shippingCost;
 
   if (items.length === 0 && !isComplete) {
@@ -357,18 +362,24 @@ export default function Checkout() {
       }
 
       // 3. Build the /checkout/pay payload.
-      const billingAddress = useShippingForBilling ? shipping : billing;
+      const billingAddress = isEbookOnly
+        ? billing
+        : useShippingForBilling
+          ? shipping
+          : billing;
       const payload: CheckoutPayRequest = {
         card_identifier: tokenised.cardIdentifier,
         merchant_session_key: msk.merchant_session_key,
         customer: {
-          first_name: shipping.firstName,
-          last_name: shipping.lastName,
+          first_name: isEbookOnly ? billing.firstName : shipping.firstName,
+          last_name: isEbookOnly ? billing.lastName : shipping.lastName,
           email: email.trim(),
-          phone: shipping.phone || undefined,
+          phone: (isEbookOnly ? billing.phone : shipping.phone) || undefined,
         },
         billing_address: buildAddressPayload(billingAddress),
-        shipping_address: buildAddressPayload(shipping),
+        // Ebook-only orders have no physical shipping; reuse billing address
+        // so the API still receives a value if it requires one.
+        shipping_address: buildAddressPayload(isEbookOnly ? billingAddress : shipping),
         browser: collectBrowserInfo(),
       };
 
@@ -500,41 +511,45 @@ export default function Checkout() {
           </div>
 
           <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-x-0 gap-y-10">
-            {/* LEFT — Shipping + Billing */}
+            {/* LEFT — Shipping + Billing (ebook-only orders skip shipping) */}
             <div className="pr-10 xl:pr-16">
-              <SectionHeading>Shipping details</SectionHeading>
-              <AddressFields
-                idPrefix="ship"
-                data={shipping}
-                onChange={setShipping}
-                phoneRequired
-              />
+              {!isEbookOnly && (
+                <>
+                  <SectionHeading>Shipping details</SectionHeading>
+                  <AddressFields
+                    idPrefix="ship"
+                    data={shipping}
+                    onChange={setShipping}
+                    phoneRequired
+                  />
 
-              {/* Use shipping as billing toggle */}
-              <div className="mt-10 flex items-center gap-3">
-                <Checkbox
-                  id="use-shipping"
-                  checked={useShippingForBilling}
-                  onCheckedChange={(v) => setUseShippingForBilling(Boolean(v))}
-                  className="rounded-none border-[#333333] data-[state=checked]:bg-[#C75B2A] data-[state=checked]:border-[#C75B2A]"
-                />
-                <Label
-                  htmlFor="use-shipping"
-                  className="text-[13px] font-semibold tracking-[0.18em] uppercase text-[#333333] cursor-pointer"
-                >
-                  Use shipping address as billing address
-                </Label>
-              </div>
+                  {/* Use shipping as billing toggle */}
+                  <div className="mt-10 flex items-center gap-3">
+                    <Checkbox
+                      id="use-shipping"
+                      checked={useShippingForBilling}
+                      onCheckedChange={(v) => setUseShippingForBilling(Boolean(v))}
+                      className="rounded-none border-[#333333] data-[state=checked]:bg-[#C75B2A] data-[state=checked]:border-[#C75B2A]"
+                    />
+                    <Label
+                      htmlFor="use-shipping"
+                      className="text-[13px] font-semibold tracking-[0.18em] uppercase text-[#333333] cursor-pointer"
+                    >
+                      Use shipping address as billing address
+                    </Label>
+                  </div>
+                </>
+              )}
 
-              {/* Billing details */}
-              {!useShippingForBilling && (
-                <div className="mt-12">
+              {/* Billing details: always shown for ebook-only; shown for physical orders only when not reusing shipping */}
+              {(isEbookOnly || !useShippingForBilling) && (
+                <div className={isEbookOnly ? "" : "mt-12"}>
                   <SectionHeading>Billing details</SectionHeading>
                   <AddressFields
                     idPrefix="bill"
                     data={billing}
                     onChange={setBilling}
-                    phoneRequired={false}
+                    phoneRequired={isEbookOnly}
                     showEmail
                     email={email}
                     onEmailChange={setEmail}
@@ -542,8 +557,8 @@ export default function Checkout() {
                 </div>
               )}
 
-              {/* Email + order notes (when using shipping as billing, still need email) */}
-              {useShippingForBilling && (
+              {/* Email field when reusing shipping as billing (physical orders only) */}
+              {!isEbookOnly && useShippingForBilling && (
                 <div className="mt-10 space-y-6">
                   <div>
                     <FieldLabel htmlFor="contact-email" required>Email Address</FieldLabel>
@@ -614,18 +629,22 @@ export default function Checkout() {
                     <span className="text-[15px] text-[#696969]">Subtotal</span>
                     <span className="text-[15px] text-[#333333]">{moneyGBP(subtotal)}</span>
                   </div>
-                  <div className="flex items-center justify-between py-4 border-b border-[#e3e1d8]">
-                    <span className="text-[15px] text-[#696969]">Shipping</span>
-                    <span className="text-[15px] text-[#333333]">{moneyGBP(shippingCost)}</span>
-                  </div>
-                  <div className="flex items-center justify-between py-4 border-b border-[#e3e1d8]">
-                    <span className="text-[15px] text-[#696969]">Delivery Method</span>
-                    <span className="text-[15px] font-semibold text-[#333333]">Standard Post</span>
-                  </div>
-                  <div className="flex items-center justify-between py-4 border-b border-[#e3e1d8]">
-                    <span className="text-[15px] text-[#696969]">Delivery Time</span>
-                    <span className="text-[15px] font-semibold text-[#333333]">4–5 weeks</span>
-                  </div>
+                  {!isEbookOnly && (
+                    <>
+                      <div className="flex items-center justify-between py-4 border-b border-[#e3e1d8]">
+                        <span className="text-[15px] text-[#696969]">Shipping</span>
+                        <span className="text-[15px] text-[#333333]">{moneyGBP(shippingCost)}</span>
+                      </div>
+                      <div className="flex items-center justify-between py-4 border-b border-[#e3e1d8]">
+                        <span className="text-[15px] text-[#696969]">Delivery Method</span>
+                        <span className="text-[15px] font-semibold text-[#333333]">Standard Post</span>
+                      </div>
+                      <div className="flex items-center justify-between py-4 border-b border-[#e3e1d8]">
+                        <span className="text-[15px] text-[#696969]">Delivery Time</span>
+                        <span className="text-[15px] font-semibold text-[#333333]">4–5 weeks</span>
+                      </div>
+                    </>
+                  )}
                   <div className="flex items-center justify-between py-5 border-b border-[#e3e1d8]">
                     <span className="text-[18px] text-[#333333]">Total</span>
                     <span className="text-[22px] font-semibold text-[#C75B2A]">
