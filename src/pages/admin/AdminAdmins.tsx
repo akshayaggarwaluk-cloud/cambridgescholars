@@ -59,9 +59,9 @@ export default function AdminAdmins() {
   };
 
   const toggleActive = async (a: CmsAdminAccount) => {
-    if (a.id === currentUserId) return toast.error("You cannot disable your own account");
+    if (String(a.id) === String(currentUserId)) return toast.error("You cannot disable your own account");
     try {
-      await adminApi.updateAdmin({ id: a.id, is_active: !a.is_active });
+      await adminApi.updateAdmin({ id: String(a.id), is_active: !a.is_active });
       toast.success(a.is_active ? "Admin disabled" : "Admin enabled");
       reload();
     } catch (err) {
@@ -70,10 +70,10 @@ export default function AdminAdmins() {
   };
 
   const remove = async (a: CmsAdminAccount) => {
-    if (a.id === currentUserId) return toast.error("You cannot delete your own account");
+    if (String(a.id) === String(currentUserId)) return toast.error("You cannot delete your own account");
     if (!confirm(`Delete admin ${a.email}? This cannot be undone.`)) return;
     try {
-      await adminApi.deleteAdmin(a.id);
+      await adminApi.deleteAdmin(String(a.id));
       toast.success("Admin deleted");
       reload();
     } catch (err) {
@@ -233,7 +233,7 @@ export default function AdminAdmins() {
                   variant="ghost"
                   size="sm"
                   title="Reset password"
-                  onClick={() => setResetPwd({ id: a.id, email: a.email, password: "" })}
+                  onClick={() => setResetPwd({ id: String(a.id), email: a.email, password: "" })}
                 >
                   <KeyRound className="h-4 w-4" />
                 </Button>
@@ -242,7 +242,7 @@ export default function AdminAdmins() {
                   size="sm"
                   title={a.is_active ? "Disable" : "Enable"}
                   onClick={() => toggleActive(a)}
-                  disabled={a.id === currentUserId}
+                  disabled={String(a.id) === String(currentUserId)}
                 >
                   <Power className={`h-4 w-4 ${a.is_active ? "" : "text-muted-foreground"}`} />
                 </Button>
@@ -251,7 +251,7 @@ export default function AdminAdmins() {
                   size="sm"
                   title="Delete"
                   onClick={() => remove(a)}
-                  disabled={a.id === currentUserId}
+                  disabled={String(a.id) === String(currentUserId)}
                 >
                   <Trash2 className="h-4 w-4 text-destructive" />
                 </Button>
