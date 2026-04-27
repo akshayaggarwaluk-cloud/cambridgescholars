@@ -9,6 +9,7 @@ import { supabase } from "@/integrations/supabase/client";
 
 const ADMIN_TOKEN_KEY = "cms_admin_token";
 const ADMIN_USER_KEY = "cms_admin_user";
+const ADMIN_EXTERNAL_TOKEN_KEY = "cms_admin_external_token";
 
 // External CMS API base — admin login + admin account management
 // are handled by the external CSP CMS API under /api/website/cms.
@@ -24,19 +25,28 @@ export const adminSession = {
   getToken(): string | null {
     try { return localStorage.getItem(ADMIN_TOKEN_KEY); } catch { return null; }
   },
+  getExternalToken(): string | null {
+    try { return localStorage.getItem(ADMIN_EXTERNAL_TOKEN_KEY); } catch { return null; }
+  },
   getUser(): CmsAdminUser | null {
     try {
       const raw = localStorage.getItem(ADMIN_USER_KEY);
       return raw ? (JSON.parse(raw) as CmsAdminUser) : null;
     } catch { return null; }
   },
-  set(token: string, user: CmsAdminUser) {
+  set(token: string, user: CmsAdminUser, externalToken?: string | null) {
     localStorage.setItem(ADMIN_TOKEN_KEY, token);
     localStorage.setItem(ADMIN_USER_KEY, JSON.stringify(user));
+    if (externalToken) {
+      localStorage.setItem(ADMIN_EXTERNAL_TOKEN_KEY, externalToken);
+    } else {
+      localStorage.removeItem(ADMIN_EXTERNAL_TOKEN_KEY);
+    }
   },
   clear() {
     localStorage.removeItem(ADMIN_TOKEN_KEY);
     localStorage.removeItem(ADMIN_USER_KEY);
+    localStorage.removeItem(ADMIN_EXTERNAL_TOKEN_KEY);
   },
 };
 
