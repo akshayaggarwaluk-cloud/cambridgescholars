@@ -9,6 +9,11 @@ export interface CartContextType {
   clearCart: () => void;
   cartCount: number;
   cartTotal: number;
+  cartSubtotal: number;
+  shipping: number | null;
+  shippingRequiresQuote: boolean;
+  shippingCountry: string;
+  setShippingCountry: (country: string) => void;
   loading: boolean;
   couponCode?: string | null;
   discount?: number | null;
