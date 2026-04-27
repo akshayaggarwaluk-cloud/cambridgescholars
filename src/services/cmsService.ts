@@ -10,8 +10,12 @@ import { supabase } from "@/integrations/supabase/client";
 const ADMIN_TOKEN_KEY = "cms_admin_token";
 const ADMIN_USER_KEY = "cms_admin_user";
 
+// External CMS API base — admin login + admin account management
+// are now handled by the external CSP CMS API.
+const CMS_API_BASE = "https://api.cambridgescholars.com/api/cms";
+
 export interface CmsAdminUser {
-  id: string;
+  id: string | number;
   email: string;
   name?: string | null;
 }
@@ -71,11 +75,11 @@ export interface CmsNewsArticle {
 }
 
 export interface CmsAdminAccount {
-  id: string;
+  id: string | number;
   email: string;
   name: string | null;
   is_active: boolean;
-  last_login_at: string | null;
+  last_login_at?: string | null;
   created_at: string;
 }
 
@@ -378,13 +382,50 @@ async function callAdmin<T = unknown>(
 
 // ─── Auth ───────────────────────────────────────────────────────
 
+/**
+ * Admin login — calls the external CSP CMS API.
+ * POST /api/cms/auth/login → { access_token, expires_in, admin }
+ * The returned access_token is a short-lived JWT (8h) used as Bearer
+ * on all other /api/cms/* endpoints.
+ */
 export async function adminLogin(email: string, password: string): Promise<CmsAdminUser> {
-  const res = await callAdmin<{ token: string; admin: CmsAdminUser }>(
-    { action: "login", email, password },
-    { requireAuth: false },
-  );
-  adminSession.set(res.token, res.admin);
-  return res.admin;
+  let res: Response;
+  try {
+    res = await fetch(`${CMS_API_BASE}/auth/login`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Accept: "application/json" },
+      body: JSON.stringify({ email, password }),
+    });
+  } catch {
+    throw new Error("Unable to reach the CMS server. Please try again.");
+  }
+
+  let payload: unknown = null;
+  try { payload = await res.json(); } catch { /* ignore */ }
+
+  if (!res.ok) {
+    const err = (payload as { error?: string } | null)?.error;
+    if (res.status === 401) throw new Error(err || "Invalid email or password");
+    if (res.status === 429) throw new Error(err || "Too many attempts. Please try again in a minute.");
+    if (res.status === 400) throw new Error(err || "Email and password are required");
+    throw new Error(err || `Login failed (${res.status})`);
+  }
+
+  const data = payload as {
+    access_token?: string;
+    admin?: { id: string | number; email: string; name?: string | null; is_active?: boolean };
+  };
+  if (!data?.access_token || !data.admin?.email) {
+    throw new Error("Unexpected login response from CMS");
+  }
+
+  const user: CmsAdminUser = {
+    id: data.admin.id,
+    email: data.admin.email,
+    name: data.admin.name ?? null,
+  };
+  adminSession.set(data.access_token, user);
+  return user;
 }
 
 export function adminLogout() {
@@ -443,8 +484,51 @@ export const adminApi = {
   // ─── Admin accounts ──────────────────────────────────────────
   listAdmins: () =>
     callAdmin<{ data: CmsAdminAccount[] }>({ action: "list_admins" }).then((r) => r.data),
-  createAdmin: (payload: { email: string; password: string; name?: string; is_active?: boolean }) =>
-    callAdmin<{ data: CmsAdminAccount }>({ action: "create_admin", ...payload }).then((r) => r.data),
+  createAdmin: async (payload: { email: string; password: string; name?: string; is_active?: boolean }): Promise<CmsAdminAccount> => {
+    const token = adminSession.getToken();
+    if (!token) throw new Error("Not signed in");
+
+    let res: Response;
+    try {
+      res = await fetch(`${CMS_API_BASE}/admins`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          email: payload.email,
+          name: payload.name,
+          password: payload.password,
+        }),
+      });
+    } catch {
+      throw new Error("Unable to reach the CMS server. Please try again.");
+    }
+
+    let parsed: unknown = null;
+    try { parsed = await res.json(); } catch { /* ignore */ }
+
+    if (!res.ok) {
+      const err = (parsed as { error?: string } | null)?.error;
+      if (res.status === 401) {
+        adminSession.clear();
+        if (typeof window !== "undefined" && !window.location.pathname.startsWith("/admin/login")) {
+          window.location.replace("/admin/login");
+        }
+        throw new Error(err || "Admin login required");
+      }
+      if (res.status === 403) throw new Error(err || "Admin access required");
+      if (res.status === 409) throw new Error(err || "Email already exists");
+      if (res.status === 400) throw new Error(err || "Invalid admin details");
+      throw new Error(err || `Failed to create admin (${res.status})`);
+    }
+
+    const body = parsed as { data?: CmsAdminAccount } | null;
+    if (!body?.data) throw new Error("Unexpected response from CMS");
+    return body.data;
+  },
   updateAdmin: (payload: { id: string; email?: string; name?: string; password?: string; is_active?: boolean }) =>
     callAdmin<{ data: CmsAdminAccount }>({ action: "update_admin", ...payload }).then((r) => r.data),
   deleteAdmin: (id: string) => callAdmin({ action: "delete_admin", id }),
