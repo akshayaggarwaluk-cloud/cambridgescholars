@@ -168,7 +168,7 @@ function AddressFields({
 }
 
 export default function Checkout() {
-  const { items, cartTotal, couponCode, discount, applyCoupon, clearCart } = useCart();
+  const { items, cartTotal, couponCode, discount, applyCoupon, removeCoupon, clearCart } = useCart();
   const { user } = useExternalAuth();
   const navigate = useNavigate();
 
@@ -178,6 +178,7 @@ export default function Checkout() {
 
   const [showCoupon, setShowCoupon] = useState(false);
   const [couponInput, setCouponInput] = useState("");
+  const [couponBusy, setCouponBusy] = useState(false);
 
   const [shipping, setShipping] = useState<AddressData>({
     ...emptyAddress,
@@ -266,11 +267,24 @@ export default function Checkout() {
 
   const handleApplyCoupon = async () => {
     if (!couponInput.trim()) return;
+    setCouponBusy(true);
     try {
       await applyCoupon(couponInput.trim());
       setCouponInput("");
+      setShowCoupon(false);
     } catch {
       /* toast handled by context */
+    } finally {
+      setCouponBusy(false);
+    }
+  };
+
+  const handleRemoveCoupon = async () => {
+    setCouponBusy(true);
+    try {
+      await removeCoupon();
+    } finally {
+      setCouponBusy(false);
     }
   };
 
@@ -440,6 +454,12 @@ export default function Checkout() {
                 <Input
                   value={couponInput}
                   onChange={(e) => setCouponInput(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      e.preventDefault();
+                      void handleApplyCoupon();
+                    }
+                  }}
                   placeholder=""
                   aria-label="Coupon code"
                   className="h-12 rounded-none border border-[#1f1f1f] bg-white focus-visible:ring-0 focus-visible:border-[#C75B2A]"
@@ -447,17 +467,28 @@ export default function Checkout() {
                 <Button
                   type="button"
                   onClick={handleApplyCoupon}
+                  disabled={couponBusy || !couponInput.trim()}
                   className="mt-5 h-12 px-8 rounded-none uppercase tracking-[0.2em] bg-[#C75B2A] hover:bg-[#a84a22] text-white font-semibold"
                 >
-                  Apply Coupon
+                  {couponBusy ? "Applying..." : "Apply Coupon"}
                 </Button>
               </div>
             )}
             {couponCode && (
-              <p className="mt-3 text-sm text-[#0a7a3b]">
-                Coupon <strong>{couponCode}</strong> applied
-                {discount ? ` (−${moneyGBP(discount)})` : ""}.
-              </p>
+              <div className="mt-3 flex items-center gap-3 text-sm text-[#0a7a3b]">
+                <span>
+                  Coupon <strong>{couponCode}</strong> applied
+                  {discount ? ` (−${moneyGBP(discount)})` : ""}.
+                </span>
+                <button
+                  type="button"
+                  onClick={handleRemoveCoupon}
+                  disabled={couponBusy}
+                  className="text-[#C75B2A] hover:underline font-semibold uppercase tracking-wider text-xs disabled:opacity-60"
+                >
+                  Remove
+                </button>
+              </div>
             )}
           </div>
 
