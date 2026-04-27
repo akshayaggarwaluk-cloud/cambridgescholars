@@ -460,9 +460,9 @@ export default function Checkout() {
                       void handleApplyCoupon();
                     }
                   }}
-                  placeholder=""
+                  placeholder="Coupon code"
                   aria-label="Coupon code"
-                  className="h-12 rounded-none border border-[#1f1f1f] bg-white focus-visible:ring-0 focus-visible:border-[#C75B2A]"
+                  className="h-9 rounded-none border border-[#1f1f1f] bg-white focus-visible:ring-0 focus-visible:border-[#C75B2A]"
                 />
                 <Button
                   type="button"
