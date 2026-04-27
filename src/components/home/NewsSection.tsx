@@ -39,7 +39,16 @@ export const NewsSection = () => {
                     />
                   </div>
                 )}
-                <h3 className="text-xl md:text-2xl font-serif text-foreground mb-4 leading-snug font-medium tracking-[0.02em]">
+                <h3
+                  className="mb-4"
+                  style={{
+                    fontFamily: "'Libre Baskerville', Georgia, serif",
+                    fontSize: "23px",
+                    fontWeight: 400,
+                    color: "#000000",
+                    lineHeight: 1.3,
+                  }}
+                >
                   {article.title}
                 </h3>
                 {article.excerpt && (
