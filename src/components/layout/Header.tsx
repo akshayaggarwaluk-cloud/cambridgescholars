@@ -37,6 +37,7 @@ const trailingNav = [
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isHidden, setIsHidden] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   
   const [isPublishDropdownOpen, setIsPublishDropdownOpen] = useState(false);
@@ -47,8 +48,24 @@ export function Header() {
   const { user } = useExternalAuth();
 
   useEffect(() => {
-    const handleScroll = () => setIsScrolled(window.scrollY > 10);
-    window.addEventListener("scroll", handleScroll);
+    let lastY = window.scrollY;
+    const handleScroll = () => {
+      const currentY = window.scrollY;
+      setIsScrolled(currentY > 10);
+
+      // Always show near the top of the page
+      if (currentY < 100) {
+        setIsHidden(false);
+      } else if (currentY > lastY + 4) {
+        // Scrolling down → hide
+        setIsHidden(true);
+      } else if (currentY < lastY - 4) {
+        // Scrolling up → show
+        setIsHidden(false);
+      }
+      lastY = currentY;
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
@@ -77,8 +94,9 @@ export function Header() {
     <TooltipProvider delayDuration={300}>
       <header
         className={cn(
-          "fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-white",
+          "fixed top-0 left-0 right-0 z-50 transition-transform duration-300 bg-white",
           isScrolled && "shadow-md bg-white/95 backdrop-blur-sm",
+          isHidden && !isMenuOpen ? "-translate-y-full" : "translate-y-0",
           isSearchOpen && "invisible"
         )}
       >
