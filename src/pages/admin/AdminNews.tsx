@@ -283,35 +283,11 @@ export default function AdminNews() {
             </p>
           </Field>
 
-          <Field label="Display order on /news listing page (lower numbers appear first: 1 = first, 2 = second, …)">
-            <input
-              type="number"
-              min={0}
-              value={editing.display_order ?? 0}
-              onChange={(e) =>
-                setEditing({ ...editing, display_order: Number(e.target.value) || 0 })
-              }
-              className="w-full sm:w-40 border border-border px-3 py-2 text-sm bg-background"
-            />
-            <p className="text-xs text-muted-foreground mt-1">
-              Controls order on the full /news listing page only. Articles with the same number fall back to most-recently published first.
+          <div className="border border-dashed border-border p-3 bg-background">
+            <p className="text-xs text-muted-foreground">
+              <strong className="text-foreground">Ordering:</strong> Close this form and drag the <span className="font-mono">⋮⋮</span> handle on the article list to set the order shown on the <span className="font-mono">/news</span> page. The homepage News section automatically shows the 3 most recent published articles.
             </p>
-          </Field>
-
-          <Field label="Homepage order (controls order in the homepage News section)">
-            <input
-              type="number"
-              min={0}
-              value={editing.homepage_order ?? 0}
-              onChange={(e) =>
-                setEditing({ ...editing, homepage_order: Number(e.target.value) || 0 })
-              }
-              className="w-full sm:w-40 border border-border px-3 py-2 text-sm bg-background"
-            />
-            <p className="text-xs text-muted-foreground mt-1">
-              Independent from "/news" order. Lower numbers appear first in the homepage 3-column News block.
-            </p>
-          </Field>
+          </div>
 
           <div className="flex gap-2 pt-2">
             <Button onClick={save} disabled={saving} className="bg-accent hover:bg-accent/90">
