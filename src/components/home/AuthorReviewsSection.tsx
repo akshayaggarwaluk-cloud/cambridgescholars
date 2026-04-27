@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { fetchAuthorReviews, fetchBooks } from "@/services/cspApi";
+import { fetchAuthorReviews, fetchAutocomplete } from "@/services/cspApi";
 
 interface AuthorReview {
   author: string;
@@ -16,6 +16,23 @@ export function AuthorReviewsSection() {
   const [loading, setLoading] = useState(true);
   const [visibleCount, setVisibleCount] = useState(6);
 
+  // Resolve a cover image for a given review by querying the autocomplete
+  // endpoint with the exact book_title and picking the best title match.
+  const resolveCover = (title: string): Promise<string | null> => {
+    const norm = (s: string) => s.toLowerCase().replace(/\s+/g, " ").trim();
+    const target = norm(title);
+    return fetchAutocomplete(title)
+      .then((results) => {
+        if (!results || results.length === 0) return null;
+        // Prefer exact title match, otherwise the first result
+        const exact = results.find((r) => norm(r.title) === target);
+        const startsWith = results.find((r) => norm(r.title).startsWith(target));
+        const picked = exact || startsWith || results[0];
+        return picked?.cover_image || null;
+      })
+      .catch(() => null);
+  };
+
   useEffect(() => {
     fetchAuthorReviews()
       .then((data) => {
@@ -25,18 +42,14 @@ export function AuthorReviewsSection() {
 
         // Fetch cover images only for first 6 (visible) reviews
         data.slice(0, 6).forEach((r, i) => {
-          fetchBooks({ search: r.book_title, per_page: 1 })
-            .then((result) => {
-              const cover = result.books[0]?.image;
-              if (cover) {
-                setReviews((prev) => {
-                  const updated = [...prev];
-                  if (updated[i]) updated[i] = { ...updated[i], coverImage: cover };
-                  return updated;
-                });
-              }
-            })
-            .catch(() => {});
+          resolveCover(r.book_title).then((cover) => {
+            if (!cover) return;
+            setReviews((prev) => {
+              const updated = [...prev];
+              if (updated[i]) updated[i] = { ...updated[i], coverImage: cover };
+              return updated;
+            });
+          });
         });
       })
       .catch(() => {
@@ -50,18 +63,14 @@ export function AuthorReviewsSection() {
     if (reviews.length === 0) return;
     reviews.slice(0, visibleCount).forEach((r, i) => {
       if (r.coverImage) return; // already fetched
-      fetchBooks({ search: r.book_title, per_page: 1 })
-        .then((result) => {
-          const cover = result.books[0]?.image;
-          if (cover) {
-            setReviews((prev) => {
-              const updated = [...prev];
-              if (updated[i]) updated[i] = { ...updated[i], coverImage: cover };
-              return updated;
-            });
-          }
-        })
-        .catch(() => {});
+      resolveCover(r.book_title).then((cover) => {
+        if (!cover) return;
+        setReviews((prev) => {
+          const updated = [...prev];
+          if (updated[i]) updated[i] = { ...updated[i], coverImage: cover };
+          return updated;
+        });
+      });
     });
   }, [visibleCount]);
 
