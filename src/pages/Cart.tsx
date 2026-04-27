@@ -41,12 +41,6 @@ export default function Cart() {
     [items, draftQuantities],
   );
 
-  const draftTotal = useMemo(
-    () => items.reduce((sum, i) => sum + i.price * getQty(i), 0),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [items, draftQuantities],
-  );
-
   const handleUpdateCart = async () => {
     const changed = items.filter(
       (i) => (draftQuantities[keyOf(i.id, i.format)] ?? i.quantity) !== i.quantity,
@@ -205,9 +199,9 @@ export default function Cart() {
                   </button>
                 </div>
 
-                {/* Total */}
+                {/* Total — reflects committed quantity; updates after UPDATE CART */}
                 <div className="text-base text-black font-light text-center">
-                  £{(item.price * getQty(item)).toFixed(2)}
+                  £{(item.price * item.quantity).toFixed(2)}
                 </div>
 
                 {/* Remove */}
@@ -222,11 +216,11 @@ export default function Cart() {
             ))}
           </div>
 
-          {/* Total */}
+          {/* Total — reflects committed cart; updates after UPDATE CART */}
           <div className="flex justify-end items-center gap-12 mt-10 pr-6">
             <span className="text-base text-muted-foreground">Total</span>
             <span className="text-foreground font-normal text-lg">
-              £{(hasChanges ? draftTotal : cartTotal).toFixed(2)}
+              £{cartTotal.toFixed(2)}
             </span>
           </div>
 
