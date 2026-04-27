@@ -43,7 +43,15 @@ export const NewsSection = () => {
                   {article.title}
                 </h3>
                 {article.excerpt && (
-                  <p className="text-sm leading-relaxed text-muted-foreground mb-5 text-justify line-clamp-4">
+                  <p
+                    className="mb-5 text-justify line-clamp-4"
+                    style={{
+                      fontFamily: "'Nunito Sans', system-ui, sans-serif",
+                      fontSize: "15px",
+                      color: "#696969",
+                      lineHeight: 1.6,
+                    }}
+                  >
                     {article.excerpt}
                   </p>
                 )}
