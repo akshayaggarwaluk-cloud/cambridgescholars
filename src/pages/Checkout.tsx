@@ -175,7 +175,18 @@ function AddressFields({
 }
 
 export default function Checkout() {
-  const { items, cartTotal, couponCode, discount, applyCoupon, removeCoupon, clearCart } = useCart();
+  const {
+    items,
+    cartTotal,
+    cartSubtotal,
+    shipping,
+    shippingRequiresQuote,
+    couponCode,
+    discount,
+    applyCoupon,
+    removeCoupon,
+    clearCart,
+  } = useCart();
   const { user } = useExternalAuth();
   const navigate = useNavigate();
 
@@ -209,17 +220,19 @@ export default function Checkout() {
     loadOpayoSdk().catch(() => { /* surfaced on submit */ });
   }, []);
 
-  const subtotal = useMemo(
+  const localSubtotal = useMemo(
     () => items.reduce((sum, it) => sum + it.price * it.quantity, 0),
     [items],
   );
+  const subtotal = cartSubtotal || localSubtotal;
   // Ebook-only carts skip shipping entirely.
   const isEbookOnly = useMemo(
     () => items.length > 0 && items.every((it) => it.format === "ebook"),
     [items],
   );
-  const shippingCost = items.length > 0 && !isEbookOnly ? 19.5 : 0;
-  const total = (cartTotal || subtotal) + shippingCost;
+  // Shipping comes straight from the API (`shipping_gbp` on /cart).
+  const shippingCost = isEbookOnly ? 0 : shipping ?? 0;
+  const total = cartTotal || subtotal + shippingCost - (discount ?? 0);
 
   if (items.length === 0 && !isComplete) {
     navigate("/cart");
