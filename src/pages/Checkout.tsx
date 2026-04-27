@@ -362,18 +362,24 @@ export default function Checkout() {
       }
 
       // 3. Build the /checkout/pay payload.
-      const billingAddress = useShippingForBilling ? shipping : billing;
+      const billingAddress = isEbookOnly
+        ? billing
+        : useShippingForBilling
+          ? shipping
+          : billing;
       const payload: CheckoutPayRequest = {
         card_identifier: tokenised.cardIdentifier,
         merchant_session_key: msk.merchant_session_key,
         customer: {
-          first_name: shipping.firstName,
-          last_name: shipping.lastName,
+          first_name: isEbookOnly ? billing.firstName : shipping.firstName,
+          last_name: isEbookOnly ? billing.lastName : shipping.lastName,
           email: email.trim(),
-          phone: shipping.phone || undefined,
+          phone: (isEbookOnly ? billing.phone : shipping.phone) || undefined,
         },
         billing_address: buildAddressPayload(billingAddress),
-        shipping_address: buildAddressPayload(shipping),
+        // Ebook-only orders have no physical shipping; reuse billing address
+        // so the API still receives a value if it requires one.
+        shipping_address: buildAddressPayload(isEbookOnly ? billingAddress : shipping),
         browser: collectBrowserInfo(),
       };
 
