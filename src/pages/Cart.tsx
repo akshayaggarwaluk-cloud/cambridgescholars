@@ -9,7 +9,19 @@ import { useCart, type CartItem, type BookFormat } from "@/contexts/CartContext"
 import { showCartNotification } from "@/components/cart/CartBanner";
 
 export default function Cart() {
-  const { items, updateQuantity, removeFromCart, addToCart, cartTotal } = useCart();
+  const {
+    items,
+    updateQuantity,
+    removeFromCart,
+    addToCart,
+    cartTotal,
+    cartSubtotal,
+    shipping,
+    shippingRequiresQuote,
+    shippingCountry,
+    setShippingCountry,
+    discount,
+  } = useCart();
 
   // Draft quantities (local edits, only committed when UPDATE CART is pressed).
   const keyOf = (id: string, format: string) => `${id}_${format}`;
@@ -216,12 +228,69 @@ export default function Cart() {
             ))}
           </div>
 
-          {/* Total — reflects committed cart; updates after UPDATE CART */}
-          <div className="flex justify-end items-center gap-12 mt-10 pr-6">
-            <span className="text-base text-muted-foreground">Total</span>
-            <span className="text-foreground font-normal text-lg">
-              £{cartTotal.toFixed(2)}
-            </span>
+          {/* Totals — reflects committed cart; updates after UPDATE CART */}
+          <div className="mt-10 pr-6 ml-auto max-w-md space-y-3">
+            <div className="flex justify-between items-center">
+              <span className="text-base text-muted-foreground">Subtotal</span>
+              <span className="text-foreground font-normal text-base">
+                £{cartSubtotal.toFixed(2)}
+              </span>
+            </div>
+
+            <div className="flex justify-between items-center gap-4">
+              <label htmlFor="ship-country" className="text-base text-muted-foreground">
+                Ship to
+              </label>
+              <select
+                id="ship-country"
+                value={shippingCountry}
+                onChange={(e) => setShippingCountry(e.target.value)}
+                className="border border-border bg-white px-3 py-1.5 text-sm text-foreground focus:outline-none focus:ring-1 focus:ring-[#C75B2A]"
+              >
+                <option value="GB">United Kingdom</option>
+                <option value="US">United States</option>
+                <option value="CA">Canada</option>
+                <option value="AU">Australia</option>
+                <option value="IE">Ireland</option>
+                <option value="DE">Germany</option>
+                <option value="FR">France</option>
+                <option value="IT">Italy</option>
+                <option value="ES">Spain</option>
+                <option value="NL">Netherlands</option>
+                <option value="IN">India</option>
+                <option value="JP">Japan</option>
+                <option value="OTHER">Other</option>
+              </select>
+            </div>
+
+            <div className="flex justify-between items-center">
+              <span className="text-base text-muted-foreground">Shipping</span>
+              <span className="text-foreground font-normal text-base">
+                {shippingRequiresQuote
+                  ? "Quote required"
+                  : shipping == null
+                    ? "—"
+                    : shipping === 0
+                      ? "Free"
+                      : `£${shipping.toFixed(2)}`}
+              </span>
+            </div>
+
+            {discount != null && discount > 0 && (
+              <div className="flex justify-between items-center">
+                <span className="text-base text-muted-foreground">Discount</span>
+                <span className="text-foreground font-normal text-base">
+                  −£{discount.toFixed(2)}
+                </span>
+              </div>
+            )}
+
+            <div className="flex justify-between items-center pt-3 border-t border-border">
+              <span className="text-base text-foreground">Total</span>
+              <span className="text-foreground font-normal text-lg">
+                £{cartTotal.toFixed(2)}
+              </span>
+            </div>
           </div>
 
           <div className="border-t border-border mt-8"></div>
