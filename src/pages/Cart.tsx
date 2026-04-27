@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { useState, useEffect, useMemo } from "react";
 import { Minus, Plus, X, Info, ShoppingCart } from "lucide-react";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
@@ -9,6 +10,54 @@ import { showCartNotification } from "@/components/cart/CartBanner";
 
 export default function Cart() {
   const { items, updateQuantity, removeFromCart, addToCart, cartTotal } = useCart();
+
+  // Draft quantities (local edits, only committed when UPDATE CART is pressed).
+  const keyOf = (id: string, format: string) => `${id}_${format}`;
+  const [draftQuantities, setDraftQuantities] = useState<Record<string, number>>({});
+
+  // Re-sync draft baseline when the cart changes externally (item added/removed,
+  // or quantities saved). Preserves any in-progress edits for items still present.
+  useEffect(() => {
+    setDraftQuantities((prev) => {
+      const next: Record<string, number> = {};
+      items.forEach((i) => {
+        const k = keyOf(i.id, i.format);
+        next[k] = k in prev ? prev[k] : i.quantity;
+      });
+      return next;
+    });
+  }, [items]);
+
+  const getQty = (item: CartItem) =>
+    draftQuantities[keyOf(item.id, item.format)] ?? item.quantity;
+
+  const setQty = (item: CartItem, qty: number) => {
+    if (qty < 1) return;
+    setDraftQuantities((prev) => ({ ...prev, [keyOf(item.id, item.format)]: qty }));
+  };
+
+  const hasChanges = useMemo(
+    () => items.some((i) => (draftQuantities[keyOf(i.id, i.format)] ?? i.quantity) !== i.quantity),
+    [items, draftQuantities],
+  );
+
+  const draftTotal = useMemo(
+    () => items.reduce((sum, i) => sum + i.price * getQty(i), 0),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [items, draftQuantities],
+  );
+
+  const handleUpdateCart = async () => {
+    const changed = items.filter(
+      (i) => (draftQuantities[keyOf(i.id, i.format)] ?? i.quantity) !== i.quantity,
+    );
+    await Promise.all(
+      changed.map((i) =>
+        updateQuantity(i.id, i.format, draftQuantities[keyOf(i.id, i.format)]),
+      ),
+    );
+    showCartNotification("Cart updated.");
+  };
 
   const handleRemoveItem = (item: CartItem) => {
     const undoEvent = `cart:undo-remove:${item.id}_${item.format}_${Date.now()}`;
@@ -140,15 +189,15 @@ export default function Cart() {
                 {/* Quantity */}
                 <div className="flex items-center border border-border w-fit mx-auto">
                   <button
-                    onClick={() => updateQuantity(item.id, item.format, item.quantity - 1)}
+                    onClick={() => setQty(item, getQty(item) - 1)}
                     aria-label="Decrease quantity"
                     className="w-10 h-10 flex items-center justify-center hover:bg-secondary transition-colors"
                   >
                     <Minus className="h-3 w-3" />
                   </button>
-                  <span className="w-12 text-center text-foreground">{item.quantity}</span>
+                  <span className="w-12 text-center text-foreground">{getQty(item)}</span>
                   <button
-                    onClick={() => updateQuantity(item.id, item.format, item.quantity + 1)}
+                    onClick={() => setQty(item, getQty(item) + 1)}
                     aria-label="Increase quantity"
                     className="w-10 h-10 flex items-center justify-center hover:bg-secondary transition-colors"
                   >
@@ -158,7 +207,7 @@ export default function Cart() {
 
                 {/* Total */}
                 <div className="text-base text-black font-light text-center">
-                  £{(item.price * item.quantity).toFixed(2)}
+                  £{(item.price * getQty(item)).toFixed(2)}
                 </div>
 
                 {/* Remove */}
@@ -177,7 +226,7 @@ export default function Cart() {
           <div className="flex justify-end items-center gap-12 mt-10 pr-6">
             <span className="text-base text-muted-foreground">Total</span>
             <span className="text-foreground font-normal text-lg">
-              £{cartTotal.toFixed(2)}
+              £{(hasChanges ? draftTotal : cartTotal).toFixed(2)}
             </span>
           </div>
 
@@ -198,6 +247,14 @@ export default function Cart() {
             </Button>
 
             <div className="flex flex-col sm:flex-row gap-4 sm:items-center">
+              <button
+                onClick={handleUpdateCart}
+                disabled={!hasChanges}
+                className="bg-[#C75B2A] hover:bg-white text-white hover:text-[#C75B2A] border border-[#C75B2A] rounded-none uppercase tracking-wider normal-case text-sm px-10 py-4 transition-colors disabled:bg-[#E89B7A] disabled:border-[#E89B7A] disabled:cursor-not-allowed disabled:hover:bg-[#E89B7A] disabled:hover:text-white"
+                style={{ fontFamily: '"Nunito Sans", sans-serif', fontWeight: 700 }}
+              >
+                UPDATE CART
+              </button>
               <Button
                 asChild
                 className="rounded-none tracking-wider normal-case text-sm px-10 py-4 h-auto bg-[#e5573e] text-white border border-[#e5573e] hover:bg-white hover:text-[#e5573e]"
