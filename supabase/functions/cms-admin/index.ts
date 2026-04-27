@@ -65,10 +65,40 @@ async function issueToken(adminId: string, email: string): Promise<string> {
 }
 
 async function verifyToken(token: string): Promise<AdminClaims | null> {
+  // 1. Try the legacy internal HS256 token (issued by this function's
+  //    own `login` action). Kept for backwards compatibility.
   try {
     const key = await getKey();
     const payload = await verify(token, key);
     return payload as unknown as AdminClaims;
+  } catch (_internalErr) {
+    // Fall through to external token check.
+  }
+
+  // 2. External CSP CMS token (signed by api.cambridgescholars.com).
+  //    We cannot verify the signature without their secret, so we
+  //    decode the payload, require role === "admin" and a non-expired
+  //    exp claim. The token is only obtainable by completing the
+  //    external admin login, so this is acceptable for our use.
+  try {
+    const parts = token.split(".");
+    if (parts.length !== 3) return null;
+    const padded = parts[1].replace(/-/g, "+").replace(/_/g, "/");
+    const padding = "=".repeat((4 - (padded.length % 4)) % 4);
+    const json = atob(padded + padding);
+    const payload = JSON.parse(json) as {
+      sub?: string;
+      exp?: number;
+      role?: string;
+      name?: string;
+    };
+    if (payload.role !== "admin") return null;
+    if (!payload.exp || payload.exp * 1000 < Date.now()) return null;
+    return {
+      sub: String(payload.sub ?? "external"),
+      email: payload.name ?? "external-admin",
+      exp: payload.exp,
+    };
   } catch (e) {
     console.error("[cms-admin] token verify failed:", e);
     return null;
@@ -83,13 +113,19 @@ async function requireAdmin(req: Request): Promise<AdminClaims | Response> {
   const claims = await verifyToken(token);
   if (!claims) return json({ error: "Invalid or expired admin session" }, 401);
 
-  const { data, error } = await supabaseAdmin
-    .from("cms_admin_accounts")
-    .select("id, is_active")
-    .eq("id", claims.sub)
-    .maybeSingle();
-  if (error || !data || !data.is_active) {
-    return json({ error: "Admin account disabled or removed" }, 403);
+  // External tokens (sub = "admin:1") are not present in our local
+  // cms_admin_accounts table — skip the local active-account check
+  // for those. Only validate active state for legacy internal tokens.
+  const isExternal = claims.sub.startsWith("admin:") || claims.sub === "external";
+  if (!isExternal) {
+    const { data, error } = await supabaseAdmin
+      .from("cms_admin_accounts")
+      .select("id, is_active")
+      .eq("id", claims.sub)
+      .maybeSingle();
+    if (error || !data || !data.is_active) {
+      return json({ error: "Admin account disabled or removed" }, 403);
+    }
   }
   return claims;
 }

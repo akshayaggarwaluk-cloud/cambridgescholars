@@ -440,29 +440,10 @@ export async function adminLogin(email: string, password: string): Promise<CmsAd
     name: data.admin.name ?? null,
   };
 
-  // Also obtain the internal edge-function token so all existing
-  // CRUD calls (which still go through the cms-admin edge function)
-  // continue to work. We pass requireAuth: false because there is
-  // no admin token yet at this point.
-  let internalToken: string | null = null;
-  try {
-    const internalRes = await callAdmin<{ token?: string; admin?: CmsAdminUser }>(
-      { action: "login", email, password },
-      { requireAuth: false },
-    );
-    if (internalRes?.token) internalToken = internalRes.token;
-  } catch (e) {
-    console.warn("[adminLogin] internal edge-function login failed", e);
-  }
-
-  if (!internalToken) {
-    throw new Error(
-      "Signed in to CMS, but the internal admin session could not be created. " +
-      "Please contact support.",
-    );
-  }
-
-  adminSession.set(internalToken, user, data.access_token);
+  // Use the same external token for both the CMS edge function
+  // (cms-admin) and the external /admins endpoints. The edge function
+  // accepts external admin JWTs (role=admin).
+  adminSession.set(data.access_token, user, data.access_token);
   return user;
 }
 
