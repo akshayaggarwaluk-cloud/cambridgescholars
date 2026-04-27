@@ -16,10 +16,6 @@ export default function Cart() {
     addToCart,
     cartTotal,
     cartSubtotal,
-    shipping,
-    shippingRequiresQuote,
-    shippingCountry,
-    setShippingCountry,
     discount,
   } = useCart();
 
@@ -237,45 +233,6 @@ export default function Cart() {
               </span>
             </div>
 
-            <div className="flex justify-between items-center gap-4">
-              <label htmlFor="ship-country" className="text-base text-muted-foreground">
-                Ship to
-              </label>
-              <select
-                id="ship-country"
-                value={shippingCountry}
-                onChange={(e) => setShippingCountry(e.target.value)}
-                className="border border-border bg-white px-3 py-1.5 text-sm text-foreground focus:outline-none focus:ring-1 focus:ring-[#C75B2A]"
-              >
-                <option value="GB">United Kingdom</option>
-                <option value="US">United States</option>
-                <option value="CA">Canada</option>
-                <option value="AU">Australia</option>
-                <option value="IE">Ireland</option>
-                <option value="DE">Germany</option>
-                <option value="FR">France</option>
-                <option value="IT">Italy</option>
-                <option value="ES">Spain</option>
-                <option value="NL">Netherlands</option>
-                <option value="IN">India</option>
-                <option value="JP">Japan</option>
-                <option value="OTHER">Other</option>
-              </select>
-            </div>
-
-            <div className="flex justify-between items-center">
-              <span className="text-base text-muted-foreground">Shipping</span>
-              <span className="text-foreground font-normal text-base">
-                {shippingRequiresQuote
-                  ? "Quote required"
-                  : shipping == null
-                    ? "—"
-                    : shipping === 0
-                      ? "Free"
-                      : `£${shipping.toFixed(2)}`}
-              </span>
-            </div>
-
             {discount != null && discount > 0 && (
               <div className="flex justify-between items-center">
                 <span className="text-base text-muted-foreground">Discount</span>
@@ -288,7 +245,7 @@ export default function Cart() {
             <div className="flex justify-between items-center pt-3 border-t border-border">
               <span className="text-base text-foreground">Total</span>
               <span className="text-foreground font-normal text-lg">
-                £{cartTotal.toFixed(2)}
+                £{(cartSubtotal - (discount ?? 0)).toFixed(2)}
               </span>
             </div>
           </div>
