@@ -51,6 +51,7 @@ import AdminFaqs from "@/pages/admin/AdminFaqs";
 import AdminResources from "@/pages/admin/AdminResources";
 import AdminComingSoon from "@/pages/admin/AdminComingSoon";
 import AdminOrders from "@/pages/admin/AdminOrders";
+import AdminCoupons from "@/pages/admin/AdminCoupons";
 
 export function AnimatedRoutes() {
   const location = useLocation();
@@ -105,6 +106,7 @@ export function AnimatedRoutes() {
           <Route path="contact-submissions" element={<AdminComingSoon title="Contact Submissions" description="Backend ready. Inbox UI coming next." />} />
           <Route path="proposal-submissions" element={<AdminComingSoon title="Proposal Submissions" description="Backend ready. Inbox UI coming next." />} />
           <Route path="orders" element={<AdminOrders />} />
+          <Route path="coupons" element={<AdminCoupons />} />
           <Route path="users" element={<AdminComingSoon title="Users" description="Backend ready (Lovable Cloud auth users + CSP password-reset stub). UI coming next." />} />
           <Route path="admins" element={<AdminAdmins />} />
         </Route>

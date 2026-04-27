@@ -214,6 +214,26 @@ export interface CmsAuthUser {
   user_metadata: Record<string, unknown>;
 }
 
+export interface CmsCoupon {
+  id: number;
+  code: string;
+  discount_type: "percent" | "fixed";
+  discount_value: number;
+  min_order_gbp: number | null;
+  max_uses: number | null;
+  uses_count: number;
+  expires_at: string | null;
+  active: boolean;
+  created_at: string;
+}
+
+export interface CmsPagination {
+  current_page: number;
+  per_page: number;
+  total_items: number;
+  total_pages: number;
+}
+
 // ─── Public reads (no auth) ─────────────────────────────────────
 
 export async function fetchPublishedHeroSlides(): Promise<CmsHeroSlide[]> {
@@ -670,4 +690,44 @@ export const adminApi = {
   // ─── CSP external user password reset (stub) ─────────────────
   cspResetPassword: (email: string) =>
     callAdmin<{ ok: true } | { stub: true; error: string }>({ action: "csp_reset_password", email }),
+
+  // ─── Coupons (external CMS API) ──────────────────────────────
+  listCoupons: (opts: { active?: boolean; page?: number; per_page?: number } = {}) => {
+    const qs = new URLSearchParams();
+    if (opts.active !== undefined) qs.set("active", String(opts.active));
+    if (opts.page) qs.set("page", String(opts.page));
+    if (opts.per_page) qs.set("per_page", String(opts.per_page));
+    const suffix = qs.toString() ? `?${qs.toString()}` : "";
+    return callExternalCms<{ data: CmsCoupon[]; pagination?: CmsPagination }>(`/coupons${suffix}`);
+  },
+  getCoupon: (id: number) =>
+    callExternalCms<{ data: CmsCoupon }>(`/coupons/${id}`).then((r) => r.data),
+  createCoupon: (payload: {
+    code: string;
+    discount_type: "percent" | "fixed";
+    discount_value: number;
+    min_order_gbp?: number | null;
+    max_uses?: number | null;
+    expires_at?: string | null;
+    active?: boolean;
+  }) =>
+    callExternalCms<{ data: CmsCoupon }>("/coupons", {
+      method: "POST",
+      body: payload,
+    }).then((r) => r.data),
+  updateCoupon: (id: number, payload: Partial<{
+    code: string;
+    discount_type: "percent" | "fixed";
+    discount_value: number;
+    min_order_gbp: number | null;
+    max_uses: number | null;
+    expires_at: string | null;
+    active: boolean;
+  }>) =>
+    callExternalCms<{ data: CmsCoupon }>(`/coupons/${id}`, {
+      method: "PUT",
+      body: payload,
+    }).then((r) => r.data),
+  deleteCoupon: (id: number) =>
+    callExternalCms<{ message?: string }>(`/coupons/${id}`, { method: "DELETE" }),
 };

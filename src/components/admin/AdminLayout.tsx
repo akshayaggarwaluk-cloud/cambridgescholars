@@ -2,7 +2,7 @@ import { Link, NavLink, Outlet, useNavigate } from "react-router-dom";
 import {
   LayoutDashboard, Newspaper, Sparkles, ExternalLink, LogOut, Users,
   BookOpen, MessageSquareQuote, HelpCircle, FileText, FolderDown,
-  Inbox, FileSignature, ShoppingBag, UserCog,
+  Inbox, FileSignature, ShoppingBag, UserCog, Tag,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { adminLogout, adminSession } from "@/services/cmsService";
@@ -34,6 +34,7 @@ const navGroups: Array<{
     label: "Operations",
     items: [
       { to: "/admin/orders", label: "Orders", icon: ShoppingBag },
+      { to: "/admin/coupons", label: "Coupons", icon: Tag },
       { to: "/admin/users", label: "Users", icon: UserCog },
       { to: "/admin/admins", label: "Admins", icon: Users },
     ],
