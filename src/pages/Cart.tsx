@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { useState, useEffect, useMemo } from "react";
-import { Minus, Plus, X, Info, ShoppingCart } from "lucide-react";
+import { Minus, Plus, X, Info, ShoppingCart, Tag } from "lucide-react";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { PageBreadcrumb } from "@/components/layout/PageBreadcrumb";
@@ -9,7 +9,48 @@ import { useCart, type CartItem, type BookFormat } from "@/contexts/CartContext"
 import { showCartNotification } from "@/components/cart/CartBanner";
 
 export default function Cart() {
-  const { items, updateQuantity, removeFromCart, addToCart, cartTotal } = useCart();
+  const {
+    items,
+    updateQuantity,
+    removeFromCart,
+    addToCart,
+    cartTotal,
+    couponCode,
+    discount,
+    applyCoupon,
+    removeCoupon,
+  } = useCart();
+
+  const [couponInput, setCouponInput] = useState("");
+  const [couponBusy, setCouponBusy] = useState(false);
+
+  const subtotal = useMemo(
+    () => items.reduce((sum, i) => sum + i.price * i.quantity, 0),
+    [items],
+  );
+
+  const handleApplyCoupon = async () => {
+    const code = couponInput.trim();
+    if (!code) return;
+    setCouponBusy(true);
+    try {
+      await applyCoupon(code);
+      setCouponInput("");
+    } catch {
+      /* toast already shown in context */
+    } finally {
+      setCouponBusy(false);
+    }
+  };
+
+  const handleRemoveCoupon = async () => {
+    setCouponBusy(true);
+    try {
+      await removeCoupon();
+    } finally {
+      setCouponBusy(false);
+    }
+  };
 
   // Snapshot of quantities at last "save" (initial load or after Update Cart)
   const [savedQuantities, setSavedQuantities] = useState<Record<string, number>>(() => {
@@ -209,12 +250,92 @@ export default function Cart() {
             ))}
           </div>
 
-          {/* Total */}
-          <div className="flex justify-end items-center gap-12 mt-10 pr-6">
-            <span className="text-base text-muted-foreground">Total</span>
-            <span className="text-foreground font-normal text-lg">
-              £{cartTotal.toFixed(2)}
-            </span>
+          {/* Coupon + Totals */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 mt-10">
+            {/* Coupon */}
+            <div className="border border-border p-6">
+              <div className="flex items-center gap-2 mb-4">
+                <Tag className="h-4 w-4 text-[#C75B2A]" />
+                <h3
+                  className="uppercase text-[#333333] tracking-wider text-sm"
+                  style={{ fontFamily: '"Nunito Sans", sans-serif', fontWeight: 800 }}
+                >
+                  Coupon
+                </h3>
+              </div>
+
+              {couponCode ? (
+                <div className="flex flex-col sm:flex-row sm:items-center gap-3">
+                  <div className="flex-1 text-sm text-[#333333]">
+                    Coupon <strong>{couponCode}</strong> applied
+                    {discount ? (
+                      <span className="text-muted-foreground">
+                        {" "}
+                        (−£{Number(discount).toFixed(2)})
+                      </span>
+                    ) : null}
+                  </div>
+                  <button
+                    onClick={handleRemoveCoupon}
+                    disabled={couponBusy}
+                    className="border border-[#C75B2A] text-[#C75B2A] hover:bg-[#C75B2A] hover:text-white rounded-none uppercase tracking-wider text-xs px-5 py-3 transition-colors disabled:opacity-60"
+                    style={{ fontFamily: '"Nunito Sans", sans-serif', fontWeight: 700 }}
+                  >
+                    Remove
+                  </button>
+                </div>
+              ) : (
+                <div className="flex flex-col sm:flex-row gap-3">
+                  <input
+                    type="text"
+                    value={couponInput}
+                    onChange={(e) => setCouponInput(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") {
+                        e.preventDefault();
+                        void handleApplyCoupon();
+                      }
+                    }}
+                    placeholder="Coupon code"
+                    className="flex-1 border border-border bg-background px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#C75B2A]"
+                  />
+                  <button
+                    onClick={handleApplyCoupon}
+                    disabled={couponBusy || !couponInput.trim()}
+                    className="bg-[#C75B2A] hover:bg-white text-white hover:text-[#C75B2A] border border-[#C75B2A] rounded-none uppercase tracking-wider text-sm px-6 py-3 transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
+                    style={{ fontFamily: '"Nunito Sans", sans-serif', fontWeight: 700 }}
+                  >
+                    {couponBusy ? "Applying..." : "Apply"}
+                  </button>
+                </div>
+              )}
+            </div>
+
+            {/* Totals */}
+            <div className="flex flex-col items-end gap-3 pr-6">
+              <div className="flex items-center gap-12">
+                <span className="text-base text-muted-foreground">Subtotal</span>
+                <span className="text-foreground font-normal text-base">
+                  £{subtotal.toFixed(2)}
+                </span>
+              </div>
+              {couponCode && discount ? (
+                <div className="flex items-center gap-12">
+                  <span className="text-base text-muted-foreground">
+                    Discount ({couponCode})
+                  </span>
+                  <span className="text-[#C75B2A] font-normal text-base">
+                    −£{Number(discount).toFixed(2)}
+                  </span>
+                </div>
+              ) : null}
+              <div className="flex items-center gap-12 pt-2 border-t border-border w-full justify-end">
+                <span className="text-base text-muted-foreground">Total</span>
+                <span className="text-foreground font-normal text-lg">
+                  £{cartTotal.toFixed(2)}
+                </span>
+              </div>
+            </div>
           </div>
 
           <div className="border-t border-border mt-8"></div>
