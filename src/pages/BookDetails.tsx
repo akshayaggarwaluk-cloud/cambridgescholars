@@ -49,9 +49,10 @@ export default function BookDetails() {
 
   const getPrice = (format: BookFormat | "paperback") => {
     if (!book) return 0;
-    if (format === "ebook") return book._ebookPrice ?? book._paperbackPrice ?? book._hardbackPrice ?? book.price;
-    if (format === "paperback") return book._paperbackPrice ?? book._hardbackPrice ?? book.price;
-    return book._hardbackPrice || book.price;
+    // Show exactly what the API returns for each format. No fallbacks, no calculations.
+    if (format === "ebook") return book._ebookPrice ?? 0;
+    if (format === "paperback") return book._paperbackPrice ?? 0;
+    return book._hardbackPrice ?? 0;
   };
 
   const hasHardback = !!book?.hardbackInfo;
