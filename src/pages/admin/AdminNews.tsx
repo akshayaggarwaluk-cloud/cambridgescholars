@@ -283,11 +283,19 @@ export default function AdminNews() {
             </p>
           </Field>
 
-          <div className="border border-dashed border-border p-3 bg-background">
-            <p className="text-xs text-muted-foreground">
-              <strong className="text-foreground">Ordering:</strong> Close this form and drag the <span className="font-mono">⋮⋮</span> handle on the article list to set the order shown on the <span className="font-mono">/news</span> page. The homepage News section automatically shows the 3 most recent published articles.
+          <Field label="Order on /news page">
+            <input
+              type="number"
+              value={editing.display_order ?? 0}
+              onChange={(e) =>
+                setEditing({ ...editing, display_order: Number(e.target.value) || 0 })
+              }
+              className="w-32 border border-border px-3 py-2 text-sm bg-background"
+            />
+            <p className="text-xs text-muted-foreground mt-1">
+              Lower numbers appear first (e.g. <span className="font-mono">1</span> shows before <span className="font-mono">2</span>). Negative numbers are allowed to push an article to the very top.
             </p>
-          </div>
+          </Field>
 
           <div className="flex gap-2 pt-2">
             <Button onClick={save} disabled={saving} className="bg-accent hover:bg-accent/90">
@@ -311,7 +319,7 @@ export default function AdminNews() {
         <>
           <div className="border border-dashed border-border p-3 bg-background mb-3">
             <p className="text-xs text-muted-foreground">
-              <strong className="text-foreground">Tip:</strong> Drag the <span className="font-mono">⋮⋮</span> handle on the left of any row to reorder articles. This order is what visitors see on the public <span className="font-mono">/news</span> page — there is no separate "display order" field set anywhere else.
+              <strong className="text-foreground">Ordering for the /news page:</strong> either drag the <span className="font-mono">⋮⋮</span> handle on the left of any row, OR open an article and set the <strong>Order on /news page</strong> number (lower numbers appear first).
             </p>
           </div>
           <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
