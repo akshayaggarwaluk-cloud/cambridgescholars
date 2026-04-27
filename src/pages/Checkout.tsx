@@ -179,7 +179,7 @@ export default function Checkout() {
     items,
     cartTotal,
     cartSubtotal,
-    shipping,
+    shipping: apiShipping,
     shippingRequiresQuote,
     couponCode,
     discount,
@@ -231,7 +231,7 @@ export default function Checkout() {
     [items],
   );
   // Shipping comes straight from the API (`shipping_gbp` on /cart).
-  const shippingCost = isEbookOnly ? 0 : shipping ?? 0;
+  const shippingCost = isEbookOnly ? 0 : apiShipping ?? 0;
   const total = cartTotal || subtotal + shippingCost - (discount ?? 0);
 
   if (items.length === 0 && !isComplete) {
