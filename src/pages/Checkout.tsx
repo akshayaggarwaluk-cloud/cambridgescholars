@@ -205,6 +205,7 @@ export default function Checkout() {
     applyCoupon,
     removeCoupon,
     clearCart,
+    setShippingCountry,
   } = useCart();
   const { user } = useExternalAuth();
   const navigate = useNavigate();
@@ -249,6 +250,14 @@ export default function Checkout() {
     () => items.length > 0 && items.every((it) => it.format === "ebook"),
     [items],
   );
+  // Push the active country (shipping for physical orders, billing for
+  // ebook-only) to the cart context so the API recalculates `shipping_gbp`.
+  const activeCountryName = isEbookOnly ? billing.country : shipping.country;
+  useEffect(() => {
+    if (isEbookOnly) return; // no shipping recalculation needed
+    const iso = COUNTRY_ISO[activeCountryName];
+    if (iso) setShippingCountry(iso);
+  }, [activeCountryName, isEbookOnly, setShippingCountry]);
   // Shipping comes straight from the API (`shipping_gbp` on /cart).
   const shippingCost = isEbookOnly ? 0 : apiShipping ?? 0;
   const total = cartTotal || subtotal + shippingCost - (discount ?? 0);
