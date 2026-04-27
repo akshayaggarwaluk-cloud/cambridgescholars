@@ -25,6 +25,7 @@ import {
   type CheckoutPayRequest,
 } from "@/services/cartService";
 import { loadOpayoSdk, tokeniseCard } from "@/lib/opayoSdk";
+import { getProfile } from "@/services/accountService";
 
 type AddressData = {
   firstName: string;
@@ -86,6 +87,24 @@ const COUNTRY_ISO: Record<string, string> = {
   "South Africa": "ZA",
   "United Arab Emirates": "AE",
 };
+
+// Reverse map: ISO/upstream country value → UI label used by the <Select>.
+const ISO_TO_COUNTRY: Record<string, string> = Object.fromEntries(
+  Object.entries(COUNTRY_ISO).map(([name, iso]) => [iso, name]),
+);
+function normalizeCountry(value?: string | null): string | undefined {
+  if (!value) return undefined;
+  const v = value.trim();
+  if (!v) return undefined;
+  if (ISO_TO_COUNTRY[v.toUpperCase()]) return ISO_TO_COUNTRY[v.toUpperCase()];
+  // Already a known full name?
+  if (COUNTRY_ISO[v]) return v;
+  // Loose match against names (case-insensitive)
+  const hit = Object.keys(COUNTRY_ISO).find(
+    (n) => n.toLowerCase() === v.toLowerCase(),
+  );
+  return hit;
+}
 
 function FieldLabel({ htmlFor, children, required }: { htmlFor: string; children: React.ReactNode; required?: boolean }) {
   return (
