@@ -39,6 +39,8 @@ export interface CartResponse {
   discount_type?: "percent" | "fixed" | null;
   discount_value?: number | null;
   discount_gbp?: number | null;
+  shipping_gbp?: number | null;
+  shipping_requires_quote?: boolean | null;
   total_gbp?: number | null;
 }
 
@@ -142,8 +144,9 @@ async function callCsp<T>(path: string, init: RequestInit = {}): Promise<T> {
 
 // ─── Cart API ───────────────────────────────────────────────────
 
-export function getCart(): Promise<CartResponse> {
-  return callCsp<CartResponse>("/cart");
+export function getCart(country?: string): Promise<CartResponse> {
+  const qs = country ? `?country=${encodeURIComponent(country)}` : "";
+  return callCsp<CartResponse>(`/cart${qs}`);
 }
 
 export function addCartItem(params: {
