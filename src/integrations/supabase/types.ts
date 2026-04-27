@@ -323,6 +323,7 @@ export type Database = {
           created_at: string
           display_order: number
           excerpt: string | null
+          homepage_order: number
           id: string
           is_published: boolean
           published_at: string
@@ -339,6 +340,7 @@ export type Database = {
           created_at?: string
           display_order?: number
           excerpt?: string | null
+          homepage_order?: number
           id?: string
           is_published?: boolean
           published_at?: string
@@ -355,6 +357,7 @@ export type Database = {
           created_at?: string
           display_order?: number
           excerpt?: string | null
+          homepage_order?: number
           id?: string
           is_published?: boolean
           published_at?: string
