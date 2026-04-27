@@ -214,6 +214,26 @@ export interface CmsAuthUser {
   user_metadata: Record<string, unknown>;
 }
 
+export interface CmsCoupon {
+  id: number;
+  code: string;
+  discount_type: "percent" | "fixed";
+  discount_value: number;
+  min_order_gbp: number | null;
+  max_uses: number | null;
+  uses_count: number;
+  expires_at: string | null;
+  active: boolean;
+  created_at: string;
+}
+
+export interface CmsPagination {
+  current_page: number;
+  per_page: number;
+  total_items: number;
+  total_pages: number;
+}
+
 // ─── Public reads (no auth) ─────────────────────────────────────
 
 export async function fetchPublishedHeroSlides(): Promise<CmsHeroSlide[]> {
