@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Check, ArrowRight, X } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 type BannerVariant = "added" | "removed";
 
@@ -14,6 +14,8 @@ interface BannerData {
 
 export function CartBanner() {
   const [banner, setBanner] = useState<BannerData | null>(null);
+  const location = useLocation();
+  const isOnCartPage = location.pathname === "/cart";
 
   useEffect(() => {
     const handler = (e: Event) => {
@@ -73,7 +75,7 @@ export function CartBanner() {
           )}
         </div>
         <div className="flex items-center gap-4">
-          {banner.variant === "added" && (
+          {banner.variant === "added" && !isOnCartPage && (
             <Link
               to="/cart"
               className="flex items-center gap-2 text-base font-medium hover:underline whitespace-nowrap"
