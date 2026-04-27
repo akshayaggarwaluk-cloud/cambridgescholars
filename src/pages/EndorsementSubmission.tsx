@@ -28,7 +28,7 @@ const EndorsementSubmission = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background flex flex-col">
+    <div className="min-h-screen bg-white flex flex-col">
       <Header />
       <div className="w-full bg-[#F4F3EC] pt-24 sm:pt-28">
         <div className="container-wide h-[200px] flex items-center justify-between">

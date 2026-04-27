@@ -223,7 +223,7 @@ export default function Checkout() {
 
   if (!user) {
     return (
-      <div className="min-h-screen bg-background">
+      <div className="min-h-screen bg-white">
         <Header />
         <main className="pt-32 pb-16">
           <div className="container-wide text-center max-w-lg mx-auto">
@@ -248,7 +248,7 @@ export default function Checkout() {
 
   if (isComplete) {
     return (
-      <div className="min-h-screen bg-background">
+      <div className="min-h-screen bg-white">
         <Header />
         <main className="pt-32 pb-16">
           <div className="container-wide text-center max-w-lg mx-auto">
@@ -429,7 +429,7 @@ export default function Checkout() {
     `£${n.toFixed(2)}`;
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-white">
       <Header />
 
       {/* Page banner */}

@@ -60,7 +60,7 @@ export default function BookDetails() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-background">
+      <div className="min-h-screen bg-white">
         <Header />
         <main className="pt-32 pb-16 flex items-center justify-center">
           <Loader2 className="h-8 w-8 animate-spin text-accent" />
@@ -73,7 +73,7 @@ export default function BookDetails() {
 
   if (!book) {
     return (
-      <div className="min-h-screen bg-background">
+      <div className="min-h-screen bg-white">
         <Header />
         <main className="pt-32 pb-16">
           <div className="container-wide text-center">
@@ -90,7 +90,7 @@ export default function BookDetails() {
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-white">
       <Header />
         <main className="pt-32 sm:pt-44 pb-12 sm:pb-16 bg-white">
         <section className="container-wide bg-white px-4 sm:px-6 lg:px-8">

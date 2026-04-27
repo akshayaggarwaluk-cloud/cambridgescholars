@@ -74,7 +74,7 @@ export default function Cart() {
 
   if (items.length === 0) {
     return (
-      <div className="min-h-screen bg-background">
+      <div className="min-h-screen bg-white">
         <Header />
 
         <div className="w-full bg-[#F4F3EC] pt-24 sm:pt-28">
@@ -108,7 +108,7 @@ export default function Cart() {
     f === "ebook" ? "Ebook" : f === "paperback" ? "Paperback" : "Hardback";
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-white">
       <Header />
 
       <div className="w-full bg-[#F4F3EC] pt-24 sm:pt-28">
