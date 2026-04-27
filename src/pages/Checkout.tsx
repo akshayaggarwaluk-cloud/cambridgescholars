@@ -68,6 +68,25 @@ const COUNTRIES = [
   "United Arab Emirates",
 ];
 
+// Map UI country names → ISO 3166-1 alpha-2 codes used by the cart API.
+const COUNTRY_ISO: Record<string, string> = {
+  "United Kingdom": "GB",
+  "United States": "US",
+  "India": "IN",
+  "Australia": "AU",
+  "Canada": "CA",
+  "Germany": "DE",
+  "France": "FR",
+  "Italy": "IT",
+  "Spain": "ES",
+  "Netherlands": "NL",
+  "Ireland": "IE",
+  "New Zealand": "NZ",
+  "Singapore": "SG",
+  "South Africa": "ZA",
+  "United Arab Emirates": "AE",
+};
+
 function FieldLabel({ htmlFor, children, required }: { htmlFor: string; children: React.ReactNode; required?: boolean }) {
   return (
     <Label
@@ -186,6 +205,7 @@ export default function Checkout() {
     applyCoupon,
     removeCoupon,
     clearCart,
+    setShippingCountry,
   } = useCart();
   const { user } = useExternalAuth();
   const navigate = useNavigate();
@@ -230,6 +250,14 @@ export default function Checkout() {
     () => items.length > 0 && items.every((it) => it.format === "ebook"),
     [items],
   );
+  // Push the active country (shipping for physical orders, billing for
+  // ebook-only) to the cart context so the API recalculates `shipping_gbp`.
+  const activeCountryName = isEbookOnly ? billing.country : shipping.country;
+  useEffect(() => {
+    if (isEbookOnly) return; // no shipping recalculation needed
+    const iso = COUNTRY_ISO[activeCountryName];
+    if (iso) setShippingCountry(iso);
+  }, [activeCountryName, isEbookOnly, setShippingCountry]);
   // Shipping comes straight from the API (`shipping_gbp` on /cart).
   const shippingCost = isEbookOnly ? 0 : apiShipping ?? 0;
   const total = cartTotal || subtotal + shippingCost - (discount ?? 0);
