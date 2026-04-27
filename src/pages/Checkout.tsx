@@ -1,6 +1,6 @@
 import { useState, useMemo, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { CheckCircle, AlertCircle, ChevronUp } from "lucide-react";
+import { CheckCircle, AlertCircle } from "lucide-react";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { PageBreadcrumb } from "@/components/layout/PageBreadcrumb";
@@ -763,16 +763,6 @@ export default function Checkout() {
             </aside>
           </form>
         </div>
-
-        {/* Back-to-top floating button */}
-        <button
-          type="button"
-          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-          aria-label="Back to top"
-          className="fixed bottom-8 right-8 z-40 h-12 w-12 bg-white border border-[#d8d6cd] shadow-md flex items-center justify-center hover:bg-[#f4f3ec]"
-        >
-          <ChevronUp className="h-5 w-5 text-[#333]" />
-        </button>
       </main>
 
       <Footer />
