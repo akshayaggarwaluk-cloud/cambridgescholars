@@ -59,11 +59,11 @@ export default function Resources() {
                     )}
                     <Link
                       to={`/resources/${item.slug}`}
-                      className="inline-flex items-center gap-1.5 text-[13px] font-bold uppercase tracking-widest text-[#E4573D] hover:underline"
-                      style={{ fontFamily: '"Nunito Sans", sans-serif' }}
+                      className="inline-flex items-center gap-1 font-extrabold text-xs uppercase tracking-[0.15em] text-[#e4573d] hover:text-[#e4573d]/80 transition-colors"
+                      style={{ fontFamily: "'Nunito Sans', system-ui, sans-serif" }}
                     >
                       READ MORE
-                      <ChevronsRight aria-hidden="true" className="h-3.5 w-3.5" strokeWidth={2.5} />
+                      <ChevronsRight aria-hidden="true" className="h-4 w-4" />
                     </Link>
                   </div>
                 </div>
