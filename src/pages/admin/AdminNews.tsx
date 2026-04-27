@@ -319,7 +319,7 @@ export default function AdminNews() {
         <>
           <div className="border border-dashed border-border p-3 bg-background mb-3">
             <p className="text-xs text-muted-foreground">
-              <strong className="text-foreground">Tip:</strong> Drag the <span className="font-mono">⋮⋮</span> handle on the left of any row to reorder articles. This order is what visitors see on the public <span className="font-mono">/news</span> page — there is no separate "display order" field set anywhere else.
+              <strong className="text-foreground">Ordering for the /news page:</strong> either drag the <span className="font-mono">⋮⋮</span> handle on the left of any row, OR open an article and set the <strong>Order on /news page</strong> number (lower numbers appear first).
             </p>
           </div>
           <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
