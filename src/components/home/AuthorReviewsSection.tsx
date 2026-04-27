@@ -121,32 +121,48 @@ export function AuthorReviewsSection() {
             const { name, title } = parseAuthor(review.author);
             return (
               <div key={index} className="flex flex-col items-center sm:flex-row sm:items-start gap-6 cursor-pointer hover:bg-muted/30 rounded-lg p-2 -m-2 transition-colors" onClick={() => navigate("/author-experiences")}>
-                {/* Book cover */}
-                <div className="flex-shrink-0 w-40 sm:w-32 md:w-40 lg:w-44">
+                {/* Book cover - matches reference ~203x298 (2/3 aspect) */}
+                <div className="flex-shrink-0" style={{ width: "203px" }}>
                   {review.coverImage ? (
                     <img
                       src={review.coverImage}
                       alt={review.book_title}
-                      className="w-full h-auto shadow-md"
+                      className="w-full shadow-md object-cover"
+                      style={{ width: "203px", height: "298px" }}
                       onError={(e) => {
                         (e.target as HTMLImageElement).style.display = "none";
                       }}
                     />
                   ) : (
-                    <div className="w-full aspect-[2/3] bg-muted rounded flex items-center justify-center animate-pulse">
+                    <div className="bg-muted rounded flex items-center justify-center animate-pulse" style={{ width: "203px", height: "298px" }}>
                       <span className="text-xs text-muted-foreground text-center px-2">{review.book_title}</span>
                     </div>
                   )}
                 </div>
                 {/* Quote and author */}
                 <div className="flex-1 min-w-0 pt-1 text-center sm:text-left">
-                  <p className="font-nav font-normal text-[#333333] leading-relaxed mb-5 text-justify text-[15px]">
+                  <p
+                    className="text-justify mb-5"
+                    style={{
+                      fontFamily: "'Nunito Sans', system-ui, sans-serif",
+                      fontSize: "15px",
+                      color: "#333333",
+                      lineHeight: 1.6,
+                    }}
+                  >
                     "{review.praise}"
                   </p>
-                  <p className="font-baskerville text-[15px] text-[#333333]">
-                    <span className="font-bold">{name}</span>
+                  <p
+                    style={{
+                      fontFamily: "'Libre Baskerville', Georgia, serif",
+                      fontSize: "14px",
+                      color: "#333333",
+                      lineHeight: 1.5,
+                    }}
+                  >
+                    <span style={{ fontWeight: 700 }}>{name}</span>
                     {title && (
-                      <span> – {title}</span>
+                      <span style={{ fontWeight: 300 }}> – {title}</span>
                     )}
                   </p>
                 </div>
