@@ -47,6 +47,7 @@ const empty: EditState = {
   is_published: true,
   show_on_homepage: true,
   display_order: 0,
+  homepage_order: 0,
 };
 
 export default function AdminNews() {
@@ -282,7 +283,7 @@ export default function AdminNews() {
             </p>
           </Field>
 
-          <Field label="Display order (lower numbers appear first: 1 = first, 2 = second, …)">
+          <Field label="Display order on /news listing page (lower numbers appear first: 1 = first, 2 = second, …)">
             <input
               type="number"
               min={0}
@@ -293,7 +294,22 @@ export default function AdminNews() {
               className="w-full sm:w-40 border border-border px-3 py-2 text-sm bg-background"
             />
             <p className="text-xs text-muted-foreground mt-1">
-              Articles with the same number fall back to most-recently published first.
+              Controls order on the full /news listing page only. Articles with the same number fall back to most-recently published first.
+            </p>
+          </Field>
+
+          <Field label="Homepage order (controls order in the homepage News section)">
+            <input
+              type="number"
+              min={0}
+              value={editing.homepage_order ?? 0}
+              onChange={(e) =>
+                setEditing({ ...editing, homepage_order: Number(e.target.value) || 0 })
+              }
+              className="w-full sm:w-40 border border-border px-3 py-2 text-sm bg-background"
+            />
+            <p className="text-xs text-muted-foreground mt-1">
+              Independent from "/news" order. Lower numbers appear first in the homepage 3-column News block.
             </p>
           </Field>
 

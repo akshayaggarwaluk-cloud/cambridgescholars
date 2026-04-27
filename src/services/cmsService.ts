@@ -65,6 +65,7 @@ export interface CmsNewsArticle {
   is_published: boolean;
   show_on_homepage: boolean;
   display_order: number;
+  homepage_order: number;
   created_at: string;
   updated_at: string;
 }
@@ -229,7 +230,7 @@ export async function fetchHomepageNews(): Promise<CmsNewsArticle[]> {
     .select("*")
     .eq("is_published", true)
     .eq("show_on_homepage", true)
-    .order("display_order", { ascending: true })
+    .order("homepage_order", { ascending: true })
     .order("published_at", { ascending: false });
   if (error) throw error;
   return (data || []) as CmsNewsArticle[];

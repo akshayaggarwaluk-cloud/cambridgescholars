@@ -220,6 +220,7 @@ Deno.serve(async (req) => {
             is_published: body.is_published ?? true,
             show_on_homepage: body.show_on_homepage ?? true,
             display_order: body.display_order ?? 0,
+            homepage_order: body.homepage_order ?? 0,
           })
           .select()
           .single();
@@ -231,7 +232,7 @@ Deno.serve(async (req) => {
         const patch: Record<string, unknown> = {};
         for (const k of [
           "slug", "title", "excerpt", "content", "cover_image",
-          "category", "author", "published_at", "is_published", "show_on_homepage", "display_order",
+          "category", "author", "published_at", "is_published", "show_on_homepage", "display_order", "homepage_order",
         ]) if (k in body) patch[k] = body[k];
         const { data, error } = await supabaseAdmin
           .from("cms_news_articles")
