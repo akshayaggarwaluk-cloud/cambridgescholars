@@ -75,11 +75,11 @@ export interface CmsNewsArticle {
 }
 
 export interface CmsAdminAccount {
-  id: string;
+  id: string | number;
   email: string;
   name: string | null;
   is_active: boolean;
-  last_login_at: string | null;
+  last_login_at?: string | null;
   created_at: string;
 }
 
