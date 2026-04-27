@@ -213,7 +213,12 @@ export default function Checkout() {
     () => items.reduce((sum, it) => sum + it.price * it.quantity, 0),
     [items],
   );
-  const shippingCost = items.length > 0 ? 19.5 : 0;
+  // Ebook-only carts skip shipping entirely.
+  const isEbookOnly = useMemo(
+    () => items.length > 0 && items.every((it) => it.format === "ebook"),
+    [items],
+  );
+  const shippingCost = items.length > 0 && !isEbookOnly ? 19.5 : 0;
   const total = (cartTotal || subtotal) + shippingCost;
 
   if (items.length === 0 && !isComplete) {
