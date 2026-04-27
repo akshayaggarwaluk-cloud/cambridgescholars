@@ -44,7 +44,7 @@ const EndorsementSubmission = () => {
           <div className="container-wide flex justify-center">
             <div className="w-full max-w-2xl bg-card border border-border rounded-lg p-8 md:p-12">
               <form onSubmit={handleVerify} className="space-y-6 text-center">
-                <p className="text-foreground text-lg">
+                <p className="text-[16px] text-black" style={{ fontFamily: "Arial, sans-serif" }}>
                   To add potential endorsers, enter the verification code emailed at the time of your book's
                   publication.
                 </p>
@@ -57,11 +57,11 @@ const EndorsementSubmission = () => {
                   required
                 />
 
-                <p className="text-muted-foreground">
+                <p className="text-[16px] text-black" style={{ fontFamily: "Arial, sans-serif" }}>
                   If you have lost your code or experience difficulties accessing your form, please contact{" "}
                   <a
                     href="mailto:admin@cambridgescholars.com"
-                    className="text-foreground font-semibold hover:text-accent transition-colors"
+                    className="text-black font-bold hover:text-accent transition-colors"
                   >
                     admin@cambridgescholars.com
                   </a>
