@@ -56,7 +56,19 @@ export function CartHoverPanel({ onNavigate }: CartHoverPanelProps) {
                     className="block text-base leading-snug transition-colors text-black"
                     style={{ fontFamily: '"Libre Baskerville", serif' }}
                   >
-                    {item.title} - {formatLabel(item.format)}
+                    {(() => {
+                      let displayTitle = item.title;
+                      if (item.subtitle && displayTitle.includes(item.subtitle)) {
+                        displayTitle = displayTitle
+                          .replace(item.subtitle, "")
+                          .replace(/[:\s-]+$/, "")
+                          .trim();
+                      } else {
+                        const colonIdx = displayTitle.indexOf(":");
+                        if (colonIdx > 0) displayTitle = displayTitle.slice(0, colonIdx).trim();
+                      }
+                      return `${displayTitle} - ${formatLabel(item.format)}`;
+                    })()}
                   </Link>
                   <div
                     className="mt-2 text-sm text-[#a89968]"
