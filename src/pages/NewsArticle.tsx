@@ -184,11 +184,19 @@ const NewsArticle = () => {
             {article.content && (
               <>
                 <style>{`
+                  .news-article-content,
                   .news-article-content p,
-                  .news-article-content p * {
+                  .news-article-content span,
+                  .news-article-content div,
+                  .news-article-content li,
+                  .news-article-content a,
+                  .news-article-content strong,
+                  .news-article-content em,
+                  .news-article-content blockquote {
                     font-family: 'Nunito Sans', system-ui, sans-serif !important;
                     color: #696969 !important;
                     font-size: 16px !important;
+                    line-height: 1.6 !important;
                   }
                   .news-article-content h1,
                   .news-article-content h2,
@@ -204,6 +212,7 @@ const NewsArticle = () => {
                   .news-article-content h6 * {
                     font-family: 'Libre Baskerville', Georgia, serif !important;
                     color: #1a1a1a !important;
+                    font-size: revert !important;
                   }
                 `}</style>
                 <div
