@@ -511,41 +511,45 @@ export default function Checkout() {
           </div>
 
           <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-x-0 gap-y-10">
-            {/* LEFT — Shipping + Billing */}
+            {/* LEFT — Shipping + Billing (ebook-only orders skip shipping) */}
             <div className="pr-10 xl:pr-16">
-              <SectionHeading>Shipping details</SectionHeading>
-              <AddressFields
-                idPrefix="ship"
-                data={shipping}
-                onChange={setShipping}
-                phoneRequired
-              />
+              {!isEbookOnly && (
+                <>
+                  <SectionHeading>Shipping details</SectionHeading>
+                  <AddressFields
+                    idPrefix="ship"
+                    data={shipping}
+                    onChange={setShipping}
+                    phoneRequired
+                  />
 
-              {/* Use shipping as billing toggle */}
-              <div className="mt-10 flex items-center gap-3">
-                <Checkbox
-                  id="use-shipping"
-                  checked={useShippingForBilling}
-                  onCheckedChange={(v) => setUseShippingForBilling(Boolean(v))}
-                  className="rounded-none border-[#333333] data-[state=checked]:bg-[#C75B2A] data-[state=checked]:border-[#C75B2A]"
-                />
-                <Label
-                  htmlFor="use-shipping"
-                  className="text-[13px] font-semibold tracking-[0.18em] uppercase text-[#333333] cursor-pointer"
-                >
-                  Use shipping address as billing address
-                </Label>
-              </div>
+                  {/* Use shipping as billing toggle */}
+                  <div className="mt-10 flex items-center gap-3">
+                    <Checkbox
+                      id="use-shipping"
+                      checked={useShippingForBilling}
+                      onCheckedChange={(v) => setUseShippingForBilling(Boolean(v))}
+                      className="rounded-none border-[#333333] data-[state=checked]:bg-[#C75B2A] data-[state=checked]:border-[#C75B2A]"
+                    />
+                    <Label
+                      htmlFor="use-shipping"
+                      className="text-[13px] font-semibold tracking-[0.18em] uppercase text-[#333333] cursor-pointer"
+                    >
+                      Use shipping address as billing address
+                    </Label>
+                  </div>
+                </>
+              )}
 
-              {/* Billing details */}
-              {!useShippingForBilling && (
-                <div className="mt-12">
+              {/* Billing details: always shown for ebook-only; shown for physical orders only when not reusing shipping */}
+              {(isEbookOnly || !useShippingForBilling) && (
+                <div className={isEbookOnly ? "" : "mt-12"}>
                   <SectionHeading>Billing details</SectionHeading>
                   <AddressFields
                     idPrefix="bill"
                     data={billing}
                     onChange={setBilling}
-                    phoneRequired={false}
+                    phoneRequired={isEbookOnly}
                     showEmail
                     email={email}
                     onEmailChange={setEmail}
@@ -553,8 +557,8 @@ export default function Checkout() {
                 </div>
               )}
 
-              {/* Email + order notes (when using shipping as billing, still need email) */}
-              {useShippingForBilling && (
+              {/* Email field when reusing shipping as billing (physical orders only) */}
+              {!isEbookOnly && useShippingForBilling && (
                 <div className="mt-10 space-y-6">
                   <div>
                     <FieldLabel htmlFor="contact-email" required>Email Address</FieldLabel>
