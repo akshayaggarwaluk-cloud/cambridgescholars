@@ -382,13 +382,50 @@ async function callAdmin<T = unknown>(
 
 // ─── Auth ───────────────────────────────────────────────────────
 
+/**
+ * Admin login — calls the external CSP CMS API.
+ * POST /api/cms/auth/login → { access_token, expires_in, admin }
+ * The returned access_token is a short-lived JWT (8h) used as Bearer
+ * on all other /api/cms/* endpoints.
+ */
 export async function adminLogin(email: string, password: string): Promise<CmsAdminUser> {
-  const res = await callAdmin<{ token: string; admin: CmsAdminUser }>(
-    { action: "login", email, password },
-    { requireAuth: false },
-  );
-  adminSession.set(res.token, res.admin);
-  return res.admin;
+  let res: Response;
+  try {
+    res = await fetch(`${CMS_API_BASE}/auth/login`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Accept: "application/json" },
+      body: JSON.stringify({ email, password }),
+    });
+  } catch {
+    throw new Error("Unable to reach the CMS server. Please try again.");
+  }
+
+  let payload: unknown = null;
+  try { payload = await res.json(); } catch { /* ignore */ }
+
+  if (!res.ok) {
+    const err = (payload as { error?: string } | null)?.error;
+    if (res.status === 401) throw new Error(err || "Invalid email or password");
+    if (res.status === 429) throw new Error(err || "Too many attempts. Please try again in a minute.");
+    if (res.status === 400) throw new Error(err || "Email and password are required");
+    throw new Error(err || `Login failed (${res.status})`);
+  }
+
+  const data = payload as {
+    access_token?: string;
+    admin?: { id: string | number; email: string; name?: string | null; is_active?: boolean };
+  };
+  if (!data?.access_token || !data.admin?.email) {
+    throw new Error("Unexpected login response from CMS");
+  }
+
+  const user: CmsAdminUser = {
+    id: data.admin.id,
+    email: data.admin.email,
+    name: data.admin.name ?? null,
+  };
+  adminSession.set(data.access_token, user);
+  return user;
 }
 
 export function adminLogout() {
