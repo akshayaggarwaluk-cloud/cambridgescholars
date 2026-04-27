@@ -341,9 +341,15 @@ export function Header() {
           </div>
         </nav>
 
-        {/* Mobile Slide-out Menu */}
-        {isMenuOpen && (
-          <div className="lg:hidden fixed inset-0 z-[60] top-0">
+        {/* Search Overlay */}
+        {isSearchOpen && (
+          <SearchOverlay onClose={() => setIsSearchOpen(false)} />
+        )}
+      </header>
+
+      {/* Mobile Slide-out Menu — rendered outside header so it isn't affected by header hide-on-scroll transform */}
+      {isMenuOpen && (
+        <div className="lg:hidden fixed inset-0 z-[100] top-0">
             {/* Backdrop */}
             <div
               className="absolute inset-0 bg-black/60"
@@ -454,12 +460,6 @@ export function Header() {
             </div>
           </div>
         )}
-
-        {/* Search Overlay */}
-        {isSearchOpen && (
-          <SearchOverlay onClose={() => setIsSearchOpen(false)} />
-        )}
-      </header>
     </TooltipProvider>
   );
 }
