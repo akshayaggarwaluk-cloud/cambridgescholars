@@ -484,8 +484,51 @@ export const adminApi = {
   // ─── Admin accounts ──────────────────────────────────────────
   listAdmins: () =>
     callAdmin<{ data: CmsAdminAccount[] }>({ action: "list_admins" }).then((r) => r.data),
-  createAdmin: (payload: { email: string; password: string; name?: string; is_active?: boolean }) =>
-    callAdmin<{ data: CmsAdminAccount }>({ action: "create_admin", ...payload }).then((r) => r.data),
+  createAdmin: async (payload: { email: string; password: string; name?: string; is_active?: boolean }): Promise<CmsAdminAccount> => {
+    const token = adminSession.getToken();
+    if (!token) throw new Error("Not signed in");
+
+    let res: Response;
+    try {
+      res = await fetch(`${CMS_API_BASE}/admins`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          email: payload.email,
+          name: payload.name,
+          password: payload.password,
+        }),
+      });
+    } catch {
+      throw new Error("Unable to reach the CMS server. Please try again.");
+    }
+
+    let parsed: unknown = null;
+    try { parsed = await res.json(); } catch { /* ignore */ }
+
+    if (!res.ok) {
+      const err = (parsed as { error?: string } | null)?.error;
+      if (res.status === 401) {
+        adminSession.clear();
+        if (typeof window !== "undefined" && !window.location.pathname.startsWith("/admin/login")) {
+          window.location.replace("/admin/login");
+        }
+        throw new Error(err || "Admin login required");
+      }
+      if (res.status === 403) throw new Error(err || "Admin access required");
+      if (res.status === 409) throw new Error(err || "Email already exists");
+      if (res.status === 400) throw new Error(err || "Invalid admin details");
+      throw new Error(err || `Failed to create admin (${res.status})`);
+    }
+
+    const body = parsed as { data?: CmsAdminAccount } | null;
+    if (!body?.data) throw new Error("Unexpected response from CMS");
+    return body.data;
+  },
   updateAdmin: (payload: { id: string; email?: string; name?: string; password?: string; is_active?: boolean }) =>
     callAdmin<{ data: CmsAdminAccount }>({ action: "update_admin", ...payload }).then((r) => r.data),
   deleteAdmin: (id: string) => callAdmin({ action: "delete_admin", id }),
