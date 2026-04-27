@@ -3,7 +3,7 @@ import { Footer } from "@/components/layout/Footer";
 import { PageBreadcrumb } from "@/components/layout/PageBreadcrumb";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { Loader2 } from "lucide-react";
+import { Loader2, ChevronsRight } from "lucide-react";
 import { fetchPublishedResources, type CmsResource } from "@/services/cmsService";
 
 export default function Resources() {
@@ -63,7 +63,7 @@ export default function Resources() {
                       style={{ fontFamily: '"Nunito Sans", sans-serif' }}
                     >
                       READ MORE
-                      <span aria-hidden="true" className="text-[14px] leading-none">»</span>
+                      <ChevronsRight aria-hidden="true" className="h-3.5 w-3.5" strokeWidth={2.5} />
                     </Link>
                   </div>
                 </div>
