@@ -110,12 +110,12 @@ export function HeroSection() {
                 transition={{ duration: 0.5, ease: "easeOut" }}
               >
                 <motion.p variants={textVariants} transition={{ duration: 0.4 }} className="font-baskerville text-[#e4573d] uppercase tracking-[0.25em] text-lg font-medium">Featured Review</motion.p>
-                <motion.h1 variants={textVariants} transition={{ duration: 0.4, delay: 0.05 }} className="font-baskerville text-4xl md:text-5xl lg:text-[56px] font-normal leading-[1.1] tracking-tight text-foreground">{activeReview.bookTitle}</motion.h1>
+                <motion.h1 variants={textVariants} transition={{ duration: 0.4, delay: 0.05 }} style={{ fontFamily: "'Libre Baskerville', Georgia, serif", fontSize: "40px", lineHeight: 1.2, color: "#333333", marginBottom: "20px" }} className="font-normal">{activeReview.bookTitle}</motion.h1>
                  {activeReview.author && (
-                    <motion.p variants={textVariants} transition={{ duration: 0.4, delay: 0.1 }} className="font-nav text-[#333333] text-lg font-bold">By {activeReview.author}</motion.p>
+                    <motion.p variants={textVariants} transition={{ duration: 0.4, delay: 0.1 }} style={{ fontFamily: "Roboto, system-ui, sans-serif", fontSize: "15px", color: "#333333" }} className="font-bold">By {activeReview.author}</motion.p>
                  )}
-                <motion.p variants={textVariants} transition={{ duration: 0.4, delay: 0.15 }} className="text-sm md:text-base italic leading-relaxed text-[#333333]">"{activeReview.quote}"</motion.p>
-                <motion.p variants={textVariants} transition={{ duration: 0.4, delay: 0.2 }} className="text-foreground text-sm font-semibold">– {activeReview.reviewer}</motion.p>
+                <motion.p variants={textVariants} transition={{ duration: 0.4, delay: 0.15 }} style={{ fontFamily: "Roboto, system-ui, sans-serif", fontSize: "15px", color: "#333333", lineHeight: 1.7 }} className="italic">"{activeReview.quote}"</motion.p>
+                <motion.p variants={textVariants} transition={{ duration: 0.4, delay: 0.2 }} style={{ fontFamily: "Roboto, system-ui, sans-serif", fontSize: "15px", color: "#333333" }} className="font-bold">– {activeReview.reviewer}</motion.p>
                 <motion.div variants={textVariants} transition={{ duration: 0.4, delay: 0.25 }} className="pt-2">
                   <Button asChild className="bg-[#e4573d] text-white border border-[#e4573d] hover:bg-transparent hover:text-[#e4573d] px-10 py-3 text-sm tracking-wider font-nav font-bold rounded-none transition-colors" style={{ fontFamily: "'Nunito Sans', system-ui, sans-serif" }}>
                     <Link to={activeReview.linkUrl}>VIEW</Link>
