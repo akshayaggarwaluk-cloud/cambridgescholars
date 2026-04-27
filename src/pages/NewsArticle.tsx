@@ -219,7 +219,6 @@ const NewsArticle = () => {
                   .news-article-content h4, .news-article-content h4 * { font-size: 24px !important; }
                   .news-article-content h5, .news-article-content h5 * { font-size: 20px !important; }
                   .news-article-content h6, .news-article-content h6 * { font-size: 18px !important; }
-                  }
                 `}</style>
                 <div
                   className="news-article-content prose prose-lg max-w-none font-baskerville text-justify whitespace-pre-wrap"
