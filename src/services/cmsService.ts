@@ -9,6 +9,7 @@ import { supabase } from "@/integrations/supabase/client";
 
 const ADMIN_TOKEN_KEY = "cms_admin_token";
 const ADMIN_USER_KEY = "cms_admin_user";
+const ADMIN_EXTERNAL_TOKEN_KEY = "cms_admin_external_token";
 
 // External CMS API base — admin login + admin account management
 // are handled by the external CSP CMS API under /api/website/cms.
@@ -24,19 +25,28 @@ export const adminSession = {
   getToken(): string | null {
     try { return localStorage.getItem(ADMIN_TOKEN_KEY); } catch { return null; }
   },
+  getExternalToken(): string | null {
+    try { return localStorage.getItem(ADMIN_EXTERNAL_TOKEN_KEY); } catch { return null; }
+  },
   getUser(): CmsAdminUser | null {
     try {
       const raw = localStorage.getItem(ADMIN_USER_KEY);
       return raw ? (JSON.parse(raw) as CmsAdminUser) : null;
     } catch { return null; }
   },
-  set(token: string, user: CmsAdminUser) {
+  set(token: string, user: CmsAdminUser, externalToken?: string | null) {
     localStorage.setItem(ADMIN_TOKEN_KEY, token);
     localStorage.setItem(ADMIN_USER_KEY, JSON.stringify(user));
+    if (externalToken) {
+      localStorage.setItem(ADMIN_EXTERNAL_TOKEN_KEY, externalToken);
+    } else {
+      localStorage.removeItem(ADMIN_EXTERNAL_TOKEN_KEY);
+    }
   },
   clear() {
     localStorage.removeItem(ADMIN_TOKEN_KEY);
     localStorage.removeItem(ADMIN_USER_KEY);
+    localStorage.removeItem(ADMIN_EXTERNAL_TOKEN_KEY);
   },
 };
 
@@ -383,10 +393,15 @@ async function callAdmin<T = unknown>(
 // ─── Auth ───────────────────────────────────────────────────────
 
 /**
- * Admin login — calls the external CSP CMS API.
- * POST /api/cms/auth/login → { access_token, expires_in, admin }
- * The returned access_token is a short-lived JWT (8h) used as Bearer
- * on all other /api/cms/* endpoints.
+ * Admin login — authenticates against BOTH the external CSP CMS API
+ * (for /admins endpoints) and the internal Supabase edge function
+ * (for all CRUD on hero, news, featured books, etc.).
+ *
+ * 1. POST {CMS_API_BASE}/auth/login   → external Bearer JWT
+ * 2. cms-admin edge function "login"  → internal X-Admin-Token JWT
+ *
+ * Both tokens are stored. If the internal login fails the external one
+ * is discarded so the admin UI does not appear half-signed-in.
  */
 export async function adminLogin(email: string, password: string): Promise<CmsAdminUser> {
   let res: Response;
@@ -424,7 +439,30 @@ export async function adminLogin(email: string, password: string): Promise<CmsAd
     email: data.admin.email,
     name: data.admin.name ?? null,
   };
-  adminSession.set(data.access_token, user);
+
+  // Also obtain the internal edge-function token so all existing
+  // CRUD calls (which still go through the cms-admin edge function)
+  // continue to work. We pass requireAuth: false because there is
+  // no admin token yet at this point.
+  let internalToken: string | null = null;
+  try {
+    const internalRes = await callAdmin<{ token?: string; admin?: CmsAdminUser }>(
+      { action: "login", email, password },
+      { requireAuth: false },
+    );
+    if (internalRes?.token) internalToken = internalRes.token;
+  } catch (e) {
+    console.warn("[adminLogin] internal edge-function login failed", e);
+  }
+
+  if (!internalToken) {
+    throw new Error(
+      "Signed in to CMS, but the internal admin session could not be created. " +
+      "Please contact support.",
+    );
+  }
+
+  adminSession.set(internalToken, user, data.access_token);
   return user;
 }
 
@@ -445,6 +483,57 @@ export async function adminWhoAmI(): Promise<CmsAdminUser | null> {
 }
 
 // ─── CRUD ──────────────────────────────────────────────────────
+
+/**
+ * Helper for admin endpoints hosted on the external CSP CMS API
+ * (https://api.cambridgescholars.com/api/website/cms/*). Sends the
+ * external Bearer JWT obtained at login.
+ */
+async function callExternalCms<T = unknown>(
+  path: string,
+  init: { method?: string; body?: unknown } = {},
+): Promise<T> {
+  const token = adminSession.getExternalToken();
+  if (!token) throw new Error("Not signed in");
+
+  const headers: Record<string, string> = {
+    Accept: "application/json",
+    Authorization: `Bearer ${token}`,
+  };
+  if (init.body !== undefined) headers["Content-Type"] = "application/json";
+
+  let res: Response;
+  try {
+    res = await fetch(`${CMS_API_BASE}${path}`, {
+      method: init.method || "GET",
+      headers,
+      body: init.body !== undefined ? JSON.stringify(init.body) : undefined,
+    });
+  } catch {
+    throw new Error("Unable to reach the CMS server. Please try again.");
+  }
+
+  let parsed: unknown = null;
+  try { parsed = res.status === 204 ? null : await res.json(); } catch { /* ignore */ }
+
+  if (!res.ok) {
+    const err = (parsed as { error?: string } | null)?.error;
+    if (res.status === 401) {
+      adminSession.clear();
+      if (typeof window !== "undefined" && !window.location.pathname.startsWith("/admin/login")) {
+        window.location.replace("/admin/login");
+      }
+      throw new Error(err || "Admin login required");
+    }
+    if (res.status === 403) throw new Error(err || "Admin access required");
+    if (res.status === 404) throw new Error(err || "Not found");
+    if (res.status === 409) throw new Error(err || "Conflict");
+    if (res.status === 400) throw new Error(err || "Invalid request");
+    throw new Error(err || `Request failed (${res.status})`);
+  }
+
+  return parsed as T;
+}
 
 export const adminApi = {
   listHero: () =>
@@ -483,55 +572,39 @@ export const adminApi = {
 
   // ─── Admin accounts ──────────────────────────────────────────
   listAdmins: () =>
-    callAdmin<{ data: CmsAdminAccount[] }>({ action: "list_admins" }).then((r) => r.data),
-  createAdmin: async (payload: { email: string; password: string; name?: string; is_active?: boolean }): Promise<CmsAdminAccount> => {
-    const token = adminSession.getToken();
-    if (!token) throw new Error("Not signed in");
-
-    let res: Response;
-    try {
-      res = await fetch(`${CMS_API_BASE}/admins`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          email: payload.email,
-          name: payload.name,
-          password: payload.password,
-        }),
-      });
-    } catch {
-      throw new Error("Unable to reach the CMS server. Please try again.");
-    }
-
-    let parsed: unknown = null;
-    try { parsed = await res.json(); } catch { /* ignore */ }
-
-    if (!res.ok) {
-      const err = (parsed as { error?: string } | null)?.error;
-      if (res.status === 401) {
-        adminSession.clear();
-        if (typeof window !== "undefined" && !window.location.pathname.startsWith("/admin/login")) {
-          window.location.replace("/admin/login");
-        }
-        throw new Error(err || "Admin login required");
-      }
-      if (res.status === 403) throw new Error(err || "Admin access required");
-      if (res.status === 409) throw new Error(err || "Email already exists");
-      if (res.status === 400) throw new Error(err || "Invalid admin details");
-      throw new Error(err || `Failed to create admin (${res.status})`);
-    }
-
-    const body = parsed as { data?: CmsAdminAccount } | null;
-    if (!body?.data) throw new Error("Unexpected response from CMS");
-    return body.data;
+    callExternalCms<{ data: CmsAdminAccount[] }>("/admins").then((r) => r.data),
+  createAdmin: async (payload: {
+    email: string;
+    password: string;
+    name?: string;
+    is_active?: boolean;
+  }): Promise<CmsAdminAccount> => {
+    const res = await callExternalCms<{ data: CmsAdminAccount }>("/admins", {
+      method: "POST",
+      body: {
+        email: payload.email,
+        name: payload.name,
+        password: payload.password,
+      },
+    });
+    if (!res?.data) throw new Error("Unexpected response from CMS");
+    return res.data;
   },
-  updateAdmin: (payload: { id: string; email?: string; name?: string; password?: string; is_active?: boolean }) =>
-    callAdmin<{ data: CmsAdminAccount }>({ action: "update_admin", ...payload }).then((r) => r.data),
-  deleteAdmin: (id: string) => callAdmin({ action: "delete_admin", id }),
+  updateAdmin: (payload: {
+    id: string;
+    email?: string;
+    name?: string;
+    password?: string;
+    is_active?: boolean;
+  }) => {
+    const { id, ...rest } = payload;
+    return callExternalCms<{ data: CmsAdminAccount }>(`/admins/${encodeURIComponent(id)}`, {
+      method: "PUT",
+      body: rest,
+    }).then((r) => r.data);
+  },
+  deleteAdmin: (id: string) =>
+    callExternalCms<{ ok?: true }>(`/admins/${encodeURIComponent(id)}`, { method: "DELETE" }),
 
   // ─── Featured Books ──────────────────────────────────────────
   listFeaturedBooks: () =>
