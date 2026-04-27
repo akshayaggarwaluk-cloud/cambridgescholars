@@ -629,18 +629,22 @@ export default function Checkout() {
                     <span className="text-[15px] text-[#696969]">Subtotal</span>
                     <span className="text-[15px] text-[#333333]">{moneyGBP(subtotal)}</span>
                   </div>
-                  <div className="flex items-center justify-between py-4 border-b border-[#e3e1d8]">
-                    <span className="text-[15px] text-[#696969]">Shipping</span>
-                    <span className="text-[15px] text-[#333333]">{moneyGBP(shippingCost)}</span>
-                  </div>
-                  <div className="flex items-center justify-between py-4 border-b border-[#e3e1d8]">
-                    <span className="text-[15px] text-[#696969]">Delivery Method</span>
-                    <span className="text-[15px] font-semibold text-[#333333]">Standard Post</span>
-                  </div>
-                  <div className="flex items-center justify-between py-4 border-b border-[#e3e1d8]">
-                    <span className="text-[15px] text-[#696969]">Delivery Time</span>
-                    <span className="text-[15px] font-semibold text-[#333333]">4–5 weeks</span>
-                  </div>
+                  {!isEbookOnly && (
+                    <>
+                      <div className="flex items-center justify-between py-4 border-b border-[#e3e1d8]">
+                        <span className="text-[15px] text-[#696969]">Shipping</span>
+                        <span className="text-[15px] text-[#333333]">{moneyGBP(shippingCost)}</span>
+                      </div>
+                      <div className="flex items-center justify-between py-4 border-b border-[#e3e1d8]">
+                        <span className="text-[15px] text-[#696969]">Delivery Method</span>
+                        <span className="text-[15px] font-semibold text-[#333333]">Standard Post</span>
+                      </div>
+                      <div className="flex items-center justify-between py-4 border-b border-[#e3e1d8]">
+                        <span className="text-[15px] text-[#696969]">Delivery Time</span>
+                        <span className="text-[15px] font-semibold text-[#333333]">4–5 weeks</span>
+                      </div>
+                    </>
+                  )}
                   <div className="flex items-center justify-between py-5 border-b border-[#e3e1d8]">
                     <span className="text-[18px] text-[#333333]">Total</span>
                     <span className="text-[22px] font-semibold text-[#C75B2A]">
