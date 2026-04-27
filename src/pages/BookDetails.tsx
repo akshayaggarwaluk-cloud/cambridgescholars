@@ -19,7 +19,7 @@ export default function BookDetails() {
   const { isInWishlist, addToWishlist, removeFromWishlist } = useWishlist();
   const [selectedFormat, setSelectedFormat] = useState<BookFormat>("hardbook");
   const [quantity, setQuantity] = useState(1);
-  const [book, setBook] = useState<(BookType & { _hardbackPrice?: number | null; _paperbackPrice?: number | null; _praise?: string }) | null>(null);
+  const [book, setBook] = useState<(BookType & { _hardbackPrice?: number | null; _paperbackPrice?: number | null; _ebookPrice?: number | null; _praise?: string }) | null>(null);
   const [loading, setLoading] = useState(true);
   const imageRef = useRef<HTMLImageElement>(null);
   const [imageHeight, setImageHeight] = useState<number | null>(null);
@@ -49,8 +49,8 @@ export default function BookDetails() {
 
   const getPrice = (format: BookFormat | "paperback") => {
     if (!book) return 0;
-    if (format === "ebook") return (book._hardbackPrice || book.price) * 0.6;
-    if (format === "paperback") return book._paperbackPrice || book.price * 0.8;
+    if (format === "ebook") return book._ebookPrice ?? book._paperbackPrice ?? book._hardbackPrice ?? book.price;
+    if (format === "paperback") return book._paperbackPrice ?? book._hardbackPrice ?? book.price;
     return book._hardbackPrice || book.price;
   };
 
