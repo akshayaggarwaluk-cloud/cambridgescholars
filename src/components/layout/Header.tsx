@@ -48,22 +48,12 @@ export function Header() {
   const { user } = useExternalAuth();
 
   useEffect(() => {
-    let lastY = window.scrollY;
     const handleScroll = () => {
       const currentY = window.scrollY;
       setIsScrolled(currentY > 10);
-
-      // Always show near the top of the page
-      if (currentY < 100) {
-        setIsHidden(false);
-      } else if (currentY > lastY + 4) {
-        // Scrolling down → hide
-        setIsHidden(true);
-      } else if (currentY < lastY - 4) {
-        // Scrolling up → show
-        setIsHidden(false);
-      }
-      lastY = currentY;
+      // Hide header whenever the page is scrolled away from the very top.
+      // Only show when at the top of the page.
+      setIsHidden(currentY > 80);
     };
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
