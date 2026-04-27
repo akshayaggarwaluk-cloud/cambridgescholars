@@ -25,6 +25,7 @@ import {
   type CheckoutPayRequest,
 } from "@/services/cartService";
 import { loadOpayoSdk, tokeniseCard } from "@/lib/opayoSdk";
+import { getProfile } from "@/services/accountService";
 
 type AddressData = {
   firstName: string;
@@ -86,6 +87,24 @@ const COUNTRY_ISO: Record<string, string> = {
   "South Africa": "ZA",
   "United Arab Emirates": "AE",
 };
+
+// Reverse map: ISO/upstream country value → UI label used by the <Select>.
+const ISO_TO_COUNTRY: Record<string, string> = Object.fromEntries(
+  Object.entries(COUNTRY_ISO).map(([name, iso]) => [iso, name]),
+);
+function normalizeCountry(value?: string | null): string | undefined {
+  if (!value) return undefined;
+  const v = value.trim();
+  if (!v) return undefined;
+  if (ISO_TO_COUNTRY[v.toUpperCase()]) return ISO_TO_COUNTRY[v.toUpperCase()];
+  // Already a known full name?
+  if (COUNTRY_ISO[v]) return v;
+  // Loose match against names (case-insensitive)
+  const hit = Object.keys(COUNTRY_ISO).find(
+    (n) => n.toLowerCase() === v.toLowerCase(),
+  );
+  return hit;
+}
 
 function FieldLabel({ htmlFor, children, required }: { htmlFor: string; children: React.ReactNode; required?: boolean }) {
   return (
@@ -239,6 +258,58 @@ export default function Checkout() {
   useEffect(() => {
     loadOpayoSdk().catch(() => { /* surfaced on submit */ });
   }, []);
+
+  // Pre-fill shipping & billing addresses (and email/phone) from the
+  // authenticated customer's saved profile. Falls back silently if the
+  // request fails or the user hasn't saved any addresses yet.
+  useEffect(() => {
+    if (!user) return;
+    let cancelled = false;
+    (async () => {
+      try {
+        const profile = await getProfile();
+        if (cancelled) return;
+        const ship = profile.shipping || {};
+        const bill = profile.billing || {};
+        const fallbackFirst = profile.first_name || user.firstName || "";
+        const fallbackLast = profile.last_name || user.lastName || "";
+        const fallbackPhone = profile.phone || "";
+
+        setShipping((prev) => ({
+          ...prev,
+          firstName: ship.first_name || fallbackFirst || prev.firstName,
+          lastName: ship.last_name || fallbackLast || prev.lastName,
+          country: normalizeCountry(ship.country) || prev.country,
+          street1: ship.address_1 || prev.street1,
+          street2: ship.address_2 || prev.street2,
+          city: ship.city || prev.city,
+          state: ship.state || prev.state,
+          postcode: ship.postcode || prev.postcode,
+          phone: ship.phone || fallbackPhone || prev.phone,
+        }));
+        setBilling((prev) => ({
+          ...prev,
+          firstName: bill.first_name || fallbackFirst || prev.firstName,
+          lastName: bill.last_name || fallbackLast || prev.lastName,
+          country: normalizeCountry(bill.country) || prev.country,
+          street1: bill.address_1 || prev.street1,
+          street2: bill.address_2 || prev.street2,
+          city: bill.city || prev.city,
+          state: bill.state || prev.state,
+          postcode: bill.postcode || prev.postcode,
+          phone: bill.phone || fallbackPhone || prev.phone,
+        }));
+        if (!email) {
+          setEmail(bill.email || profile.email || user.email || "");
+        }
+      } catch (e) {
+        // Profile prefill is best-effort; never block checkout.
+        console.warn("[checkout] profile prefill failed:", e);
+      }
+    })();
+    return () => { cancelled = true; };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user?.id]);
 
   const localSubtotal = useMemo(
     () => items.reduce((sum, it) => sum + it.price * it.quantity, 0),

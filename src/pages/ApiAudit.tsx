@@ -22,7 +22,7 @@ const GROUPS: Group[] = [
     endpoints: [
       { method: "GET", path: "/books", description: "List books with filters", integrated: true },
       { method: "GET", path: "/books/{id}", description: "Book details by ID/slug", integrated: true },
-      { method: "GET", path: "/books/forthcoming", description: "Forthcoming titles", integrated: true },
+      { method: "GET", path: "/books/forthcoming", description: "Forthcoming titles", integrated: true, note: "Page at /forthcoming" },
     ],
   },
   {
@@ -34,7 +34,8 @@ const GROUPS: Group[] = [
   {
     name: "Series",
     endpoints: [
-      { method: "GET", path: "/series", description: "List of book series", integrated: true },
+      { method: "GET", path: "/series", description: "List of book series", integrated: true, note: "Page at /series" },
+      { method: "GET", path: "/series/{id_or_slug}", description: "Series detail with books", integrated: true, note: "Page at /series/:slug" },
     ],
   },
   {
@@ -74,10 +75,10 @@ const GROUPS: Group[] = [
     endpoints: [
       { method: "GET", path: "/account/profile", description: "Get user profile", integrated: true },
       { method: "PUT", path: "/account/profile", description: "Update profile", integrated: true },
-      { method: "PUT", path: "/account/password", description: "Change password (logged-in user)", integrated: false, note: "UI not wired up" },
+      { method: "PUT", path: "/account/password", description: "Change password (logged-in user)", integrated: true, note: "Profile \u2192 Password tab" },
       { method: "GET", path: "/account/orders", description: "List user orders", integrated: true },
-      { method: "GET", path: "/account/orders/{order_id}", description: "Order detail", integrated: false, note: "Order detail page missing" },
-      { method: "GET", path: "/account/ebooks", description: "VitalSource ebook library", integrated: false, note: "Ebook library page missing" },
+      { method: "GET", path: "/account/orders/{order_id}", description: "Order detail", integrated: true, note: "Inline expand on /orders" },
+      { method: "GET", path: "/account/ebooks", description: "VitalSource ebook library", integrated: true, note: "Page at /ebooks" },
     ],
   },
   {
@@ -129,7 +130,7 @@ const GROUPS: Group[] = [
   {
     name: "System",
     endpoints: [
-      { method: "GET", path: "/health", description: "System health check", integrated: false, note: "Not used by UI" },
+      { method: "GET", path: "/health", description: "System health check", integrated: true, note: "Available via fetchHealth() helper" },
     ],
   },
 ];
