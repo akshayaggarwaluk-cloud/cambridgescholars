@@ -393,10 +393,15 @@ async function callAdmin<T = unknown>(
 // ─── Auth ───────────────────────────────────────────────────────
 
 /**
- * Admin login — calls the external CSP CMS API.
- * POST /api/cms/auth/login → { access_token, expires_in, admin }
- * The returned access_token is a short-lived JWT (8h) used as Bearer
- * on all other /api/cms/* endpoints.
+ * Admin login — authenticates against BOTH the external CSP CMS API
+ * (for /admins endpoints) and the internal Supabase edge function
+ * (for all CRUD on hero, news, featured books, etc.).
+ *
+ * 1. POST {CMS_API_BASE}/auth/login   → external Bearer JWT
+ * 2. cms-admin edge function "login"  → internal X-Admin-Token JWT
+ *
+ * Both tokens are stored. If the internal login fails the external one
+ * is discarded so the admin UI does not appear half-signed-in.
  */
 export async function adminLogin(email: string, password: string): Promise<CmsAdminUser> {
   let res: Response;
@@ -434,7 +439,30 @@ export async function adminLogin(email: string, password: string): Promise<CmsAd
     email: data.admin.email,
     name: data.admin.name ?? null,
   };
-  adminSession.set(data.access_token, user);
+
+  // Also obtain the internal edge-function token so all existing
+  // CRUD calls (which still go through the cms-admin edge function)
+  // continue to work. We pass requireAuth: false because there is
+  // no admin token yet at this point.
+  let internalToken: string | null = null;
+  try {
+    const internalRes = await callAdmin<{ token?: string; admin?: CmsAdminUser }>(
+      { action: "login", email, password },
+      { requireAuth: false },
+    );
+    if (internalRes?.token) internalToken = internalRes.token;
+  } catch (e) {
+    console.warn("[adminLogin] internal edge-function login failed", e);
+  }
+
+  if (!internalToken) {
+    throw new Error(
+      "Signed in to CMS, but the internal admin session could not be created. " +
+      "Please contact support.",
+    );
+  }
+
+  adminSession.set(internalToken, user, data.access_token);
   return user;
 }
 
