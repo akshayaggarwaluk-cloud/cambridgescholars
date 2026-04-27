@@ -195,8 +195,8 @@ const NewsArticle = () => {
                   .news-article-content blockquote {
                     font-family: 'Nunito Sans', system-ui, sans-serif !important;
                     color: #696969 !important;
-                    font-size: 16px !important;
-                    line-height: 1.6 !important;
+                    font-size: 18px !important;
+                    line-height: 1.7 !important;
                   }
                   .news-article-content h1,
                   .news-article-content h2,
@@ -212,8 +212,13 @@ const NewsArticle = () => {
                   .news-article-content h6 * {
                     font-family: 'Libre Baskerville', Georgia, serif !important;
                     color: #1a1a1a !important;
-                    font-size: revert !important;
                   }
+                  .news-article-content h1, .news-article-content h1 * { font-size: 32px !important; }
+                  .news-article-content h2, .news-article-content h2 * { font-size: 28px !important; }
+                  .news-article-content h3, .news-article-content h3 * { font-size: 26px !important; }
+                  .news-article-content h4, .news-article-content h4 * { font-size: 24px !important; }
+                  .news-article-content h5, .news-article-content h5 * { font-size: 20px !important; }
+                  .news-article-content h6, .news-article-content h6 * { font-size: 18px !important; }
                 `}</style>
                 <div
                   className="news-article-content prose prose-lg max-w-none font-baskerville text-justify whitespace-pre-wrap"
