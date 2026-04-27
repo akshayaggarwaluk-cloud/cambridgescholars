@@ -38,6 +38,10 @@ import RefundAndReturns from "@/pages/RefundAndReturns";
 import AuthorExperiences from "@/pages/AuthorExperiences";
 import AuthorPromises from "@/pages/AuthorPromises";
 import ApiAudit from "@/pages/ApiAudit";
+import Forthcoming from "@/pages/Forthcoming";
+import SeriesList from "@/pages/SeriesList";
+import SeriesDetail from "@/pages/SeriesDetail";
+import Ebooks from "@/pages/Ebooks";
 
 import AdminGate from "@/components/admin/AdminGate";
 import AdminLayout from "@/components/admin/AdminLayout";
@@ -93,6 +97,10 @@ export function AnimatedRoutes() {
         <Route path="/author-experiences" element={<PageTransition><AuthorExperiences /></PageTransition>} />
         <Route path="/our-author-promises" element={<PageTransition><AuthorPromises /></PageTransition>} />
         <Route path="/api-audit" element={<PageTransition><ApiAudit /></PageTransition>} />
+        <Route path="/forthcoming" element={<PageTransition><Forthcoming /></PageTransition>} />
+        <Route path="/series" element={<PageTransition><SeriesList /></PageTransition>} />
+        <Route path="/series/:slug" element={<PageTransition><SeriesDetail /></PageTransition>} />
+        <Route path="/ebooks" element={<PageTransition><ProtectedRoute><Ebooks /></ProtectedRoute></PageTransition>} />
 
         {/* CMS Admin */}
         <Route path="/admin/login" element={<AdminLogin />} />
