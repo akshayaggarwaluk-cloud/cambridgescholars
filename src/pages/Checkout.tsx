@@ -712,7 +712,7 @@ export default function Checkout() {
                       className="py-4 border-b border-[#e3e1d8] space-y-1"
                     >
                       <p className="text-[15px] leading-snug text-[#696969]">
-                        {item.title}
+                        {item.title.split(":")[0].trim()}
                       </p>
                       <div className="flex items-center justify-between gap-4">
                         <p className="text-[14px] text-[#7a7a7a]">
