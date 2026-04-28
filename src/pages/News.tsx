@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { PageBreadcrumb } from "@/components/layout/PageBreadcrumb";
@@ -7,14 +7,15 @@ import { Input } from "@/components/ui/input";
 import { Search, ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { fetchPublishedNews, type CmsNewsArticle } from "@/services/cmsService";
-
-const ALL = "All Categories";
+import { fetchCategories, type CSPCategory } from "@/services/cspApi";
 
 const News = () => {
+  const navigate = useNavigate();
   const [articles, setArticles] = useState<CmsNewsArticle[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState(ALL);
+  const [subjectCategories, setSubjectCategories] = useState<CSPCategory[]>([]);
+  const [expandedCats, setExpandedCats] = useState<Set<string>>(new Set());
 
   useEffect(() => {
     fetchPublishedNews()
@@ -23,30 +24,47 @@ const News = () => {
       .finally(() => setLoading(false));
   }, []);
 
-  const categories = useMemo(() => {
-    const set = new Set<string>();
-    articles.forEach((a) => a.category && set.add(a.category));
-    return [ALL, ...Array.from(set)];
-  }, [articles]);
+  useEffect(() => {
+    fetchCategories()
+      .then((cats) => {
+        const order = ["Social Sciences", "Physical Sciences", "Health Science", "Health Sciences", "Life Sciences", "All Categories"];
+        const norm = (s: string) => (s || "").trim().toLowerCase();
+        const dedupe = (list: CSPCategory[], parentName?: string, parentSlug?: string): CSPCategory[] =>
+          (list || [])
+            .filter((c) => !(parentName && (norm(c.name) === norm(parentName) || norm(c.slug) === norm(parentSlug || ""))))
+            .map((c) => ({
+              ...c,
+              subcategories: c.subcategories ? dedupe(c.subcategories, c.name, c.slug) : c.subcategories,
+            }));
+        const cleaned = cats.map((c) => ({
+          ...c,
+          subcategories: c.subcategories ? dedupe(c.subcategories, c.name, c.slug) : c.subcategories,
+        }));
+        const sorted = [...cleaned].sort((a, b) => {
+          const ai = order.indexOf(a.name);
+          const bi = order.indexOf(b.name);
+          if (ai === -1 && bi === -1) return 0;
+          if (ai === -1) return 1;
+          if (bi === -1) return -1;
+          return ai - bi;
+        });
+        setSubjectCategories(sorted);
+      })
+      .catch((e) => console.error("Failed to load categories:", e));
+  }, []);
+
+  const goToBooks = (slug: string) => {
+    navigate(`/books?category=${encodeURIComponent(slug)}`);
+  };
 
   const filteredArticles = articles.filter((article) => {
     const q = searchQuery.toLowerCase();
-    const matchesSearch =
+    return (
       !q ||
       article.title.toLowerCase().includes(q) ||
-      (article.excerpt || "").toLowerCase().includes(q);
-    const matchesCategory =
-      selectedCategory === ALL || article.category === selectedCategory;
-    return matchesSearch && matchesCategory;
+      (article.excerpt || "").toLowerCase().includes(q)
+    );
   });
-
-  const categoryCounts = categories.reduce(
-    (acc, c) => {
-      acc[c] = c === ALL ? articles.length : articles.filter((a) => a.category === c).length;
-      return acc;
-    },
-    {} as Record<string, number>,
-  );
 
   return (
     <div className="min-h-screen bg-white">
@@ -78,34 +96,88 @@ const News = () => {
               </div>
             </div>
 
-            {/* Categories */}
+            {/* Subject Categories */}
             <div>
               <h3 className="font-baskerville text-[24px] font-normal text-[#333333] mb-4 pb-3 border-b border-[#E5E1D8]">
-                Categories
+                Subject Categories
               </h3>
-              {categories.length > 0 ? (
+              {subjectCategories.length > 0 ? (
                 <ul className="space-y-1">
-                  {categories.map((category) => (
-                    <li key={category}>
-                      <div className="flex items-center justify-between">
-                        <button
-                          onClick={() => setSelectedCategory(category)}
-                          className={cn(
-                            "text-left font-baskerville text-[15px] py-2 transition-colors font-normal hover:text-[#C75B2A]",
-                            selectedCategory === category ? "text-[#C75B2A]" : "text-[#C5A374]",
-                          )}
-                        >
-                          {category}
-                        </button>
-                        <div className="flex items-center gap-2">
-                          <span className="bg-[#F1EFEA] rounded-full px-3 py-1 min-w-[44px] text-center font-baskerville text-xs text-[#555555]">
-                            {categoryCounts[category]}
-                          </span>
-                          <span className="p-0.5 w-5 h-5 invisible" aria-hidden="true" />
+                  {subjectCategories.map((cat) => {
+                    const isExpanded = expandedCats.has(cat.slug);
+                    const hasSubs = cat.subcategories && cat.subcategories.length > 0;
+                    return (
+                      <li key={cat.slug}>
+                        <div className="flex items-center justify-between">
+                          <button
+                            onClick={() => goToBooks(cat.slug)}
+                            className="text-left font-baskerville text-[15px] py-2 transition-colors font-normal text-[#C5A374] hover:text-[#C75B2A]"
+                          >
+                            {cat.name}
+                          </button>
+                          <div className="flex items-center gap-2">
+                            <span className="bg-[#F1EFEA] rounded-full px-3 py-1 min-w-[44px] text-center font-baskerville text-xs text-[#555555]">
+                              {cat.book_count}
+                            </span>
+                            <button
+                              onClick={() => {
+                                if (!hasSubs) return;
+                                setExpandedCats((prev) => {
+                                  const next = new Set(prev);
+                                  if (next.has(cat.slug)) next.delete(cat.slug);
+                                  else next.add(cat.slug);
+                                  return next;
+                                });
+                              }}
+                              className={cn(
+                                "p-0.5 w-5 h-5 flex items-center justify-center",
+                                hasSubs ? "text-[#C5A374] hover:text-[#C75B2A]" : "invisible pointer-events-none",
+                              )}
+                              aria-hidden={!hasSubs}
+                              tabIndex={hasSubs ? 0 : -1}
+                            >
+                              <ChevronDown className={cn("h-4 w-4 transition-transform", isExpanded && "rotate-180")} />
+                            </button>
+                          </div>
                         </div>
+                        {hasSubs && isExpanded && (
+                          <ul className="ml-4 mt-1 space-y-0.5">
+                            {cat.subcategories!.map((sub) => (
+                              <li key={sub.slug}>
+                                <div className="flex items-center justify-between">
+                                  <button
+                                    onClick={() => goToBooks(sub.slug)}
+                                    className="text-left font-baskerville text-[13px] py-1.5 transition-colors text-[#555555] hover:text-[#C75B2A] font-normal"
+                                  >
+                                    {sub.name}
+                                  </button>
+                                  <span className="text-[12px] text-[#555555] bg-[#F1EFEA] rounded-full px-2.5 py-0.5 min-w-[40px] text-center font-baskerville">
+                                    {sub.book_count}
+                                  </span>
+                                </div>
+                              </li>
+                            ))}
+                          </ul>
+                        )}
+                      </li>
+                    );
+                  })}
+                  <li>
+                    <div className="flex items-center justify-between">
+                      <button
+                        onClick={() => navigate("/books")}
+                        className="text-left font-baskerville text-[15px] py-2 transition-colors text-[#C5A374] hover:text-[#C75B2A] font-normal"
+                      >
+                        All Categories
+                      </button>
+                      <div className="flex items-center gap-2">
+                        <span className="bg-[#F1EFEA] rounded-full px-3 py-1 min-w-[44px] text-center font-baskerville text-xs text-[#555555]">
+                          {subjectCategories.reduce((sum, c) => sum + c.book_count, 0)}
+                        </span>
+                        <span className="p-0.5 w-5 h-5 invisible" aria-hidden="true" />
                       </div>
-                    </li>
-                  ))}
+                    </div>
+                  </li>
                 </ul>
               ) : (
                 <p className="text-sm text-muted-foreground">Loading categories...</p>
