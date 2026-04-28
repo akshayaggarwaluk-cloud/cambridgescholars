@@ -126,6 +126,7 @@ export default function Contact() {
             <div className="max-w-2xl mx-auto">
               <h2 className="font-serif text-center mb-12 text-4xl tracking-wide">Send A Message</h2>
 
+              {!submitted ? (
               <form onSubmit={handleSubmit} className="space-y-6">
                 {/* Name + Email */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -182,8 +183,7 @@ export default function Contact() {
                   SUBMIT
                 </Button>
               </form>
-
-              {submitted && (
+              ) : (
                 <p
                   className="mt-8 text-center"
                   style={{ fontFamily: '"Nunito Sans", sans-serif', fontSize: "18px", color: "#7E7E7E" }}
