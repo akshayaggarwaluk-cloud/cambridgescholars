@@ -209,7 +209,7 @@ const News = () => {
                       <Link to={`/news/${article.slug}`}>{article.title}</Link>
                     </h2>
                     {article.excerpt && (
-                       <p className="text-[15px] leading-relaxed mb-5 line-clamp-3 font-serif text-black">{article.excerpt}</p>
+                       <p className="text-[16px] leading-relaxed mb-5 line-clamp-3 text-black" style={{ fontFamily: "'Nunito Sans', system-ui, sans-serif" }}>{article.excerpt}</p>
                     )}
                   </article>
                 ))}
