@@ -143,54 +143,9 @@ export default function Books() {
     const loadBooks = async () => {
       setLoading(true);
       try {
-        // When a specific category is selected, the CSP API does substring matching
-        // on the `category` param (e.g. "Architecture" also returns "Technical
-        // Architecture"). To honour the user's exact selection, fetch the API
-        // superset and filter client-side to the exact category name, then
-        // paginate locally.
         const exactName = selectedCategory !== "all"
           ? findCategoryName(selectedCategory, categories)
           : null;
-
-        if (exactName) {
-          const PER_PAGE = 100;
-          const MAX_PAGES = 10; // safety cap = up to 1000 candidate books
-          const matched: Book[] = [];
-          let apiPage = 1;
-          let totalPages = 1;
-          const sortDef = SORT_OPTIONS.find((s) => s.value === orderBy);
-          while (apiPage <= totalPages && apiPage <= MAX_PAGES) {
-            const r = await fetchBooks({
-              page: apiPage,
-              per_page: PER_PAGE,
-              search: searchQuery || undefined,
-              search_field: activeSearchField || undefined,
-              category: exactName,
-              sort: sortDef?.value,
-            });
-            totalPages = r.pagination?.total_pages || 1;
-            for (const b of r.books) {
-              const cats = (b as Book & { categories?: string[] }).categories || [];
-              if (cats.some((c) => (c || "").trim().toLowerCase() === exactName.toLowerCase())) {
-                matched.push(b);
-              }
-            }
-            apiPage += 1;
-          }
-          const PAGE_SIZE = 20;
-          const total = matched.length;
-          const totalLocalPages = Math.max(1, Math.ceil(total / PAGE_SIZE));
-          const safePage = Math.min(currentPage, totalLocalPages);
-          const start = (safePage - 1) * PAGE_SIZE;
-          setBooks(matched.slice(start, start + PAGE_SIZE));
-          setPagination({
-            page: safePage,
-            per_page: PAGE_SIZE,
-            total: total,
-            total_pages: totalLocalPages,
-          });
-          return;
-        }
 
         const params: {
           page: number;
@@ -210,7 +165,7 @@ export default function Books() {
         };
         if (searchQuery) params.search = searchQuery;
         if (activeSearchField) params.search_field = activeSearchField;
-        // (selectedCategory === "all" branch — no category filter)
+        if (exactName) params.category = exactName;
         // Send the CSP API `sort` value directly
         const sortDef = SORT_OPTIONS.find((s) => s.value === orderBy);
         if (sortDef) {
