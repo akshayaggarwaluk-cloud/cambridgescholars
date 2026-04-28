@@ -754,6 +754,12 @@ export default function Checkout() {
                       </div>
                       {deliveryEstimate && (
                         <div className="flex items-center justify-between py-4 border-b border-[#e3e1d8]">
+                          <span className="text-[15px] text-[#696969]">Delivery method</span>
+                          <span className="text-[15px] font-semibold text-[#333333]">Standard Post</span>
+                        </div>
+                      )}
+                      {deliveryEstimate && (
+                        <div className="flex items-center justify-between py-4 border-b border-[#e3e1d8]">
                           <span className="text-[15px] text-[#696969]">Delivery time</span>
                           <span className="text-[15px] text-[#333333]">{deliveryEstimate}</span>
                         </div>
