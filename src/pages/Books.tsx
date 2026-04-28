@@ -500,7 +500,7 @@ export default function Books() {
                           </p>
 
                           {(book.shortDescription || book.blurb) && (
-                            <p className="text-[16px] text-[#696969] mt-5 leading-[1.7] whitespace-pre-line" style={{ fontFamily: "'Nunito Sans', system-ui, sans-serif" }}>
+                            <p className="text-[16px] text-[#696969] mt-5 leading-[1.7] whitespace-pre-line line-clamp-3" style={{ fontFamily: "'Nunito Sans', system-ui, sans-serif" }}>
                               {book.shortDescription || book.blurb}
                             </p>
                           )}
