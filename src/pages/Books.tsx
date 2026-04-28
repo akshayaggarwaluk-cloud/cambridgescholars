@@ -186,9 +186,9 @@ export default function Books() {
           setPagination({
             page: safePage,
             per_page: PAGE_SIZE,
-            total_items: total,
+            total: total,
             total_pages: totalLocalPages,
-          } as CSPPagination);
+          });
           return;
         }
 
