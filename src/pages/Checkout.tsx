@@ -219,6 +219,7 @@ export default function Checkout() {
     cartSubtotal,
     shipping: apiShipping,
     shippingRequiresQuote,
+    deliveryEstimate,
     couponCode,
     discount,
     applyCoupon,
@@ -751,6 +752,12 @@ export default function Checkout() {
                             : moneyGBP(shippingCost)}
                         </span>
                       </div>
+                      {deliveryEstimate && (
+                        <div className="flex items-center justify-between py-4 border-b border-[#e3e1d8]">
+                          <span className="text-[15px] text-[#696969]">Delivery time</span>
+                          <span className="text-[15px] text-[#333333]">{deliveryEstimate}</span>
+                        </div>
+                      )}
                     </>
                   )}
                   <div className="flex items-center justify-between py-5 border-b border-[#e3e1d8]">
