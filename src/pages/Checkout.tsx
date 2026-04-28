@@ -709,32 +709,14 @@ export default function Checkout() {
                   {items.map((item) => (
                     <div
                       key={`${item.id}_${item.format}`}
-                      className="py-4 border-b border-[#e3e1d8] space-y-1"
+                      className="py-4 border-b border-[#e3e1d8] flex items-start justify-between gap-4"
                     >
                       <p className="text-[15px] leading-snug text-[#696969]">
                         {item.title}
                       </p>
-                      <div className="flex items-center justify-between gap-4">
-                        <p className="text-[14px] text-[#7a7a7a]">
-                          <span className="text-[#696969]">
-                            {item.format === "ebook"
-                              ? "Ebook"
-                              : item.format === "paperback"
-                              ? "Paperback"
-                              : "Hardback"}
-                          </span>
-                          <span> × </span>
-                          <strong className="text-[#333333]">{item.quantity}</strong>
-                        </p>
-                        <span className="text-[15px] text-[#7a7a7a] whitespace-nowrap">
-                          {moneyGBP(item.price * item.quantity)}
-                        </span>
-                      </div>
-                      {item.isbn && (
-                        <p className="text-[13px] text-[#333333]">
-                          <strong>ISBN:</strong> {item.isbn}
-                        </p>
-                      )}
+                      <span className="text-[15px] text-[#7a7a7a] whitespace-nowrap">
+                        {moneyGBP(item.price * item.quantity)}
+                      </span>
                     </div>
                   ))}
 
