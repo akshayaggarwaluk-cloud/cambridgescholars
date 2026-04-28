@@ -235,7 +235,7 @@ export default function Cart() {
               </div>
             )}
 
-            <div className="flex justify-between items-center pt-3 border-t border-border">
+            <div className="flex justify-between items-center pt-3">
               <span className="text-base text-foreground">Total</span>
               <span className="text-foreground font-normal text-lg">
                 £{(cartSubtotal - (discount ?? 0)).toFixed(2)}
