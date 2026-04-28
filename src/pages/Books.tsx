@@ -316,12 +316,12 @@ export default function Books() {
                         <div className="flex items-center justify-between">
                           <button
                             onClick={() => handleCategoryChange(cat.slug)}
-                            className={cn("text-left font-baskerville text-sm py-2 transition-colors font-normal text-[#c4a273]")}
+                            className={cn("text-left font-baskerville text-sm py-2 transition-colors font-normal text-[#333333] hover:text-[#C75B2A]")}
                           >
                             {cat.name}
                           </button>
                           <div className="flex items-center gap-2">
-                            <span className="bg-[#F1EFEA] rounded-full px-3 py-1 min-w-[44px] text-center font-baskerville text-xs text-[#c4a273]">
+                            <span className="bg-[#F1EFEA] rounded-full px-3 py-1 min-w-[44px] text-center font-baskerville text-xs text-[#333333]">
                               {cat.book_count}
                             </span>
                             <button
@@ -356,19 +356,19 @@ export default function Books() {
                               return (
                                 <li key={sub.slug}>
                                   <div className="flex items-center justify-between">
-                                    <button
-                                      onClick={() => handleCategoryChange(sub.slug)}
-                                      className={cn(
-                                        "text-left font-baskerville text-[14px] py-1.5 transition-colors",
-                                        selectedCategory === sub.slug
-                                          ? "text-[#C75B2A] font-normal"
-                                          : "text-[#C5A374] hover:text-[#C75B2A] font-normal",
-                                      )}
-                                    >
+                                     <button
+                                       onClick={() => handleCategoryChange(sub.slug)}
+                                       className={cn(
+                                         "text-left font-baskerville text-[14px] py-1.5 transition-colors",
+                                         selectedCategory === sub.slug
+                                           ? "text-[#C75B2A] font-normal"
+                                           : "text-[#333333] hover:text-[#C75B2A] font-normal",
+                                       )}
+                                     >
                                       {sub.name}
                                     </button>
                                     <div className="flex items-center gap-2">
-                                      <span className="text-[12px] text-[#C5A374] bg-[#F1EFEA] rounded-full px-2.5 py-0.5 min-w-[40px] text-center font-baskerville">
+                                      <span className="text-[12px] text-[#333333] bg-[#F1EFEA] rounded-full px-2.5 py-0.5 min-w-[40px] text-center font-baskerville">
                                         {sub.book_count}
                                       </span>
                                       {hasSubSubs && (
@@ -429,14 +429,14 @@ export default function Books() {
                   {/* All Categories */}
                   <li>
                     <div className="flex items-center justify-between mt-2 pt-2">
-                      <button
-                        onClick={() => handleCategoryChange("all")}
-                        className={cn("text-left font-baskerville text-sm py-2 transition-colors text-[#c4a273] font-normal")}
-                      >
+                       <button
+                         onClick={() => handleCategoryChange("all")}
+                         className={cn("text-left font-baskerville text-sm py-2 transition-colors text-[#333333] hover:text-[#C75B2A] font-normal")}
+                       >
                         All Categories
                       </button>
                       <div className="flex items-center gap-2">
-                        <span className="bg-[#F1EFEA] rounded-full px-3 py-1 min-w-[44px] text-center font-baskerville text-xs text-[#c4a273]">
+                        <span className="bg-[#F1EFEA] rounded-full px-3 py-1 min-w-[44px] text-center font-baskerville text-xs text-[#333333]">
                           {categories.reduce((sum, c) => sum + c.book_count, 0)}
                         </span>
                         <span className="w-5 h-5 invisible" aria-hidden="true" />
