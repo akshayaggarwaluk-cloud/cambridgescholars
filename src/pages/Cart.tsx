@@ -136,7 +136,7 @@ export default function Cart() {
        <main className="pb-16 bg-white">
         <div className="container-wide py-12 bg-white">
           {/* Table header */}
-          <div className="grid grid-cols-[1fr_120px_180px_140px_60px] gap-6 pb-5 border-b border-border items-center">
+          <div className="grid grid-cols-[1fr_120px_180px_140px_60px] gap-6 pb-5 border-b border-black items-center">
             <div className="uppercase text-[#333333] tracking-wider text-sm" style={{ fontFamily: '"Nunito Sans", sans-serif', fontWeight: 800 }}>Product</div>
             <div className="uppercase text-[#333333] tracking-wider text-sm text-center relative -left-5" style={{ fontFamily: '"Nunito Sans", sans-serif', fontWeight: 800 }}>Price</div>
             <div className="uppercase text-[#333333] tracking-wider text-sm text-center relative -left-5" style={{ fontFamily: '"Nunito Sans", sans-serif', fontWeight: 800 }}>Quantity</div>
@@ -145,11 +145,11 @@ export default function Cart() {
           </div>
 
           {/* Items */}
-          <div className="border-x border-b border-border">
+          <div className="border-x border-b border-black">
             {items.map((item) => (
               <div
                 key={`${item.id}_${item.format}`}
-                className="grid grid-cols-[1fr_120px_180px_140px_60px] gap-6 items-center px-6 py-6 border-t border-border"
+                className="grid grid-cols-[1fr_120px_180px_140px_60px] gap-6 items-center px-6 py-6 border-t border-black"
               >
                 {/* Product */}
                 <div className="flex items-center gap-5 min-w-0">
@@ -189,7 +189,7 @@ export default function Cart() {
                 </div>
 
                 {/* Quantity */}
-                <div className="flex items-center border border-border w-fit mx-auto">
+                <div className="flex items-center border border-black w-fit mx-auto">
                   <button
                     onClick={() => setQty(item, getQty(item) - 1)}
                     aria-label="Decrease quantity"
@@ -216,7 +216,7 @@ export default function Cart() {
                 <button
                   onClick={() => handleRemoveItem(item)}
                   aria-label="Remove item"
-                  className="w-10 h-10 border border-border flex items-center justify-center hover:bg-secondary transition-colors justify-self-end"
+                  className="w-10 h-10 border border-black flex items-center justify-center hover:bg-secondary transition-colors justify-self-end"
                 >
                   <X className="h-4 w-4 text-foreground" />
                 </button>
@@ -243,10 +243,10 @@ export default function Cart() {
             </div>
           </div>
 
-          <div className="border-t border-border mt-8"></div>
+          <div className="border-t border-black mt-8"></div>
 
           {/* Actions */}
-          <div className="flex flex-col sm:flex-row sm:justify-between gap-6 mt-8 pb-8 border-b border-border">
+          <div className="flex flex-col sm:flex-row sm:justify-between gap-6 mt-8 pb-8 border-b border-black">
             <Button
               asChild
               variant="outline"
