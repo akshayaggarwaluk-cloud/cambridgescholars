@@ -482,7 +482,7 @@ export default function Books() {
                         </Link>
 
                         {/* Book Details */}
-                        <div className="flex-1 flex flex-col">
+                        <div className="flex-1 flex flex-col md:h-auto self-stretch">
                           <Link to={`/books/${book.id}`}>
                             <h2 className="font-['Libre_Baskerville'] text-foreground hover:text-[#E4573D] transition-colors leading-tight text-2xl font-medium">
                               {book.title}
