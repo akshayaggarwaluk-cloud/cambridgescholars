@@ -38,13 +38,13 @@ export default function Contact() {
   });
   const [captchaValue, setCaptchaValue] = useState<string | null>(null);
   const recaptchaRef = useRef<ReCAPTCHA>(null);
+  const [submitted, setSubmitted] = useState(false);
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!captchaValue) {
       toast.error("Please verify that you're not a robot");
       return;
     }
-    toast.success("Message sent successfully!");
     setFormData({
       name: "",
       email: "",
@@ -53,6 +53,7 @@ export default function Contact() {
     });
     setCaptchaValue(null);
     recaptchaRef.current?.reset();
+    setSubmitted(true);
   };
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setFormData((prev) => ({
@@ -181,6 +182,17 @@ export default function Contact() {
                   SUBMIT
                 </Button>
               </form>
+
+              {submitted && (
+                <p
+                  className="mt-8 text-center"
+                  style={{ fontFamily: '"Nunito Sans", sans-serif', fontSize: "18px", color: "#7E7E7E" }}
+                  role="status"
+                  aria-live="polite"
+                >
+                  Thanks for contacting us! We will get in touch with you shortly.
+                </p>
+              )}
             </div>
           </div>
         </section>
