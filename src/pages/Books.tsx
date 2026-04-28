@@ -354,7 +354,10 @@ export default function Books() {
                         <div className="flex items-center justify-between">
                           <button
                             onClick={() => handleCategoryChange(cat.slug)}
-                            className={cn("text-left font-baskerville text-[15px] py-2 transition-colors font-normal text-[#C5A374] hover:text-[#C75B2A]")}
+                            className={cn(
+                              "text-left font-baskerville text-[15px] py-2 transition-colors font-normal hover:text-[#C75B2A]",
+                              selectedCategory === cat.slug ? "text-[#C75B2A]" : "text-[#C5A374]",
+                            )}
                           >
                             {cat.name}
                           </button>
