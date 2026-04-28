@@ -441,7 +441,7 @@ export default function Books() {
                   })}
                   {/* All Categories */}
                   <li>
-                    <div className="flex items-center justify-between mt-2 pt-2">
+                    <div className="flex items-center justify-between">
                        <button
                          onClick={() => handleCategoryChange("all")}
                           className={cn("text-left font-baskerville text-[15px] py-2 transition-colors text-[#C5A374] hover:text-[#C75B2A] font-normal")}
@@ -452,7 +452,7 @@ export default function Books() {
                         <span className="bg-[#F1EFEA] rounded-full px-3 py-1 min-w-[44px] text-center font-baskerville text-xs text-[#555555]">
                           {categories.reduce((sum, c) => sum + c.book_count, 0)}
                         </span>
-                        <span className="w-5 h-5 invisible" aria-hidden="true" />
+                        <span className="p-0.5 w-5 h-5 invisible" aria-hidden="true" />
                       </div>
                     </div>
                   </li>
