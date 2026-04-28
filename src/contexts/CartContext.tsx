@@ -156,6 +156,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const [serverSubtotal, setServerSubtotal] = useState<number | null>(null);
   const [shipping, setShipping] = useState<number | null>(null);
   const [shippingRequiresQuote, setShippingRequiresQuote] = useState<boolean>(false);
+  const [deliveryEstimate, setDeliveryEstimate] = useState<string | null>(null);
   const SHIPPING_COUNTRY_KEY = "cspShippingCountry";
   const [shippingCountry, setShippingCountryState] = useState<string>(() => {
     try { return localStorage.getItem(SHIPPING_COUNTRY_KEY) || "GB"; } catch { return "GB"; }
@@ -184,6 +185,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
     setServerSubtotal(res.subtotal_gbp ?? null);
     setShipping(res.shipping_gbp ?? null);
     setShippingRequiresQuote(Boolean(res.shipping_requires_quote));
+    setDeliveryEstimate(res.delivery_estimate ?? null);
   }, []);
 
   // Initial load + reload on auth state change (login → merge, logout → reset).
@@ -335,6 +337,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
         cartSubtotal,
         shipping,
         shippingRequiresQuote,
+        deliveryEstimate,
         shippingCountry,
         setShippingCountry,
         loading,

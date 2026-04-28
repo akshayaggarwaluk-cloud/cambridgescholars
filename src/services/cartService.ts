@@ -41,6 +41,7 @@ export interface CartResponse {
   discount_gbp?: number | null;
   shipping_gbp?: number | null;
   shipping_requires_quote?: boolean | null;
+  delivery_estimate?: string | null;
   total_gbp?: number | null;
 }
 
