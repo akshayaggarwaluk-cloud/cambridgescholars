@@ -5,6 +5,7 @@ import { Footer } from "@/components/layout/Footer";
 import { PageBreadcrumb } from "@/components/layout/PageBreadcrumb";
 import { Input } from "@/components/ui/input";
 import { Search, ChevronDown } from "lucide-react";
+import { cn } from "@/lib/utils";
 import { fetchPublishedNews, type CmsNewsArticle } from "@/services/cmsService";
 
 const ALL = "All Categories";
@@ -59,45 +60,56 @@ const News = () => {
       </div>
       <main className="container-wide py-8 bg-white">
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 mt-8">
-          <aside className="lg:col-span-1">
-            <div className="mb-8">
-              <h3 className="text-2xl font-baskerville text-[#C75B2A] mb-4 pb-3 border-b border-border">Search</h3>
+          <aside className="lg:col-span-1 lg:w-72 flex-shrink-0">
+            {/* Search Section */}
+            <div className="mb-10">
+              <h3 className="font-baskerville text-[24px] font-normal text-[#333333] mb-4 pb-3 border-b border-[#E5E1D8]">Search</h3>
               <div className="relative">
                 <Input
                   type="text"
-                  placeholder="Search ..."
+                  placeholder="Search products..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="pr-10 rounded-none border-border bg-transparent h-11 font-serif italic text-muted-foreground placeholder:text-muted-foreground/70"
+                  className="pr-12 h-12 text-base border-white bg-[#f7f7f7]"
                 />
-                <Search className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                <button className="absolute right-0 top-0 h-12 w-12 flex items-center justify-center border-l transition-colors border-white bg-[#f7f7f7]">
+                  <Search className="h-5 w-5 text-muted-foreground" />
+                </button>
               </div>
             </div>
 
+            {/* Categories */}
             <div>
-              <h3 className="text-2xl font-baskerville text-[#C75B2A] mb-4 pb-3 border-b border-border">Categories</h3>
-              <ul className="space-y-3">
-                {categories.map((category) => (
-                  <li key={category}>
-                    <button
-                      onClick={() => setSelectedCategory(category)}
-                      className={`w-full flex items-center justify-between text-[15px] py-1 transition-colors ${
-                        selectedCategory === category
-                          ? "text-[#C75B2A] font-medium"
-                          : "text-[#C75B2A]/90 hover:text-[#C75B2A]"
-                      }`}
-                    >
-                      <span className="font-serif">{category}</span>
-                      <div className="flex items-center gap-2">
-                        <span className="inline-flex items-center justify-center min-w-[36px] h-6 px-2 rounded-full bg-[#F4F3EC] text-[#C75B2A] text-xs font-medium">
-                          {categoryCounts[category]}
-                        </span>
-                        <ChevronDown className="h-3 w-3 text-[#C75B2A]" />
+              <h3 className="font-baskerville text-[24px] font-normal text-[#333333] mb-4 pb-3 border-b border-[#E5E1D8]">
+                Categories
+              </h3>
+              {categories.length > 0 ? (
+                <ul className="space-y-1">
+                  {categories.map((category) => (
+                    <li key={category}>
+                      <div className="flex items-center justify-between">
+                        <button
+                          onClick={() => setSelectedCategory(category)}
+                          className={cn(
+                            "text-left font-baskerville text-[15px] py-2 transition-colors font-normal hover:text-[#C75B2A]",
+                            selectedCategory === category ? "text-[#C75B2A]" : "text-[#C5A374]",
+                          )}
+                        >
+                          {category}
+                        </button>
+                        <div className="flex items-center gap-2">
+                          <span className="bg-[#F1EFEA] rounded-full px-3 py-1 min-w-[44px] text-center font-baskerville text-xs text-[#555555]">
+                            {categoryCounts[category]}
+                          </span>
+                          <span className="p-0.5 w-5 h-5 invisible" aria-hidden="true" />
+                        </div>
                       </div>
-                    </button>
-                  </li>
-                ))}
-              </ul>
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <p className="text-sm text-muted-foreground">Loading categories...</p>
+              )}
             </div>
           </aside>
 
