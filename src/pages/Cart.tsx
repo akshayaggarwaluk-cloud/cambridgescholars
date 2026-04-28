@@ -136,7 +136,7 @@ export default function Cart() {
        <main className="pb-16 bg-white">
         <div className="container-wide py-12 bg-white">
           {/* Table header */}
-          <div className="grid grid-cols-[1fr_120px_180px_140px_60px] gap-6 pb-5 border-b border-black items-center">
+          <div className="grid grid-cols-[1fr_120px_180px_140px_60px] gap-6 pb-5 items-center">
             <div className="uppercase text-[#333333] tracking-wider text-sm" style={{ fontFamily: '"Nunito Sans", sans-serif', fontWeight: 800 }}>Product</div>
             <div className="uppercase text-[#333333] tracking-wider text-sm text-center relative -left-5" style={{ fontFamily: '"Nunito Sans", sans-serif', fontWeight: 800 }}>Price</div>
             <div className="uppercase text-[#333333] tracking-wider text-sm text-center relative -left-5" style={{ fontFamily: '"Nunito Sans", sans-serif', fontWeight: 800 }}>Quantity</div>
