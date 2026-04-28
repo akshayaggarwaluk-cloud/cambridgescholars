@@ -12,6 +12,7 @@ export interface CartContextType {
   cartSubtotal: number;
   shipping: number | null;
   shippingRequiresQuote: boolean;
+  deliveryEstimate: string | null;
   shippingCountry: string;
   setShippingCountry: (country: string) => void;
   loading: boolean;

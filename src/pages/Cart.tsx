@@ -17,6 +17,7 @@ export default function Cart() {
     cartTotal,
     cartSubtotal,
     discount,
+    deliveryEstimate,
   } = useCart();
 
   // Draft quantities (local edits, only committed when UPDATE CART is pressed).
@@ -248,6 +249,13 @@ export default function Cart() {
                 £{(cartSubtotal - (discount ?? 0)).toFixed(2)}
               </span>
             </div>
+
+            {deliveryEstimate && (
+              <div className="flex justify-between items-center pt-2 text-sm">
+                <span className="text-muted-foreground">Estimated delivery</span>
+                <span className="text-[#333333] font-normal">{deliveryEstimate}</span>
+              </div>
+            )}
           </div>
 
           <div className="border-t border-border mt-8"></div>
