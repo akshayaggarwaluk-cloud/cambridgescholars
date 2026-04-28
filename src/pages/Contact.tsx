@@ -88,7 +88,7 @@ export default function Contact() {
               {contactInfo.map((info) => (
                 <div key={info.title}>
                   <div className="flex items-center gap-3 mb-2">
-                    <info.icon className="h-6 w-6 text-mustard shrink-0" />
+                    <info.icon className="h-6 w-6 text-[#C75B2A] shrink-0" />
                     <h3 className="font-semibold text-xl tracking-wider">{info.title}</h3>
                   </div>
                   <p style={{ fontFamily: '"Libre Baskerville", serif', fontSize: "15px", color: "#7E7E7E" }}>{info.content}</p>
