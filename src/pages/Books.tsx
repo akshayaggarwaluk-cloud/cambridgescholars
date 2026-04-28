@@ -81,6 +81,31 @@ export default function Books() {
       .catch(() => setCategories([]));
   }, []);
 
+  // Auto-expand ancestors of selected category so it stays visible in the sidebar
+  useEffect(() => {
+    if (!categories.length || !selectedCategory || selectedCategory === "all") return;
+    const ancestors: string[] = [];
+    const findPath = (list: CSPCategory[], trail: string[]): boolean => {
+      for (const c of list) {
+        const newTrail = [...trail, c.slug];
+        if (c.slug === selectedCategory) {
+          ancestors.push(...trail);
+          return true;
+        }
+        if (c.subcategories && findPath(c.subcategories, newTrail)) return true;
+      }
+      return false;
+    };
+    findPath(categories, []);
+    if (ancestors.length) {
+      setExpandedCats((prev) => {
+        const next = new Set(prev);
+        ancestors.forEach((s) => next.add(s));
+        return next;
+      });
+    }
+  }, [categories, selectedCategory]);
+
   // Sync with URL params
   useEffect(() => {
     const search = searchParams.get("search") || "";
