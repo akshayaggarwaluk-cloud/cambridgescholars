@@ -270,7 +270,7 @@ export default function Cart() {
               </button>
               <Button
                 asChild
-                className="rounded-none tracking-wider normal-case text-sm px-10 py-4 h-auto bg-[#e5573e] text-white border border-[#e5573e] hover:bg-white hover:text-[#e5573e]"
+                className="rounded-none tracking-wider normal-case text-sm px-10 py-4 h-auto bg-[#C75B2A] text-white border border-[#C75B2A] hover:bg-white hover:text-[#C75B2A]"
                 style={{ fontFamily: '"Nunito Sans", sans-serif', fontWeight: 700 }}
               >
                 <Link to="/checkout">PROCEED TO CHECKOUT</Link>
