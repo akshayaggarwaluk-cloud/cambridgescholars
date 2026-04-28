@@ -55,7 +55,20 @@ export default function Books() {
     fetchCategories()
       .then((cats) => {
         const order = ["Social Sciences", "Physical Sciences", "Health Science", "Health Sciences", "Life Sciences", "All Categories"];
-        const sorted = [...cats].sort((a, b) => {
+        // Remove redundant subcategories that duplicate the parent's name/slug
+        const norm = (s: string) => (s || "").trim().toLowerCase();
+        const dedupe = (list: CSPCategory[], parentName?: string, parentSlug?: string): CSPCategory[] =>
+          (list || [])
+            .filter((c) => !(parentName && (norm(c.name) === norm(parentName) || norm(c.slug) === norm(parentSlug || ""))))
+            .map((c) => ({
+              ...c,
+              subcategories: c.subcategories ? dedupe(c.subcategories, c.name, c.slug) : c.subcategories,
+            }));
+        const cleaned = cats.map((c) => ({
+          ...c,
+          subcategories: c.subcategories ? dedupe(c.subcategories, c.name, c.slug) : c.subcategories,
+        }));
+        const sorted = [...cleaned].sort((a, b) => {
           const ai = order.indexOf(a.name);
           const bi = order.indexOf(b.name);
           if (ai === -1 && bi === -1) return 0;
