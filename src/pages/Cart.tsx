@@ -145,11 +145,11 @@ export default function Cart() {
           </div>
 
           {/* Items */}
-          <div className="border-x border-b border-black">
-            {items.map((item) => (
+          <div className="border border-black">
+            {items.map((item, idx) => (
               <div
                 key={`${item.id}_${item.format}`}
-                className="grid grid-cols-[1fr_120px_180px_140px_60px] gap-6 items-center px-6 py-6 border-t border-black"
+                className={`grid grid-cols-[1fr_120px_180px_140px_60px] gap-6 items-center px-6 py-6 ${idx > 0 ? "border-t border-black" : ""}`}
               >
                 {/* Product */}
                 <div className="flex items-center gap-5 min-w-0">
