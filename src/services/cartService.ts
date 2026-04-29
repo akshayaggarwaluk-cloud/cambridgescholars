@@ -72,11 +72,14 @@ export interface CheckoutPayResponse {
   status: "success" | "3ds_required" | "failed";
   order_id?: number | string;
   transaction_id?: string;
-  // 3DS v1 fields (Opayo Direct)
+  // 3DS v1 fields (Opayo Direct, legacy)
   acs_url?: string;
   pa_req?: string;
   md?: string;
   term_url?: string;
+  // 3DS v2 fields (Opayo Direct)
+  c_req?: string | null;
+  three_ds_session_data?: string | null;
   // failure
   reason?: string;
   message?: string;
