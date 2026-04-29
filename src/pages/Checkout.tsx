@@ -782,10 +782,15 @@ export default function Checkout() {
                           <Input
                             id="card-number"
                             value={card.number}
-                            onChange={(e) => setCard({ ...card, number: e.target.value })}
+                            onChange={(e) => {
+                              const digits = e.target.value.replace(/\D/g, "").slice(0, 16);
+                              const formatted = digits.replace(/(.{4})/g, "$1 ").trim();
+                              setCard({ ...card, number: formatted });
+                            }}
                             placeholder="•••• •••• •••• ••••"
                             autoComplete="cc-number"
                             inputMode="numeric"
+                            maxLength={19}
                             className="h-9 rounded-none border-[#d8d6cd] bg-white focus-visible:ring-0 focus-visible:border-[#C75B2A]"
                           />
                         </div>
@@ -795,10 +800,17 @@ export default function Checkout() {
                             <Input
                               id="card-expiry"
                               value={card.expiry}
-                              onChange={(e) => setCard({ ...card, expiry: e.target.value })}
+                              onChange={(e) => {
+                                let digits = e.target.value.replace(/\D/g, "").slice(0, 4);
+                                if (digits.length >= 3) {
+                                  digits = `${digits.slice(0, 2)}/${digits.slice(2)}`;
+                                }
+                                setCard({ ...card, expiry: digits });
+                              }}
                               placeholder="MM / YY"
                               autoComplete="cc-exp"
                               inputMode="numeric"
+                              maxLength={5}
                               className="h-9 rounded-none border-[#d8d6cd] bg-white focus-visible:ring-0 focus-visible:border-[#C75B2A]"
                             />
                           </div>
@@ -807,10 +819,11 @@ export default function Checkout() {
                             <Input
                               id="card-cvc"
                               value={card.cvc}
-                              onChange={(e) => setCard({ ...card, cvc: e.target.value })}
+                              onChange={(e) => setCard({ ...card, cvc: e.target.value.replace(/\D/g, "").slice(0, 4) })}
                               placeholder="CVC"
                               autoComplete="cc-csc"
                               inputMode="numeric"
+                              maxLength={4}
                               className="h-9 rounded-none border-[#d8d6cd] bg-white focus-visible:ring-0 focus-visible:border-[#C75B2A]"
                             />
                           </div>
