@@ -443,12 +443,10 @@ export default function Checkout() {
           : billing;
       const expiryDigits = card.expiry.replace(/\D/g, "").slice(0, 4);
       const payload: CheckoutPayRequest = {
-        card: {
-          cardholder_name: cardholder.trim(),
-          card_number: card.number.replace(/\s|-/g, ""),
-          expiry_date: expiryDigits,
-          security_code: card.cvc.replace(/\D/g, ""),
-        },
+        cardholder_name: cardholder.trim(),
+        card_number: card.number.replace(/\s|-/g, ""),
+        expiry_date: expiryDigits,
+        security_code: card.cvc.replace(/\D/g, ""),
         customer: {
           first_name: isEbookOnly ? billing.firstName : shipping.firstName,
           last_name: isEbookOnly ? billing.lastName : shipping.lastName,
