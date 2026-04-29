@@ -1,1 +1,4 @@
 project_id = "wmcdqvlsfscayoutlhpg"
+
+[functions.checkout-proxy]
+verify_jwt = false
