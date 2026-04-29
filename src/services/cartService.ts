@@ -51,6 +51,12 @@ export interface CartResponse {
   coupon_eligible_isbns?: string[] | null;
   /** Optional list of binding types the coupon is restricted to. */
   coupon_eligible_bindings?: string[] | null;
+  /**
+   * Singular binding restriction returned by the upstream CSP CMS API
+   * (`coupon_binding` or `binding`). Mapped into `coupon_eligible_bindings`
+   * by the cart context.
+   */
+  coupon_binding?: string | null;
 }
 
 /**

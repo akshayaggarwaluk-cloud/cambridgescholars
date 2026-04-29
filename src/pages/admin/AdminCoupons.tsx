@@ -14,8 +14,8 @@ type EditState = {
   max_uses: number | "";
   expires_at: string; // datetime-local string ("" = no expiry)
   active: boolean;
-  /** Empty array = applies to all bindings. */
-  bindings: BindingType[];
+  /** `null` = applies to all bindings. */
+  binding: BindingType | null;
 };
 
 type BindingType = "hardback" | "paperback" | "ebook";
@@ -34,7 +34,7 @@ const empty: EditState = {
   max_uses: "",
   expires_at: "",
   active: true,
-  bindings: [],
+  binding: null,
 };
 
 type ActiveFilter = "all" | "active" | "inactive";
@@ -66,11 +66,10 @@ function couponToEdit(c: CmsCoupon): EditState {
     max_uses: c.max_uses ?? "",
     expires_at: toLocalInputValue(c.expires_at),
     active: c.active,
-    bindings: Array.isArray(c.bindings)
-      ? (c.bindings.filter((b) =>
-          (ALL_BINDINGS as { value: string }[]).some((x) => x.value === b),
-        ) as BindingType[])
-      : [],
+    binding:
+      c.binding && (ALL_BINDINGS as { value: string }[]).some((x) => x.value === c.binding)
+        ? (c.binding as BindingType)
+        : null,
   };
 }
 
@@ -122,8 +121,9 @@ export default function AdminCoupons() {
         max_uses: editing.max_uses === "" ? null : Number(editing.max_uses),
         expires_at: toIsoFromInput(editing.expires_at),
         active: editing.active,
-        // Empty array signals "all bindings" to the API.
-        bindings: editing.bindings,
+        // `null` signals "all bindings" to the API. The upstream CSP CMS
+        // API uses a singular `binding` field (one of hardback / paperback / ebook).
+        binding: editing.binding,
       };
       if (editing._new) {
         await adminApi.createCoupon(payload);
@@ -294,40 +294,44 @@ export default function AdminCoupons() {
             </Field>
           </div>
 
-          <Field label="Applies to bindings (leave all unchecked = all bindings)">
-            <div className="flex flex-wrap gap-3 pt-1">
+          <Field label="Applies to binding">
+            <div className="flex flex-wrap gap-2 pt-1">
+              {/* "All" option — sends binding: null */}
+              <button
+                type="button"
+                onClick={() => setEditing({ ...editing, binding: null })}
+                className={
+                  "px-3 py-1.5 border text-sm select-none " +
+                  (editing.binding === null
+                    ? "border-accent bg-accent/5 text-accent"
+                    : "border-border text-foreground hover:border-foreground/50")
+                }
+              >
+                All bindings
+              </button>
               {ALL_BINDINGS.map(({ value, label }) => {
-                const checked = editing.bindings.includes(value);
+                const selected = editing.binding === value;
                 return (
-                  <label
+                  <button
+                    type="button"
                     key={value}
+                    onClick={() => setEditing({ ...editing, binding: value })}
                     className={
-                      "inline-flex items-center gap-2 px-3 py-1.5 border text-sm cursor-pointer select-none " +
-                      (checked
+                      "px-3 py-1.5 border text-sm select-none " +
+                      (selected
                         ? "border-accent bg-accent/5 text-accent"
                         : "border-border text-foreground hover:border-foreground/50")
                     }
                   >
-                    <input
-                      type="checkbox"
-                      checked={checked}
-                      onChange={(e) => {
-                        const next = e.target.checked
-                          ? [...editing.bindings, value]
-                          : editing.bindings.filter((b) => b !== value);
-                        setEditing({ ...editing, bindings: next });
-                      }}
-                      className="accent-[#C75B2A]"
-                    />
                     {label}
-                  </label>
+                  </button>
                 );
               })}
             </div>
             <p className="text-xs text-muted-foreground mt-2">
-              When one or more bindings are selected, the coupon only discounts
-              cart items in those bindings (e.g. tick "Paperback" to limit the
-              coupon to paperback purchases only).
+              Restrict the coupon to a single binding (e.g. <strong>Paperback</strong>
+              to limit it to paperback purchases). Choose <strong>All bindings</strong>
+              to apply the coupon to every cart item.
             </p>
           </Field>
 
@@ -380,17 +384,10 @@ export default function AdminCoupons() {
                   <td className="px-3 py-2">{formatDiscount(c)}</td>
                   <td className="px-3 py-2">{c.min_order_gbp ? `£${c.min_order_gbp.toFixed(2)}` : "—"}</td>
                   <td className="px-3 py-2">
-                    {c.bindings && c.bindings.length > 0 ? (
-                      <div className="flex flex-wrap gap-1">
-                        {c.bindings.map((b) => (
-                          <span
-                            key={b}
-                            className="text-[10px] uppercase tracking-wider px-1.5 py-0.5 bg-accent/10 text-accent"
-                          >
-                            {b}
-                          </span>
-                        ))}
-                      </div>
+                    {c.binding ? (
+                      <span className="text-[10px] uppercase tracking-wider px-1.5 py-0.5 bg-accent/10 text-accent">
+                        {c.binding}
+                      </span>
                     ) : (
                       <span className="text-xs text-muted-foreground">All</span>
                     )}
