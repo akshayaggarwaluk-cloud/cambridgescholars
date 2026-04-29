@@ -535,7 +535,11 @@ export default function Checkout() {
     `£${n.toFixed(2)}`;
 
   // Determine if a given cart item is covered by the currently-applied coupon.
-  // Priority: explicit eligible ISBNs > eligible bindings > all items (no restriction).
+  // Priority: explicit eligible ISBNs > eligible bindings.
+  // If the backend provides no restriction info, we cannot know which items
+  // the coupon applies to — return false so we don't mislabel ineligible
+  // items (e.g. showing "Coupon applied" on a hardback when the coupon is
+  // paperback-only).
   const isCouponEligible = (item: typeof items[number]): boolean => {
     if (!couponCode) return false;
     const eligibleIsbns = couponEligibleIsbns ?? [];
@@ -550,8 +554,8 @@ export default function Checkout() {
       const fmt = item.format === "hardbook" ? "hardback" : item.format;
       return eligibleBindings.includes(fmt);
     }
-    // No restriction info — coupon applies to whole cart.
-    return true;
+    // No restriction info from backend — don't show per-item badge.
+    return false;
   };
 
   return (
