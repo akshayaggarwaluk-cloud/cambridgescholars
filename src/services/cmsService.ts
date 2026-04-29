@@ -225,6 +225,12 @@ export interface CmsCoupon {
   expires_at: string | null;
   active: boolean;
   created_at: string;
+  /**
+   * Restrict the coupon to specific book bindings. Empty array (or null)
+   * means the coupon applies to every binding in the cart.
+   * Allowed values: "hardback", "paperback", "ebook".
+   */
+  bindings?: string[] | null;
 }
 
 export interface CmsPagination {
@@ -710,6 +716,7 @@ export const adminApi = {
     max_uses?: number | null;
     expires_at?: string | null;
     active?: boolean;
+    bindings?: string[] | null;
   }) =>
     callExternalCms<{ data: CmsCoupon }>("/coupons", {
       method: "POST",
@@ -723,6 +730,7 @@ export const adminApi = {
     max_uses: number | null;
     expires_at: string | null;
     active: boolean;
+    bindings: string[] | null;
   }>) =>
     callExternalCms<{ data: CmsCoupon }>(`/coupons/${id}`, {
       method: "PUT",

@@ -14,7 +14,16 @@ type EditState = {
   max_uses: number | "";
   expires_at: string; // datetime-local string ("" = no expiry)
   active: boolean;
+  /** Empty array = applies to all bindings. */
+  bindings: BindingType[];
 };
+
+type BindingType = "hardback" | "paperback" | "ebook";
+const ALL_BINDINGS: { value: BindingType; label: string }[] = [
+  { value: "hardback", label: "Hardback" },
+  { value: "paperback", label: "Paperback" },
+  { value: "ebook", label: "Ebook" },
+];
 
 const empty: EditState = {
   _new: true,
@@ -25,6 +34,7 @@ const empty: EditState = {
   max_uses: "",
   expires_at: "",
   active: true,
+  bindings: [],
 };
 
 type ActiveFilter = "all" | "active" | "inactive";
@@ -56,6 +66,11 @@ function couponToEdit(c: CmsCoupon): EditState {
     max_uses: c.max_uses ?? "",
     expires_at: toLocalInputValue(c.expires_at),
     active: c.active,
+    bindings: Array.isArray(c.bindings)
+      ? (c.bindings.filter((b) =>
+          (ALL_BINDINGS as { value: string }[]).some((x) => x.value === b),
+        ) as BindingType[])
+      : [],
   };
 }
 
@@ -107,6 +122,8 @@ export default function AdminCoupons() {
         max_uses: editing.max_uses === "" ? null : Number(editing.max_uses),
         expires_at: toIsoFromInput(editing.expires_at),
         active: editing.active,
+        // Empty array signals "all bindings" to the API.
+        bindings: editing.bindings,
       };
       if (editing._new) {
         await adminApi.createCoupon(payload);
@@ -277,6 +294,43 @@ export default function AdminCoupons() {
             </Field>
           </div>
 
+          <Field label="Applies to bindings (leave all unchecked = all bindings)">
+            <div className="flex flex-wrap gap-3 pt-1">
+              {ALL_BINDINGS.map(({ value, label }) => {
+                const checked = editing.bindings.includes(value);
+                return (
+                  <label
+                    key={value}
+                    className={
+                      "inline-flex items-center gap-2 px-3 py-1.5 border text-sm cursor-pointer select-none " +
+                      (checked
+                        ? "border-accent bg-accent/5 text-accent"
+                        : "border-border text-foreground hover:border-foreground/50")
+                    }
+                  >
+                    <input
+                      type="checkbox"
+                      checked={checked}
+                      onChange={(e) => {
+                        const next = e.target.checked
+                          ? [...editing.bindings, value]
+                          : editing.bindings.filter((b) => b !== value);
+                        setEditing({ ...editing, bindings: next });
+                      }}
+                      className="accent-[#C75B2A]"
+                    />
+                    {label}
+                  </label>
+                );
+              })}
+            </div>
+            <p className="text-xs text-muted-foreground mt-2">
+              When one or more bindings are selected, the coupon only discounts
+              cart items in those bindings (e.g. tick "Paperback" to limit the
+              coupon to paperback purchases only).
+            </p>
+          </Field>
+
           <label className="inline-flex items-center gap-2 text-sm">
             <input
               type="checkbox"
@@ -312,6 +366,7 @@ export default function AdminCoupons() {
                 <th className="px-3 py-2">Code</th>
                 <th className="px-3 py-2">Discount</th>
                 <th className="px-3 py-2">Min order</th>
+                <th className="px-3 py-2">Bindings</th>
                 <th className="px-3 py-2">Uses</th>
                 <th className="px-3 py-2">Expires</th>
                 <th className="px-3 py-2">Status</th>
@@ -324,6 +379,22 @@ export default function AdminCoupons() {
                   <td className="px-3 py-2 font-mono">{c.code}</td>
                   <td className="px-3 py-2">{formatDiscount(c)}</td>
                   <td className="px-3 py-2">{c.min_order_gbp ? `£${c.min_order_gbp.toFixed(2)}` : "—"}</td>
+                  <td className="px-3 py-2">
+                    {c.bindings && c.bindings.length > 0 ? (
+                      <div className="flex flex-wrap gap-1">
+                        {c.bindings.map((b) => (
+                          <span
+                            key={b}
+                            className="text-[10px] uppercase tracking-wider px-1.5 py-0.5 bg-accent/10 text-accent"
+                          >
+                            {b}
+                          </span>
+                        ))}
+                      </div>
+                    ) : (
+                      <span className="text-xs text-muted-foreground">All</span>
+                    )}
+                  </td>
                   <td className="px-3 py-2">
                     {c.uses_count}{c.max_uses ? ` / ${c.max_uses}` : ""}
                   </td>
