@@ -14,7 +14,16 @@ type EditState = {
   max_uses: number | "";
   expires_at: string; // datetime-local string ("" = no expiry)
   active: boolean;
+  /** Empty array = applies to all bindings. */
+  bindings: BindingType[];
 };
+
+type BindingType = "hardback" | "paperback" | "ebook";
+const ALL_BINDINGS: { value: BindingType; label: string }[] = [
+  { value: "hardback", label: "Hardback" },
+  { value: "paperback", label: "Paperback" },
+  { value: "ebook", label: "Ebook" },
+];
 
 const empty: EditState = {
   _new: true,
@@ -25,6 +34,7 @@ const empty: EditState = {
   max_uses: "",
   expires_at: "",
   active: true,
+  bindings: [],
 };
 
 type ActiveFilter = "all" | "active" | "inactive";
@@ -56,6 +66,11 @@ function couponToEdit(c: CmsCoupon): EditState {
     max_uses: c.max_uses ?? "",
     expires_at: toLocalInputValue(c.expires_at),
     active: c.active,
+    bindings: Array.isArray(c.bindings)
+      ? (c.bindings.filter((b) =>
+          (ALL_BINDINGS as { value: string }[]).some((x) => x.value === b),
+        ) as BindingType[])
+      : [],
   };
 }
 
@@ -107,6 +122,8 @@ export default function AdminCoupons() {
         max_uses: editing.max_uses === "" ? null : Number(editing.max_uses),
         expires_at: toIsoFromInput(editing.expires_at),
         active: editing.active,
+        // Empty array signals "all bindings" to the API.
+        bindings: editing.bindings,
       };
       if (editing._new) {
         await adminApi.createCoupon(payload);
