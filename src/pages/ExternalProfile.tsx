@@ -158,7 +158,7 @@ export default function ExternalProfile() {
       const mapped: Order[] = (res?.orders || []).map((o) => ({
         id: o.id,
         status: o.status,
-        total: o.total_amount,
+        total: Number(o.total_amount) || 0,
         created_at: o.created_at,
       }));
       setOrders(mapped);
@@ -424,7 +424,7 @@ export default function ExternalProfile() {
                   })}
                 </div>
                 <div>{statusLabel}</div>
-                <div>£{order.total.toFixed(2)}</div>
+                <div>£{(Number(order.total) || 0).toFixed(2)}</div>
                 <div className="flex justify-end">
                   <div className="bg-[#E4573D] flex items-center">
                     {isPending && (
