@@ -9,7 +9,7 @@ import Books from "@/pages/Books";
 import BookDetails from "@/pages/BookDetails";
 import Cart from "@/pages/Cart";
 import Checkout from "@/pages/Checkout";
-import Checkout3dsReturn from "@/pages/Checkout3dsReturn";
+import CheckoutResult from "@/pages/CheckoutResult";
 import About from "@/pages/About";
 import Contact from "@/pages/Contact";
 import Auth from "@/pages/Auth";
@@ -69,7 +69,7 @@ export function AnimatedRoutes() {
         <Route path="/books/:id" element={<PageTransition><BookDetails /></PageTransition>} />
         <Route path="/cart" element={<PageTransition><Cart /></PageTransition>} />
         <Route path="/checkout" element={<PageTransition><ProtectedRoute><Checkout /></ProtectedRoute></PageTransition>} />
-        <Route path="/checkout/3ds-return" element={<PageTransition><ProtectedRoute><Checkout3dsReturn /></ProtectedRoute></PageTransition>} />
+        <Route path="/checkout/result" element={<PageTransition><CheckoutResult /></PageTransition>} />
         <Route path="/about" element={<PageTransition><About /></PageTransition>} />
         <Route path="/contact" element={<PageTransition><Contact /></PageTransition>} />
         <Route path="/auth" element={<PageTransition><Auth /></PageTransition>} />
