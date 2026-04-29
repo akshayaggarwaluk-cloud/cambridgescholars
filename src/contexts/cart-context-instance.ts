@@ -18,6 +18,8 @@ export interface CartContextType {
   loading: boolean;
   couponCode?: string | null;
   discount?: number | null;
+  couponEligibleIsbns?: string[];
+  couponEligibleBindings?: string[];
   applyCoupon: (code: string) => Promise<void>;
   removeCoupon: () => Promise<void>;
 }

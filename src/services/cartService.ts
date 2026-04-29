@@ -43,6 +43,14 @@ export interface CartResponse {
   shipping_requires_quote?: boolean | null;
   delivery_estimate?: string | null;
   total_gbp?: number | null;
+  /**
+   * ISBNs of cart items the currently-applied coupon discounts. When the
+   * coupon is restricted by binding (e.g. paperback only) the backend
+   * returns the matching items here so the UI can badge them.
+   */
+  coupon_eligible_isbns?: string[] | null;
+  /** Optional list of binding types the coupon is restricted to. */
+  coupon_eligible_bindings?: string[] | null;
 }
 
 /**

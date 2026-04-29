@@ -217,6 +217,8 @@ export default function Checkout() {
     deliveryEstimate,
     couponCode,
     discount,
+    couponEligibleIsbns,
+    couponEligibleBindings,
     applyCoupon,
     removeCoupon,
     clearCart,
@@ -232,6 +234,7 @@ export default function Checkout() {
   const [showCoupon, setShowCoupon] = useState(false);
   const [couponInput, setCouponInput] = useState("");
   const [couponBusy, setCouponBusy] = useState(false);
+  const [couponError, setCouponError] = useState<string | null>(null);
 
   const [shipping, setShipping] = useState<AddressData>({
     ...emptyAddress,
@@ -382,12 +385,17 @@ export default function Checkout() {
   const handleApplyCoupon = async () => {
     if (!couponInput.trim()) return;
     setCouponBusy(true);
+    setCouponError(null);
     try {
       await applyCoupon(couponInput.trim());
       setCouponInput("");
       setShowCoupon(false);
-    } catch {
-      /* toast handled by context */
+    } catch (e) {
+      setCouponError(
+        e instanceof Error && e.message
+          ? e.message
+          : "This coupon could not be applied to your cart.",
+      );
     } finally {
       setCouponBusy(false);
     }
@@ -395,6 +403,7 @@ export default function Checkout() {
 
   const handleRemoveCoupon = async () => {
     setCouponBusy(true);
+    setCouponError(null);
     try {
       await removeCoupon();
     } finally {
@@ -525,6 +534,26 @@ export default function Checkout() {
   const moneyGBP = (n: number) =>
     `£${n.toFixed(2)}`;
 
+  // Determine if a given cart item is covered by the currently-applied coupon.
+  // Priority: explicit eligible ISBNs > eligible bindings > all items (no restriction).
+  const isCouponEligible = (item: typeof items[number]): boolean => {
+    if (!couponCode) return false;
+    const eligibleIsbns = couponEligibleIsbns ?? [];
+    if (eligibleIsbns.length > 0) {
+      const itemIsbn = (item.isbn || item.id || "")
+        .replace(/[^0-9Xx]/g, "")
+        .toUpperCase();
+      return eligibleIsbns.includes(itemIsbn);
+    }
+    const eligibleBindings = couponEligibleBindings ?? [];
+    if (eligibleBindings.length > 0) {
+      const fmt = item.format === "hardbook" ? "hardback" : item.format;
+      return eligibleBindings.includes(fmt);
+    }
+    // No restriction info — coupon applies to whole cart.
+    return true;
+  };
+
   return (
     <div className="min-h-screen bg-white">
       <Header />
@@ -557,7 +586,10 @@ export default function Checkout() {
               <div className="mt-4 border border-[#d8d6cd] bg-white p-6">
                 <Input
                   value={couponInput}
-                  onChange={(e) => setCouponInput(e.target.value)}
+                  onChange={(e) => {
+                    setCouponInput(e.target.value);
+                    if (couponError) setCouponError(null);
+                  }}
                   onKeyDown={(e) => {
                     if (e.key === "Enter") {
                       e.preventDefault();
@@ -566,8 +598,21 @@ export default function Checkout() {
                   }}
                   placeholder="Coupon code"
                   aria-label="Coupon code"
-                  className="h-9 rounded-none border border-[#1f1f1f] bg-white focus-visible:ring-0 focus-visible:border-[#C75B2A]"
+                  className={`h-9 rounded-none border bg-white focus-visible:ring-0 focus-visible:border-[#C75B2A] ${
+                    couponError ? "border-red-500" : "border-[#1f1f1f]"
+                  }`}
+                  aria-invalid={Boolean(couponError)}
+                  aria-describedby={couponError ? "coupon-error" : undefined}
                 />
+                {couponError && (
+                  <p
+                    id="coupon-error"
+                    role="alert"
+                    className="mt-2 text-[13px] text-red-600 leading-snug"
+                  >
+                    {couponError}
+                  </p>
+                )}
                 <Button
                   type="button"
                   onClick={handleApplyCoupon}
@@ -707,6 +752,14 @@ export default function Checkout() {
                         <p className="text-[13px] text-[#333333]">
                           <strong>ISBN:</strong> {item.isbn}
                         </p>
+                      )}
+                      {couponCode && isCouponEligible(item) && (
+                        <span
+                          className="inline-block mt-1 px-2 py-[2px] text-[11px] font-semibold uppercase tracking-wider bg-[#0a7a3b] text-white"
+                          title={`Coupon ${couponCode} applied to this item`}
+                        >
+                          Coupon applied
+                        </span>
                       )}
                     </div>
                   ))}

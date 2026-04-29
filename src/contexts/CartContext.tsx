@@ -152,6 +152,8 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const [loading, setLoading] = useState(true);
   const [couponCode, setCouponCode] = useState<string | null>(null);
   const [discount, setDiscount] = useState<number | null>(null);
+  const [couponEligibleIsbns, setCouponEligibleIsbns] = useState<string[]>([]);
+  const [couponEligibleBindings, setCouponEligibleBindings] = useState<string[]>([]);
   const [serverTotal, setServerTotal] = useState<number | null>(null);
   const [serverSubtotal, setServerSubtotal] = useState<number | null>(null);
   const [shipping, setShipping] = useState<number | null>(null);
@@ -181,6 +183,16 @@ export function CartProvider({ children }: { children: ReactNode }) {
     setItems(next);
     setCouponCode(res.coupon_code ?? null);
     setDiscount(res.discount_gbp ?? null);
+    setCouponEligibleIsbns(
+      Array.isArray(res.coupon_eligible_isbns)
+        ? res.coupon_eligible_isbns.map((s) => String(s).replace(/[^0-9Xx]/g, "").toUpperCase())
+        : [],
+    );
+    setCouponEligibleBindings(
+      Array.isArray(res.coupon_eligible_bindings)
+        ? res.coupon_eligible_bindings.map((s) => String(s).toLowerCase())
+        : [],
+    );
     setServerTotal(res.total_gbp ?? res.subtotal_gbp ?? null);
     setServerSubtotal(res.subtotal_gbp ?? null);
     setShipping(res.shipping_gbp ?? null);
@@ -304,7 +316,6 @@ export function CartProvider({ children }: { children: ReactNode }) {
       applyResponse(res);
       toast.success("Coupon applied");
     } catch (e) {
-      toast.error(e instanceof Error ? e.message : "Invalid coupon");
       throw e;
     }
   }, [applyResponse]);
@@ -343,6 +354,8 @@ export function CartProvider({ children }: { children: ReactNode }) {
         loading,
         couponCode,
         discount,
+        couponEligibleIsbns,
+        couponEligibleBindings,
         applyCoupon,
         removeCoupon: removeCouponHandler,
       }}
