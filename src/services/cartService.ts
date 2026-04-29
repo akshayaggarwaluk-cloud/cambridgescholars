@@ -46,29 +46,26 @@ export interface CartResponse {
 }
 
 /**
- * Card details sent directly to Opayo Direct via the CSP backend.
- * The backend is the PCI-compliant intermediary — see API spec
- * /api/website/checkout/pay.
- *
- * Card fields are sent at the TOP LEVEL of the body using Opayo Direct's
- * native naming convention (cardholder_name / card_number / expiry_date /
- * security_code). The backend rejected a nested `card` object with
- * "Card details are required".
+ * Request body for POST /api/website/checkout/pay — exact shape per the
+ * CSP OpenAPI spec (CheckoutPayRequest schema). All fields are flat (no
+ * nested `card` / `customer` / `billing_address` objects), and the country
+ * is an ISO 3166-1 alpha-2 code (e.g. "GB", "IN").
  */
+export type OpayoCardType = "VISA" | "MC" | "AMEX" | "MAESTRO" | "DISCOVER" | "DC";
+
 export interface CheckoutPayRequest {
-  cardholder_name: string;
+  card_holder: string;
   card_number: string;
-  expiry_date: string; // MMYY
-  security_code: string;
-  customer: {
-    first_name: string;
-    last_name: string;
-    email: string;
-    phone?: string;
-  };
-  billing_address: Record<string, string | undefined>;
-  shipping_address?: Record<string, string | undefined>;
-  notes?: string;
+  card_expiry: string; // MMYY
+  card_cv2: string;
+  card_type: OpayoCardType;
+  billing_first_name: string;
+  billing_last_name: string;
+  billing_address_1: string;
+  billing_city: string;
+  billing_postcode: string;
+  billing_country?: string; // ISO alpha-2, default "GB"
+  customer_note?: string | null;
 }
 
 export interface CheckoutPayResponse {
