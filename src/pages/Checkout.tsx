@@ -753,6 +753,14 @@ export default function Checkout() {
                           <strong>ISBN:</strong> {item.isbn}
                         </p>
                       )}
+                      {couponCode && isCouponEligible(item) && (
+                        <span
+                          className="inline-block mt-1 px-2 py-[2px] text-[11px] font-semibold uppercase tracking-wider bg-[#0a7a3b] text-white"
+                          title={`Coupon ${couponCode} applied to this item`}
+                        >
+                          Coupon applied
+                        </span>
+                      )}
                     </div>
                   ))}
 
