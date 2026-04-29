@@ -17,6 +17,14 @@ const API_BASE =
   (import.meta.env.VITE_CSP_API_BASE as string | undefined) ||
   "https://api.cambridgescholars.com/api/website";
 
+// Checkout calls go through a Supabase edge function proxy to bypass
+// browser CORS restrictions on api.cambridgescholars.com. The proxy
+// forwards Authorization + X-Cart-Token headers verbatim to the upstream
+// /api/website/checkout/* endpoints.
+const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL as string;
+const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY as string;
+const CHECKOUT_PROXY_BASE = `${SUPABASE_URL}/functions/v1/checkout-proxy`;
+
 // ─── Types ──────────────────────────────────────────────────────
 
 export interface CartItem {
@@ -199,12 +207,59 @@ export async function mergeCart(): Promise<CartResponse> {
 
 // ─── Checkout API (Opayo Pi) ────────────────────────────────────
 
+async function callCheckoutProxy<T>(
+  action: "merchant-session-key" | "pay" | "3ds-complete",
+  init: RequestInit = {},
+): Promise<T> {
+  const token = getAccessToken();
+  const cartToken = getCartToken();
+
+  const headers: Record<string, string> = {
+    "Content-Type": "application/json",
+    // Supabase edge functions still expect an apikey for the gateway,
+    // even when verify_jwt is disabled.
+    apikey: SUPABASE_ANON_KEY,
+    ...((init.headers as Record<string, string>) || {}),
+  };
+  if (token) headers["Authorization"] = `Bearer ${token}`;
+  else headers["Authorization"] = `Bearer ${SUPABASE_ANON_KEY}`;
+  if (cartToken) headers["X-Cart-Token"] = cartToken;
+
+  let url = `${CHECKOUT_PROXY_BASE}/${action}`;
+  if (cartToken && !token) {
+    url += `?cart_token=${encodeURIComponent(cartToken)}`;
+  }
+
+  const res = await fetch(url, { ...init, headers });
+  const text = await res.text();
+
+  if (!res.ok) {
+    let msg = `Request failed (${res.status})`;
+    if (text) {
+      try {
+        const p = JSON.parse(text) as ErrorPayload & { detail?: string };
+        msg = p.error || p.detail || p.message || text;
+      } catch {
+        msg = text;
+      }
+    }
+    throw new Error(msg);
+  }
+
+  if (!text) return {} as T;
+  try {
+    return JSON.parse(text) as T;
+  } catch {
+    throw new Error("Invalid response from payment gateway");
+  }
+}
+
 export function getMerchantSessionKey(): Promise<MerchantSessionKeyResponse> {
-  return callCsp<MerchantSessionKeyResponse>("/checkout/merchant-session-key");
+  return callCheckoutProxy<MerchantSessionKeyResponse>("merchant-session-key");
 }
 
 export function checkoutPay(payload: CheckoutPayRequest): Promise<CheckoutPayResponse> {
-  return callCsp<CheckoutPayResponse>("/checkout/pay", {
+  return callCheckoutProxy<CheckoutPayResponse>("pay", {
     method: "POST",
     body: JSON.stringify(payload),
   });
@@ -215,7 +270,7 @@ export function checkout3dsComplete(params: {
   pares?: string;
   cres?: string;
 }): Promise<CheckoutPayResponse> {
-  return callCsp<CheckoutPayResponse>("/checkout/3ds-complete", {
+  return callCheckoutProxy<CheckoutPayResponse>("3ds-complete", {
     method: "POST",
     body: JSON.stringify(params),
   });
