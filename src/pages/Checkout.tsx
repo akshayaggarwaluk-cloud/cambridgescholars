@@ -744,22 +744,33 @@ export default function Checkout() {
                           <span> × </span>
                           <strong className="text-[#333333]">{item.quantity}</strong>
                         </p>
-                        <span className="text-[15px] text-[#7a7a7a] whitespace-nowrap">
-                          {moneyGBP(item.price * item.quantity)}
-                        </span>
+                        {(() => {
+                          const lineTotal = item.price * item.quantity;
+                          const itemDiscount = perItemDiscount(item);
+                          const discounted = Math.max(0, lineTotal - itemDiscount);
+                          if (itemDiscount > 0) {
+                            return (
+                              <span className="text-[15px] whitespace-nowrap flex items-baseline gap-2">
+                                <span className="line-through text-[#9a9a9a]">
+                                  {moneyGBP(lineTotal)}
+                                </span>
+                                <span className="text-[#C75B2A] font-semibold">
+                                  {moneyGBP(discounted)}
+                                </span>
+                              </span>
+                            );
+                          }
+                          return (
+                            <span className="text-[15px] text-[#7a7a7a] whitespace-nowrap">
+                              {moneyGBP(lineTotal)}
+                            </span>
+                          );
+                        })()}
                       </div>
                       {item.isbn && (
                         <p className="text-[13px] text-[#333333]">
                           <strong>ISBN:</strong> {item.isbn}
                         </p>
-                      )}
-                      {couponCode && isCouponEligible(item) && (
-                        <span
-                          className="inline-block mt-1 px-2 py-[2px] text-[11px] font-semibold uppercase tracking-wider bg-[#0a7a3b] text-white"
-                          title={`Coupon ${couponCode} applied to this item`}
-                        >
-                          Coupon applied
-                        </span>
                       )}
                     </div>
                   ))}
