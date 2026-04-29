@@ -1,6 +1,6 @@
 import { useState, useMemo, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { CheckCircle, AlertCircle } from "lucide-react";
+import { CheckCircle, AlertCircle, Check } from "lucide-react";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { PageBreadcrumb } from "@/components/layout/PageBreadcrumb";
@@ -628,19 +628,15 @@ export default function Checkout() {
               </div>
             )}
             {couponCode && (
-              <div className="mt-3 flex items-center gap-3 text-sm text-[#0a7a3b]">
-                <span>
-                  Coupon <strong>{couponCode}</strong> applied
-                  {discount ? ` (−${moneyGBP(discount)})` : ""}.
+              <div
+                role="status"
+                aria-live="polite"
+                className="mt-4 flex items-center gap-3 bg-[#8fae3f] text-white px-6 py-4"
+              >
+                <Check className="h-5 w-5 shrink-0" aria-hidden="true" strokeWidth={3} />
+                <span className="text-[16px] font-semibold">
+                  Coupon code applied successfully.
                 </span>
-                <button
-                  type="button"
-                  onClick={handleRemoveCoupon}
-                  disabled={couponBusy}
-                  className="text-[#C75B2A] hover:underline font-semibold uppercase tracking-wider text-xs disabled:opacity-60"
-                >
-                  Remove
-                </button>
               </div>
             )}
           </div>
@@ -795,6 +791,24 @@ export default function Checkout() {
                         </div>
                       )}
                     </>
+                  )}
+                  {couponCode && (
+                    <div className="flex items-center justify-between py-4 border-b border-[#e3e1d8]">
+                      <span className="text-[15px] text-[#C75B2A] font-semibold">
+                        Coupon: {couponCode}
+                      </span>
+                      <span className="text-[15px] text-[#C75B2A] font-semibold">
+                        −{moneyGBP(discount ?? 0)}{" "}
+                        <button
+                          type="button"
+                          onClick={handleRemoveCoupon}
+                          disabled={couponBusy}
+                          className="ml-1 text-[#C75B2A] hover:underline font-semibold disabled:opacity-60"
+                        >
+                          [Remove]
+                        </button>
+                      </span>
+                    </div>
                   )}
                   <div className="flex items-center justify-between py-5 border-b border-[#e3e1d8]">
                     <span className="text-[18px] text-[#333333]">Total</span>
