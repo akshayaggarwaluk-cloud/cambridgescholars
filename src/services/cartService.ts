@@ -45,14 +45,18 @@ export interface CartResponse {
   total_gbp?: number | null;
 }
 
-export interface MerchantSessionKeyResponse {
-  merchant_session_key: string;
-  expires_at?: string;
-}
-
+/**
+ * Card details sent directly to Opayo Direct via the CSP backend.
+ * The backend is the PCI-compliant intermediary — see API spec
+ * /api/website/checkout/pay.
+ */
 export interface CheckoutPayRequest {
-  card_identifier: string;
-  merchant_session_key: string;
+  card: {
+    cardholder_name: string;
+    card_number: string;
+    expiry_date: string; // MMYY
+    security_code: string;
+  };
   customer: {
     first_name: string;
     last_name: string;
@@ -61,18 +65,20 @@ export interface CheckoutPayRequest {
   };
   billing_address: Record<string, string | undefined>;
   shipping_address?: Record<string, string | undefined>;
-  save_card?: boolean;
-  browser?: Record<string, string | number | boolean | undefined>;
+  notes?: string;
 }
 
 export interface CheckoutPayResponse {
-  status: "ok" | "3ds_required" | "failed";
+  status: "success" | "3ds_required" | "failed";
   order_id?: number | string;
   transaction_id?: string;
-  redirect_url?: string;
+  // 3DS v1 fields (Opayo Direct)
   acs_url?: string;
-  pareq?: string;
-  cReq?: string;
+  pa_req?: string;
+  md?: string;
+  term_url?: string;
+  // failure
+  reason?: string;
   message?: string;
 }
 
@@ -197,26 +203,23 @@ export async function mergeCart(): Promise<CartResponse> {
   return res;
 }
 
-// ─── Checkout API (Opayo Pi) ────────────────────────────────────
+// ─── Checkout API (Opayo Direct) ────────────────────────────────
+//
+// Two-endpoint flow per the CSP API spec:
+//   1. POST /checkout/pay        → JSON with card details
+//   2. POST /checkout/3ds-callback/{order_id}  → called by the bank's ACS,
+//      not by us. The backend then 302-redirects the browser to
+//      /checkout/result?order_id=X&status=success|failed
+//
+// On `3ds_required` we build an HTML <form> targeting `acs_url` with the
+// fields PaReq, MD, and TermUrl (using `term_url` from the response) and
+// auto-submit it — that takes the customer to their bank's 3DS page.
 
-export function getMerchantSessionKey(): Promise<MerchantSessionKeyResponse> {
-  return callCsp<MerchantSessionKeyResponse>("/checkout/merchant-session-key");
-}
-
-export function checkoutPay(payload: CheckoutPayRequest): Promise<CheckoutPayResponse> {
+export function checkoutPay(
+  payload: CheckoutPayRequest,
+): Promise<CheckoutPayResponse> {
   return callCsp<CheckoutPayResponse>("/checkout/pay", {
     method: "POST",
     body: JSON.stringify(payload),
-  });
-}
-
-export function checkout3dsComplete(params: {
-  transaction_id: string;
-  pares?: string;
-  cres?: string;
-}): Promise<CheckoutPayResponse> {
-  return callCsp<CheckoutPayResponse>("/checkout/3ds-complete", {
-    method: "POST",
-    body: JSON.stringify(params),
   });
 }
