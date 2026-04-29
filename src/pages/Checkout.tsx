@@ -566,7 +566,10 @@ export default function Checkout() {
               <div className="mt-4 border border-[#d8d6cd] bg-white p-6">
                 <Input
                   value={couponInput}
-                  onChange={(e) => setCouponInput(e.target.value)}
+                  onChange={(e) => {
+                    setCouponInput(e.target.value);
+                    if (couponError) setCouponError(null);
+                  }}
                   onKeyDown={(e) => {
                     if (e.key === "Enter") {
                       e.preventDefault();
@@ -575,8 +578,21 @@ export default function Checkout() {
                   }}
                   placeholder="Coupon code"
                   aria-label="Coupon code"
-                  className="h-9 rounded-none border border-[#1f1f1f] bg-white focus-visible:ring-0 focus-visible:border-[#C75B2A]"
+                  className={`h-9 rounded-none border bg-white focus-visible:ring-0 focus-visible:border-[#C75B2A] ${
+                    couponError ? "border-red-500" : "border-[#1f1f1f]"
+                  }`}
+                  aria-invalid={Boolean(couponError)}
+                  aria-describedby={couponError ? "coupon-error" : undefined}
                 />
+                {couponError && (
+                  <p
+                    id="coupon-error"
+                    role="alert"
+                    className="mt-2 text-[13px] text-red-600 leading-snug"
+                  >
+                    {couponError}
+                  </p>
+                )}
                 <Button
                   type="button"
                   onClick={handleApplyCoupon}
