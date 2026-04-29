@@ -217,8 +217,6 @@ export default function Checkout() {
     deliveryEstimate,
     couponCode,
     discount,
-    couponEligibleIsbns,
-    couponEligibleBindings,
     applyCoupon,
     removeCoupon,
     clearCart,
