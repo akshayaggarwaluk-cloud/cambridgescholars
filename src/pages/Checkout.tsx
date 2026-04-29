@@ -534,6 +534,26 @@ export default function Checkout() {
   const moneyGBP = (n: number) =>
     `£${n.toFixed(2)}`;
 
+  // Determine if a given cart item is covered by the currently-applied coupon.
+  // Priority: explicit eligible ISBNs > eligible bindings > all items (no restriction).
+  const isCouponEligible = (item: typeof items[number]): boolean => {
+    if (!couponCode) return false;
+    const eligibleIsbns = couponEligibleIsbns ?? [];
+    if (eligibleIsbns.length > 0) {
+      const itemIsbn = (item.isbn || item.id || "")
+        .replace(/[^0-9Xx]/g, "")
+        .toUpperCase();
+      return eligibleIsbns.includes(itemIsbn);
+    }
+    const eligibleBindings = couponEligibleBindings ?? [];
+    if (eligibleBindings.length > 0) {
+      const fmt = item.format === "hardbook" ? "hardback" : item.format;
+      return eligibleBindings.includes(fmt);
+    }
+    // No restriction info — coupon applies to whole cart.
+    return true;
+  };
+
   return (
     <div className="min-h-screen bg-white">
       <Header />
