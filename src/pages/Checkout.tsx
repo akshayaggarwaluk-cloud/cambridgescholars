@@ -792,6 +792,24 @@ export default function Checkout() {
                       )}
                     </>
                   )}
+                  {couponCode && (
+                    <div className="flex items-center justify-between py-4 border-b border-[#e3e1d8]">
+                      <span className="text-[15px] text-[#C75B2A] font-semibold">
+                        Coupon: {couponCode}
+                      </span>
+                      <span className="text-[15px] text-[#C75B2A] font-semibold">
+                        −{moneyGBP(discount ?? 0)}{" "}
+                        <button
+                          type="button"
+                          onClick={handleRemoveCoupon}
+                          disabled={couponBusy}
+                          className="ml-1 text-[#C75B2A] hover:underline font-semibold disabled:opacity-60"
+                        >
+                          [Remove]
+                        </button>
+                      </span>
+                    </div>
+                  )}
                   <div className="flex items-center justify-between py-5 border-b border-[#e3e1d8]">
                     <span className="text-[18px] text-[#333333]">Total</span>
                     <span className="text-[22px] font-semibold text-[#C75B2A]">
