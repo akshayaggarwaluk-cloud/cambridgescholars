@@ -628,19 +628,15 @@ export default function Checkout() {
               </div>
             )}
             {couponCode && (
-              <div className="mt-3 flex items-center gap-3 text-sm text-[#0a7a3b]">
-                <span>
-                  Coupon <strong>{couponCode}</strong> applied
-                  {discount ? ` (−${moneyGBP(discount)})` : ""}.
+              <div
+                role="status"
+                aria-live="polite"
+                className="mt-4 flex items-center gap-3 bg-[#8fae3f] text-white px-6 py-4"
+              >
+                <Check className="h-5 w-5 shrink-0" aria-hidden="true" strokeWidth={3} />
+                <span className="text-[16px] font-semibold">
+                  Coupon code applied successfully.
                 </span>
-                <button
-                  type="button"
-                  onClick={handleRemoveCoupon}
-                  disabled={couponBusy}
-                  className="text-[#C75B2A] hover:underline font-semibold uppercase tracking-wider text-xs disabled:opacity-60"
-                >
-                  Remove
-                </button>
               </div>
             )}
           </div>
