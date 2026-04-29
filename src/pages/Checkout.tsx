@@ -558,6 +558,21 @@ export default function Checkout() {
     return false;
   };
 
+  // Distribute the total `discount` (from the cart API) across eligible items
+  // proportionally to each item's line subtotal. Upstream restricts a coupon
+  // to a single binding, so all "eligible" items share the same binding group.
+  const eligibleLineTotals = items
+    .filter((it) => isCouponEligible(it))
+    .map((it) => it.price * it.quantity);
+  const eligibleSum = eligibleLineTotals.reduce((a, b) => a + b, 0);
+  const totalDiscount = discount ?? 0;
+  const perItemDiscount = (item: typeof items[number]): number => {
+    if (!couponCode || totalDiscount <= 0 || eligibleSum <= 0) return 0;
+    if (!isCouponEligible(item)) return 0;
+    const lineTotal = item.price * item.quantity;
+    return (lineTotal / eligibleSum) * totalDiscount;
+  };
+
   return (
     <div className="min-h-screen bg-white">
       <Header />
