@@ -19,12 +19,7 @@ import {
 import { useCart } from "@/contexts/CartContext";
 import { useExternalAuth } from "@/contexts/ExternalAuthContext";
 import { toast } from "sonner";
-import {
-  getMerchantSessionKey,
-  checkoutPay,
-  type CheckoutPayRequest,
-} from "@/services/cartService";
-import { loadOpayoSdk, tokeniseCard } from "@/lib/opayoSdk";
+import { checkoutPay, type CheckoutPayRequest } from "@/services/cartService";
 import { getProfile } from "@/services/accountService";
 
 type AddressData = {
@@ -254,12 +249,6 @@ export default function Checkout() {
   const [card, setCard] = useState({ number: "", expiry: "", cvc: "" });
   const [cardholder, setCardholder] = useState("");
 
-  // Pre-warm the Opayo SDK so card tokenisation is instant when the user
-  // submits the form. Failures are non-fatal; we'll surface them on submit.
-  useEffect(() => {
-    loadOpayoSdk().catch(() => { /* surfaced on submit */ });
-  }, []);
-
   // Pre-fill shipping & billing addresses (and email/phone) from the
   // authenticated customer's saved profile. Falls back silently if the
   // request fails or the user hasn't saved any addresses yet.
@@ -425,17 +414,6 @@ export default function Checkout() {
     phone: a.phone || undefined,
   });
 
-  const collectBrowserInfo = () => ({
-    accept_header: "*/*",
-    user_agent: navigator.userAgent,
-    language: navigator.language,
-    java_enabled: typeof navigator.javaEnabled === "function" ? navigator.javaEnabled() : false,
-    color_depth: window.screen.colorDepth,
-    screen_width: window.screen.width,
-    screen_height: window.screen.height,
-    timezone_offset: new Date().getTimezoneOffset(),
-  });
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (loading) return;
@@ -456,33 +434,21 @@ export default function Checkout() {
 
     setLoading(true);
     try {
-      // 1. Get a fresh Merchant Session Key (~60s lifetime).
-      const msk = await getMerchantSessionKey();
-      if (!msk?.merchant_session_key) {
-        throw new Error("Could not start a secure payment session. Please try again.");
-      }
-
-      // 2. Tokenise the card directly with Opayo from the browser.
-      const tokenised = await tokeniseCard(msk.merchant_session_key, {
-        cardholderName: cardholder,
-        cardNumber: card.number,
-        expiryDate: card.expiry,
-        securityCode: card.cvc,
-      });
-      if (!tokenised.success) {
-        const failure = tokenised as { message: string };
-        throw new Error(failure.message);
-      }
-
-      // 3. Build the /checkout/pay payload.
+      // Build the /checkout/pay payload — card details go directly to the
+      // CSP backend, which forwards to Opayo Direct.
       const billingAddress = isEbookOnly
         ? billing
         : useShippingForBilling
           ? shipping
           : billing;
+      const expiryDigits = card.expiry.replace(/\D/g, "").slice(0, 4);
       const payload: CheckoutPayRequest = {
-        card_identifier: tokenised.cardIdentifier,
-        merchant_session_key: msk.merchant_session_key,
+        card: {
+          cardholder_name: cardholder.trim(),
+          card_number: card.number.replace(/\s|-/g, ""),
+          expiry_date: expiryDigits,
+          security_code: card.cvc.replace(/\D/g, ""),
+        },
         customer: {
           first_name: isEbookOnly ? billing.firstName : shipping.firstName,
           last_name: isEbookOnly ? billing.lastName : shipping.lastName,
@@ -490,32 +456,24 @@ export default function Checkout() {
           phone: (isEbookOnly ? billing.phone : shipping.phone) || undefined,
         },
         billing_address: buildAddressPayload(billingAddress),
-        // Ebook-only orders have no physical shipping; reuse billing address
-        // so the API still receives a value if it requires one.
         shipping_address: buildAddressPayload(isEbookOnly ? billingAddress : shipping),
-        browser: collectBrowserInfo(),
+        notes: orderNotes.trim() || undefined,
       };
 
-      // 4. Submit the order. On 3DS we redirect to the bank's ACS URL.
+      // Submit the order. On 3DS we POST a form to the bank's ACS URL.
       const res = await checkoutPay(payload);
 
       if (res.status === "3ds_required") {
-        const acsUrl = res.acs_url || res.redirect_url;
-        if (!acsUrl) throw new Error("3DS redirect URL missing from response.");
-        if (res.transaction_id) {
-          sessionStorage.setItem("opayo_pending_transaction_id", String(res.transaction_id));
+        const acsUrl = res.acs_url;
+        if (!acsUrl || !res.pa_req || !res.md || !res.term_url) {
+          throw new Error("3DS authentication data missing from response.");
         }
-
-        // 3DS v1 used PaReq + MD; v2 uses cReq. Either is POSTed to the ACS.
-        const termUrl = `${window.location.origin}/checkout/3ds-return`;
-        const fields: Record<string, string> = { TermUrl: termUrl };
-        if (res.pareq) {
-          fields.PaReq = res.pareq;
-          if (res.transaction_id) fields.MD = String(res.transaction_id);
-        }
-        if (res.cReq) {
-          fields.creq = res.cReq;
-        }
+        // 3DS v1 form per Opayo Direct: PaReq + MD + TermUrl POSTed to ACS.
+        const fields: Record<string, string> = {
+          PaReq: res.pa_req,
+          MD: res.md,
+          TermUrl: res.term_url,
+        };
 
         const form = document.createElement("form");
         form.method = "POST";
@@ -532,7 +490,7 @@ export default function Checkout() {
         return; // page will navigate away
       }
 
-      if (res.status === "ok") {
+      if (res.status === "success") {
         try { await clearCart(); } catch { /* ignore */ }
         if (res.order_id != null) setConfirmedOrderId(res.order_id);
         setIsComplete(true);
@@ -540,7 +498,9 @@ export default function Checkout() {
         return;
       }
 
-      throw new Error(res.message || "Payment was not authorised. Please try a different card.");
+      throw new Error(
+        res.reason || res.message || "Payment was not authorised. Please try a different card.",
+      );
     } catch (err) {
       const message = err instanceof Error ? err.message : "Checkout failed. Please try again.";
       toast.error(message);
