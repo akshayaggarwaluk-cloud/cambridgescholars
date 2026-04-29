@@ -465,15 +465,28 @@ export default function Checkout() {
 
       if (res.status === "3ds_required") {
         const acsUrl = res.acs_url;
-        if (!acsUrl || !res.pa_req || !res.md || !res.term_url) {
+        if (!acsUrl) {
           throw new Error("3DS authentication data missing from response.");
         }
-        // 3DS v1 form per Opayo Direct: PaReq + MD + TermUrl POSTed to ACS.
-        const fields: Record<string, string> = {
-          PaReq: res.pa_req,
-          MD: res.md,
-          TermUrl: res.term_url,
-        };
+
+        // Determine 3DS version based on which fields the backend returned.
+        // 3DS v2 (preferred): c_req + optional threeDSSessionData posted to ACS.
+        // 3DS v1 (legacy): PaReq + MD + TermUrl posted to ACS.
+        let fields: Record<string, string>;
+        if (res.c_req) {
+          fields = { creq: res.c_req };
+          if (res.three_ds_session_data) {
+            fields.threeDSSessionData = res.three_ds_session_data;
+          }
+        } else if (res.pa_req && res.md && res.term_url) {
+          fields = {
+            PaReq: res.pa_req,
+            MD: res.md,
+            TermUrl: res.term_url,
+          };
+        } else {
+          throw new Error("3DS authentication data missing from response.");
+        }
 
         const form = document.createElement("form");
         form.method = "POST";
