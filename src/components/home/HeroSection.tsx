@@ -134,12 +134,12 @@ export function HeroSection() {
                 animate="animate"
                 exit="exit"
                 transition={{ duration: 0.6, ease: [0.25, 0.4, 0.25, 1] }}
-                className="h-full w-full flex items-center justify-end"
+                className="h-full w-full flex items-center justify-center lg:justify-end"
               >
                 <img
                   src={activeReview.image}
                   alt={activeReview.bookTitle}
-                  className="h-full w-auto max-w-none object-contain object-right"
+                  className="h-full w-auto max-w-none object-contain object-center lg:object-right"
                 />
               </motion.div>
             </AnimatePresence>
