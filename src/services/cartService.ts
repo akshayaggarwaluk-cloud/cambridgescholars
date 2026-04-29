@@ -49,14 +49,17 @@ export interface CartResponse {
  * Card details sent directly to Opayo Direct via the CSP backend.
  * The backend is the PCI-compliant intermediary — see API spec
  * /api/website/checkout/pay.
+ *
+ * Card fields are sent at the TOP LEVEL of the body using Opayo Direct's
+ * native naming convention (cardholder_name / card_number / expiry_date /
+ * security_code). The backend rejected a nested `card` object with
+ * "Card details are required".
  */
 export interface CheckoutPayRequest {
-  card: {
-    cardholder_name: string;
-    card_number: string;
-    expiry_date: string; // MMYY
-    security_code: string;
-  };
+  cardholder_name: string;
+  card_number: string;
+  expiry_date: string; // MMYY
+  security_code: string;
   customer: {
     first_name: string;
     last_name: string;
