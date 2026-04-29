@@ -217,6 +217,8 @@ export default function Checkout() {
     deliveryEstimate,
     couponCode,
     discount,
+    couponEligibleIsbns,
+    couponEligibleBindings,
     applyCoupon,
     removeCoupon,
     clearCart,
@@ -232,6 +234,7 @@ export default function Checkout() {
   const [showCoupon, setShowCoupon] = useState(false);
   const [couponInput, setCouponInput] = useState("");
   const [couponBusy, setCouponBusy] = useState(false);
+  const [couponError, setCouponError] = useState<string | null>(null);
 
   const [shipping, setShipping] = useState<AddressData>({
     ...emptyAddress,
@@ -382,12 +385,17 @@ export default function Checkout() {
   const handleApplyCoupon = async () => {
     if (!couponInput.trim()) return;
     setCouponBusy(true);
+    setCouponError(null);
     try {
       await applyCoupon(couponInput.trim());
       setCouponInput("");
       setShowCoupon(false);
-    } catch {
-      /* toast handled by context */
+    } catch (e) {
+      setCouponError(
+        e instanceof Error && e.message
+          ? e.message
+          : "This coupon could not be applied to your cart.",
+      );
     } finally {
       setCouponBusy(false);
     }
@@ -395,6 +403,7 @@ export default function Checkout() {
 
   const handleRemoveCoupon = async () => {
     setCouponBusy(true);
+    setCouponError(null);
     try {
       await removeCoupon();
     } finally {
