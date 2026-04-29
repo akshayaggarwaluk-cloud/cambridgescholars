@@ -402,17 +402,20 @@ export default function Checkout() {
     }
   };
 
-  const buildAddressPayload = (a: AddressData) => ({
-    first_name: a.firstName,
-    last_name: a.lastName,
-    address1: a.street1,
-    address2: a.street2 || undefined,
-    city: a.city,
-    state: a.state || undefined,
-    postal_code: a.postcode,
-    country: a.country,
-    phone: a.phone || undefined,
-  });
+  /**
+   * Detect the Opayo `card_type` enum value from the card number's BIN.
+   * The /checkout/pay endpoint requires this — it is NOT optional.
+   */
+  const detectCardType = (raw: string): "VISA" | "MC" | "AMEX" | "MAESTRO" | "DISCOVER" | "DC" => {
+    const n = raw.replace(/\D/g, "");
+    if (/^4/.test(n)) return "VISA";
+    if (/^(5[1-5]|2[2-7])/.test(n)) return "MC";
+    if (/^3[47]/.test(n)) return "AMEX";
+    if (/^(50|56|57|58|6[0-9])/.test(n)) return "MAESTRO";
+    if (/^(6011|65|64[4-9])/.test(n)) return "DISCOVER";
+    if (/^(30|36|38|39)/.test(n)) return "DC";
+    return "VISA";
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -434,28 +437,27 @@ export default function Checkout() {
 
     setLoading(true);
     try {
-      // Build the /checkout/pay payload — card details go directly to the
-      // CSP backend, which forwards to Opayo Direct.
-      const billingAddress = isEbookOnly
+      // Build the /checkout/pay payload — flat shape per CSP OpenAPI spec
+      // (CheckoutPayRequest). Card details and a SINGLE billing address.
+      const billingAddress: AddressData = isEbookOnly
         ? billing
         : useShippingForBilling
           ? shipping
           : billing;
-      const expiryDigits = card.expiry.replace(/\D/g, "").slice(0, 4);
+      const cardNumberDigits = card.number.replace(/\D/g, "");
       const payload: CheckoutPayRequest = {
-        cardholder_name: cardholder.trim(),
-        card_number: card.number.replace(/\s|-/g, ""),
-        expiry_date: expiryDigits,
-        security_code: card.cvc.replace(/\D/g, ""),
-        customer: {
-          first_name: isEbookOnly ? billing.firstName : shipping.firstName,
-          last_name: isEbookOnly ? billing.lastName : shipping.lastName,
-          email: email.trim(),
-          phone: (isEbookOnly ? billing.phone : shipping.phone) || undefined,
-        },
-        billing_address: buildAddressPayload(billingAddress),
-        shipping_address: buildAddressPayload(isEbookOnly ? billingAddress : shipping),
-        notes: orderNotes.trim() || undefined,
+        card_holder: cardholder.trim(),
+        card_number: cardNumberDigits,
+        card_expiry: card.expiry.replace(/\D/g, "").slice(0, 4),
+        card_cv2: card.cvc.replace(/\D/g, ""),
+        card_type: detectCardType(cardNumberDigits),
+        billing_first_name: billingAddress.firstName,
+        billing_last_name: billingAddress.lastName,
+        billing_address_1: billingAddress.street1,
+        billing_city: billingAddress.city,
+        billing_postcode: billingAddress.postcode,
+        billing_country: COUNTRY_ISO[billingAddress.country] || "GB",
+        customer_note: orderNotes.trim() || undefined,
       };
 
       // Submit the order. On 3DS we POST a form to the bank's ACS URL.
