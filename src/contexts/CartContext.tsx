@@ -191,7 +191,9 @@ export function CartProvider({ children }: { children: ReactNode }) {
     setCouponEligibleBindings(
       Array.isArray(res.coupon_eligible_bindings)
         ? res.coupon_eligible_bindings.map((s) => String(s).toLowerCase())
-        : [],
+        : res.coupon_binding
+          ? [String(res.coupon_binding).toLowerCase()]
+          : [],
     );
     setServerTotal(res.total_gbp ?? res.subtotal_gbp ?? null);
     setServerSubtotal(res.subtotal_gbp ?? null);
