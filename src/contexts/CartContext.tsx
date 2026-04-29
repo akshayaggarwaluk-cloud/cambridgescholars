@@ -183,58 +183,21 @@ export function CartProvider({ children }: { children: ReactNode }) {
     setItems(next);
     setCouponCode(res.coupon_code ?? null);
     setDiscount(res.discount_gbp ?? null);
-    const explicitIsbns = Array.isArray(res.coupon_eligible_isbns)
-      ? res.coupon_eligible_isbns.map((s) => String(s).replace(/[^0-9Xx]/g, "").toUpperCase())
-      : [];
-    const explicitBindings = Array.isArray(res.coupon_eligible_bindings)
-      ? res.coupon_eligible_bindings.map((s) => String(s).toLowerCase())
-      : res.coupon_binding
-        ? [String(res.coupon_binding).toLowerCase()]
-        : [];
-
-    // If the upstream API doesn't tell us which items the coupon applies to,
-    // infer it from the discount math: find the subset of items whose combined
-    // line subtotal produces the returned `discount_gbp` for the given
-    // discount_type/discount_value. Upstream restricts to one binding, so we
-    // check each binding group and pick the one that matches.
-    let inferredBindings: string[] = [];
-    let inferredIsbns: string[] = [];
-    if (
-      explicitIsbns.length === 0 &&
-      explicitBindings.length === 0 &&
-      res.coupon_code &&
-      typeof res.discount_gbp === "number" &&
-      res.discount_gbp > 0 &&
-      typeof res.discount_value === "number" &&
-      res.discount_type
-    ) {
-      const apiItems = res.items || [];
-      const groups = new Map<string, { subtotal: number; isbns: string[] }>();
-      apiItems.forEach((it) => {
-        const fmt = String(it.format ?? "hardback").toLowerCase();
-        const sub = Number(it.subtotal_gbp) || 0;
-        const isbn = String(it.isbn || "").replace(/[^0-9Xx]/g, "").toUpperCase();
-        const g = groups.get(fmt) || { subtotal: 0, isbns: [] };
-        g.subtotal += sub;
-        if (isbn) g.isbns.push(isbn);
-        groups.set(fmt, g);
-      });
-      const target = Number(res.discount_gbp);
-      const value = Number(res.discount_value);
-      for (const [binding, g] of groups) {
-        const expected = res.discount_type === "percent"
-          ? (g.subtotal * value) / 100
-          : Math.min(g.subtotal, value);
-        if (Math.abs(expected - target) < 0.05) {
-          inferredBindings = [binding];
-          inferredIsbns = g.isbns;
-          break;
-        }
-      }
-    }
-
-    setCouponEligibleIsbns(explicitIsbns.length > 0 ? explicitIsbns : inferredIsbns);
-    setCouponEligibleBindings(explicitBindings.length > 0 ? explicitBindings : inferredBindings);
+    // Only trust explicit eligibility info from the backend. We do not infer
+    // which items a coupon applies to client-side because the upstream cart
+    // API currently does not return per-item or per-binding eligibility.
+    setCouponEligibleIsbns(
+      Array.isArray(res.coupon_eligible_isbns)
+        ? res.coupon_eligible_isbns.map((s) => String(s).replace(/[^0-9Xx]/g, "").toUpperCase())
+        : [],
+    );
+    setCouponEligibleBindings(
+      Array.isArray(res.coupon_eligible_bindings)
+        ? res.coupon_eligible_bindings.map((s) => String(s).toLowerCase())
+        : res.coupon_binding
+          ? [String(res.coupon_binding).toLowerCase()]
+          : [],
+    );
     setServerTotal(res.total_gbp ?? res.subtotal_gbp ?? null);
     setServerSubtotal(res.subtotal_gbp ?? null);
     setShipping(res.shipping_gbp ?? null);
