@@ -93,7 +93,7 @@ export function HeroSection() {
 
   return (
     <section
-      className="relative bg-[#f4f3ec] pt-28 pb-8 md:pt-32 md:pb-12 min-h-[80vh] flex items-center overflow-visible"
+      className="relative bg-[#f4f3ec] pt-28 pb-8 md:pt-32 md:pb-12 min-h-[80vh] flex items-center overflow-hidden"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
@@ -125,7 +125,7 @@ export function HeroSection() {
             </AnimatePresence>
           </div>
 
-          <div className="relative order-1 lg:order-2 flex min-h-[clamp(18rem,45vw,40rem)] items-center justify-center lg:justify-end pr-0 overflow-visible">
+          <div className="relative order-1 lg:order-2 h-[400px] md:h-[500px] lg:h-[640px] flex items-center justify-center lg:justify-end pr-0 overflow-hidden">
             <AnimatePresence mode="wait">
               <motion.div
                 key={activeIndex}
@@ -134,12 +134,12 @@ export function HeroSection() {
                 animate="animate"
                 exit="exit"
                 transition={{ duration: 0.6, ease: [0.25, 0.4, 0.25, 1] }}
-                className="flex h-full w-full items-center justify-center overflow-visible lg:justify-end"
+                className="h-full w-full flex items-center justify-center lg:justify-end"
               >
                 <img
                   src={activeReview.image}
                   alt={activeReview.bookTitle}
-                  className="h-auto max-h-[min(58vh,40rem)] w-auto max-w-[min(100%,calc(100vw-2rem))] object-contain object-center lg:object-right mx-auto lg:mx-0"
+                  className="h-full w-auto max-w-full lg:max-w-none object-contain object-center lg:object-right mx-auto lg:mx-0"
                 />
               </motion.div>
             </AnimatePresence>
