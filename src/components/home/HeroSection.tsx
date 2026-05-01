@@ -125,7 +125,7 @@ export function HeroSection() {
             </AnimatePresence>
           </div>
 
-          <div className="relative order-1 lg:order-2 flex min-h-[clamp(18rem,55vw,44rem)] items-center justify-center lg:justify-end overflow-visible lg:[perspective:1800px]">
+          <div className="relative order-1 lg:order-2 flex min-h-[clamp(18rem,45vw,40rem)] items-center justify-center lg:justify-end pr-0 overflow-visible">
             <AnimatePresence mode="wait">
               <motion.div
                 key={activeIndex}
@@ -134,13 +134,12 @@ export function HeroSection() {
                 animate="animate"
                 exit="exit"
                 transition={{ duration: 0.6, ease: [0.25, 0.4, 0.25, 1] }}
-                className="flex h-full w-full items-center justify-center overflow-visible lg:justify-end lg:translate-x-[6%]"
-                style={{ transformStyle: "preserve-3d" }}
+                className="flex h-full w-full items-center justify-center overflow-visible lg:justify-end"
               >
                 <img
                   src={activeReview.image}
                   alt={activeReview.bookTitle}
-                  className="h-auto w-[clamp(16rem,75vw,26rem)] lg:w-auto lg:h-[clamp(28rem,55vw,44rem)] lg:max-h-none max-w-none object-contain drop-shadow-[0_30px_50px_rgba(0,0,0,0.25)] lg:[transform:rotateY(-22deg)_rotateX(3deg)_rotateZ(-2deg)]"
+                  className="h-auto max-h-[min(58vh,40rem)] w-auto max-w-[min(100%,calc(100vw-2rem))] object-contain object-center lg:object-right mx-auto lg:mx-0"
                 />
               </motion.div>
             </AnimatePresence>

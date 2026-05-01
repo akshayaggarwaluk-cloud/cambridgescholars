@@ -105,7 +105,6 @@ export default function AdminHeroSlides() {
         quote: reviewer?.review || prev.quote || "",
         reviewer_name: reviewer?.reviewer || prev.reviewer_name || "",
         reviewer_position: reviewer?.reviewer_position || prev.reviewer_position || "",
-        cover_image: book?.image || s.cover_image || prev.cover_image || "",
       } : prev);
       setApiReviewOptions(reviews);
       setSelectedReviewIndex(0);
