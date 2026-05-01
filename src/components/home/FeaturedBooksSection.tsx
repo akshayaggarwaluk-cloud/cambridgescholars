@@ -111,9 +111,9 @@ export function FeaturedBooksSection() {
               </motion.div>
             </AnimatePresence>
           </div>
-          <div className="order-1 md:order-2 flex justify-center md:justify-end md:-mr-6 lg:-mr-16 xl:-mr-24">
+          <div className="order-1 md:order-2 flex justify-center md:justify-end">
             <AnimatePresence mode="wait">
-              <motion.img key={activeIndex} src={book.image} alt={book.title} className="w-48 sm:w-56 md:w-64 lg:w-[320px] xl:w-[380px]" style={{ filter: "drop-shadow(18px 22px 18px rgba(0,0,0,0.35))" }} initial={{ opacity: 0, scale: 0.95, x: 40 }} animate={{ opacity: 1, scale: 1, x: 0 }} exit={{ opacity: 0, scale: 0.95, x: -40 }} transition={{ duration: 0.8, ease: [0.25, 0.4, 0.25, 1] }} />
+              <motion.img key={activeIndex} src={book.image} alt={book.title} className="w-48 sm:w-56 md:w-60 lg:w-[300px] xl:w-[340px]" style={{ filter: "drop-shadow(18px 22px 18px rgba(0,0,0,0.35))" }} initial={{ opacity: 0, scale: 0.95, x: 40 }} animate={{ opacity: 1, scale: 1, x: 0 }} exit={{ opacity: 0, scale: 0.95, x: -40 }} transition={{ duration: 0.8, ease: [0.25, 0.4, 0.25, 1] }} />
             </AnimatePresence>
           </div>
         </div>
