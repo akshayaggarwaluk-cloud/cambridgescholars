@@ -84,7 +84,7 @@ export function FeaturedBooksSection() {
 
   return (
     <section
-      className="py-20 bg-[#f4f3ec] overflow-hidden md:py-[20px]"
+      className="py-20 bg-[#f4f3ec] overflow-visible md:py-[20px]"
       onMouseEnter={() => setIsAutoPlaying(false)}
       onMouseLeave={() => setIsAutoPlaying(true)}
     >
@@ -111,9 +111,9 @@ export function FeaturedBooksSection() {
               </motion.div>
             </AnimatePresence>
           </div>
-          <div className="order-1 md:order-2 flex justify-center md:justify-end md:pr-4 lg:pr-8">
+          <div className="order-1 md:order-2 flex justify-center md:justify-end px-4 md:px-6 lg:px-8 overflow-visible">
             <AnimatePresence mode="wait">
-              <motion.img key={activeIndex} src={book.image} alt={book.title} className="max-w-full w-44 sm:w-52 md:w-56 lg:w-[280px] xl:w-[320px]" style={{ filter: "drop-shadow(18px 22px 18px rgba(0,0,0,0.35))" }} initial={{ opacity: 0, scale: 0.95, x: 40 }} animate={{ opacity: 1, scale: 1, x: 0 }} exit={{ opacity: 0, scale: 0.95, x: -40 }} transition={{ duration: 0.8, ease: [0.25, 0.4, 0.25, 1] }} />
+              <motion.img key={activeIndex} src={book.image} alt={book.title} className="h-auto w-[clamp(11rem,28vw,22rem)] max-w-[min(100%,calc(100vw-2rem))] object-contain" style={{ filter: "drop-shadow(18px 22px 18px rgba(0,0,0,0.35))" }} initial={{ opacity: 0, scale: 0.95, x: 24 }} animate={{ opacity: 1, scale: 1, x: 0 }} exit={{ opacity: 0, scale: 0.95, x: -24 }} transition={{ duration: 0.8, ease: [0.25, 0.4, 0.25, 1] }} />
             </AnimatePresence>
           </div>
         </div>
