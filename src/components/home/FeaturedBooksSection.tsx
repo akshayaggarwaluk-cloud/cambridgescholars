@@ -105,11 +105,6 @@ export function FeaturedBooksSection() {
                 {book.description && (
                   <p className="font-nav text-muted-foreground leading-relaxed text-base italic font-normal" style={{ fontFamily: "'Nunito Sans', system-ui, sans-serif" }}>"{book.description}"</p>
                 )}
-                {book.reviewerPosition && (
-                  <p className="text-foreground text-sm font-semibold" style={{ fontFamily: "'Nunito Sans', system-ui, sans-serif" }}>
-                    <span className="font-normal text-muted-foreground">{book.reviewerPosition}</span>
-                  </p>
-                )}
                 <Button asChild className="bg-[#e4573d] text-white border border-[#e4573d] hover:bg-transparent hover:text-[#e4573d] px-10 py-3 text-sm tracking-wider rounded-none uppercase font-nav font-bold transition-colors" style={{ fontFamily: "'Nunito Sans', system-ui, sans-serif" }}>
                   <Link to={`/books/${book.id}`}>View</Link>
                 </Button>
