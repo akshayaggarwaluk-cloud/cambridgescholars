@@ -89,7 +89,7 @@ export function FeaturedBooksSection() {
       onMouseLeave={() => setIsAutoPlaying(true)}
     >
       <div className="container-wide">
-        <div className="relative grid md:grid-cols-[1.4fr_0.6fr] gap-8 items-center min-h-[500px]">
+        <div className="relative grid md:grid-cols-[1.2fr_1fr] gap-8 items-center">
           <div className="order-2 md:order-1">
             <AnimatePresence mode="wait">
               <motion.div
@@ -111,9 +111,9 @@ export function FeaturedBooksSection() {
               </motion.div>
             </AnimatePresence>
           </div>
-          <div className="order-1 md:order-2 flex justify-center md:justify-end px-4 md:px-6 lg:px-8 overflow-visible">
+          <div className="order-1 md:order-2 flex justify-center md:justify-end overflow-visible w-full">
             <AnimatePresence mode="wait">
-              <motion.img key={activeIndex} src={book.image} alt={book.title} className="h-auto w-[clamp(9rem,20vw,17rem)] max-w-[min(100%,calc(100vw-2rem))] object-contain" style={{ filter: "drop-shadow(18px 22px 18px rgba(0,0,0,0.35))" }} initial={{ opacity: 0, scale: 0.95, x: 24 }} animate={{ opacity: 1, scale: 1, x: 0 }} exit={{ opacity: 0, scale: 0.95, x: -24 }} transition={{ duration: 0.8, ease: [0.25, 0.4, 0.25, 1] }} />
+              <motion.img key={activeIndex} src={book.image} alt={book.title} className="h-auto w-full max-w-[min(85%,22rem)] object-contain" style={{ filter: "drop-shadow(18px 22px 18px rgba(0,0,0,0.35))" }} initial={{ opacity: 0, scale: 0.95, x: 24 }} animate={{ opacity: 1, scale: 1, x: 0 }} exit={{ opacity: 0, scale: 0.95, x: -24 }} transition={{ duration: 0.8, ease: [0.25, 0.4, 0.25, 1] }} />
             </AnimatePresence>
           </div>
         </div>
