@@ -113,7 +113,7 @@ export function FeaturedBooksSection() {
           </div>
           <div className="order-1 md:order-2 flex justify-center md:justify-end px-4 md:px-6 lg:px-8 overflow-visible py-8">
             <AnimatePresence mode="wait">
-              <motion.img key={activeIndex} src={book.image} alt={book.title} className="h-auto w-[clamp(9rem,20vw,17rem)] max-w-[min(100%,calc(100vw-2rem))] object-contain" style={{ filter: "drop-shadow(0 18px 22px rgba(0,0,0,0.35)) drop-shadow(0 35px 40px rgba(0,0,0,0.28))" }} initial={{ opacity: 0, scale: 0.95, x: 24 }} animate={{ opacity: 1, scale: 1, x: 0 }} exit={{ opacity: 0, scale: 0.95, x: -24 }} transition={{ duration: 0.8, ease: [0.25, 0.4, 0.25, 1] }} />
+              <motion.img key={activeIndex} src={book.image} alt={book.title} className="h-auto w-[clamp(9rem,20vw,17rem)] max-w-[min(100%,calc(100vw-2rem))] object-contain" style={{ filter: "drop-shadow(20px 30px 25px rgba(0,0,0,0.55)) drop-shadow(40px 60px 50px rgba(0,0,0,0.4))" }} initial={{ opacity: 0, scale: 0.95, x: 24 }} animate={{ opacity: 1, scale: 1, x: 0 }} exit={{ opacity: 0, scale: 0.95, x: -24 }} transition={{ duration: 0.8, ease: [0.25, 0.4, 0.25, 1] }} />
             </AnimatePresence>
           </div>
         </div>
