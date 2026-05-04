@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Mail, MapPin, Clock } from "lucide-react";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
@@ -9,6 +9,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
 import ReCAPTCHA from "react-google-recaptcha";
 import contactHero from "@/assets/contact-hero.jpg";
+import { fetchContactSubjects, submitContactMessage } from "@/services/cspApi";
 
 // Google's test site key - replace with your own for production
 const RECAPTCHA_SITE_KEY = "6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI";
@@ -39,21 +40,53 @@ export default function Contact() {
   const [captchaValue, setCaptchaValue] = useState<string | null>(null);
   const recaptchaRef = useRef<ReCAPTCHA>(null);
   const [submitted, setSubmitted] = useState(false);
-  const handleSubmit = (e: React.FormEvent) => {
+  const [subjects, setSubjects] = useState<string[]>(["Proposals", "Mailing", "Queries"]);
+  const [submitting, setSubmitting] = useState(false);
+  const [successMessage, setSuccessMessage] = useState<string>(
+    "Thanks for contacting us! We will get in touch with you shortly.",
+  );
+  const [honeypot, setHoneypot] = useState("");
+
+  useEffect(() => {
+    let cancelled = false;
+    fetchContactSubjects().then((list) => {
+      if (!cancelled && list.length) setSubjects(list);
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!captchaValue) {
       toast.error("Please verify that you're not a robot");
       return;
     }
-    setFormData({
-      name: "",
-      email: "",
-      subject: "",
-      message: "",
-    });
-    setCaptchaValue(null);
-    recaptchaRef.current?.reset();
-    setSubmitted(true);
+    setSubmitting(true);
+    try {
+      const res = await submitContactMessage({
+        name: formData.name.trim(),
+        email: formData.email.trim(),
+        subject: formData.subject,
+        message: formData.message.trim(),
+        recaptchaToken: captchaValue,
+        honeypot,
+      });
+      const msg = res.message || "Thanks for contacting us! We will get in touch shortly.";
+      setSuccessMessage(res.ticketId ? `${msg} (Ref: ${res.ticketId})` : msg);
+      setFormData({ name: "", email: "", subject: "", message: "" });
+      setCaptchaValue(null);
+      recaptchaRef.current?.reset();
+      setSubmitted(true);
+    } catch (err) {
+      const message = err instanceof Error ? err.message : "Failed to send message. Please try again.";
+      toast.error(message);
+      setCaptchaValue(null);
+      recaptchaRef.current?.reset();
+    } finally {
+      setSubmitting(false);
+    }
   };
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setFormData((prev) => ({
@@ -150,9 +183,9 @@ export default function Contact() {
                     required
                   >
                     <option value="">Select Purpose</option>
-                    <option value="Proposals">Proposals</option>
-                    <option value="Mailing">Mailing</option>
-                    <option value="Queries">Queries</option>
+                    {subjects.map((s) => (
+                      <option key={s} value={s}>{s}</option>
+                    ))}
                 </select>
 
                 {/* Message */}
@@ -163,6 +196,18 @@ export default function Contact() {
                   value={formData.message}
                   onChange={handleChange}
                   required
+                />
+
+                {/* Honeypot (anti-spam, hidden from users) */}
+                <input
+                  type="text"
+                  name="website"
+                  tabIndex={-1}
+                  autoComplete="off"
+                  value={honeypot}
+                  onChange={(e) => setHoneypot(e.target.value)}
+                  className="absolute -left-[9999px] h-0 w-0 opacity-0"
+                  aria-hidden="true"
                 />
 
                 {/* reCAPTCHA */}
@@ -178,9 +223,10 @@ export default function Contact() {
                 {/* Submit */}
                 <Button
                   type="submit"
+                  disabled={submitting}
                   className="bg-accent hover:bg-black text-white font-semibold px-12 py-3 rounded-none transition-colors"
                 >
-                  SUBMIT
+                  {submitting ? "SENDING..." : "SUBMIT"}
                 </Button>
               </form>
               ) : (
@@ -190,7 +236,7 @@ export default function Contact() {
                   role="status"
                   aria-live="polite"
                 >
-                  Thanks for contacting us! We will get in touch with you shortly.
+                  {successMessage}
                 </p>
               )}
             </div>
