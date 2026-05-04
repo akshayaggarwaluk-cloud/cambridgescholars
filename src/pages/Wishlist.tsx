@@ -1,38 +1,12 @@
 import { Link } from "react-router-dom";
-import { Heart, ShoppingCart, Loader2, X, Check, Facebook, Twitter, Mail } from "lucide-react";
+import { ShoppingCart, Loader2, X, Check, Facebook, Twitter, Mail } from "lucide-react";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { PageBreadcrumb } from "@/components/layout/PageBreadcrumb";
-import { Button } from "@/components/ui/button";
 import { useWishlist } from "@/contexts/WishlistContext";
-import { useExternalAuth } from "@/contexts/ExternalAuthContext";
 
 export default function Wishlist() {
-  const { user } = useExternalAuth();
   const { wishlistItems, removeFromWishlist, loading } = useWishlist();
-
-  if (!user) {
-    return (
-      <div className="min-h-screen bg-white">
-        <Header />
-        <main className="pt-32 pb-16">
-          <div className="container-wide text-center">
-            <Heart className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
-            <h1 className="font-serif text-3xl font-bold text-foreground mb-4">
-              Sign in to view wishlist
-            </h1>
-            <p className="text-muted-foreground mb-8">
-              Please sign in to access your saved books.
-            </p>
-            <Button asChild variant="gold" size="lg">
-              <Link to="/auth">Sign In</Link>
-            </Button>
-          </div>
-        </main>
-        <Footer />
-      </div>
-    );
-  }
 
   return (
     <div className="min-h-screen bg-white">
