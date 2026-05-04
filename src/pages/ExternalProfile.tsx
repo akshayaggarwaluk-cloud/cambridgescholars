@@ -405,7 +405,9 @@ export default function ExternalProfile() {
 
   const renderOrders = () => (
     <div className="space-y-6" style={{ fontFamily: '"Nunito Sans", sans-serif' }}>
-      {ordersLoading ? (
+      {viewingOrderId ? (
+        renderOrderDetailPage(viewingOrderId)
+      ) : ordersLoading ? (
         <div className="flex items-center justify-center py-8">
           <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
         </div>
