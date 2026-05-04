@@ -546,7 +546,12 @@ export default function ExternalProfile() {
                   >
                     <div className="text-[16px] text-[#696969]">
                       <div>
-                        {it.name.split(":")[0]} <span className="text-[#696969]">×</span> <strong className="text-[#333333]">{it.quantity}</strong>
+                        {(() => {
+                          const title = it.name.split(":")[0].trim();
+                          const dashIdx = it.name.lastIndexOf(" - ");
+                          const binding = dashIdx > -1 ? it.name.slice(dashIdx + 3).trim() : "";
+                          return binding ? `${title} - ${binding}` : title;
+                        })()} <span className="text-[#696969]">×</span> <strong className="text-[#333333]">{it.quantity}</strong>
                       </div>
                       {it.isbn && (
                         <div className="mt-2">
