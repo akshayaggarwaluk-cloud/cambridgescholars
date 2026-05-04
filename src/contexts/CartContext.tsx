@@ -76,6 +76,7 @@ export interface Book {
 export interface CartItem extends Book {
   quantity: number;
   format: BookFormat;
+  coverImageLoading?: boolean;
 }
 
 // Map upstream cart format string → local BookFormat
@@ -88,6 +89,9 @@ function fromBookFormat(f: BookFormat): string {
   return f === "hardbook" ? "hardback" : f;
 }
 
+const normaliseIsbnDigits = (isbn?: string | null) =>
+  (isbn || "").replace(/[^0-9Xx]/g, "").toUpperCase();
+
 /**
  * Convert an upstream cart item to a local CartItem (Book + quantity + format).
  * We try to preserve any extra metadata (image, author) we already had locally.
@@ -95,22 +99,16 @@ function fromBookFormat(f: BookFormat): string {
 function mapApiItem(api: ApiCartItem, prev?: CartItem): CartItem {
   const format = toBookFormat(api.format);
   const price = api.unit_price_gbp ?? prev?.price ?? 0;
-  // Cover image: prefer the upstream URL but normalise short 10-digit ISBN
-  // filenames to the 978-prefixed variant the CDN actually serves. The cart
-  // endpoint frequently omits cover_image entirely, so fall back to the
-  // canonical CDN path derived from the ISBN.
-  let image = api.cover_image || prev?.image || "";
+  // Cover image: prefer a confirmed upstream URL, then a confirmed image we
+  // already resolved. Do not derive an ebook cover from the ebook ISBN here;
+  // many ebook ISBN cover paths 404 because the actual cover is stored against
+  // the primary print ISBN and must be resolved via the book endpoint.
+  let image = api.cover_image || (prev?.coverImageLoading === false ? prev?.image : "") || "";
   const shortIsbnInUrl = image.match(/\/(\d{10})\.jpg$/);
   if (shortIsbnInUrl && !image.includes("/978")) {
     image = image.replace(`/${shortIsbnInUrl[1]}.jpg`, `/978${shortIsbnInUrl[1]}.jpg`);
   }
-  if (!image && api.isbn) {
-    const digits = api.isbn.replace(/[^0-9]/g, "");
-    const isbn13 = digits.length === 10 ? `978${digits}` : digits;
-    if (isbn13.length === 13) {
-      image = `https://cspcontents.s3.eu-west-1.amazonaws.com/master/croppedcovers/${isbn13}.jpg`;
-    }
-  }
+  const coverImageLoading = Boolean(!image && api.isbn);
   return {
     id: prev?.id || api.isbn,
     title: api.title || prev?.title || "",
@@ -139,6 +137,7 @@ function mapApiItem(api: ApiCartItem, prev?: CartItem): CartItem {
     series: prev?.series,
     quantity: api.quantity,
     format,
+    coverImageLoading,
   };
 }
 
