@@ -513,9 +513,9 @@ export default function ExternalProfile() {
     return (
       <div className="space-y-8 text-[#333333]">
         {order && (
-          <p className="text-[16px] text-[#696969]">
-            Order #<strong className="text-[#333333]">{order.id}</strong> was placed on{" "}
-            <strong className="text-[#333333]">{orderDateStr}</strong> and is currently{" "}
+          <p className="text-[18px] text-[#696969]" style={{ fontFamily: '"Nunito Sans", sans-serif' }}>
+            Order #<strong className="text-[#333333]">{order.id}</strong>{"  "}was placed on{"  "}
+            <strong className="text-[#333333]">{orderDateStr}</strong>{"  "}and is currently{"  "}
             <strong className="text-[#333333]">{statusLabel}</strong>.
           </p>
         )}
@@ -528,31 +528,31 @@ export default function ExternalProfile() {
           <div className="text-red-600 text-[14px]">{dErr}</div>
         ) : detail ? (
           <>
-            <div>
-              <h2 className="font-baskerville text-[40px] leading-[1.2] text-[#333333] mb-6">
+            <div style={{ fontFamily: '"Nunito Sans", sans-serif' }}>
+              <h2 className="font-baskerville text-[40px] leading-[1.2] text-[#333333] mb-8">
                 Order details
               </h2>
-              <div className="border border-border">
-                <div className="grid grid-cols-[1fr_auto] px-6 py-5 bg-[#E4573D] text-white text-[14px] font-bold uppercase tracking-wider">
+              <div>
+                <div className="grid grid-cols-[1fr_auto] gap-4 pb-6 border-b border-[#e5e5e5] text-[16px] font-bold uppercase tracking-wider text-[#333333]">
                   <div>Product</div>
                   <div>Total</div>
                 </div>
                 {detail.items.map((it, idx) => (
                   <div
                     key={idx}
-                    className="grid grid-cols-[1fr_auto] gap-4 px-6 py-6 border-b border-border"
+                    className="grid grid-cols-[1fr_auto] gap-4 py-8 border-b border-[#e5e5e5]"
                   >
                     <div className="text-[16px] text-[#696969]">
                       <div>
-                        {it.name} × <strong>{it.quantity}</strong>
+                        {it.name} <span className="text-[#696969]">×</span> <strong className="text-[#333333]">{it.quantity}</strong>
                       </div>
                       {it.isbn && (
-                        <div className="mt-1">
+                        <div className="mt-2">
                           <span className="font-bold text-[#333333]">ISBN:</span> {it.isbn}
                         </div>
                       )}
                     </div>
-                    <div className="text-right text-[#696969]">
+                    <div className="text-right text-[#696969] text-[16px]">
                       {fmtMoney(
                         it.total ?? it.subtotal ?? (it.unit_price ?? 0) * it.quantity,
                         detail.currency,
@@ -566,7 +566,7 @@ export default function ExternalProfile() {
                     0,
                   );
                   return (
-                    <div className="grid grid-cols-[1fr_auto] px-6 py-4 border-b border-border">
+                    <div className="grid grid-cols-[1fr_auto] py-4 border-b border-[#e5e5e5] text-[16px]">
                       <div className="font-bold text-[#333333]">Subtotal:</div>
                       <div className="text-right text-[#696969]">
                         {fmtMoney(subtotal, detail.currency)}
@@ -575,7 +575,7 @@ export default function ExternalProfile() {
                   );
                 })()}
                 {typeof detail.shipping_total_amount === "number" && (
-                  <div className="grid grid-cols-[1fr_auto] px-6 py-4 border-b border-border">
+                  <div className="grid grid-cols-[1fr_auto] py-4 border-b border-[#e5e5e5] text-[16px]">
                     <div className="font-bold text-[#333333]">Shipping:</div>
                     <div className="text-right text-[#696969]">
                       {fmtMoney(detail.shipping_total_amount, detail.currency)}
@@ -584,7 +584,7 @@ export default function ExternalProfile() {
                 )}
                 {typeof detail.discount_total_amount === "number" &&
                   detail.discount_total_amount > 0 && (
-                    <div className="grid grid-cols-[1fr_auto] px-6 py-4 border-b border-border">
+                    <div className="grid grid-cols-[1fr_auto] py-4 border-b border-[#e5e5e5] text-[16px]">
                       <div className="font-bold text-[#333333]">Discount:</div>
                       <div className="text-right text-[#696969]">
                         − {fmtMoney(detail.discount_total_amount, detail.currency)}
@@ -592,21 +592,21 @@ export default function ExternalProfile() {
                     </div>
                   )}
                 {typeof detail.tax_amount === "number" && detail.tax_amount > 0 && (
-                  <div className="grid grid-cols-[1fr_auto] px-6 py-4 border-b border-border">
+                  <div className="grid grid-cols-[1fr_auto] py-4 border-b border-[#e5e5e5] text-[16px]">
                     <div className="font-bold text-[#333333]">Tax:</div>
                     <div className="text-right text-[#696969]">
                       {fmtMoney(detail.tax_amount, detail.currency)}
                     </div>
                   </div>
                 )}
-                <div className="grid grid-cols-[1fr_auto] px-6 py-4 border-b border-border">
+                <div className="grid grid-cols-[1fr_auto] py-4 border-b border-[#e5e5e5] text-[16px]">
                   <div className="font-bold text-[#333333]">Total:</div>
                   <div className="text-right text-[#696969]">
                     {fmtMoney(detail.total_amount, detail.currency)}
                   </div>
                 </div>
                 {detail.payment_method_title && (
-                  <div className="grid grid-cols-[1fr_auto] px-6 py-4 border-b border-border">
+                  <div className="grid grid-cols-[1fr_auto] py-4 border-b border-[#e5e5e5] text-[16px]">
                     <div className="font-bold text-[#333333]">Payment method:</div>
                     <div className="text-right text-[#696969]">
                       {detail.payment_method_title}
@@ -614,13 +614,13 @@ export default function ExternalProfile() {
                   </div>
                 )}
                 {isPending && (
-                  <div className="grid grid-cols-[1fr_auto] px-6 py-4 items-center">
+                  <div className="grid grid-cols-[1fr_auto] py-4 border-b border-[#e5e5e5] items-center text-[16px]">
                     <div className="font-bold text-[#333333]">Actions:</div>
-                    <div className="flex gap-2 justify-end">
-                      <button className="bg-[#E4573D] hover:bg-[#c94a30] text-white text-[13px] font-bold uppercase tracking-wider px-6 py-3 transition-colors">
+                    <div className="flex gap-3 justify-end">
+                      <button className="bg-[#E4573D] hover:bg-[#c94a30] text-white text-[13px] font-bold uppercase tracking-wider px-8 py-3 transition-colors">
                         Pay
                       </button>
-                      <button className="bg-[#E4573D] hover:bg-[#c94a30] text-white text-[13px] font-bold uppercase tracking-wider px-6 py-3 transition-colors">
+                      <button className="bg-[#E4573D] hover:bg-[#c94a30] text-white text-[13px] font-bold uppercase tracking-wider px-8 py-3 transition-colors">
                         Cancel
                       </button>
                     </div>
@@ -629,14 +629,14 @@ export default function ExternalProfile() {
               </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8" style={{ fontFamily: '"Nunito Sans", sans-serif' }}>
               {detail.billing &&
                 (detail.billing.address_1 || detail.billing.city || detail.billing.email) && (
                   <div>
-                    <h2 className="font-baskerville text-[32px] leading-[1.2] text-[#333333] mb-4">
+                    <h2 className="font-baskerville text-[40px] leading-[1.2] text-[#333333] mb-6">
                       Billing address
                     </h2>
-                    <div className="border border-border p-6 space-y-2 text-[16px] text-[#696969]">
+                    <div className="border border-[#e5e5e5] p-6 space-y-3 text-[16px] text-[#696969]">
                       {[detail.billing.first_name, detail.billing.last_name]
                         .filter(Boolean)
                         .join(" ") && (
@@ -654,10 +654,10 @@ export default function ExternalProfile() {
                       {detail.billing.state && <div>{detail.billing.state}</div>}
                       {detail.billing.postcode && <div>{detail.billing.postcode}</div>}
                       {detail.billing.phone && (
-                        <div className="pt-2">📞 {detail.billing.phone}</div>
+                        <div className="pt-2 flex items-center gap-2"><Phone className="h-4 w-4" /> {detail.billing.phone}</div>
                       )}
                       {detail.billing.email && (
-                        <div className="pt-2">✉ {detail.billing.email}</div>
+                        <div className="pt-2 flex items-center gap-2"><Mail className="h-4 w-4" /> {detail.billing.email}</div>
                       )}
                     </div>
                   </div>
