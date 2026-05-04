@@ -92,20 +92,20 @@ export default function ExternalProfile() {
   // Orders
   const [orders, setOrders] = useState<Order[]>([]);
   const [ordersLoading, setOrdersLoading] = useState(true);
-  const [expandedOrderId, setExpandedOrderId] = useState<number | string | null>(null);
+  const [expandedOrderId, setExpandedOrderId] = useState<string | null>(null);
   const [orderDetailCache, setOrderDetailCache] = useState<Record<string, OrderDetail>>({});
-  const [orderDetailLoadingId, setOrderDetailLoadingId] = useState<number | string | null>(null);
+  const [orderDetailLoadingId, setOrderDetailLoadingId] = useState<string | null>(null);
   const [orderDetailError, setOrderDetailError] = useState<Record<string, string>>({});
 
   const handleToggleOrderDetail = async (orderId: number | string) => {
     const key = String(orderId);
-    if (expandedOrderId === orderId) {
+    if (expandedOrderId === key) {
       setExpandedOrderId(null);
       return;
     }
-    setExpandedOrderId(orderId);
+    setExpandedOrderId(key);
     if (orderDetailCache[key]) return;
-    setOrderDetailLoadingId(orderId);
+    setOrderDetailLoadingId(key);
     setOrderDetailError((prev) => {
       const { [key]: _omit, ...rest } = prev;
       return rest;
