@@ -214,8 +214,8 @@ export function BookDetailsTabs({ book }: BookDetailsTabsProps) {
                     {review.review.replace(/^[“"']|[”"']$/g, "")}
                   </p>
                   <p className="text-sm text-muted-foreground font-semibold" style={{ fontFamily: '"Nunito Sans", system-ui, sans-serif' }}>
-                    - —{review.reviewer}
-                    {review.reviewer_position && ` ${review.reviewer_position}`}
+                    - {review.reviewer}
+                    {review.reviewer_position && `, ${review.reviewer_position}`}
                   </p>
                 </div>
               ))}
