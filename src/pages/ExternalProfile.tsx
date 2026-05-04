@@ -381,6 +381,12 @@ export default function ExternalProfile() {
       className="space-y-5 text-[16px] text-[#696969]"
       style={{ fontFamily: '"Nunito Sans", sans-serif' }}
     >
+      {showCancelledNotice && (
+        <div className="bg-[#5BAFA8] text-white px-6 py-5 flex items-center gap-3 text-[15px]">
+          <Info className="h-5 w-5 flex-shrink-0" strokeWidth={2} />
+          <span>Your order was cancelled.</span>
+        </div>
+      )}
       <p>
         Hello <strong className="font-bold text-[#696969]">{dashboardName}</strong>{" "}
         (not <strong className="font-bold text-[#696969]">{dashboardName}</strong>?{" "}
