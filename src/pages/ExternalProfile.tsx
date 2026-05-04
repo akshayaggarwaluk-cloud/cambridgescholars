@@ -703,36 +703,41 @@ export default function ExternalProfile() {
                     </div>
                   </div>
                 )}
-              {detail.shipping &&
-                (detail.shipping.address_1 || detail.shipping.city) && (
+              {(() => {
+                const ship =
+                  detail.shipping && (detail.shipping.address_1 || detail.shipping.city)
+                    ? detail.shipping
+                    : detail.billing;
+                if (!ship) return null;
+                return (
                   <div>
                     <h2 className="font-baskerville text-[40px] leading-[1.2] text-[#333333] mb-6">
                       Shipping address
                     </h2>
                     <div className="border border-[#e5e5e5] p-6 space-y-3 text-[16px] text-[#696969]">
-                      {[detail.shipping.first_name, detail.shipping.last_name]
+                      {[ship.first_name, ship.last_name]
                         .filter(Boolean)
                         .join(" ") && (
                         <div>
-                          {[detail.shipping.first_name, detail.shipping.last_name]
+                          {[ship.first_name, ship.last_name]
                             .filter(Boolean)
                             .join(" ")}
                         </div>
                       )}
-                      {detail.shipping.company && <div>{detail.shipping.company}</div>}
-                      {detail.shipping.country && <div>{detail.shipping.country}</div>}
-                      {detail.shipping.address_1 && <div>{detail.shipping.address_1}</div>}
-                      {detail.shipping.address_2 && <div>{detail.shipping.address_2}</div>}
-                      {detail.shipping.city && <div>{detail.shipping.city}</div>}
-                      {detail.shipping.state && <div>{detail.shipping.state}</div>}
-                      {detail.shipping.postcode && <div>{detail.shipping.postcode}</div>}
-                      <div className="pt-2">Phone:</div>
-                      {detail.shipping.phone && (
-                        <div className="flex items-center gap-2"><Phone className="h-4 w-4" /> {detail.shipping.phone}</div>
+                      {ship.company && <div>{ship.company}</div>}
+                      {ship.country && <div>{ship.country}</div>}
+                      {ship.address_1 && <div>{ship.address_1}</div>}
+                      {ship.address_2 && <div>{ship.address_2}</div>}
+                      {ship.city && <div>{ship.city}</div>}
+                      {ship.state && <div>{ship.state}</div>}
+                      {ship.postcode && <div>{ship.postcode}</div>}
+                      {ship.phone && (
+                        <div className="pt-2 flex items-center gap-2"><Phone className="h-4 w-4" /> {ship.phone}</div>
                       )}
                     </div>
                   </div>
-                )}
+                );
+              })()}
             </div>
           </>
         ) : null}
