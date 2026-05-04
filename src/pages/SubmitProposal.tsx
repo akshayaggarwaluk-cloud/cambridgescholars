@@ -96,6 +96,10 @@ const SubmitProposal = () => {
     5: [
       { key: "competingTitles", type: "text" },
       { key: "uniqueContribution", type: "text" },
+      { key: "primaryMarket", type: "text" },
+      { key: "recommendedReviewers", type: "text" },
+      { key: "conferences", type: "text" },
+      { key: "promotionalChannels", type: "text" },
     ],
     6: [{ key: "submissionDate", type: "date" }],
     7: [
