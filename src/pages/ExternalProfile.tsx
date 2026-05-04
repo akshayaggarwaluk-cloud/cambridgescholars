@@ -553,13 +553,15 @@ export default function ExternalProfile() {
     const dErr = orderDetailError[key];
     const dLoading = orderDetailLoadingId === key;
     const order = orders.find((o) => String(o.id) === key);
-    const statusLabel = order
-      ? order.status.replace(/[-_]/g, " ").replace(/\b\w/g, (c) => c.toUpperCase())
+    const isCancelled = cancelledOrderIds.has(key);
+    const effectiveStatus = order ? (isCancelled ? "cancelled" : order.status) : "";
+    const statusLabel = effectiveStatus
+      ? effectiveStatus.replace(/[-_]/g, " ").replace(/\b\w/g, (c) => c.toUpperCase())
       : "";
     const isPending =
-      !!order &&
-      (order.status.toLowerCase().includes("pending") ||
-        order.status.toLowerCase() === "on-hold");
+      !!order && !isCancelled &&
+      (effectiveStatus.toLowerCase().includes("pending") ||
+        effectiveStatus.toLowerCase() === "on-hold");
     const orderDateStr = order
       ? new Date(order.created_at).toLocaleDateString("en-GB", {
           year: "numeric",
