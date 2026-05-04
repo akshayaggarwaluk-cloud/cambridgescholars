@@ -99,7 +99,7 @@ export function HeroSection() {
     >
       <div className="relative z-10 w-full">
         <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center">
-          <div className="text-foreground order-2 lg:order-1 min-h-[380px] md:min-h-[420px] flex flex-col justify-center pl-8 sm:pl-12 lg:pl-[max(4rem,calc((100vw-80rem)/2+4rem))] pr-8 sm:pr-12 lg:pr-0">
+          <div className="text-foreground order-2 lg:order-1 min-w-0 min-h-[380px] md:min-h-[420px] flex flex-col justify-center pl-8 sm:pl-12 lg:pl-[max(4rem,calc((100vw-80rem)/2+4rem))] pr-8 sm:pr-12 lg:pr-0">
             <AnimatePresence mode="wait">
               <motion.div
                 key={activeIndex}
@@ -110,7 +110,7 @@ export function HeroSection() {
                 transition={{ duration: 0.5, ease: "easeOut" }}
               >
                 <motion.p variants={textVariants} transition={{ duration: 0.4 }} className="font-baskerville text-[#e4573d] uppercase tracking-[0.25em] text-lg font-medium">Featured Review</motion.p>
-              <motion.h1 variants={textVariants} transition={{ duration: 0.4, delay: 0.05 }} style={{ fontFamily: "'Libre Baskerville', Georgia, serif", lineHeight: 1.3, color: "#333333", margin: "0 0 20px", letterSpacing: "0.02em" }} className="font-normal text-[28px] sm:text-[32px] lg:text-[34px] xl:text-[36px]">{activeReview.bookTitle}</motion.h1>
+              <motion.h1 variants={textVariants} transition={{ duration: 0.4, delay: 0.05 }} style={{ fontFamily: "'Libre Baskerville', Georgia, serif", lineHeight: 1.3, color: "#333333", margin: "0 0 20px", letterSpacing: "0.02em" }} className="font-normal text-[28px] sm:text-[32px] lg:text-[34px] xl:text-[36px] break-words">{activeReview.bookTitle}</motion.h1>
                  {activeReview.author && (
                     <motion.p variants={textVariants} transition={{ duration: 0.4, delay: 0.1 }} style={{ fontFamily: "Roboto, system-ui, sans-serif", fontSize: "15px", color: "#333333" }} className="font-bold">By {activeReview.author}</motion.p>
                  )}
