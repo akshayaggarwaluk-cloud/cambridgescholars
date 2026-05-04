@@ -10,6 +10,8 @@ import {
   Info,
   ArrowRight,
   CreditCard,
+  Phone,
+  Mail,
 } from "lucide-react";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
@@ -665,10 +667,10 @@ export default function ExternalProfile() {
               {detail.shipping &&
                 (detail.shipping.address_1 || detail.shipping.city) && (
                   <div>
-                    <h2 className="font-baskerville text-[32px] leading-[1.2] text-[#333333] mb-4">
+                    <h2 className="font-baskerville text-[40px] leading-[1.2] text-[#333333] mb-6">
                       Shipping address
                     </h2>
-                    <div className="border border-border p-6 space-y-2 text-[16px] text-[#696969]">
+                    <div className="border border-[#e5e5e5] p-6 space-y-3 text-[16px] text-[#696969]">
                       {[detail.shipping.first_name, detail.shipping.last_name]
                         .filter(Boolean)
                         .join(" ") && (
@@ -686,7 +688,9 @@ export default function ExternalProfile() {
                       {detail.shipping.state && <div>{detail.shipping.state}</div>}
                       {detail.shipping.postcode && <div>{detail.shipping.postcode}</div>}
                       <div className="pt-2">Phone:</div>
-                      {detail.shipping.phone && <div>📞 {detail.shipping.phone}</div>}
+                      {detail.shipping.phone && (
+                        <div className="flex items-center gap-2"><Phone className="h-4 w-4" /> {detail.shipping.phone}</div>
+                      )}
                     </div>
                   </div>
                 )}
