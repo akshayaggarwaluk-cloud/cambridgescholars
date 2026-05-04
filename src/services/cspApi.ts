@@ -723,3 +723,57 @@ export async function submitProposal(
   }
   return parsed;
 }
+
+// ---------------- Contact ----------------
+export interface ContactSubmitPayload {
+  name: string;
+  email: string;
+  subject: string;
+  message: string;
+  recaptchaToken: string;
+  honeypot?: string;
+}
+
+export interface ContactSubmitResponse {
+  success: boolean;
+  message?: string;
+  ticketId?: string;
+  error?: string;
+  details?: Record<string, string>;
+}
+
+export async function fetchContactSubjects(): Promise<string[]> {
+  try {
+    const res = await fetch(`${CSP_API_BASE}/contact/subjects`);
+    if (!res.ok) return ["Proposals", "Mailing", "Queries"];
+    const json = await res.json();
+    return Array.isArray(json?.data) ? json.data : ["Proposals", "Mailing", "Queries"];
+  } catch {
+    return ["Proposals", "Mailing", "Queries"];
+  }
+}
+
+export async function submitContactMessage(
+  payload: ContactSubmitPayload,
+): Promise<ContactSubmitResponse> {
+  const res = await fetch(`${CSP_API_BASE}/contact`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ honeypot: "", ...payload }),
+  });
+  const text = await res.text();
+  let parsed: ContactSubmitResponse = { success: false };
+  try { parsed = text ? JSON.parse(text) : { success: false }; } catch { /* ignore */ }
+  if (!res.ok) {
+    if (res.status === 429) throw new Error("Too many requests. Please try again later.");
+    if (res.status === 400) {
+      if (parsed.details) {
+        const first = Object.values(parsed.details)[0];
+        if (first) throw new Error(first);
+      }
+      throw new Error(parsed.message || "Invalid request. Please check the form.");
+    }
+    throw new Error(parsed.message || parsed.error || `Submission failed (${res.status})`);
+  }
+  return parsed;
+}
