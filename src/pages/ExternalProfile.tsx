@@ -617,14 +617,12 @@ export default function ExternalProfile() {
                     </div>
                   );
                 })()}
-                {detail.shipping_total_amount != null && Number(detail.shipping_total_amount) > 0 && (
-                  <div className="grid grid-cols-[1fr_auto] py-4 border-b border-[#e5e5e5] text-[16px]">
-                    <div className="font-bold text-[#333333]">Shipping:</div>
-                    <div className="text-right text-[#696969]">
-                      {fmtMoney(detail.shipping_total_amount, detail.currency)}
-                    </div>
+                <div className="grid grid-cols-[1fr_auto] py-4 border-b border-[#e5e5e5] text-[16px]">
+                  <div className="font-bold text-[#333333]">Shipping:</div>
+                  <div className="text-right text-[#696969]">
+                    {fmtMoney(detail.shipping_total_amount ?? 0, detail.currency)}
                   </div>
-                )}
+                </div>
                 {detail.discount_total_amount != null &&
                   Number(detail.discount_total_amount) > 0 && (
                     <div className="grid grid-cols-[1fr_auto] py-4 border-b border-[#e5e5e5] text-[16px]">
