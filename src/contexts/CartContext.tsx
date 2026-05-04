@@ -245,16 +245,58 @@ export function CartProvider({ children }: { children: ReactNode }) {
       setLoading(true);
       try {
         // On transition from logged-out → logged-in, merge the guest cart first.
-        if (isAuthenticated && lastAuthState.current === false) {
+        const isLoginTransition =
+          isAuthenticated && lastAuthState.current === false;
+        // Snapshot guest items BEFORE the merge attempt so we can re-add any
+        // that the upstream merge endpoint dropped/ignored.
+        const guestSnapshot: CartItem[] = isLoginTransition
+          ? itemsRef.current.map((it) => ({ ...it }))
+          : [];
+        if (isLoginTransition) {
           try {
             const merged = await apiMergeCart();
             if (!cancelled) applyResponse(merged);
           } catch {
-            // Falling through to plain getCart below if merge had nothing to merge
+            // Merge endpoint failed — we'll recover from the snapshot below
           }
         }
         const res = await apiGetCart(shippingCountry);
         if (!cancelled) applyResponse(res);
+
+        // Recovery: if the merge dropped any guest items, re-add them now
+        // that we're authenticated so the basket isn't silently emptied.
+        if (isLoginTransition && guestSnapshot.length > 0) {
+          const present = new Set(
+            (res.items || []).map(
+              (it) => `${normaliseIsbnDigits(it.isbn)}_${it.format ?? "hardback"}`,
+            ),
+          );
+          const missing = guestSnapshot.filter((it) => {
+            const isbn = it.isbn || it.id;
+            const key = `${normaliseIsbnDigits(isbn)}_${fromBookFormat(it.format)}`;
+            return isbn && !present.has(key);
+          });
+          if (missing.length > 0) {
+            for (const it of missing) {
+              const isbn = it.isbn || it.id;
+              try {
+                await apiAddCartItem({
+                  isbn,
+                  format: fromBookFormat(it.format),
+                  quantity: it.quantity || 1,
+                });
+              } catch {
+                /* ignore individual failures */
+              }
+            }
+            try {
+              const refreshed = await apiGetCart(shippingCountry);
+              if (!cancelled) applyResponse(refreshed);
+            } catch {
+              /* ignore */
+            }
+          }
+        }
       } catch (e) {
         console.warn("[cart] failed to load cart:", e);
       } finally {
