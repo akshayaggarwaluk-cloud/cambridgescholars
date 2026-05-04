@@ -234,6 +234,15 @@ export default function Checkout() {
   const [couponBusy, setCouponBusy] = useState(false);
   const [couponError, setCouponError] = useState<string | null>(null);
 
+  // Do not auto-apply a previously-saved coupon when entering checkout.
+  // Clear any active coupon once on mount so users must re-enter it explicitly.
+  useEffect(() => {
+    if (couponCode) {
+      void removeCoupon();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const [shipping, setShipping] = useState<AddressData>({
     ...emptyAddress,
     firstName: user?.firstName || "",
