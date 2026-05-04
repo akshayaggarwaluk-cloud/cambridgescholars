@@ -1,14 +1,11 @@
 import { useEffect, useState } from "react";
-import { Loader2, ChevronDown, ChevronUp, Package, RefreshCw, AlertCircle } from "lucide-react";
+import { Loader2, ChevronDown, ChevronUp, Package, RefreshCw, Search, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
-import { useExternalAuth } from "@/contexts/ExternalAuthContext";
-import {
-  listOrders,
-  getOrder,
-  type OrderSummary,
-  type OrderDetail,
-} from "@/services/accountService";
+import { adminApi } from "@/services/cmsService";
+import { adminSession } from "@/services/cmsService";
+import type { OrderSummary, OrderDetail } from "@/services/accountService";
 
 const CURRENCY_SYMBOL: Record<string, string> = { GBP: "£", USD: "$", EUR: "€" };
 
@@ -42,7 +39,7 @@ function statusColor(status: string) {
 const PER_PAGE = 20;
 
 export default function AdminOrders() {
-  const { isAuthenticated, user } = useExternalAuth();
+  const adminUser = adminSession.getUser();
 
   const [orders, setOrders] = useState<OrderSummary[]>([]);
   const [page, setPage] = useState(1);
@@ -55,16 +52,18 @@ export default function AdminOrders() {
   const [detailCache, setDetailCache] = useState<Record<number, OrderDetail>>({});
   const [detailLoadingId, setDetailLoadingId] = useState<number | null>(null);
   const [detailError, setDetailError] = useState<Record<number, string>>({});
+  const [search, setSearch] = useState("");
+  const [searchInput, setSearchInput] = useState("");
 
-  const load = async (p = page) => {
-    if (!isAuthenticated) {
-      setLoading(false);
-      return;
-    }
+  const load = async (p = page, q = search) => {
     setLoading(true);
     setError(null);
     try {
-      const res = await listOrders(p, PER_PAGE);
+      const res = await adminApi.listAllOrders({
+        page: p,
+        per_page: PER_PAGE,
+        search: q || undefined,
+      });
       setOrders(res?.orders || []);
       setPage(res?.pagination?.page || p);
       setPages(res?.pagination?.pages || 1);
@@ -81,7 +80,7 @@ export default function AdminOrders() {
   useEffect(() => {
     void load(1);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isAuthenticated]);
+  }, []);
 
   const toggleExpand = async (orderId: number) => {
     if (expandedId === orderId) {
@@ -92,7 +91,7 @@ export default function AdminOrders() {
     if (detailCache[orderId]) return;
     setDetailLoadingId(orderId);
     try {
-      const d = await getOrder(orderId);
+      const d = await adminApi.getOrderById(orderId);
       setDetailCache((prev) => ({ ...prev, [orderId]: d }));
       setDetailError((prev) => {
         const { [orderId]: _, ...rest } = prev;
@@ -106,65 +105,65 @@ export default function AdminOrders() {
     }
   };
 
-  // ── Empty / unauthenticated states ─────────────────────────────
-  if (!isAuthenticated) {
-    return (
-      <div className="space-y-4">
-        <div>
-          <h1 className="font-baskerville text-3xl text-foreground mb-2">Orders</h1>
-          <p className="text-muted-foreground">
-            Showing orders for the currently signed-in customer account.
-          </p>
-        </div>
-        <div className="border border-border bg-[#f4f3ec] p-6 flex items-start gap-3">
-          <AlertCircle className="h-5 w-5 text-accent mt-0.5 shrink-0" />
-          <div className="text-sm">
-            <p className="font-medium text-foreground">No customer signed in</p>
-            <p className="text-muted-foreground mt-1">
-              The Orders API is per-customer (requires a customer access token).
-              Open the storefront and sign in with the customer account whose
-              orders you want to view, then return here.
-            </p>
-            <a
-              href="/auth"
-              target="_blank"
-              rel="noreferrer"
-              className="inline-block mt-3 text-xs uppercase tracking-wider text-accent border-b border-accent"
-            >
-              Open storefront sign-in →
-            </a>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
   return (
     <div className="space-y-6">
       <div className="flex items-start justify-between gap-4 flex-wrap">
         <div>
           <h1 className="font-baskerville text-3xl text-foreground mb-2">Orders</h1>
           <p className="text-muted-foreground text-sm">
-            Orders for{" "}
-            <span className="font-medium text-foreground">
-              {user?.email || "current customer"}
-            </span>
+            All customer orders
+            {adminUser?.email && (
+              <> · signed in as <span className="font-medium text-foreground">{adminUser.email}</span></>
+            )}
             {total > 0 && <> · {total} total</>}
           </p>
         </div>
-        <Button
-          variant="outline"
-          onClick={() => void load(page)}
-          disabled={loading}
-          className="rounded-none uppercase tracking-wider text-xs"
-        >
-          {loading ? (
-            <Loader2 className="h-4 w-4 animate-spin mr-2" />
-          ) : (
-            <RefreshCw className="h-4 w-4 mr-2" />
-          )}
-          Refresh
-        </Button>
+        <div className="flex gap-2 items-center">
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              setSearch(searchInput.trim());
+              void load(1, searchInput.trim());
+            }}
+            className="flex items-center gap-1"
+          >
+            <div className="relative">
+              <Search className="h-4 w-4 absolute left-2 top-1/2 -translate-y-1/2 text-muted-foreground" />
+              <Input
+                value={searchInput}
+                onChange={(e) => setSearchInput(e.target.value)}
+                placeholder="Search email or order #"
+                className="pl-8 pr-8 h-9 w-64 rounded-none"
+              />
+              {searchInput && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setSearchInput("");
+                    setSearch("");
+                    void load(1, "");
+                  }}
+                  className="absolute right-2 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                >
+                  <X className="h-3.5 w-3.5" />
+                </button>
+              )}
+            </div>
+          </form>
+          <Button
+            variant="outline"
+            onClick={() => void load(page)}
+            disabled={loading}
+            className="rounded-none uppercase tracking-wider text-xs"
+          >
+            {loading ? (
+              <Loader2 className="h-4 w-4 animate-spin mr-2" />
+            ) : (
+              <RefreshCw className="h-4 w-4 mr-2" />
+            )}
+            Refresh
+          </Button>
+        </div>
       </div>
 
       {error && (
