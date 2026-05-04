@@ -101,6 +101,7 @@ export default function ExternalProfile() {
   const [orderDetailError, setOrderDetailError] = useState<Record<string, string>>({});
   // ISBN → binding label (e.g. "Hardback", "Paperback", "Ebook")
   const [bindingByIsbn, setBindingByIsbn] = useState<Record<string, string>>({});
+  const [showCancelledNotice, setShowCancelledNotice] = useState(false);
 
   const handleViewOrder = async (orderId: number | string) => {
     const key = String(orderId);
