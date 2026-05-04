@@ -604,3 +604,122 @@ export async function fetchSiteStatistics(): Promise<SiteStatistics> {
   const json = await res.json();
   return json.data || json;
 }
+
+// ─── Submissions ────────────────────────────────────────────────
+
+export interface ProposalAuthor {
+  role: "author" | "co-author" | "editor" | "contributor" | "translator";
+  title?: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone?: string;
+  position?: string;
+  institution?: string;
+  country?: string;
+  biography?: string;
+  cv?: string;
+}
+
+export interface ProposalPayload {
+  authors: ProposalAuthor[];
+  mailing: {
+    addressLine1: string;
+    addressLine2?: string;
+    city: string;
+    state: string;
+    postalCode: string;
+    country: string;
+  };
+  book: {
+    title: string;
+    subtitle?: string;
+    type: "monograph" | "edited";
+    subject: string;
+    secondarySubjects?: string[];
+    language: string;
+    estimatedWordCount: number;
+    estimatedPages?: number;
+    estimatedCompletionDate: string;
+    isPreviouslyPublished: boolean;
+    hasIllustrations: boolean;
+    illustrationCount?: number;
+    hasTables: boolean;
+  };
+  description: {
+    abstract: string;
+    tableOfContents?: string;
+    keyFeatures: string;
+    uniqueSellingPoints: string;
+  };
+  marketing: {
+    targetAudience: string;
+    primaryMarket?: string;
+    competingTitles: string;
+    recommendedReviewers?: string;
+    conferences?: string;
+    promotionalChannels?: string;
+  };
+  manuscript: {
+    sampleChapter?: string;
+    fullManuscript?: string;
+    additionalFiles?: string[];
+  };
+  agreement: {
+    acceptedTerms: boolean;
+    acceptedPrivacyPolicy: boolean;
+    signedBy: string;
+    signedAt: string;
+  };
+}
+
+export interface ProposalSubmitResponse {
+  success: boolean;
+  data?: {
+    submissionId: string;
+    referenceNumber: string;
+    submittedAt: string;
+    status: string;
+    estimatedReviewTime?: string;
+  };
+  message?: string;
+  error?: string;
+  details?: Record<string, string>;
+}
+
+/** Submit a book proposal (multipart/form-data). */
+export async function submitProposal(
+  payload: ProposalPayload,
+  files: { cv?: File | null; sampleChapters?: File[]; additionalFiles?: File[] },
+): Promise<ProposalSubmitResponse> {
+  const fd = new FormData();
+  fd.append("authors", JSON.stringify(payload.authors));
+  fd.append("mailing", JSON.stringify(payload.mailing));
+  fd.append("book", JSON.stringify(payload.book));
+  fd.append("description", JSON.stringify(payload.description));
+  fd.append("marketing", JSON.stringify(payload.marketing));
+  fd.append("manuscript", JSON.stringify(payload.manuscript));
+  fd.append("agreement", JSON.stringify(payload.agreement));
+
+  if (files.cv) fd.append("cv", files.cv);
+  (files.sampleChapters || []).forEach((f) => fd.append("sampleChapter", f));
+  (files.additionalFiles || []).forEach((f) => fd.append("additionalFiles", f));
+
+  const res = await fetch(`${CSP_API_BASE}/submissions/proposal`, {
+    method: "POST",
+    body: fd,
+  });
+  const text = await res.text();
+  let parsed: ProposalSubmitResponse = { success: false };
+  try { parsed = text ? JSON.parse(text) : { success: false }; } catch { /* ignore */ }
+  if (!res.ok) {
+    if (res.status === 429) throw new Error("Too many submissions. Please try again in an hour.");
+    if (res.status === 413) throw new Error(parsed.message || "One or more files are too large.");
+    if (res.status === 400 && parsed.details) {
+      const first = Object.values(parsed.details)[0];
+      throw new Error(first || "Please review the form for errors.");
+    }
+    throw new Error(parsed.message || parsed.error || `Submission failed (${res.status})`);
+  }
+  return parsed;
+}
