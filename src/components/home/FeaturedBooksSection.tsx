@@ -32,14 +32,13 @@ export function FeaturedBooksSection() {
             if (isbnMatch && !coverImage.includes("/978")) {
               coverImage = coverImage.replace(`/${isbnMatch[1]}.jpg`, `/978${isbnMatch[1]}.jpg`);
             }
-            const reviewer = item.featured_reviewer;
             return {
               id: item.isbn,
               title: item.title,
-              description: reviewer?.rationale || item.description || "",
+              description: item.description || "",
               image: coverImage,
-              reviewer: reviewer?.name || "",
-              reviewerPosition: reviewer?.position || "",
+              reviewer: item.featured_reviewer?.name || "",
+              reviewerPosition: item.featured_reviewer?.position || "",
             };
           });
         setFeaturedBooks(mapped);
