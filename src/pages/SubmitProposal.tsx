@@ -11,6 +11,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Progress } from "@/components/ui/progress";
 import { useToast } from "@/hooks/use-toast";
 import { ArrowLeft, ArrowRight, Send, Upload, CheckCircle2 } from "lucide-react";
+import { submitProposal, type ProposalAuthor } from "@/services/cspApi";
 
 const TOTAL_STEPS = 7;
 
@@ -19,6 +20,7 @@ const SubmitProposal = () => {
   const [currentStep, setCurrentStep] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [referenceNumber, setReferenceNumber] = useState<string>("");
   const [hasCoAuthors, setHasCoAuthors] = useState<string>("");
   const [coAuthorCount, setCoAuthorCount] = useState("1");
   const [bookType, setBookType] = useState("");
@@ -154,11 +156,111 @@ const SubmitProposal = () => {
       });
       return;
     }
+    if (!cvFile) {
+      toast({ title: "CV is required", description: "Please upload your CV in Step 1.", variant: "destructive" });
+      setCurrentStep(1);
+      return;
+    }
+    if (sampleFiles.length === 0) {
+      toast({ title: "Sample chapter required", description: "Please upload at least one sample chapter.", variant: "destructive" });
+      return;
+    }
+
+    // Build authors array
+    const splitName = (full: string): { firstName: string; lastName: string } => {
+      const parts = (full || "").trim().split(/\s+/);
+      if (parts.length <= 1) return { firstName: parts[0] || "", lastName: "" };
+      return { firstName: parts.slice(0, -1).join(" "), lastName: parts[parts.length - 1] };
+    };
+
+    const primary = splitName(formData.fullName || "");
+    const authors: ProposalAuthor[] = [
+      {
+        role: "author",
+        firstName: primary.firstName,
+        lastName: primary.lastName,
+        email: formData.email || "",
+        phone: formData.phone,
+        position: formData.position,
+        institution: formData.institution,
+        country: country || formData.country,
+        biography: formData.qualifications,
+      },
+    ];
+    if (hasCoAuthors === "yes") {
+      const count = parseInt(coAuthorCount) || 1;
+      for (let i = 0; i < count; i++) {
+        const n = splitName(formData[`coauthor-${i}-name`] || "");
+        const role = (coAuthorRoles[i] || "co-author").replace(/s$/, "") as ProposalAuthor["role"];
+        authors.push({
+          role: ["author", "co-author", "editor", "contributor", "translator"].includes(role) ? role : "co-author",
+          firstName: n.firstName,
+          lastName: n.lastName,
+          email: formData[`coauthor-${i}-email`] || "",
+          institution: formData[`coauthor-${i}-affiliation`] || "",
+        });
+      }
+    }
+
+    const payload = {
+      authors,
+      mailing: {
+        addressLine1: formData.address || "",
+        city: formData.city || "",
+        state: formData.state || "",
+        postalCode: formData.zip || "",
+        country: country || "",
+      },
+      book: {
+        title: formData.proposedTitle || "",
+        subtitle: formData.proposedSubtitle,
+        type: (bookType === "edited" ? "edited" : "monograph") as "monograph" | "edited",
+        subject: formData.languages || "General",
+        language: "English",
+        estimatedWordCount: parseInt(formData.wordCount || "0", 10) || 0,
+        estimatedCompletionDate: formData.submissionDate || "",
+        isPreviouslyPublished: false,
+        hasIllustrations: (parseInt(formData.illustrations || "0", 10) || 0) > 0,
+        illustrationCount: parseInt(formData.illustrations || "0", 10) || 0,
+        hasTables: false,
+      },
+      description: {
+        abstract: formData.briefSummary || "",
+        keyFeatures: formData.keyFeatures || "",
+        uniqueSellingPoints: formData.uniqueContribution || "",
+      },
+      marketing: {
+        targetAudience: formData.audience || "",
+        competingTitles: formData.competingTitles || "",
+      },
+      manuscript: {},
+      agreement: {
+        acceptedTerms: true,
+        acceptedPrivacyPolicy: true,
+        signedBy: formData.fullName || "",
+        signedAt: new Date().toISOString(),
+      },
+    };
+
     setIsSubmitting(true);
-    await new Promise((resolve) => setTimeout(resolve, 1500));
-    setIsSubmitting(false);
-    setIsSubmitted(true);
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    try {
+      const res = await submitProposal(payload, {
+        cv: cvFile,
+        sampleChapters: sampleFiles,
+        additionalFiles: supportingFiles,
+      });
+      if (res?.data?.referenceNumber) setReferenceNumber(res.data.referenceNumber);
+      setIsSubmitted(true);
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    } catch (err) {
+      toast({
+        title: "Submission failed",
+        description: err instanceof Error ? err.message : "Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const renderCoAuthorFields = () => {
@@ -217,6 +319,11 @@ const SubmitProposal = () => {
               <div className="flex justify-center mb-10">
                 <CheckCircle2 className="w-24 h-24 text-[#1F9D55] stroke-[1.5]" />
               </div>
+              {referenceNumber && (
+                <p className="text-[#333333] text-base mb-6">
+                  Your reference number: <span className="font-semibold">{referenceNumber}</span>
+                </p>
+              )}
               <p className="text-[#333333] text-base leading-relaxed mb-8 max-w-2xl mx-auto">
                 Once you have completed and submitted your proposal, it will be carefully reviewed by our editorial team.
                 We will evaluate its suitability for publication, taking into account factors such as originality,
