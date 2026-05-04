@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { useState, useEffect, useMemo } from "react";
-import { Minus, Plus, X, Info, ShoppingCart } from "lucide-react";
+import { BookOpen, Minus, Plus, X, Info, ShoppingCart } from "lucide-react";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { PageBreadcrumb } from "@/components/layout/PageBreadcrumb";
@@ -122,6 +122,32 @@ export default function Cart() {
   const formatLabel = (f: string) =>
     f === "ebook" ? "Ebook" : f === "paperback" ? "Paperback" : "Hardback";
 
+  const CartCover = ({ item }: { item: CartItem }) => {
+    const [hasFailed, setHasFailed] = useState(false);
+    const showImage = Boolean(item.image && !hasFailed);
+    const showSkeleton = Boolean(item.coverImageLoading && !showImage);
+
+    if (showImage) {
+      return (
+        <img
+          src={item.image}
+          alt={item.title}
+          className="w-20 h-28 object-cover hover:opacity-80 transition-opacity"
+          onError={() => setHasFailed(true)}
+        />
+      );
+    }
+
+    return (
+      <div
+        className={`w-20 h-28 bg-[#F4F3EC] border border-[#D9D6C8] flex items-center justify-center ${showSkeleton ? "animate-pulse" : ""}`}
+        aria-label={`${item.title} cover unavailable`}
+      >
+        <BookOpen className="h-6 w-6 text-[#777777]" aria-hidden="true" />
+      </div>
+    );
+  };
+
   return (
     <div className="min-h-screen bg-white">
       <Header />
@@ -154,14 +180,7 @@ export default function Cart() {
                 {/* Product */}
                 <div className="flex items-center gap-5 min-w-0">
                   <Link to={`/books/${item.id}`} className="shrink-0">
-                    <img
-                      src={item.image || "/placeholder.svg"}
-                      alt={item.title}
-                      className="w-20 h-28 object-cover hover:opacity-80 transition-opacity"
-                      onError={(e) => {
-                        e.currentTarget.src = "/placeholder.svg";
-                      }}
-                    />
+                    <CartCover item={item} />
                   </Link>
                   <div className="min-w-0">
                     <Link to={`/books/${item.id}`}>
