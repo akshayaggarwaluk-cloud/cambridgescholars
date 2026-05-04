@@ -101,6 +101,7 @@ export default function ExternalProfile() {
   const [orderDetailError, setOrderDetailError] = useState<Record<string, string>>({});
   // ISBN → binding label (e.g. "Hardback", "Paperback", "Ebook")
   const [bindingByIsbn, setBindingByIsbn] = useState<Record<string, string>>({});
+  const [showCancelledNotice, setShowCancelledNotice] = useState(false);
 
   const handleViewOrder = async (orderId: number | string) => {
     const key = String(orderId);
@@ -380,6 +381,12 @@ export default function ExternalProfile() {
       className="space-y-5 text-[16px] text-[#696969]"
       style={{ fontFamily: '"Nunito Sans", sans-serif' }}
     >
+      {showCancelledNotice && (
+        <div className="bg-[#5BAFA8] text-white px-6 py-5 flex items-center gap-3 text-[15px]">
+          <Info className="h-5 w-5 flex-shrink-0" strokeWidth={2} />
+          <span>Your order was cancelled.</span>
+        </div>
+      )}
       <p>
         Hello <strong className="font-bold text-[#696969]">{dashboardName}</strong>{" "}
         (not <strong className="font-bold text-[#696969]">{dashboardName}</strong>?{" "}
@@ -502,7 +509,15 @@ export default function ExternalProfile() {
                       View
                     </button>
                     {isPending && (
-                      <button className="text-white text-[13px] font-bold uppercase tracking-wider px-5 py-3 hover:bg-[#c94a30] transition-colors">
+                      <button
+                        onClick={() => {
+                          setShowCancelledNotice(true);
+                          setViewingOrderId(null);
+                          setActiveTab("dashboard");
+                          if (typeof window !== "undefined") window.scrollTo({ top: 0, behavior: "smooth" });
+                        }}
+                        className="text-white text-[13px] font-bold uppercase tracking-wider px-5 py-3 hover:bg-[#c94a30] transition-colors"
+                      >
                         Cancel
                       </button>
                     )}
@@ -667,7 +682,15 @@ export default function ExternalProfile() {
                       >
                         Pay
                       </button>
-                      <button className="bg-[#E4573D] hover:bg-[#c94a30] text-white text-[13px] font-bold uppercase tracking-wider px-8 py-3 transition-colors">
+                      <button
+                        onClick={() => {
+                          setShowCancelledNotice(true);
+                          setViewingOrderId(null);
+                          setActiveTab("dashboard");
+                          if (typeof window !== "undefined") window.scrollTo({ top: 0, behavior: "smooth" });
+                        }}
+                        className="bg-[#E4573D] hover:bg-[#c94a30] text-white text-[13px] font-bold uppercase tracking-wider px-8 py-3 transition-colors"
+                      >
                         Cancel
                       </button>
                     </div>
