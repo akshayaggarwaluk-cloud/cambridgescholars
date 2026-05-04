@@ -24,8 +24,10 @@ import {
   updateProfile,
   changePassword,
   listOrders,
+  getOrder,
   type AccountProfile,
   type ProfileUpdatePayload,
+  type OrderDetail,
 } from "@/services/accountService";
 
 type TabType = "dashboard" | "orders" | "addresses" | "payment" | "account" | "password";
