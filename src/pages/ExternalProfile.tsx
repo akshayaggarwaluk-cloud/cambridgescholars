@@ -514,6 +514,14 @@ export default function ExternalProfile() {
 
     return (
       <div className="space-y-8 text-[#333333]">
+        {order && (
+          <p className="text-[18px] text-[#696969]" style={{ fontFamily: '"Nunito Sans", sans-serif' }}>
+            Order #<strong className="text-[#333333]">{order.id}</strong>{"  "}was placed on{"  "}
+            <strong className="text-[#333333]">{orderDateStr}</strong>{"  "}and is currently{"  "}
+            <strong className="text-[#333333]">{statusLabel}</strong>.
+          </p>
+        )}
+
         {dLoading ? (
           <div className="flex justify-center py-12">
             <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
