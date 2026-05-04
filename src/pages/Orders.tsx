@@ -218,7 +218,7 @@ export default function Orders() {
                               </>
                             ) : (
                               <>
-                                Details <ChevronDown className="h-4 w-4 ml-1" />
+                                View <ChevronDown className="h-4 w-4 ml-1" />
                               </>
                             )}
                           </Button>
@@ -272,6 +272,18 @@ export default function Orders() {
                             {/* Totals */}
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
                               <div className="space-y-1">
+                                {(() => {
+                                  const subtotal = detail.items.reduce(
+                                    (sum, it) => sum + (it.subtotal ?? (it.unit_price ?? 0) * it.quantity),
+                                    0,
+                                  );
+                                  return (
+                                    <div className="flex justify-between">
+                                      <span className="text-muted-foreground">Subtotal</span>
+                                      <span>{formatMoney(subtotal, detail.currency)}</span>
+                                    </div>
+                                  );
+                                })()}
                                 {typeof detail.shipping_total_amount === "number" && (
                                   <div className="flex justify-between">
                                     <span className="text-muted-foreground">Shipping</span>
@@ -294,10 +306,33 @@ export default function Orders() {
                                   <span>Total</span>
                                   <span>{formatMoney(detail.total_amount, detail.currency)}</span>
                                 </div>
+                                {detail.payment_method_title && (
+                                  <div className="flex justify-between pt-2">
+                                    <span className="text-muted-foreground">Payment method</span>
+                                    <span>{detail.payment_method_title}</span>
+                                  </div>
+                                )}
                               </div>
 
                               {/* Addresses */}
                               <div className="space-y-3">
+                                {detail.billing && (detail.billing.address_1 || detail.billing.city || detail.billing.email) && (
+                                  <div>
+                                    <p className="font-semibold text-foreground mb-1">Billing address</p>
+                                    <p className="text-muted-foreground whitespace-pre-line">
+                                      {[
+                                        [detail.billing.first_name, detail.billing.last_name].filter(Boolean).join(" "),
+                                        detail.billing.company,
+                                        detail.billing.address_1,
+                                        detail.billing.address_2,
+                                        [detail.billing.city, detail.billing.state, detail.billing.postcode].filter(Boolean).join(", "),
+                                        detail.billing.country,
+                                        detail.billing.phone,
+                                        detail.billing.email,
+                                      ].filter(Boolean).join("\n")}
+                                    </p>
+                                  </div>
+                                )}
                                 {detail.shipping && (detail.shipping.address_1 || detail.shipping.city) && (
                                   <div>
                                     <p className="font-semibold text-foreground mb-1">Shipping address</p>
@@ -309,6 +344,7 @@ export default function Orders() {
                                         detail.shipping.address_2,
                                         [detail.shipping.city, detail.shipping.state, detail.shipping.postcode].filter(Boolean).join(", "),
                                         detail.shipping.country,
+                                        detail.shipping.phone,
                                       ].filter(Boolean).join("\n")}
                                     </p>
                                   </div>
