@@ -512,13 +512,6 @@ export default function ExternalProfile() {
 
     return (
       <div className="space-y-8 text-[#333333]">
-        <button
-          onClick={() => setViewingOrderId(null)}
-          className="text-[#C75B2A] hover:text-[#a84a20] text-[14px] font-bold uppercase tracking-wider"
-        >
-          ← Back to orders
-        </button>
-
         {order && (
           <p className="text-[16px] text-[#696969]">
             Order #<strong className="text-[#333333]">{order.id}</strong> was placed on{" "}
