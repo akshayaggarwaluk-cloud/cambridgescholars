@@ -171,6 +171,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const itemsRef = useRef<CartItem[]>([]);
   itemsRef.current = items;
   const lastAuthState = useRef<boolean | null>(null);
+  const coverFetchesRef = useRef<Set<string>>(new Set());
 
   const applyResponse = useCallback((res: CartResponse) => {
     const prevByIsbnFmt = new Map<string, CartItem>();
@@ -181,24 +182,35 @@ export function CartProvider({ children }: { children: ReactNode }) {
       mapApiItem(api, prevByIsbnFmt.get(`${api.isbn}_${api.format ?? "hardback"}`)),
     );
     setItems(next);
-    // Enrich any items that still lack a cover image (common for ebook ISBNs
-    // whose covers are published under the hardback ISBN). Look the book up
-    // by ISBN and patch the image asynchronously.
+    // Enrich any items that still lack a confirmed cover image (common for
+    // ebook ISBNs whose covers are published under the hardback ISBN). Look
+    // the book up by ISBN and patch the image asynchronously.
     next.forEach((it) => {
-      if (!it.image && it.isbn) {
+      const digits = normaliseIsbnDigits(it.isbn);
+      if (!it.image && digits) {
+        const fetchKey = `${digits}_${it.format}`;
+        if (coverFetchesRef.current.has(fetchKey)) return;
+        coverFetchesRef.current.add(fetchKey);
         fetchBookByIsbn(it.isbn)
           .then((b) => {
             const img = b?.image;
-            if (!img) return;
             setItems((curr) =>
               curr.map((c) =>
-                c.isbn === it.isbn && c.format === it.format && !c.image
-                  ? { ...c, image: img }
+                normaliseIsbnDigits(c.isbn) === digits && c.format === it.format && !c.image
+                  ? { ...c, image: img || "", coverImageLoading: false }
                   : c,
               ),
             );
           })
-          .catch(() => { /* ignore */ });
+          .catch(() => {
+            setItems((curr) =>
+              curr.map((c) =>
+                normaliseIsbnDigits(c.isbn) === digits && c.format === it.format && !c.image
+                  ? { ...c, coverImageLoading: false }
+                  : c,
+              ),
+            );
+          });
       }
     });
     setCouponCode(res.coupon_code ?? null);
