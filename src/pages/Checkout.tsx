@@ -195,7 +195,17 @@ function AddressFields({
         <FieldLabel htmlFor={`${idPrefix}-phone`} required={phoneRequired}>
           {phoneRequired ? "Phone" : "Phone (optional)"}
         </FieldLabel>
-        <Input id={`${idPrefix}-phone`} type="tel" className={inputCls} value={data.phone} onChange={(e) => set("phone", e.target.value)} required={phoneRequired} />
+        <Input
+          id={`${idPrefix}-phone`}
+          type="tel"
+          inputMode="tel"
+          pattern="[0-9+\-\s()]*"
+          maxLength={20}
+          className={inputCls}
+          value={data.phone}
+          onChange={(e) => set("phone", e.target.value.replace(/[^0-9+\-\s()]/g, ""))}
+          required={phoneRequired}
+        />
       </div>
       {showEmail && (
         <div>
