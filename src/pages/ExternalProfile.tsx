@@ -514,12 +514,6 @@ export default function ExternalProfile() {
 
     return (
       <div className="space-y-8 text-[#333333]">
-        <h2
-          className="font-baskerville text-[40px] text-[#333333]"
-          style={{ fontFamily: '"Nunito Sans", sans-serif' }}
-        >
-          Order details
-        </h2>
         {dLoading ? (
           <div className="flex justify-center py-12">
             <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
@@ -529,6 +523,9 @@ export default function ExternalProfile() {
         ) : detail ? (
           <>
             <div style={{ fontFamily: '"Nunito Sans", sans-serif' }}>
+              <h2 className="font-baskerville text-[40px] leading-[1.2] text-[#333333] mb-8">
+                Order details
+              </h2>
               <div>
                 <div className="grid grid-cols-[1fr_auto] gap-4 pb-6 border-b border-[#e5e5e5] text-[16px] font-bold uppercase tracking-wider text-[#333333]">
                   <div>Product</div>
