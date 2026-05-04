@@ -440,10 +440,11 @@ export default function ExternalProfile() {
             const isPending =
               order.status.toLowerCase().includes("pending") ||
               order.status.toLowerCase() === "on-hold";
-            const isOpen = expandedOrderId === order.id;
+            const orderKey = String(order.id);
+            const isOpen = expandedOrderId === orderKey;
             const detail = orderDetailCache[String(order.id)];
             const dErr = orderDetailError[String(order.id)];
-            const dLoading = orderDetailLoadingId === order.id;
+            const dLoading = orderDetailLoadingId === orderKey;
             const currencySymbol = (c?: string | null) => {
               const u = (c || "GBP").toUpperCase();
               return u === "USD" ? "$" : u === "EUR" ? "€" : "£";
