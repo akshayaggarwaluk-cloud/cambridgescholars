@@ -96,6 +96,10 @@ const SubmitProposal = () => {
     5: [
       { key: "competingTitles", type: "text" },
       { key: "uniqueContribution", type: "text" },
+      { key: "primaryMarket", type: "text" },
+      { key: "recommendedReviewers", type: "text" },
+      { key: "conferences", type: "text" },
+      { key: "promotionalChannels", type: "text" },
     ],
     6: [{ key: "submissionDate", type: "date" }],
     7: [
@@ -234,6 +238,10 @@ const SubmitProposal = () => {
       marketing: {
         targetAudience: formData.audience || "",
         competingTitles: formData.competingTitles || "",
+        primaryMarket: formData.primaryMarket || "",
+        recommendedReviewers: formData.recommendedReviewers || "",
+        conferences: formData.conferences || "",
+        promotionalChannels: formData.promotionalChannels || "",
       },
       manuscript: {},
       agreement: {
@@ -549,6 +557,37 @@ const SubmitProposal = () => {
                     value={formData.uniqueContribution}
                     onChange={(v) => updateField("uniqueContribution", v)}
                     error={errors.uniqueContribution}
+                  />
+                  <FieldInput
+                    label="Primary Market (e.g. UK / US / EU / Global)"
+                    required
+                    value={formData.primaryMarket}
+                    onChange={(v) => updateField("primaryMarket", v)}
+                    error={errors.primaryMarket}
+                  />
+                  <FieldTextarea
+                    label="Recommended Reviewers (names, affiliations, and emails)"
+                    required
+                    rows={3}
+                    value={formData.recommendedReviewers}
+                    onChange={(v) => updateField("recommendedReviewers", v)}
+                    error={errors.recommendedReviewers}
+                  />
+                  <FieldTextarea
+                    label="Relevant Conferences or Academic Events"
+                    required
+                    rows={3}
+                    value={formData.conferences}
+                    onChange={(v) => updateField("conferences", v)}
+                    error={errors.conferences}
+                  />
+                  <FieldTextarea
+                    label="Promotional Channels (e.g. social media, journals, mailing lists)"
+                    required
+                    rows={3}
+                    value={formData.promotionalChannels}
+                    onChange={(v) => updateField("promotionalChannels", v)}
+                    error={errors.promotionalChannels}
                   />
                 </>
               )}
