@@ -1160,7 +1160,10 @@ export default function ExternalProfile() {
               {sidebarItems.map((item) => (
                 <button
                   key={item.id}
-                  onClick={() => setActiveTab(item.id)}
+                  onClick={() => {
+                    setActiveTab(item.id);
+                    if (item.id === "orders") setViewingOrderId(null);
+                  }}
                   style={{ fontFamily: '"Nunito Sans", sans-serif', fontSize: "14px", fontWeight: 700, padding: "15px 20px" }}
                   className={`w-full text-left border-b border-border transition-colors block ${
                     activeTab === item.id
