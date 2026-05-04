@@ -76,6 +76,7 @@ export interface Book {
 export interface CartItem extends Book {
   quantity: number;
   format: BookFormat;
+  coverImageLoading?: boolean;
 }
 
 // Map upstream cart format string → local BookFormat
@@ -88,6 +89,9 @@ function fromBookFormat(f: BookFormat): string {
   return f === "hardbook" ? "hardback" : f;
 }
 
+const normaliseIsbnDigits = (isbn?: string | null) =>
+  (isbn || "").replace(/[^0-9Xx]/g, "").toUpperCase();
+
 /**
  * Convert an upstream cart item to a local CartItem (Book + quantity + format).
  * We try to preserve any extra metadata (image, author) we already had locally.
@@ -95,22 +99,17 @@ function fromBookFormat(f: BookFormat): string {
 function mapApiItem(api: ApiCartItem, prev?: CartItem): CartItem {
   const format = toBookFormat(api.format);
   const price = api.unit_price_gbp ?? prev?.price ?? 0;
-  // Cover image: prefer the upstream URL but normalise short 10-digit ISBN
-  // filenames to the 978-prefixed variant the CDN actually serves. The cart
-  // endpoint frequently omits cover_image entirely, so fall back to the
-  // canonical CDN path derived from the ISBN.
-  let image = api.cover_image || prev?.image || "";
+  // Cover image: prefer a confirmed upstream URL, then a confirmed image we
+  // already resolved. Do not derive an ebook cover from the ebook ISBN here;
+  // many ebook ISBN cover paths 404 because the actual cover is stored against
+  // the primary print ISBN and must be resolved via the book endpoint.
+  const resolvedPreviousImage = prev?.coverImageLoading === false ? prev?.image : "";
+  let image = resolvedPreviousImage || (format === "ebook" ? "" : api.cover_image || "");
   const shortIsbnInUrl = image.match(/\/(\d{10})\.jpg$/);
   if (shortIsbnInUrl && !image.includes("/978")) {
     image = image.replace(`/${shortIsbnInUrl[1]}.jpg`, `/978${shortIsbnInUrl[1]}.jpg`);
   }
-  if (!image && api.isbn) {
-    const digits = api.isbn.replace(/[^0-9]/g, "");
-    const isbn13 = digits.length === 10 ? `978${digits}` : digits;
-    if (isbn13.length === 13) {
-      image = `https://cspcontents.s3.eu-west-1.amazonaws.com/master/croppedcovers/${isbn13}.jpg`;
-    }
-  }
+  const coverImageLoading = Boolean(!image && api.isbn);
   return {
     id: prev?.id || api.isbn,
     title: api.title || prev?.title || "",
@@ -139,6 +138,7 @@ function mapApiItem(api: ApiCartItem, prev?: CartItem): CartItem {
     series: prev?.series,
     quantity: api.quantity,
     format,
+    coverImageLoading,
   };
 }
 
@@ -172,6 +172,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const itemsRef = useRef<CartItem[]>([]);
   itemsRef.current = items;
   const lastAuthState = useRef<boolean | null>(null);
+  const coverFetchesRef = useRef<Set<string>>(new Set());
 
   const applyResponse = useCallback((res: CartResponse) => {
     const prevByIsbnFmt = new Map<string, CartItem>();
@@ -182,24 +183,35 @@ export function CartProvider({ children }: { children: ReactNode }) {
       mapApiItem(api, prevByIsbnFmt.get(`${api.isbn}_${api.format ?? "hardback"}`)),
     );
     setItems(next);
-    // Enrich any items that still lack a cover image (common for ebook ISBNs
-    // whose covers are published under the hardback ISBN). Look the book up
-    // by ISBN and patch the image asynchronously.
+    // Enrich any items that still lack a confirmed cover image (common for
+    // ebook ISBNs whose covers are published under the hardback ISBN). Look
+    // the book up by ISBN and patch the image asynchronously.
     next.forEach((it) => {
-      if (!it.image && it.isbn) {
+      const digits = normaliseIsbnDigits(it.isbn);
+      if (!it.image && digits) {
+        const fetchKey = `${digits}_${it.format}`;
+        if (coverFetchesRef.current.has(fetchKey)) return;
+        coverFetchesRef.current.add(fetchKey);
         fetchBookByIsbn(it.isbn)
           .then((b) => {
             const img = b?.image;
-            if (!img) return;
             setItems((curr) =>
               curr.map((c) =>
-                c.isbn === it.isbn && c.format === it.format && !c.image
-                  ? { ...c, image: img }
+                normaliseIsbnDigits(c.isbn) === digits && c.format === it.format && !c.image
+                  ? { ...c, image: img || "", coverImageLoading: false }
                   : c,
               ),
             );
           })
-          .catch(() => { /* ignore */ });
+          .catch(() => {
+            setItems((curr) =>
+              curr.map((c) =>
+                normaliseIsbnDigits(c.isbn) === digits && c.format === it.format && !c.image
+                  ? { ...c, coverImageLoading: false }
+                  : c,
+              ),
+            );
+          });
       }
     });
     setCouponCode(res.coupon_code ?? null);
