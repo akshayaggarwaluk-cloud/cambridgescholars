@@ -87,6 +87,7 @@ const SubmitProposal = () => {
     4: [
       { key: "briefSummary", type: "text" },
       { key: "keyFeatures", type: "text" },
+      { key: "tableOfContents", type: "text" },
       { key: "audience", type: "text" },
       { key: "wordCount", type: "number" },
       { key: "illustrations", type: "number" },
@@ -226,6 +227,7 @@ const SubmitProposal = () => {
       },
       description: {
         abstract: formData.briefSummary || "",
+        tableOfContents: formData.tableOfContents || "",
         keyFeatures: formData.keyFeatures || "",
         uniqueSellingPoints: formData.uniqueContribution || "",
       },
@@ -521,6 +523,7 @@ const SubmitProposal = () => {
                   <h2 className="text-2xl font-serif text-foreground pb-2">Book Description</h2>
                   <FieldTextarea label="Brief Summary of the Book (approx. 200–500 words)" required rows={6} value={formData.briefSummary} onChange={(v) => updateField("briefSummary", v)} error={errors.briefSummary} />
                   <FieldTextarea label="Key Features or Selling Points" required rows={4} value={formData.keyFeatures} onChange={(v) => updateField("keyFeatures", v)} error={errors.keyFeatures} />
+                  <FieldTextarea label="Table of Contents (chapter list or outline)" required rows={6} value={formData.tableOfContents} onChange={(v) => updateField("tableOfContents", v)} error={errors.tableOfContents} />
                   <FieldTextarea label="Intended Audience" required rows={3} value={formData.audience} onChange={(v) => updateField("audience", v)} error={errors.audience} />
                   <FieldInput label="Estimated final word count (between 35,000 and 200,000 words)" type="number" required value={formData.wordCount} onChange={(v) => updateField("wordCount", v)} error={errors.wordCount} />
                   <FieldInput label="Number of illustrations/figures/tables (if any)" type="number" required value={formData.illustrations} onChange={(v) => updateField("illustrations", v)} error={errors.illustrations} />
