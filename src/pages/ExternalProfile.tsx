@@ -546,7 +546,7 @@ export default function ExternalProfile() {
                   >
                     <div className="text-[16px] text-[#696969]">
                       <div>
-                        {it.name} <span className="text-[#696969]">×</span> <strong className="text-[#333333]">{it.quantity}</strong>
+                        {it.name.split(":")[0]} <span className="text-[#696969]">×</span> <strong className="text-[#333333]">{it.quantity}</strong>
                       </div>
                       {it.isbn && (
                         <div className="mt-2">
