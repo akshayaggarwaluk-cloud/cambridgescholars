@@ -102,6 +102,7 @@ export default function ExternalProfile() {
   // ISBN → binding label (e.g. "Hardback", "Paperback", "Ebook")
   const [bindingByIsbn, setBindingByIsbn] = useState<Record<string, string>>({});
   const [showCancelledNotice, setShowCancelledNotice] = useState(false);
+  const [cancelledOrderIds, setCancelledOrderIds] = useState<Set<string>>(new Set());
 
   const handleViewOrder = async (orderId: number | string) => {
     const key = String(orderId);
@@ -471,12 +472,15 @@ export default function ExternalProfile() {
           </div>
           {/* Rows */}
           {orders.map((order) => {
-            const statusLabel = order.status
+            const isCancelled = cancelledOrderIds.has(String(order.id));
+            const effectiveStatus = isCancelled ? "cancelled" : order.status;
+            const statusLabel = effectiveStatus
               .replace(/[-_]/g, " ")
               .replace(/\b\w/g, (c) => c.toUpperCase());
             const isPending =
-              order.status.toLowerCase().includes("pending") ||
-              order.status.toLowerCase() === "on-hold";
+              !isCancelled &&
+              (effectiveStatus.toLowerCase().includes("pending") ||
+                effectiveStatus.toLowerCase() === "on-hold");
             return (
               <div key={order.id} className="border-b border-border">
                 <div className="grid grid-cols-5 items-center px-6 py-6 text-[14px] text-[#696969]">
@@ -511,6 +515,11 @@ export default function ExternalProfile() {
                     {isPending && (
                       <button
                         onClick={() => {
+                          setCancelledOrderIds((prev) => {
+                            const next = new Set(prev);
+                            next.add(String(order.id));
+                            return next;
+                          });
                           setShowCancelledNotice(true);
                           setViewingOrderId(null);
                           setActiveTab("dashboard");
@@ -544,13 +553,15 @@ export default function ExternalProfile() {
     const dErr = orderDetailError[key];
     const dLoading = orderDetailLoadingId === key;
     const order = orders.find((o) => String(o.id) === key);
-    const statusLabel = order
-      ? order.status.replace(/[-_]/g, " ").replace(/\b\w/g, (c) => c.toUpperCase())
+    const isCancelled = cancelledOrderIds.has(key);
+    const effectiveStatus = order ? (isCancelled ? "cancelled" : order.status) : "";
+    const statusLabel = effectiveStatus
+      ? effectiveStatus.replace(/[-_]/g, " ").replace(/\b\w/g, (c) => c.toUpperCase())
       : "";
     const isPending =
-      !!order &&
-      (order.status.toLowerCase().includes("pending") ||
-        order.status.toLowerCase() === "on-hold");
+      !!order && !isCancelled &&
+      (effectiveStatus.toLowerCase().includes("pending") ||
+        effectiveStatus.toLowerCase() === "on-hold");
     const orderDateStr = order
       ? new Date(order.created_at).toLocaleDateString("en-GB", {
           year: "numeric",
@@ -684,6 +695,11 @@ export default function ExternalProfile() {
                       </button>
                       <button
                         onClick={() => {
+                          setCancelledOrderIds((prev) => {
+                            const next = new Set(prev);
+                            next.add(key);
+                            return next;
+                          });
                           setShowCancelledNotice(true);
                           setViewingOrderId(null);
                           setActiveTab("dashboard");
