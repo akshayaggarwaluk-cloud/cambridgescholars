@@ -488,7 +488,10 @@ export default function ExternalProfile() {
                 <div className="flex justify-end">
                   <div className="bg-[#E4573D] flex items-center">
                     {isPending && (
-                      <button className="text-white text-[13px] font-bold uppercase tracking-wider px-5 py-3 hover:bg-[#c94a30] transition-colors">
+                      <button
+                        onClick={() => navigate("/checkout")}
+                        className="text-white text-[13px] font-bold uppercase tracking-wider px-5 py-3 hover:bg-[#c94a30] transition-colors"
+                      >
                         Pay
                       </button>
                     )}
