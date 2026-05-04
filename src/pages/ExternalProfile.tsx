@@ -519,7 +519,7 @@ export default function ExternalProfile() {
     return u === "USD" ? "$" : u === "EUR" ? "€" : "£";
   };
   const fmtMoney = (v?: number | null, c?: string | null) =>
-    `${currencySymbol(c)}${(typeof v === "number" ? v : 0).toFixed(2)}`;
+    `${currencySymbol(c)}${(Number(v) || 0).toFixed(2)}`;
 
   const renderOrderDetailPage = (key: string) => {
     const detail = orderDetailCache[key];
@@ -577,8 +577,10 @@ export default function ExternalProfile() {
                       <div>
                         {(() => {
                           const title = it.name.split(":")[0].trim();
+                          const isbnKey = (it.isbn || "").replace(/[^0-9Xx]/g, "");
                           const dashIdx = it.name.lastIndexOf(" - ");
-                          const binding = dashIdx > -1 ? it.name.slice(dashIdx + 3).trim() : "";
+                          const fromName = dashIdx > -1 ? it.name.slice(dashIdx + 3).trim() : "";
+                          const binding = bindingByIsbn[isbnKey] || fromName;
                           return binding ? `${title} - ${binding}` : title;
                         })()} <span className="text-[#696969]">×</span> <strong className="text-[#333333]">{it.quantity}</strong>
                       </div>
@@ -590,7 +592,9 @@ export default function ExternalProfile() {
                     </div>
                     <div className="text-right text-[#696969] text-[16px]">
                       {fmtMoney(
-                        it.total ?? it.subtotal ?? (it.unit_price ?? 0) * it.quantity,
+                        Number(it.total) ||
+                          Number(it.subtotal) ||
+                          (Number(it.unit_price) || 0) * (Number(it.quantity) || 0),
                         detail.currency,
                       )}
                     </div>
@@ -598,7 +602,10 @@ export default function ExternalProfile() {
                 ))}
                 {(() => {
                   const subtotal = detail.items.reduce(
-                    (s, it) => s + (it.subtotal ?? (it.unit_price ?? 0) * it.quantity),
+                    (s, it) =>
+                      s +
+                      (Number(it.subtotal) ||
+                        (Number(it.unit_price) || 0) * (Number(it.quantity) || 0)),
                     0,
                   );
                   return (
