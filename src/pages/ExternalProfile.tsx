@@ -658,7 +658,10 @@ export default function ExternalProfile() {
                   <div className="grid grid-cols-[1fr_auto] py-4 border-b border-[#e5e5e5] items-center text-[16px]">
                     <div className="font-bold text-[#333333]">Actions:</div>
                     <div className="flex gap-3 justify-end">
-                      <button className="bg-[#E4573D] hover:bg-[#c94a30] text-white text-[13px] font-bold uppercase tracking-wider px-8 py-3 transition-colors">
+                      <button
+                        onClick={() => navigate("/checkout")}
+                        className="bg-[#E4573D] hover:bg-[#c94a30] text-white text-[13px] font-bold uppercase tracking-wider px-8 py-3 transition-colors"
+                      >
                         Pay
                       </button>
                       <button className="bg-[#E4573D] hover:bg-[#c94a30] text-white text-[13px] font-bold uppercase tracking-wider px-8 py-3 transition-colors">
