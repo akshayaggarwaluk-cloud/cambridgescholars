@@ -31,6 +31,7 @@ import {
   type ProfileUpdatePayload,
   type OrderDetail,
 } from "@/services/accountService";
+import { fetchBookByIsbn } from "@/services/cspApi";
 
 type TabType = "dashboard" | "orders" | "addresses" | "payment" | "account" | "password";
 
@@ -98,6 +99,8 @@ export default function ExternalProfile() {
   const [orderDetailCache, setOrderDetailCache] = useState<Record<string, OrderDetail>>({});
   const [orderDetailLoadingId, setOrderDetailLoadingId] = useState<string | null>(null);
   const [orderDetailError, setOrderDetailError] = useState<Record<string, string>>({});
+  // ISBN → binding label (e.g. "Hardback", "Paperback", "Ebook")
+  const [bindingByIsbn, setBindingByIsbn] = useState<Record<string, string>>({});
 
   const handleViewOrder = async (orderId: number | string) => {
     const key = String(orderId);
@@ -112,6 +115,32 @@ export default function ExternalProfile() {
     try {
       const detail = await getOrder(orderId);
       setOrderDetailCache((prev) => ({ ...prev, [key]: detail }));
+      // Resolve binding types for each item by ISBN (best-effort, parallel)
+      void Promise.all(
+        (detail.items || []).map(async (it) => {
+          const isbn = (it.isbn || "").replace(/[^0-9Xx]/g, "");
+          if (!isbn) return;
+          if (bindingByIsbn[isbn]) return;
+          try {
+            const book = await fetchBookByIsbn(isbn);
+            const norm = isbn.replace(/[^0-9Xx]/g, "");
+            const matchType = (info?: { isbn?: string; isbn13?: string }) => {
+              const a = (info?.isbn || "").replace(/[^0-9Xx]/g, "");
+              const b = (info?.isbn13 || "").replace(/[^0-9Xx]/g, "");
+              return a === norm || b === norm;
+            };
+            let label = "";
+            if (matchType(book?.hardbackInfo)) label = "Hardback";
+            else if (matchType(book?.paperbackInfo)) label = "Paperback";
+            else if (matchType(book?.ebookInfo)) label = "Ebook";
+            if (label) {
+              setBindingByIsbn((prev) => ({ ...prev, [isbn]: label }));
+            }
+          } catch {
+            /* ignore */
+          }
+        }),
+      );
     } catch (e) {
       setOrderDetailError((prev) => ({
         ...prev,
