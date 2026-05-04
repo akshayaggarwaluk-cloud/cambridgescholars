@@ -92,18 +92,15 @@ export default function ExternalProfile() {
   // Orders
   const [orders, setOrders] = useState<Order[]>([]);
   const [ordersLoading, setOrdersLoading] = useState(true);
-  const [expandedOrderId, setExpandedOrderId] = useState<string | null>(null);
+  const [viewingOrderId, setViewingOrderId] = useState<string | null>(null);
   const [orderDetailCache, setOrderDetailCache] = useState<Record<string, OrderDetail>>({});
   const [orderDetailLoadingId, setOrderDetailLoadingId] = useState<string | null>(null);
   const [orderDetailError, setOrderDetailError] = useState<Record<string, string>>({});
 
-  const handleToggleOrderDetail = async (orderId: number | string) => {
+  const handleViewOrder = async (orderId: number | string) => {
     const key = String(orderId);
-    if (expandedOrderId === key) {
-      setExpandedOrderId(null);
-      return;
-    }
-    setExpandedOrderId(key);
+    setViewingOrderId(key);
+    if (typeof window !== "undefined") window.scrollTo({ top: 0, behavior: "smooth" });
     if (orderDetailCache[key]) return;
     setOrderDetailLoadingId(key);
     setOrderDetailError((prev) => {
