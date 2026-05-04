@@ -35,7 +35,7 @@ export function FeaturedBooksSection() {
             return {
               id: item.isbn,
               title: item.title,
-              description: item.description || "",
+              description: item.short_description || item.description || item.full_description || "",
               image: coverImage,
               reviewer: item.featured_reviewer?.name || "",
               reviewerPosition: item.featured_reviewer?.position || "",
