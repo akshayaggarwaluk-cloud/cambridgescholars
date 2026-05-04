@@ -6,6 +6,7 @@
  * via the `X-Admin-Token` header.
  */
 import { supabase } from "@/integrations/supabase/client";
+import type { OrderSummary, OrderDetail } from "@/services/accountService";
 
 const ADMIN_TOKEN_KEY = "cms_admin_token";
 const ADMIN_USER_KEY = "cms_admin_user";
@@ -739,4 +740,27 @@ export const adminApi = {
     }).then((r) => r.data),
   deleteCoupon: (id: number) =>
     callExternalCms<{ message?: string }>(`/coupons/${id}`, { method: "DELETE" }),
+
+  // ─── Orders (external CMS API — ALL customers) ───────────────
+  // Requires admin Bearer JWT. Returns every order in the store,
+  // optionally filtered by status / search (email / order id).
+  listAllOrders: (opts: {
+    page?: number;
+    per_page?: number;
+    status?: string;
+    search?: string;
+  } = {}) => {
+    const qs = new URLSearchParams();
+    if (opts.page) qs.set("page", String(opts.page));
+    if (opts.per_page) qs.set("per_page", String(opts.per_page));
+    if (opts.status) qs.set("status", opts.status);
+    if (opts.search) qs.set("search", opts.search);
+    const suffix = qs.toString() ? `?${qs.toString()}` : "";
+    return callExternalCms<{
+      orders: OrderSummary[];
+      pagination: { page: number; per_page: number; total: number; pages: number };
+    }>(`/orders${suffix}`);
+  },
+  getOrderById: (id: number | string) =>
+    callExternalCms<OrderDetail>(`/orders/${encodeURIComponent(String(id))}`),
 };
