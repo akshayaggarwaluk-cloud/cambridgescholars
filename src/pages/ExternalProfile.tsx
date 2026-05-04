@@ -695,6 +695,11 @@ export default function ExternalProfile() {
                       </button>
                       <button
                         onClick={() => {
+                          setCancelledOrderIds((prev) => {
+                            const next = new Set(prev);
+                            next.add(key);
+                            return next;
+                          });
                           setShowCancelledNotice(true);
                           setViewingOrderId(null);
                           setActiveTab("dashboard");
