@@ -92,6 +92,36 @@ export default function ExternalProfile() {
   // Orders
   const [orders, setOrders] = useState<Order[]>([]);
   const [ordersLoading, setOrdersLoading] = useState(true);
+  const [expandedOrderId, setExpandedOrderId] = useState<number | string | null>(null);
+  const [orderDetailCache, setOrderDetailCache] = useState<Record<string, OrderDetail>>({});
+  const [orderDetailLoadingId, setOrderDetailLoadingId] = useState<number | string | null>(null);
+  const [orderDetailError, setOrderDetailError] = useState<Record<string, string>>({});
+
+  const handleToggleOrderDetail = async (orderId: number | string) => {
+    const key = String(orderId);
+    if (expandedOrderId === orderId) {
+      setExpandedOrderId(null);
+      return;
+    }
+    setExpandedOrderId(orderId);
+    if (orderDetailCache[key]) return;
+    setOrderDetailLoadingId(orderId);
+    setOrderDetailError((prev) => {
+      const { [key]: _omit, ...rest } = prev;
+      return rest;
+    });
+    try {
+      const detail = await getOrder(orderId);
+      setOrderDetailCache((prev) => ({ ...prev, [key]: detail }));
+    } catch (e) {
+      setOrderDetailError((prev) => ({
+        ...prev,
+        [key]: e instanceof Error ? e.message : "Failed to load order details.",
+      }));
+    } finally {
+      setOrderDetailLoadingId(null);
+    }
+  };
 
   // Address edit mode: 'view' | 'billing' | 'shipping'
   const [addressMode, setAddressMode] = useState<"view" | "billing" | "shipping">("view");
