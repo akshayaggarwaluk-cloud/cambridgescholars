@@ -440,11 +440,19 @@ export default function ExternalProfile() {
             const isPending =
               order.status.toLowerCase().includes("pending") ||
               order.status.toLowerCase() === "on-hold";
+            const isOpen = expandedOrderId === order.id;
+            const detail = orderDetailCache[String(order.id)];
+            const dErr = orderDetailError[String(order.id)];
+            const dLoading = orderDetailLoadingId === order.id;
+            const currencySymbol = (c?: string | null) => {
+              const u = (c || "GBP").toUpperCase();
+              return u === "USD" ? "$" : u === "EUR" ? "€" : "£";
+            };
+            const fmt = (v?: number | null, c?: string | null) =>
+              `${currencySymbol(c)}${(typeof v === "number" ? v : 0).toFixed(2)}`;
             return (
-              <div
-                key={order.id}
-                className="grid grid-cols-5 items-center px-6 py-6 text-[14px] text-[#696969] border-b border-border"
-              >
+              <div key={order.id} className="border-b border-border">
+                <div className="grid grid-cols-5 items-center px-6 py-6 text-[14px] text-[#696969]">
                 <div className="text-[#E4573D] font-medium">
                   #{order.id}
                 </div>
@@ -464,8 +472,11 @@ export default function ExternalProfile() {
                         Pay
                       </button>
                     )}
-                    <button className="text-white text-[13px] font-bold uppercase tracking-wider px-5 py-3 hover:bg-[#c94a30] transition-colors">
-                      View
+                    <button
+                      onClick={() => handleToggleOrderDetail(order.id)}
+                      className="text-white text-[13px] font-bold uppercase tracking-wider px-5 py-3 hover:bg-[#c94a30] transition-colors"
+                    >
+                      {isOpen ? "Hide" : "View"}
                     </button>
                     {isPending && (
                       <button className="text-white text-[13px] font-bold uppercase tracking-wider px-5 py-3 hover:bg-[#c94a30] transition-colors">
@@ -474,6 +485,119 @@ export default function ExternalProfile() {
                     )}
                   </div>
                 </div>
+                </div>
+                {isOpen && (
+                  <div className="px-6 py-6 bg-[#fafafa]">
+                    {dLoading ? (
+                      <div className="flex justify-center py-6">
+                        <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
+                      </div>
+                    ) : dErr ? (
+                      <div className="text-red-600 text-[14px]">{dErr}</div>
+                    ) : detail ? (
+                      <div className="space-y-6 text-[14px] text-[#333333]">
+                        <div>
+                          <h3 className="font-bold uppercase tracking-wider text-[13px] text-[#333333] mb-3">Order details</h3>
+                          <div className="divide-y divide-border border border-border">
+                            <div className="grid grid-cols-[1fr_auto] px-4 py-3 bg-[#E4573D] text-white text-[13px] font-bold uppercase tracking-wider">
+                              <div>Product</div>
+                              <div>Total</div>
+                            </div>
+                            {detail.items.map((it, idx) => (
+                              <div key={idx} className="grid grid-cols-[1fr_auto] gap-4 px-4 py-3">
+                                <div>
+                                  <div>{it.name} × {it.quantity}</div>
+                                  {it.isbn && (
+                                    <div className="text-[#696969] text-[13px] mt-1">
+                                      <span className="font-bold">ISBN:</span> {it.isbn}
+                                    </div>
+                                  )}
+                                </div>
+                                <div className="text-right">{fmt(it.total ?? it.subtotal ?? (it.unit_price ?? 0) * it.quantity, detail.currency)}</div>
+                              </div>
+                            ))}
+                            {(() => {
+                              const subtotal = detail.items.reduce(
+                                (s, it) => s + (it.subtotal ?? (it.unit_price ?? 0) * it.quantity),
+                                0,
+                              );
+                              return (
+                                <div className="grid grid-cols-[1fr_auto] px-4 py-3">
+                                  <div className="font-bold">Subtotal:</div>
+                                  <div className="text-right">{fmt(subtotal, detail.currency)}</div>
+                                </div>
+                              );
+                            })()}
+                            {typeof detail.shipping_total_amount === "number" && (
+                              <div className="grid grid-cols-[1fr_auto] px-4 py-3">
+                                <div className="font-bold">Shipping:</div>
+                                <div className="text-right">{fmt(detail.shipping_total_amount, detail.currency)}</div>
+                              </div>
+                            )}
+                            {typeof detail.discount_total_amount === "number" && detail.discount_total_amount > 0 && (
+                              <div className="grid grid-cols-[1fr_auto] px-4 py-3">
+                                <div className="font-bold">Discount:</div>
+                                <div className="text-right">− {fmt(detail.discount_total_amount, detail.currency)}</div>
+                              </div>
+                            )}
+                            {typeof detail.tax_amount === "number" && detail.tax_amount > 0 && (
+                              <div className="grid grid-cols-[1fr_auto] px-4 py-3">
+                                <div className="font-bold">Tax:</div>
+                                <div className="text-right">{fmt(detail.tax_amount, detail.currency)}</div>
+                              </div>
+                            )}
+                            <div className="grid grid-cols-[1fr_auto] px-4 py-3">
+                              <div className="font-bold">Total:</div>
+                              <div className="text-right font-bold">{fmt(detail.total_amount, detail.currency)}</div>
+                            </div>
+                            {detail.payment_method_title && (
+                              <div className="grid grid-cols-[1fr_auto] px-4 py-3">
+                                <div className="font-bold">Payment method:</div>
+                                <div className="text-right">{detail.payment_method_title}</div>
+                              </div>
+                            )}
+                          </div>
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                          {detail.billing && (detail.billing.address_1 || detail.billing.city || detail.billing.email) && (
+                            <div>
+                              <h3 className="font-serif text-[22px] text-[#333333] mb-3">Billing address</h3>
+                              <div className="border border-border p-4 whitespace-pre-line text-[#696969]">
+                                {[
+                                  [detail.billing.first_name, detail.billing.last_name].filter(Boolean).join(" "),
+                                  detail.billing.company,
+                                  detail.billing.address_1,
+                                  detail.billing.address_2,
+                                  [detail.billing.city, detail.billing.state, detail.billing.postcode].filter(Boolean).join(", "),
+                                  detail.billing.country,
+                                  detail.billing.phone,
+                                  detail.billing.email,
+                                ].filter(Boolean).join("\n")}
+                              </div>
+                            </div>
+                          )}
+                          {detail.shipping && (detail.shipping.address_1 || detail.shipping.city) && (
+                            <div>
+                              <h3 className="font-serif text-[22px] text-[#333333] mb-3">Shipping address</h3>
+                              <div className="border border-border p-4 whitespace-pre-line text-[#696969]">
+                                {[
+                                  [detail.shipping.first_name, detail.shipping.last_name].filter(Boolean).join(" "),
+                                  detail.shipping.company,
+                                  detail.shipping.address_1,
+                                  detail.shipping.address_2,
+                                  [detail.shipping.city, detail.shipping.state, detail.shipping.postcode].filter(Boolean).join(", "),
+                                  detail.shipping.country,
+                                  detail.shipping.phone,
+                                ].filter(Boolean).join("\n")}
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    ) : null}
+                  </div>
+                )}
               </div>
             );
           })}
