@@ -238,6 +238,10 @@ const SubmitProposal = () => {
       marketing: {
         targetAudience: formData.audience || "",
         competingTitles: formData.competingTitles || "",
+        primaryMarket: formData.primaryMarket || "",
+        recommendedReviewers: formData.recommendedReviewers || "",
+        conferences: formData.conferences || "",
+        promotionalChannels: formData.promotionalChannels || "",
       },
       manuscript: {},
       agreement: {
