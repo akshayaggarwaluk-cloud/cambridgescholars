@@ -509,7 +509,15 @@ export default function ExternalProfile() {
                       View
                     </button>
                     {isPending && (
-                      <button className="text-white text-[13px] font-bold uppercase tracking-wider px-5 py-3 hover:bg-[#c94a30] transition-colors">
+                      <button
+                        onClick={() => {
+                          setShowCancelledNotice(true);
+                          setViewingOrderId(null);
+                          setActiveTab("dashboard");
+                          if (typeof window !== "undefined") window.scrollTo({ top: 0, behavior: "smooth" });
+                        }}
+                        className="text-white text-[13px] font-bold uppercase tracking-wider px-5 py-3 hover:bg-[#c94a30] transition-colors"
+                      >
                         Cancel
                       </button>
                     )}
@@ -674,7 +682,15 @@ export default function ExternalProfile() {
                       >
                         Pay
                       </button>
-                      <button className="bg-[#E4573D] hover:bg-[#c94a30] text-white text-[13px] font-bold uppercase tracking-wider px-8 py-3 transition-colors">
+                      <button
+                        onClick={() => {
+                          setShowCancelledNotice(true);
+                          setViewingOrderId(null);
+                          setActiveTab("dashboard");
+                          if (typeof window !== "undefined") window.scrollTo({ top: 0, behavior: "smooth" });
+                        }}
+                        className="bg-[#E4573D] hover:bg-[#c94a30] text-white text-[13px] font-bold uppercase tracking-wider px-8 py-3 transition-colors"
+                      >
                         Cancel
                       </button>
                     </div>
