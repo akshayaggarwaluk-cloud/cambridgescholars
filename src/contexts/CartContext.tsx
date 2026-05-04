@@ -14,6 +14,7 @@ import {
   type CartResponse,
   type CartItem as ApiCartItem,
 } from "@/services/cartService";
+import { fetchBookByIsbn } from "@/services/cspApi";
 
 export type BookFormat = "ebook" | "hardbook" | "paperback";
 
@@ -181,6 +182,26 @@ export function CartProvider({ children }: { children: ReactNode }) {
       mapApiItem(api, prevByIsbnFmt.get(`${api.isbn}_${api.format ?? "hardback"}`)),
     );
     setItems(next);
+    // Enrich any items that still lack a cover image (common for ebook ISBNs
+    // whose covers are published under the hardback ISBN). Look the book up
+    // by ISBN and patch the image asynchronously.
+    next.forEach((it) => {
+      if (!it.image && it.isbn) {
+        fetchBookByIsbn(it.isbn)
+          .then((b) => {
+            const img = b?.image;
+            if (!img) return;
+            setItems((curr) =>
+              curr.map((c) =>
+                c.isbn === it.isbn && c.format === it.format && !c.image
+                  ? { ...c, image: img }
+                  : c,
+              ),
+            );
+          })
+          .catch(() => { /* ignore */ });
+      }
+    });
     setCouponCode(res.coupon_code ?? null);
     setDiscount(res.discount_gbp ?? null);
     // Only trust explicit eligibility info from the backend. We do not infer
