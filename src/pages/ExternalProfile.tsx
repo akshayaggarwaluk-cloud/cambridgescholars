@@ -31,6 +31,7 @@ import {
   type ProfileUpdatePayload,
   type OrderDetail,
 } from "@/services/accountService";
+import { fetchBookByIsbn } from "@/services/cspApi";
 
 type TabType = "dashboard" | "orders" | "addresses" | "payment" | "account" | "password";
 
@@ -98,6 +99,8 @@ export default function ExternalProfile() {
   const [orderDetailCache, setOrderDetailCache] = useState<Record<string, OrderDetail>>({});
   const [orderDetailLoadingId, setOrderDetailLoadingId] = useState<string | null>(null);
   const [orderDetailError, setOrderDetailError] = useState<Record<string, string>>({});
+  // ISBN → binding label (e.g. "Hardback", "Paperback", "Ebook")
+  const [bindingByIsbn, setBindingByIsbn] = useState<Record<string, string>>({});
 
   const handleViewOrder = async (orderId: number | string) => {
     const key = String(orderId);
@@ -112,6 +115,32 @@ export default function ExternalProfile() {
     try {
       const detail = await getOrder(orderId);
       setOrderDetailCache((prev) => ({ ...prev, [key]: detail }));
+      // Resolve binding types for each item by ISBN (best-effort, parallel)
+      void Promise.all(
+        (detail.items || []).map(async (it) => {
+          const isbn = (it.isbn || "").replace(/[^0-9Xx]/g, "");
+          if (!isbn) return;
+          if (bindingByIsbn[isbn]) return;
+          try {
+            const book = await fetchBookByIsbn(isbn);
+            const norm = isbn.replace(/[^0-9Xx]/g, "");
+            const matchType = (info?: { isbn?: string; isbn13?: string }) => {
+              const a = (info?.isbn || "").replace(/[^0-9Xx]/g, "");
+              const b = (info?.isbn13 || "").replace(/[^0-9Xx]/g, "");
+              return a === norm || b === norm;
+            };
+            let label = "";
+            if (matchType(book?.hardbackInfo)) label = "Hardback";
+            else if (matchType(book?.paperbackInfo)) label = "Paperback";
+            else if (matchType(book?.ebookInfo)) label = "Ebook";
+            if (label) {
+              setBindingByIsbn((prev) => ({ ...prev, [isbn]: label }));
+            }
+          } catch {
+            /* ignore */
+          }
+        }),
+      );
     } catch (e) {
       setOrderDetailError((prev) => ({
         ...prev,
@@ -490,7 +519,7 @@ export default function ExternalProfile() {
     return u === "USD" ? "$" : u === "EUR" ? "€" : "£";
   };
   const fmtMoney = (v?: number | null, c?: string | null) =>
-    `${currencySymbol(c)}${(typeof v === "number" ? v : 0).toFixed(2)}`;
+    `${currencySymbol(c)}${(Number(v) || 0).toFixed(2)}`;
 
   const renderOrderDetailPage = (key: string) => {
     const detail = orderDetailCache[key];
@@ -548,8 +577,10 @@ export default function ExternalProfile() {
                       <div>
                         {(() => {
                           const title = it.name.split(":")[0].trim();
+                          const isbnKey = (it.isbn || "").replace(/[^0-9Xx]/g, "");
                           const dashIdx = it.name.lastIndexOf(" - ");
-                          const binding = dashIdx > -1 ? it.name.slice(dashIdx + 3).trim() : "";
+                          const fromName = dashIdx > -1 ? it.name.slice(dashIdx + 3).trim() : "";
+                          const binding = bindingByIsbn[isbnKey] || fromName;
                           return binding ? `${title} - ${binding}` : title;
                         })()} <span className="text-[#696969]">×</span> <strong className="text-[#333333]">{it.quantity}</strong>
                       </div>
@@ -561,7 +592,9 @@ export default function ExternalProfile() {
                     </div>
                     <div className="text-right text-[#696969] text-[16px]">
                       {fmtMoney(
-                        it.total ?? it.subtotal ?? (it.unit_price ?? 0) * it.quantity,
+                        Number(it.total) ||
+                          Number(it.subtotal) ||
+                          (Number(it.unit_price) || 0) * (Number(it.quantity) || 0),
                         detail.currency,
                       )}
                     </div>
@@ -569,7 +602,10 @@ export default function ExternalProfile() {
                 ))}
                 {(() => {
                   const subtotal = detail.items.reduce(
-                    (s, it) => s + (it.subtotal ?? (it.unit_price ?? 0) * it.quantity),
+                    (s, it) =>
+                      s +
+                      (Number(it.subtotal) ||
+                        (Number(it.unit_price) || 0) * (Number(it.quantity) || 0)),
                     0,
                   );
                   return (
@@ -581,7 +617,7 @@ export default function ExternalProfile() {
                     </div>
                   );
                 })()}
-                {typeof detail.shipping_total_amount === "number" && (
+                {detail.shipping_total_amount != null && Number(detail.shipping_total_amount) > 0 && (
                   <div className="grid grid-cols-[1fr_auto] py-4 border-b border-[#e5e5e5] text-[16px]">
                     <div className="font-bold text-[#333333]">Shipping:</div>
                     <div className="text-right text-[#696969]">
@@ -589,8 +625,8 @@ export default function ExternalProfile() {
                     </div>
                   </div>
                 )}
-                {typeof detail.discount_total_amount === "number" &&
-                  detail.discount_total_amount > 0 && (
+                {detail.discount_total_amount != null &&
+                  Number(detail.discount_total_amount) > 0 && (
                     <div className="grid grid-cols-[1fr_auto] py-4 border-b border-[#e5e5e5] text-[16px]">
                       <div className="font-bold text-[#333333]">Discount:</div>
                       <div className="text-right text-[#696969]">
@@ -598,7 +634,7 @@ export default function ExternalProfile() {
                       </div>
                     </div>
                   )}
-                {typeof detail.tax_amount === "number" && detail.tax_amount > 0 && (
+                {detail.tax_amount != null && Number(detail.tax_amount) > 0 && (
                   <div className="grid grid-cols-[1fr_auto] py-4 border-b border-[#e5e5e5] text-[16px]">
                     <div className="font-bold text-[#333333]">Tax:</div>
                     <div className="text-right text-[#696969]">
