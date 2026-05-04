@@ -558,6 +558,37 @@ const SubmitProposal = () => {
                     onChange={(v) => updateField("uniqueContribution", v)}
                     error={errors.uniqueContribution}
                   />
+                  <FieldInput
+                    label="Primary Market (e.g. UK / US / EU / Global)"
+                    required
+                    value={formData.primaryMarket}
+                    onChange={(v) => updateField("primaryMarket", v)}
+                    error={errors.primaryMarket}
+                  />
+                  <FieldTextarea
+                    label="Recommended Reviewers (names, affiliations, and emails)"
+                    required
+                    rows={3}
+                    value={formData.recommendedReviewers}
+                    onChange={(v) => updateField("recommendedReviewers", v)}
+                    error={errors.recommendedReviewers}
+                  />
+                  <FieldTextarea
+                    label="Relevant Conferences or Academic Events"
+                    required
+                    rows={3}
+                    value={formData.conferences}
+                    onChange={(v) => updateField("conferences", v)}
+                    error={errors.conferences}
+                  />
+                  <FieldTextarea
+                    label="Promotional Channels (e.g. social media, journals, mailing lists)"
+                    required
+                    rows={3}
+                    value={formData.promotionalChannels}
+                    onChange={(v) => updateField("promotionalChannels", v)}
+                    error={errors.promotionalChannels}
+                  />
                 </>
               )}
 
