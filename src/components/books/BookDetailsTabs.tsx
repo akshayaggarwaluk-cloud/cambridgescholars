@@ -213,7 +213,7 @@ export function BookDetailsTabs({ book }: BookDetailsTabsProps) {
                   <p className="leading-relaxed text-base mb-2" style={{ fontFamily: '"Nunito Sans", system-ui, sans-serif' }}>
                     {review.review.replace(/^[“"']|[”"']$/g, "")}
                   </p>
-                  <p style={{ fontFamily: '"Nunito Sans", system-ui, sans-serif', fontSize: "16px", color: "#696969", fontWeight: 400 }}>
+                  <p style={{ fontFamily: '"Nunito Sans", system-ui, sans-serif', fontSize: "16px", color: "#333333", fontWeight: 700 }}>
                     - {review.reviewer}
                     {review.reviewer_position && `, ${review.reviewer_position}`}
                   </p>
