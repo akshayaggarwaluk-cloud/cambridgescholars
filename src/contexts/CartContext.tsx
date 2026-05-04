@@ -103,7 +103,8 @@ function mapApiItem(api: ApiCartItem, prev?: CartItem): CartItem {
   // already resolved. Do not derive an ebook cover from the ebook ISBN here;
   // many ebook ISBN cover paths 404 because the actual cover is stored against
   // the primary print ISBN and must be resolved via the book endpoint.
-  let image = api.cover_image || (prev?.coverImageLoading === false ? prev?.image : "") || "";
+  const resolvedPreviousImage = prev?.coverImageLoading === false ? prev?.image : "";
+  let image = resolvedPreviousImage || (format === "ebook" ? "" : api.cover_image || "");
   const shortIsbnInUrl = image.match(/\/(\d{10})\.jpg$/);
   if (shortIsbnInUrl && !image.includes("/978")) {
     image = image.replace(`/${shortIsbnInUrl[1]}.jpg`, `/978${shortIsbnInUrl[1]}.jpg`);
