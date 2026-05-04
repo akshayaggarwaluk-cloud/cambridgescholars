@@ -319,6 +319,11 @@ const SubmitProposal = () => {
               <div className="flex justify-center mb-10">
                 <CheckCircle2 className="w-24 h-24 text-[#1F9D55] stroke-[1.5]" />
               </div>
+              {referenceNumber && (
+                <p className="text-[#333333] text-base mb-6">
+                  Your reference number: <span className="font-semibold">{referenceNumber}</span>
+                </p>
+              )}
               <p className="text-[#333333] text-base leading-relaxed mb-8 max-w-2xl mx-auto">
                 Once you have completed and submitted your proposal, it will be carefully reviewed by our editorial team.
                 We will evaluate its suitability for publication, taking into account factors such as originality,
