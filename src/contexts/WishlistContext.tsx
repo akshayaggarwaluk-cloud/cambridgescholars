@@ -40,6 +40,35 @@ const WishlistContext = createContext<WishlistContextType | undefined>(undefined
 // In-memory book metadata cache so we don't refetch the same ISBN repeatedly.
 const bookCache = new Map<string, Book | null>();
 
+const GUEST_WISHLIST_KEY = "guestWishlist";
+
+function readGuestWishlist(): WishlistItem[] {
+  try {
+    const raw = localStorage.getItem(GUEST_WISHLIST_KEY);
+    if (!raw) return [];
+    const parsed = JSON.parse(raw);
+    return Array.isArray(parsed) ? (parsed as WishlistItem[]) : [];
+  } catch {
+    return [];
+  }
+}
+
+function writeGuestWishlist(items: WishlistItem[]) {
+  try {
+    localStorage.setItem(GUEST_WISHLIST_KEY, JSON.stringify(items));
+  } catch {
+    /* ignore */
+  }
+}
+
+function clearGuestWishlist() {
+  try {
+    localStorage.removeItem(GUEST_WISHLIST_KEY);
+  } catch {
+    /* ignore */
+  }
+}
+
 async function hydrateItem(apiItem: ApiWishlistItem): Promise<WishlistItem | null> {
   const isbn = (apiItem.isbn || "").trim();
   if (!isbn) return null;
@@ -72,17 +101,62 @@ async function hydrateItem(apiItem: ApiWishlistItem): Promise<WishlistItem | nul
 
 export function WishlistProvider({ children }: { children: ReactNode }) {
   const { user, isAuthenticated } = useExternalAuth();
-  const [wishlistItems, setWishlistItems] = useState<WishlistItem[]>([]);
+  const [wishlistItems, setWishlistItems] = useState<WishlistItem[]>(() =>
+    readGuestWishlist(),
+  );
   const [loading, setLoading] = useState(false);
 
   const loadWishlist = useCallback(async () => {
     if (!isAuthenticated) return;
     setLoading(true);
     try {
+      // Snapshot any guest items prior to fetching, so we can recover items
+      // dropped by the server-side merge.
+      const guestSnapshot = readGuestWishlist();
+
+      // Push guest items to the server first (best-effort).
+      if (guestSnapshot.length > 0) {
+        for (const it of guestSnapshot) {
+          try {
+            await addToWishlistApi(it.isbn);
+          } catch {
+            /* ignore individual failures (e.g. already in wishlist) */
+          }
+        }
+      }
+
       const res = await getWishlist();
       const apiItems = res?.items || [];
       const hydrated = await Promise.all(apiItems.map(hydrateItem));
-      setWishlistItems(hydrated.filter((x): x is WishlistItem => x !== null));
+      let merged = hydrated.filter((x): x is WishlistItem => x !== null);
+
+      // Recovery: if anything from the snapshot is still missing, retry.
+      if (guestSnapshot.length > 0) {
+        const present = new Set(merged.map((it) => it.isbn));
+        const missing = guestSnapshot.filter((it) => !present.has(it.isbn));
+        if (missing.length > 0) {
+          for (const it of missing) {
+            try {
+              await addToWishlistApi(it.isbn);
+            } catch {
+              /* ignore */
+            }
+          }
+          try {
+            const refreshed = await getWishlist();
+            const reHydrated = await Promise.all(
+              (refreshed?.items || []).map(hydrateItem),
+            );
+            merged = reHydrated.filter((x): x is WishlistItem => x !== null);
+          } catch {
+            /* ignore */
+          }
+        }
+        // Clear guest snapshot once merge is attempted.
+        clearGuestWishlist();
+      }
+
+      setWishlistItems(merged);
     } catch (error) {
       console.error("Error loading wishlist:", error);
     } finally {
@@ -93,8 +167,9 @@ export function WishlistProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     if (isAuthenticated && user) {
       loadWishlist();
-    } else {
-      setWishlistItems([]);
+    } else if (!isAuthenticated) {
+      // Restore guest wishlist from localStorage on logout / initial load.
+      setWishlistItems(readGuestWishlist());
     }
   }, [isAuthenticated, user, loadWishlist]);
 
@@ -105,11 +180,6 @@ export function WishlistProvider({ children }: { children: ReactNode }) {
   };
 
   const addToWishlist = async (book: Book) => {
-    if (!isAuthenticated) {
-      toast.error("Please sign in to add to wishlist");
-      return;
-    }
-
     const isbn = (book.isbn || book.id || "").trim();
     if (!isbn) {
       toast.error("This book cannot be added to the wishlist (missing ISBN).");
@@ -130,9 +200,16 @@ export function WishlistProvider({ children }: { children: ReactNode }) {
       book_price: book.price,
       created_at: new Date().toISOString(),
     };
-    setWishlistItems((prev) =>
-      prev.some((p) => p.isbn === isbn) ? prev : [optimistic, ...prev],
-    );
+    setWishlistItems((prev) => {
+      const next = prev.some((p) => p.isbn === isbn) ? prev : [optimistic, ...prev];
+      if (!isAuthenticated) writeGuestWishlist(next);
+      return next;
+    });
+
+    if (!isAuthenticated) {
+      toast.success("Added to wishlist!");
+      return;
+    }
 
     try {
       const res = await addToWishlistApi(isbn);
@@ -154,8 +231,6 @@ export function WishlistProvider({ children }: { children: ReactNode }) {
   };
 
   const removeFromWishlist = async (bookId: string) => {
-    if (!isAuthenticated) return;
-
     // Resolve the ISBN — bookId from callers is typically the ISBN already.
     const target = wishlistItems.find(
       (item) => item.book_id === bookId || item.isbn === bookId,
@@ -164,7 +239,16 @@ export function WishlistProvider({ children }: { children: ReactNode }) {
 
     // Optimistic remove
     const previous = wishlistItems;
-    setWishlistItems((prev) => prev.filter((item) => item.isbn !== isbn));
+    setWishlistItems((prev) => {
+      const next = prev.filter((item) => item.isbn !== isbn);
+      if (!isAuthenticated) writeGuestWishlist(next);
+      return next;
+    });
+
+    if (!isAuthenticated) {
+      toast.success("Removed from wishlist");
+      return;
+    }
 
     try {
       await removeFromWishlistApi(isbn);
