@@ -226,15 +226,6 @@ export default function Cart() {
 
           {/* Totals — reflects committed cart; updates after UPDATE CART */}
           <div className="mt-10 pr-6 ml-auto max-w-md space-y-3">
-            {discount != null && discount > 0 && (
-              <div className="flex justify-between items-center">
-                <span className="text-base text-muted-foreground">Discount</span>
-                <span className="text-foreground font-normal text-base">
-                  −£{discount.toFixed(2)}
-                </span>
-              </div>
-            )}
-
             <div className="flex justify-between items-center pt-3">
               <span className="text-base text-foreground">Total</span>
               <span className="text-foreground font-normal text-lg">
