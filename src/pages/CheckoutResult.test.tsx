@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render, screen, waitFor } from "@testing-library/react";
-import { MemoryRouter, Route, Routes } from "react-router-dom";
+import { MemoryRouter, Route, Routes, useSearchParams } from "react-router-dom";
 import CheckoutResult from "./CheckoutResult";
 
 const clearCartMock = vi.fn();
@@ -12,32 +12,12 @@ vi.mock("@/contexts/CartContext", () => ({
 vi.mock("@/components/layout/Header", () => ({ Header: () => <div /> }));
 vi.mock("@/components/layout/Footer", () => ({ Footer: () => <div /> }));
 
-function renderAt(url: string) {
-  return render(
-    <MemoryRouter initialEntries={[url]}>
-      <Routes>
-        <Route path="/checkout/result" element={<CheckoutResult />} />
-        <Route
-          path="/profile"
-          element={
-            <div data-testid="profile-page">
-              <span data-testid="profile-search">{window.location.search}</span>
-              {/* Simulate the highlighted order row */}
-              <ProfileLanding />
-            </div>
-          }
-        />
-      </Routes>
-    </MemoryRouter>,
-  );
-}
-
 function ProfileLanding() {
-  const search = new URLSearchParams(window.location.search);
+  const [search] = useSearchParams();
   const tab = search.get("tab");
   const newOrder = search.get("new");
   return (
-    <div>
+    <div data-testid="profile-page">
       <span data-testid="tab">{tab}</span>
       {newOrder ? (
         <div data-testid={`order-${newOrder}`} className="bg-[#FFF7F2] outline outline-2 outline-[#C75B2A]">
@@ -45,6 +25,17 @@ function ProfileLanding() {
         </div>
       ) : null}
     </div>
+  );
+}
+
+function renderAt(url: string) {
+  return render(
+    <MemoryRouter initialEntries={[url]}>
+      <Routes>
+        <Route path="/checkout/result" element={<CheckoutResult />} />
+        <Route path="/profile" element={<ProfileLanding />} />
+      </Routes>
+    </MemoryRouter>,
   );
 }
 
