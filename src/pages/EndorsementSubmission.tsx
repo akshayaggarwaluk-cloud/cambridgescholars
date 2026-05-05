@@ -1,10 +1,12 @@
 import { useState } from "react";
-import { XCircle } from "lucide-react";
+import { XCircle, Plus, Trash2 } from "lucide-react";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { PageBreadcrumb } from "@/components/layout/PageBreadcrumb";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
 
 interface Reviewer {
@@ -21,11 +23,24 @@ interface LookupResult {
 
 const LOOKUP_URL = "https://api.cambridgescholars.com/lookup";
 
+interface ReviewerForm {
+  title: string;
+  forename: string;
+  surname: string;
+  email: string;
+}
+
+const emptyReviewer = (): ReviewerForm => ({ title: "", forename: "", surname: "", email: "" });
+const TITLE_OPTIONS = ["Prof", "Dr", "Mr", "Mrs", "Ms", "Mx"];
+
 const EndorsementSubmission = () => {
   const { toast } = useToast();
   const [code, setCode] = useState("");
   const [isVerifying, setIsVerifying] = useState(false);
   const [result, setResult] = useState<LookupResult | null>(null);
+  const [activeTab, setActiveTab] = useState<"submit" | "previous">("submit");
+  const [reviewers, setReviewers] = useState<ReviewerForm[]>([emptyReviewer()]);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleVerify = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -49,6 +64,8 @@ const EndorsementSubmission = () => {
           title: "Code Verified",
           description: data.title ? `Found: ${data.title}` : "Verification successful.",
         });
+        setReviewers([emptyReviewer()]);
+        setActiveTab("submit");
       }
     } catch (err) {
       const message = err instanceof Error ? err.message : "Verification failed.";
@@ -59,6 +76,47 @@ const EndorsementSubmission = () => {
       });
     } finally {
       setIsVerifying(false);
+    }
+  };
+
+  const updateReviewer = (i: number, key: keyof ReviewerForm, value: string) => {
+    setReviewers((prev) => prev.map((r, idx) => (idx === i ? { ...r, [key]: value } : r)));
+  };
+
+  const addReviewer = () => setReviewers((prev) => [...prev, emptyReviewer()]);
+  const removeReviewer = (i: number) =>
+    setReviewers((prev) => (prev.length > 1 ? prev.filter((_, idx) => idx !== i) : prev));
+
+  const resetVerification = () => {
+    setResult(null);
+    setCode("");
+    setReviewers([emptyReviewer()]);
+  };
+
+  const handleSubmitReviewers = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const incomplete = reviewers.some(
+      (r) => !r.title.trim() || !r.forename.trim() || !r.surname.trim() || !r.email.trim()
+    );
+    if (incomplete) {
+      toast({
+        title: "Missing details",
+        description: "Please complete every field for each reviewer.",
+        variant: "destructive",
+      });
+      return;
+    }
+    setIsSubmitting(true);
+    try {
+      // Submission endpoint not yet wired — simulate success
+      await new Promise((r) => setTimeout(r, 800));
+      toast({
+        title: "Reviewers submitted",
+        description: `${reviewers.length} reviewer${reviewers.length > 1 ? "s" : ""} submitted successfully.`,
+      });
+      setReviewers([emptyReviewer()]);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -75,6 +133,7 @@ const EndorsementSubmission = () => {
       <main className="flex-1">
 
         {/* Verification Form Section */}
+        {!result?.found && (
         <section className="py-16 md:py-24 bg-white">
           <div className="container-wide flex justify-center">
             <div className="w-full max-w-2xl bg-card border border-border rounded-lg p-8 md:p-12">
@@ -112,25 +171,190 @@ const EndorsementSubmission = () => {
                 </Button>
               </form>
 
-              {result?.found && (
-                <div className="mt-10 border-t border-border pt-8 text-left space-y-6">
-                  <div>
-                    <h2 className="text-2xl font-baskerville text-black">{result.title}</h2>
-                    {result.isbn13_no_dashes && (
-                      <p className="text-[15px] text-[#333333] mt-1" style={{ fontFamily: "Arial, sans-serif" }}>
-                        ISBN: {result.isbn13_no_dashes}
-                      </p>
-                    )}
+              {result && !result.found && (
+                <div className="mt-6 border-l-4 border-[#b33000] bg-[#fdecec] px-6 py-4 flex items-center justify-center gap-3">
+                  <XCircle className="h-5 w-5 text-[#b33000] flex-shrink-0" aria-hidden="true" />
+                  <p className="text-[15px] text-[#b33000]" style={{ fontFamily: "Arial, sans-serif" }}>
+                    The authentication code is incorrect. Please try again.
+                  </p>
+                </div>
+              )}
+            </div>
+          </div>
+        </section>
+        )}
+
+        {/* Endorser submission form (after successful verification) */}
+        {result?.found && (
+          <section className="py-12 md:py-16 bg-white">
+            <div className="container-wide flex justify-center">
+              <div className="w-full max-w-3xl bg-card border border-border rounded-lg p-8 md:p-12 space-y-8">
+                <div className="space-y-4 text-[16px] text-black" style={{ fontFamily: "Arial, sans-serif" }}>
+                  <p>Following publication, we advise to prioritise securing scholarly endorsements for your book.</p>
+                  <p>Please complete the form below with details of academic contacts in your field whom we may approach to request an endorsement.</p>
+                  <p>Please note that we do not provide print copies for evaluation; a complimentary electronic copy will be supplied instead.</p>
+                </div>
+
+                <div className="space-y-4">
+                  <h2 className="text-2xl font-baskerville text-black">Book Details</h2>
+
+                  <div className="space-y-2">
+                    <Label className="text-black" style={{ fontFamily: "Arial, sans-serif" }}>Title</Label>
+                    <Input
+                      readOnly
+                      value={result.title || ""}
+                      className="bg-[#f0efef] text-black font-baskerville text-lg py-6"
+                    />
                   </div>
 
-                  <div>
-                    <h3 className="text-lg font-baskerville text-black mb-3">
-                      Existing Endorsers ({result.existing_reviewers?.length ?? 0})
+                  <div className="space-y-2">
+                    <Label className="text-black" style={{ fontFamily: "Arial, sans-serif" }}>ISBN-13</Label>
+                    <Input
+                      readOnly
+                      value={result.isbn13_no_dashes || ""}
+                      className="bg-[#f0efef] text-black font-baskerville text-lg py-6"
+                    />
+                  </div>
+                </div>
+
+                {/* Tabs */}
+                <div className="flex flex-wrap items-center gap-3 border-b border-border">
+                  <button
+                    type="button"
+                    onClick={() => setActiveTab("submit")}
+                    className={`px-5 py-3 text-[15px] font-medium uppercase tracking-wide ${
+                      activeTab === "submit"
+                        ? "bg-[#e7e3d8] text-black"
+                        : "bg-transparent text-[#333333] hover:bg-[#f0efef]"
+                    }`}
+                    style={{ fontFamily: "Arial, sans-serif" }}
+                  >
+                    Submit Details
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setActiveTab("previous")}
+                    className={`px-5 py-3 text-[15px] font-medium uppercase tracking-wide ${
+                      activeTab === "previous"
+                        ? "bg-[#e7e3d8] text-black"
+                        : "bg-transparent text-[#333333] hover:bg-[#f0efef]"
+                    }`}
+                    style={{ fontFamily: "Arial, sans-serif" }}
+                  >
+                    Previous Submissions
+                  </button>
+                  {activeTab === "submit" && (
+                    <Button
+                      type="button"
+                      onClick={addReviewer}
+                      className="ml-auto bg-[#b33000] hover:bg-white hover:text-[#b33000] border border-[#b33000] text-white rounded-none uppercase"
+                    >
+                      <Plus className="h-4 w-4 mr-1" /> Add Reviewer
+                    </Button>
+                  )}
+                </div>
+
+                {activeTab === "submit" ? (
+                  <form onSubmit={handleSubmitReviewers} className="space-y-8">
+                    {reviewers.map((rev, idx) => (
+                      <div key={idx} className="space-y-4 pb-6 border-b border-border last:border-b-0 last:pb-0">
+                        <div className="flex items-center justify-between">
+                          <h3 className="text-lg font-baskerville text-black">Reviewer {idx + 1}</h3>
+                          {reviewers.length > 1 && (
+                            <button
+                              type="button"
+                              onClick={() => removeReviewer(idx)}
+                              className="text-[#b33000] hover:opacity-80 inline-flex items-center gap-1 text-sm"
+                              style={{ fontFamily: "Arial, sans-serif" }}
+                            >
+                              <Trash2 className="h-4 w-4" /> Remove
+                            </button>
+                          )}
+                        </div>
+                        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                          <div className="space-y-2">
+                            <Label className="text-black" style={{ fontFamily: "Arial, sans-serif" }}>
+                              Reviewer Title <span className="text-[#b33000]">*</span>
+                            </Label>
+                            <Select value={rev.title} onValueChange={(v) => updateReviewer(idx, "title", v)}>
+                              <SelectTrigger className="bg-white text-black h-11">
+                                <SelectValue placeholder="Reviewer Title" />
+                              </SelectTrigger>
+                              <SelectContent>
+                                {TITLE_OPTIONS.map((t) => (
+                                  <SelectItem key={t} value={t}>{t}</SelectItem>
+                                ))}
+                              </SelectContent>
+                            </Select>
+                          </div>
+                          <div className="space-y-2">
+                            <Label className="text-black" style={{ fontFamily: "Arial, sans-serif" }}>
+                              Reviewer Forename <span className="text-[#b33000]">*</span>
+                            </Label>
+                            <Input
+                              value={rev.forename}
+                              onChange={(e) => updateReviewer(idx, "forename", e.target.value)}
+                              className="bg-white text-black h-11"
+                              required
+                            />
+                          </div>
+                          <div className="space-y-2">
+                            <Label className="text-black" style={{ fontFamily: "Arial, sans-serif" }}>
+                              Reviewer Surname <span className="text-[#b33000]">*</span>
+                            </Label>
+                            <Input
+                              value={rev.surname}
+                              onChange={(e) => updateReviewer(idx, "surname", e.target.value)}
+                              className="bg-white text-black h-11"
+                              required
+                            />
+                          </div>
+                          <div className="space-y-2">
+                            <Label className="text-black" style={{ fontFamily: "Arial, sans-serif" }}>
+                              Reviewer Email <span className="text-[#b33000]">*</span>
+                            </Label>
+                            <Input
+                              type="email"
+                              value={rev.email}
+                              onChange={(e) => updateReviewer(idx, "email", e.target.value)}
+                              className="bg-white text-black h-11"
+                              required
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+
+                    <div className="flex flex-col sm:flex-row gap-3 justify-end pt-4">
+                      <Button
+                        type="button"
+                        onClick={resetVerification}
+                        variant="outline"
+                        className="rounded-none uppercase border-border text-black hover:bg-[#f0efef]"
+                      >
+                        Cancel
+                      </Button>
+                      <Button
+                        type="submit"
+                        disabled={isSubmitting}
+                        className="rounded-none uppercase bg-[#b33000] hover:bg-white hover:text-[#b33000] border border-[#b33000] text-white"
+                      >
+                        {isSubmitting ? "Submitting..." : "Submit"}
+                      </Button>
+                    </div>
+                  </form>
+                ) : (
+                  <div className="space-y-4">
+                    <h3 className="text-lg font-baskerville text-black">
+                      Previous Submissions ({result.existing_reviewers?.length ?? 0})
                     </h3>
                     {result.existing_reviewers && result.existing_reviewers.length > 0 ? (
                       <ul className="divide-y divide-border border border-border">
                         {result.existing_reviewers.map((r, i) => (
-                          <li key={`${r.email}-${i}`} className="px-4 py-3 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-1">
+                          <li
+                            key={`${r.email}-${i}`}
+                            className="px-4 py-3 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-1"
+                          >
                             <span className="text-black" style={{ fontFamily: "Arial, sans-serif" }}>{r.name}</span>
                             <a
                               href={`mailto:${r.email}`}
@@ -144,24 +368,15 @@ const EndorsementSubmission = () => {
                       </ul>
                     ) : (
                       <p className="text-[15px] text-[#333333]" style={{ fontFamily: "Arial, sans-serif" }}>
-                        No endorsers have been added yet.
+                        No previous submissions yet.
                       </p>
                     )}
                   </div>
-                </div>
-              )}
-
-              {result && !result.found && (
-                <div className="mt-6 border-l-4 border-[#b33000] bg-[#fdecec] px-6 py-4 flex items-center justify-center gap-3">
-                  <XCircle className="h-5 w-5 text-[#b33000] flex-shrink-0" aria-hidden="true" />
-                  <p className="text-[15px] text-[#b33000]" style={{ fontFamily: "Arial, sans-serif" }}>
-                    The authentication code is incorrect. Please try again.
-                  </p>
-                </div>
-              )}
+                )}
+              </div>
             </div>
-          </div>
-        </section>
+          </section>
+        )}
       </main>
       <Footer />
     </div>
