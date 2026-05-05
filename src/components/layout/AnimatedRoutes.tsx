@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import { Routes, Route, useLocation } from "react-router-dom";
+import { Navigate, Routes, Route, useLocation } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
 import { PageTransition } from "./PageTransition";
 import ProtectedRoute from "./ProtectedRoute";
@@ -17,7 +17,6 @@ import ForgotPassword from "@/pages/ForgotPassword";
 import ResetPassword from "@/pages/ResetPassword";
 
 import ExternalProfile from "@/pages/ExternalProfile";
-import Orders from "@/pages/Orders";
 import PayOrder from "@/pages/PayOrder";
 import PublishBook from "@/pages/PublishBook";
 import PublishABook from "@/pages/PublishABook";
@@ -59,6 +58,17 @@ import AdminComingSoon from "@/pages/admin/AdminComingSoon";
 import AdminOrders from "@/pages/admin/AdminOrders";
 import AdminCoupons from "@/pages/admin/AdminCoupons";
 
+function OrdersRedirect() {
+  const location = useLocation();
+  const params = new URLSearchParams(location.search);
+  const newOrderId = params.get("new");
+  const target = newOrderId
+    ? `/profile?tab=orders&new=${encodeURIComponent(newOrderId)}`
+    : "/profile?tab=orders";
+
+  return <Navigate to={target} replace />;
+}
+
 export function AnimatedRoutes() {
   const location = useLocation();
 
@@ -78,7 +88,7 @@ export function AnimatedRoutes() {
         <Route path="/reset-password" element={<PageTransition><ResetPassword /></PageTransition>} />
         
         <Route path="/profile" element={<PageTransition><ProtectedRoute><ExternalProfile /></ProtectedRoute></PageTransition>} />
-        <Route path="/orders" element={<PageTransition><ProtectedRoute><Orders /></ProtectedRoute></PageTransition>} />
+        <Route path="/orders" element={<OrdersRedirect />} />
         <Route path="/orders/:id/pay" element={<PageTransition><ProtectedRoute><PayOrder /></ProtectedRoute></PageTransition>} />
         <Route path="/publish" element={<PageTransition><PublishBook /></PageTransition>} />
         <Route path="/publish-a-book" element={<PageTransition><PublishABook /></PageTransition>} />
