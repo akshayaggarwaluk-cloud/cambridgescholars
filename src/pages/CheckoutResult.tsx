@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
-import { AlertCircle, CheckCircle, Loader2 } from "lucide-react";
+import { AlertCircle, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useCart } from "@/contexts/CartContext";
 
@@ -29,7 +29,7 @@ export default function CheckoutResult() {
     ranRef.current = true;
     (async () => {
       if (isSuccess) {
-        try { await clearCart(); } catch { /* ignore */ }
+        void clearCart().catch(() => undefined);
         // Skip confirmation screen — go directly to the orders page.
         navigate(orderId ? `/profile?tab=orders&new=${encodeURIComponent(orderId)}` : "/profile?tab=orders", { replace: true });
         return;
@@ -38,25 +38,14 @@ export default function CheckoutResult() {
     })();
   }, [isSuccess, orderId, clearCart, navigate]);
 
+  if (isSuccess) return null;
+
   return (
     <div className="min-h-screen bg-white">
       <Header />
       <main className="pt-32 pb-20">
         <div className="container-wide max-w-lg mx-auto text-center">
-          {isSuccess ? (
-            <>
-              <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-[#e8f5ec] mb-6">
-                <CheckCircle className="h-10 w-10 text-[#0a7a3b]" />
-              </div>
-              <h1 className="font-baskerville text-[32px] text-[#333333] mb-3">
-                Payment confirmed
-              </h1>
-              <p className="text-[15px] text-[#696969] mb-6">
-                Thank you for your order{orderId ? ` — #${orderId}` : ""}. Redirecting to your orders…
-              </p>
-              <Loader2 className="h-6 w-6 mx-auto animate-spin text-[#C75B2A]" />
-            </>
-          ) : working ? (
+          {working ? (
             <>
               <Loader2 className="h-12 w-12 mx-auto mb-6 animate-spin text-[#C75B2A]" />
               <h1 className="font-baskerville text-[32px] text-[#333333] mb-3">Confirming payment</h1>
