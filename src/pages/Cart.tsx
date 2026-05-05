@@ -162,7 +162,7 @@ export default function Cart() {
        <main className="pb-16 bg-white">
         <div className="container-wide py-8 md:py-12 bg-white">
           {/* Table header — desktop only */}
-          <div className="hidden md:grid grid-cols-[1fr_120px_180px_140px_60px] gap-6 pb-5 items-center">
+          <div className="hidden lg:grid grid-cols-[1fr_120px_180px_140px_60px] gap-6 pb-5 items-center">
             <div className="uppercase text-[#333333] tracking-wider text-sm" style={{ fontFamily: '"Nunito Sans", sans-serif', fontWeight: 800 }}>Product</div>
             <div className="uppercase text-[#333333] tracking-wider text-sm text-center relative -left-5" style={{ fontFamily: '"Nunito Sans", sans-serif', fontWeight: 800 }}>Price</div>
             <div className="uppercase text-[#333333] tracking-wider text-sm text-center relative -left-5" style={{ fontFamily: '"Nunito Sans", sans-serif', fontWeight: 800 }}>Quantity</div>
@@ -175,10 +175,10 @@ export default function Cart() {
             {items.map((item, idx) => (
               <div
                 key={`${item.id}_${item.format}`}
-                className={`px-4 py-5 md:px-6 md:py-6 md:grid md:grid-cols-[1fr_120px_180px_140px_60px] md:gap-6 md:items-center ${idx > 0 ? "border-t border-black" : ""}`}
+                className={`px-4 py-5 lg:px-6 lg:py-6 lg:grid lg:grid-cols-[1fr_120px_180px_140px_60px] lg:gap-6 lg:items-center ${idx > 0 ? "border-t border-black" : ""}`}
               >
                 {/* Product */}
-                <div className="flex items-start gap-4 md:items-center md:gap-5 min-w-0">
+                <div className="flex items-start gap-4 lg:items-center lg:gap-5 min-w-0">
                   <Link to={`/product/${item.id}`} className="shrink-0">
                     <CartCover item={item} />
                   </Link>
@@ -196,21 +196,21 @@ export default function Cart() {
                       <button
                         onClick={() => handleRemoveItem(item)}
                         aria-label="Remove item"
-                        className="md:hidden w-8 h-8 border border-black flex items-center justify-center hover:bg-secondary transition-colors shrink-0"
+                        className="lg:hidden w-8 h-8 border border-black flex items-center justify-center hover:bg-secondary transition-colors shrink-0"
                       >
                         <X className="h-3.5 w-3.5 text-foreground" />
                       </button>
                     </div>
                     {item.isbn && (
                       <p
-                        className="text-[13px] md:text-[15px] text-[#333333] mt-2 break-all"
+                        className="text-[13px] lg:text-[15px] text-[#333333] mt-2 break-all"
                         style={{ fontFamily: '"Nunito Sans", sans-serif' }}
                       >
                         <span className="font-bold">ISBN:</span> {formatIsbn(item.isbn)}
                       </p>
                     )}
                     {/* Mobile price/qty/total stacked under title */}
-                    <div className="md:hidden mt-3 flex items-center justify-between gap-4 flex-wrap">
+                    <div className="lg:hidden mt-3 flex items-center justify-between gap-4 flex-wrap">
                       <div className="flex items-center border border-black">
                         <button
                           onClick={() => setQty(item, getQty(item) - 1)}
@@ -239,12 +239,12 @@ export default function Cart() {
                 </div>
 
                 {/* Price (desktop) */}
-                <div className="hidden md:block text-base text-[#ababab] text-center">
+                <div className="hidden lg:block text-base text-[#ababab] text-center">
                   £{item.price.toFixed(2)}
                 </div>
 
                 {/* Quantity (desktop) */}
-                <div className="hidden md:flex items-center border border-black w-fit mx-auto">
+                <div className="hidden lg:flex items-center border border-black w-fit mx-auto">
                   <button
                     onClick={() => setQty(item, getQty(item) - 1)}
                     aria-label="Decrease quantity"
@@ -263,7 +263,7 @@ export default function Cart() {
                 </div>
 
                 {/* Total (desktop) */}
-                <div className="hidden md:block text-base text-black font-light text-center">
+                <div className="hidden lg:block text-base text-black font-light text-center">
                   £{(item.price * item.quantity).toFixed(2)}
                 </div>
 
@@ -271,7 +271,7 @@ export default function Cart() {
                 <button
                   onClick={() => handleRemoveItem(item)}
                   aria-label="Remove item"
-                  className="hidden md:flex w-10 h-10 border border-black items-center justify-center hover:bg-secondary transition-colors justify-self-end"
+                  className="hidden lg:flex w-10 h-10 border border-black items-center justify-center hover:bg-secondary transition-colors justify-self-end"
                 >
                   <X className="h-4 w-4 text-foreground" />
                 </button>
