@@ -103,6 +103,8 @@ export default function PayOrder() {
   const [method, setMethod] = useState<"card" | "paypal">("card");
   const [card, setCard] = useState({ holder: "", number: "", expiry: "", cvc: "" });
   const [submitting, setSubmitting] = useState(false);
+  const paypalContainerRef = useRef<HTMLDivElement | null>(null);
+  const paypalRenderedRef = useRef(false);
 
   useEffect(() => {
     if (!id) return;
@@ -121,6 +123,64 @@ export default function PayOrder() {
       cancelled = true;
     };
   }, [id]);
+
+  // Render PayPal Buttons when the user picks PayPal.
+  useEffect(() => {
+    if (method !== "paypal") return;
+    if (paypalRenderedRef.current) return;
+    let cancelled = false;
+    (async () => {
+      try {
+        const paypal = (await loadPaypalSdk()) as {
+          Buttons: (opts: Record<string, unknown>) => { render: (el: HTMLElement) => Promise<void> };
+        };
+        if (cancelled || !paypalContainerRef.current) return;
+        paypalContainerRef.current.innerHTML = "";
+        await paypal
+          .Buttons({
+            style: { layout: "horizontal", color: "gold", shape: "rect", label: "paypal", tagline: false },
+            createOrder: async () => {
+              const res = await paypalCreateOrder();
+              return res.paypal_order_id;
+            },
+            onApprove: async (data: { orderID: string }) => {
+              setSubmitting(true);
+              try {
+                const res = await paypalCaptureOrder(data.orderID);
+                if (res.status === "success") {
+                  toast.success("Payment received. Thank you!");
+                  navigate(
+                    res.order_id != null
+                      ? `/orders?new=${encodeURIComponent(String(res.order_id))}`
+                      : "/orders",
+                    { replace: true },
+                  );
+                } else {
+                  toast.error(res.reason || res.message || "PayPal payment was not completed.");
+                }
+              } catch (err) {
+                toast.error(err instanceof Error ? err.message : "PayPal capture failed.");
+              } finally {
+                setSubmitting(false);
+              }
+            },
+            onCancel: () => toast.info("PayPal payment cancelled."),
+            onError: (err: unknown) => {
+              console.error("[paypal]", err);
+              toast.error("PayPal encountered an error. Please try again.");
+            },
+          })
+          .render(paypalContainerRef.current);
+        paypalRenderedRef.current = true;
+      } catch (err) {
+        console.error(err);
+        toast.error("Could not load PayPal. Please try a different payment method.");
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [method, navigate]);
 
   const subtotal = detail
     ? detail.items.reduce(
@@ -145,7 +205,7 @@ export default function PayOrder() {
     e.preventDefault();
     if (submitting) return;
     if (method === "paypal") {
-      toast.info("PayPal checkout is coming soon. Please pay by card.");
+      toast.info("Use the PayPal button above to complete payment.");
       return;
     }
     if (method === "card") {
