@@ -11,8 +11,7 @@ import ReCAPTCHA from "react-google-recaptcha";
 import contactHero from "@/assets/contact-hero.jpg";
 import { fetchContactSubjects, submitContactMessage } from "@/services/cspApi";
 
-// Google's test site key - replace with your own for production
-const RECAPTCHA_SITE_KEY = "6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI";
+const RECAPTCHA_SITE_KEY = "6LdtotgsAAAAAFxhsOV3oryuupd76Hu70xIwWKuq";
 const contactInfo = [
   {
     icon: MapPin,
