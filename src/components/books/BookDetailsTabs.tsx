@@ -32,7 +32,7 @@ export function BookDetailsTabs({ book }: BookDetailsTabsProps) {
   return (
     <section className="container-wide mt-[100px]">
       <Tabs defaultValue="blurb" className="w-full">
-        <TabsList className="w-full justify-start sm:justify-center bg-transparent h-auto p-0 gap-4 sm:gap-10 lg:gap-20 flex-nowrap sm:flex-wrap overflow-x-auto">
+        <TabsList className="w-full justify-center bg-transparent h-auto p-0 gap-3 sm:gap-10 lg:gap-20 flex-col sm:flex-row sm:flex-wrap">
           {hasBlurb && (
             <TabsTrigger 
               value="blurb" 
