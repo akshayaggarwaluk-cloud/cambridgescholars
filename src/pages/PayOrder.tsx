@@ -7,6 +7,7 @@ import { PageBreadcrumb } from "@/components/layout/PageBreadcrumb";
 import { getOrder, type OrderDetail } from "@/services/accountService";
 import { checkoutPay, type CheckoutPayRequest, type OpayoCardType } from "@/services/cartService";
 import { toast } from "sonner";
+import PaypalButtons from "@/components/checkout/PaypalButtons";
 
 const ORANGE = "#E4573D";
 
@@ -105,7 +106,7 @@ export default function PayOrder() {
     e.preventDefault();
     if (submitting) return;
     if (method === "paypal") {
-      toast.info("PayPal checkout is coming soon. Please pay by card.");
+      toast.info("Use the PayPal button below to complete your payment.");
       return;
     }
     if (method === "card") {
