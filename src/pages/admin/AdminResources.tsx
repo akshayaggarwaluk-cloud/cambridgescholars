@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Plus, Pencil, Trash2, Loader2, Save, X, ExternalLink, GripVertical, Paperclip } from "lucide-react";
+import { Plus, Pencil, Trash2, Loader2, Save, X, ExternalLink, GripVertical, Paperclip, Eye } from "lucide-react";
 import { Link } from "react-router-dom";
 import { adminApi, type CmsResource } from "@/services/cmsService";
 import { toast } from "sonner";
@@ -183,9 +183,20 @@ export default function AdminResources() {
                       <div className="text-[11px] text-muted-foreground truncate">{b.url || "— no file linked —"}</div>
                     </div>
                     {b.url && (
-                      <a href={b.url} target="_blank" rel="noopener noreferrer" className="text-xs text-accent inline-flex items-center gap-1">
-                        <ExternalLink className="h-3 w-3" /> Open
-                      </a>
+                      <>
+                        <a
+                          href={viewerUrl(b.url)}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-xs text-accent inline-flex items-center gap-1"
+                          title="Preview in browser"
+                        >
+                          <Eye className="h-3 w-3" /> View
+                        </a>
+                        <a href={b.url} target="_blank" rel="noopener noreferrer" className="text-xs text-muted-foreground inline-flex items-center gap-1">
+                          <ExternalLink className="h-3 w-3" /> Download
+                        </a>
+                      </>
                     )}
                     <label className="cursor-pointer">
                       <input
