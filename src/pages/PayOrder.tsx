@@ -380,6 +380,24 @@ export default function PayOrder() {
                     Click the PayPal button below to complete your payment securely.
                   </p>
                   <PaypalButtons
+                    buildCreateOrderPayload={() => {
+                      const b = detail?.billing || {};
+                      if (!b.first_name || !b.last_name) {
+                        throw new Error("Billing name is missing on this order.");
+                      }
+                      if (!b.address_1 || !b.city || !b.postcode) {
+                        throw new Error("Billing address is incomplete on this order.");
+                      }
+                      return {
+                        billing_first_name: b.first_name,
+                        billing_last_name: b.last_name,
+                        billing_address_1: b.address_1,
+                        billing_city: b.city,
+                        billing_postcode: b.postcode,
+                        billing_country: b.country || "GB",
+                        customer_note: detail?.customer_note || undefined,
+                      };
+                    }}
                     onSuccess={(orderId) => {
                       toast.success("Payment received. Thank you!");
                       navigate(
