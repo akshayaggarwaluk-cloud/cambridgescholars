@@ -500,7 +500,7 @@ export default function ExternalProfile() {
                   <div className="bg-[#E4573D] flex items-center">
                     {isPending && (
                       <button
-                        onClick={() => navigate("/checkout")}
+                        onClick={() => navigate(`/orders/${order.id}/pay`)}
                         className="text-white text-[13px] font-bold uppercase tracking-wider px-5 py-3 hover:bg-[#c94a30] transition-colors"
                       >
                         Pay
@@ -688,7 +688,7 @@ export default function ExternalProfile() {
                     <div className="font-bold text-[#333333]">Actions:</div>
                     <div className="flex gap-3 justify-end">
                       <button
-                        onClick={() => navigate("/checkout")}
+                        onClick={() => order && navigate(`/orders/${order.id}/pay`)}
                         className="bg-[#E4573D] hover:bg-[#c94a30] text-white text-[13px] font-bold uppercase tracking-wider px-8 py-3 transition-colors"
                       >
                         Pay
