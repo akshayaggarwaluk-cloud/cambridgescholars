@@ -39,10 +39,12 @@ export default function Resources() {
             <div className="py-16 text-center text-muted-foreground">No resources available yet.</div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-16 max-w-7xl mx-auto">
-              {resources.map((item) => (
+              {resources.map((item) => {
+                const href = item.slug === "post-publication" ? "/post-publication" : `/resources/${item.slug}`;
+                return (
                 <div key={item.id} className="group">
                   {item.cover_image && (
-                    <Link to={`/resources/${item.slug}`} className="block overflow-hidden cursor-pointer">
+                    <Link to={href} className="block overflow-hidden cursor-pointer">
                       <img
                         src={item.cover_image}
                         alt={item.title}
@@ -58,7 +60,7 @@ export default function Resources() {
                       </p>
                     )}
                     <Link
-                      to={`/resources/${item.slug}`}
+                      to={href}
                       className="inline-flex items-center gap-1 font-extrabold text-xs uppercase tracking-[0.15em] text-[#e4573d] hover:text-[#e4573d]/80 transition-colors"
                       style={{ fontFamily: "'Nunito Sans', system-ui, sans-serif" }}
                     >
@@ -67,7 +69,8 @@ export default function Resources() {
                     </Link>
                   </div>
                 </div>
-              ))}
+                );
+              })}
             </div>
           )}
         </section>
