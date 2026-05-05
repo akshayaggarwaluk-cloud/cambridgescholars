@@ -240,3 +240,34 @@ export function checkoutPay(
     body: JSON.stringify(payload),
   });
 }
+
+// ─── PayPal Checkout ────────────────────────────────────────────
+
+export interface PaypalCreateOrderResponse {
+  paypal_order_id: string;
+  order_id: number | string;
+}
+
+export interface PaypalCaptureResponse {
+  status: "success" | "failed";
+  order_id?: number | string;
+  transaction_id?: string;
+  reason?: string;
+  message?: string;
+}
+
+export function paypalCreateOrder(): Promise<PaypalCreateOrderResponse> {
+  return callCsp<PaypalCreateOrderResponse>("/checkout/paypal/create-order", {
+    method: "POST",
+    body: JSON.stringify({}),
+  });
+}
+
+export function paypalCaptureOrder(
+  paypalOrderId: string,
+): Promise<PaypalCaptureResponse> {
+  return callCsp<PaypalCaptureResponse>(
+    `/checkout/paypal/capture/${encodeURIComponent(paypalOrderId)}`,
+    { method: "POST", body: JSON.stringify({}) },
+  );
+}
