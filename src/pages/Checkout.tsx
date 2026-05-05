@@ -123,7 +123,7 @@ function FieldLabel({ htmlFor, children, required }: { htmlFor: string; children
 
 function SectionHeading({ children }: { children: React.ReactNode }) {
   return (
-    <h2 className="font-baskerville text-[32px] leading-tight text-[#333333] mb-6">
+    <h2 className="font-baskerville text-[26px] md:text-[32px] leading-tight text-[#333333] mb-6">
       {children}
     </h2>
   );
@@ -601,9 +601,9 @@ export default function Checkout() {
             )}
           </div>
 
-          <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-x-0 gap-y-10">
+          <form onSubmit={handleSubmit} className="grid grid-cols-1 lg:grid-cols-2 gap-x-0 gap-y-10">
             {/* LEFT — Shipping + Billing (ebook-only orders skip shipping) */}
-            <div className="pr-10 xl:pr-16">
+            <div className="lg:pr-10 xl:pr-16">
               {!isEbookOnly && (
                 <>
                   <SectionHeading>Shipping details</SectionHeading>
@@ -679,7 +679,7 @@ export default function Checkout() {
             </div>
 
             {/* RIGHT — Order summary */}
-            <aside className="pl-10 xl:pl-16">
+            <aside className="lg:pl-10 xl:pl-16 lg:border-l-0 border-t lg:border-t-0 border-[#e3e1d8] pt-10 lg:pt-0">
               <div>
                 <SectionHeading>Your order</SectionHeading>
 
