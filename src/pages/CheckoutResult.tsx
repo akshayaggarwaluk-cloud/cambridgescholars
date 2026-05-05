@@ -5,6 +5,7 @@ import { Footer } from "@/components/layout/Footer";
 import { AlertCircle, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useCart } from "@/contexts/CartContext";
+import { buildAccountOrdersPath, clearPendingPaymentOrder, readPendingPaymentOrder } from "@/utils/paymentRedirect";
 
 /**
  * Browser-facing 3DS result page.
@@ -21,7 +22,7 @@ export default function CheckoutResult() {
   const [working, setWorking] = useState(true);
 
   const status = (params.get("status") || "").toLowerCase();
-  const orderId = params.get("order_id") || "";
+  const orderId = params.get("order_id") || readPendingPaymentOrder() || "";
   const isSuccess = status === "success" || status === "ok";
 
   useEffect(() => {
@@ -30,8 +31,9 @@ export default function CheckoutResult() {
     (async () => {
       if (isSuccess) {
         void clearCart();
-        // Skip confirmation screen — go directly to the orders page.
-        navigate(orderId ? `/profile?tab=orders&new=${encodeURIComponent(orderId)}` : "/profile?tab=orders", { replace: true });
+        clearPendingPaymentOrder();
+        // Skip confirmation screen — go directly to My Account → Orders.
+        navigate(buildAccountOrdersPath(orderId), { replace: true });
         return;
       }
       setWorking(false);
