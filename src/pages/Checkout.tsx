@@ -942,7 +942,18 @@ export default function Checkout() {
                       <p className="text-[13px] text-[#333]">
                         You'll be redirected to PayPal to complete your payment securely after clicking <strong>Place Order</strong>.
                       </p>
-                      <div ref={paypalContainerRef} className="sr-only" aria-hidden="true">
+                      <div
+                        ref={paypalContainerRef}
+                        aria-hidden="true"
+                        style={{
+                          position: "absolute",
+                          left: "-9999px",
+                          top: 0,
+                          width: "300px",
+                          height: "50px",
+                          overflow: "hidden",
+                        }}
+                      >
                       <PaypalButtons
                         buildCreateOrderPayload={() => {
                           const billingAddress: AddressData = isEbookOnly
