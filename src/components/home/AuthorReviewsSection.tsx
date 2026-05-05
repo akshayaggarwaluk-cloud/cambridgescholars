@@ -77,11 +77,9 @@ export function AuthorReviewsSection() {
   if (loading) {
     return (
       <section className="py-8 md:py-12 bg-[#f4f3ec]">
-        <div className="bg-white rounded-sm py-10 md:py-14">
-          <div className="container-wide">
+        <div className="mx-4 sm:mx-6 lg:mx-8 bg-white rounded-sm py-10 md:py-14 px-6 sm:px-10 lg:px-16">
             <h2 className="font-serif text-3xl md:text-4xl font-normal text-center text-foreground mb-14">Author Experiences</h2>
             <p className="text-center text-muted-foreground border-[#969696]">Loading...</p>
-          </div>
         </div>
       </section>
     );
@@ -90,11 +88,9 @@ export function AuthorReviewsSection() {
   if (reviews.length === 0) {
     return (
       <section className="py-8 md:py-12 bg-[#f4f3ec]">
-        <div className="bg-white rounded-sm py-10 md:py-14">
-          <div className="container-wide">
+        <div className="mx-4 sm:mx-6 lg:mx-8 bg-white rounded-sm py-10 md:py-14 px-6 sm:px-10 lg:px-16">
             <h2 className="font-serif text-3xl md:text-4xl font-normal text-center text-foreground mb-14">Author Experiences</h2>
             <p className="text-center text-muted-foreground border-[#969696]">No author experiences available at the moment.</p>
-          </div>
         </div>
       </section>
     );
@@ -117,8 +113,7 @@ export function AuthorReviewsSection() {
 
   return (
     <section className="py-8 md:py-12 bg-[#f4f3ec]">
-      <div className="bg-white rounded-sm py-10 md:py-14">
-        <div className="container-wide">
+      <div className="mx-4 sm:mx-6 lg:mx-8 bg-white rounded-sm py-10 md:py-14 px-6 sm:px-10 lg:px-16">
         <h2 className="font-baskerville text-3xl md:text-4xl font-normal text-center text-foreground mb-14 lg:text-4xl">
           Author Experiences
         </h2>
@@ -186,7 +181,6 @@ export function AuthorReviewsSection() {
             </button>
           </div>
         )}
-        </div>
       </div>
     </section>
   );
