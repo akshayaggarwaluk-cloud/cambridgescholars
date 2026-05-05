@@ -5,6 +5,7 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { PageBreadcrumb } from "@/components/layout/PageBreadcrumb";
 import { getOrder, type OrderDetail } from "@/services/accountService";
+import { checkoutPay, type CheckoutPayRequest, type OpayoCardType } from "@/services/cartService";
 import { toast } from "sonner";
 
 const ORANGE = "#E4573D";
@@ -60,7 +61,7 @@ export default function PayOrder() {
   const [error, setError] = useState<string | null>(null);
 
   const [method, setMethod] = useState<"card" | "paypal">("card");
-  const [card, setCard] = useState({ number: "", expiry: "", cvc: "" });
+  const [card, setCard] = useState({ holder: "", number: "", expiry: "", cvc: "" });
   const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
@@ -89,9 +90,29 @@ export default function PayOrder() {
       )
     : 0;
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const detectCardType = (raw: string): OpayoCardType => {
+    const n = raw.replace(/\D/g, "");
+    if (/^4/.test(n)) return "VISA";
+    if (/^(5[1-5]|2[2-7])/.test(n)) return "MC";
+    if (/^3[47]/.test(n)) return "AMEX";
+    if (/^(6011|65|64[4-9])/.test(n)) return "DISCOVER";
+    if (/^(50|56|57|58|6[0-9])/.test(n)) return "MAESTRO";
+    if (/^(30|36|38|39)/.test(n)) return "DC";
+    return "VISA";
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (submitting) return;
+    if (method === "paypal") {
+      toast.info("PayPal checkout is coming soon. Please pay by card.");
+      return;
+    }
     if (method === "card") {
+      if (!card.holder.trim()) {
+        toast.error("Please enter the cardholder name");
+        return;
+      }
       if (!/^[\d\s]{12,23}$/.test(card.number.trim())) {
         toast.error("Please enter a valid card number");
         return;
@@ -105,12 +126,71 @@ export default function PayOrder() {
         return;
       }
     }
+
+    if (!detail) return;
     setSubmitting(true);
-    setTimeout(() => {
+    try {
+      const b = detail.billing || {};
+      const cardNumberDigits = card.number.replace(/\D/g, "");
+      const payload: CheckoutPayRequest = {
+        card_holder: card.holder.trim(),
+        card_number: cardNumberDigits,
+        card_expiry: card.expiry.replace(/\D/g, "").slice(0, 4),
+        card_cv2: card.cvc.replace(/\D/g, ""),
+        card_type: detectCardType(cardNumberDigits),
+        billing_first_name: b.first_name || "",
+        billing_last_name: b.last_name || "",
+        billing_address_1: b.address_1 || "",
+        billing_city: b.city || "",
+        billing_postcode: b.postcode || "",
+        billing_country: (b.country || "GB").toUpperCase().slice(0, 2),
+      };
+      const res = await checkoutPay(payload);
+
+      if (res.status === "3ds_required") {
+        const acsUrl = res.acs_url;
+        if (!acsUrl) throw new Error("3DS authentication data missing.");
+        let fields: Record<string, string>;
+        if (res.c_req) {
+          fields = { creq: res.c_req };
+          if (res.three_ds_session_data) fields.threeDSSessionData = res.three_ds_session_data;
+        } else if (res.pa_req && res.md && res.term_url) {
+          fields = { PaReq: res.pa_req, MD: res.md, TermUrl: res.term_url };
+        } else {
+          throw new Error("3DS authentication data missing.");
+        }
+        const form = document.createElement("form");
+        form.method = "POST";
+        form.action = acsUrl;
+        Object.entries(fields).forEach(([name, value]) => {
+          const input = document.createElement("input");
+          input.type = "hidden";
+          input.name = name;
+          input.value = value;
+          form.appendChild(input);
+        });
+        document.body.appendChild(form);
+        form.submit();
+        return;
+      }
+
+      if (res.status === "success") {
+        toast.success("Payment received. Thank you!");
+        navigate(
+          res.order_id != null
+            ? `/orders?new=${encodeURIComponent(String(res.order_id))}`
+            : "/orders",
+          { replace: true },
+        );
+        return;
+      }
+
+      throw new Error(res.reason || res.message || "Payment was not authorised.");
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "Payment failed. Please try again.");
+    } finally {
       setSubmitting(false);
-      toast.success("Payment submitted");
-      navigate("/profile");
-    }, 900);
+    }
   };
 
   return (
@@ -215,6 +295,18 @@ export default function PayOrder() {
                   <p className="text-[15px] text-[#333333] mb-6">Pay securely using your credit card.</p>
 
                   <div className="space-y-5">
+                    <div>
+                      <label className="block text-[13px] font-bold uppercase tracking-wider text-[#333333] mb-2">
+                        Cardholder Name <span style={{ color: ORANGE }}>*</span>
+                      </label>
+                      <input
+                        type="text"
+                        value={card.holder}
+                        onChange={(e) => setCard({ ...card, holder: e.target.value })}
+                        placeholder="Name on card"
+                        className="w-full bg-white border border-[#e5e5e5] px-4 py-4 text-[16px] text-[#333333] focus:outline-none focus:border-[#E4573D]"
+                      />
+                    </div>
                     <div>
                       <label className="block text-[13px] font-bold uppercase tracking-wider text-[#333333] mb-2">
                         Card Number <span style={{ color: ORANGE }}>*</span>
