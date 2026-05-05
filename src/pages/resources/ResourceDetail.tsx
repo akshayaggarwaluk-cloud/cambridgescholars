@@ -9,7 +9,8 @@ import { fetchPublishedResourceBySlug, type CmsResource } from "@/services/cmsSe
 export default function ResourceDetail() {
   const params = useParams<{ slug: string }>();
   const location = useLocation();
-  const slug = params.slug || (location.pathname === "/post-publication" ? "post-publication" : undefined);
+  const normalizedPath = location.pathname.replace(/\/+$/, "");
+  const slug = params.slug || (normalizedPath === "/post-publication" ? "post-publication" : undefined);
   const [resource, setResource] = useState<CmsResource | null>(null);
   const [loading, setLoading] = useState(true);
 
