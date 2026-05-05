@@ -149,7 +149,7 @@ export default function PayOrder() {
                   className="grid grid-cols-[1fr_auto_auto] gap-8 px-8 py-6 border-b border-[#e5e5e5] items-start"
                 >
                   <div className="text-[16px] text-[#333333] space-y-2">
-                    <div className="text-[#333333]">{it.name}</div>
+                    <div className="text-[#333333]">{it.name.split(":")[0].trim()}</div>
                     {it.isbn && (
                       <div className="text-[#696969]">
                         <span className="font-bold text-[#333333]">ISBN:</span> {it.isbn}
