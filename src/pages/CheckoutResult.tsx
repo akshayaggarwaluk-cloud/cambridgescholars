@@ -5,7 +5,7 @@ import { Footer } from "@/components/layout/Footer";
 import { AlertCircle, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useCart } from "@/contexts/CartContext";
-import { buildAccountOrdersPath, clearPendingPaymentOrder, readPendingPaymentOrder } from "@/utils/paymentRedirect";
+import { buildAccountOrdersPath } from "@/utils/paymentRedirect";
 
 /**
  * Browser-facing 3DS result page.
