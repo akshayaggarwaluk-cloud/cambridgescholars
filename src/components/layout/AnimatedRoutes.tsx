@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import { Navigate, Routes, Route, useLocation, useParams } from "react-router-dom";
+import { Navigate, Routes, Route, useLocation } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
 import { PageTransition } from "./PageTransition";
 import ProtectedRoute from "./ProtectedRoute";
@@ -69,11 +69,11 @@ function OrdersRedirect() {
   return <Navigate to={target} replace />;
 }
 
-function LegacyOrderRedirect() {
+function OrdersWildcardRedirect() {
   const location = useLocation();
-  const { id } = useParams();
   const params = new URLSearchParams(location.search);
-  const newOrderId = params.get("new") || params.get("order_id") || params.get("orderId") || id;
+  const pathOrderId = location.pathname.match(/^\/orders\/([^/]+)/)?.[1];
+  const newOrderId = params.get("new") || params.get("order_id") || params.get("orderId") || pathOrderId;
   const target = newOrderId
     ? `/profile?tab=orders&new=${encodeURIComponent(newOrderId)}`
     : "/profile?tab=orders";
@@ -100,9 +100,9 @@ export function AnimatedRoutes() {
         <Route path="/reset-password" element={<PageTransition><ResetPassword /></PageTransition>} />
         
         <Route path="/profile" element={<PageTransition><ProtectedRoute><ExternalProfile /></ProtectedRoute></PageTransition>} />
-        <Route path="/orders" element={<OrdersRedirect />} />
-        <Route path="/orders/:id" element={<LegacyOrderRedirect />} />
         <Route path="/orders/:id/pay" element={<PageTransition><ProtectedRoute><PayOrder /></ProtectedRoute></PageTransition>} />
+        <Route path="/orders" element={<OrdersRedirect />} />
+        <Route path="/orders/*" element={<OrdersWildcardRedirect />} />
         <Route path="/publish" element={<PageTransition><PublishBook /></PageTransition>} />
         <Route path="/publish-a-book" element={<PageTransition><PublishABook /></PageTransition>} />
         <Route path="/wishlist" element={<PageTransition><Wishlist /></PageTransition>} />
