@@ -497,7 +497,7 @@ export default function Checkout() {
       }
 
       if (res.status === "success") {
-        try { await clearCart(); } catch { /* ignore */ }
+        void clearCart();
         toast.success("Payment received. Thank you for your order!");
         navigate(res.order_id != null ? `/profile?tab=orders&new=${encodeURIComponent(String(res.order_id))}` : "/profile?tab=orders", { replace: true });
         return;
