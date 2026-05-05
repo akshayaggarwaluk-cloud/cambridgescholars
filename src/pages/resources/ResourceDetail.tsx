@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, useLocation, Link } from "react-router-dom";
 import { Loader2 } from "lucide-react";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
@@ -7,7 +7,9 @@ import { PageBreadcrumb } from "@/components/layout/PageBreadcrumb";
 import { fetchPublishedResourceBySlug, type CmsResource } from "@/services/cmsService";
 
 export default function ResourceDetail() {
-  const { slug } = useParams<{ slug: string }>();
+  const params = useParams<{ slug: string }>();
+  const location = useLocation();
+  const slug = params.slug || (location.pathname === "/post-publication" ? "post-publication" : undefined);
   const [resource, setResource] = useState<CmsResource | null>(null);
   const [loading, setLoading] = useState(true);
 
