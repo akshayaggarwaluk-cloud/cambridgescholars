@@ -13,7 +13,13 @@ import { fetchContactSubjects, submitContactMessage } from "@/services/cspApi";
 
 const RECAPTCHA_SITE_KEY = "6Lc1CNssAAAAABy9UcNw4Q07PY-eW9HMvIOGewHT";
 const CONTACT_EMAIL = "admin@cambridgescholars.com";
-const contactInfo = [
+type ContactInfoItem = {
+  icon: typeof MapPin;
+  title: string;
+  content: string;
+  email?: string;
+};
+const contactInfo: ContactInfoItem[] = [
   {
     icon: MapPin,
     title: "Address",
