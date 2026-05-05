@@ -219,7 +219,7 @@ const EndorsementSubmission = () => {
                       disabled
                       tabIndex={-1}
                       value={result.title || ""}
-                      className="bg-[#f0efef] text-[#9a9a9a] font-baskerville text-lg py-6 cursor-default pointer-events-none disabled:opacity-100"
+                      className="bg-[#f0efef] text-[#555555] font-baskerville text-lg py-6 cursor-default pointer-events-none disabled:opacity-100"
                     />
                   </div>
 
@@ -230,7 +230,7 @@ const EndorsementSubmission = () => {
                       disabled
                       tabIndex={-1}
                       value={result.isbn13_no_dashes || ""}
-                      className="bg-[#f0efef] text-[#9a9a9a] font-baskerville text-lg py-6 cursor-default pointer-events-none disabled:opacity-100"
+                      className="bg-[#f0efef] text-[#555555] font-baskerville text-lg py-6 cursor-default pointer-events-none disabled:opacity-100"
                     />
                   </div>
                 </div>
