@@ -1,6 +1,6 @@
 import { useState, useMemo, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { CheckCircle, AlertCircle, Check } from "lucide-react";
+import { AlertCircle, Check } from "lucide-react";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { PageBreadcrumb } from "@/components/layout/PageBreadcrumb";
@@ -235,9 +235,7 @@ export default function Checkout() {
   const { user } = useExternalAuth();
   const navigate = useNavigate();
 
-  const [isComplete, setIsComplete] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [confirmedOrderId, setConfirmedOrderId] = useState<string | number | null>(null);
 
   const [showCoupon, setShowCoupon] = useState(false);
   const [couponInput, setCouponInput] = useState("");
@@ -343,7 +341,7 @@ export default function Checkout() {
   const shippingCost = isEbookOnly ? 0 : apiShipping ?? 0;
   const total = cartTotal || subtotal + shippingCost - (discount ?? 0);
 
-  if (items.length === 0 && !isComplete) {
+  if (items.length === 0) {
     navigate("/cart");
     return null;
   }
@@ -365,32 +363,6 @@ export default function Checkout() {
             </p>
             <Button asChild variant="gold" size="lg">
               <Link to="/auth">Sign In</Link>
-            </Button>
-          </div>
-        </main>
-        <Footer />
-      </div>
-    );
-  }
-
-  if (isComplete) {
-    return (
-      <div className="min-h-screen bg-white">
-        <Header />
-        <main className="pt-32 pb-16">
-          <div className="container-wide text-center max-w-lg mx-auto">
-            <div className="inline-flex items-center justify-center w-24 h-24 rounded-full bg-accent/20 mb-6">
-              <CheckCircle className="h-12 w-12 text-accent" />
-            </div>
-            <h1 className="font-serif text-4xl font-bold text-foreground mb-4">
-              Order Confirmed!
-            </h1>
-            <p className="text-muted-foreground mb-8">
-              Thank you for your purchase
-              {confirmedOrderId ? ` — order #${confirmedOrderId}` : ""}. Your books will be on their way soon.
-            </p>
-            <Button asChild variant="gold" size="lg">
-              <Link to="/orders">View Orders</Link>
             </Button>
           </div>
         </main>
@@ -526,12 +498,8 @@ export default function Checkout() {
 
       if (res.status === "success") {
         try { await clearCart(); } catch { /* ignore */ }
-        if (res.order_id != null) setConfirmedOrderId(res.order_id);
-        setIsComplete(true);
         toast.success("Payment received. Thank you for your order!");
-        setTimeout(() => {
-          navigate(res.order_id != null ? `/orders?new=${encodeURIComponent(String(res.order_id))}` : "/orders", { replace: true });
-        }, 1500);
+        navigate(res.order_id != null ? `/profile?tab=orders&new=${encodeURIComponent(String(res.order_id))}` : "/profile?tab=orders", { replace: true });
         return;
       }
 
