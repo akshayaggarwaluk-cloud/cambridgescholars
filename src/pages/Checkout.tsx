@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect, useRef } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { CheckCircle, AlertCircle, Check } from "lucide-react";
 import { Header } from "@/components/layout/Header";
@@ -20,7 +20,6 @@ import { useCart } from "@/contexts/CartContext";
 import { useExternalAuth } from "@/contexts/ExternalAuthContext";
 import { toast } from "sonner";
 import { checkoutPay, type CheckoutPayRequest } from "@/services/cartService";
-import PaypalButtons from "@/components/checkout/PaypalButtons";
 import { getProfile } from "@/services/accountService";
 
 type AddressData = {
@@ -266,10 +265,9 @@ export default function Checkout() {
   const [email, setEmail] = useState(user?.email || "");
   const [orderNotes, setOrderNotes] = useState("");
 
-  const [paymentMethod, setPaymentMethod] = useState<"card" | "paypal">("card");
+  const [paymentMethod, setPaymentMethod] = useState<"card">("card");
   const [card, setCard] = useState({ number: "", expiry: "", cvc: "" });
   const [cardholder, setCardholder] = useState("");
-  const paypalContainerRef = useRef<HTMLDivElement | null>(null);
 
   // Pre-fill shipping & billing addresses (and email/phone) from the
   // authenticated customer's saved profile. Falls back silently if the
@@ -448,18 +446,6 @@ export default function Checkout() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (loading) return;
-
-    if (paymentMethod !== "card") {
-      const btn = paypalContainerRef.current?.querySelector<HTMLElement>(
-        '[data-funding-source="paypal"], div[role="link"], button',
-      );
-      if (btn) {
-        btn.click();
-      } else {
-        toast.error("PayPal is still loading. Please try again in a moment.");
-      }
-      return;
-    }
 
     if (!email.trim()) {
       toast.error("Please enter an email address.");
