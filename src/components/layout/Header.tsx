@@ -134,10 +134,10 @@ export function Header() {
 
               {/* Buy a Book */}
               <Link
-                to="/books"
+                to="/product"
                 className={cn(
                   "text-sm py-2 transition-colors hover:text-foreground font-bold border-b-2",
-                  isActiveRoute("/books") ? "text-foreground border-black" : "text-muted-foreground border-transparent"
+                  isActiveRoute("/product") ? "text-foreground border-black" : "text-muted-foreground border-transparent"
                 )}
               >
                 Buy a Book
@@ -400,10 +400,10 @@ export function Header() {
                 ))}
 
                 <Link
-                  to="/books"
+                  to="/product"
                   className={cn(
                     "block px-6 py-3 text-xs font-bold uppercase tracking-wide transition-colors",
-                    isActiveRoute("/books") ? "text-white" : "text-[#cac4c4]"
+                    isActiveRoute("/product") ? "text-white" : "text-[#cac4c4]"
                   )}
                 >
                   Buy a Book

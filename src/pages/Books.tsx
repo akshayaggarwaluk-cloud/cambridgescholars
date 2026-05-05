@@ -512,7 +512,7 @@ export default function Books() {
                     <article key={book.id} className="py-10 first:pt-0">
                       <div className="flex flex-col md:flex-row gap-10">
                         {/* Book Cover */}
-                        <Link to={`/books/${book.id}`} className="flex-shrink-0 w-full md:w-56">
+                        <Link to={`/product/${book.id}`} className="flex-shrink-0 w-full md:w-56">
                           <div className="aspect-[3/4] overflow-hidden shadow-xl">
                             <img
                               src={book.image}
@@ -524,7 +524,7 @@ export default function Books() {
 
                         {/* Book Details */}
                         <div className="flex-1 flex flex-col md:h-auto self-stretch">
-                          <Link to={`/books/${book.id}`}>
+                          <Link to={`/product/${book.id}`}>
                             <h2 className="font-['Libre_Baskerville'] text-foreground hover:text-[#E4573D] transition-colors leading-tight text-2xl font-medium">
                               {book.title}
                             </h2>
@@ -553,7 +553,7 @@ export default function Books() {
                                className="bg-[#e4573d] hover:bg-[#e4573d]/80 text-white px-6 h-10 text-xs font-extrabold tracking-[0.18em] uppercase rounded-none transition-colors"
                                style={{ fontFamily: "'Nunito Sans', system-ui, sans-serif" }}
                             >
-                              <Link to={`/books/${book.id}`}>VIEW MORE</Link>
+                              <Link to={`/product/${book.id}`}>VIEW MORE</Link>
                             </Button>
                             <Button
                               variant="outline"

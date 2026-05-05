@@ -53,7 +53,7 @@ export default function SeriesList() {
           <h1 className="text-[40px] leading-[1.2] font-baskerville font-normal text-[#333333] my-[10px]">
             Book Series
           </h1>
-          <PageBreadcrumb items={[{ label: "Bookshop", href: "/books" }]} currentPage="Series" />
+          <PageBreadcrumb items={[{ label: "Bookshop", href: "/product" }]} currentPage="Series" />
         </div>
       </div>
 

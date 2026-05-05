@@ -60,7 +60,7 @@ export default function ForgotPassword() {
           <PageBreadcrumb
             items={[
               { label: "Home", href: "/" },
-              { label: "Bookshop", href: "/books" },
+              { label: "Bookshop", href: "/product" },
               { label: "My account" },
             ]}
           />

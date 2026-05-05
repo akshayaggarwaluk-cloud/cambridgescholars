@@ -58,7 +58,7 @@ export function BookCard({ book, className }: BookCardProps) {
         <Heart className={cn("h-5 w-5 transition-transform", inWishlist && "fill-current")} />
       </motion.button>
 
-      <Link to={`/books/${book.id}`} className="block">
+      <Link to={`/product/${book.id}`} className="block">
         <div className="relative aspect-[3/4] overflow-hidden bg-muted">
           <motion.img
             src={book.image}
@@ -91,7 +91,7 @@ export function BookCard({ book, className }: BookCardProps) {
               className="h-12 w-12 rounded-xl bg-white/90 backdrop-blur-sm border-0 hover:bg-white"
               asChild
             >
-              <Link to={`/books/${book.id}`} onClick={(e) => e.stopPropagation()}>
+              <Link to={`/product/${book.id}`} onClick={(e) => e.stopPropagation()}>
                 <Eye className="h-5 w-5" />
               </Link>
             </Button>
@@ -100,7 +100,7 @@ export function BookCard({ book, className }: BookCardProps) {
       </Link>
 
       <div className="p-6 relative">
-        <Link to={`/books/${book.id}`} className="block space-y-3">
+        <Link to={`/product/${book.id}`} className="block space-y-3">
           {/* Category Tag */}
           <span className="inline-block text-xs font-semibold text-accent uppercase tracking-[0.15em] bg-accent/10 px-2 py-1 rounded">
             {book.category}

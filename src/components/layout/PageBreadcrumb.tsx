@@ -14,7 +14,7 @@ interface PageBreadcrumbProps {
 // Route to label mapping
 const routeLabels: Record<string, string> = {
   "/": "Home",
-  "/books": "Books",
+  "/product": "Books",
   "/about": "About Us",
   "/contact": "Contact",
   "/faq": "FAQs",

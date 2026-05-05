@@ -39,7 +39,7 @@ export default function SeriesDetail() {
             {series?.title || "Series"}
           </h1>
           <PageBreadcrumb
-            items={[{ label: "Bookshop", href: "/books" }, { label: "Series", href: "/series" }]}
+            items={[{ label: "Bookshop", href: "/product" }, { label: "Series", href: "/series" }]}
             currentPage={series?.title || "Series"}
           />
         </div>
@@ -75,7 +75,7 @@ export default function SeriesDetail() {
               <ul className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
                 {series.books.map((b) => (
                   <li key={b.isbn}>
-                    <Link to={`/books/${b.isbn}`} className="block group">
+                    <Link to={`/product/${b.isbn}`} className="block group">
                       <div className="aspect-[2/3] bg-[#f4f3ec] overflow-hidden mb-3">
                         {b.cover_image && (
                           <img

@@ -90,7 +90,7 @@ export function RelatedBooksSection({ currentBook }: RelatedBooksSectionProps) {
           {visibleBooks.map((book) => (
             <Link
               key={book.id}
-              to={`/books/${book.id}`}
+              to={`/product/${book.id}`}
               className="group text-center block"
             >
               {/* Cover */}

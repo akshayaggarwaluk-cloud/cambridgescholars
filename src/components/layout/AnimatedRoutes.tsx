@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import { Navigate, Routes, Route, useLocation } from "react-router-dom";
+import { Navigate, Routes, Route, useLocation, useParams } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
 import { PageTransition } from "./PageTransition";
 import ProtectedRoute from "./ProtectedRoute";
@@ -38,6 +38,11 @@ import RefundAndReturns from "@/pages/RefundAndReturns";
 import AuthorExperiences from "@/pages/AuthorExperiences";
 import AuthorPromises from "@/pages/AuthorPromises";
 import ApiAudit from "@/pages/ApiAudit";
+
+function RedirectBookToProduct() {
+  const { id } = useParams();
+  return <Navigate to={`/product/${id}`} replace />;
+}
 import Forthcoming from "@/pages/Forthcoming";
 import SeriesList from "@/pages/SeriesList";
 import SeriesDetail from "@/pages/SeriesDetail";
@@ -88,8 +93,11 @@ export function AnimatedRoutes() {
     <AnimatePresence mode="wait">
       <Routes location={location} key={location.pathname}>
         <Route path="/" element={<PageTransition><Index /></PageTransition>} />
-        <Route path="/books" element={<PageTransition><Books /></PageTransition>} />
-        <Route path="/books/:id" element={<PageTransition><BookDetails /></PageTransition>} />
+        <Route path="/product" element={<PageTransition><Books /></PageTransition>} />
+        <Route path="/product/:id" element={<PageTransition><BookDetails /></PageTransition>} />
+        {/* Backwards-compat redirects from old /books URLs */}
+        <Route path="/books" element={<Navigate to="/product" replace />} />
+        <Route path="/books/:id" element={<RedirectBookToProduct />} />
         <Route path="/cart" element={<PageTransition><Cart /></PageTransition>} />
         <Route path="/checkout" element={<PageTransition><ProtectedRoute><Checkout /></ProtectedRoute></PageTransition>} />
         <Route path="/checkout/result" element={<PageTransition><CheckoutResult /></PageTransition>} />

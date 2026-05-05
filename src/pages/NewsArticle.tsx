@@ -141,7 +141,7 @@ const NewsArticle = () => {
                 {categories.map((category) => (
                   <li key={category.slug}>
                     <Link
-                      to={`/books?category=${encodeURIComponent(category.name)}`}
+                      to={`/product?category=${encodeURIComponent(category.name)}`}
                       className="w-full flex items-center justify-between text-[15px] py-1 transition-colors text-[#C75B2A]/90 hover:text-[#C75B2A]"
                     >
                       <span className="font-serif text-[#c4a273]">{category.name}</span>
@@ -156,7 +156,7 @@ const NewsArticle = () => {
                 ))}
                 <li>
                   <Link
-                    to="/books"
+                    to="/product"
                     className="w-full flex items-center justify-between text-[15px] py-1 transition-colors text-[#C75B2A]/90 hover:text-[#C75B2A]"
                   >
                     <span className="font-serif text-[#c4a273]">All Categories</span>

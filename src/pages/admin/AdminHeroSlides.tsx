@@ -101,7 +101,7 @@ export default function AdminHeroSlides() {
         ...prev,
         title: book?.title || s.title,
         author: authorName || prev.author || "",
-        link_url: `/books/${s.isbn}`,
+        link_url: `/product/${s.isbn}`,
         quote: reviewer?.review || prev.quote || "",
         reviewer_name: reviewer?.reviewer || prev.reviewer_name || "",
         reviewer_position: reviewer?.reviewer_position || prev.reviewer_position || "",

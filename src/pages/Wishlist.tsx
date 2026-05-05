@@ -58,14 +58,14 @@ export default function Wishlist() {
                   >
                     {/* Product */}
                     <div className="flex items-center gap-5 min-w-0">
-                      <Link to={`/books/${item.book_id}`} className="shrink-0">
+                      <Link to={`/product/${item.book_id}`} className="shrink-0">
                         <img
                           src={item.book_image || "/placeholder.svg"}
                           alt={item.book_title}
                           className="w-20 h-28 object-cover hover:opacity-80 transition-opacity"
                         />
                       </Link>
-                      <Link to={`/books/${item.book_id}`} className="min-w-0">
+                      <Link to={`/product/${item.book_id}`} className="min-w-0">
                         <h3 className="transition-colors leading-snug text-[15px] text-[#6D6C6C] hover:text-[#C75B2A]" style={{ fontFamily: '"Nunito Sans", system-ui, sans-serif' }}>
                           {item.book_title}
                         </h3>
@@ -86,7 +86,7 @@ export default function Wishlist() {
                     {/* Actions */}
                     <div className="flex items-center gap-3 justify-end">
                       <Link
-                        to={`/books/${item.book_id}`}
+                        to={`/product/${item.book_id}`}
                         className="flex-1 bg-[#E4573D] hover:bg-[#C75B2A] text-white text-[14px] font-bold uppercase rounded-none transition-colors flex items-center justify-center gap-2"
                         style={{ fontFamily: '"Nunito Sans", system-ui, sans-serif', padding: '13px 30px', fontWeight: 700 }}
                       >

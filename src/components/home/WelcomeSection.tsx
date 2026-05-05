@@ -7,7 +7,7 @@ const services = [
     icon: "https://camschl-wordpress-uploads.s3.eu-west-1.amazonaws.com/wp-content/uploads/2025/08/Frame-2.png",
     title: "Buy a Book",
     description: "Browse our collection of academic titles available in hardback, paperback and eBook formats.",
-    link: "/books",
+    link: "/product",
   },
   {
     icon: "https://camschl-wordpress-uploads.s3.eu-west-1.amazonaws.com/wp-content/uploads/2025/08/Icons_1-removebg-preview-1.png",

@@ -43,7 +43,7 @@ export default function Forthcoming() {
           <h1 className="text-[40px] leading-[1.2] font-baskerville font-normal text-[#333333] my-[10px]">
             Forthcoming Titles
           </h1>
-          <PageBreadcrumb items={[{ label: "Bookshop", href: "/books" }]} currentPage="Forthcoming" />
+          <PageBreadcrumb items={[{ label: "Bookshop", href: "/product" }]} currentPage="Forthcoming" />
         </div>
       </div>
 
@@ -82,7 +82,7 @@ export default function Forthcoming() {
                     <td className="px-4 py-3 text-right">£{b.price_uk_gbp?.toFixed(2)}</td>
                     <td className="px-4 py-3 text-right">
                       <Button asChild size="sm" variant="outline" className="rounded-none uppercase tracking-wider text-xs">
-                        <Link to={`/books/${b.isbn}`}>View</Link>
+                        <Link to={`/product/${b.isbn}`}>View</Link>
                       </Button>
                     </td>
                   </tr>
