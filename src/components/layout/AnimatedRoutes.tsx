@@ -119,7 +119,8 @@ export function AnimatedRoutes() {
         <Route path="/submit-proposal" element={<PageTransition><SubmitProposal /></PageTransition>} />
         <Route path="/resources" element={<PageTransition><Resources /></PageTransition>} />
         <Route path="/resources/:slug" element={<PageTransition><ResourceDetail /></PageTransition>} />
-        <Route path="/endorsement-submission" element={<PageTransition><EndorsementSubmission /></PageTransition>} />
+        <Route path="/reviewer-form" element={<PageTransition><EndorsementSubmission /></PageTransition>} />
+        <Route path="/endorsement-submission" element={<Navigate to="/reviewer-form" replace />} />
         <Route path="/news" element={<PageTransition><News /></PageTransition>} />
         <Route path="/news/:slug" element={<PageTransition><NewsArticle /></PageTransition>} />
         <Route path="/privacy" element={<PageTransition><PrivacyPolicy /></PageTransition>} />

@@ -26,7 +26,7 @@ const publishDropdownItems = [
   { name: "How to Publish", href: "/how-to-publish" },
   { name: "Submit a Proposal", href: "/submit-proposal" },
   { name: "Resources", href: "/resources" },
-  { name: "Endorsement Submission", href: "/endorsement-submission" },
+  { name: "Endorsement Submission", href: "/reviewer-form" },
 ];
 
 const trailingNav = [
