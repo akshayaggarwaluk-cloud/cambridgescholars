@@ -90,6 +90,9 @@ export function AnimatedRoutes() {
         <Route path="/" element={<PageTransition><Index /></PageTransition>} />
         <Route path="/product" element={<PageTransition><Books /></PageTransition>} />
         <Route path="/product/:id" element={<PageTransition><BookDetails /></PageTransition>} />
+        {/* Backwards-compat redirects from old /books URLs */}
+        <Route path="/books" element={<Navigate to="/product" replace />} />
+        <Route path="/books/:id" element={<Navigate to="/product/:id" replace />} />
         <Route path="/cart" element={<PageTransition><Cart /></PageTransition>} />
         <Route path="/checkout" element={<PageTransition><ProtectedRoute><Checkout /></ProtectedRoute></PageTransition>} />
         <Route path="/checkout/result" element={<PageTransition><CheckoutResult /></PageTransition>} />
