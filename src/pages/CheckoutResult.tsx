@@ -30,11 +30,9 @@ export default function CheckoutResult() {
     (async () => {
       if (isSuccess) {
         try { await clearCart(); } catch { /* ignore */ }
-        // Send to orders page; brief pause so the user sees confirmation.
-        const t = setTimeout(() => {
-          navigate(orderId ? `/orders?new=${encodeURIComponent(orderId)}` : "/orders", { replace: true });
-        }, 1500);
-        return () => clearTimeout(t);
+        // Skip confirmation screen — go directly to the orders page.
+        navigate(orderId ? `/orders?new=${encodeURIComponent(orderId)}` : "/orders", { replace: true });
+        return;
       }
       setWorking(false);
     })();
