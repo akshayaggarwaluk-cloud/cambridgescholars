@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Plus, Pencil, Trash2, Loader2, Save, X, ExternalLink, GripVertical, Upload, Paperclip } from "lucide-react";
+import { Plus, Pencil, Trash2, Loader2, Save, X, ExternalLink, GripVertical, Paperclip } from "lucide-react";
 import { Link } from "react-router-dom";
 import { adminApi, type CmsResource } from "@/services/cmsService";
 import { toast } from "sonner";
