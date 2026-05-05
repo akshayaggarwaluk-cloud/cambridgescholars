@@ -268,6 +268,8 @@ export default function Checkout() {
   const [paymentMethod, setPaymentMethod] = useState<"card" | "paypal">("card");
   const [card, setCard] = useState({ number: "", expiry: "", cvc: "" });
   const [cardholder, setCardholder] = useState("");
+  const paypalContainerRef = useRef<HTMLDivElement | null>(null);
+  const paypalRenderedRef = useRef(false);
 
   // Pre-fill shipping & billing addresses (and email/phone) from the
   // authenticated customer's saved profile. Falls back silently if the
@@ -448,7 +450,7 @@ export default function Checkout() {
     if (loading) return;
 
     if (paymentMethod !== "card") {
-      toast.info("PayPal checkout is coming soon. Please pay by card to complete your order.");
+      toast.info("Use the PayPal button to complete payment.");
       return;
     }
 
