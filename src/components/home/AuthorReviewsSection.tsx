@@ -117,13 +117,13 @@ export function AuthorReviewsSection() {
         <h2 className="font-baskerville text-3xl md:text-4xl font-normal text-center text-foreground mb-14 lg:text-4xl">
           Author Experiences
         </h2>
-        <div className="grid sm:grid-cols-2 gap-x-8 gap-y-12 lg:gap-x-12 lg:gap-y-14">
+        <div className="grid lg:grid-cols-2 gap-x-8 gap-y-12 lg:gap-x-12 lg:gap-y-14">
           {visible.map((review, index) => {
             const { name, title } = parseAuthor(review.author);
             return (
-              <div key={index} className="flex flex-col items-center md:flex-row md:items-start gap-6 cursor-pointer hover:bg-muted/30 rounded-lg p-2 -m-2 transition-colors" onClick={() => navigate("/author-experiences")}>
+              <div key={index} className="flex flex-col items-center sm:flex-row sm:items-start gap-6 cursor-pointer hover:bg-muted/30 rounded-lg p-2 -m-2 transition-colors" onClick={() => navigate("/author-experiences")}>
                 {/* Book cover - responsive, ~2/3 aspect */}
-                <div className="flex-shrink-0 w-32 sm:w-40 md:w-32 lg:w-44 xl:w-[203px]">
+                <div className="flex-shrink-0 w-40 sm:w-44 md:w-52 lg:w-44 xl:w-[203px]">
                   {review.coverImage ? (
                     <img
                       src={review.coverImage}
@@ -140,7 +140,7 @@ export function AuthorReviewsSection() {
                   )}
                 </div>
                 {/* Quote and author */}
-                <div className="flex-1 min-w-0 pt-1 text-center md:text-left">
+                <div className="flex-1 min-w-0 pt-1 text-center sm:text-left">
                   <p
                     className="text-justify mb-5"
                     style={{
