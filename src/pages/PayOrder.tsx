@@ -237,7 +237,7 @@ export default function PayOrder() {
               <div className="grid grid-cols-[1fr_auto] px-8 py-5 text-[16px]">
                 <div className="font-bold text-[#333333]">Payment method:</div>
                 <div className="text-right text-[#696969]">
-                  {method === "paypal" ? "PayPal" : detail.payment_method_title || "Credit/Debit Card"}
+                  {detail.payment_method_title || "Credit/Debit Card"}
                 </div>
               </div>
             </div>
@@ -330,63 +330,6 @@ export default function PayOrder() {
                       />
                     </div>
                   </div>
-                </div>
-              )}
-
-              {/* PayPal option */}
-              <button
-                type="button"
-                onClick={() => setMethod("paypal")}
-                className="w-full flex items-center gap-6 px-6 py-5 bg-white"
-              >
-                <span
-                  className="w-5 h-5 border flex items-center justify-center"
-                  style={{ borderColor: method === "paypal" ? ORANGE : "#999" }}
-                >
-                  {method === "paypal" && <Check className="w-4 h-4" style={{ color: ORANGE }} strokeWidth={3} />}
-                </span>
-                <span className="text-[14px] font-bold uppercase tracking-wider text-[#333333]">PayPal</span>
-                <PayPalBadge />
-                <span className="text-[12px] uppercase" style={{ color: ORANGE }}>
-                  What is PayPal?
-                </span>
-              </button>
-
-              {method === "paypal" && (
-                <div className="bg-[#f4f3ec] px-8 py-6 border-t border-[#e5e5e5]">
-                  <p className="text-[14px] text-[#333333] mb-4">
-                    Click the PayPal button below to complete your payment securely.
-                  </p>
-                  <PaypalButtons
-                    buildCreateOrderPayload={() => {
-                      const b = detail?.billing || {};
-                      if (!b.first_name || !b.last_name) {
-                        throw new Error("Billing name is missing on this order.");
-                      }
-                      if (!b.address_1 || !b.city || !b.postcode) {
-                        throw new Error("Billing address is incomplete on this order.");
-                      }
-                      return {
-                        billing_first_name: b.first_name,
-                        billing_last_name: b.last_name,
-                        billing_address_1: b.address_1,
-                        billing_city: b.city,
-                        billing_postcode: b.postcode,
-                        billing_country: b.country || "GB",
-                        customer_note: detail?.customer_note || undefined,
-                      };
-                    }}
-                    onSuccess={(orderId) => {
-                      toast.success("Payment received. Thank you!");
-                      navigate(
-                        orderId != null
-                          ? `/orders?new=${encodeURIComponent(String(orderId))}`
-                          : "/orders",
-                        { replace: true },
-                      );
-                    }}
-                    onError={(msg) => toast.error(msg)}
-                  />
                 </div>
               )}
 
