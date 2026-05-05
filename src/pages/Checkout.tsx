@@ -300,6 +300,14 @@ export default function Checkout() {
   const [cardholder, setCardholder] = useState("");
   const paypalContainerRef = useRef<HTMLDivElement | null>(null);
   const paypalRenderedRef = useRef(false);
+  const paypalStateRef = useRef({
+    isEbookOnly: false,
+    useShippingForBilling: false,
+    shipping: emptyAddress,
+    billing: emptyAddress,
+    email: "",
+    orderNotes: "",
+  });
 
   // Pre-fill shipping & billing addresses (and email/phone) from the
   // authenticated customer's saved profile. Falls back silently if the
