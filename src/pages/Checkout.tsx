@@ -391,7 +391,40 @@ export default function Checkout() {
           .Buttons({
             style: { layout: "horizontal", color: "gold", shape: "rect", label: "paypal", tagline: false },
             createOrder: async () => {
-              const res = await paypalCreateOrder();
+              const billingAddress: AddressData = isEbookOnly
+                ? billing
+                : useShippingForBilling
+                  ? shipping
+                  : billing;
+              if (!billingAddress.firstName.trim() || !billingAddress.lastName.trim()) {
+                toast.error("Please complete billing name before paying with PayPal.");
+                throw new Error("Billing name is required");
+              }
+              if (!billingAddress.street1.trim() || !billingAddress.city.trim() || !billingAddress.postcode.trim()) {
+                toast.error("Please complete the billing address before paying with PayPal.");
+                throw new Error("Billing address is required");
+              }
+              const res = await paypalCreateOrder({
+                billing_first_name: billingAddress.firstName,
+                billing_last_name: billingAddress.lastName,
+                billing_address_1: billingAddress.street1,
+                billing_address_2: billingAddress.street2 || undefined,
+                billing_city: billingAddress.city,
+                billing_state: billingAddress.state || undefined,
+                billing_postcode: billingAddress.postcode,
+                billing_country: COUNTRY_ISO[billingAddress.country] || "GB",
+                billing_email: email || undefined,
+                billing_phone: billingAddress.phone || undefined,
+                shipping_first_name: shipping.firstName || undefined,
+                shipping_last_name: shipping.lastName || undefined,
+                shipping_address_1: shipping.street1 || undefined,
+                shipping_address_2: shipping.street2 || undefined,
+                shipping_city: shipping.city || undefined,
+                shipping_state: shipping.state || undefined,
+                shipping_postcode: shipping.postcode || undefined,
+                shipping_country: COUNTRY_ISO[shipping.country] || undefined,
+                customer_note: orderNotes.trim() || undefined,
+              });
               return res.paypal_order_id;
             },
             onApprove: async (data: { orderID: string }) => {
