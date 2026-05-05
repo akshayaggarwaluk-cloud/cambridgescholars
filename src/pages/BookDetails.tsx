@@ -147,12 +147,12 @@ export default function BookDetails() {
                 {/* Format Selection */}
                 <div>
                   <p style={{ fontFamily: '"Nunito Sans", system-ui, sans-serif' }} className="tracking-wider normal-case text-sm uppercase mb-3 font-semibold">BINDING</p>
-                  <div className="flex gap-3 lg:gap-2.5">
+                  <div className="flex flex-wrap gap-2 sm:gap-3 lg:gap-2.5">
                     {hasHardback && (
                       <button
                         onClick={() => setSelectedFormat("hardbook")}
                         className={cn(
-                           "flex items-center gap-2 px-6 py-3 lg:px-5 lg:py-2.5 transition-colors min-w-[120px] rounded-none",
+                           "flex items-center gap-2 px-3 py-2 sm:px-6 sm:py-3 lg:px-5 lg:py-2.5 transition-colors min-w-[100px] sm:min-w-[120px] rounded-none",
                           selectedFormat === "hardbook"
                             ? "border-black bg-white border-solid border"
                             : "border border-border hover:border-accent/50 bg-white"
@@ -167,7 +167,7 @@ export default function BookDetails() {
                       <button
                         onClick={() => setSelectedFormat("paperback")}
                         className={cn(
-                           "flex items-center gap-2 px-6 py-3 lg:px-5 lg:py-2.5 transition-colors min-w-[120px] rounded-none",
+                           "flex items-center gap-2 px-3 py-2 sm:px-6 sm:py-3 lg:px-5 lg:py-2.5 transition-colors min-w-[100px] sm:min-w-[120px] rounded-none",
                           selectedFormat === "paperback"
                             ? "border-black bg-white border-solid border"
                             : "border border-border hover:border-accent/50 bg-white"
@@ -182,7 +182,7 @@ export default function BookDetails() {
                       <button
                         onClick={() => setSelectedFormat("ebook")}
                         className={cn(
-                           "flex items-center gap-2 px-6 py-3 lg:px-5 lg:py-2.5 transition-colors min-w-[120px] rounded-none",
+                           "flex items-center gap-2 px-3 py-2 sm:px-6 sm:py-3 lg:px-5 lg:py-2.5 transition-colors min-w-[100px] sm:min-w-[120px] rounded-none",
                           selectedFormat === "ebook"
                             ? "border-black bg-white border-solid border"
                             : "border border-border hover:border-accent/50 bg-white"
