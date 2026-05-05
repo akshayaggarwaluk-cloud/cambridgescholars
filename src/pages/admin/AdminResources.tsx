@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Plus, Pencil, Trash2, Loader2, Save, X, ExternalLink, GripVertical } from "lucide-react";
+import { Plus, Pencil, Trash2, Loader2, Save, X, ExternalLink, GripVertical, Paperclip } from "lucide-react";
 import { Link } from "react-router-dom";
 import { adminApi, type CmsResource } from "@/services/cmsService";
 import { toast } from "sonner";
@@ -31,6 +31,7 @@ export default function AdminResources() {
   const [loading, setLoading] = useState(true);
   const [editing, setEditing] = useState<EditState | null>(null);
   const [saving, setSaving] = useState(false);
+  const [uploadingFile, setUploadingFile] = useState(false);
 
   const reload = async () => {
     setLoading(true);
@@ -55,6 +56,25 @@ export default function AdminResources() {
     if (!confirm("Delete this resource page?")) return;
     try { await adminApi.deleteResource(id); toast.success("Deleted"); reload(); }
     catch (e) { toast.error(e instanceof Error ? e.message : "Delete failed"); }
+  };
+
+  const handleAttachFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    e.target.value = "";
+    if (!file || !editing) return;
+    setUploadingFile(true);
+    try {
+      const url = await adminApi.uploadFile(file);
+      const cleanName = file.name.replace(/\.[^.]+$/, "").replace(/[-_]+/g, " ");
+      const snippet = `- **[${cleanName}](${url})** - ${file.name}`;
+      const next = (editing.content || "").trimEnd() + (editing.content?.trim() ? "\n" : "") + snippet + "\n";
+      setEditing({ ...editing, content: next });
+      toast.success("File uploaded and link inserted");
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "Upload failed");
+    } finally {
+      setUploadingFile(false);
+    }
   };
 
   const sensors = useSensors(
@@ -102,7 +122,21 @@ export default function AdminResources() {
           <Field label="Title"><input className="w-full border border-border px-3 py-2 text-sm" value={editing.title || ""} onChange={(e) => setEditing({ ...editing, title: e.target.value })} /></Field>
           <Field label="Excerpt (short paragraph shown under the title on the Resources listing)"><textarea rows={3} className="w-full border border-border px-3 py-2 text-sm" value={editing.excerpt || ""} onChange={(e) => setEditing({ ...editing, excerpt: e.target.value })} /></Field>
           <ImageUploadField label="Cover image" value={editing.cover_image || null} onChange={(url) => setEditing({ ...editing, cover_image: url || "" })} />
-          <Field label="Body (Markdown / HTML)"><textarea rows={14} className="w-full border border-border px-3 py-2 text-sm font-mono" value={editing.content || ""} onChange={(e) => setEditing({ ...editing, content: e.target.value })} /></Field>
+          <Field label="Body (Markdown / HTML)">
+            <textarea rows={14} className="w-full border border-border px-3 py-2 text-sm font-mono" value={editing.content || ""} onChange={(e) => setEditing({ ...editing, content: e.target.value })} />
+            <div className="flex items-center gap-3 pt-2">
+              <label className="cursor-pointer">
+                <input type="file" onChange={handleAttachFile} className="hidden" disabled={uploadingFile} />
+                <Button type="button" variant="outline" size="sm" asChild disabled={uploadingFile}>
+                  <span className="inline-flex items-center gap-2">
+                    {uploadingFile ? <Loader2 className="h-3 w-3 animate-spin" /> : <Paperclip className="h-3 w-3" />}
+                    Upload file & insert link
+                  </span>
+                </Button>
+              </label>
+              <span className="text-xs text-muted-foreground">Uploads any file (PDF, DOCX, etc.) and appends a markdown link to the body.</span>
+            </div>
+          </Field>
           <Field label="Display order"><input type="number" className="w-32 border border-border px-3 py-2 text-sm" value={editing.display_order ?? 0} onChange={(e) => setEditing({ ...editing, display_order: Number(e.target.value) })} /></Field>
           <label className="flex items-center gap-2 text-sm"><input type="checkbox" checked={editing.is_published ?? true} onChange={(e) => setEditing({ ...editing, is_published: e.target.checked })} /> Published</label>
           <div className="flex gap-2 pt-2"><Button onClick={save} disabled={saving} className="bg-accent hover:bg-accent/90">{saving ? <Loader2 className="h-4 w-4 animate-spin mr-1" /> : <Save className="h-4 w-4 mr-1" />}{editing._new ? "Create" : "Save"}</Button><Button variant="outline" onClick={() => setEditing(null)}>Cancel</Button></div>
