@@ -256,10 +256,34 @@ export interface PaypalCaptureResponse {
   message?: string;
 }
 
-export function paypalCreateOrder(): Promise<PaypalCreateOrderResponse> {
+export interface PaypalCreateOrderRequest {
+  billing_first_name?: string;
+  billing_last_name?: string;
+  billing_address_1?: string;
+  billing_address_2?: string;
+  billing_city?: string;
+  billing_state?: string;
+  billing_postcode?: string;
+  billing_country?: string;
+  billing_email?: string;
+  billing_phone?: string;
+  shipping_first_name?: string;
+  shipping_last_name?: string;
+  shipping_address_1?: string;
+  shipping_address_2?: string;
+  shipping_city?: string;
+  shipping_state?: string;
+  shipping_postcode?: string;
+  shipping_country?: string;
+  customer_note?: string | null;
+}
+
+export function paypalCreateOrder(
+  payload: PaypalCreateOrderRequest = {},
+): Promise<PaypalCreateOrderResponse> {
   return callCsp<PaypalCreateOrderResponse>("/checkout/paypal/create-order", {
     method: "POST",
-    body: JSON.stringify({}),
+    body: JSON.stringify(payload),
   });
 }
 
