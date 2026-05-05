@@ -35,16 +35,25 @@ function loadPaypalSdk(): Promise<unknown> {
 interface Props {
   onSuccess: (orderId: string | number | undefined, transactionId?: string) => void;
   onError?: (message: string) => void;
+  /**
+   * Optional async hook that runs before the PayPal create-order request.
+   * Use this to sync the local form's billing/shipping address to the
+   * upstream profile, since the backend reads the address from there.
+   * Throw to abort the PayPal flow.
+   */
+  beforeCreate?: () => Promise<void> | void;
 }
 
-export default function PaypalButtons({ onSuccess, onError }: Props) {
+export default function PaypalButtons({ onSuccess, onError, beforeCreate }: Props) {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const onSuccessRef = useRef(onSuccess);
   const onErrorRef = useRef(onError);
+  const beforeCreateRef = useRef(beforeCreate);
   useEffect(() => { onSuccessRef.current = onSuccess; }, [onSuccess]);
   useEffect(() => { onErrorRef.current = onError; }, [onError]);
+  useEffect(() => { beforeCreateRef.current = beforeCreate; }, [beforeCreate]);
 
   useEffect(() => {
     let cancelled = false;
@@ -57,6 +66,7 @@ export default function PaypalButtons({ onSuccess, onError }: Props) {
           style: { layout: "horizontal", color: "gold", shape: "rect", label: "paypal", tagline: false },
           createOrder: async () => {
             try {
+              if (beforeCreateRef.current) await beforeCreateRef.current();
               const res = await paypalCreateOrder();
               return res.paypal_order_id;
             } catch (e) {
