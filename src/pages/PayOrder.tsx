@@ -7,7 +7,7 @@ import { PageBreadcrumb } from "@/components/layout/PageBreadcrumb";
 import { getOrder, type OrderDetail } from "@/services/accountService";
 import { checkoutPay, type CheckoutPayRequest, type OpayoCardType } from "@/services/cartService";
 import { toast } from "sonner";
-import { buildAccountOrdersPath, rememberPendingPaymentOrder } from "@/utils/paymentRedirect";
+import { buildAccountOrdersPath } from "@/utils/paymentRedirect";
 const ORANGE = "#E4573D";
 
 function fmt(v?: number | null) {
@@ -128,7 +128,6 @@ export default function PayOrder() {
       const res = await checkoutPay(payload);
 
       if (res.status === "3ds_required") {
-        rememberPendingPaymentOrder(res.order_id ?? id);
         const acsUrl = res.acs_url;
         if (!acsUrl) throw new Error("3DS authentication data missing.");
         let fields: Record<string, string>;
