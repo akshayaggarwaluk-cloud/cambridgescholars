@@ -4,6 +4,7 @@ import {
   paypalCreateOrder,
   paypalCaptureOrder,
 } from "@/services/cartService";
+import type { PaypalCreateOrderRequest } from "@/services/cartService";
 
 const PAYPAL_CLIENT_ID =
   (import.meta.env.VITE_PAYPAL_CLIENT_ID as string | undefined) || "sb";
@@ -36,24 +37,22 @@ interface Props {
   onSuccess: (orderId: string | number | undefined, transactionId?: string) => void;
   onError?: (message: string) => void;
   /**
-   * Optional async hook that runs before the PayPal create-order request.
-   * Use this to sync the local form's billing/shipping address to the
-   * upstream profile, since the backend reads the address from there.
-   * Throw to abort the PayPal flow.
+   * Builds the create-order payload (billing address + customer note).
+   * Throw to abort the PayPal flow (e.g. validation error).
    */
-  beforeCreate?: () => Promise<void> | void;
+  buildCreateOrderPayload: () => PaypalCreateOrderRequest;
 }
 
-export default function PaypalButtons({ onSuccess, onError, beforeCreate }: Props) {
+export default function PaypalButtons({ onSuccess, onError, buildCreateOrderPayload }: Props) {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const onSuccessRef = useRef(onSuccess);
   const onErrorRef = useRef(onError);
-  const beforeCreateRef = useRef(beforeCreate);
+  const buildPayloadRef = useRef(buildCreateOrderPayload);
   useEffect(() => { onSuccessRef.current = onSuccess; }, [onSuccess]);
   useEffect(() => { onErrorRef.current = onError; }, [onError]);
-  useEffect(() => { beforeCreateRef.current = beforeCreate; }, [beforeCreate]);
+  useEffect(() => { buildPayloadRef.current = buildCreateOrderPayload; }, [buildCreateOrderPayload]);
 
   useEffect(() => {
     let cancelled = false;
@@ -66,8 +65,8 @@ export default function PaypalButtons({ onSuccess, onError, beforeCreate }: Prop
           style: { layout: "horizontal", color: "gold", shape: "rect", label: "paypal", tagline: false },
           createOrder: async () => {
             try {
-              if (beforeCreateRef.current) await beforeCreateRef.current();
-              const res = await paypalCreateOrder();
+              const payload = buildPayloadRef.current();
+              const res = await paypalCreateOrder(payload);
               return res.paypal_order_id;
             } catch (e) {
               const msg = e instanceof Error ? e.message : "Failed to create PayPal order";
