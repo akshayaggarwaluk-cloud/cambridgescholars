@@ -157,8 +157,8 @@ export default function PayOrder() {
         toast.success("Payment received. Thank you!");
         navigate(
           res.order_id != null
-            ? `/orders?new=${encodeURIComponent(String(res.order_id))}`
-            : "/orders",
+            ? `/profile?tab=orders&new=${encodeURIComponent(String(res.order_id))}`
+            : "/profile?tab=orders",
           { replace: true },
         );
         return;

@@ -60,6 +60,7 @@ export default function ExternalProfile() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const [activeTab, setActiveTab] = useState<TabType>("dashboard");
+  const newOrderId = searchParams.get("new");
 
   useEffect(() => {
     const t = searchParams.get("tab");
@@ -219,6 +220,13 @@ export default function ExternalProfile() {
       void loadOrders();
     }
   }, [activeTab, isAuthenticated, user]);
+
+  useEffect(() => {
+    if (!newOrderId || activeTab !== "orders" || ordersLoading) return;
+    const safeId = newOrderId.replace(/[^A-Za-z0-9_-]/g, "-");
+    const row = document.getElementById(`account-order-${safeId}`);
+    row?.scrollIntoView({ block: "center", behavior: "smooth" });
+  }, [activeTab, newOrderId, ordersLoading, orders]);
 
   const loadOrders = async () => {
     if (!user) return;
@@ -481,6 +489,8 @@ export default function ExternalProfile() {
           {/* Rows */}
           {orders.map((order) => {
             const isCancelled = cancelledOrderIds.has(String(order.id));
+            const isNewOrder = newOrderId === String(order.id);
+            const safeOrderId = String(order.id).replace(/[^A-Za-z0-9_-]/g, "-");
             const effectiveStatus = isCancelled ? "cancelled" : order.status;
             const statusLabel = effectiveStatus
               .replace(/[-_]/g, " ")
@@ -490,9 +500,14 @@ export default function ExternalProfile() {
               (effectiveStatus.toLowerCase().includes("pending") ||
                 effectiveStatus.toLowerCase() === "on-hold");
             return (
-              <div key={order.id} className="border-b border-border">
+              <div
+                key={order.id}
+                id={`account-order-${safeOrderId}`}
+                className={`border-b border-border ${isNewOrder ? "bg-[#FFF7F2] outline outline-2 outline-[#C75B2A] outline-offset-[-2px]" : ""}`}
+              >
                 <div className="grid grid-cols-5 items-center px-6 py-6 text-[14px] text-[#696969]">
                 <div className="text-[#E4573D] font-medium">
+                  {isNewOrder && <span className="sr-only">New order </span>}
                   #{order.id}
                 </div>
                 <div>
