@@ -347,22 +347,23 @@ const EndorsementSubmission = () => {
                       />
                     </div>
 
-                    <div className="flex flex-col sm:flex-row gap-3 justify-center pt-2">
-                      <Button
+                    <div className="flex justify-center gap-0 pt-2">
+                      <button
                         type="button"
                         onClick={resetVerification}
-                        variant="outline"
-                        className="rounded-none uppercase border-border text-black hover:bg-[#f0efef]"
+                        className="w-[160px] h-14 text-[18px] font-medium bg-white text-black border border-border hover:bg-[#f0efef]"
+                        style={{ fontFamily: "Arial, sans-serif" }}
                       >
                         Cancel
-                      </Button>
-                      <Button
+                      </button>
+                      <button
                         type="submit"
                         disabled={isSubmitting}
-                        className="rounded-none uppercase bg-[#b33000] hover:bg-white hover:text-[#b33000] border border-[#b33000] text-white"
+                        className="w-[160px] h-14 text-[18px] font-medium bg-[#b33000] text-white border border-[#b33000] hover:bg-white hover:text-[#b33000] disabled:opacity-70"
+                        style={{ fontFamily: "Arial, sans-serif" }}
                       >
                         {isSubmitting ? "Submitting..." : "Submit"}
-                      </Button>
+                      </button>
                     </div>
                   </form>
                 ) : (
