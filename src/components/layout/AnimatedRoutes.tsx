@@ -38,6 +38,11 @@ import RefundAndReturns from "@/pages/RefundAndReturns";
 import AuthorExperiences from "@/pages/AuthorExperiences";
 import AuthorPromises from "@/pages/AuthorPromises";
 import ApiAudit from "@/pages/ApiAudit";
+
+function RedirectBookToProduct() {
+  const { id } = useParams();
+  return <Navigate to={`/product/${id}`} replace />;
+}
 import Forthcoming from "@/pages/Forthcoming";
 import SeriesList from "@/pages/SeriesList";
 import SeriesDetail from "@/pages/SeriesDetail";
