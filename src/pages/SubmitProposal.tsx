@@ -362,7 +362,7 @@ const SubmitProposal = () => {
               <div className="relative w-full">
                 <div className="h-6 w-full overflow-hidden rounded-full bg-muted">
                   <div
-                    className="h-full bg-[#E4573D] transition-all flex items-center justify-center text-xs font-semibold text-white"
+                    className="h-full bg-[#E4573D] transition-all flex items-center justify-end pr-3 text-xs font-semibold text-white"
                     style={{ width: `${progress}%` }}
                   >
                     {progress}%
