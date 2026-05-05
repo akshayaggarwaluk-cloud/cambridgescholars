@@ -118,7 +118,7 @@ export function HeroSection() {
                 <motion.p variants={textVariants} transition={{ duration: 0.4, delay: 0.2 }} style={{ fontFamily: "Roboto, system-ui, sans-serif", fontSize: "15px", color: "#333333" }} className="font-bold">– {activeReview.reviewer}</motion.p>
                 <motion.div variants={textVariants} transition={{ duration: 0.4, delay: 0.25 }} className="pt-2">
                   <Button asChild className="bg-[#e4573d] text-white border border-[#e4573d] hover:bg-transparent hover:text-[#e4573d] px-10 py-3 text-sm tracking-wider font-nav font-bold rounded-none transition-colors" style={{ fontFamily: "'Nunito Sans', system-ui, sans-serif" }}>
-                    <Link to={activeReview.linkUrl || "/books"}>VIEW</Link>
+                    <Link to={activeReview.linkUrl}>VIEW</Link>
                   </Button>
                 </motion.div>
               </motion.div>

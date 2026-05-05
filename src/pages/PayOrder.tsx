@@ -1,52 +1,12 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Loader2, Check } from "lucide-react";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { PageBreadcrumb } from "@/components/layout/PageBreadcrumb";
 import { getOrder, type OrderDetail } from "@/services/accountService";
-import {
-  checkoutPay,
-  paypalCreateOrder,
-  paypalCaptureOrder,
-  type CheckoutPayRequest,
-  type OpayoCardType,
-} from "@/services/cartService";
+import { checkoutPay, type CheckoutPayRequest, type OpayoCardType } from "@/services/cartService";
 import { toast } from "sonner";
-
-const PAYPAL_CLIENT_ID =
-  (import.meta.env.VITE_PAYPAL_CLIENT_ID as string | undefined) || "sb";
-
-// Lazy-load the PayPal JS SDK once per page lifetime.
-let paypalSdkPromise: Promise<unknown> | null = null;
-function loadPaypalSdk(): Promise<unknown> {
-  if (typeof window === "undefined") return Promise.reject(new Error("No window"));
-  const w = window as unknown as { paypal?: unknown };
-  if (w.paypal) return Promise.resolve(w.paypal);
-  if (paypalSdkPromise) return paypalSdkPromise;
-  paypalSdkPromise = new Promise((resolve, reject) => {
-    const existing = document.querySelector<HTMLScriptElement>("script[data-paypal-sdk]");
-    const onLoad = () => {
-      const ww = window as unknown as { paypal?: unknown };
-      ww.paypal ? resolve(ww.paypal) : reject(new Error("PayPal SDK failed to load"));
-    };
-    if (existing) {
-      existing.addEventListener("load", onLoad);
-      existing.addEventListener("error", () => reject(new Error("PayPal SDK failed to load")));
-      return;
-    }
-    const s = document.createElement("script");
-    s.src = `https://www.paypal.com/sdk/js?client-id=${encodeURIComponent(
-      PAYPAL_CLIENT_ID,
-    )}&currency=GBP&intent=capture`;
-    s.async = true;
-    s.dataset.paypalSdk = "true";
-    s.onload = onLoad;
-    s.onerror = () => reject(new Error("PayPal SDK failed to load"));
-    document.body.appendChild(s);
-  });
-  return paypalSdkPromise;
-}
 
 const ORANGE = "#E4573D";
 
@@ -103,8 +63,6 @@ export default function PayOrder() {
   const [method, setMethod] = useState<"card" | "paypal">("card");
   const [card, setCard] = useState({ holder: "", number: "", expiry: "", cvc: "" });
   const [submitting, setSubmitting] = useState(false);
-  const paypalContainerRef = useRef<HTMLDivElement | null>(null);
-  const paypalRenderedRef = useRef(false);
 
   useEffect(() => {
     if (!id) return;
@@ -123,64 +81,6 @@ export default function PayOrder() {
       cancelled = true;
     };
   }, [id]);
-
-  // Render PayPal Buttons when the user picks PayPal.
-  useEffect(() => {
-    if (method !== "paypal") return;
-    if (paypalRenderedRef.current) return;
-    let cancelled = false;
-    (async () => {
-      try {
-        const paypal = (await loadPaypalSdk()) as {
-          Buttons: (opts: Record<string, unknown>) => { render: (el: HTMLElement) => Promise<void> };
-        };
-        if (cancelled || !paypalContainerRef.current) return;
-        paypalContainerRef.current.innerHTML = "";
-        await paypal
-          .Buttons({
-            style: { layout: "horizontal", color: "gold", shape: "rect", label: "paypal", tagline: false },
-            createOrder: async () => {
-              const res = await paypalCreateOrder();
-              return res.paypal_order_id;
-            },
-            onApprove: async (data: { orderID: string }) => {
-              setSubmitting(true);
-              try {
-                const res = await paypalCaptureOrder(data.orderID);
-                if (res.status === "success") {
-                  toast.success("Payment received. Thank you!");
-                  navigate(
-                    res.order_id != null
-                      ? `/orders?new=${encodeURIComponent(String(res.order_id))}`
-                      : "/orders",
-                    { replace: true },
-                  );
-                } else {
-                  toast.error(res.reason || res.message || "PayPal payment was not completed.");
-                }
-              } catch (err) {
-                toast.error(err instanceof Error ? err.message : "PayPal capture failed.");
-              } finally {
-                setSubmitting(false);
-              }
-            },
-            onCancel: () => toast.info("PayPal payment cancelled."),
-            onError: (err: unknown) => {
-              console.error("[paypal]", err);
-              toast.error("PayPal encountered an error. Please try again.");
-            },
-          })
-          .render(paypalContainerRef.current);
-        paypalRenderedRef.current = true;
-      } catch (err) {
-        console.error(err);
-        toast.error("Could not load PayPal. Please try a different payment method.");
-      }
-    })();
-    return () => {
-      cancelled = true;
-    };
-  }, [method, navigate]);
 
   const subtotal = detail
     ? detail.items.reduce(
@@ -205,7 +105,7 @@ export default function PayOrder() {
     e.preventDefault();
     if (submitting) return;
     if (method === "paypal") {
-      toast.info("Use the PayPal button above to complete payment.");
+      toast.info("PayPal checkout is coming soon. Please pay by card.");
       return;
     }
     if (method === "card") {
@@ -472,15 +372,6 @@ export default function PayOrder() {
                   What is PayPal?
                 </span>
               </button>
-
-              {method === "paypal" && (
-                <div className="bg-[#f4f3ec] px-8 py-8 relative border-t border-[#e5e5e5]">
-                  <p className="text-[15px] text-[#333333] mb-6">
-                    Click the PayPal button below to complete your payment securely.
-                  </p>
-                  <div ref={paypalContainerRef} className="max-w-md" />
-                </div>
-              )}
 
               {/* Footer */}
               <div className="border-t border-[#e5e5e5] px-8 py-8 bg-white flex items-center justify-between gap-6 flex-wrap">

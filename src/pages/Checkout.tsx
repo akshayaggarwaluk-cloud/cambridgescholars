@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect, useRef } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { CheckCircle, AlertCircle, Check } from "lucide-react";
 import { Header } from "@/components/layout/Header";
@@ -19,38 +19,8 @@ import {
 import { useCart } from "@/contexts/CartContext";
 import { useExternalAuth } from "@/contexts/ExternalAuthContext";
 import { toast } from "sonner";
-import {
-  checkoutPay,
-  paypalCreateOrder,
-  paypalCaptureOrder,
-  type CheckoutPayRequest,
-} from "@/services/cartService";
+import { checkoutPay, type CheckoutPayRequest } from "@/services/cartService";
 import { getProfile } from "@/services/accountService";
-
-const PAYPAL_CLIENT_ID =
-  (import.meta.env.VITE_PAYPAL_CLIENT_ID as string | undefined) || "sb";
-
-let paypalSdkPromise: Promise<unknown> | null = null;
-function loadPaypalSdk(): Promise<unknown> {
-  if (typeof window === "undefined") return Promise.reject(new Error("No window"));
-  const w = window as unknown as { paypal?: unknown };
-  if (w.paypal) return Promise.resolve(w.paypal);
-  if (paypalSdkPromise) return paypalSdkPromise;
-  paypalSdkPromise = new Promise((resolve, reject) => {
-    const s = document.createElement("script");
-    s.src = `https://www.paypal.com/sdk/js?client-id=${encodeURIComponent(
-      PAYPAL_CLIENT_ID,
-    )}&currency=GBP&intent=capture`;
-    s.async = true;
-    s.onload = () => {
-      const ww = window as unknown as { paypal?: unknown };
-      ww.paypal ? resolve(ww.paypal) : reject(new Error("PayPal SDK failed to load"));
-    };
-    s.onerror = () => reject(new Error("PayPal SDK failed to load"));
-    document.body.appendChild(s);
-  });
-  return paypalSdkPromise;
-}
 
 type AddressData = {
   firstName: string;
@@ -298,16 +268,6 @@ export default function Checkout() {
   const [paymentMethod, setPaymentMethod] = useState<"card" | "paypal">("card");
   const [card, setCard] = useState({ number: "", expiry: "", cvc: "" });
   const [cardholder, setCardholder] = useState("");
-  const paypalContainerRef = useRef<HTMLDivElement | null>(null);
-  const paypalRenderedRef = useRef(false);
-  const paypalStateRef = useRef({
-    isEbookOnly: false,
-    useShippingForBilling: false,
-    shipping: emptyAddress,
-    billing: emptyAddress,
-    email: "",
-    orderNotes: "",
-  });
 
   // Pre-fill shipping & billing addresses (and email/phone) from the
   // authenticated customer's saved profile. Falls back silently if the
@@ -382,115 +342,6 @@ export default function Checkout() {
   // Shipping comes straight from the API (`shipping_gbp` on /cart).
   const shippingCost = isEbookOnly ? 0 : apiShipping ?? 0;
   const total = cartTotal || subtotal + shippingCost - (discount ?? 0);
-
-  // Keep latest form values reachable from PayPal's static button callbacks.
-  useEffect(() => {
-    paypalStateRef.current = {
-      isEbookOnly,
-      useShippingForBilling,
-      shipping,
-      billing,
-      email,
-      orderNotes,
-    };
-  }, [isEbookOnly, useShippingForBilling, shipping, billing, email, orderNotes]);
-
-  // Render PayPal Buttons when the user picks PayPal.
-  useEffect(() => {
-    if (paymentMethod !== "paypal") return;
-    if (paypalRenderedRef.current) return;
-    let cancelled = false;
-    (async () => {
-      try {
-        const paypal = (await loadPaypalSdk()) as {
-          Buttons: (opts: Record<string, unknown>) => { render: (el: HTMLElement) => Promise<void> };
-        };
-        if (cancelled || !paypalContainerRef.current) return;
-        paypalContainerRef.current.innerHTML = "";
-        await paypal
-          .Buttons({
-            style: { layout: "horizontal", color: "gold", shape: "rect", label: "paypal", tagline: false },
-            createOrder: async () => {
-              const s = paypalStateRef.current;
-              const billingAddress: AddressData = s.isEbookOnly
-                ? s.billing
-                : s.useShippingForBilling
-                  ? s.shipping
-                  : s.billing;
-              if (!billingAddress.firstName.trim() || !billingAddress.lastName.trim()) {
-                toast.error("Please complete billing name before paying with PayPal.");
-                throw new Error("Billing name is required");
-              }
-              if (!billingAddress.street1.trim() || !billingAddress.city.trim() || !billingAddress.postcode.trim()) {
-                toast.error("Please complete the billing address before paying with PayPal.");
-                throw new Error("Billing address is required");
-              }
-              const res = await paypalCreateOrder({
-                billing_first_name: billingAddress.firstName,
-                billing_last_name: billingAddress.lastName,
-                billing_address_1: billingAddress.street1,
-                billing_address_2: billingAddress.street2 || undefined,
-                billing_city: billingAddress.city,
-                billing_state: billingAddress.state || undefined,
-                billing_postcode: billingAddress.postcode,
-                billing_country: COUNTRY_ISO[billingAddress.country] || "GB",
-                billing_email: s.email || undefined,
-                billing_phone: billingAddress.phone || undefined,
-                shipping_first_name: s.shipping.firstName || undefined,
-                shipping_last_name: s.shipping.lastName || undefined,
-                shipping_address_1: s.shipping.street1 || undefined,
-                shipping_address_2: s.shipping.street2 || undefined,
-                shipping_city: s.shipping.city || undefined,
-                shipping_state: s.shipping.state || undefined,
-                shipping_postcode: s.shipping.postcode || undefined,
-                shipping_country: COUNTRY_ISO[s.shipping.country] || undefined,
-                customer_note: s.orderNotes.trim() || undefined,
-              });
-              return res.paypal_order_id;
-            },
-            onApprove: async (data: { orderID: string }) => {
-              setLoading(true);
-              try {
-                const res = await paypalCaptureOrder(data.orderID);
-                if (res.status === "success") {
-                  try { await clearCart(); } catch { /* ignore */ }
-                  if (res.order_id != null) setConfirmedOrderId(res.order_id);
-                  setIsComplete(true);
-                  toast.success("Payment received. Thank you for your order!");
-                  setTimeout(() => {
-                    navigate(
-                      res.order_id != null
-                        ? `/orders?new=${encodeURIComponent(String(res.order_id))}`
-                        : "/orders",
-                      { replace: true },
-                    );
-                  }, 1200);
-                } else {
-                  toast.error(res.reason || res.message || "PayPal payment was not completed.");
-                }
-              } catch (err) {
-                toast.error(err instanceof Error ? err.message : "PayPal capture failed.");
-              } finally {
-                setLoading(false);
-              }
-            },
-            onCancel: () => toast.info("PayPal payment cancelled."),
-            onError: (err: unknown) => {
-              console.error("[paypal]", err);
-              toast.error("PayPal encountered an error. Please try again.");
-            },
-          })
-          .render(paypalContainerRef.current);
-        paypalRenderedRef.current = true;
-      } catch (err) {
-        console.error(err);
-        toast.error("Could not load PayPal. Please try a different payment method.");
-      }
-    })();
-    return () => {
-      cancelled = true;
-    };
-  }, [paymentMethod, navigate, clearCart]);
 
   if (items.length === 0 && !isComplete) {
     navigate("/cart");
@@ -597,7 +448,7 @@ export default function Checkout() {
     if (loading) return;
 
     if (paymentMethod !== "card") {
-      toast.info("Use the PayPal button to complete payment.");
+      toast.info("PayPal checkout is coming soon. Please pay by card to complete your order.");
       return;
     }
 
@@ -1076,15 +927,6 @@ export default function Checkout() {
                       <span className="px-2 py-1 text-[10px] font-bold bg-[#231f20] text-white rounded-sm">DISC</span>
                     </span>
                   </button>
-
-                  {paymentMethod === "paypal" && (
-                    <div className="mt-3 -mx-2 px-4 py-3 space-y-3 bg-[#dbd6e1]">
-                      <p className="text-[12px] text-[#666]">
-                        Click the PayPal button below to complete your payment securely.
-                      </p>
-                      <div ref={paypalContainerRef} className="max-w-md" />
-                    </div>
-                  )}
                 </div>
 
                 <p className="text-[13px] text-[#555] leading-relaxed mt-6">
