@@ -20,6 +20,7 @@ import { useCart } from "@/contexts/CartContext";
 import { useExternalAuth } from "@/contexts/ExternalAuthContext";
 import { toast } from "sonner";
 import { checkoutPay, type CheckoutPayRequest } from "@/services/cartService";
+import PaypalButtons from "@/components/checkout/PaypalButtons";
 import { getProfile } from "@/services/accountService";
 
 type AddressData = {
@@ -448,7 +449,7 @@ export default function Checkout() {
     if (loading) return;
 
     if (paymentMethod !== "card") {
-      toast.info("PayPal checkout is coming soon. Please pay by card to complete your order.");
+      toast.info("Use the PayPal button below to complete your payment.");
       return;
     }
 
@@ -927,6 +928,31 @@ export default function Checkout() {
                       <span className="px-2 py-1 text-[10px] font-bold bg-[#231f20] text-white rounded-sm">DISC</span>
                     </span>
                   </button>
+
+                  {paymentMethod === "paypal" && (
+                    <div className="mt-4 p-4 bg-[#f4f3ec]">
+                      <p className="text-[13px] text-[#333] mb-3">
+                        Click the PayPal button to complete your payment securely.
+                      </p>
+                      <PaypalButtons
+                        onSuccess={async (orderId) => {
+                          try { await clearCart(); } catch { /* ignore */ }
+                          if (orderId != null) setConfirmedOrderId(orderId);
+                          setIsComplete(true);
+                          toast.success("Payment received. Thank you for your order!");
+                          setTimeout(() => {
+                            navigate(
+                              orderId != null
+                                ? `/orders?new=${encodeURIComponent(String(orderId))}`
+                                : "/orders",
+                              { replace: true },
+                            );
+                          }, 1500);
+                        }}
+                        onError={(msg) => toast.error(msg)}
+                      />
+                    </div>
+                  )}
                 </div>
 
                 <p className="text-[13px] text-[#555] leading-relaxed mt-6">

@@ -7,6 +7,7 @@ import { PageBreadcrumb } from "@/components/layout/PageBreadcrumb";
 import { getOrder, type OrderDetail } from "@/services/accountService";
 import { checkoutPay, type CheckoutPayRequest, type OpayoCardType } from "@/services/cartService";
 import { toast } from "sonner";
+import PaypalButtons from "@/components/checkout/PaypalButtons";
 
 const ORANGE = "#E4573D";
 
@@ -105,7 +106,7 @@ export default function PayOrder() {
     e.preventDefault();
     if (submitting) return;
     if (method === "paypal") {
-      toast.info("PayPal checkout is coming soon. Please pay by card.");
+      toast.info("Use the PayPal button below to complete your payment.");
       return;
     }
     if (method === "card") {
@@ -372,6 +373,26 @@ export default function PayOrder() {
                   What is PayPal?
                 </span>
               </button>
+
+              {method === "paypal" && (
+                <div className="bg-[#f4f3ec] px-8 py-6 border-t border-[#e5e5e5]">
+                  <p className="text-[14px] text-[#333333] mb-4">
+                    Click the PayPal button below to complete your payment securely.
+                  </p>
+                  <PaypalButtons
+                    onSuccess={(orderId) => {
+                      toast.success("Payment received. Thank you!");
+                      navigate(
+                        orderId != null
+                          ? `/orders?new=${encodeURIComponent(String(orderId))}`
+                          : "/orders",
+                        { replace: true },
+                      );
+                    }}
+                    onError={(msg) => toast.error(msg)}
+                  />
+                </div>
+              )}
 
               {/* Footer */}
               <div className="border-t border-[#e5e5e5] px-8 py-8 bg-white flex items-center justify-between gap-6 flex-wrap">
