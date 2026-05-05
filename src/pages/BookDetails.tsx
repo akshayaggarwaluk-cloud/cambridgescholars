@@ -207,8 +207,8 @@ export default function BookDetails() {
                 </div>
                 {/* Actions */}
                 <div className="flex items-center gap-3 sm:gap-4 lg:gap-3 flex-wrap lg:flex-nowrap">
-                  <div className="text-[#c4a273] text-lg font-normal" style={{ fontFamily: '"Libre Baskerville", Georgia, serif' }}>
-                   <span className="font-normal text-[#c4a273] text-lg">£{getPrice(selectedFormat).toFixed(2)}</span>
+                  <div className="text-[#c4a273] text-lg font-normal min-w-[80px] text-left tabular-nums" style={{ fontFamily: '"Libre Baskerville", Georgia, serif' }}>
+                   <span className="font-normal text-[#c4a273] text-lg tabular-nums">£{getPrice(selectedFormat).toFixed(2)}</span>
                   </div>
                   <Button
                     size="default"
