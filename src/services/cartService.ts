@@ -265,10 +265,22 @@ export interface PaypalCaptureResponse {
   reason?: string;
 }
 
-export function paypalCreateOrder(): Promise<PaypalCreateOrderResponse> {
+export interface PaypalCreateOrderRequest {
+  billing_first_name: string;
+  billing_last_name: string;
+  billing_address_1: string;
+  billing_city: string;
+  billing_postcode: string;
+  billing_country?: string;
+  customer_note?: string;
+}
+
+export function paypalCreateOrder(
+  payload: PaypalCreateOrderRequest,
+): Promise<PaypalCreateOrderResponse> {
   return callCsp<PaypalCreateOrderResponse>("/checkout/paypal/create-order", {
     method: "POST",
-    body: JSON.stringify({}),
+    body: JSON.stringify(payload),
   });
 }
 
