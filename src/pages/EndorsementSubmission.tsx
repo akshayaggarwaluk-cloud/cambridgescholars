@@ -240,10 +240,10 @@ const EndorsementSubmission = () => {
                   <button
                     type="button"
                     onClick={() => setActiveTab("submit")}
-                    className={`px-5 py-3 text-[15px] font-medium tracking-wide ${
+                    className={`px-[15px] py-2 text-[14px] ${
                       activeTab === "submit"
-                        ? "bg-[#e7e3d8] text-black"
-                        : "bg-transparent text-[#333333] hover:bg-[#f0efef]"
+                        ? "bg-[#DDD9D4] text-black"
+                        : "bg-transparent text-black hover:bg-[#f0efef]"
                     }`}
                     style={{ fontFamily: "Arial, sans-serif" }}
                   >
@@ -252,10 +252,10 @@ const EndorsementSubmission = () => {
                   <button
                     type="button"
                     onClick={() => setActiveTab("previous")}
-                    className={`px-5 py-3 text-[15px] font-medium tracking-wide ${
+                    className={`px-[15px] py-2 text-[14px] ${
                       activeTab === "previous"
-                        ? "bg-[#e7e3d8] text-black"
-                        : "bg-transparent text-[#333333] hover:bg-[#f0efef]"
+                        ? "bg-[#DDD9D4] text-black"
+                        : "bg-transparent text-black hover:bg-[#f0efef]"
                     }`}
                     style={{ fontFamily: "Arial, sans-serif" }}
                   >
@@ -266,8 +266,9 @@ const EndorsementSubmission = () => {
                       type="button"
                       onClick={addReviewer}
                       className="ml-auto bg-[#b33000] hover:bg-white hover:text-[#b33000] border border-[#b33000] text-white rounded-none"
+                      style={{ fontFamily: "Arial, sans-serif" }}
                     >
-                      <Plus className="h-4 w-4 mr-1" /> Add Reviewer
+                      Add Reviewer <Plus className="h-4 w-4 ml-1" />
                     </Button>
                   )}
                 </div>
@@ -277,7 +278,7 @@ const EndorsementSubmission = () => {
                     {reviewers.map((rev, idx) => (
                       <div key={idx} className="space-y-4 pb-6 border-b border-border last:border-b-0 last:pb-0">
                         <div className="flex items-center justify-between">
-                          <h3 className="text-lg font-baskerville text-black">Reviewer {idx + 1}</h3>
+                          <h3 className="text-[18px] text-[#333333]" style={{ fontFamily: "Arial, sans-serif" }}>Reviewer {idx + 1}</h3>
                           {reviewers.length > 1 && (
                             <button
                               type="button"
