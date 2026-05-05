@@ -34,7 +34,7 @@ const contactInfo: ContactInfoItem[] = [
   {
     icon: Clock,
     title: "Hours Of Operation",
-    content: "Monday – Friday: 09:00 – 17:00",
+    content: "Monday – Friday: 09:00 – 17:00 (GMT)",
   },
 ];
 export default function Contact() {
