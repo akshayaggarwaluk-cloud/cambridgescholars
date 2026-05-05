@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { XCircle } from "lucide-react";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { PageBreadcrumb } from "@/components/layout/PageBreadcrumb";
@@ -157,9 +158,10 @@ const EndorsementSubmission = () => {
               )}
 
               {result && !result.found && (
-                <div className="mt-8 border-t border-border pt-6 text-left">
-                  <p className="text-[15px] text-black" style={{ fontFamily: "Arial, sans-serif" }}>
-                    The code you entered was not recognised. Please double-check the verification code from your publication email.
+                <div className="mt-6 border-l-4 border-[#b33000] bg-[#fdecec] px-6 py-4 flex items-center justify-center gap-3">
+                  <XCircle className="h-5 w-5 text-[#b33000] flex-shrink-0" aria-hidden="true" />
+                  <p className="text-[15px] text-[#b33000]" style={{ fontFamily: "Arial, sans-serif" }}>
+                    The authentication code is incorrect. Please try again.
                   </p>
                 </div>
               )}
