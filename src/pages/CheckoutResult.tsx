@@ -31,7 +31,7 @@ export default function CheckoutResult() {
       if (isSuccess) {
         try { await clearCart(); } catch { /* ignore */ }
         // Skip confirmation screen — go directly to the orders page.
-        navigate(orderId ? `/orders?new=${encodeURIComponent(orderId)}` : "/orders", { replace: true });
+        navigate(orderId ? `/profile?tab=orders&new=${encodeURIComponent(orderId)}` : "/profile?tab=orders", { replace: true });
         return;
       }
       setWorking(false);

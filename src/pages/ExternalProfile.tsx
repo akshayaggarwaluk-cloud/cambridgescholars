@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import {
   User,
   LogOut,
@@ -58,7 +58,15 @@ const EMPTY_ADDRESS = {
 export default function ExternalProfile() {
   const { user, isAuthenticated, logout } = useExternalAuth();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const [activeTab, setActiveTab] = useState<TabType>("dashboard");
+
+  useEffect(() => {
+    const t = searchParams.get("tab");
+    if (t && ["dashboard", "orders", "addresses", "payment", "account", "password"].includes(t)) {
+      setActiveTab(t as TabType);
+    }
+  }, [searchParams]);
 
   // Upstream profile (source of truth for billing/shipping)
   const [profile, setProfile] = useState<AccountProfile | null>(null);
