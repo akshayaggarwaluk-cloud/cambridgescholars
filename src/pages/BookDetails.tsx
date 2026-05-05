@@ -59,6 +59,20 @@ export default function BookDetails() {
   const hasPaperback = !!book?.paperbackInfo;
   const hasEbook = !!book?.ebookInfo;
 
+  useEffect(() => {
+    if (!book) return;
+    if (selectedFormat === "hardbook" && !hasHardback) {
+      if (hasPaperback) setSelectedFormat("paperback" as BookFormat);
+      else if (hasEbook) setSelectedFormat("ebook");
+    } else if (selectedFormat === "paperback" && !hasPaperback) {
+      if (hasHardback) setSelectedFormat("hardbook");
+      else if (hasEbook) setSelectedFormat("ebook");
+    } else if (selectedFormat === "ebook" && !hasEbook) {
+      if (hasHardback) setSelectedFormat("hardbook");
+      else if (hasPaperback) setSelectedFormat("paperback" as BookFormat);
+    }
+  }, [book, hasHardback, hasPaperback, hasEbook, selectedFormat]);
+
   if (loading) {
     return (
       <div className="min-h-screen bg-white">
