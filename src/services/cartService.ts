@@ -211,9 +211,14 @@ export function removeCoupon(): Promise<CartResponse> {
 /** Merge the current guest cart into the authenticated user's cart. */
 export async function mergeCart(): Promise<CartResponse> {
   const cartToken = getCartToken();
+  if (!cartToken) {
+    // Nothing to merge — just return the current (authenticated) cart
+    return getCart();
+  }
   const res = await callCsp<CartResponse>("/cart/merge", {
     method: "POST",
-    body: JSON.stringify(cartToken ? { cart_token: cartToken } : {}),
+    headers: { "X-Cart-Token": cartToken },
+    body: JSON.stringify({ cart_token: cartToken }),
   });
   // Once merged, the guest token is no longer needed
   clearCartToken();
