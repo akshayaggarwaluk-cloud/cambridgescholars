@@ -26,6 +26,14 @@ import { CSS } from "@dnd-kit/utilities";
 type EditState = Partial<CmsResource> & { _new?: boolean };
 const empty: EditState = { _new: true, slug: "", title: "", display_order: 0, is_published: true };
 
+// For Office docs (docx/xlsx/pptx) use Office's online viewer; PDFs/images open natively.
+function viewerUrl(url: string): string {
+  if (!url) return url;
+  const isOffice = /\.(docx?|xlsx?|pptx?)(\?|$)/i.test(url);
+  if (!isOffice) return url;
+  return `https://view.officeapps.live.com/op/view.aspx?src=${encodeURIComponent(url)}`;
+}
+
 export default function AdminResources() {
   const [items, setItems] = useState<CmsResource[]>([]);
   const [loading, setLoading] = useState(true);
