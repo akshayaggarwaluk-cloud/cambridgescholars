@@ -21,7 +21,7 @@ import { useExternalAuth } from "@/contexts/ExternalAuthContext";
 import { toast } from "sonner";
 import { checkoutPay, type CheckoutPayRequest } from "@/services/cartService";
 import PaypalButtons from "@/components/checkout/PaypalButtons";
-import { getProfile } from "@/services/accountService";
+import { getProfile, updateProfile } from "@/services/accountService";
 
 type AddressData = {
   firstName: string;
