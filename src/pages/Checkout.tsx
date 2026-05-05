@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { CheckCircle, AlertCircle, Check } from "lucide-react";
 import { Header } from "@/components/layout/Header";
@@ -269,6 +269,7 @@ export default function Checkout() {
   const [paymentMethod, setPaymentMethod] = useState<"card" | "paypal">("card");
   const [card, setCard] = useState({ number: "", expiry: "", cvc: "" });
   const [cardholder, setCardholder] = useState("");
+  const paypalContainerRef = useRef<HTMLDivElement | null>(null);
 
   // Pre-fill shipping & billing addresses (and email/phone) from the
   // authenticated customer's saved profile. Falls back silently if the
@@ -449,7 +450,14 @@ export default function Checkout() {
     if (loading) return;
 
     if (paymentMethod !== "card") {
-      toast.info("Use the PayPal button below to complete your payment.");
+      const btn = paypalContainerRef.current?.querySelector<HTMLElement>(
+        '[data-funding-source="paypal"], div[role="link"], button',
+      );
+      if (btn) {
+        btn.click();
+      } else {
+        toast.error("PayPal is still loading. Please try again in a moment.");
+      }
       return;
     }
 
@@ -931,9 +939,21 @@ export default function Checkout() {
 
                   {paymentMethod === "paypal" && (
                     <div className="mt-4 p-4 bg-[#f4f3ec]">
-                      <p className="text-[13px] text-[#333] mb-3">
-                        Click the PayPal button to complete your payment securely.
+                      <p className="text-[13px] text-[#333]">
+                        You'll be redirected to PayPal to complete your payment securely after clicking <strong>Place Order</strong>.
                       </p>
+                      <div
+                        ref={paypalContainerRef}
+                        aria-hidden="true"
+                        style={{
+                          position: "absolute",
+                          left: "-9999px",
+                          top: 0,
+                          width: "300px",
+                          height: "50px",
+                          overflow: "hidden",
+                        }}
+                      >
                       <PaypalButtons
                         buildCreateOrderPayload={() => {
                           const billingAddress: AddressData = isEbookOnly
@@ -972,6 +992,7 @@ export default function Checkout() {
                         }}
                         onError={(msg) => toast.error(msg)}
                       />
+                      </div>
                     </div>
                   )}
                 </div>
