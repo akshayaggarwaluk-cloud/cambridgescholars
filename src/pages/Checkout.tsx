@@ -269,6 +269,7 @@ export default function Checkout() {
   const [paymentMethod, setPaymentMethod] = useState<"card" | "paypal">("card");
   const [card, setCard] = useState({ number: "", expiry: "", cvc: "" });
   const [cardholder, setCardholder] = useState("");
+  const paypalContainerRef = useRef<HTMLDivElement | null>(null);
 
   // Pre-fill shipping & billing addresses (and email/phone) from the
   // authenticated customer's saved profile. Falls back silently if the
@@ -449,7 +450,14 @@ export default function Checkout() {
     if (loading) return;
 
     if (paymentMethod !== "card") {
-      toast.info("Use the PayPal button below to complete your payment.");
+      const btn = paypalContainerRef.current?.querySelector<HTMLElement>(
+        '[data-funding-source="paypal"], div[role="link"], button',
+      );
+      if (btn) {
+        btn.click();
+      } else {
+        toast.error("PayPal is still loading. Please try again in a moment.");
+      }
       return;
     }
 
@@ -934,7 +942,7 @@ export default function Checkout() {
                       <p className="text-[13px] text-[#333]">
                         You'll be redirected to PayPal to complete your payment securely after clicking <strong>Place Order</strong>.
                       </p>
-                      <div className="sr-only" aria-hidden="true">
+                      <div ref={paypalContainerRef} className="sr-only" aria-hidden="true">
                       <PaypalButtons
                         buildCreateOrderPayload={() => {
                           const billingAddress: AddressData = isEbookOnly
