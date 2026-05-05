@@ -18,6 +18,7 @@ import ResetPassword from "@/pages/ResetPassword";
 
 import ExternalProfile from "@/pages/ExternalProfile";
 import Orders from "@/pages/Orders";
+import PayOrder from "@/pages/PayOrder";
 import PublishBook from "@/pages/PublishBook";
 import PublishABook from "@/pages/PublishABook";
 import Wishlist from "@/pages/Wishlist";
@@ -78,6 +79,7 @@ export function AnimatedRoutes() {
         
         <Route path="/profile" element={<PageTransition><ProtectedRoute><ExternalProfile /></ProtectedRoute></PageTransition>} />
         <Route path="/orders" element={<PageTransition><ProtectedRoute><Orders /></ProtectedRoute></PageTransition>} />
+        <Route path="/orders/:id/pay" element={<PageTransition><ProtectedRoute><PayOrder /></ProtectedRoute></PageTransition>} />
         <Route path="/publish" element={<PageTransition><PublishBook /></PageTransition>} />
         <Route path="/publish-a-book" element={<PageTransition><PublishABook /></PageTransition>} />
         <Route path="/wishlist" element={<PageTransition><Wishlist /></PageTransition>} />
