@@ -160,9 +160,9 @@ export default function Cart() {
       </div>
 
        <main className="pb-16 bg-white">
-        <div className="container-wide py-12 bg-white">
-          {/* Table header */}
-          <div className="grid grid-cols-[1fr_120px_180px_140px_60px] gap-6 pb-5 items-center">
+        <div className="container-wide py-8 md:py-12 bg-white">
+          {/* Table header — desktop only */}
+          <div className="hidden md:grid grid-cols-[1fr_120px_180px_140px_60px] gap-6 pb-5 items-center">
             <div className="uppercase text-[#333333] tracking-wider text-sm" style={{ fontFamily: '"Nunito Sans", sans-serif', fontWeight: 800 }}>Product</div>
             <div className="uppercase text-[#333333] tracking-wider text-sm text-center relative -left-5" style={{ fontFamily: '"Nunito Sans", sans-serif', fontWeight: 800 }}>Price</div>
             <div className="uppercase text-[#333333] tracking-wider text-sm text-center relative -left-5" style={{ fontFamily: '"Nunito Sans", sans-serif', fontWeight: 800 }}>Quantity</div>
@@ -175,40 +175,76 @@ export default function Cart() {
             {items.map((item, idx) => (
               <div
                 key={`${item.id}_${item.format}`}
-                className={`grid grid-cols-[1fr_120px_180px_140px_60px] gap-6 items-center px-6 py-6 ${idx > 0 ? "border-t border-black" : ""}`}
+                className={`px-4 py-5 md:px-6 md:py-6 md:grid md:grid-cols-[1fr_120px_180px_140px_60px] md:gap-6 md:items-center ${idx > 0 ? "border-t border-black" : ""}`}
               >
                 {/* Product */}
-                <div className="flex items-center gap-5 min-w-0">
+                <div className="flex items-start gap-4 md:items-center md:gap-5 min-w-0">
                   <Link to={`/product/${item.id}`} className="shrink-0">
                     <CartCover item={item} />
                   </Link>
-                  <div className="min-w-0">
-                    <Link to={`/product/${item.id}`}>
-                      <h3
-                        className="transition-colors leading-snug text-[15px] text-[#333333] font-normal"
-                        style={{ fontFamily: '"Nunito Sans", sans-serif' }}
+                  <div className="min-w-0 flex-1">
+                    <div className="flex items-start justify-between gap-3">
+                      <Link to={`/product/${item.id}`} className="min-w-0 flex-1">
+                        <h3
+                          className="transition-colors leading-snug text-[15px] text-[#333333] font-normal break-words"
+                          style={{ fontFamily: '"Nunito Sans", sans-serif' }}
+                        >
+                          {item.title.split(":")[0].trim()} - {formatLabel(item.format)}
+                        </h3>
+                      </Link>
+                      {/* Mobile remove */}
+                      <button
+                        onClick={() => handleRemoveItem(item)}
+                        aria-label="Remove item"
+                        className="md:hidden w-8 h-8 border border-black flex items-center justify-center hover:bg-secondary transition-colors shrink-0"
                       >
-                        {item.title.split(":")[0].trim()} - {formatLabel(item.format)}
-                      </h3>
-                    </Link>
+                        <X className="h-3.5 w-3.5 text-foreground" />
+                      </button>
+                    </div>
                     {item.isbn && (
                       <p
-                        className="text-[15px] text-[#333333] mt-2"
+                        className="text-[13px] md:text-[15px] text-[#333333] mt-2 break-all"
                         style={{ fontFamily: '"Nunito Sans", sans-serif' }}
                       >
                         <span className="font-bold">ISBN:</span> {formatIsbn(item.isbn)}
                       </p>
                     )}
+                    {/* Mobile price/qty/total stacked under title */}
+                    <div className="md:hidden mt-3 flex items-center justify-between gap-4 flex-wrap">
+                      <div className="flex items-center border border-black">
+                        <button
+                          onClick={() => setQty(item, getQty(item) - 1)}
+                          aria-label="Decrease quantity"
+                          className="w-9 h-9 flex items-center justify-center hover:bg-secondary transition-colors"
+                        >
+                          <Minus className="h-3 w-3" />
+                        </button>
+                        <span className="w-10 text-center text-foreground text-sm">{getQty(item)}</span>
+                        <button
+                          onClick={() => setQty(item, getQty(item) + 1)}
+                          aria-label="Increase quantity"
+                          className="w-9 h-9 flex items-center justify-center hover:bg-secondary transition-colors"
+                        >
+                          <Plus className="h-3 w-3" />
+                        </button>
+                      </div>
+                      <div className="text-right">
+                        <div className="text-xs text-[#7E7E7E] uppercase tracking-wider">Total</div>
+                        <div className="text-base text-black font-medium">
+                          £{(item.price * item.quantity).toFixed(2)}
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
 
-                {/* Price */}
-                <div className="text-base text-[#ababab] text-center">
+                {/* Price (desktop) */}
+                <div className="hidden md:block text-base text-[#ababab] text-center">
                   £{item.price.toFixed(2)}
                 </div>
 
-                {/* Quantity */}
-                <div className="flex items-center border border-black w-fit mx-auto">
+                {/* Quantity (desktop) */}
+                <div className="hidden md:flex items-center border border-black w-fit mx-auto">
                   <button
                     onClick={() => setQty(item, getQty(item) - 1)}
                     aria-label="Decrease quantity"
@@ -226,16 +262,16 @@ export default function Cart() {
                   </button>
                 </div>
 
-                {/* Total — reflects committed quantity; updates after UPDATE CART */}
-                <div className="text-base text-black font-light text-center">
+                {/* Total (desktop) */}
+                <div className="hidden md:block text-base text-black font-light text-center">
                   £{(item.price * item.quantity).toFixed(2)}
                 </div>
 
-                {/* Remove */}
+                {/* Remove (desktop) */}
                 <button
                   onClick={() => handleRemoveItem(item)}
                   aria-label="Remove item"
-                  className="w-10 h-10 border border-black flex items-center justify-center hover:bg-secondary transition-colors justify-self-end"
+                  className="hidden md:flex w-10 h-10 border border-black items-center justify-center hover:bg-secondary transition-colors justify-self-end"
                 >
                   <X className="h-4 w-4 text-foreground" />
                 </button>
@@ -244,7 +280,7 @@ export default function Cart() {
           </div>
 
           {/* Totals — reflects committed cart; updates after UPDATE CART */}
-          <div className="mt-10 pr-6 ml-auto max-w-md space-y-3">
+          <div className="mt-8 md:mt-10 md:pr-6 md:ml-auto md:max-w-md space-y-3">
             <div className="flex justify-between items-center pt-3">
               <span className="text-base text-foreground">Total</span>
               <span className="text-foreground font-normal text-lg">
@@ -256,34 +292,34 @@ export default function Cart() {
           <div className="border-t border-black mt-8"></div>
 
           {/* Actions */}
-          <div className="flex flex-col sm:flex-row sm:justify-between gap-6 mt-8 pb-8 border-b border-black">
+          <div className="flex flex-col md:flex-row md:justify-between gap-4 md:gap-6 mt-8 pb-8 border-b border-black">
             <Button
               asChild
               variant="outline"
-              className="rounded-none tracking-wider normal-case text-sm px-8 py-4 border border-[#e5573e] text-[#e5573e] bg-transparent hover:bg-[#e5573e] hover:text-white self-start h-auto"
+              className="rounded-none tracking-wider normal-case text-sm px-8 py-4 border border-[#e5573e] text-[#e5573e] bg-transparent hover:bg-[#e5573e] hover:text-white self-stretch md:self-start h-auto justify-center"
               style={{ fontFamily: '"Nunito Sans", sans-serif', fontWeight: 700 }}
             >
-              <Link to="/product" className="flex items-center gap-2">
+              <Link to="/product" className="flex items-center justify-center gap-2">
                 <ShoppingCart className="h-4 w-4" />
                 CONTINUE SHOPPING
               </Link>
             </Button>
 
-            <div className="flex flex-col sm:flex-row gap-4 sm:items-center">
+            <div className="flex flex-col md:flex-row gap-3 md:gap-4 md:items-center">
               <button
                 onClick={handleUpdateCart}
                 disabled={!hasChanges}
-                className="bg-[#C75B2A] hover:bg-white text-white hover:text-[#C75B2A] border border-[#C75B2A] rounded-none uppercase tracking-wider normal-case text-sm px-10 py-4 transition-colors disabled:bg-[#E89B7A] disabled:border-[#E89B7A] disabled:cursor-not-allowed disabled:hover:bg-[#E89B7A] disabled:hover:text-white"
+                className="bg-[#C75B2A] hover:bg-white text-white hover:text-[#C75B2A] border border-[#C75B2A] rounded-none uppercase tracking-wider normal-case text-sm px-10 py-4 transition-colors disabled:bg-[#E89B7A] disabled:border-[#E89B7A] disabled:cursor-not-allowed disabled:hover:bg-[#E89B7A] disabled:hover:text-white w-full md:w-auto"
                 style={{ fontFamily: '"Nunito Sans", sans-serif', fontWeight: 700 }}
               >
                 UPDATE CART
               </button>
               <Button
                 asChild
-                className="rounded-none tracking-wider normal-case text-sm px-10 py-4 h-auto bg-[#C75B2A] text-white border border-[#C75B2A] hover:bg-white hover:text-[#C75B2A]"
+                className="rounded-none tracking-wider normal-case text-sm px-10 py-4 h-auto bg-[#C75B2A] text-white border border-[#C75B2A] hover:bg-white hover:text-[#C75B2A] w-full md:w-auto justify-center"
                 style={{ fontFamily: '"Nunito Sans", sans-serif', fontWeight: 700 }}
               >
-                <Link to="/checkout">PROCEED TO CHECKOUT</Link>
+                <Link to="/checkout" className="text-center">PROCEED TO CHECKOUT</Link>
               </Button>
             </div>
           </div>
