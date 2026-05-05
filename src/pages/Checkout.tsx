@@ -19,8 +19,38 @@ import {
 import { useCart } from "@/contexts/CartContext";
 import { useExternalAuth } from "@/contexts/ExternalAuthContext";
 import { toast } from "sonner";
-import { checkoutPay, type CheckoutPayRequest } from "@/services/cartService";
+import {
+  checkoutPay,
+  paypalCreateOrder,
+  paypalCaptureOrder,
+  type CheckoutPayRequest,
+} from "@/services/cartService";
 import { getProfile } from "@/services/accountService";
+
+const PAYPAL_CLIENT_ID =
+  (import.meta.env.VITE_PAYPAL_CLIENT_ID as string | undefined) || "sb";
+
+let paypalSdkPromise: Promise<unknown> | null = null;
+function loadPaypalSdk(): Promise<unknown> {
+  if (typeof window === "undefined") return Promise.reject(new Error("No window"));
+  const w = window as unknown as { paypal?: unknown };
+  if (w.paypal) return Promise.resolve(w.paypal);
+  if (paypalSdkPromise) return paypalSdkPromise;
+  paypalSdkPromise = new Promise((resolve, reject) => {
+    const s = document.createElement("script");
+    s.src = `https://www.paypal.com/sdk/js?client-id=${encodeURIComponent(
+      PAYPAL_CLIENT_ID,
+    )}&currency=GBP&intent=capture`;
+    s.async = true;
+    s.onload = () => {
+      const ww = window as unknown as { paypal?: unknown };
+      ww.paypal ? resolve(ww.paypal) : reject(new Error("PayPal SDK failed to load"));
+    };
+    s.onerror = () => reject(new Error("PayPal SDK failed to load"));
+    document.body.appendChild(s);
+  });
+  return paypalSdkPromise;
+}
 
 type AddressData = {
   firstName: string;
