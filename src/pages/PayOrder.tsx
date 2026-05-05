@@ -7,8 +7,6 @@ import { PageBreadcrumb } from "@/components/layout/PageBreadcrumb";
 import { getOrder, type OrderDetail } from "@/services/accountService";
 import { checkoutPay, type CheckoutPayRequest, type OpayoCardType } from "@/services/cartService";
 import { toast } from "sonner";
-import PaypalButtons from "@/components/checkout/PaypalButtons";
-
 const ORANGE = "#E4573D";
 
 function fmt(v?: number | null) {
@@ -38,22 +36,6 @@ function CardBadges() {
   );
 }
 
-function PayPalBadge() {
-  return (
-    <div className="border border-[#e5e5e5] bg-white px-2 py-1 flex flex-col items-center">
-      <span className="text-[10px] font-bold text-[#003087]">
-        Pay<span className="text-[#009cde]">Pal</span>
-      </span>
-      <div className="flex gap-0.5 mt-0.5">
-        <span className="text-[7px] font-bold bg-[#1a1f71] text-white px-1">VISA</span>
-        <span className="text-[7px] font-bold bg-[#eb001b] text-white px-1">MC</span>
-        <span className="text-[7px] font-bold bg-[#2557D6] text-white px-1">AMEX</span>
-        <span className="text-[7px] font-bold bg-[#f68121] text-white px-1">DISC</span>
-      </div>
-    </div>
-  );
-}
-
 export default function PayOrder() {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -61,7 +43,7 @@ export default function PayOrder() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const [method, setMethod] = useState<"card" | "paypal">("card");
+  const [method, setMethod] = useState<"card">("card");
   const [card, setCard] = useState({ holder: "", number: "", expiry: "", cvc: "" });
   const [submitting, setSubmitting] = useState(false);
 
@@ -105,10 +87,6 @@ export default function PayOrder() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (submitting) return;
-    if (method === "paypal") {
-      toast.info("Use the PayPal button below to complete your payment.");
-      return;
-    }
     if (method === "card") {
       if (!card.holder.trim()) {
         toast.error("Please enter the cardholder name");
@@ -259,7 +237,7 @@ export default function PayOrder() {
               <div className="grid grid-cols-[1fr_auto] px-8 py-5 text-[16px]">
                 <div className="font-bold text-[#333333]">Payment method:</div>
                 <div className="text-right text-[#696969]">
-                  {method === "paypal" ? "PayPal" : detail.payment_method_title || "Credit/Debit Card"}
+                  {detail.payment_method_title || "Credit/Debit Card"}
                 </div>
               </div>
             </div>
@@ -352,63 +330,6 @@ export default function PayOrder() {
                       />
                     </div>
                   </div>
-                </div>
-              )}
-
-              {/* PayPal option */}
-              <button
-                type="button"
-                onClick={() => setMethod("paypal")}
-                className="w-full flex items-center gap-6 px-6 py-5 bg-white"
-              >
-                <span
-                  className="w-5 h-5 border flex items-center justify-center"
-                  style={{ borderColor: method === "paypal" ? ORANGE : "#999" }}
-                >
-                  {method === "paypal" && <Check className="w-4 h-4" style={{ color: ORANGE }} strokeWidth={3} />}
-                </span>
-                <span className="text-[14px] font-bold uppercase tracking-wider text-[#333333]">PayPal</span>
-                <PayPalBadge />
-                <span className="text-[12px] uppercase" style={{ color: ORANGE }}>
-                  What is PayPal?
-                </span>
-              </button>
-
-              {method === "paypal" && (
-                <div className="bg-[#f4f3ec] px-8 py-6 border-t border-[#e5e5e5]">
-                  <p className="text-[14px] text-[#333333] mb-4">
-                    Click the PayPal button below to complete your payment securely.
-                  </p>
-                  <PaypalButtons
-                    buildCreateOrderPayload={() => {
-                      const b = detail?.billing || {};
-                      if (!b.first_name || !b.last_name) {
-                        throw new Error("Billing name is missing on this order.");
-                      }
-                      if (!b.address_1 || !b.city || !b.postcode) {
-                        throw new Error("Billing address is incomplete on this order.");
-                      }
-                      return {
-                        billing_first_name: b.first_name,
-                        billing_last_name: b.last_name,
-                        billing_address_1: b.address_1,
-                        billing_city: b.city,
-                        billing_postcode: b.postcode,
-                        billing_country: b.country || "GB",
-                        customer_note: detail?.customer_note || undefined,
-                      };
-                    }}
-                    onSuccess={(orderId) => {
-                      toast.success("Payment received. Thank you!");
-                      navigate(
-                        orderId != null
-                          ? `/orders?new=${encodeURIComponent(String(orderId))}`
-                          : "/orders",
-                        { replace: true },
-                      );
-                    }}
-                    onError={(msg) => toast.error(msg)}
-                  />
                 </div>
               )}
 
