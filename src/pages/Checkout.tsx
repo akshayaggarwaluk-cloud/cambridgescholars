@@ -936,7 +936,6 @@ export default function Checkout() {
                       </p>
                       <PaypalButtons
                         onSuccess={async (orderId) => {
-                          try { await clearCart(); } catch { /* ignore */ }
                           if (orderId != null) setConfirmedOrderId(orderId);
                           setIsComplete(true);
                           toast.success("Payment received. Thank you for your order!");
