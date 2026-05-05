@@ -29,7 +29,7 @@ export default function CheckoutResult() {
     ranRef.current = true;
     (async () => {
       if (isSuccess) {
-        void clearCart().catch(() => undefined);
+        try { await clearCart(); } catch { /* ignore */ }
         // Skip confirmation screen — go directly to the orders page.
         navigate(orderId ? `/profile?tab=orders&new=${encodeURIComponent(orderId)}` : "/profile?tab=orders", { replace: true });
         return;
