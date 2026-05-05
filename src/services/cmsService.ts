@@ -579,6 +579,24 @@ export const adminApi = {
     return res.url;
   },
 
+  uploadFile: async (file: File): Promise<string> => {
+    const buf = await file.arrayBuffer();
+    let binary = "";
+    const bytes = new Uint8Array(buf);
+    const chunk = 0x8000;
+    for (let i = 0; i < bytes.length; i += chunk) {
+      binary += String.fromCharCode.apply(null, Array.from(bytes.subarray(i, i + chunk)));
+    }
+    const base64 = btoa(binary);
+    const res = await callAdmin<{ url: string }>({
+      action: "upload_image",
+      filename: file.name,
+      content_type: file.type || "application/octet-stream",
+      base64,
+    });
+    return res.url;
+  },
+
   // ─── Admin accounts ──────────────────────────────────────────
   listAdmins: () =>
     callExternalCms<{ data: CmsAdminAccount[] }>("/admins").then((r) => r.data),
