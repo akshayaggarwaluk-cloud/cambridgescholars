@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import { Navigate, Routes, Route, useLocation } from "react-router-dom";
+import { Navigate, Routes, Route, useLocation, useParams } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
 import { PageTransition } from "./PageTransition";
 import ProtectedRoute from "./ProtectedRoute";
@@ -92,7 +92,7 @@ export function AnimatedRoutes() {
         <Route path="/product/:id" element={<PageTransition><BookDetails /></PageTransition>} />
         {/* Backwards-compat redirects from old /books URLs */}
         <Route path="/books" element={<Navigate to="/product" replace />} />
-        <Route path="/books/:id" element={<Navigate to="/product/:id" replace />} />
+        <Route path="/books/:id" element={<RedirectBookToProduct />} />
         <Route path="/cart" element={<PageTransition><Cart /></PageTransition>} />
         <Route path="/checkout" element={<PageTransition><ProtectedRoute><Checkout /></ProtectedRoute></PageTransition>} />
         <Route path="/checkout/result" element={<PageTransition><CheckoutResult /></PageTransition>} />
