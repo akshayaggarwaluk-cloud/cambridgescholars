@@ -23,6 +23,7 @@ interface LookupResult {
 }
 
 const LOOKUP_URL = "https://api.cambridgescholars.com/lookup";
+const SUBMIT_URL = "https://api.cambridgescholars.com/api/website/submissions/endorsement";
 const RECAPTCHA_SITE_KEY = "6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI";
 
 interface ReviewerForm {
@@ -120,15 +121,41 @@ const EndorsementSubmission = () => {
     }
     setIsSubmitting(true);
     try {
-      // Submission endpoint not yet wired — simulate success
-      await new Promise((r) => setTimeout(r, 800));
+      const payload = {
+        book_title: result?.title || "",
+        isbn: result?.isbn13_no_dashes || "",
+        reviewers: reviewers.map((r) => ({
+          title: r.title.trim().replace(/\.$/, "") + ".",
+          forename: r.forename.trim(),
+          surname: r.surname.trim(),
+          email: r.email.trim(),
+        })),
+      };
+      const res = await fetch(SUBMIT_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        if (res.status === 429) {
+          throw new Error("Too many submissions. Please try again in an hour.");
+        }
+        throw new Error(data?.error || `Submission failed (${res.status})`);
+      }
       toast({
         title: "Reviewers submitted",
-        description: `${reviewers.length} reviewer${reviewers.length > 1 ? "s" : ""} submitted successfully.`,
+        description: `${data?.rows_added ?? reviewers.length} reviewer${(data?.rows_added ?? reviewers.length) > 1 ? "s" : ""} submitted successfully.`,
       });
       setReviewers([emptyReviewer()]);
       recaptchaRef.current?.reset();
       setCaptchaValue(null);
+    } catch (err) {
+      toast({
+        title: "Submission Error",
+        description: err instanceof Error ? err.message : "Submission failed.",
+        variant: "destructive",
+      });
     } finally {
       setIsSubmitting(false);
     }
