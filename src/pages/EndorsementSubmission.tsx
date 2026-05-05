@@ -372,29 +372,29 @@ const EndorsementSubmission = () => {
                   </form>
                 ) : (
                   <div className="space-y-4">
-                    <h3 className="text-2xl font-baskerville text-black">Previously submitted details</h3>
+                    <h3 className="text-[18px] text-[#333333]" style={{ fontFamily: "Arial, sans-serif" }}>Previously submitted details</h3>
                     <p className="text-[15px]" style={{ fontFamily: "Arial, sans-serif" }}>
-                      <span className="font-bold text-[#b33000]">Please note:</span>{" "}
-                      <span className="text-[#b33000]">
+                      <span className="font-bold text-[#E4573D]">Please note:</span>{" "}
+                      <span className="text-[#E4573D]">
                         Newly submitted reviewer details may take up to 24 hours to appear in this list.
                       </span>
                     </p>
 
                     {result.existing_reviewers && result.existing_reviewers.length > 0 ? (
                       <div className="overflow-x-auto border border-border">
-                        <table className="w-full border-collapse" style={{ fontFamily: "Arial, sans-serif" }}>
+                        <table className="w-full border-collapse text-[16px]" style={{ fontFamily: "Arial, sans-serif" }}>
                           <thead>
-                            <tr className="bg-[#f0efef]">
-                              <th className="text-left px-4 py-3 border border-border text-black font-bold w-[18%]">
+                            <tr className="bg-[#F8F8F8]">
+                              <th className="text-left px-2 py-2 border border-border text-[#333333] font-bold w-[18%]">
                                 Reviewer Title
                               </th>
-                              <th className="text-left px-4 py-3 border border-border text-black font-bold w-[24%]">
+                              <th className="text-left px-2 py-2 border border-border text-[#333333] font-bold w-[24%]">
                                 Reviewer Forename
                               </th>
-                              <th className="text-left px-4 py-3 border border-border text-black font-bold w-[24%]">
+                              <th className="text-left px-2 py-2 border border-border text-[#333333] font-bold w-[24%]">
                                 Reviewer Surname
                               </th>
-                              <th className="text-left px-4 py-3 border border-border text-black font-bold">
+                              <th className="text-left px-2 py-2 border border-border text-[#333333] font-bold">
                                 Reviewer Email
                               </th>
                             </tr>
@@ -410,10 +410,10 @@ const EndorsementSubmission = () => {
                               const surname = rest.slice(1).join(" ");
                               return (
                                 <tr key={`${r.email}-${i}`}>
-                                  <td className="px-4 py-3 border border-border text-[#333333]">{title}</td>
-                                  <td className="px-4 py-3 border border-border text-[#333333]">{forename}</td>
-                                  <td className="px-4 py-3 border border-border text-[#333333]">{surname}</td>
-                                  <td className="px-4 py-3 border border-border text-[#333333] break-all">{r.email}</td>
+                                  <td className="px-2 py-2 border border-border text-[#696969]">{title}</td>
+                                  <td className="px-2 py-2 border border-border text-[#696969]">{forename}</td>
+                                  <td className="px-2 py-2 border border-border text-[#696969]">{surname}</td>
+                                  <td className="px-2 py-2 border border-border text-[#696969] break-all">{r.email}</td>
                                 </tr>
                               );
                             })}
