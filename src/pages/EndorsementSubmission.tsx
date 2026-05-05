@@ -5,26 +5,66 @@ import { PageBreadcrumb } from "@/components/layout/PageBreadcrumb";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
-import { Link } from "react-router-dom";
+
+interface Reviewer {
+  name: string;
+  email: string;
+}
+
+interface LookupResult {
+  found: boolean;
+  isbn13_no_dashes?: string;
+  title?: string;
+  existing_reviewers?: Reviewer[];
+}
+
+const LOOKUP_URL = "https://api.cambridgescholars.com/lookup";
 
 const EndorsementSubmission = () => {
   const { toast } = useToast();
   const [code, setCode] = useState("");
   const [isVerifying, setIsVerifying] = useState(false);
+  const [result, setResult] = useState<LookupResult | null>(null);
 
   const handleVerify = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const trimmed = code.trim();
+    if (!trimmed) return;
+
     setIsVerifying(true);
+    setResult(null);
 
-    // Simulate verification
-    await new Promise((resolve) => setTimeout(resolve, 1500));
+    try {
+      const res = await fetch(`${LOOKUP_URL}?code=${encodeURIComponent(trimmed)}`);
+      if (!res.ok) {
+        const body = await res.json().catch(() => ({}));
+        throw new Error(body?.error || `Request failed (${res.status})`);
+      }
+      const data: LookupResult = await res.json();
+      setResult(data);
 
-    toast({
-      title: "Code Verified",
-      description: "You can now proceed to submit your endorsement.",
-    });
-
-    setIsVerifying(false);
+      if (data.found) {
+        toast({
+          title: "Code Verified",
+          description: data.title ? `Found: ${data.title}` : "Verification successful.",
+        });
+      } else {
+        toast({
+          title: "Code Not Found",
+          description: "We couldn't find a book matching this code. Please check and try again.",
+          variant: "destructive",
+        });
+      }
+    } catch (err) {
+      const message = err instanceof Error ? err.message : "Verification failed.";
+      toast({
+        title: "Verification Error",
+        description: message,
+        variant: "destructive",
+      });
+    } finally {
+      setIsVerifying(false);
+    }
   };
 
   return (
@@ -76,6 +116,53 @@ const EndorsementSubmission = () => {
                   {isVerifying ? "Verifying..." : "Verify Code"}
                 </Button>
               </form>
+
+              {result?.found && (
+                <div className="mt-10 border-t border-border pt-8 text-left space-y-6">
+                  <div>
+                    <h2 className="text-2xl font-baskerville text-black">{result.title}</h2>
+                    {result.isbn13_no_dashes && (
+                      <p className="text-[15px] text-[#333333] mt-1" style={{ fontFamily: "Arial, sans-serif" }}>
+                        ISBN: {result.isbn13_no_dashes}
+                      </p>
+                    )}
+                  </div>
+
+                  <div>
+                    <h3 className="text-lg font-baskerville text-black mb-3">
+                      Existing Endorsers ({result.existing_reviewers?.length ?? 0})
+                    </h3>
+                    {result.existing_reviewers && result.existing_reviewers.length > 0 ? (
+                      <ul className="divide-y divide-border border border-border">
+                        {result.existing_reviewers.map((r, i) => (
+                          <li key={`${r.email}-${i}`} className="px-4 py-3 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-1">
+                            <span className="text-black" style={{ fontFamily: "Arial, sans-serif" }}>{r.name}</span>
+                            <a
+                              href={`mailto:${r.email}`}
+                              className="text-[#b33000] hover:underline text-sm"
+                              style={{ fontFamily: "Arial, sans-serif" }}
+                            >
+                              {r.email}
+                            </a>
+                          </li>
+                        ))}
+                      </ul>
+                    ) : (
+                      <p className="text-[15px] text-[#333333]" style={{ fontFamily: "Arial, sans-serif" }}>
+                        No endorsers have been added yet.
+                      </p>
+                    )}
+                  </div>
+                </div>
+              )}
+
+              {result && !result.found && (
+                <div className="mt-8 border-t border-border pt-6 text-left">
+                  <p className="text-[15px] text-black" style={{ fontFamily: "Arial, sans-serif" }}>
+                    The code you entered was not recognised. Please double-check the verification code from your publication email.
+                  </p>
+                </div>
+              )}
             </div>
           </div>
         </section>
