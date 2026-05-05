@@ -297,6 +297,20 @@ export default function AdminNews() {
             </p>
           </Field>
 
+          <Field label="Order on Homepage News section">
+            <input
+              type="number"
+              value={editing.homepage_order ?? 0}
+              onChange={(e) =>
+                setEditing({ ...editing, homepage_order: Number(e.target.value) || 0 })
+              }
+              className="w-32 border border-border px-3 py-2 text-sm bg-background"
+            />
+            <p className="text-xs text-muted-foreground mt-1">
+              Independent from the /news page order. Lower numbers appear first in the homepage News block.
+            </p>
+          </Field>
+
           <div className="flex gap-2 pt-2">
             <Button onClick={save} disabled={saving} className="bg-accent hover:bg-accent/90">
               {saving ? <Loader2 className="h-4 w-4 animate-spin mr-1" /> : <Save className="h-4 w-4 mr-1" />}
