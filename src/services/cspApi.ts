@@ -415,7 +415,20 @@ export async function fetchAuthorReviews(): Promise<{
   const res = await fetch(`${CSP_API_BASE}/homepage/author-reviews`);
   if (!res.ok) throw new Error(`API error: ${res.status}`);
   const json = await res.json();
-  return json.data || [];
+  const data = json.data || [];
+  // Normalize new API shape ({ author_name, author_bio, quote, category })
+  // back into the legacy shape consumers expect ({ author, praise, date }).
+  return data.map((r: Record<string, unknown>) => {
+    const name = (r.author_name as string) || (r.author as string) || "";
+    const bio = (r.author_bio as string) || "";
+    const author = name && bio ? `${name} – ${bio}` : name || bio || (r.author as string) || "";
+    return {
+      author,
+      book_title: (r.book_title as string) || "",
+      praise: (r.quote as string) || (r.praise as string) || "",
+      date: (r.date as string) || "",
+    };
+  });
 }
 
 /** Fetch a single book by ISBN */
