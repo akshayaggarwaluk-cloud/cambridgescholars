@@ -87,7 +87,7 @@ export default function AuthorExperiences() {
                 return (
                   <div key={index}>
                     <Separator className="my-0" />
-                    <div className="flex flex-col items-center sm:flex-row sm:items-center gap-6 md:gap-8 py-8 md:py-10">
+                    <div className="flex flex-col items-center sm:flex-row sm:items-start gap-6 md:gap-8 py-8 md:py-10">
                       {/* Book cover */}
                       <div className="flex-shrink-0 w-40 sm:w-28 md:w-36 lg:w-40">
                         {review.coverImage ? (
@@ -107,8 +107,8 @@ export default function AuthorExperiences() {
                       </div>
 
                       {/* Content */}
-                      <div className="flex-1 min-w-0 text-center">
-                        <p className="font-nav font-normal leading-relaxed mb-5 text-[15px] text-[#333333]">
+                      <div className="flex-1 min-w-0 text-center sm:text-left">
+                        <p className="font-nav font-normal leading-relaxed mb-5 text-[15px] text-[#333333] text-justify">
                           "{review.praise}"
                         </p>
                         <p className="font-nav font-normal text-[15px] text-[#333333]">
