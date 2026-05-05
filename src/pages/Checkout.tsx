@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect, useRef } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { CheckCircle, AlertCircle, Check } from "lucide-react";
 import { Header } from "@/components/layout/Header";
@@ -20,7 +20,6 @@ import { useCart } from "@/contexts/CartContext";
 import { useExternalAuth } from "@/contexts/ExternalAuthContext";
 import { toast } from "sonner";
 import { checkoutPay, type CheckoutPayRequest } from "@/services/cartService";
-import PaypalButtons from "@/components/checkout/PaypalButtons";
 import { getProfile } from "@/services/accountService";
 
 type AddressData = {
@@ -266,10 +265,9 @@ export default function Checkout() {
   const [email, setEmail] = useState(user?.email || "");
   const [orderNotes, setOrderNotes] = useState("");
 
-  const [paymentMethod, setPaymentMethod] = useState<"card" | "paypal">("card");
+  const [paymentMethod, setPaymentMethod] = useState<"card">("card");
   const [card, setCard] = useState({ number: "", expiry: "", cvc: "" });
   const [cardholder, setCardholder] = useState("");
-  const paypalContainerRef = useRef<HTMLDivElement | null>(null);
 
   // Pre-fill shipping & billing addresses (and email/phone) from the
   // authenticated customer's saved profile. Falls back silently if the
@@ -448,18 +446,6 @@ export default function Checkout() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (loading) return;
-
-    if (paymentMethod !== "card") {
-      const btn = paypalContainerRef.current?.querySelector<HTMLElement>(
-        '[data-funding-source="paypal"], div[role="link"], button',
-      );
-      if (btn) {
-        btn.click();
-      } else {
-        toast.error("PayPal is still loading. Please try again in a moment.");
-      }
-      return;
-    }
 
     if (!email.trim()) {
       toast.error("Please enter an email address.");
@@ -913,88 +899,6 @@ export default function Checkout() {
                     )}
                   </div>
 
-                  {/* PayPal */}
-                  <button
-                    type="button"
-                    onClick={() => setPaymentMethod("paypal")}
-                    className="flex items-center gap-3 w-full"
-                  >
-                    <span
-                      className={`inline-flex items-center justify-center w-5 h-5 border ${
-                        paymentMethod === "paypal" ? "border-[#C75B2A]" : "border-[#999]"
-                      }`}
-                    >
-                      {paymentMethod === "paypal" && (
-                        <span className="block w-3 h-3 bg-[#C75B2A]" />
-                      )}
-                    </span>
-                    <span className="text-[14px] font-semibold text-[#003087]">PayPal</span>
-                    <span className="ml-auto flex items-center gap-1.5">
-                      <span className="px-2 py-1 text-[10px] font-bold bg-[#1a1f71] text-white rounded-sm">VISA</span>
-                      <span className="px-2 py-1 text-[10px] font-bold bg-[#eb001b] text-white rounded-sm">MC</span>
-                      <span className="px-2 py-1 text-[10px] font-bold bg-[#006fcf] text-white rounded-sm">AMEX</span>
-                      <span className="px-2 py-1 text-[10px] font-bold bg-[#231f20] text-white rounded-sm">DISC</span>
-                    </span>
-                  </button>
-
-                  {paymentMethod === "paypal" && (
-                    <div className="mt-4 p-4 bg-[#f4f3ec]">
-                      <p className="text-[13px] text-[#333]">
-                        You'll be redirected to PayPal to complete your payment securely after clicking <strong>Place Order</strong>.
-                      </p>
-                      <div
-                        ref={paypalContainerRef}
-                        aria-hidden="true"
-                        style={{
-                          position: "absolute",
-                          left: "-9999px",
-                          top: 0,
-                          width: "300px",
-                          height: "50px",
-                          overflow: "hidden",
-                        }}
-                      >
-                      <PaypalButtons
-                        buildCreateOrderPayload={() => {
-                          const billingAddress: AddressData = isEbookOnly
-                            ? billing
-                            : useShippingForBilling
-                              ? shipping
-                              : billing;
-                          if (!billingAddress.firstName.trim() || !billingAddress.lastName.trim()) {
-                            throw new Error("Please enter your billing name before paying with PayPal.");
-                          }
-                          if (!billingAddress.street1.trim() || !billingAddress.city.trim() || !billingAddress.postcode.trim()) {
-                            throw new Error("Please complete your billing address before paying with PayPal.");
-                          }
-                          return {
-                            billing_first_name: billingAddress.firstName.trim(),
-                            billing_last_name: billingAddress.lastName.trim(),
-                            billing_address_1: billingAddress.street1.trim(),
-                            billing_city: billingAddress.city.trim(),
-                            billing_postcode: billingAddress.postcode.trim(),
-                            billing_country: COUNTRY_ISO[billingAddress.country] || "GB",
-                            customer_note: orderNotes.trim() || undefined,
-                          };
-                        }}
-                        onSuccess={async (orderId) => {
-                          if (orderId != null) setConfirmedOrderId(orderId);
-                          setIsComplete(true);
-                          toast.success("Payment received. Thank you for your order!");
-                          setTimeout(() => {
-                            navigate(
-                              orderId != null
-                                ? `/orders?new=${encodeURIComponent(String(orderId))}`
-                                : "/orders",
-                              { replace: true },
-                            );
-                          }, 1500);
-                        }}
-                        onError={(msg) => toast.error(msg)}
-                      />
-                      </div>
-                    </div>
-                  )}
                 </div>
 
                 <p className="text-[13px] text-[#555] leading-relaxed mt-6">
