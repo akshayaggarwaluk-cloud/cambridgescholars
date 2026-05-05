@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
+import ReCAPTCHA from "react-google-recaptcha";
 import { XCircle, Plus, Trash2 } from "lucide-react";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
@@ -22,6 +23,7 @@ interface LookupResult {
 }
 
 const LOOKUP_URL = "https://api.cambridgescholars.com/lookup";
+const RECAPTCHA_SITE_KEY = "6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI";
 
 interface ReviewerForm {
   title: string;
@@ -41,6 +43,8 @@ const EndorsementSubmission = () => {
   const [activeTab, setActiveTab] = useState<"submit" | "previous">("submit");
   const [reviewers, setReviewers] = useState<ReviewerForm[]>([emptyReviewer()]);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [captchaValue, setCaptchaValue] = useState<string | null>(null);
+  const recaptchaRef = useRef<ReCAPTCHA>(null);
 
   const handleVerify = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -106,6 +110,14 @@ const EndorsementSubmission = () => {
       });
       return;
     }
+    if (!captchaValue) {
+      toast({
+        title: "Verify reCAPTCHA",
+        description: "Please confirm you are not a robot.",
+        variant: "destructive",
+      });
+      return;
+    }
     setIsSubmitting(true);
     try {
       // Submission endpoint not yet wired — simulate success
@@ -115,6 +127,8 @@ const EndorsementSubmission = () => {
         description: `${reviewers.length} reviewer${reviewers.length > 1 ? "s" : ""} submitted successfully.`,
       });
       setReviewers([emptyReviewer()]);
+      recaptchaRef.current?.reset();
+      setCaptchaValue(null);
     } finally {
       setIsSubmitting(false);
     }
@@ -325,7 +339,15 @@ const EndorsementSubmission = () => {
                       </div>
                     ))}
 
-                    <div className="flex flex-col sm:flex-row gap-3 justify-end pt-4">
+                    <div className="pt-4 flex justify-center">
+                      <ReCAPTCHA
+                        ref={recaptchaRef}
+                        sitekey={RECAPTCHA_SITE_KEY}
+                        onChange={(v) => setCaptchaValue(v)}
+                      />
+                    </div>
+
+                    <div className="flex flex-col sm:flex-row gap-3 justify-center pt-2">
                       <Button
                         type="button"
                         onClick={resetVerification}
