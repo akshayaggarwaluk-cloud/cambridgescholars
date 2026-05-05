@@ -1,12 +1,52 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Loader2, Check } from "lucide-react";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { PageBreadcrumb } from "@/components/layout/PageBreadcrumb";
 import { getOrder, type OrderDetail } from "@/services/accountService";
-import { checkoutPay, type CheckoutPayRequest, type OpayoCardType } from "@/services/cartService";
+import {
+  checkoutPay,
+  paypalCreateOrder,
+  paypalCaptureOrder,
+  type CheckoutPayRequest,
+  type OpayoCardType,
+} from "@/services/cartService";
 import { toast } from "sonner";
+
+const PAYPAL_CLIENT_ID =
+  (import.meta.env.VITE_PAYPAL_CLIENT_ID as string | undefined) || "sb";
+
+// Lazy-load the PayPal JS SDK once per page lifetime.
+let paypalSdkPromise: Promise<unknown> | null = null;
+function loadPaypalSdk(): Promise<unknown> {
+  if (typeof window === "undefined") return Promise.reject(new Error("No window"));
+  const w = window as unknown as { paypal?: unknown };
+  if (w.paypal) return Promise.resolve(w.paypal);
+  if (paypalSdkPromise) return paypalSdkPromise;
+  paypalSdkPromise = new Promise((resolve, reject) => {
+    const existing = document.querySelector<HTMLScriptElement>("script[data-paypal-sdk]");
+    const onLoad = () => {
+      const ww = window as unknown as { paypal?: unknown };
+      ww.paypal ? resolve(ww.paypal) : reject(new Error("PayPal SDK failed to load"));
+    };
+    if (existing) {
+      existing.addEventListener("load", onLoad);
+      existing.addEventListener("error", () => reject(new Error("PayPal SDK failed to load")));
+      return;
+    }
+    const s = document.createElement("script");
+    s.src = `https://www.paypal.com/sdk/js?client-id=${encodeURIComponent(
+      PAYPAL_CLIENT_ID,
+    )}&currency=GBP&intent=capture`;
+    s.async = true;
+    s.dataset.paypalSdk = "true";
+    s.onload = onLoad;
+    s.onerror = () => reject(new Error("PayPal SDK failed to load"));
+    document.body.appendChild(s);
+  });
+  return paypalSdkPromise;
+}
 
 const ORANGE = "#E4573D";
 
