@@ -24,7 +24,7 @@ interface LookupResult {
 
 const LOOKUP_URL = "https://api.cambridgescholars.com/lookup";
 const SUBMIT_URL = "https://api.cambridgescholars.com/api/website/submissions/endorsement";
-const RECAPTCHA_SITE_KEY = "6LdtotgsAAAAAFxhsOV3oryuupd76Hu70xIwWKuq";
+const RECAPTCHA_SITE_KEY = "6Lc1CNssAAAAABy9UcNw4Q07PY-eW9HMvIOGewHT";
 
 interface ReviewerForm {
   title: string;
