@@ -105,7 +105,7 @@ export function FeaturedBooksSection() {
                   <p className="leading-relaxed font-normal" style={{ fontFamily: "'Nunito Sans', system-ui, sans-serif", fontSize: "16px", color: "#696969" }}>{book.description}</p>
                 )}
                 <Button asChild className="bg-[#e4573d] text-white border border-[#e4573d] hover:bg-transparent hover:text-[#e4573d] px-10 py-3 text-sm tracking-wider rounded-none uppercase font-nav font-bold transition-colors" style={{ fontFamily: "'Nunito Sans', system-ui, sans-serif" }}>
-                  <Link to={`/books/${book.id}`}>View</Link>
+                  <Link to={`/product/${book.id}`}>View</Link>
                 </Button>
               </motion.div>
             </AnimatePresence>

@@ -45,7 +45,7 @@ export function HeroSection() {
           reviewer: [s.reviewer_name, s.reviewer_position].filter(Boolean).join(", "),
           image: s.cover_image || "",
           bookId: "",
-          linkUrl: s.link_url || "/books",
+          linkUrl: s.link_url || "/product",
         }));
         setFeaturedReviews(mapped);
       })

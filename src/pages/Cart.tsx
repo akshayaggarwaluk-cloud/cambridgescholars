@@ -109,7 +109,7 @@ export default function Cart() {
               asChild
               className="bg-[#C75B2A] hover:bg-[#a84a20] text-white rounded-none uppercase tracking-wider font-nav font-medium px-8 py-6 text-sm"
             >
-              <Link to="/books">Return to shop</Link>
+              <Link to="/product">Return to shop</Link>
             </Button>
           </div>
         </main>
@@ -179,11 +179,11 @@ export default function Cart() {
               >
                 {/* Product */}
                 <div className="flex items-center gap-5 min-w-0">
-                  <Link to={`/books/${item.id}`} className="shrink-0">
+                  <Link to={`/product/${item.id}`} className="shrink-0">
                     <CartCover item={item} />
                   </Link>
                   <div className="min-w-0">
-                    <Link to={`/books/${item.id}`}>
+                    <Link to={`/product/${item.id}`}>
                       <h3
                         className="transition-colors leading-snug text-[15px] text-[#333333] font-normal"
                         style={{ fontFamily: '"Nunito Sans", sans-serif' }}
@@ -263,7 +263,7 @@ export default function Cart() {
               className="rounded-none tracking-wider normal-case text-sm px-8 py-4 border border-[#e5573e] text-[#e5573e] bg-transparent hover:bg-[#e5573e] hover:text-white self-start h-auto"
               style={{ fontFamily: '"Nunito Sans", sans-serif', fontWeight: 700 }}
             >
-              <Link to="/books" className="flex items-center gap-2">
+              <Link to="/product" className="flex items-center gap-2">
                 <ShoppingCart className="h-4 w-4" />
                 CONTINUE SHOPPING
               </Link>

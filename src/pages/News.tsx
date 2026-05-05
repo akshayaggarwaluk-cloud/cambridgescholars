@@ -54,7 +54,7 @@ const News = () => {
   }, []);
 
   const goToBooks = (slug: string) => {
-    navigate(`/books?category=${encodeURIComponent(slug)}`);
+    navigate(`/product?category=${encodeURIComponent(slug)}`);
   };
 
   const filteredArticles = articles.filter((article) => {
@@ -165,7 +165,7 @@ const News = () => {
                   <li>
                     <div className="flex items-center justify-between">
                       <button
-                        onClick={() => navigate("/books")}
+                        onClick={() => navigate("/product")}
                         className="text-left font-baskerville text-[15px] py-2 transition-colors text-[#C5A374] hover:text-[#C75B2A] font-normal"
                       >
                         All Categories

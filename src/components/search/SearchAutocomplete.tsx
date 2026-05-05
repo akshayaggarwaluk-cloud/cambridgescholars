@@ -98,7 +98,7 @@ export function SearchAutocomplete({ onClose, className }: SearchAutocompletePro
         if (highlightedIndex >= 0 && results[highlightedIndex]) {
           handleSelect(results[highlightedIndex]);
         } else if (query.length >= 2) {
-          navigate(`/books?search=${encodeURIComponent(query)}`);
+          navigate(`/product?search=${encodeURIComponent(query)}`);
           handleClose();
         }
         break;
@@ -109,7 +109,7 @@ export function SearchAutocomplete({ onClose, className }: SearchAutocompletePro
   };
 
   const handleSelect = (item: AutocompleteResult) => {
-    navigate(`/books/${item.isbn}`);
+    navigate(`/product/${item.isbn}`);
     handleClose();
   };
 
@@ -157,7 +157,7 @@ export function SearchAutocomplete({ onClose, className }: SearchAutocompletePro
             {results.map((book, index) => (
               <Link
                 key={book.isbn}
-                to={`/books/${book.isbn}`}
+                to={`/product/${book.isbn}`}
                 onClick={handleClose}
                 className={cn(
                   "flex items-center gap-4 p-3 transition-colors",
@@ -173,7 +173,7 @@ export function SearchAutocomplete({ onClose, className }: SearchAutocompletePro
             ))}
           </div>
           <Link
-            to={`/books?search=${encodeURIComponent(query)}`}
+            to={`/product?search=${encodeURIComponent(query)}`}
             onClick={handleClose}
             className="block p-3 text-center text-sm font-medium text-accent hover:bg-secondary border-t border-border"
           >
@@ -186,7 +186,7 @@ export function SearchAutocomplete({ onClose, className }: SearchAutocompletePro
       {query.length >= 2 && !loading && results.length === 0 && (
         <div className="absolute top-full left-0 right-0 mt-2 bg-card rounded-xl shadow-lg border border-border p-6 text-center z-50 animate-fade-in">
           <p className="text-muted-foreground">No books found for "{query}"</p>
-          <Link to="/books" onClick={handleClose} className="text-accent text-sm font-medium hover:underline mt-2 inline-block">
+          <Link to="/product" onClick={handleClose} className="text-accent text-sm font-medium hover:underline mt-2 inline-block">
             Browse all books
           </Link>
         </div>

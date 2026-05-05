@@ -88,8 +88,8 @@ export function AnimatedRoutes() {
     <AnimatePresence mode="wait">
       <Routes location={location} key={location.pathname}>
         <Route path="/" element={<PageTransition><Index /></PageTransition>} />
-        <Route path="/books" element={<PageTransition><Books /></PageTransition>} />
-        <Route path="/books/:id" element={<PageTransition><BookDetails /></PageTransition>} />
+        <Route path="/product" element={<PageTransition><Books /></PageTransition>} />
+        <Route path="/product/:id" element={<PageTransition><BookDetails /></PageTransition>} />
         <Route path="/cart" element={<PageTransition><Cart /></PageTransition>} />
         <Route path="/checkout" element={<PageTransition><ProtectedRoute><Checkout /></ProtectedRoute></PageTransition>} />
         <Route path="/checkout/result" element={<PageTransition><CheckoutResult /></PageTransition>} />

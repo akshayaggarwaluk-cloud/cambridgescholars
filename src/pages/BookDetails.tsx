@@ -95,7 +95,7 @@ export default function BookDetails() {
             <h1 className="font-serif text-4xl font-bold mb-4">Book Not Found</h1>
             <p className="text-muted-foreground mb-8">Sorry, we couldn't find the book you're looking for.</p>
             <Button asChild variant="gold">
-              <Link to="/books">Browse All Books</Link>
+              <Link to="/product">Browse All Books</Link>
             </Button>
           </div>
         </main>

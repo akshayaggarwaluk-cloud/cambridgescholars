@@ -472,7 +472,7 @@ export default function ExternalProfile() {
             <Info className="h-5 w-5 flex-shrink-0" strokeWidth={2} />
             <span>No order has been made yet.</span>
           </div>
-          <Link to="/books" className="flex items-center gap-2 hover:underline">
+          <Link to="/product" className="flex items-center gap-2 hover:underline">
             Browse products <ArrowRight className="h-4 w-4" />
           </Link>
         </div>
@@ -1258,7 +1258,7 @@ export default function ExternalProfile() {
       <div className="w-full bg-[#F4F3EC] pt-24 sm:pt-28">
         <div className="container-wide h-[200px] flex items-center justify-between">
           <h1 className="text-[40px] leading-[1.2] font-baskerville font-normal text-[#333333] my-[10px]">My account</h1>
-          <PageBreadcrumb items={[{ label: "Home", href: "/" }, { label: "Bookshop", href: "/books" }, { label: "My account" }]} />
+          <PageBreadcrumb items={[{ label: "Home", href: "/" }, { label: "Bookshop", href: "/product" }, { label: "My account" }]} />
         </div>
       </div>
 

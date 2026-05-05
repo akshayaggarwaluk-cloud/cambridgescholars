@@ -30,7 +30,7 @@ export function CartHoverPanel({ onNavigate }: CartHoverPanelProps) {
                 className="flex items-start gap-4 pb-5 border-b border-border last:border-b-0 last:pb-0"
               >
                 <Link
-                  to={`/books/${item.id}`}
+                  to={`/product/${item.id}`}
                   onClick={onNavigate}
                   className="shrink-0"
                 >
@@ -51,7 +51,7 @@ export function CartHoverPanel({ onNavigate }: CartHoverPanelProps) {
                 </Link>
                 <div className="flex-1 min-w-0">
                   <Link
-                    to={`/books/${item.id}`}
+                    to={`/product/${item.id}`}
                     onClick={onNavigate}
                     className="block text-base leading-snug transition-colors text-black"
                     style={{ fontFamily: '"Libre Baskerville", serif' }}

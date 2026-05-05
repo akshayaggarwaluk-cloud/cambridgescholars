@@ -88,7 +88,7 @@ export default function Ebooks() {
             <BookOpen className="h-12 w-12 mx-auto mb-4 opacity-50" />
             <p className="mb-4">You don't have any ebook activations yet.</p>
             <Button asChild variant="outline" className="rounded-none uppercase tracking-wider">
-              <Link to="/books">Browse Books</Link>
+              <Link to="/product">Browse Books</Link>
             </Button>
           </div>
         ) : (

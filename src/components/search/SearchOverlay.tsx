@@ -73,7 +73,7 @@ export function SearchOverlay({ onClose }: SearchOverlayProps) {
       if (showAdvanced && searchByField) {
         params.set("search_field", searchByField);
       }
-      navigate(`/books?${params.toString()}`);
+      navigate(`/product?${params.toString()}`);
     }
     onClose();
   };
@@ -83,7 +83,7 @@ export function SearchOverlay({ onClose }: SearchOverlayProps) {
   };
 
   const handleResultClick = (isbn: string) => {
-    navigate(`/books/${isbn}`);
+    navigate(`/product/${isbn}`);
     onClose();
   };
 

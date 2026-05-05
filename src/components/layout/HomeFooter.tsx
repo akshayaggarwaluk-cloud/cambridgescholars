@@ -13,7 +13,7 @@ const XIcon = () => (
 const navLinks = [
   { name: "Home", href: "/" },
   { name: "About Us", href: "/about" },
-  { name: "Buy a Book", href: "/books" },
+  { name: "Buy a Book", href: "/product" },
   { name: "Publish a Book", href: "/publish-a-book" },
   { name: "FAQs", href: "/faq" },
   { name: "Contact", href: "/contact" },
