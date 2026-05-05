@@ -71,7 +71,7 @@ export default function AuthorExperiences() {
         </div>
 
         {/* Content */}
-        <div className="max-w-5xl mx-auto px-6 sm:px-10 py-10 md:py-14 bg-white">
+        <div className="container-wide py-10 md:py-14 bg-white">
           <p className="font-nav font-normal text-[#333333] leading-relaxed text-[15px] mb-10">
             There is no clearer indication of the successful relationships we have built with thousands of academics over the years than their own views of the experience.
           </p>
