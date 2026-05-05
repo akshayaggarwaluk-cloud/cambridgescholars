@@ -80,7 +80,11 @@ function renderContent(src: string): string {
       .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
       .replace(
         /\[([^\]]+)\]\(([^)]+)\)/g,
-        '<a href="$2" class="text-[#E4573D] hover:underline font-normal" target="_blank" rel="noopener noreferrer">$1</a>',
+        (_m, text: string, url: string) => {
+          const isDownload = /\.(docx?|pdf|xlsx?|pptx?|zip|csv)(\?|$)/i.test(url);
+          const dl = isDownload ? ' download' : '';
+          return `<a href="${url}" class="text-[#E4573D] hover:underline font-normal" target="_blank" rel="noopener noreferrer"${dl}>${text}</a>`;
+        },
       );
   for (const raw of lines) {
     const line = raw.trim();
