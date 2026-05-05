@@ -9,15 +9,15 @@ export default function AboutSection() {
 
       {/* PAGE HEADER */}
       <div className="w-full bg-[#F4F3EC] pt-24 sm:pt-28">
-        <div className="container-wide h-[200px] flex items-center justify-between">
-          <h1 className="text-[40px] leading-[1.2] font-baskerville font-normal text-[#333333] my-[10px]">About Us</h1>
+        <div className="container-wide min-h-[140px] md:h-[200px] flex flex-col md:flex-row md:items-center md:justify-between gap-3 md:gap-0 py-6 md:py-0">
+          <h1 className="text-[28px] sm:text-[34px] md:text-[40px] leading-[1.2] font-baskerville font-normal text-[#333333] md:my-[10px]">About Us</h1>
           <PageBreadcrumb currentPage="About Us" />
         </div>
       </div>
 
       {/* FIRST SECTION */}
-      <section className="w-full py-16 bg-white">
-        <div className="container-wide grid grid-cols-1 lg:grid-cols-[70%_30%] gap-12 items-stretch">
+      <section className="w-full py-10 md:py-16 bg-white">
+        <div className="container-wide grid grid-cols-1 lg:grid-cols-[70%_30%] gap-8 md:gap-12 items-stretch">
           {/* TEXT */}
           <div className="space-y-6 leading-[1.7] text-[#333333] font-nav text-[16px] font-normal">
             <p>
@@ -72,7 +72,7 @@ export default function AboutSection() {
           </div>
 
           {/* IMAGE */}
-          <div className="relative w-full h-full min-h-[300px]">
+          <div className="relative w-full h-64 sm:h-80 lg:h-full lg:min-h-[300px] order-first lg:order-last">
             <img
               src="/lovable-uploads/d53bdc66-5423-4a11-8c1d-a9166b55ead1.png"
               alt="Lady Stephenson Library"
@@ -83,10 +83,10 @@ export default function AboutSection() {
       </section>
 
       {/* SECOND SECTION */}
-      <section className="w-full py-16 bg-white">
-        <div className="container-wide grid grid-cols-1 lg:grid-cols-[30%_70%] gap-12 items-stretch">
+      <section className="w-full py-10 md:py-16 bg-white">
+        <div className="container-wide grid grid-cols-1 lg:grid-cols-[30%_70%] gap-8 md:gap-12 items-stretch">
           {/* IMAGE */}
-          <div className="relative w-full h-full min-h-[300px]">
+          <div className="relative w-full h-64 sm:h-80 lg:h-full lg:min-h-[300px]">
             <img
               src="/lovable-uploads/3f1259fa-8061-4dd4-9451-dcb25fd9cc8d.png"
               alt="Our Space"
