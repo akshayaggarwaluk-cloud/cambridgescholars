@@ -931,9 +931,10 @@ export default function Checkout() {
 
                   {paymentMethod === "paypal" && (
                     <div className="mt-4 p-4 bg-[#f4f3ec]">
-                      <p className="text-[13px] text-[#333] mb-3">
-                        Click the PayPal button to complete your payment securely.
+                      <p className="text-[13px] text-[#333]">
+                        You'll be redirected to PayPal to complete your payment securely after clicking <strong>Place Order</strong>.
                       </p>
+                      <div className="sr-only" aria-hidden="true">
                       <PaypalButtons
                         buildCreateOrderPayload={() => {
                           const billingAddress: AddressData = isEbookOnly
@@ -972,6 +973,7 @@ export default function Checkout() {
                         }}
                         onError={(msg) => toast.error(msg)}
                       />
+                      </div>
                     </div>
                   )}
                 </div>
