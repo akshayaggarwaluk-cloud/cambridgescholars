@@ -63,6 +63,10 @@ function RedirectBookToProduct() {
   return <Navigate to={`/product/${id}`} replace />;
 }
 
+function RedirectPostPublication() {
+  return <Navigate to="/post-publication" replace />;
+}
+
 function OrdersRedirect() {
   const location = useLocation();
   const params = new URLSearchParams(location.search);
@@ -118,6 +122,8 @@ export function AnimatedRoutes() {
         <Route path="/how-to-publish" element={<PageTransition><HowToPublish /></PageTransition>} />
         <Route path="/submit-proposal" element={<PageTransition><SubmitProposal /></PageTransition>} />
         <Route path="/resources" element={<PageTransition><Resources /></PageTransition>} />
+        <Route path="/resources/post-publication" element={<RedirectPostPublication />} />
+        <Route path="/post-publication" element={<PageTransition><ResourceDetail /></PageTransition>} />
         <Route path="/resources/:slug" element={<PageTransition><ResourceDetail /></PageTransition>} />
         <Route path="/reviewer-form" element={<PageTransition><EndorsementSubmission /></PageTransition>} />
         <Route path="/endorsement-submission" element={<Navigate to="/reviewer-form" replace />} />
