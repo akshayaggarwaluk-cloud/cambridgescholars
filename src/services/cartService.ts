@@ -240,3 +240,46 @@ export function checkoutPay(
     body: JSON.stringify(payload),
   });
 }
+
+// ─── PayPal Checkout API ────────────────────────────────────────
+//
+// Two-step flow per the CSP API spec:
+//   1. POST /checkout/paypal/create-order
+//        → reserves a wc-pending order and creates a PayPal Orders v2 order.
+//        Returns { paypal_order_id, order_id }. Used by the PayPal JS SDK
+//        `paypal.Buttons({ createOrder })` callback.
+//   2. POST /checkout/paypal/capture/{paypal_order_id}
+//        → captures the approved PayPal order, marks the DB order as
+//        wc-completed and clears the cart. Called from the PayPal JS SDK
+//        `onApprove` callback.
+
+export interface PaypalCreateOrderResponse {
+  paypal_order_id: string;
+  order_id: number | string;
+}
+
+export interface PaypalCaptureResponse {
+  status: "success" | "failed";
+  order_id?: number | string;
+  transaction_id?: string;
+  reason?: string;
+}
+
+export function paypalCreateOrder(): Promise<PaypalCreateOrderResponse> {
+  return callCsp<PaypalCreateOrderResponse>("/checkout/paypal/create-order", {
+    method: "POST",
+    body: JSON.stringify({}),
+  });
+}
+
+export function paypalCaptureOrder(
+  paypalOrderId: string,
+): Promise<PaypalCaptureResponse> {
+  return callCsp<PaypalCaptureResponse>(
+    `/checkout/paypal/capture/${encodeURIComponent(paypalOrderId)}`,
+    {
+      method: "POST",
+      body: JSON.stringify({}),
+    },
+  );
+}
