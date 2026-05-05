@@ -149,7 +149,7 @@ export default function PayOrder() {
                   className="grid grid-cols-[1fr_auto_auto] gap-8 px-8 py-6 border-b border-[#e5e5e5] items-start"
                 >
                   <div className="text-[16px] text-[#333333] space-y-2">
-                    <div className="text-[#E4573D]">{it.name}</div>
+                    <div className="text-[#333333]">{it.name}</div>
                     {it.isbn && (
                       <div className="text-[#696969]">
                         <span className="font-bold text-[#333333]">ISBN:</span> {it.isbn}
@@ -157,7 +157,7 @@ export default function PayOrder() {
                     )}
                   </div>
                   <div className="w-24 text-center text-[#696969] text-[16px]">× {it.quantity}</div>
-                  <div className="w-32 text-right text-[#E4573D] text-[16px]">
+                  <div className="w-32 text-right text-[#333333] text-[16px]">
                     {fmt(Number(it.total) || Number(it.subtotal) || (Number(it.unit_price) || 0) * (Number(it.quantity) || 0))}
                   </div>
                 </div>
@@ -165,15 +165,15 @@ export default function PayOrder() {
 
               <div className="grid grid-cols-[1fr_auto] px-8 py-5 border-b border-[#e5e5e5] text-[16px]">
                 <div className="font-bold text-[#333333]">Subtotal:</div>
-                <div className="text-right text-[#E4573D]">{fmt(subtotal)}</div>
+                <div className="text-right text-[#333333]">{fmt(subtotal)}</div>
               </div>
               <div className="grid grid-cols-[1fr_auto] px-8 py-5 border-b border-[#e5e5e5] text-[16px]">
                 <div className="font-bold text-[#333333]">Shipping:</div>
-                <div className="text-right text-[#E4573D]">{fmt(detail.shipping_total_amount ?? 0)}</div>
+                <div className="text-right text-[#333333]">{fmt(detail.shipping_total_amount ?? 0)}</div>
               </div>
               <div className="grid grid-cols-[1fr_auto] px-8 py-5 border-b border-[#e5e5e5] text-[16px]">
                 <div className="font-bold text-[#333333]">Total:</div>
-                <div className="text-right text-[#E4573D]">{fmt(detail.total_amount)}</div>
+                <div className="text-right text-[#333333]">{fmt(detail.total_amount)}</div>
               </div>
               <div className="grid grid-cols-[1fr_auto] px-8 py-5 text-[16px]">
                 <div className="font-bold text-[#333333]">Payment method:</div>
