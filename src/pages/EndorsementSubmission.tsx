@@ -240,7 +240,7 @@ const EndorsementSubmission = () => {
                   <button
                     type="button"
                     onClick={() => setActiveTab("submit")}
-                    className={`px-5 py-3 text-[15px] font-medium uppercase tracking-wide ${
+                    className={`px-5 py-3 text-[15px] font-medium tracking-wide ${
                       activeTab === "submit"
                         ? "bg-[#e7e3d8] text-black"
                         : "bg-transparent text-[#333333] hover:bg-[#f0efef]"
@@ -252,7 +252,7 @@ const EndorsementSubmission = () => {
                   <button
                     type="button"
                     onClick={() => setActiveTab("previous")}
-                    className={`px-5 py-3 text-[15px] font-medium uppercase tracking-wide ${
+                    className={`px-5 py-3 text-[15px] font-medium tracking-wide ${
                       activeTab === "previous"
                         ? "bg-[#e7e3d8] text-black"
                         : "bg-transparent text-[#333333] hover:bg-[#f0efef]"
