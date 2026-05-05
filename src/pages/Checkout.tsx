@@ -21,7 +21,7 @@ import { useExternalAuth } from "@/contexts/ExternalAuthContext";
 import { toast } from "sonner";
 import { checkoutPay, type CheckoutPayRequest } from "@/services/cartService";
 import { getProfile } from "@/services/accountService";
-import { buildAccountOrdersPath, rememberPendingPaymentOrder } from "@/utils/paymentRedirect";
+import { buildAccountOrdersPath } from "@/utils/paymentRedirect";
 
 type AddressData = {
   firstName: string;
@@ -458,7 +458,6 @@ export default function Checkout() {
       const res = await checkoutPay(payload);
 
       if (res.status === "3ds_required") {
-        rememberPendingPaymentOrder(res.order_id);
         const acsUrl = res.acs_url;
         if (!acsUrl) {
           throw new Error("3DS authentication data missing from response.");
