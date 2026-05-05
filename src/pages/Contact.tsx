@@ -12,6 +12,7 @@ import contactHero from "@/assets/contact-hero.jpg";
 import { fetchContactSubjects, submitContactMessage } from "@/services/cspApi";
 
 const RECAPTCHA_SITE_KEY = "6Lc1CNssAAAAABy9UcNw4Q07PY-eW9HMvIOGewHT";
+const CONTACT_EMAIL = "admin@cambridgescholars.com";
 const contactInfo = [
   {
     icon: MapPin,
@@ -22,6 +23,7 @@ const contactInfo = [
     icon: Mail,
     title: "Contact",
     content: "Mail: admin@cambridgescholars.com",
+    email: CONTACT_EMAIL,
   },
   {
     icon: Clock,
@@ -123,7 +125,21 @@ export default function Contact() {
                     <info.icon className="h-6 w-6 text-[#C5A374] shrink-0" />
                     <h3 className="font-semibold text-xl tracking-wider">{info.title}</h3>
                   </div>
-                  <p style={{ fontFamily: '"Libre Baskerville", serif', fontSize: "15px", color: "#7E7E7E" }}>{info.content}</p>
+                  <p style={{ fontFamily: '"Libre Baskerville", serif', fontSize: "15px", color: "#7E7E7E" }}>
+                    {info.email ? (
+                      <>
+                        Mail:{" "}
+                        <a
+                          href={`mailto:${info.email}`}
+                          className="text-[#C75B2A] hover:underline"
+                        >
+                          {info.email}
+                        </a>
+                      </>
+                    ) : (
+                      info.content
+                    )}
+                  </p>
                 </div>
               ))}
             </div>
