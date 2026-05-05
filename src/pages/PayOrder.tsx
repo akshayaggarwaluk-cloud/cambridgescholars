@@ -297,6 +297,18 @@ export default function PayOrder() {
                   <div className="space-y-5">
                     <div>
                       <label className="block text-[13px] font-bold uppercase tracking-wider text-[#333333] mb-2">
+                        Cardholder Name <span style={{ color: ORANGE }}>*</span>
+                      </label>
+                      <input
+                        type="text"
+                        value={card.holder}
+                        onChange={(e) => setCard({ ...card, holder: e.target.value })}
+                        placeholder="Name on card"
+                        className="w-full bg-white border border-[#e5e5e5] px-4 py-4 text-[16px] text-[#333333] focus:outline-none focus:border-[#E4573D]"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-[13px] font-bold uppercase tracking-wider text-[#333333] mb-2">
                         Card Number <span style={{ color: ORANGE }}>*</span>
                       </label>
                       <input
