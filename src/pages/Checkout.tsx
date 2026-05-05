@@ -20,6 +20,7 @@ import { useCart } from "@/contexts/CartContext";
 import { useExternalAuth } from "@/contexts/ExternalAuthContext";
 import { toast } from "sonner";
 import { checkoutPay, type CheckoutPayRequest } from "@/services/cartService";
+import PaypalButtons from "@/components/checkout/PaypalButtons";
 import { getProfile } from "@/services/accountService";
 
 type AddressData = {
@@ -448,7 +449,7 @@ export default function Checkout() {
     if (loading) return;
 
     if (paymentMethod !== "card") {
-      toast.info("PayPal checkout is coming soon. Please pay by card to complete your order.");
+      toast.info("Use the PayPal button below to complete your payment.");
       return;
     }
 
