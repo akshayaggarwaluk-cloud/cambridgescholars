@@ -22,7 +22,7 @@ export default function CheckoutResult() {
   const [working, setWorking] = useState(true);
 
   const status = (params.get("status") || "").toLowerCase();
-  const orderId = params.get("order_id") || readPendingPaymentOrder() || "";
+  const orderId = params.get("order_id") || "";
   const isSuccess = status === "success" || status === "ok";
 
   useEffect(() => {
@@ -31,7 +31,6 @@ export default function CheckoutResult() {
     (async () => {
       if (isSuccess) {
         void clearCart();
-        clearPendingPaymentOrder();
         // Skip confirmation screen — go directly to My Account → Orders.
         navigate(buildAccountOrdersPath(orderId), { replace: true });
         return;
