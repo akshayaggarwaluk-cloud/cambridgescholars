@@ -77,6 +77,39 @@ export default function AdminResources() {
     }
   };
 
+  // Parse bullet lines that contain a markdown link, so each bullet can have its own file upload.
+  const contentLines = (editing?.content || "").split(/\r?\n/);
+  const bulletLinks = contentLines
+    .map((line, idx) => {
+      const m = line.match(/^(\s*-\s+.*?\[)([^\]]+)(\]\()([^)]*)(\).*)$/);
+      if (!m) return null;
+      return { idx, label: m[2], url: m[4] };
+    })
+    .filter((x): x is { idx: number; label: string; url: string } => x !== null);
+
+  const replaceBulletUrl = (lineIdx: number, newUrl: string) => {
+    if (!editing) return;
+    const lines = (editing.content || "").split(/\r?\n/);
+    lines[lineIdx] = lines[lineIdx].replace(
+      /^(\s*-\s+.*?\[)([^\]]+)(\]\()([^)]*)(\).*)$/,
+      (_m, p1, p2, p3, _p4, p5) => `${p1}${p2}${p3}${newUrl}${p5}`,
+    );
+    setEditing({ ...editing, content: lines.join("\n") });
+  };
+
+  const handleBulletUpload = async (lineIdx: number, file: File) => {
+    setUploadingFile(true);
+    try {
+      const url = await adminApi.uploadFile(file);
+      replaceBulletUrl(lineIdx, url);
+      toast.success("File uploaded — link updated");
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "Upload failed");
+    } finally {
+      setUploadingFile(false);
+    }
+  };
+
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 5 } }),
     useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates }),
@@ -137,6 +170,46 @@ export default function AdminResources() {
               <span className="text-xs text-muted-foreground">Uploads any file (PDF, DOCX, etc.) and appends a markdown link to the body.</span>
             </div>
           </Field>
+
+          {bulletLinks.length > 0 && (
+            <div className="space-y-2 border border-border bg-background p-3">
+              <div className="text-sm font-nav uppercase tracking-wider">Per-bullet file attachments</div>
+              <p className="text-xs text-muted-foreground">Upload a different file for each bullet point. The link URL will be replaced automatically.</p>
+              <div className="space-y-2">
+                {bulletLinks.map((b) => (
+                  <div key={b.idx} className="flex items-center gap-3 flex-wrap border border-border/60 px-3 py-2">
+                    <div className="flex-1 min-w-0">
+                      <div className="text-sm font-medium truncate">{b.label}</div>
+                      <div className="text-[11px] text-muted-foreground truncate">{b.url || "— no file linked —"}</div>
+                    </div>
+                    {b.url && (
+                      <a href={b.url} target="_blank" rel="noopener noreferrer" className="text-xs text-accent inline-flex items-center gap-1">
+                        <ExternalLink className="h-3 w-3" /> Open
+                      </a>
+                    )}
+                    <label className="cursor-pointer">
+                      <input
+                        type="file"
+                        className="hidden"
+                        disabled={uploadingFile}
+                        onChange={(e) => {
+                          const f = e.target.files?.[0];
+                          e.target.value = "";
+                          if (f) handleBulletUpload(b.idx, f);
+                        }}
+                      />
+                      <Button type="button" variant="outline" size="sm" asChild disabled={uploadingFile}>
+                        <span className="inline-flex items-center gap-2">
+                          {uploadingFile ? <Loader2 className="h-3 w-3 animate-spin" /> : <Paperclip className="h-3 w-3" />}
+                          Upload file
+                        </span>
+                      </Button>
+                    </label>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
           <Field label="Display order"><input type="number" className="w-32 border border-border px-3 py-2 text-sm" value={editing.display_order ?? 0} onChange={(e) => setEditing({ ...editing, display_order: Number(e.target.value) })} /></Field>
           <label className="flex items-center gap-2 text-sm"><input type="checkbox" checked={editing.is_published ?? true} onChange={(e) => setEditing({ ...editing, is_published: e.target.checked })} /> Published</label>
           <div className="flex gap-2 pt-2"><Button onClick={save} disabled={saving} className="bg-accent hover:bg-accent/90">{saving ? <Loader2 className="h-4 w-4 animate-spin mr-1" /> : <Save className="h-4 w-4 mr-1" />}{editing._new ? "Create" : "Save"}</Button><Button variant="outline" onClick={() => setEditing(null)}>Cancel</Button></div>
