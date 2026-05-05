@@ -368,27 +368,54 @@ const EndorsementSubmission = () => {
                   </form>
                 ) : (
                   <div className="space-y-4">
-                    <h3 className="text-lg font-baskerville text-black">
-                      Previous Submissions ({result.existing_reviewers?.length ?? 0})
-                    </h3>
+                    <h3 className="text-2xl font-baskerville text-black">Previously submitted details</h3>
+                    <p className="text-[15px]" style={{ fontFamily: "Arial, sans-serif" }}>
+                      <span className="font-bold text-[#b33000]">Please note:</span>{" "}
+                      <span className="text-[#b33000]">
+                        Newly submitted reviewer details may take up to 24 hours to appear in this list.
+                      </span>
+                    </p>
+
                     {result.existing_reviewers && result.existing_reviewers.length > 0 ? (
-                      <ul className="divide-y divide-border border border-border">
-                        {result.existing_reviewers.map((r, i) => (
-                          <li
-                            key={`${r.email}-${i}`}
-                            className="px-4 py-3 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-1"
-                          >
-                            <span className="text-black" style={{ fontFamily: "Arial, sans-serif" }}>{r.name}</span>
-                            <a
-                              href={`mailto:${r.email}`}
-                              className="text-[#b33000] hover:underline text-sm"
-                              style={{ fontFamily: "Arial, sans-serif" }}
-                            >
-                              {r.email}
-                            </a>
-                          </li>
-                        ))}
-                      </ul>
+                      <div className="overflow-x-auto border border-border">
+                        <table className="w-full border-collapse" style={{ fontFamily: "Arial, sans-serif" }}>
+                          <thead>
+                            <tr className="bg-[#f0efef]">
+                              <th className="text-left px-4 py-3 border border-border text-black font-bold w-[18%]">
+                                Reviewer Title
+                              </th>
+                              <th className="text-left px-4 py-3 border border-border text-black font-bold w-[24%]">
+                                Reviewer Forename
+                              </th>
+                              <th className="text-left px-4 py-3 border border-border text-black font-bold w-[24%]">
+                                Reviewer Surname
+                              </th>
+                              <th className="text-left px-4 py-3 border border-border text-black font-bold">
+                                Reviewer Email
+                              </th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {result.existing_reviewers.map((r, i) => {
+                              // Try to split "Title Forename Surname" from API "name"
+                              const parts = (r.name || "").trim().split(/\s+/);
+                              const titleMatch = /^(Prof|Dr|Mr|Mrs|Ms|Mx)\.?$/i.test(parts[0] || "");
+                              const title = titleMatch ? parts[0] : "";
+                              const rest = titleMatch ? parts.slice(1) : parts;
+                              const forename = rest[0] || "";
+                              const surname = rest.slice(1).join(" ");
+                              return (
+                                <tr key={`${r.email}-${i}`}>
+                                  <td className="px-4 py-3 border border-border text-[#333333]">{title}</td>
+                                  <td className="px-4 py-3 border border-border text-[#333333]">{forename}</td>
+                                  <td className="px-4 py-3 border border-border text-[#333333]">{surname}</td>
+                                  <td className="px-4 py-3 border border-border text-[#333333] break-all">{r.email}</td>
+                                </tr>
+                              );
+                            })}
+                          </tbody>
+                        </table>
+                      </div>
                     ) : (
                       <p className="text-[15px] text-[#333333]" style={{ fontFamily: "Arial, sans-serif" }}>
                         No previous submissions yet.
