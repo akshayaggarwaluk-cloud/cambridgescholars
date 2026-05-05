@@ -1,6 +1,7 @@
 import { createRoot } from "react-dom/client";
 import App from "./App.tsx";
 import "./index.css";
+import { buildAccountOrdersPath, clearPendingPaymentOrder, readPendingPaymentOrder } from "./utils/paymentRedirect";
 
 const params = new URLSearchParams(window.location.search);
 const pathOrderId = window.location.pathname.match(/^\/orders\/([^/]+)/)?.[1];
@@ -11,7 +12,8 @@ const checkoutReturnOrderId =
   params.get("order") ||
   params.get("order-received") ||
   params.get("new") ||
-  checkoutOrderReceivedId;
+  checkoutOrderReceivedId ||
+  readPendingPaymentOrder();
 const isLegacyOrderPath =
   window.location.pathname === "/orders" ||
   (/^\/orders\//.test(window.location.pathname) && !/^\/orders\/[^/]+\/pay\/?$/.test(window.location.pathname));
@@ -24,10 +26,11 @@ const isPaymentReturnPath =
 
 if (isLegacyOrderPath || isPaymentReturnPath) {
   const newOrderId = checkoutReturnOrderId || pathOrderId;
+  clearPendingPaymentOrder();
   window.history.replaceState(
     null,
     "",
-    newOrderId ? `/profile?tab=orders&new=${encodeURIComponent(newOrderId)}` : "/profile?tab=orders",
+    buildAccountOrdersPath(newOrderId),
   );
 }
 
