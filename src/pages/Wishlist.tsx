@@ -20,7 +20,7 @@ export default function Wishlist() {
       </div>
 
       <main className="pb-16">
-        <div className="container-wide max-w-7xl py-12 px-6 md:px-16 bg-white">
+        <div className="container-wide max-w-7xl py-12 px-4 sm:px-6 md:px-16 bg-white">
 
           {loading ? (
             <div className="flex items-center justify-center py-16">
@@ -41,8 +41,8 @@ export default function Wishlist() {
             </div>
           ) : (
             <div>
-              {/* Table header */}
-              <div className="grid grid-cols-[1fr_120px_140px_220px] gap-4 pb-6 border-b border-border items-center">
+              {/* Table header - desktop only */}
+              <div className="hidden lg:grid grid-cols-[1fr_120px_140px_220px] gap-4 pb-6 border-b border-border items-center">
                 <div className="text-sm font-semibold tracking-wider uppercase text-foreground">Product</div>
                 <div className="text-sm font-semibold tracking-wider uppercase text-foreground">Price</div>
                 <div className="text-sm font-semibold tracking-wider uppercase text-foreground">Stock Status</div>
@@ -54,37 +54,57 @@ export default function Wishlist() {
                 {wishlistItems.map((item) => (
                   <div
                     key={item.id}
-                    className="grid grid-cols-[1fr_120px_140px_220px] gap-4 items-center border border-border px-6 py-5"
+                    className="flex flex-col lg:grid lg:grid-cols-[1fr_120px_140px_220px] gap-4 lg:items-center border border-border p-4 sm:p-5 lg:px-6 lg:py-5"
                   >
                     {/* Product */}
-                    <div className="flex items-center gap-5 min-w-0">
+                    <div className="flex items-start gap-4 sm:gap-5 min-w-0 relative">
                       <Link to={`/product/${item.book_id}`} className="shrink-0">
                         <img
                           src={item.book_image || "/placeholder.svg"}
                           alt={item.book_title}
-                          className="w-20 h-28 object-cover hover:opacity-80 transition-opacity"
+                          className="w-16 h-24 sm:w-20 sm:h-28 object-cover hover:opacity-80 transition-opacity"
                         />
                       </Link>
-                      <Link to={`/product/${item.book_id}`} className="min-w-0">
-                        <h3 className="transition-colors leading-snug text-[15px] text-[#6D6C6C] hover:text-[#C75B2A]" style={{ fontFamily: '"Nunito Sans", system-ui, sans-serif' }}>
-                          {item.book_title}
-                        </h3>
-                      </Link>
+                      <div className="flex-1 min-w-0 pr-10 lg:pr-0">
+                        <Link to={`/product/${item.book_id}`} className="min-w-0">
+                          <h3 className="transition-colors leading-snug text-[15px] text-[#6D6C6C] hover:text-[#C75B2A] break-words" style={{ fontFamily: '"Nunito Sans", system-ui, sans-serif' }}>
+                            {item.book_title}
+                          </h3>
+                        </Link>
+                        {/* Mobile-only price + stock under title */}
+                        <div className="lg:hidden mt-2 space-y-1">
+                          <div className="text-[14px] text-[#ABABAB]" style={{ fontFamily: '"Nunito Sans", system-ui, sans-serif' }}>
+                            From £{item.book_price.toFixed(2)}
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <Check className="h-4 w-4 text-green-600" strokeWidth={3} />
+                            <span className="text-[12.8px] text-[#333333]" style={{ fontFamily: '"Nunito Sans", system-ui, sans-serif' }}>In Stock</span>
+                          </div>
+                        </div>
+                      </div>
+                      {/* Mobile remove button - top right */}
+                      <button
+                        onClick={() => removeFromWishlist(item.book_id)}
+                        aria-label="Remove from wishlist"
+                        className="lg:hidden absolute top-0 right-0 w-8 h-8 border border-border flex items-center justify-center hover:bg-secondary transition-colors shrink-0"
+                      >
+                        <X className="h-3.5 w-3.5 text-foreground" />
+                      </button>
                     </div>
 
-                    {/* Price */}
-                    <div className="text-[15px] text-[#ABABAB]" style={{ fontFamily: '"Nunito Sans", system-ui, sans-serif' }}>
+                    {/* Price - desktop */}
+                    <div className="hidden lg:block text-[15px] text-[#ABABAB]" style={{ fontFamily: '"Nunito Sans", system-ui, sans-serif' }}>
                       From £{item.book_price.toFixed(2)}
                     </div>
 
-                    {/* Stock */}
-                    <div className="flex items-center gap-2">
+                    {/* Stock - desktop */}
+                    <div className="hidden lg:flex items-center gap-2">
                       <Check className="h-4 w-4 text-green-600" strokeWidth={3} />
                       <span className="text-[12.8px] text-[#333333]" style={{ fontFamily: '"Nunito Sans", system-ui, sans-serif' }}>In Stock</span>
                     </div>
 
                     {/* Actions */}
-                    <div className="flex items-center gap-3 justify-end">
+                    <div className="flex items-center gap-3 lg:justify-end">
                       <Link
                         to={`/product/${item.book_id}`}
                         className="flex-1 bg-[#E4573D] hover:bg-[#C75B2A] text-white text-[14px] font-bold uppercase rounded-none transition-colors flex items-center justify-center gap-2"
@@ -96,7 +116,7 @@ export default function Wishlist() {
                       <button
                         onClick={() => removeFromWishlist(item.book_id)}
                         aria-label="Remove from wishlist"
-                        className="w-10 h-10 border border-border flex items-center justify-center hover:bg-secondary transition-colors shrink-0"
+                        className="hidden lg:flex w-10 h-10 border border-border items-center justify-center hover:bg-secondary transition-colors shrink-0"
                       >
                         <X className="h-4 w-4 text-foreground" />
                       </button>
