@@ -41,9 +41,14 @@ export default function PaypalButtons({ onSuccess, onError }: Props) {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const onSuccessRef = useRef(onSuccess);
+  const onErrorRef = useRef(onError);
+  useEffect(() => { onSuccessRef.current = onSuccess; }, [onSuccess]);
+  useEffect(() => { onErrorRef.current = onError; }, [onError]);
 
   useEffect(() => {
     let cancelled = false;
+    if (containerRef.current) containerRef.current.innerHTML = "";
     loadPaypalSdk()
       .then((paypal) => {
         if (cancelled || !containerRef.current) return;
@@ -56,7 +61,7 @@ export default function PaypalButtons({ onSuccess, onError }: Props) {
               return res.paypal_order_id;
             } catch (e) {
               const msg = e instanceof Error ? e.message : "Failed to create PayPal order";
-              onError?.(msg);
+              onErrorRef.current?.(msg);
               throw e;
             }
           },
@@ -64,17 +69,17 @@ export default function PaypalButtons({ onSuccess, onError }: Props) {
             try {
               const res = await paypalCaptureOrder(data.orderID);
               if (res.status === "success") {
-                onSuccess(res.order_id, res.transaction_id);
+                onSuccessRef.current(res.order_id, res.transaction_id);
               } else {
-                onError?.(res.reason || "PayPal payment was not completed.");
+                onErrorRef.current?.(res.reason || "PayPal payment was not completed.");
               }
             } catch (e) {
-              onError?.(e instanceof Error ? e.message : "PayPal capture failed");
+              onErrorRef.current?.(e instanceof Error ? e.message : "PayPal capture failed");
             }
           },
           onError: (err: unknown) => {
             const msg = err instanceof Error ? err.message : "PayPal error";
-            onError?.(msg);
+            onErrorRef.current?.(msg);
           },
         });
         if (buttons.isEligible && !buttons.isEligible()) {
@@ -99,7 +104,7 @@ export default function PaypalButtons({ onSuccess, onError }: Props) {
     return () => {
       cancelled = true;
     };
-  }, [onSuccess, onError]);
+  }, []);
 
   return (
     <div>
