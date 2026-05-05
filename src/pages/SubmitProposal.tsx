@@ -360,13 +360,14 @@ const SubmitProposal = () => {
                 Step {currentStep} of {TOTAL_STEPS}
               </p>
               <div className="relative w-full">
-                <Progress value={progress} className="h-6 bg-muted" />
-                <span
-                  className="absolute inset-0 flex items-center justify-start pl-2 text-xs font-semibold text-primary-foreground"
-                  style={{ width: `${progress}%` }}
-                >
-                  {progress}%
-                </span>
+                <div className="h-6 w-full overflow-hidden rounded-full bg-muted">
+                  <div
+                    className="h-full bg-[#E4573D] transition-all flex items-center justify-center text-xs font-semibold text-white"
+                    style={{ width: `${progress}%` }}
+                  >
+                    {progress}%
+                  </div>
+                </div>
               </div>
             </div>
 
