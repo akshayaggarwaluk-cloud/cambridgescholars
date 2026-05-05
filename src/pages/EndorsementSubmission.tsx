@@ -49,12 +49,6 @@ const EndorsementSubmission = () => {
           title: "Code Verified",
           description: data.title ? `Found: ${data.title}` : "Verification successful.",
         });
-      } else {
-        toast({
-          title: "Code Not Found",
-          description: "We couldn't find a book matching this code. Please check and try again.",
-          variant: "destructive",
-        });
       }
     } catch (err) {
       const message = err instanceof Error ? err.message : "Verification failed.";
