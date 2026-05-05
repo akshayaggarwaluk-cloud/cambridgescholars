@@ -7,8 +7,6 @@ import { PageBreadcrumb } from "@/components/layout/PageBreadcrumb";
 import { getOrder, type OrderDetail } from "@/services/accountService";
 import { checkoutPay, type CheckoutPayRequest, type OpayoCardType } from "@/services/cartService";
 import { toast } from "sonner";
-import PaypalButtons from "@/components/checkout/PaypalButtons";
-
 const ORANGE = "#E4573D";
 
 function fmt(v?: number | null) {
@@ -38,22 +36,6 @@ function CardBadges() {
   );
 }
 
-function PayPalBadge() {
-  return (
-    <div className="border border-[#e5e5e5] bg-white px-2 py-1 flex flex-col items-center">
-      <span className="text-[10px] font-bold text-[#003087]">
-        Pay<span className="text-[#009cde]">Pal</span>
-      </span>
-      <div className="flex gap-0.5 mt-0.5">
-        <span className="text-[7px] font-bold bg-[#1a1f71] text-white px-1">VISA</span>
-        <span className="text-[7px] font-bold bg-[#eb001b] text-white px-1">MC</span>
-        <span className="text-[7px] font-bold bg-[#2557D6] text-white px-1">AMEX</span>
-        <span className="text-[7px] font-bold bg-[#f68121] text-white px-1">DISC</span>
-      </div>
-    </div>
-  );
-}
-
 export default function PayOrder() {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -61,7 +43,7 @@ export default function PayOrder() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const [method, setMethod] = useState<"card" | "paypal">("card");
+  const [method, setMethod] = useState<"card">("card");
   const [card, setCard] = useState({ holder: "", number: "", expiry: "", cvc: "" });
   const [submitting, setSubmitting] = useState(false);
 
@@ -105,10 +87,6 @@ export default function PayOrder() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (submitting) return;
-    if (method === "paypal") {
-      toast.info("Use the PayPal button below to complete your payment.");
-      return;
-    }
     if (method === "card") {
       if (!card.holder.trim()) {
         toast.error("Please enter the cardholder name");
