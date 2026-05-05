@@ -72,11 +72,11 @@ export default function AboutSection() {
           </div>
 
           {/* IMAGE */}
-          <div className="relative w-full h-64 sm:h-80 lg:h-full lg:min-h-[300px] order-first lg:order-last">
+          <div className="w-full lg:relative lg:h-full lg:min-h-[300px] order-first lg:order-last">
             <img
               src="/lovable-uploads/d53bdc66-5423-4a11-8c1d-a9166b55ead1.png"
               alt="Lady Stephenson Library"
-              className="absolute inset-0 w-full h-full object-cover"
+              className="w-full h-auto lg:absolute lg:inset-0 lg:w-full lg:h-full lg:object-cover"
             />
           </div>
         </div>
@@ -86,11 +86,11 @@ export default function AboutSection() {
       <section className="w-full py-10 md:py-16 bg-white">
         <div className="container-wide grid grid-cols-1 lg:grid-cols-[30%_70%] gap-8 md:gap-12 items-stretch">
           {/* IMAGE */}
-          <div className="relative w-full h-64 sm:h-80 lg:h-full lg:min-h-[300px]">
+          <div className="w-full lg:relative lg:h-full lg:min-h-[300px]">
             <img
               src="/lovable-uploads/3f1259fa-8061-4dd4-9451-dcb25fd9cc8d.png"
               alt="Our Space"
-              className="absolute inset-0 w-full h-full object-cover"
+              className="w-full h-auto lg:absolute lg:inset-0 lg:w-full lg:h-full lg:object-cover"
             />
           </div>
 
