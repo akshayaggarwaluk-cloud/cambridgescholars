@@ -265,7 +265,7 @@ const EndorsementSubmission = () => {
                     <Button
                       type="button"
                       onClick={addReviewer}
-                      className="ml-auto bg-[#b33000] hover:bg-white hover:text-[#b33000] border border-[#b33000] text-white rounded-none uppercase"
+                      className="ml-auto bg-[#b33000] hover:bg-white hover:text-[#b33000] border border-[#b33000] text-white rounded-none"
                     >
                       <Plus className="h-4 w-4 mr-1" /> Add Reviewer
                     </Button>
