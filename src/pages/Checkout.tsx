@@ -21,7 +21,7 @@ import { useExternalAuth } from "@/contexts/ExternalAuthContext";
 import { toast } from "sonner";
 import { checkoutPay, type CheckoutPayRequest } from "@/services/cartService";
 import PaypalButtons from "@/components/checkout/PaypalButtons";
-import { getProfile } from "@/services/accountService";
+import { getProfile, updateProfile } from "@/services/accountService";
 
 type AddressData = {
   firstName: string;
@@ -935,6 +935,42 @@ export default function Checkout() {
                         Click the PayPal button to complete your payment securely.
                       </p>
                       <PaypalButtons
+                        beforeCreate={async () => {
+                          const billingAddress: AddressData = isEbookOnly
+                            ? billing
+                            : useShippingForBilling
+                              ? shipping
+                              : billing;
+                          if (!billingAddress.firstName.trim() || !billingAddress.lastName.trim()) {
+                            throw new Error("Please enter your billing name before paying with PayPal.");
+                          }
+                          if (!billingAddress.street1.trim() || !billingAddress.city.trim() || !billingAddress.postcode.trim()) {
+                            throw new Error("Please complete your billing address before paying with PayPal.");
+                          }
+                          await updateProfile({
+                            billing_first_name: billingAddress.firstName,
+                            billing_last_name: billingAddress.lastName,
+                            billing_address_1: billingAddress.street1,
+                            billing_address_2: billingAddress.street2 || undefined,
+                            billing_city: billingAddress.city,
+                            billing_state: billingAddress.state || undefined,
+                            billing_postcode: billingAddress.postcode,
+                            billing_country: COUNTRY_ISO[billingAddress.country] || "GB",
+                            billing_email: email.trim() || undefined,
+                            billing_phone: billingAddress.phone || undefined,
+                            ...(isEbookOnly ? {} : {
+                              shipping_first_name: shipping.firstName,
+                              shipping_last_name: shipping.lastName,
+                              shipping_address_1: shipping.street1,
+                              shipping_address_2: shipping.street2 || undefined,
+                              shipping_city: shipping.city,
+                              shipping_state: shipping.state || undefined,
+                              shipping_postcode: shipping.postcode,
+                              shipping_country: COUNTRY_ISO[shipping.country] || "GB",
+                              shipping_phone: shipping.phone || undefined,
+                            }),
+                          });
+                        }}
                         onSuccess={async (orderId) => {
                           if (orderId != null) setConfirmedOrderId(orderId);
                           setIsComplete(true);
