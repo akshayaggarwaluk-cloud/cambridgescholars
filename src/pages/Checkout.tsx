@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { CheckCircle, AlertCircle, Check } from "lucide-react";
 import { Header } from "@/components/layout/Header";
