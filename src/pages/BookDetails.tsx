@@ -113,7 +113,7 @@ export default function BookDetails() {
             {/* Image */}
             <div className="flex justify-center lg:justify-start">
               <div className="w-full max-w-[200px] sm:max-w-[240px] md:max-w-[280px] lg:max-w-[320px]">
-                <img ref={imageRef} src={book.image} alt={book.title} className="w-full object-contain" onLoad={updateImageHeight} />
+                <img ref={imageRef} src={book.image} alt={book.title} className="w-full object-contain border border-neutral-200" onLoad={updateImageHeight} />
               </div>
             </div>
 
