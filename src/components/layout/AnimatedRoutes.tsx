@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import { Navigate, Routes, Route, useLocation } from "react-router-dom";
+import { Navigate, Routes, Route, useLocation, useParams } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
 import { PageTransition } from "./PageTransition";
 import ProtectedRoute from "./ProtectedRoute";
@@ -61,7 +61,19 @@ import AdminCoupons from "@/pages/admin/AdminCoupons";
 function OrdersRedirect() {
   const location = useLocation();
   const params = new URLSearchParams(location.search);
-  const newOrderId = params.get("new");
+  const newOrderId = params.get("new") || params.get("order_id") || params.get("orderId");
+  const target = newOrderId
+    ? `/profile?tab=orders&new=${encodeURIComponent(newOrderId)}`
+    : "/profile?tab=orders";
+
+  return <Navigate to={target} replace />;
+}
+
+function LegacyOrderRedirect() {
+  const location = useLocation();
+  const { id } = useParams();
+  const params = new URLSearchParams(location.search);
+  const newOrderId = params.get("new") || params.get("order_id") || params.get("orderId") || id;
   const target = newOrderId
     ? `/profile?tab=orders&new=${encodeURIComponent(newOrderId)}`
     : "/profile?tab=orders";
@@ -89,6 +101,7 @@ export function AnimatedRoutes() {
         
         <Route path="/profile" element={<PageTransition><ProtectedRoute><ExternalProfile /></ProtectedRoute></PageTransition>} />
         <Route path="/orders" element={<OrdersRedirect />} />
+        <Route path="/orders/:id" element={<LegacyOrderRedirect />} />
         <Route path="/orders/:id/pay" element={<PageTransition><ProtectedRoute><PayOrder /></ProtectedRoute></PageTransition>} />
         <Route path="/publish" element={<PageTransition><PublishBook /></PageTransition>} />
         <Route path="/publish-a-book" element={<PageTransition><PublishABook /></PageTransition>} />
