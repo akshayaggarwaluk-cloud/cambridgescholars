@@ -345,6 +345,69 @@ export default function Checkout() {
   const shippingCost = isEbookOnly ? 0 : apiShipping ?? 0;
   const total = cartTotal || subtotal + shippingCost - (discount ?? 0);
 
+  // Render PayPal Buttons when the user picks PayPal.
+  useEffect(() => {
+    if (paymentMethod !== "paypal") return;
+    if (paypalRenderedRef.current) return;
+    let cancelled = false;
+    (async () => {
+      try {
+        const paypal = (await loadPaypalSdk()) as {
+          Buttons: (opts: Record<string, unknown>) => { render: (el: HTMLElement) => Promise<void> };
+        };
+        if (cancelled || !paypalContainerRef.current) return;
+        paypalContainerRef.current.innerHTML = "";
+        await paypal
+          .Buttons({
+            style: { layout: "horizontal", color: "gold", shape: "rect", label: "paypal", tagline: false },
+            createOrder: async () => {
+              const res = await paypalCreateOrder();
+              return res.paypal_order_id;
+            },
+            onApprove: async (data: { orderID: string }) => {
+              setLoading(true);
+              try {
+                const res = await paypalCaptureOrder(data.orderID);
+                if (res.status === "success") {
+                  try { await clearCart(); } catch { /* ignore */ }
+                  if (res.order_id != null) setConfirmedOrderId(res.order_id);
+                  setIsComplete(true);
+                  toast.success("Payment received. Thank you for your order!");
+                  setTimeout(() => {
+                    navigate(
+                      res.order_id != null
+                        ? `/orders?new=${encodeURIComponent(String(res.order_id))}`
+                        : "/orders",
+                      { replace: true },
+                    );
+                  }, 1200);
+                } else {
+                  toast.error(res.reason || res.message || "PayPal payment was not completed.");
+                }
+              } catch (err) {
+                toast.error(err instanceof Error ? err.message : "PayPal capture failed.");
+              } finally {
+                setLoading(false);
+              }
+            },
+            onCancel: () => toast.info("PayPal payment cancelled."),
+            onError: (err: unknown) => {
+              console.error("[paypal]", err);
+              toast.error("PayPal encountered an error. Please try again.");
+            },
+          })
+          .render(paypalContainerRef.current);
+        paypalRenderedRef.current = true;
+      } catch (err) {
+        console.error(err);
+        toast.error("Could not load PayPal. Please try a different payment method.");
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [paymentMethod, navigate, clearCart]);
+
   if (items.length === 0 && !isComplete) {
     navigate("/cart");
     return null;
@@ -929,6 +992,15 @@ export default function Checkout() {
                       <span className="px-2 py-1 text-[10px] font-bold bg-[#231f20] text-white rounded-sm">DISC</span>
                     </span>
                   </button>
+
+                  {paymentMethod === "paypal" && (
+                    <div className="mt-3 -mx-2 px-4 py-3 space-y-3 bg-[#dbd6e1]">
+                      <p className="text-[12px] text-[#666]">
+                        Click the PayPal button below to complete your payment securely.
+                      </p>
+                      <div ref={paypalContainerRef} className="max-w-md" />
+                    </div>
+                  )}
                 </div>
 
                 <p className="text-[13px] text-[#555] leading-relaxed mt-6">
