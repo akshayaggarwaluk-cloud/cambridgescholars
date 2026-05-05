@@ -534,6 +534,9 @@ export default function Checkout() {
         if (res.order_id != null) setConfirmedOrderId(res.order_id);
         setIsComplete(true);
         toast.success("Payment received. Thank you for your order!");
+        setTimeout(() => {
+          navigate(res.order_id != null ? `/orders?new=${encodeURIComponent(String(res.order_id))}` : "/orders", { replace: true });
+        }, 1500);
         return;
       }
 
