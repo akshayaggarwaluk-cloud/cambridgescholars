@@ -99,7 +99,8 @@ export function AuthorReviewsSection() {
   const visible = reviews.slice(0, visibleCount);
   const hasMore = visibleCount < reviews.length;
 
-  const parseAuthor = (raw: string) => {
+  const parseAuthor = (raw?: string | null) => {
+    if (!raw || typeof raw !== "string") return { name: "", title: "" };
     const separators = [" - ", " – ", ", "];
     for (const sep of separators) {
       const idx = raw.indexOf(sep);
