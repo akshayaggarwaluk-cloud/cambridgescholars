@@ -374,6 +374,26 @@ export default function PayOrder() {
                 </span>
               </button>
 
+              {method === "paypal" && (
+                <div className="bg-[#f4f3ec] px-8 py-6 border-t border-[#e5e5e5]">
+                  <p className="text-[14px] text-[#333333] mb-4">
+                    Click the PayPal button below to complete your payment securely.
+                  </p>
+                  <PaypalButtons
+                    onSuccess={(orderId) => {
+                      toast.success("Payment received. Thank you!");
+                      navigate(
+                        orderId != null
+                          ? `/orders?new=${encodeURIComponent(String(orderId))}`
+                          : "/orders",
+                        { replace: true },
+                      );
+                    }}
+                    onError={(msg) => toast.error(msg)}
+                  />
+                </div>
+              )}
+
               {/* Footer */}
               <div className="border-t border-[#e5e5e5] px-8 py-8 bg-white flex items-center justify-between gap-6 flex-wrap">
                 <p className="text-[14px] text-[#696969] max-w-3xl">
