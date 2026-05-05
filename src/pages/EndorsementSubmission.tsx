@@ -352,7 +352,7 @@ const EndorsementSubmission = () => {
                       />
                     </div>
 
-                    <div className="flex justify-center gap-0 pt-2">
+                    <div className="flex justify-center gap-4 pt-2">
                       <button
                         type="button"
                         onClick={resetVerification}
