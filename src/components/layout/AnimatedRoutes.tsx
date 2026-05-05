@@ -38,11 +38,6 @@ import RefundAndReturns from "@/pages/RefundAndReturns";
 import AuthorExperiences from "@/pages/AuthorExperiences";
 import AuthorPromises from "@/pages/AuthorPromises";
 import ApiAudit from "@/pages/ApiAudit";
-
-function RedirectBookToProduct() {
-  const { id } = useParams();
-  return <Navigate to={`/product/${id}`} replace />;
-}
 import Forthcoming from "@/pages/Forthcoming";
 import SeriesList from "@/pages/SeriesList";
 import SeriesDetail from "@/pages/SeriesDetail";
@@ -62,6 +57,11 @@ import AdminResources from "@/pages/admin/AdminResources";
 import AdminComingSoon from "@/pages/admin/AdminComingSoon";
 import AdminOrders from "@/pages/admin/AdminOrders";
 import AdminCoupons from "@/pages/admin/AdminCoupons";
+
+function RedirectBookToProduct() {
+  const { id } = useParams();
+  return <Navigate to={`/product/${id}`} replace />;
+}
 
 function OrdersRedirect() {
   const location = useLocation();
