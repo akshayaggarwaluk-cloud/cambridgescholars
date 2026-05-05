@@ -121,27 +121,26 @@ export function AuthorReviewsSection() {
           {visible.map((review, index) => {
             const { name, title } = parseAuthor(review.author);
             return (
-              <div key={index} className="flex flex-col items-center sm:flex-row sm:items-start gap-6 cursor-pointer hover:bg-muted/30 rounded-lg p-2 -m-2 transition-colors" onClick={() => navigate("/author-experiences")}>
-                {/* Book cover - matches reference ~203x298 (2/3 aspect) */}
-                <div className="flex-shrink-0" style={{ width: "203px" }}>
+              <div key={index} className="flex flex-col items-center md:flex-row md:items-start gap-6 cursor-pointer hover:bg-muted/30 rounded-lg p-2 -m-2 transition-colors" onClick={() => navigate("/author-experiences")}>
+                {/* Book cover - responsive, ~2/3 aspect */}
+                <div className="flex-shrink-0 w-32 sm:w-40 md:w-32 lg:w-44 xl:w-[203px]">
                   {review.coverImage ? (
                     <img
                       src={review.coverImage}
                       alt={review.book_title}
-                      className="w-full shadow-md object-cover"
-                      style={{ width: "203px", height: "298px" }}
+                      className="w-full shadow-md object-cover aspect-[203/298]"
                       onError={(e) => {
                         (e.target as HTMLImageElement).style.display = "none";
                       }}
                     />
                   ) : (
-                    <div className="bg-muted rounded flex items-center justify-center animate-pulse" style={{ width: "203px", height: "298px" }}>
+                    <div className="w-full aspect-[203/298] bg-muted rounded flex items-center justify-center animate-pulse">
                       <span className="text-xs text-muted-foreground text-center px-2">{review.book_title}</span>
                     </div>
                   )}
                 </div>
                 {/* Quote and author */}
-                <div className="flex-1 min-w-0 pt-1 text-center sm:text-left">
+                <div className="flex-1 min-w-0 pt-1 text-center md:text-left">
                   <p
                     className="text-justify mb-5"
                     style={{
