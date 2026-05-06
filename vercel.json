@@ -1,4 +1,17 @@
 {
+  "redirects": [
+    {
+      "source": "/index.php",
+      "has": [
+        {
+          "type": "query",
+          "key": "gf-download"
+        }
+      ],
+      "destination": "https://archive.cambridgescholars.com/index.php",
+      "permanent": true
+    }
+  ],
   "rewrites": [
     { "source": "/(.*)", "destination": "/index.html" }
   ]
