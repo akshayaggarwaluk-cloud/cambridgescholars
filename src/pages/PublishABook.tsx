@@ -52,7 +52,7 @@ export default function PublishABook() {
 
       {/* Content Section */}
       <section className="container-wide py-16 bg-white">
-        <div className="max-w-6xl mx-auto text-center mb-16">
+        <div className="max-w-6xl mx-auto text-left md:text-center mb-16">
           <p className="leading-relaxed mb-6 text-[#333333] text-base">
             Are you ready to publish your book? This section provides a comprehensive guide to the next steps in the
             publishing process. Here, you will find everything you need to begin, including an overview of the
