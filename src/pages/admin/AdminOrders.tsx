@@ -123,49 +123,6 @@ export default function AdminOrders() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const toggleExpand = async (orderId: number) => {
-    if (expandedId === orderId) {
-      setExpandedId(null);
-      return;
-    }
-    setExpandedId(orderId);
-    if (detailCache[orderId]) return;
-    setDetailLoadingId(orderId);
-    try {
-      const d = await adminApi.getOrderById(orderId);
-      setDetailCache((prev) => ({ ...prev, [orderId]: d }));
-      setDetailError((prev) => {
-        const { [orderId]: _omit, ...rest } = prev;
-        return rest;
-      });
-    } catch (e) {
-      const msg = e instanceof Error ? e.message : "Failed to load order";
-      setDetailError((prev) => ({ ...prev, [orderId]: msg }));
-    } finally {
-      setDetailLoadingId(null);
-    }
-  };
-
-  const updateStatus = async (orderId: number, newStatus: string) => {
-    setStatusUpdatingId(orderId);
-    try {
-      const res = await adminApi.updateOrderStatus(orderId, newStatus);
-      setOrders((prev) =>
-        prev.map((o) =>
-          o.id === orderId ? { ...o, status: res.status, updated_at: res.updated_at } : o,
-        ),
-      );
-      setDetailCache((prev) =>
-        prev[orderId] ? { ...prev, [orderId]: { ...prev[orderId], status: res.status } } : prev,
-      );
-      toast.success(`Order #${orderId} updated to ${statusLabel(res.status)}`);
-    } catch (e) {
-      toast.error(e instanceof Error ? e.message : "Failed to update status");
-    } finally {
-      setStatusUpdatingId(null);
-    }
-  };
-
   const applyFilters = () => {
     setSearch(searchInput.trim());
     void load(1, { q: searchInput.trim() });
