@@ -1,27 +1,10 @@
 import { useEffect, useState } from "react";
-import { Plus, Pencil, Trash2, Loader2, Save, X, GripVertical } from "lucide-react";
+import { Plus, Pencil, Trash2, Loader2, Save, X } from "lucide-react";
 import { adminApi, type CmsNewsArticle } from "@/services/cmsService";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import ImageUploadField from "@/components/admin/ImageUploadField";
 import RichTextEditor from "@/components/admin/RichTextEditor";
-import {
-  DndContext,
-  closestCenter,
-  KeyboardSensor,
-  PointerSensor,
-  useSensor,
-  useSensors,
-  type DragEndEvent,
-} from "@dnd-kit/core";
-import {
-  arrayMove,
-  SortableContext,
-  sortableKeyboardCoordinates,
-  useSortable,
-  verticalListSortingStrategy,
-} from "@dnd-kit/sortable";
-import { CSS } from "@dnd-kit/utilities";
 
 type EditState = Partial<CmsNewsArticle> & { _new?: boolean };
 
@@ -109,37 +92,6 @@ export default function AdminNews() {
     if (ao !== bo) return ao - bo;
     return new Date(b.published_at).getTime() - new Date(a.published_at).getTime();
   });
-
-  const sensors = useSensors(
-    useSensor(PointerSensor, { activationConstraint: { distance: 5 } }),
-    useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates }),
-  );
-
-  const handleDragEnd = async (event: DragEndEvent) => {
-    const { active, over } = event;
-    if (!over || active.id === over.id) return;
-    const oldIndex = sortedArticles.findIndex((it) => it.id === active.id);
-    const newIndex = sortedArticles.findIndex((it) => it.id === over.id);
-    if (oldIndex < 0 || newIndex < 0) return;
-    const reordered = arrayMove(sortedArticles, oldIndex, newIndex);
-    setArticles((prev) => {
-      const map = new Map(reordered.map((it, idx) => [it.id, idx]));
-      return prev.map((it) => map.has(it.id) ? { ...it, display_order: map.get(it.id)! } : it);
-    });
-    try {
-      await Promise.all(
-        reordered.map((it, idx) =>
-          (it.display_order ?? 0) === idx
-            ? Promise.resolve()
-            : adminApi.updateNews({ id: it.id, display_order: idx }),
-        ),
-      );
-      toast.success("Order saved");
-    } catch (err) {
-      toast.error(err instanceof Error ? err.message : "Reorder failed");
-      reload();
-    }
-  };
 
   const dateForInput = (iso?: string) =>
     iso ? new Date(iso).toISOString().slice(0, 16) : "";
@@ -331,25 +283,16 @@ export default function AdminNews() {
         </div>
       ) : (
         <>
-          <div className="border border-dashed border-border p-3 bg-background mb-3">
-            <p className="text-xs text-muted-foreground">
-              <strong className="text-foreground">Ordering for the /news page:</strong> either drag the <span className="font-mono">⋮⋮</span> handle on the left of any row, OR open an article and set the <strong>Order on /news page</strong> number (lower numbers appear first).
-            </p>
+          <div className="space-y-3">
+            {sortedArticles.map((a) => (
+              <NewsRow
+                key={a.id}
+                article={a}
+                onEdit={() => setEditing({ ...a })}
+                onDelete={() => remove(a.id)}
+              />
+            ))}
           </div>
-          <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
-          <SortableContext items={sortedArticles.map((it) => it.id)} strategy={verticalListSortingStrategy}>
-            <div className="space-y-3">
-              {sortedArticles.map((a) => (
-                <SortableNewsRow
-                  key={a.id}
-                  article={a}
-                  onEdit={() => setEditing({ ...a })}
-                  onDelete={() => remove(a.id)}
-                />
-              ))}
-            </div>
-          </SortableContext>
-          </DndContext>
         </>
       )}
     </div>
@@ -365,25 +308,9 @@ function Field({ label, children }: { label: string; children: React.ReactNode }
   );
 }
 
-function SortableNewsRow({ article: a, onEdit, onDelete }: { article: CmsNewsArticle; onEdit: () => void; onDelete: () => void }) {
-  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: a.id });
-  const style: React.CSSProperties = {
-    transform: CSS.Transform.toString(transform),
-    transition,
-    opacity: isDragging ? 0.5 : 1,
-    zIndex: isDragging ? 10 : "auto",
-  };
+function NewsRow({ article: a, onEdit, onDelete }: { article: CmsNewsArticle; onEdit: () => void; onDelete: () => void }) {
   return (
-    <div ref={setNodeRef} style={style} className="border border-border p-4 flex gap-4 items-start bg-background">
-      <button
-        type="button"
-        {...attributes}
-        {...listeners}
-        className="touch-none cursor-grab active:cursor-grabbing text-muted-foreground hover:text-foreground p-1 mt-1"
-        aria-label="Drag to reorder"
-      >
-        <GripVertical className="h-5 w-5" />
-      </button>
+    <div className="border border-border p-4 flex gap-4 items-start bg-background">
       {a.cover_image && (
         <img src={a.cover_image} alt="" className="w-24 h-16 object-cover" />
       )}
