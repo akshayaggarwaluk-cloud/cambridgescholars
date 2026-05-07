@@ -284,7 +284,6 @@ export default function AdminOrders() {
           <table className="w-full text-sm">
             <thead className="bg-[#f4f3ec] text-left text-xs uppercase tracking-wider text-muted-foreground">
               <tr>
-                <th className="px-4 py-3 w-8"></th>
                 <th className="px-4 py-3">Order</th>
                 <th className="px-4 py-3">Date</th>
                 <th className="px-4 py-3">Status</th>
@@ -292,76 +291,47 @@ export default function AdminOrders() {
                 <th className="px-4 py-3">Payment</th>
                 <th className="px-4 py-3 text-center">Items</th>
                 <th className="px-4 py-3 text-right">Total</th>
+                <th className="px-4 py-3 w-8"></th>
               </tr>
             </thead>
             <tbody>
-              {orders.map((o) => {
-                const isOpen = expandedId === o.id;
-                const detail = detailCache[o.id];
-                return (
-                  <Fragment key={o.id}>
-                    <tr
-                      className="border-t border-border hover:bg-muted/30 cursor-pointer"
-                      onClick={() => void toggleExpand(o.id)}
+              {orders.map((o) => (
+                <tr
+                  key={o.id}
+                  className="border-t border-border hover:bg-muted/30 cursor-pointer"
+                  onClick={() => navigate(`/admin/orders/${o.id}`)}
+                >
+                  <td className="px-4 py-3 font-medium">#{o.id}</td>
+                  <td className="px-4 py-3 text-muted-foreground">
+                    {formatDate(o.created_at)}
+                  </td>
+                  <td className="px-4 py-3">
+                    <span
+                      className={`inline-block px-2 py-0.5 text-xs uppercase tracking-wider ${statusColor(
+                        o.status,
+                      )}`}
                     >
-                      <td className="px-4 py-3 text-muted-foreground">
-                        {isOpen ? (
-                          <ChevronUp className="h-4 w-4" />
-                        ) : (
-                          <ChevronDown className="h-4 w-4" />
-                        )}
-                      </td>
-                      <td className="px-4 py-3 font-medium">#{o.id}</td>
-                      <td className="px-4 py-3 text-muted-foreground">
-                        {formatDate(o.created_at)}
-                      </td>
-                      <td className="px-4 py-3">
-                        <span
-                          className={`inline-block px-2 py-0.5 text-xs uppercase tracking-wider ${statusColor(
-                            o.status,
-                          )}`}
-                        >
-                          {statusLabel(o.status)}
-                        </span>
-                      </td>
-                      <td className="px-4 py-3 text-muted-foreground">
-                        <div className="text-foreground">{o.billing_name || "—"}</div>
-                        <div className="text-xs">{o.billing_email || ""}</div>
-                      </td>
-                      <td className="px-4 py-3 text-muted-foreground">
-                        {o.payment_method_title || o.payment_method || "—"}
-                      </td>
-                      <td className="px-4 py-3 text-center text-muted-foreground">
-                        {o.item_count ?? "—"}
-                      </td>
-                      <td className="px-4 py-3 text-right font-medium">
-                        {formatMoney(o.total_amount, o.currency)}
-                      </td>
-                    </tr>
-                    {isOpen && (
-                      <tr className="bg-[#fafaf6]">
-                        <td colSpan={8} className="px-4 py-4">
-                          {detailLoadingId === o.id ? (
-                            <div className="flex items-center text-sm text-muted-foreground">
-                              <Loader2 className="h-4 w-4 animate-spin mr-2" />
-                              Loading details…
-                            </div>
-                          ) : detailError[o.id] ? (
-                            <div className="text-sm text-red-700">{detailError[o.id]}</div>
-                          ) : detail ? (
-                            <OrderDetailBlock
-                              detail={detail}
-                              currentStatus={o.status}
-                              updating={statusUpdatingId === o.id}
-                              onStatusChange={(newStatus) => void updateStatus(o.id, newStatus)}
-                            />
-                          ) : null}
-                        </td>
-                      </tr>
-                    )}
-                  </Fragment>
-                );
-              })}
+                      {statusLabel(o.status)}
+                    </span>
+                  </td>
+                  <td className="px-4 py-3 text-muted-foreground">
+                    <div className="text-foreground">{o.billing_name || "—"}</div>
+                    <div className="text-xs">{o.billing_email || ""}</div>
+                  </td>
+                  <td className="px-4 py-3 text-muted-foreground">
+                    {o.payment_method_title || o.payment_method || "—"}
+                  </td>
+                  <td className="px-4 py-3 text-center text-muted-foreground">
+                    {o.item_count ?? "—"}
+                  </td>
+                  <td className="px-4 py-3 text-right font-medium">
+                    {formatMoney(o.total_amount, o.currency)}
+                  </td>
+                  <td className="px-4 py-3 text-muted-foreground">
+                    <Eye className="h-4 w-4" />
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>
