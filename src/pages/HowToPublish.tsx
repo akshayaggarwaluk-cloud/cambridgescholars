@@ -115,13 +115,13 @@ const HowToPublish = () => {
       <main>
         <section className="py-16 bg-white">
           <div className="container-wide">
-            <div className="text-center mb-16">
+            <div className="text-left md:text-center mb-16">
               <h2 className="text-3xl font-display font-normal text-foreground mb-6 md:text-4xl">
                 Academic Publishing Timeline
               </h2>
-              <p className="max-w-5xl mx-auto leading-loose text-[16px] text-[#333333]" style={{ fontFamily: '"Nunito Sans", system-ui, sans-serif' }}>
+              <p className="max-w-5xl md:mx-auto leading-loose text-[16px] text-[#333333]" style={{ fontFamily: '"Nunito Sans", system-ui, sans-serif' }}>
                 Cambridge Scholars Publishing offers a clear and well-supported process from initial proposal to global distribution.
-                <br />
+                <br className="hidden md:block" />
                 Below is an overview of each stage in the publishing journey.
               </p>
             </div>
