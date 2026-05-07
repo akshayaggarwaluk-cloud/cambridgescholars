@@ -1,12 +1,12 @@
-import { Fragment, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   Loader2,
-  ChevronDown,
-  ChevronUp,
   Package,
   RefreshCw,
   Search,
   X,
+  Eye,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -22,8 +22,6 @@ import {
   adminApi,
   adminSession,
   type CmsOrderSummary,
-  type CmsOrderDetail,
-  type CmsOrderAddress,
 } from "@/services/cmsService";
 
 const CURRENCY_SYMBOL: Record<string, string> = { GBP: "£", USD: "$", EUR: "€" };
@@ -69,6 +67,7 @@ const PER_PAGE = 25;
 
 export default function AdminOrders() {
   const adminUser = adminSession.getUser();
+  const navigate = useNavigate();
 
   const [orders, setOrders] = useState<CmsOrderSummary[]>([]);
   const [page, setPage] = useState(1);
@@ -83,12 +82,6 @@ export default function AdminOrders() {
   const [statusFilter, setStatusFilter] = useState<string>("all");
   const [dateFrom, setDateFrom] = useState("");
   const [dateTo, setDateTo] = useState("");
-
-  const [expandedId, setExpandedId] = useState<number | null>(null);
-  const [detailCache, setDetailCache] = useState<Record<number, CmsOrderDetail>>({});
-  const [detailLoadingId, setDetailLoadingId] = useState<number | null>(null);
-  const [detailError, setDetailError] = useState<Record<number, string>>({});
-  const [statusUpdatingId, setStatusUpdatingId] = useState<number | null>(null);
 
   const load = async (
     p = page,
