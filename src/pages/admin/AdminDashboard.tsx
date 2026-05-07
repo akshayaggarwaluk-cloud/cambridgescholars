@@ -11,8 +11,6 @@ import {
   Ticket,
   RefreshCw,
   Loader2,
-  TrendingUp,
-  ShoppingBag,
 } from "lucide-react";
 import { adminApi, adminSession } from "@/services/cmsService";
 import { Button } from "@/components/ui/button";
@@ -25,7 +23,6 @@ type Counts = {
   faqs: number;
   resources: number;
   orders: number;
-  ordersRecent: number;
   coupons: number;
 };
 
@@ -36,15 +33,8 @@ const ZERO: Counts = {
   faqs: 0,
   resources: 0,
   orders: 0,
-  ordersRecent: 0,
   coupons: 0,
 };
-
-function isoDaysAgo(days: number) {
-  const d = new Date();
-  d.setUTCDate(d.getUTCDate() - days);
-  return d.toISOString().slice(0, 10);
-}
 
 export default function AdminDashboard() {
   const adminUser = adminSession.getUser();
@@ -66,14 +56,13 @@ export default function AdminDashboard() {
       return v?.total ?? v?.pagination?.total ?? v?.data?.length ?? 0;
     };
 
-    const [h, n, a, fq, rs, ord, ordRecent, cp] = await Promise.allSettled([
+    const [h, n, a, fq, rs, ord, cp] = await Promise.allSettled([
       adminApi.listHero(),
       adminApi.listNews(),
       adminApi.listAdmins(),
       adminApi.listFaqs(),
       adminApi.listResources(),
       adminApi.listAllOrders({ per_page: 1 }),
-      adminApi.listAllOrders({ per_page: 1, date_from: isoDaysAgo(30) }),
       adminApi.listCoupons({ per_page: 1 }),
     ]);
 
@@ -84,7 +73,6 @@ export default function AdminDashboard() {
       faqs: len(fq as PromiseSettledResult<unknown[]>),
       resources: len(rs as PromiseSettledResult<unknown[]>),
       orders: total(ord),
-      ordersRecent: total(ordRecent),
       coupons: total(cp),
     });
     setUpdatedAt(new Date());
@@ -95,33 +83,6 @@ export default function AdminDashboard() {
     void load();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  const kpis = [
-    {
-      label: "Total Orders",
-      value: counts.orders,
-      icon: ShoppingBag,
-      to: "/admin/orders",
-    },
-    {
-      label: "Orders · last 30d",
-      value: counts.ordersRecent,
-      icon: TrendingUp,
-      to: "/admin/orders",
-    },
-    {
-      label: "Active Coupons",
-      value: counts.coupons,
-      icon: Ticket,
-      to: "/admin/coupons",
-    },
-    {
-      label: "Admins",
-      value: counts.admins,
-      icon: Users,
-      to: "/admin/admins",
-    },
-  ];
 
   const groups: {
     title: string;
@@ -231,33 +192,6 @@ export default function AdminDashboard() {
             Refresh
           </Button>
         </div>
-      </div>
-
-      {/* KPI strip */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
-        {kpis.map(({ label, value, icon: Icon, to }) => (
-          <Link
-            key={label}
-            to={to}
-            className="group bg-[#f4f3ec] border border-border p-5 flex items-center justify-between hover:border-[#C75B2A] transition-colors"
-          >
-            <div className="min-w-0">
-              <div className="text-[10px] uppercase tracking-[0.15em] text-muted-foreground mb-2 truncate">
-                {label}
-              </div>
-              {loading ? (
-                <Skeleton className="h-8 w-16 rounded-none" />
-              ) : (
-                <div className="font-baskerville text-3xl text-foreground leading-none">
-                  {value.toLocaleString()}
-                </div>
-              )}
-            </div>
-            <div className="h-10 w-10 flex items-center justify-center bg-white border border-border group-hover:border-[#C75B2A] group-hover:text-[#C75B2A] text-foreground transition-colors shrink-0 ml-3">
-              <Icon className="h-5 w-5" />
-            </div>
-          </Link>
-        ))}
       </div>
 
       {/* Grouped tiles */}
