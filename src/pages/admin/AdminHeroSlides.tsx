@@ -1,10 +1,27 @@
 import { useEffect, useRef, useState } from "react";
-import { Plus, Pencil, Trash2, Loader2, Save, X, BookOpen, ArrowUp, ArrowDown } from "lucide-react";
+import { Plus, Pencil, Trash2, Loader2, Save, X, BookOpen, GripVertical } from "lucide-react";
 import { adminApi, type CmsHeroSlide } from "@/services/cmsService";
 import { fetchAutocomplete, fetchBookByIsbn } from "@/services/cspApi";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import ImageUploadField from "@/components/admin/ImageUploadField";
+import {
+  DndContext,
+  closestCenter,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+  type DragEndEvent,
+} from "@dnd-kit/core";
+import {
+  arrayMove,
+  SortableContext,
+  sortableKeyboardCoordinates,
+  useSortable,
+  verticalListSortingStrategy,
+} from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
 
 interface BookSuggestion {
   title: string;
@@ -181,35 +198,31 @@ export default function AdminHeroSlides() {
     }
   };
 
-  const [reordering, setReordering] = useState(false);
+  const sensors = useSensors(
+    useSensor(PointerSensor, { activationConstraint: { distance: 5 } }),
+    useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates }),
+  );
 
-  const moveSlide = async (index: number, direction: -1 | 1) => {
-    const target = index + direction;
-    if (target < 0 || target >= slides.length) return;
-    const a = slides[index];
-    const b = slides[target];
-
-    // Optimistic UI swap
-    const next = [...slides];
-    next[index] = b;
-    next[target] = a;
-    setSlides(next);
-    setReordering(true);
+  const handleDragEnd = async (event: DragEndEvent) => {
+    const { active, over } = event;
+    if (!over || active.id === over.id) return;
+    const oldIndex = slides.findIndex((it) => it.id === active.id);
+    const newIndex = slides.findIndex((it) => it.id === over.id);
+    if (oldIndex < 0 || newIndex < 0) return;
+    const reordered = arrayMove(slides, oldIndex, newIndex);
+    setSlides(reordered);
     try {
-      // Persist swapped display_order values. If they were equal, assign distinct ones.
-      const orderA = a.display_order ?? 0;
-      const orderB = b.display_order ?? 0;
-      const newAOrder = orderA === orderB ? orderA + (direction === 1 ? 1 : -1) : orderB;
-      const newBOrder = orderA === orderB ? orderA : orderA;
-      await Promise.all([
-        adminApi.updateHero({ ...a, display_order: newAOrder }),
-        adminApi.updateHero({ ...b, display_order: newBOrder }),
-      ]);
+      await Promise.all(
+        reordered.map((it, idx) =>
+          (it.display_order ?? 0) === idx
+            ? Promise.resolve()
+            : adminApi.updateHero({ ...it, display_order: idx }),
+        ),
+      );
+      toast.success("Order saved");
     } catch (err) {
-      toast.error(err instanceof Error ? err.message : "Reorder failed");
+      toast.error(err instanceof Error ? err.message : "Failed to save order");
       reload();
-    } finally {
-      setReordering(false);
     }
   };
 
@@ -414,57 +427,67 @@ export default function AdminHeroSlides() {
       ) : (
         <div className="space-y-3">
           <p className="text-xs text-muted-foreground">
-            Slides appear on the homepage in the order shown below. Use the arrows to reorder.
+            Slides appear on the homepage in the order shown below. Drag the handle to reorder.
           </p>
-          {slides.map((slide, index) => (
-            <div key={slide.id} className="border border-border p-3 sm:p-4 flex flex-wrap sm:flex-nowrap gap-3 sm:gap-4 items-start">
-              <div className="flex sm:flex-col items-center gap-1 sm:pt-1 order-1">
-                <span className="text-xs font-nav uppercase tracking-wider text-muted-foreground">#{index + 1}</span>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  className="h-7 w-7 p-0"
-                  disabled={reordering || index === 0}
-                  onClick={() => moveSlide(index, -1)}
-                  aria-label="Move up"
-                >
-                  <ArrowUp className="h-4 w-4" />
-                </Button>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  className="h-7 w-7 p-0"
-                  disabled={reordering || index === slides.length - 1}
-                  onClick={() => moveSlide(index, 1)}
-                  aria-label="Move down"
-                >
-                  <ArrowDown className="h-4 w-4" />
-                </Button>
-              </div>
-              {slide.cover_image && (
-                <img src={slide.cover_image} alt="" className="w-12 h-16 sm:w-16 sm:h-20 object-cover order-2 flex-shrink-0" />
-              )}
-              <div className="flex-1 min-w-0 order-4 sm:order-3 basis-full sm:basis-auto">
-                <h3 className="font-baskerville text-base sm:text-lg text-foreground break-words">{slide.title}</h3>
-                {slide.author && (
-                  <p className="text-xs text-muted-foreground mt-0.5 break-words">{slide.author}</p>
-                )}
-                {slide.quote && (
-                  <p className="text-sm text-muted-foreground italic line-clamp-2 mt-1 break-words">"{slide.quote}"</p>
-                )}
-              </div>
-              <div className="flex gap-1 order-3 sm:order-4 ml-auto sm:ml-0">
-                <Button variant="ghost" size="sm" onClick={() => setEditing({ ...slide })}>
-                  <Pencil className="h-4 w-4" />
-                </Button>
-                <Button variant="ghost" size="sm" onClick={() => remove(slide.id)}>
-                  <Trash2 className="h-4 w-4 text-destructive" />
-                </Button>
-              </div>
-            </div>
-          ))}
+          <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+            <SortableContext items={slides.map((s) => s.id)} strategy={verticalListSortingStrategy}>
+              {slides.map((slide, index) => (
+                <SortableSlideRow
+                  key={slide.id}
+                  slide={slide}
+                  index={index}
+                  onEdit={() => setEditing({ ...slide })}
+                  onDelete={() => remove(slide.id)}
+                />
+              ))}
+            </SortableContext>
+          </DndContext>
         </div>
       )}
+    </div>
+  );
+}
+
+function SortableSlideRow({ slide, index, onEdit, onDelete }: { slide: CmsHeroSlide; index: number; onEdit: () => void; onDelete: () => void }) {
+  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: slide.id });
+  const style: React.CSSProperties = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+    opacity: isDragging ? 0.5 : 1,
+    zIndex: isDragging ? 10 : "auto",
+  };
+  return (
+    <div ref={setNodeRef} style={style} className="border border-border p-3 sm:p-4 flex flex-wrap sm:flex-nowrap gap-3 sm:gap-4 items-start bg-background mb-2">
+      <button
+        type="button"
+        {...attributes}
+        {...listeners}
+        className="touch-none cursor-grab active:cursor-grabbing text-muted-foreground hover:text-foreground p-1 self-center"
+        aria-label="Drag to reorder"
+      >
+        <GripVertical className="h-5 w-5" />
+      </button>
+      <span className="text-xs font-nav uppercase tracking-wider text-muted-foreground self-center">#{index + 1}</span>
+      {slide.cover_image && (
+        <img src={slide.cover_image} alt="" className="w-12 h-16 sm:w-16 sm:h-20 object-cover flex-shrink-0" />
+      )}
+      <div className="flex-1 min-w-0 basis-full sm:basis-auto">
+        <h3 className="font-baskerville text-base sm:text-lg text-foreground break-words">{slide.title}</h3>
+        {slide.author && (
+          <p className="text-xs text-muted-foreground mt-0.5 break-words">{slide.author}</p>
+        )}
+        {slide.quote && (
+          <p className="text-sm text-muted-foreground italic line-clamp-2 mt-1 break-words">"{slide.quote}"</p>
+        )}
+      </div>
+      <div className="flex gap-1 ml-auto sm:ml-0">
+        <Button variant="ghost" size="sm" onClick={onEdit}>
+          <Pencil className="h-4 w-4" />
+        </Button>
+        <Button variant="ghost" size="sm" onClick={onDelete}>
+          <Trash2 className="h-4 w-4 text-destructive" />
+        </Button>
+      </div>
     </div>
   );
 }
