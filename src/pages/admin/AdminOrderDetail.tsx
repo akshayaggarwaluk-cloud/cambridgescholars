@@ -172,19 +172,19 @@ export default function AdminOrderDetail() {
         </div>
       </div>
 
-      <div className="grid lg:grid-cols-3 gap-6 text-sm">
-        <div className="lg:col-span-2 space-y-6">
+      <div className="grid md:grid-cols-3 gap-6 text-sm">
+        <div className="md:col-span-2 space-y-4">
           <h2 className="font-baskerville text-base text-foreground">Items</h2>
           <div className="border border-border">
-            <table className="w-full text-sm">
+            <table className="w-full text-xs">
               <thead className="bg-[#f4f3ec] text-left text-muted-foreground uppercase tracking-wider">
                 <tr>
-                  <th className="px-3 py-2 text-xs">Product</th>
-                  <th className="px-3 py-2 text-xs">ISBN</th>
-                  <th className="px-3 py-2 text-xs">Format</th>
-                  <th className="px-3 py-2 text-xs text-center">Qty</th>
-                  <th className="px-3 py-2 text-xs text-right">Unit</th>
-                  <th className="px-3 py-2 text-xs text-right">Total</th>
+                  <th className="px-3 py-2">Product</th>
+                  <th className="px-3 py-2">ISBN</th>
+                  <th className="px-3 py-2">Format</th>
+                  <th className="px-3 py-2 text-center">Qty</th>
+                  <th className="px-3 py-2 text-right">Unit</th>
+                  <th className="px-3 py-2 text-right">Total</th>
                 </tr>
               </thead>
               <tbody>
@@ -206,29 +206,41 @@ export default function AdminOrderDetail() {
             </table>
           </div>
 
-          <div className="border border-border bg-[#f4f3ec] p-4">
-            <h3 className="font-baskerville text-base text-foreground mb-3">Order summary</h3>
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
-              {typeof totals.items_subtotal === "number" && (
-                <SummaryCell label="Subtotal" value={formatMoney(totals.items_subtotal, detail.currency)} />
-              )}
-              {typeof totals.shipping === "number" && (
-                <SummaryCell label="Shipping" value={formatMoney(totals.shipping, detail.currency)} />
-              )}
-              {typeof totals.discount === "number" && totals.discount > 0 && (
-                <SummaryCell label="Discount" value={`−${formatMoney(totals.discount, detail.currency)}`} />
-              )}
-              {typeof totals.tax === "number" && (
-                <SummaryCell label="Tax" value={formatMoney(totals.tax, detail.currency)} />
-              )}
-              {typeof totals.total === "number" && (
-                <SummaryCell label="Total" value={formatMoney(totals.total, detail.currency)} highlight />
-              )}
-            </div>
+          <div className="grid grid-cols-2 gap-x-6 gap-y-1 text-xs max-w-sm ml-auto pt-2">
+            {typeof totals.items_subtotal === "number" && (
+              <>
+                <span className="text-muted-foreground">Subtotal</span>
+                <span className="text-right">{formatMoney(totals.items_subtotal, detail.currency)}</span>
+              </>
+            )}
+            {typeof totals.shipping === "number" && (
+              <>
+                <span className="text-muted-foreground">Shipping</span>
+                <span className="text-right">{formatMoney(totals.shipping, detail.currency)}</span>
+              </>
+            )}
+            {typeof totals.discount === "number" && totals.discount > 0 && (
+              <>
+                <span className="text-muted-foreground">Discount</span>
+                <span className="text-right">−{formatMoney(totals.discount, detail.currency)}</span>
+              </>
+            )}
+            {typeof totals.tax === "number" && (
+              <>
+                <span className="text-muted-foreground">Tax</span>
+                <span className="text-right">{formatMoney(totals.tax, detail.currency)}</span>
+              </>
+            )}
+            {typeof totals.total === "number" && (
+              <>
+                <span className="text-foreground font-medium">Total</span>
+                <span className="text-right font-medium">{formatMoney(totals.total, detail.currency)}</span>
+              </>
+            )}
           </div>
 
           {detail.coupons && detail.coupons.length > 0 && (
-            <div className="text-sm text-muted-foreground">
+            <div className="text-xs text-muted-foreground">
               Coupons:{" "}
               {detail.coupons
                 .map((c) => c.code || `−${formatMoney(c.discount, detail.currency)}`)
@@ -237,7 +249,7 @@ export default function AdminOrderDetail() {
           )}
 
           {detail.customer_note && (
-            <div className="text-sm border border-border bg-white p-3">
+            <div className="text-xs">
               <span className="text-muted-foreground">Note: </span>
               {detail.customer_note}
             </div>
@@ -247,41 +259,44 @@ export default function AdminOrderDetail() {
         <div className="space-y-4">
           <AddressBlock title="Billing" addr={detail.billing} />
           <AddressBlock title="Shipping" addr={detail.shipping} />
-          <div className="border border-border p-4 bg-white text-sm space-y-2">
-            <div className="font-medium text-foreground uppercase tracking-wider text-xs mb-2">
-              Payment
+          <div className="border border-border p-3 bg-white text-xs space-y-1">
+            <div>
+              <span className="text-muted-foreground">Payment: </span>
+              {detail.payment_method_title || detail.payment_method || "—"}
             </div>
-            <PaymentRow label="Method" value={detail.payment_method_title || detail.payment_method || "—"} />
-            {detail.transaction_id && <PaymentRow label="Tx" value={detail.transaction_id} mono />}
-            {detail.vendor_tx_code && <PaymentRow label="Vendor Tx" value={detail.vendor_tx_code} mono />}
-            {detail.opayo_status && <PaymentRow label="Opayo status" value={detail.opayo_status} />}
-            {detail.ip_address && <PaymentRow label="IP" value={detail.ip_address} mono />}
-            {detail.updated_at && <PaymentRow label="Updated" value={formatDate(detail.updated_at)} />}
+            {detail.transaction_id && (
+              <div>
+                <span className="text-muted-foreground">Tx: </span>
+                {detail.transaction_id}
+              </div>
+            )}
+            {detail.vendor_tx_code && (
+              <div>
+                <span className="text-muted-foreground">Vendor Tx: </span>
+                {detail.vendor_tx_code}
+              </div>
+            )}
+            {detail.opayo_status && (
+              <div>
+                <span className="text-muted-foreground">Opayo status: </span>
+                {detail.opayo_status}
+              </div>
+            )}
+            {detail.ip_address && (
+              <div>
+                <span className="text-muted-foreground">IP: </span>
+                {detail.ip_address}
+              </div>
+            )}
+            {detail.updated_at && (
+              <div>
+                <span className="text-muted-foreground">Updated: </span>
+                {formatDate(detail.updated_at)}
+              </div>
+            )}
           </div>
         </div>
       </div>
-    </div>
-  );
-}
-
-function SummaryCell({ label, value, highlight }: { label: string; value: string; highlight?: boolean }) {
-  return (
-    <div className={`border border-border bg-white p-3 ${highlight ? "border-[#C75B2A]" : ""}`}>
-      <div className="text-[10px] uppercase tracking-wider text-muted-foreground">{label}</div>
-      <div className={`font-baskerville mt-1 ${highlight ? "text-foreground text-lg" : "text-foreground text-base"}`}>
-        {value}
-      </div>
-    </div>
-  );
-}
-
-function PaymentRow({ label, value, mono }: { label: string; value: string; mono?: boolean }) {
-  return (
-    <div className="flex justify-between gap-3">
-      <span className="text-muted-foreground text-xs uppercase tracking-wider">{label}</span>
-      <span className={`text-foreground text-right break-all ${mono ? "font-mono text-xs" : ""}`}>
-        {value}
-      </span>
     </div>
   );
 }
@@ -301,17 +316,15 @@ function AddressBlock({ title, addr }: { title: string; addr?: CmsOrderAddress }
 
   if (lines.length === 0) return null;
   return (
-    <div className="border border-border p-4 bg-white text-sm">
-      <div className="font-medium text-foreground uppercase tracking-wider text-xs mb-2">
+    <div className="border border-border p-3 bg-white text-xs">
+      <div className="font-medium text-foreground uppercase tracking-wider text-[10px] mb-1">
         {title}
       </div>
-      <div className="space-y-0.5">
-        {lines.map((l, i) => (
-          <div key={i} className={i === 0 ? "text-foreground font-medium" : "text-muted-foreground"}>
-            {l}
-          </div>
-        ))}
-      </div>
+      {lines.map((l, i) => (
+        <div key={i} className="text-muted-foreground">
+          {l}
+        </div>
+      ))}
     </div>
   );
 }
