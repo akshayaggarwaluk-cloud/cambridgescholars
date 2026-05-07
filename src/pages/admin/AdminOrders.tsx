@@ -1,12 +1,12 @@
-import { Fragment, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   Loader2,
-  ChevronDown,
-  ChevronUp,
   Package,
   RefreshCw,
   Search,
   X,
+  Eye,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -22,8 +22,6 @@ import {
   adminApi,
   adminSession,
   type CmsOrderSummary,
-  type CmsOrderDetail,
-  type CmsOrderAddress,
 } from "@/services/cmsService";
 
 const CURRENCY_SYMBOL: Record<string, string> = { GBP: "£", USD: "$", EUR: "€" };
@@ -69,6 +67,7 @@ const PER_PAGE = 25;
 
 export default function AdminOrders() {
   const adminUser = adminSession.getUser();
+  const navigate = useNavigate();
 
   const [orders, setOrders] = useState<CmsOrderSummary[]>([]);
   const [page, setPage] = useState(1);
@@ -83,12 +82,6 @@ export default function AdminOrders() {
   const [statusFilter, setStatusFilter] = useState<string>("all");
   const [dateFrom, setDateFrom] = useState("");
   const [dateTo, setDateTo] = useState("");
-
-  const [expandedId, setExpandedId] = useState<number | null>(null);
-  const [detailCache, setDetailCache] = useState<Record<number, CmsOrderDetail>>({});
-  const [detailLoadingId, setDetailLoadingId] = useState<number | null>(null);
-  const [detailError, setDetailError] = useState<Record<number, string>>({});
-  const [statusUpdatingId, setStatusUpdatingId] = useState<number | null>(null);
 
   const load = async (
     p = page,
@@ -129,49 +122,6 @@ export default function AdminOrders() {
     void load(1);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  const toggleExpand = async (orderId: number) => {
-    if (expandedId === orderId) {
-      setExpandedId(null);
-      return;
-    }
-    setExpandedId(orderId);
-    if (detailCache[orderId]) return;
-    setDetailLoadingId(orderId);
-    try {
-      const d = await adminApi.getOrderById(orderId);
-      setDetailCache((prev) => ({ ...prev, [orderId]: d }));
-      setDetailError((prev) => {
-        const { [orderId]: _omit, ...rest } = prev;
-        return rest;
-      });
-    } catch (e) {
-      const msg = e instanceof Error ? e.message : "Failed to load order";
-      setDetailError((prev) => ({ ...prev, [orderId]: msg }));
-    } finally {
-      setDetailLoadingId(null);
-    }
-  };
-
-  const updateStatus = async (orderId: number, newStatus: string) => {
-    setStatusUpdatingId(orderId);
-    try {
-      const res = await adminApi.updateOrderStatus(orderId, newStatus);
-      setOrders((prev) =>
-        prev.map((o) =>
-          o.id === orderId ? { ...o, status: res.status, updated_at: res.updated_at } : o,
-        ),
-      );
-      setDetailCache((prev) =>
-        prev[orderId] ? { ...prev, [orderId]: { ...prev[orderId], status: res.status } } : prev,
-      );
-      toast.success(`Order #${orderId} updated to ${statusLabel(res.status)}`);
-    } catch (e) {
-      toast.error(e instanceof Error ? e.message : "Failed to update status");
-    } finally {
-      setStatusUpdatingId(null);
-    }
-  };
 
   const applyFilters = () => {
     setSearch(searchInput.trim());
@@ -334,7 +284,6 @@ export default function AdminOrders() {
           <table className="w-full text-sm">
             <thead className="bg-[#f4f3ec] text-left text-xs uppercase tracking-wider text-muted-foreground">
               <tr>
-                <th className="px-4 py-3 w-8"></th>
                 <th className="px-4 py-3">Order</th>
                 <th className="px-4 py-3">Date</th>
                 <th className="px-4 py-3">Status</th>
@@ -342,76 +291,47 @@ export default function AdminOrders() {
                 <th className="px-4 py-3">Payment</th>
                 <th className="px-4 py-3 text-center">Items</th>
                 <th className="px-4 py-3 text-right">Total</th>
+                <th className="px-4 py-3 w-8"></th>
               </tr>
             </thead>
             <tbody>
-              {orders.map((o) => {
-                const isOpen = expandedId === o.id;
-                const detail = detailCache[o.id];
-                return (
-                  <Fragment key={o.id}>
-                    <tr
-                      className="border-t border-border hover:bg-muted/30 cursor-pointer"
-                      onClick={() => void toggleExpand(o.id)}
+              {orders.map((o) => (
+                <tr
+                  key={o.id}
+                  className="border-t border-border hover:bg-muted/30 cursor-pointer"
+                  onClick={() => navigate(`/admin/orders/${o.id}`)}
+                >
+                  <td className="px-4 py-3 font-medium">#{o.id}</td>
+                  <td className="px-4 py-3 text-muted-foreground">
+                    {formatDate(o.created_at)}
+                  </td>
+                  <td className="px-4 py-3">
+                    <span
+                      className={`inline-block px-2 py-0.5 text-xs uppercase tracking-wider ${statusColor(
+                        o.status,
+                      )}`}
                     >
-                      <td className="px-4 py-3 text-muted-foreground">
-                        {isOpen ? (
-                          <ChevronUp className="h-4 w-4" />
-                        ) : (
-                          <ChevronDown className="h-4 w-4" />
-                        )}
-                      </td>
-                      <td className="px-4 py-3 font-medium">#{o.id}</td>
-                      <td className="px-4 py-3 text-muted-foreground">
-                        {formatDate(o.created_at)}
-                      </td>
-                      <td className="px-4 py-3">
-                        <span
-                          className={`inline-block px-2 py-0.5 text-xs uppercase tracking-wider ${statusColor(
-                            o.status,
-                          )}`}
-                        >
-                          {statusLabel(o.status)}
-                        </span>
-                      </td>
-                      <td className="px-4 py-3 text-muted-foreground">
-                        <div className="text-foreground">{o.billing_name || "—"}</div>
-                        <div className="text-xs">{o.billing_email || ""}</div>
-                      </td>
-                      <td className="px-4 py-3 text-muted-foreground">
-                        {o.payment_method_title || o.payment_method || "—"}
-                      </td>
-                      <td className="px-4 py-3 text-center text-muted-foreground">
-                        {o.item_count ?? "—"}
-                      </td>
-                      <td className="px-4 py-3 text-right font-medium">
-                        {formatMoney(o.total_amount, o.currency)}
-                      </td>
-                    </tr>
-                    {isOpen && (
-                      <tr className="bg-[#fafaf6]">
-                        <td colSpan={8} className="px-4 py-4">
-                          {detailLoadingId === o.id ? (
-                            <div className="flex items-center text-sm text-muted-foreground">
-                              <Loader2 className="h-4 w-4 animate-spin mr-2" />
-                              Loading details…
-                            </div>
-                          ) : detailError[o.id] ? (
-                            <div className="text-sm text-red-700">{detailError[o.id]}</div>
-                          ) : detail ? (
-                            <OrderDetailBlock
-                              detail={detail}
-                              currentStatus={o.status}
-                              updating={statusUpdatingId === o.id}
-                              onStatusChange={(newStatus) => void updateStatus(o.id, newStatus)}
-                            />
-                          ) : null}
-                        </td>
-                      </tr>
-                    )}
-                  </Fragment>
-                );
-              })}
+                      {statusLabel(o.status)}
+                    </span>
+                  </td>
+                  <td className="px-4 py-3 text-muted-foreground">
+                    <div className="text-foreground">{o.billing_name || "—"}</div>
+                    <div className="text-xs">{o.billing_email || ""}</div>
+                  </td>
+                  <td className="px-4 py-3 text-muted-foreground">
+                    {o.payment_method_title || o.payment_method || "—"}
+                  </td>
+                  <td className="px-4 py-3 text-center text-muted-foreground">
+                    {o.item_count ?? "—"}
+                  </td>
+                  <td className="px-4 py-3 text-right font-medium">
+                    {formatMoney(o.total_amount, o.currency)}
+                  </td>
+                  <td className="px-4 py-3 text-muted-foreground">
+                    <Eye className="h-4 w-4" />
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>
@@ -446,199 +366,3 @@ export default function AdminOrders() {
   );
 }
 
-function OrderDetailBlock({
-  detail,
-  currentStatus,
-  updating,
-  onStatusChange,
-}: {
-  detail: CmsOrderDetail;
-  currentStatus: string;
-  updating: boolean;
-  onStatusChange: (status: string) => void;
-}) {
-  const totals = detail.totals || {};
-  return (
-    <div className="grid md:grid-cols-3 gap-6 text-sm">
-      <div className="md:col-span-2 space-y-3">
-        <div className="flex items-center justify-between gap-3 flex-wrap">
-          <h3 className="font-baskerville text-base text-foreground">Items</h3>
-          <div className="flex items-center gap-2">
-            <span className="text-[10px] uppercase tracking-wider text-muted-foreground">
-              Update status
-            </span>
-            <Select
-              value={currentStatus}
-              onValueChange={onStatusChange}
-              disabled={updating}
-            >
-              <SelectTrigger className="h-8 w-[180px] rounded-none text-xs">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                {STATUS_OPTIONS.map((s) => (
-                  <SelectItem key={s.value} value={s.value}>
-                    {s.label}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-            {updating && <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />}
-          </div>
-        </div>
-        <div className="border border-border">
-          <table className="w-full text-xs">
-            <thead className="bg-white text-left text-muted-foreground uppercase tracking-wider">
-              <tr>
-                <th className="px-3 py-2">Product</th>
-                <th className="px-3 py-2">ISBN</th>
-                <th className="px-3 py-2">Format</th>
-                <th className="px-3 py-2 text-center">Qty</th>
-                <th className="px-3 py-2 text-right">Unit</th>
-                <th className="px-3 py-2 text-right">Total</th>
-              </tr>
-            </thead>
-            <tbody>
-              {detail.items.map((it, i) => (
-                <tr key={i} className="border-t border-border">
-                  <td className="px-3 py-2 text-foreground">{it.name}</td>
-                  <td className="px-3 py-2 text-muted-foreground">{it.isbn || "—"}</td>
-                  <td className="px-3 py-2 text-muted-foreground">{it.format || "—"}</td>
-                  <td className="px-3 py-2 text-center">{it.quantity}</td>
-                  <td className="px-3 py-2 text-right">
-                    {formatMoney(it.unit_price, detail.currency)}
-                  </td>
-                  <td className="px-3 py-2 text-right">
-                    {formatMoney(it.total ?? it.subtotal, detail.currency)}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-
-        <div className="grid grid-cols-2 gap-x-6 gap-y-1 text-xs max-w-sm ml-auto pt-2">
-          {typeof totals.items_subtotal === "number" && (
-            <>
-              <span className="text-muted-foreground">Subtotal</span>
-              <span className="text-right">
-                {formatMoney(totals.items_subtotal, detail.currency)}
-              </span>
-            </>
-          )}
-          {typeof totals.shipping === "number" && (
-            <>
-              <span className="text-muted-foreground">Shipping</span>
-              <span className="text-right">{formatMoney(totals.shipping, detail.currency)}</span>
-            </>
-          )}
-          {typeof totals.discount === "number" && totals.discount > 0 && (
-            <>
-              <span className="text-muted-foreground">Discount</span>
-              <span className="text-right">−{formatMoney(totals.discount, detail.currency)}</span>
-            </>
-          )}
-          {typeof totals.tax === "number" && (
-            <>
-              <span className="text-muted-foreground">Tax</span>
-              <span className="text-right">{formatMoney(totals.tax, detail.currency)}</span>
-            </>
-          )}
-          {typeof totals.total === "number" && (
-            <>
-              <span className="text-foreground font-medium">Total</span>
-              <span className="text-right font-medium">
-                {formatMoney(totals.total, detail.currency)}
-              </span>
-            </>
-          )}
-        </div>
-
-        {detail.coupons && detail.coupons.length > 0 && (
-          <div className="text-xs text-muted-foreground">
-            Coupons:{" "}
-            {detail.coupons
-              .map((c) => c.code || `−${formatMoney(c.discount, detail.currency)}`)
-              .join(", ")}
-          </div>
-        )}
-
-        {detail.customer_note && (
-          <div className="text-xs">
-            <span className="text-muted-foreground">Note: </span>
-            {detail.customer_note}
-          </div>
-        )}
-      </div>
-
-      <div className="space-y-4">
-        <AddressBlock title="Billing" addr={detail.billing} />
-        <AddressBlock title="Shipping" addr={detail.shipping} />
-        <div className="border border-border p-3 bg-white text-xs space-y-1">
-          <div>
-            <span className="text-muted-foreground">Payment: </span>
-            {detail.payment_method_title || detail.payment_method || "—"}
-          </div>
-          {detail.transaction_id && (
-            <div>
-              <span className="text-muted-foreground">Tx: </span>
-              {detail.transaction_id}
-            </div>
-          )}
-          {detail.vendor_tx_code && (
-            <div>
-              <span className="text-muted-foreground">Vendor Tx: </span>
-              {detail.vendor_tx_code}
-            </div>
-          )}
-          {detail.opayo_status && (
-            <div>
-              <span className="text-muted-foreground">Opayo status: </span>
-              {detail.opayo_status}
-            </div>
-          )}
-          {detail.ip_address && (
-            <div>
-              <span className="text-muted-foreground">IP: </span>
-              {detail.ip_address}
-            </div>
-          )}
-          {detail.updated_at && (
-            <div>
-              <span className="text-muted-foreground">Updated: </span>
-              {formatDate(detail.updated_at)}
-            </div>
-          )}
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function AddressBlock({ title, addr }: { title: string; addr?: CmsOrderAddress }) {
-  if (!addr) return null;
-  const lines = [
-    [addr.first_name, addr.last_name].filter(Boolean).join(" "),
-    addr.company,
-    addr.address_1,
-    addr.address_2,
-    [addr.city, addr.state, addr.postcode].filter(Boolean).join(", "),
-    addr.country,
-    addr.email,
-    addr.phone,
-  ].filter((l) => l && String(l).trim().length > 0);
-
-  if (lines.length === 0) return null;
-  return (
-    <div className="border border-border p-3 bg-white text-xs">
-      <div className="font-medium text-foreground uppercase tracking-wider text-[10px] mb-1">
-        {title}
-      </div>
-      {lines.map((l, i) => (
-        <div key={i} className="text-muted-foreground">
-          {l}
-        </div>
-      ))}
-    </div>
-  );
-}
