@@ -123,7 +123,7 @@ export default function PayOrder() {
         billing_address_1: b.address_1 || "",
         billing_city: b.city || "",
         billing_postcode: b.postcode || "",
-        billing_country: (b.country || "GB").toUpperCase().slice(0, 2),
+        billing_country: (toCountryCode(b.country) || (b.country || "").toUpperCase().slice(0, 2)),
       };
       const res = await checkoutPay(payload);
 
