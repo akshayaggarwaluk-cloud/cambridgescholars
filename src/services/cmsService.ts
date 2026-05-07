@@ -6,7 +6,94 @@
  * via the `X-Admin-Token` header.
  */
 import { supabase } from "@/integrations/supabase/client";
-import type { OrderSummary, OrderDetail } from "@/services/accountService";
+
+// ── CMS Orders (admin) ───────────────────────────────────────────
+// These types match the external CMS API at /api/website/cms/orders.
+// They are separate from the customer-facing types in accountService
+// because the admin endpoints expose more fields and a different
+// pagination envelope.
+export interface CmsOrderSummary {
+  id: number;
+  status: string;
+  currency: string;
+  total_amount: number;
+  billing_email?: string | null;
+  billing_name?: string | null;
+  billing_country?: string | null;
+  payment_method?: string | null;
+  payment_method_title?: string | null;
+  item_count?: number | null;
+  created_at: string;
+  updated_at?: string | null;
+}
+
+export interface CmsOrderListResponse {
+  data: CmsOrderSummary[];
+  page: number;
+  per_page: number;
+  total: number;
+  total_pages: number;
+}
+
+export interface CmsOrderItem {
+  name: string;
+  isbn?: string | null;
+  format?: string | null;
+  quantity: number;
+  unit_price?: number | null;
+  subtotal?: number | null;
+  total?: number | null;
+}
+
+export interface CmsOrderAddress {
+  first_name?: string | null;
+  last_name?: string | null;
+  company?: string | null;
+  address_1?: string | null;
+  address_2?: string | null;
+  city?: string | null;
+  state?: string | null;
+  postcode?: string | null;
+  country?: string | null;
+  email?: string | null;
+  phone?: string | null;
+}
+
+export interface CmsOrderCoupon {
+  code?: string | null;
+  discount?: number | null;
+  applied_at?: string | null;
+}
+
+export interface CmsOrderTotals {
+  items_subtotal?: number | null;
+  discount?: number | null;
+  shipping?: number | null;
+  tax?: number | null;
+  total?: number | null;
+}
+
+export interface CmsOrderDetail {
+  id: number;
+  status: string;
+  currency: string;
+  billing_email?: string | null;
+  customer_id?: number | null;
+  payment_method?: string | null;
+  payment_method_title?: string | null;
+  transaction_id?: string | null;
+  vendor_tx_code?: string | null;
+  opayo_status?: string | null;
+  ip_address?: string | null;
+  customer_note?: string | null;
+  created_at?: string | null;
+  updated_at?: string | null;
+  items: CmsOrderItem[];
+  billing?: CmsOrderAddress;
+  shipping?: CmsOrderAddress;
+  coupons?: CmsOrderCoupon[];
+  totals?: CmsOrderTotals;
+}
 
 const ADMIN_TOKEN_KEY = "cms_admin_token";
 const ADMIN_USER_KEY = "cms_admin_user";
@@ -761,24 +848,36 @@ export const adminApi = {
 
   // ─── Orders (external CMS API — ALL customers) ───────────────
   // Requires admin Bearer JWT. Returns every order in the store,
-  // optionally filtered by status / search (email / order id).
+  // with rich filtering / sorting.
   listAllOrders: (opts: {
     page?: number;
     per_page?: number;
     status?: string;
-    search?: string;
+    payment_method?: string;
+    q?: string;
+    date_from?: string;
+    date_to?: string;
+    sort?: string;
+    order?: "asc" | "desc";
   } = {}) => {
     const qs = new URLSearchParams();
     if (opts.page) qs.set("page", String(opts.page));
     if (opts.per_page) qs.set("per_page", String(opts.per_page));
     if (opts.status) qs.set("status", opts.status);
-    if (opts.search) qs.set("search", opts.search);
+    if (opts.payment_method) qs.set("payment_method", opts.payment_method);
+    if (opts.q) qs.set("q", opts.q);
+    if (opts.date_from) qs.set("date_from", opts.date_from);
+    if (opts.date_to) qs.set("date_to", opts.date_to);
+    if (opts.sort) qs.set("sort", opts.sort);
+    if (opts.order) qs.set("order", opts.order);
     const suffix = qs.toString() ? `?${qs.toString()}` : "";
-    return callExternalCms<{
-      orders: OrderSummary[];
-      pagination: { page: number; per_page: number; total: number; pages: number };
-    }>(`/orders${suffix}`);
+    return callExternalCms<CmsOrderListResponse>(`/orders${suffix}`);
   },
   getOrderById: (id: number | string) =>
-    callExternalCms<OrderDetail>(`/orders/${encodeURIComponent(String(id))}`),
+    callExternalCms<CmsOrderDetail>(`/orders/${encodeURIComponent(String(id))}`),
+  updateOrderStatus: (id: number | string, status: string) =>
+    callExternalCms<{ id: number; status: string; updated_at: string }>(
+      `/orders/${encodeURIComponent(String(id))}/status`,
+      { method: "PATCH", body: { status } },
+    ),
 };
