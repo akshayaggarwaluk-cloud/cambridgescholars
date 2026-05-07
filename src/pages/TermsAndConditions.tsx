@@ -156,7 +156,7 @@ const TermsAndConditions = () => {
             <h2 className="font-nav text-[18px] font-bold mb-3 text-[#333333]">7. Complaints</h2>
             <p className="leading-[1.7] text-[#333333] text-[16px] font-nav">
               Complaints can be addressed in writing to Cambridge Scholars Publishing at the registered address above or
-              by email to orders@cambridgescholars.com.
+              by email to <a href="mailto:orders@cambridgescholars.com" className="text-[#C75B2A] hover:underline">orders@cambridgescholars.com</a>.
             </p>
           </section>
         </div>
