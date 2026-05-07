@@ -22,10 +22,12 @@ import { toast } from "sonner";
 import { checkoutPay, type CheckoutPayRequest } from "@/services/cartService";
 import { getProfile } from "@/services/accountService";
 import { buildAccountOrdersPath } from "@/utils/paymentRedirect";
+import { COUNTRIES, toCountryCode } from "@/data/countries";
 
 type AddressData = {
   firstName: string;
   lastName: string;
+  /** ISO 3166-1 alpha-2 country code. Empty string means "not selected". */
   country: string;
   street1: string;
   street2: string;
@@ -38,7 +40,7 @@ type AddressData = {
 const emptyAddress: AddressData = {
   firstName: "",
   lastName: "",
-  country: "United Kingdom",
+  country: "GB",
   street1: "",
   street2: "",
   city: "",
@@ -46,61 +48,6 @@ const emptyAddress: AddressData = {
   postcode: "",
   phone: "",
 };
-
-const COUNTRIES = [
-  "United Kingdom",
-  "United States",
-  "India",
-  "Australia",
-  "Canada",
-  "Germany",
-  "France",
-  "Italy",
-  "Spain",
-  "Netherlands",
-  "Ireland",
-  "New Zealand",
-  "Singapore",
-  "South Africa",
-  "United Arab Emirates",
-];
-
-// Map UI country names → ISO 3166-1 alpha-2 codes used by the cart API.
-const COUNTRY_ISO: Record<string, string> = {
-  "United Kingdom": "GB",
-  "United States": "US",
-  "India": "IN",
-  "Australia": "AU",
-  "Canada": "CA",
-  "Germany": "DE",
-  "France": "FR",
-  "Italy": "IT",
-  "Spain": "ES",
-  "Netherlands": "NL",
-  "Ireland": "IE",
-  "New Zealand": "NZ",
-  "Singapore": "SG",
-  "South Africa": "ZA",
-  "United Arab Emirates": "AE",
-};
-
-// Reverse map: ISO/upstream country value → UI label used by the <Select>.
-const ISO_TO_COUNTRY: Record<string, string> = Object.fromEntries(
-  Object.entries(COUNTRY_ISO).map(([name, iso]) => [iso, name]),
-);
-function normalizeCountry(value?: string | null): string | undefined {
-  if (!value) return undefined;
-  const v = value.trim();
-  if (!v) return undefined;
-  if (ISO_TO_COUNTRY[v.toUpperCase()]) return ISO_TO_COUNTRY[v.toUpperCase()];
-  // Already a known full name?
-  if (COUNTRY_ISO[v]) return v;
-  // Loose match against names (case-insensitive)
-  const hit = Object.keys(COUNTRY_ISO).find(
-    (n) => n.toLowerCase() === v.toLowerCase(),
-  );
-  return hit;
-}
 
 function FieldLabel({ htmlFor, children, required }: { htmlFor: string; children: React.ReactNode; required?: boolean }) {
   return (
