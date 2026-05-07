@@ -848,24 +848,36 @@ export const adminApi = {
 
   // ─── Orders (external CMS API — ALL customers) ───────────────
   // Requires admin Bearer JWT. Returns every order in the store,
-  // optionally filtered by status / search (email / order id).
+  // with rich filtering / sorting.
   listAllOrders: (opts: {
     page?: number;
     per_page?: number;
     status?: string;
-    search?: string;
+    payment_method?: string;
+    q?: string;
+    date_from?: string;
+    date_to?: string;
+    sort?: string;
+    order?: "asc" | "desc";
   } = {}) => {
     const qs = new URLSearchParams();
     if (opts.page) qs.set("page", String(opts.page));
     if (opts.per_page) qs.set("per_page", String(opts.per_page));
     if (opts.status) qs.set("status", opts.status);
-    if (opts.search) qs.set("search", opts.search);
+    if (opts.payment_method) qs.set("payment_method", opts.payment_method);
+    if (opts.q) qs.set("q", opts.q);
+    if (opts.date_from) qs.set("date_from", opts.date_from);
+    if (opts.date_to) qs.set("date_to", opts.date_to);
+    if (opts.sort) qs.set("sort", opts.sort);
+    if (opts.order) qs.set("order", opts.order);
     const suffix = qs.toString() ? `?${qs.toString()}` : "";
-    return callExternalCms<{
-      orders: OrderSummary[];
-      pagination: { page: number; per_page: number; total: number; pages: number };
-    }>(`/orders${suffix}`);
+    return callExternalCms<CmsOrderListResponse>(`/orders${suffix}`);
   },
   getOrderById: (id: number | string) =>
-    callExternalCms<OrderDetail>(`/orders/${encodeURIComponent(String(id))}`),
+    callExternalCms<CmsOrderDetail>(`/orders/${encodeURIComponent(String(id))}`),
+  updateOrderStatus: (id: number | string, status: string) =>
+    callExternalCms<{ id: number; status: string; updated_at: string }>(
+      `/orders/${encodeURIComponent(String(id))}/status`,
+      { method: "PATCH", body: { status } },
+    ),
 };
