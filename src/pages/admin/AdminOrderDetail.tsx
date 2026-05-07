@@ -172,159 +172,180 @@ export default function AdminOrderDetail() {
         </div>
       </div>
 
-      <div className="grid md:grid-cols-3 gap-6 text-sm">
-        <div className="md:col-span-2 space-y-4">
-          <h2 className="font-baskerville text-base text-foreground">Items</h2>
-          <div className="border border-border">
-            <table className="w-full text-xs">
-              <thead className="bg-[#f4f3ec] text-left text-muted-foreground uppercase tracking-wider">
-                <tr>
-                  <th className="px-3 py-2">Product</th>
-                  <th className="px-3 py-2">ISBN</th>
-                  <th className="px-3 py-2">Format</th>
-                  <th className="px-3 py-2 text-center">Qty</th>
-                  <th className="px-3 py-2 text-right">Unit</th>
-                  <th className="px-3 py-2 text-right">Total</th>
+      {/* Box 1 — Items */}
+      <Section title="Items">
+        <div className="overflow-x-auto">
+          <table className="w-full text-xs">
+            <thead className="bg-[#f4f3ec] text-left text-muted-foreground uppercase tracking-wider">
+              <tr>
+                <th className="px-3 py-2">Product</th>
+                <th className="px-3 py-2">ISBN</th>
+                <th className="px-3 py-2">Format</th>
+                <th className="px-3 py-2 text-center">Qty</th>
+                <th className="px-3 py-2 text-right">Unit</th>
+                <th className="px-3 py-2 text-right">Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              {detail.items.map((it, i) => (
+                <tr key={i} className="border-t border-border">
+                  <td className="px-3 py-2 text-foreground">{it.name}</td>
+                  <td className="px-3 py-2 text-muted-foreground">{it.isbn || "—"}</td>
+                  <td className="px-3 py-2 text-muted-foreground">{it.format || "—"}</td>
+                  <td className="px-3 py-2 text-center">{it.quantity}</td>
+                  <td className="px-3 py-2 text-right">
+                    {formatMoney(it.unit_price, detail.currency)}
+                  </td>
+                  <td className="px-3 py-2 text-right">
+                    {formatMoney(it.total ?? it.subtotal, detail.currency)}
+                  </td>
                 </tr>
-              </thead>
-              <tbody>
-                {detail.items.map((it, i) => (
-                  <tr key={i} className="border-t border-border">
-                    <td className="px-3 py-2 text-foreground">{it.name}</td>
-                    <td className="px-3 py-2 text-muted-foreground">{it.isbn || "—"}</td>
-                    <td className="px-3 py-2 text-muted-foreground">{it.format || "—"}</td>
-                    <td className="px-3 py-2 text-center">{it.quantity}</td>
-                    <td className="px-3 py-2 text-right">
-                      {formatMoney(it.unit_price, detail.currency)}
-                    </td>
-                    <td className="px-3 py-2 text-right">
-                      {formatMoney(it.total ?? it.subtotal, detail.currency)}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        {detail.customer_note && (
+          <div className="text-xs px-4 py-3 border-t border-border bg-[#f4f3ec]/40">
+            <span className="text-muted-foreground">Note: </span>
+            {detail.customer_note}
           </div>
+        )}
+      </Section>
 
-          <div className="grid grid-cols-2 gap-x-6 gap-y-1 text-xs max-w-sm ml-auto pt-2">
+      <div className="grid lg:grid-cols-2 gap-6">
+        {/* Box 2 — Totals */}
+        <Section title="Totals">
+          <dl className="divide-y divide-border text-sm">
             {typeof totals.items_subtotal === "number" && (
-              <>
-                <span className="text-muted-foreground">Subtotal</span>
-                <span className="text-right">{formatMoney(totals.items_subtotal, detail.currency)}</span>
-              </>
+              <Row label="Subtotal" value={formatMoney(totals.items_subtotal, detail.currency)} />
             )}
             {typeof totals.shipping === "number" && (
-              <>
-                <span className="text-muted-foreground">Shipping</span>
-                <span className="text-right">{formatMoney(totals.shipping, detail.currency)}</span>
-              </>
+              <Row label="Shipping" value={formatMoney(totals.shipping, detail.currency)} />
             )}
             {typeof totals.discount === "number" && totals.discount > 0 && (
-              <>
-                <span className="text-muted-foreground">Discount</span>
-                <span className="text-right">−{formatMoney(totals.discount, detail.currency)}</span>
-              </>
+              <Row
+                label="Discount"
+                value={`−${formatMoney(totals.discount, detail.currency)}`}
+              />
             )}
             {typeof totals.tax === "number" && (
-              <>
-                <span className="text-muted-foreground">Tax</span>
-                <span className="text-right">{formatMoney(totals.tax, detail.currency)}</span>
-              </>
+              <Row label="Tax" value={formatMoney(totals.tax, detail.currency)} />
             )}
             {typeof totals.total === "number" && (
-              <>
-                <span className="text-foreground font-medium">Total</span>
-                <span className="text-right font-medium">{formatMoney(totals.total, detail.currency)}</span>
-              </>
+              <Row
+                label="Total"
+                value={formatMoney(totals.total, detail.currency)}
+                emphasis
+              />
             )}
-          </div>
-
+          </dl>
           {detail.coupons && detail.coupons.length > 0 && (
-            <div className="text-xs text-muted-foreground">
+            <div className="text-xs text-muted-foreground px-4 py-3 border-t border-border">
               Coupons:{" "}
               {detail.coupons
                 .map((c) => c.code || `−${formatMoney(c.discount, detail.currency)}`)
                 .join(", ")}
             </div>
           )}
+        </Section>
 
-          {detail.customer_note && (
-            <div className="text-xs">
-              <span className="text-muted-foreground">Note: </span>
-              {detail.customer_note}
-            </div>
-          )}
-        </div>
-
-        <div className="space-y-4">
-          <AddressBlock title="Billing" addr={detail.billing} />
-          <AddressBlock title="Shipping" addr={detail.shipping} />
-          <div className="border border-border p-3 bg-white text-xs space-y-1">
-            <div>
-              <span className="text-muted-foreground">Payment: </span>
-              {detail.payment_method_title || detail.payment_method || "—"}
-            </div>
+        {/* Box 4 — Payment */}
+        <Section title="Payment">
+          <dl className="divide-y divide-border text-sm">
+            <Row
+              label="Method"
+              value={detail.payment_method_title || detail.payment_method || "—"}
+            />
             {detail.transaction_id && (
-              <div>
-                <span className="text-muted-foreground">Tx: </span>
-                {detail.transaction_id}
-              </div>
+              <Row label="Transaction" value={detail.transaction_id} mono />
             )}
             {detail.vendor_tx_code && (
-              <div>
-                <span className="text-muted-foreground">Vendor Tx: </span>
-                {detail.vendor_tx_code}
-              </div>
+              <Row label="Vendor Tx" value={detail.vendor_tx_code} mono />
             )}
-            {detail.opayo_status && (
-              <div>
-                <span className="text-muted-foreground">Opayo status: </span>
-                {detail.opayo_status}
-              </div>
-            )}
-            {detail.ip_address && (
-              <div>
-                <span className="text-muted-foreground">IP: </span>
-                {detail.ip_address}
-              </div>
-            )}
+            {detail.opayo_status && <Row label="Opayo status" value={detail.opayo_status} />}
+            {detail.ip_address && <Row label="IP address" value={detail.ip_address} mono />}
             {detail.updated_at && (
-              <div>
-                <span className="text-muted-foreground">Updated: </span>
-                {formatDate(detail.updated_at)}
-              </div>
+              <Row label="Updated" value={formatDate(detail.updated_at)} />
             )}
-          </div>
-        </div>
+          </dl>
+        </Section>
       </div>
+
+      {/* Box 3 — Addresses */}
+      <Section title="Addresses">
+        <div className="grid sm:grid-cols-2 divide-y sm:divide-y-0 sm:divide-x divide-border">
+          <AddressColumn title="Billing" addr={detail.billing} />
+          <AddressColumn title="Shipping" addr={detail.shipping} />
+        </div>
+      </Section>
     </div>
   );
 }
 
-function AddressBlock({ title, addr }: { title: string; addr?: CmsOrderAddress }) {
-  if (!addr) return null;
+function Section({ title, children }: { title: string; children: React.ReactNode }) {
+  return (
+    <section className="border border-border bg-white">
+      <header className="px-4 py-2.5 border-b border-border bg-[#f4f3ec]">
+        <h2 className="font-baskerville text-sm text-foreground uppercase tracking-wider">
+          {title}
+        </h2>
+      </header>
+      <div>{children}</div>
+    </section>
+  );
+}
+
+function Row({
+  label,
+  value,
+  emphasis,
+  mono,
+}: {
+  label: string;
+  value: React.ReactNode;
+  emphasis?: boolean;
+  mono?: boolean;
+}) {
+  return (
+    <div className="flex items-center justify-between gap-4 px-4 py-2.5">
+      <dt className="text-xs uppercase tracking-wider text-muted-foreground">{label}</dt>
+      <dd
+        className={`text-right ${emphasis ? "font-semibold text-foreground" : "text-foreground"} ${
+          mono ? "font-mono text-xs break-all" : "text-sm"
+        }`}
+      >
+        {value}
+      </dd>
+    </div>
+  );
+}
+
+function AddressColumn({ title, addr }: { title: string; addr?: CmsOrderAddress }) {
   const lines = [
-    [addr.first_name, addr.last_name].filter(Boolean).join(" "),
-    addr.company,
-    addr.address_1,
-    addr.address_2,
-    [addr.city, addr.state, addr.postcode].filter(Boolean).join(", "),
-    addr.country,
-    addr.email,
-    addr.phone,
+    [addr?.first_name, addr?.last_name].filter(Boolean).join(" "),
+    addr?.company,
+    addr?.address_1,
+    addr?.address_2,
+    [addr?.city, addr?.state, addr?.postcode].filter(Boolean).join(", "),
+    addr?.country,
+    addr?.email,
+    addr?.phone,
   ].filter((l) => l && String(l).trim().length > 0);
 
-  if (lines.length === 0) return null;
   return (
-    <div className="border border-border p-3 bg-white text-xs">
-      <div className="font-medium text-foreground uppercase tracking-wider text-[10px] mb-1">
+    <div className="p-4 space-y-1">
+      <div className="text-[10px] uppercase tracking-wider text-muted-foreground mb-2">
         {title}
       </div>
-      {lines.map((l, i) => (
-        <div key={i} className="text-muted-foreground">
-          {l}
-        </div>
-      ))}
+      {lines.length === 0 ? (
+        <div className="text-xs text-muted-foreground italic">No {title.toLowerCase()} address</div>
+      ) : (
+        lines.map((l, i) => (
+          <div key={i} className="text-sm text-foreground">
+            {l}
+          </div>
+        ))
+      )}
     </div>
   );
 }
