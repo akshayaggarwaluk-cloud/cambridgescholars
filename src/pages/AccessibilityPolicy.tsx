@@ -20,7 +20,7 @@ const AccessibilityPolicy = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Introduction */}
           <div className="mb-8">
-            <p className="text-black leading-relaxed text-[15px]">
+            <p className="leading-[1.7] text-[#333333] text-[16px] font-nav">
               At Cambridge Scholars Publishing we are committed to making our website and digital content accessible to
               everyone, including people with disabilities. We aim to provide an inclusive online experience that allows
               all users to access our academic publications and resources without barriers.
@@ -32,7 +32,7 @@ const AccessibilityPolicy = () => {
           {/* Our Legal Commitment */}
           <section className="mb-8">
             <h2 className="font-nav text-[18px] font-bold text-[#333333] mb-3">Our Legal Commitment</h2>
-            <p className="text-black leading-relaxed text-[15px]">
+            <p className="leading-[1.7] text-[#333333] text-[16px] font-nav">
               As a private company operating in the United Kingdom we comply with the Equality Act 2010. This requires
               us to make reasonable adjustments to ensure that people with disabilities are not placed at a substantial
               disadvantage when using our services. Although the Public Sector Accessibility Regulations do not legally
@@ -54,7 +54,7 @@ const AccessibilityPolicy = () => {
                 FlixRocket
               </li>
             </ul>
-            <p className="text-black leading-relaxed mt-4 text-[15px]">
+            <p className="leading-[1.7] text-[#333333] text-[16px] font-nav mt-4">
               We aim to ensure that all our digital content, including web pages and downloadable files, is accessible
               to as many users as possible.
             </p>
@@ -65,7 +65,7 @@ const AccessibilityPolicy = () => {
           {/* Accessibility Features */}
           <section className="mb-8">
             <h2 className="font-nav text-[18px] font-bold text-[#333333] mb-3">Accessibility Features</h2>
-            <p className="text-black leading-relaxed mb-4 text-[15px]">
+            <p className="leading-[1.7] text-[#333333] text-[16px] font-nav mb-4">
               We have designed our website and digital content to be:
             </p>
             <ul className="space-y-3 text-[#333333] text-[16px] font-nav">
@@ -93,7 +93,7 @@ const AccessibilityPolicy = () => {
           {/* Ongoing Improvements and Testing */}
           <section className="mb-8">
             <h2 className="font-nav text-[18px] font-bold text-[#333333] mb-3">Ongoing Improvements and Testing</h2>
-            <p className="text-black leading-relaxed text-[15px]">
+            <p className="leading-[1.7] text-[#333333] text-[16px] font-nav">
               Accessibility is an ongoing priority for us. We test our website using both automated tools and manual
               checks, including keyboard navigation and screen readers, to identify and fix any issues. We plan to carry
               out regular audits to maintain and improve our accessibility standards.
@@ -105,7 +105,7 @@ const AccessibilityPolicy = () => {
           {/* Feedback and Assistance */}
           <section className="mb-8">
             <h2 className="font-nav text-[18px] font-bold text-[#333333] mb-3">Feedback and Assistance</h2>
-            <p className="text-black leading-relaxed mb-4 text-[15px]">
+            <p className="leading-[1.7] text-[#333333] text-[16px] font-nav mb-4">
               If you experience any difficulty accessing any part of our website or digital content, or if you require
               materials in an alternative format, please contact us:
             </p>
@@ -117,7 +117,7 @@ const AccessibilityPolicy = () => {
                 </a>
               </li>
             </ul>
-            <p className="text-black leading-relaxed mt-4 text-[15px]">
+            <p className="leading-[1.7] text-[#333333] text-[16px] font-nav mt-4">
               We welcome your feedback and will do our best to respond to your requests in a timely manner.
             </p>
           </section>
