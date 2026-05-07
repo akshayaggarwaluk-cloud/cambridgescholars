@@ -112,7 +112,7 @@ const AccessibilityPolicy = () => {
             <ul className="list-disc list-inside space-y-2 text-[#333333] text-[16px] font-nav">
               <li>
                 Email:{" "}
-                <a href="mailto:admin@cambridgescholars.com" className="text-red-500 hover:underline">
+                <a href="mailto:admin@cambridgescholars.com" className="text-[#C75B2A] hover:underline">
                   admin@cambridgescholars.com
                 </a>
               </li>
