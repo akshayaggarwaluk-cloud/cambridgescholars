@@ -78,7 +78,23 @@ export interface CheckoutPayRequest {
   billing_address_1: string;
   billing_city: string;
   billing_postcode: string;
-  billing_country?: string; // ISO alpha-2, default "GB"
+  billing_country: string; // ISO 3166-1 alpha-2 (required by backend, no default)
+  billing_address_2?: string;
+  billing_state?: string;
+  billing_phone?: string;
+  billing_email?: string;
+  // Optional separate shipping address — sent when "ship to a different
+  // address" is selected on the checkout form. All shipping_* fields must
+  // be provided together when used.
+  shipping_first_name?: string;
+  shipping_last_name?: string;
+  shipping_address_1?: string;
+  shipping_address_2?: string;
+  shipping_city?: string;
+  shipping_state?: string;
+  shipping_postcode?: string;
+  shipping_country?: string; // ISO 3166-1 alpha-2
+  shipping_phone?: string;
   customer_note?: string | null;
 }
 
@@ -276,7 +292,20 @@ export interface PaypalCreateOrderRequest {
   billing_address_1: string;
   billing_city: string;
   billing_postcode: string;
-  billing_country?: string;
+  billing_country: string; // ISO 3166-1 alpha-2 (required)
+  billing_address_2?: string;
+  billing_state?: string;
+  billing_phone?: string;
+  billing_email?: string;
+  shipping_first_name?: string;
+  shipping_last_name?: string;
+  shipping_address_1?: string;
+  shipping_address_2?: string;
+  shipping_city?: string;
+  shipping_state?: string;
+  shipping_postcode?: string;
+  shipping_country?: string;
+  shipping_phone?: string;
   customer_note?: string;
 }
 
