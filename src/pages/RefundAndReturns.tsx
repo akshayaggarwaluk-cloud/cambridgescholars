@@ -21,7 +21,7 @@ const RefundAndReturns = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Introduction */}
           <div className="mb-8">
-            <p className="text-black leading-relaxed text-[15px]">
+            <p className="leading-[1.7] text-[#333333] text-[16px] font-nav">
               We want you to be completely satisfied with your purchase. This policy explains how to return books and
               request a refund or replacement.{" "}
               <span className="text-black">
@@ -35,14 +35,14 @@ const RefundAndReturns = () => {
           {/* Returning Faulty Books */}
           <section className="mb-8">
             <h2 className="font-nav text-[18px] font-bold text-[#333333] mb-3">Returning Faulty Books</h2>
-            <p className="text-black leading-relaxed mb-4 text-[15px]">
+            <p className="leading-[1.7] text-[#333333] text-[16px] font-nav mb-4">
               This policy does not apply to ebooks, which are individually assigned and non-refundable.
             </p>
             <ul className="list-disc list-inside space-y-2 text-[#333333] text-[16px] font-nav">
               <li>Faulty books can be returned for a full refund or replacement.</li>
               <li>
                 To arrange this, please email{" "}
-                <a href="mailto:orders@cambridgescholars.com" className="text-red-500 hover:underline">
+                <a href="mailto:orders@cambridgescholars.com" className="text-[#C75B2A] hover:underline">
                   orders@cambridgescholars.com
                 </a>{" "}
                 within <strong className="text-black">7 days of receiving your book</strong>, quoting the invoice number
@@ -61,7 +61,7 @@ const RefundAndReturns = () => {
           {/* Returning Non-Faulty Books */}
           <section className="mb-8">
             <h2 className="font-nav text-[18px] font-bold text-[#333333] mb-3">Returning Non-Faulty Books</h2>
-            <p className="text-black leading-relaxed mb-4 text-[15px]">
+            <p className="leading-[1.7] text-[#333333] text-[16px] font-nav mb-4">
               This policy does not apply to ebooks, which are individually assigned and non-refundable.
             </p>
             <ul className="list-disc list-inside space-y-2 text-[#333333] text-[16px] font-nav">
@@ -83,7 +83,7 @@ const RefundAndReturns = () => {
                 agreement has been made.
               </li>
             </ul>
-            <p className="text-black leading-relaxed mt-4 text-[15px]">
+            <p className="leading-[1.7] text-[#333333] text-[16px] font-nav mt-4">
               Books purchased for <strong className="text-black">resale</strong> are not normally returnable unless
               agreed in advance at the time of purchase.
             </p>
@@ -94,8 +94,8 @@ const RefundAndReturns = () => {
           {/* How to Return Books */}
           <section className="mb-8">
             <h2 className="font-nav text-[18px] font-bold text-[#333333] mb-3">How to Return Books</h2>
-            <p className="text-black leading-relaxed mb-4 text-[15px]">Please send all returns to:</p>
-            <address className="text-black not-italic leading-relaxed text-[15px]">
+            <p className="leading-[1.7] text-[#333333] text-[16px] font-nav mb-4">Please send all returns to:</p>
+            <address className="not-italic leading-[1.7] text-[#333333] text-[16px] font-nav">
               Cambridge Scholars Publishing
               <br />
               Lady Stephenson Library
@@ -115,9 +115,9 @@ const RefundAndReturns = () => {
           {/* Postage Costs */}
           <section className="mb-8">
             <h2 className="font-nav text-[18px] font-bold text-[#333333] mb-3">Postage Costs</h2>
-            <p className="text-black leading-relaxed mb-6 text-[15px]">
+            <p className="leading-[1.7] text-[#333333] text-[16px] font-nav mb-6">
               Postage costs depend on the number of books and the delivery destination. For large orders, please contact{" "}
-              <a href="mailto:admin@cambridgescholars.com" className="text-red-500 hover:underline">
+              <a href="mailto:admin@cambridgescholars.com" className="text-[#C75B2A] hover:underline">
                 admin@cambridgescholars.com
               </a>{" "}
               for a quote.
@@ -225,9 +225,9 @@ const RefundAndReturns = () => {
           {/* Contact Us */}
           <section className="mb-8">
             <h2 className="font-nav text-[18px] font-bold text-[#333333] mb-3">Contact Us</h2>
-            <p className="text-black leading-relaxed text-[15px]">
+            <p className="leading-[1.7] text-[#333333] text-[16px] font-nav">
               If you have any questions about returns or refunds, please contact us at{" "}
-              <a href="mailto:orders@cambridgescholars.com" className="text-red-500 hover:underline">
+              <a href="mailto:orders@cambridgescholars.com" className="text-[#C75B2A] hover:underline">
                 orders@cambridgescholars.com
               </a>
             </p>
