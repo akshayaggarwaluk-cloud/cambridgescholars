@@ -23,7 +23,10 @@ const RefundAndReturns = () => {
           <div className="mb-8">
             <p className="text-black leading-relaxed text-[15px]">
               We want you to be completely satisfied with your purchase. This policy explains how to return books and
-              request a refund or replacement.
+              request a refund or replacement.{" "}
+              <span className="text-red-500">
+                Please note these policies apply to print books only. Ebooks are individually assigned via email and are non-refundable.
+              </span>
             </p>
           </div>
 
@@ -32,6 +35,9 @@ const RefundAndReturns = () => {
           {/* Returning Faulty Books */}
           <section className="mb-8">
             <h2 className="font-nav text-[18px] font-bold text-[#333333] mb-3">Returning Faulty Books</h2>
+            <p className="text-red-500 leading-relaxed mb-4 text-[15px]">
+              This policy does not apply to ebooks, which are individually assigned and non-refundable.
+            </p>
             <ul className="list-disc list-inside space-y-2 text-[#333333] text-[16px] font-nav">
               <li>Faulty books can be returned for a full refund or replacement.</li>
               <li>
@@ -55,6 +61,9 @@ const RefundAndReturns = () => {
           {/* Returning Non-Faulty Books */}
           <section className="mb-8">
             <h2 className="font-nav text-[18px] font-bold text-[#333333] mb-3">Returning Non-Faulty Books</h2>
+            <p className="text-red-500 leading-relaxed mb-4 text-[15px]">
+              This policy does not apply to ebooks, which are individually assigned and non-refundable.
+            </p>
             <ul className="list-disc list-inside space-y-2 text-[#333333] text-[16px] font-nav">
               <li>
                 If your books are not faulty, you may return them within{" "}
