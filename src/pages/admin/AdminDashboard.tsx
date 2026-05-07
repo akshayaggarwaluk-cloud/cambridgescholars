@@ -7,16 +7,21 @@ export default function AdminDashboard() {
   const [counts, setCounts] = useState({ hero: 0, news: 0, admins: 0, featured: 0, reviews: 0, faqs: 0, resources: 0 });
 
   useEffect(() => {
-    Promise.all([
+    const len = (r: PromiseSettledResult<unknown[]>) =>
+      r.status === "fulfilled" && Array.isArray(r.value) ? r.value.length : 0;
+    Promise.allSettled([
       adminApi.listHero(), adminApi.listNews(), adminApi.listAdmins(),
       adminApi.listFeaturedBooks(), adminApi.listAuthorReviews(),
       adminApi.listFaqs(), adminApi.listResources(),
-    ])
-      .then(([h, n, a, fb, ar, fq, rs]) => setCounts({
-        hero: h.length, news: n.length, admins: a.length,
-        featured: fb.length, reviews: ar.length, faqs: fq.length, resources: rs.length,
-      }))
-      .catch(() => undefined);
+    ]).then(([h, n, a, fb, ar, fq, rs]) => setCounts({
+      hero: len(h as PromiseSettledResult<unknown[]>),
+      news: len(n as PromiseSettledResult<unknown[]>),
+      admins: len(a as PromiseSettledResult<unknown[]>),
+      featured: len(fb as PromiseSettledResult<unknown[]>),
+      reviews: len(ar as PromiseSettledResult<unknown[]>),
+      faqs: len(fq as PromiseSettledResult<unknown[]>),
+      resources: len(rs as PromiseSettledResult<unknown[]>),
+    }));
   }, []);
 
   const tiles = [
