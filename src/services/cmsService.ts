@@ -95,6 +95,63 @@ export interface CmsOrderDetail {
   totals?: CmsOrderTotals;
 }
 
+// ── CMS Proposals (admin, external CMS API) ─────────────────────
+export interface CmsProposalSummaryExt {
+  id: number;
+  reference_number: string;
+  status: string;
+  book_title?: string | null;
+  book_subject?: string | null;
+  book_type?: string | null;
+  lead_author_name?: string | null;
+  lead_author_email?: string | null;
+  author_count?: number | null;
+  submitted_at?: string | null;
+  reviewed_at?: string | null;
+  reviewed_by?: string | null;
+}
+
+export interface CmsProposalListResponse {
+  data: CmsProposalSummaryExt[];
+  page: number;
+  per_page: number;
+  total: number;
+  total_pages: number;
+}
+
+export interface CmsProposalFile {
+  id: number;
+  file_name: string;
+  file_type?: string | null;
+  file_size_bytes?: number | null;
+  virus_scanned?: boolean | null;
+  virus_scan_result?: string | null;
+  uploaded_at?: string | null;
+  download_url?: string | null;
+}
+
+export interface CmsProposalDetailExt {
+  id: number;
+  reference_number: string;
+  status: string;
+  submission?: Record<string, unknown> | null;
+  authors?: Array<Record<string, unknown>> | null;
+  mailing?: Record<string, unknown> | null;
+  book?: Record<string, unknown> | null;
+  description?: Record<string, unknown> | null;
+  marketing?: Record<string, unknown> | null;
+  manuscript?: Record<string, unknown> | null;
+  agreement?: Record<string, unknown> | null;
+  s3_folder?: string | null;
+  submitted_at?: string | null;
+  reviewed_at?: string | null;
+  reviewed_by?: string | null;
+  review_notes?: string | null;
+  created_at?: string | null;
+  updated_at?: string | null;
+  files?: CmsProposalFile[];
+}
+
 const ADMIN_TOKEN_KEY = "cms_admin_token";
 const ADMIN_USER_KEY = "cms_admin_user";
 const ADMIN_EXTERNAL_TOKEN_KEY = "cms_admin_external_token";
