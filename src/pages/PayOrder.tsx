@@ -335,7 +335,7 @@ export default function PayOrder() {
                 <p className="text-[14px] text-[#696969] max-w-3xl">
                   Your personal data will be used to process your order, support your experience throughout this
                   website, and for other purposes described in our{" "}
-                  <a href="/privacy" style={{ color: ORANGE }} className="underline">
+                  <a href="/pages/privacy" style={{ color: ORANGE }} className="underline">
                     privacy policy
                   </a>
                   .
