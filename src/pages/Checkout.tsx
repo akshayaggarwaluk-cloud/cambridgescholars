@@ -849,7 +849,7 @@ export default function Checkout() {
 
                 <p className="text-[13px] text-[#555] leading-relaxed mt-6">
                   Your personal data will be used to process your order, support your experience throughout this website, and for other purposes described in our{" "}
-                  <Link to="/privacy-policy" className="text-[#C75B2A] hover:underline">
+                  <Link to="/pages/privacy" className="text-[#C75B2A] hover:underline">
                     privacy policy
                   </Link>
                   .
