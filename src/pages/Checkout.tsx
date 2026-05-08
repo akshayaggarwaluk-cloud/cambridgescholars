@@ -420,6 +420,27 @@ export default function Checkout() {
         setLoading(false);
         return;
       }
+      // Opayo rejects US/CA orders without a 2-letter state/province code.
+      const billingState = normaliseStateCode(billingAddress.country, billingAddress.state);
+      if ((billingAddress.country === "US" || billingAddress.country === "CA") && billingState.length !== 2) {
+        toast.error(billingAddress.country === "US"
+          ? "Please select a billing state."
+          : "Please select a billing province.");
+        setLoading(false);
+        return;
+      }
+      const shippingState = !isEbookOnly && !useShippingForBilling
+        ? normaliseStateCode(shipping.country, shipping.state)
+        : "";
+      if (!isEbookOnly && !useShippingForBilling
+          && (shipping.country === "US" || shipping.country === "CA")
+          && shippingState.length !== 2) {
+        toast.error(shipping.country === "US"
+          ? "Please select a shipping state."
+          : "Please select a shipping province.");
+        setLoading(false);
+        return;
+      }
       const cardNumberDigits = card.number.replace(/\D/g, "");
       const payload: CheckoutPayRequest = {
         card_holder: cardholder.trim(),
@@ -432,7 +453,7 @@ export default function Checkout() {
         billing_address_1: billingAddress.street1,
         billing_address_2: billingAddress.street2 || undefined,
         billing_city: billingAddress.city,
-        billing_state: billingAddress.state || undefined,
+        billing_state: billingState || undefined,
         billing_postcode: billingAddress.postcode,
         billing_country: billingAddress.country,
         billing_phone: billingAddress.phone || undefined,
@@ -448,7 +469,7 @@ export default function Checkout() {
               shipping_address_1: shipping.street1,
               shipping_address_2: shipping.street2 || undefined,
               shipping_city: shipping.city,
-              shipping_state: shipping.state || undefined,
+              shipping_state: shippingState || undefined,
               shipping_postcode: shipping.postcode,
               shipping_country: shipping.country,
               shipping_phone: shipping.phone || undefined,
