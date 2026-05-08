@@ -23,6 +23,7 @@ import { checkoutPay, type CheckoutPayRequest } from "@/services/cartService";
 import { getProfile } from "@/services/accountService";
 import { buildAccountOrdersPath } from "@/utils/paymentRedirect";
 import { COUNTRIES, toCountryCode } from "@/data/countries";
+import { getSubdivisions, normaliseStateCode } from "@/data/states";
 
 type AddressData = {
   firstName: string;
@@ -132,8 +133,33 @@ function AddressFields({
         <Input id={`${idPrefix}-city`} className={inputCls} value={data.city} onChange={(e) => set("city", e.target.value)} required />
       </div>
       <div>
-        <FieldLabel htmlFor={`${idPrefix}-state`} required>State / County</FieldLabel>
-        <Input id={`${idPrefix}-state`} className={inputCls} placeholder="Select an option..." value={data.state} onChange={(e) => set("state", e.target.value)} required />
+        <FieldLabel htmlFor={`${idPrefix}-state`} required={data.country === "US" || data.country === "CA"}>
+          {data.country === "US" ? "State" : data.country === "CA" ? "Province" : "State / County"}
+        </FieldLabel>
+        {(() => {
+          const options = getSubdivisions(data.country);
+          if (options) {
+            // Coerce any free-text state value (e.g. "California") into its
+            // ISO code so the Select shows the right option after prefill.
+            const currentCode = normaliseStateCode(data.country, data.state);
+            const validCode = options.some((o) => o.code === currentCode) ? currentCode : "";
+            return (
+              <Select value={validCode} onValueChange={(v) => set("state", v)}>
+                <SelectTrigger id={`${idPrefix}-state`} className={inputCls}>
+                  <SelectValue placeholder={data.country === "US" ? "Select a state" : "Select a province"} />
+                </SelectTrigger>
+                <SelectContent className="rounded-none max-h-72">
+                  {options.map((s) => (
+                    <SelectItem key={s.code} value={s.code}>{s.name} ({s.code})</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            );
+          }
+          return (
+            <Input id={`${idPrefix}-state`} className={inputCls} placeholder="State, county or region (optional)" value={data.state} onChange={(e) => set("state", e.target.value)} />
+          );
+        })()}
       </div>
       <div>
         <FieldLabel htmlFor={`${idPrefix}-postcode`} required>Postcode / ZIP</FieldLabel>
