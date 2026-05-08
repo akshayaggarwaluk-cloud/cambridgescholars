@@ -23,6 +23,7 @@ import { checkoutPay, type CheckoutPayRequest } from "@/services/cartService";
 import { getProfile } from "@/services/accountService";
 import { buildAccountOrdersPath } from "@/utils/paymentRedirect";
 import { COUNTRIES, toCountryCode } from "@/data/countries";
+import { getSubdivisions, normaliseStateCode } from "@/data/states";
 
 type AddressData = {
   firstName: string;
@@ -132,8 +133,33 @@ function AddressFields({
         <Input id={`${idPrefix}-city`} className={inputCls} value={data.city} onChange={(e) => set("city", e.target.value)} required />
       </div>
       <div>
-        <FieldLabel htmlFor={`${idPrefix}-state`} required>State / County</FieldLabel>
-        <Input id={`${idPrefix}-state`} className={inputCls} placeholder="Select an option..." value={data.state} onChange={(e) => set("state", e.target.value)} required />
+        <FieldLabel htmlFor={`${idPrefix}-state`} required={data.country === "US" || data.country === "CA"}>
+          {data.country === "US" ? "State" : data.country === "CA" ? "Province" : "State / County"}
+        </FieldLabel>
+        {(() => {
+          const options = getSubdivisions(data.country);
+          if (options) {
+            // Coerce any free-text state value (e.g. "California") into its
+            // ISO code so the Select shows the right option after prefill.
+            const currentCode = normaliseStateCode(data.country, data.state);
+            const validCode = options.some((o) => o.code === currentCode) ? currentCode : "";
+            return (
+              <Select value={validCode} onValueChange={(v) => set("state", v)}>
+                <SelectTrigger id={`${idPrefix}-state`} className={inputCls}>
+                  <SelectValue placeholder={data.country === "US" ? "Select a state" : "Select a province"} />
+                </SelectTrigger>
+                <SelectContent className="rounded-none max-h-72">
+                  {options.map((s) => (
+                    <SelectItem key={s.code} value={s.code}>{s.name} ({s.code})</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            );
+          }
+          return (
+            <Input id={`${idPrefix}-state`} className={inputCls} placeholder="State, county or region (optional)" value={data.state} onChange={(e) => set("state", e.target.value)} />
+          );
+        })()}
       </div>
       <div>
         <FieldLabel htmlFor={`${idPrefix}-postcode`} required>Postcode / ZIP</FieldLabel>
@@ -394,6 +420,27 @@ export default function Checkout() {
         setLoading(false);
         return;
       }
+      // Opayo rejects US/CA orders without a 2-letter state/province code.
+      const billingState = normaliseStateCode(billingAddress.country, billingAddress.state);
+      if ((billingAddress.country === "US" || billingAddress.country === "CA") && billingState.length !== 2) {
+        toast.error(billingAddress.country === "US"
+          ? "Please select a billing state."
+          : "Please select a billing province.");
+        setLoading(false);
+        return;
+      }
+      const shippingState = !isEbookOnly && !useShippingForBilling
+        ? normaliseStateCode(shipping.country, shipping.state)
+        : "";
+      if (!isEbookOnly && !useShippingForBilling
+          && (shipping.country === "US" || shipping.country === "CA")
+          && shippingState.length !== 2) {
+        toast.error(shipping.country === "US"
+          ? "Please select a shipping state."
+          : "Please select a shipping province.");
+        setLoading(false);
+        return;
+      }
       const cardNumberDigits = card.number.replace(/\D/g, "");
       const payload: CheckoutPayRequest = {
         card_holder: cardholder.trim(),
@@ -406,7 +453,7 @@ export default function Checkout() {
         billing_address_1: billingAddress.street1,
         billing_address_2: billingAddress.street2 || undefined,
         billing_city: billingAddress.city,
-        billing_state: billingAddress.state || undefined,
+        billing_state: billingState || undefined,
         billing_postcode: billingAddress.postcode,
         billing_country: billingAddress.country,
         billing_phone: billingAddress.phone || undefined,
@@ -422,7 +469,7 @@ export default function Checkout() {
               shipping_address_1: shipping.street1,
               shipping_address_2: shipping.street2 || undefined,
               shipping_city: shipping.city,
-              shipping_state: shipping.state || undefined,
+              shipping_state: shippingState || undefined,
               shipping_postcode: shipping.postcode,
               shipping_country: shipping.country,
               shipping_phone: shipping.phone || undefined,

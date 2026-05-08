@@ -122,8 +122,8 @@ const SubmitProposal = () => {
         if (nameErr) newErrors[`coauthor-${i}-name`] = nameErr;
         const emailErr = validateField(`coauthor-${i}-email`, formData[`coauthor-${i}-email`] || "", "email");
         if (emailErr) newErrors[`coauthor-${i}-email`] = emailErr;
-        const affErr = validateField(`coauthor-${i}-affiliation`, formData[`coauthor-${i}-affiliation`] || "", "text");
-        if (affErr) newErrors[`coauthor-${i}-affiliation`] = affErr;
+        // Affiliation is optional for co-authors — backend only requires
+        // first/last name + email (idx ≥ 1). Lead author still validates.
       }
     }
     setErrors((prev) => ({ ...prev, ...newErrors }));
@@ -301,7 +301,7 @@ const SubmitProposal = () => {
         </div>
         <FieldInput label="Name" required value={formData[`coauthor-${i}-name`] || ""} onChange={(v) => updateField(`coauthor-${i}-name`, v)} error={errors[`coauthor-${i}-name`]} />
         <FieldInput label="Email" type="email" required value={formData[`coauthor-${i}-email`] || ""} onChange={(v) => updateField(`coauthor-${i}-email`, v)} error={errors[`coauthor-${i}-email`]} />
-        <FieldInput label="Affiliation" required value={formData[`coauthor-${i}-affiliation`] || ""} onChange={(v) => updateField(`coauthor-${i}-affiliation`, v)} error={errors[`coauthor-${i}-affiliation`]} />
+        <FieldInput label="Affiliation (optional)" value={formData[`coauthor-${i}-affiliation`] || ""} onChange={(v) => updateField(`coauthor-${i}-affiliation`, v)} error={errors[`coauthor-${i}-affiliation`]} />
       </div>
     ));
   };

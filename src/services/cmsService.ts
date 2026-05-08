@@ -685,8 +685,18 @@ export const adminApi = {
   },
 
   // ─── Admin accounts ──────────────────────────────────────────
-  listAdmins: () =>
-    callExternalCms<{ data: CmsAdminAccount[] }>("/admins").then((r) => r.data),
+  listAdmins: async (): Promise<CmsAdminAccount[]> => {
+    // The upstream CMS exposes /admins only as POST (create). Until a
+    // list endpoint is implemented we silently return an empty array so
+    // the dashboard / Admins page renders without an error toast.
+    try {
+      const res = await callExternalCms<{ data: CmsAdminAccount[] }>("/admins");
+      return res.data || [];
+    } catch (err) {
+      console.warn("[cms] listAdmins not available on backend:", err);
+      return [];
+    }
+  },
   createAdmin: async (payload: {
     email: string;
     password: string;
