@@ -947,4 +947,38 @@ export const adminApi = {
       `/orders/${encodeURIComponent(String(id))}/status`,
       { method: "PATCH", body: { status } },
     ),
+
+  // ─── Proposals (external CMS API) ────────────────────────────
+  listAllProposals: (opts: {
+    page?: number;
+    per_page?: number;
+    status?: string;
+    q?: string;
+    date_from?: string;
+    date_to?: string;
+    sort?: string;
+    order?: "asc" | "desc";
+  } = {}) => {
+    const qs = new URLSearchParams();
+    if (opts.page) qs.set("page", String(opts.page));
+    if (opts.per_page) qs.set("per_page", String(opts.per_page));
+    if (opts.status) qs.set("status", opts.status);
+    if (opts.q) qs.set("q", opts.q);
+    if (opts.date_from) qs.set("date_from", opts.date_from);
+    if (opts.date_to) qs.set("date_to", opts.date_to);
+    if (opts.sort) qs.set("sort", opts.sort);
+    if (opts.order) qs.set("order", opts.order);
+    const suffix = qs.toString() ? `?${qs.toString()}` : "";
+    return callExternalCms<CmsProposalListResponse>(`/proposals${suffix}`);
+  },
+  getProposalById: (id: number | string) =>
+    callExternalCms<CmsProposalDetailExt>(`/proposals/${encodeURIComponent(String(id))}`),
+  updateProposal: (
+    id: number | string,
+    payload: { status?: string; review_notes?: string },
+  ) =>
+    callExternalCms<{
+      id: number; status: string; reviewed_at: string; reviewed_by: string;
+      review_notes: string; updated_at: string;
+    }>(`/proposals/${encodeURIComponent(String(id))}`, { method: "PATCH", body: payload }),
 };
