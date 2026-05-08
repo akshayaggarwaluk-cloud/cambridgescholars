@@ -58,6 +58,8 @@ import AdminComingSoon from "@/pages/admin/AdminComingSoon";
 import AdminOrders from "@/pages/admin/AdminOrders";
 import AdminOrderDetail from "@/pages/admin/AdminOrderDetail";
 import AdminCoupons from "@/pages/admin/AdminCoupons";
+import AdminProposals from "@/pages/admin/AdminProposals";
+import AdminProposalDetail from "@/pages/admin/AdminProposalDetail";
 
 function RedirectBookToProduct() {
   const { id } = useParams();
@@ -156,7 +158,8 @@ export function AnimatedRoutes() {
           <Route path="resources" element={<AdminResources />} />
           <Route path="footer-documents" element={<AdminComingSoon title="Footer Documents" description="Backend ready (table + edge function actions). UI coming next." />} />
           <Route path="contact-submissions" element={<AdminComingSoon title="Contact Submissions" description="Backend ready. Inbox UI coming next." />} />
-          <Route path="proposal-submissions" element={<AdminComingSoon title="Proposal Submissions" description="Backend ready. Inbox UI coming next." />} />
+          <Route path="proposal-submissions" element={<AdminProposals />} />
+          <Route path="proposal-submissions/:id" element={<AdminProposalDetail />} />
           <Route path="orders" element={<AdminOrders />} />
           <Route path="orders/:id" element={<AdminOrderDetail />} />
           <Route path="coupons" element={<AdminCoupons />} />
