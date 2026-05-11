@@ -152,6 +152,43 @@ export interface CmsProposalDetailExt {
   files?: CmsProposalFile[];
 }
 
+// ── CMS Contact Messages (admin) ─────────────────────────────────
+export interface CmsContactMessageSummary {
+  id: number;
+  ticket_id?: string | null;
+  name: string;
+  email: string;
+  subject?: string | null;
+  subject_id?: number | null;
+  subject_name?: string | null;
+  message_preview?: string | null;
+  recaptcha_verified?: boolean | null;
+  created_at: string;
+}
+
+export interface CmsContactMessageListResponse {
+  data: CmsContactMessageSummary[];
+  page: number;
+  per_page: number;
+  total: number;
+  total_pages: number;
+}
+
+export interface CmsContactMessageDetail {
+  id: number;
+  ticket_id?: string | null;
+  name: string;
+  email: string;
+  subject?: string | null;
+  subject_id?: number | null;
+  subject_name?: string | null;
+  message: string;
+  ip_address?: string | null;
+  user_agent?: string | null;
+  recaptcha_verified?: boolean | null;
+  created_at: string;
+}
+
 const ADMIN_TOKEN_KEY = "cms_admin_token";
 const ADMIN_USER_KEY = "cms_admin_user";
 const ADMIN_EXTERNAL_TOKEN_KEY = "cms_admin_external_token";
@@ -981,4 +1018,30 @@ export const adminApi = {
       id: number; status: string; reviewed_at: string; reviewed_by: string;
       review_notes: string; updated_at: string;
     }>(`/proposals/${encodeURIComponent(String(id))}`, { method: "PATCH", body: payload }),
+
+  // ─── Contact messages (external CMS API) ─────────────────────
+  listContactMessages: (opts: {
+    page?: number;
+    per_page?: number;
+    q?: string;
+    subject_id?: number;
+    date_from?: string;
+    date_to?: string;
+    sort?: string;
+    order?: "asc" | "desc";
+  } = {}) => {
+    const qs = new URLSearchParams();
+    if (opts.page) qs.set("page", String(opts.page));
+    if (opts.per_page) qs.set("per_page", String(opts.per_page));
+    if (opts.q) qs.set("q", opts.q);
+    if (opts.subject_id !== undefined) qs.set("subject_id", String(opts.subject_id));
+    if (opts.date_from) qs.set("date_from", opts.date_from);
+    if (opts.date_to) qs.set("date_to", opts.date_to);
+    if (opts.sort) qs.set("sort", opts.sort);
+    if (opts.order) qs.set("order", opts.order);
+    const suffix = qs.toString() ? `?${qs.toString()}` : "";
+    return callExternalCms<CmsContactMessageListResponse>(`/contact-messages${suffix}`);
+  },
+  getContactMessage: (id: number | string) =>
+    callExternalCms<CmsContactMessageDetail>(`/contact-messages/${encodeURIComponent(String(id))}`),
 };
