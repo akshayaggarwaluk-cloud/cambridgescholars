@@ -264,7 +264,10 @@ export default function AdminOrderDetail() {
             )}
             {detail.opayo_status && <Row label="Opayo status" value={detail.opayo_status} />}
             {detail.failure_reason && (
-              <Row label="Failure reason" value={detail.failure_reason} highlight />
+              <Row
+                label="Failure reason"
+                value={<span className="text-red-600">{detail.failure_reason}</span>}
+              />
             )}
             {detail.ip_address && <Row label="IP address" value={detail.ip_address} mono />}
             {detail.updated_at && (
