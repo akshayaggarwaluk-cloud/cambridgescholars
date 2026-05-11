@@ -320,6 +320,9 @@ export default function AdminOrders() {
                   </td>
                   <td className="px-4 py-3 text-muted-foreground">
                     {o.payment_method_title || o.payment_method || "—"}
+                    {o.failure_reason && (
+                      <div className="text-xs text-red-600 mt-0.5">{o.failure_reason}</div>
+                    )}
                   </td>
                   <td className="px-4 py-3 text-center text-muted-foreground">
                     {o.item_count ?? "—"}
