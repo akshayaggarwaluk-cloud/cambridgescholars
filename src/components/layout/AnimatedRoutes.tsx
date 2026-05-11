@@ -62,6 +62,8 @@ import AdminProposals from "@/pages/admin/AdminProposals";
 import AdminProposalDetail from "@/pages/admin/AdminProposalDetail";
 import AdminContactMessages from "@/pages/admin/AdminContactMessages";
 import AdminContactMessageDetail from "@/pages/admin/AdminContactMessageDetail";
+import AdminUsers from "@/pages/admin/AdminUsers";
+import AdminUserDetail from "@/pages/admin/AdminUserDetail";
 
 function RedirectBookToProduct() {
   const { id } = useParams();
@@ -166,7 +168,8 @@ export function AnimatedRoutes() {
           <Route path="orders" element={<AdminOrders />} />
           <Route path="orders/:id" element={<AdminOrderDetail />} />
           <Route path="coupons" element={<AdminCoupons />} />
-          <Route path="users" element={<AdminComingSoon title="Users" description="Backend ready (Lovable Cloud auth users + CSP password-reset stub). UI coming next." />} />
+          <Route path="users" element={<AdminUsers />} />
+          <Route path="users/:id" element={<AdminUserDetail />} />
           <Route path="admins" element={<AdminAdmins />} />
         </Route>
 
