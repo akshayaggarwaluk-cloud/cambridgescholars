@@ -256,6 +256,26 @@ export default function AdminOrderDetail() {
               label="Method"
               value={detail.payment_method_title || detail.payment_method || "—"}
             />
+            {detail.payment_method && (
+              <Row label="Method code" value={detail.payment_method} mono />
+            )}
+            <Row label="Currency" value={detail.currency || "—"} />
+            {detail.billing_email && (
+              <Row label="Billing email" value={detail.billing_email} />
+            )}
+            {detail.customer_id != null && (
+              <Row
+                label="Customer"
+                value={
+                  <Link
+                    to={`/admin/users/${detail.customer_id}`}
+                    className="text-accent hover:underline"
+                  >
+                    #{detail.customer_id}
+                  </Link>
+                }
+              />
+            )}
             {detail.transaction_id && (
               <Row label="Transaction" value={detail.transaction_id} mono />
             )}
@@ -270,12 +290,41 @@ export default function AdminOrderDetail() {
               />
             )}
             {detail.ip_address && <Row label="IP address" value={detail.ip_address} mono />}
+            {detail.created_at && (
+              <Row label="Created" value={formatDate(detail.created_at)} />
+            )}
             {detail.updated_at && (
               <Row label="Updated" value={formatDate(detail.updated_at)} />
             )}
           </dl>
         </Section>
       </div>
+
+      {/* Coupons */}
+      {detail.coupons && detail.coupons.length > 0 && (
+        <Section title="Coupons">
+          <table className="w-full text-xs">
+            <thead className="bg-[#f4f3ec] text-left text-muted-foreground uppercase tracking-wider">
+              <tr>
+                <th className="px-3 py-2">Code</th>
+                <th className="px-3 py-2 text-right">Discount</th>
+                <th className="px-3 py-2">Applied at</th>
+              </tr>
+            </thead>
+            <tbody>
+              {detail.coupons.map((c, i) => (
+                <tr key={i} className="border-t border-border">
+                  <td className="px-3 py-2 font-mono text-foreground">{c.code || "—"}</td>
+                  <td className="px-3 py-2 text-right">
+                    −{formatMoney(c.discount, detail.currency)}
+                  </td>
+                  <td className="px-3 py-2 text-muted-foreground">{formatDate(c.applied_at)}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </Section>
+      )}
 
       {/* Box 3 — Addresses */}
       <Section title="Addresses">
