@@ -248,46 +248,40 @@ export default function AdminOrderDetail() {
               label="Method"
               value={detail.payment_method_title || detail.payment_method || "—"}
             />
-            {detail.payment_method && (
-              <Row label="Method code" value={detail.payment_method} mono />
-            )}
+            <Row label="Method code" value={detail.payment_method || "—"} mono />
             <Row label="Currency" value={detail.currency || "—"} />
-            {detail.billing_email && (
-              <Row label="Billing email" value={detail.billing_email} />
-            )}
-            {detail.customer_id != null && (
-              <Row
-                label="Customer"
-                value={
+            <Row label="Billing email" value={detail.billing_email || "—"} />
+            <Row
+              label="Customer"
+              value={
+                detail.customer_id != null ? (
                   <Link
                     to={`/admin/users/${detail.customer_id}`}
                     className="text-accent hover:underline"
                   >
                     #{detail.customer_id}
                   </Link>
-                }
-              />
-            )}
-            {detail.transaction_id && (
-              <Row label="Transaction" value={detail.transaction_id} mono />
-            )}
-            {detail.vendor_tx_code && (
-              <Row label="Vendor Tx" value={detail.vendor_tx_code} mono />
-            )}
-            {detail.opayo_status && <Row label="Opayo status" value={detail.opayo_status} />}
-            {detail.failure_reason && (
-              <Row
-                label="Failure reason"
-                value={<span className="text-red-600">{detail.failure_reason}</span>}
-              />
-            )}
-            {detail.ip_address && <Row label="IP address" value={detail.ip_address} mono />}
-            {detail.created_at && (
-              <Row label="Created" value={formatDate(detail.created_at)} />
-            )}
-            {detail.updated_at && (
-              <Row label="Updated" value={formatDate(detail.updated_at)} />
-            )}
+                ) : (
+                  "—"
+                )
+              }
+            />
+            <Row label="Transaction" value={detail.transaction_id || "—"} mono />
+            <Row label="Vendor Tx" value={detail.vendor_tx_code || "—"} mono />
+            <Row label="Opayo status" value={detail.opayo_status || "—"} />
+            <Row
+              label="Failure reason"
+              value={
+                detail.failure_reason ? (
+                  <span className="text-red-600">{detail.failure_reason}</span>
+                ) : (
+                  "—"
+                )
+              }
+            />
+            <Row label="IP address" value={detail.ip_address || "—"} mono />
+            <Row label="Created" value={formatDate(detail.created_at)} />
+            <Row label="Updated" value={formatDate(detail.updated_at)} />
           </dl>
         </Section>
       </div>
