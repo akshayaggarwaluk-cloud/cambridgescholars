@@ -189,6 +189,77 @@ export interface CmsContactMessageDetail {
   created_at: string;
 }
 
+export interface CmsCustomerUserSummary {
+  id: number;
+  email: string;
+  name?: string | null;
+  is_active?: boolean | null;
+  billing_country?: string | null;
+  registered_at?: string | null;
+  created_at?: string | null;
+  order_count?: number | null;
+  lifetime_spend?: number | null;
+  last_order_at?: string | null;
+}
+
+export interface CmsCustomerUserListResponse {
+  data: CmsCustomerUserSummary[];
+  page: number;
+  per_page: number;
+  total: number;
+  total_pages: number;
+}
+
+export interface CmsCustomerAddress {
+  first_name?: string | null;
+  last_name?: string | null;
+  company?: string | null;
+  address_1?: string | null;
+  address_2?: string | null;
+  city?: string | null;
+  state?: string | null;
+  postcode?: string | null;
+  country?: string | null;
+  email?: string | null;
+  phone?: string | null;
+}
+
+export interface CmsCustomerRecentOrder {
+  id: number;
+  status: string;
+  currency?: string | null;
+  total_amount?: number | null;
+  payment_method_title?: string | null;
+  failure_reason?: string | null;
+  created_at: string;
+}
+
+export interface CmsCustomerUserDetail {
+  id: number;
+  wp_user_id?: number | null;
+  email: string;
+  username?: string | null;
+  display_name?: string | null;
+  first_name?: string | null;
+  last_name?: string | null;
+  phone?: string | null;
+  is_active?: boolean | null;
+  registered_at?: string | null;
+  created_at?: string | null;
+  updated_at?: string | null;
+  billing?: CmsCustomerAddress | null;
+  shipping?: CmsCustomerAddress | null;
+  stats?: {
+    successful_orders?: number | null;
+    total_orders?: number | null;
+    lifetime_spend?: number | null;
+    last_order_at?: string | null;
+    wishlist_count?: number | null;
+    ebook_count?: number | null;
+  } | null;
+  recent_orders?: CmsCustomerRecentOrder[] | null;
+}
+
 const ADMIN_TOKEN_KEY = "cms_admin_token";
 const ADMIN_USER_KEY = "cms_admin_user";
 const ADMIN_EXTERNAL_TOKEN_KEY = "cms_admin_external_token";
