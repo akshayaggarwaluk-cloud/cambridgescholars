@@ -17,10 +17,10 @@ const STATUS_OPTIONS: { value: string; label: string }[] = [
   { value: "withdrawn", label: "Withdrawn" },
 ];
 
-function formatDate(value?: string | null) {
+function formatDate(value?: unknown) {
   if (!value) return "—";
-  const d = new Date(value);
-  if (Number.isNaN(d.getTime())) return value;
+  const d = new Date(String(value));
+  if (Number.isNaN(d.getTime())) return String(value);
   return d.toLocaleString();
 }
 
