@@ -1115,4 +1115,32 @@ export const adminApi = {
   },
   getContactMessage: (id: number | string) =>
     callExternalCms<CmsContactMessageDetail>(`/contact-messages/${encodeURIComponent(String(id))}`),
+
+  // ─── Customer users (external CMS API) ───────────────────────
+  listCustomerUsers: (opts: {
+    page?: number;
+    per_page?: number;
+    q?: string;
+    is_active?: "true" | "false" | "";
+    has_orders?: "true" | "false" | "";
+    date_from?: string;
+    date_to?: string;
+    sort?: string;
+    order?: "asc" | "desc";
+  } = {}) => {
+    const qs = new URLSearchParams();
+    if (opts.page) qs.set("page", String(opts.page));
+    if (opts.per_page) qs.set("per_page", String(opts.per_page));
+    if (opts.q) qs.set("q", opts.q);
+    if (opts.is_active) qs.set("is_active", opts.is_active);
+    if (opts.has_orders) qs.set("has_orders", opts.has_orders);
+    if (opts.date_from) qs.set("date_from", opts.date_from);
+    if (opts.date_to) qs.set("date_to", opts.date_to);
+    if (opts.sort) qs.set("sort", opts.sort);
+    if (opts.order) qs.set("order", opts.order);
+    const suffix = qs.toString() ? `?${qs.toString()}` : "";
+    return callExternalCms<CmsCustomerUserListResponse>(`/users${suffix}`);
+  },
+  getCustomerUser: (id: number | string) =>
+    callExternalCms<CmsCustomerUserDetail>(`/users/${encodeURIComponent(String(id))}`),
 };
