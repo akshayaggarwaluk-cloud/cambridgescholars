@@ -152,6 +152,43 @@ export interface CmsProposalDetailExt {
   files?: CmsProposalFile[];
 }
 
+// ── CMS Contact Messages (admin) ─────────────────────────────────
+export interface CmsContactMessageSummary {
+  id: number;
+  ticket_id?: string | null;
+  name: string;
+  email: string;
+  subject?: string | null;
+  subject_id?: number | null;
+  subject_name?: string | null;
+  message_preview?: string | null;
+  recaptcha_verified?: boolean | null;
+  created_at: string;
+}
+
+export interface CmsContactMessageListResponse {
+  data: CmsContactMessageSummary[];
+  page: number;
+  per_page: number;
+  total: number;
+  total_pages: number;
+}
+
+export interface CmsContactMessageDetail {
+  id: number;
+  ticket_id?: string | null;
+  name: string;
+  email: string;
+  subject?: string | null;
+  subject_id?: number | null;
+  subject_name?: string | null;
+  message: string;
+  ip_address?: string | null;
+  user_agent?: string | null;
+  recaptcha_verified?: boolean | null;
+  created_at: string;
+}
+
 const ADMIN_TOKEN_KEY = "cms_admin_token";
 const ADMIN_USER_KEY = "cms_admin_user";
 const ADMIN_EXTERNAL_TOKEN_KEY = "cms_admin_external_token";
