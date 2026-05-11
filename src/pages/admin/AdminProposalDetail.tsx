@@ -247,15 +247,107 @@ export default function AdminProposalDetail() {
         )}
       </Section>
 
-      {/* Submission sections */}
-      <div className="grid lg:grid-cols-2 gap-6">
-        {detail.book && <JsonSection title="Book" value={detail.book} />}
-        {detail.description && <JsonSection title="Description" value={detail.description} />}
-        {detail.marketing && <JsonSection title="Marketing" value={detail.marketing} />}
-        {detail.manuscript && <JsonSection title="Manuscript" value={detail.manuscript} />}
-        {detail.mailing && <JsonSection title="Mailing" value={detail.mailing} />}
-        {detail.agreement && <JsonSection title="Agreement" value={detail.agreement} />}
-      </div>
+      {/* Book */}
+      {detail.book && (
+        <Section title="Book">
+          <FieldGrid>
+            <Field label="Title" value={get(detail.book, "title")} />
+            <Field label="Subtitle" value={get(detail.book, "subtitle")} />
+            <Field label="Type" value={get(detail.book, "type")} />
+            <Field label="Language" value={get(detail.book, "language")} />
+            <Field label="Subject" value={get(detail.book, "subject")} />
+            <Field label="Secondary subjects" value={joinArr(get(detail.book, "secondarySubjects"))} />
+            <Field label="Estimated completion" value={formatDate(get(detail.book, "estimatedCompletionDate"))} />
+            <Field label="Estimated pages" value={get(detail.book, "estimatedPages")} />
+            <Field label="Estimated word count" value={get(detail.book, "estimatedWordCount")} />
+            <Field label="Has illustrations" value={formatBool(get(detail.book, "hasIllustrations"))} />
+            <Field label="Illustration count" value={get(detail.book, "illustrationCount")} />
+            <Field label="Has tables" value={formatBool(get(detail.book, "hasTables"))} />
+            <Field label="Previously published" value={formatBool(get(detail.book, "isPreviouslyPublished"))} />
+          </FieldGrid>
+        </Section>
+      )}
+
+      {/* Description */}
+      {detail.description && (
+        <Section title="Description">
+          <div className="p-4 space-y-4">
+            <LongField label="Abstract" value={get(detail.description, "abstract")} />
+            <LongField label="Key features" value={get(detail.description, "keyFeatures")} />
+            <LongField label="Table of contents" value={get(detail.description, "tableOfContents")} />
+            <LongField label="Unique selling points" value={get(detail.description, "uniqueSellingPoints")} />
+          </div>
+        </Section>
+      )}
+
+      {/* Marketing */}
+      {detail.marketing && (
+        <Section title="Marketing">
+          <div className="p-4 space-y-4">
+            <Field label="Primary market" value={get(detail.marketing, "primaryMarket")} />
+            <LongField label="Target audience" value={get(detail.marketing, "targetAudience")} />
+            <LongField label="Competing titles" value={get(detail.marketing, "competingTitles")} />
+            <LongField label="Recommended reviewers" value={get(detail.marketing, "recommendedReviewers")} />
+            <LongField label="Promotional channels" value={get(detail.marketing, "promotionalChannels")} />
+            <LongField label="Conferences" value={get(detail.marketing, "conferences")} />
+          </div>
+        </Section>
+      )}
+
+      {/* Manuscript */}
+      {detail.manuscript && (
+        <Section title="Manuscript">
+          <div className="p-4 space-y-4">
+            {(() => {
+              const sample = get(detail.manuscript, "sampleChapter") as Record<string, unknown> | null;
+              return sample ? (
+                <div>
+                  <div className="text-[10px] uppercase tracking-wider text-muted-foreground mb-1">Sample chapter</div>
+                  <FileLink file={sample} />
+                </div>
+              ) : null;
+            })()}
+            {(() => {
+              const extra = get(detail.manuscript, "additionalFiles") as unknown;
+              const arr = Array.isArray(extra) ? extra as Record<string, unknown>[] : [];
+              return arr.length > 0 ? (
+                <div>
+                  <div className="text-[10px] uppercase tracking-wider text-muted-foreground mb-1">Additional files</div>
+                  <ul className="space-y-1">
+                    {arr.map((f, i) => <li key={i}><FileLink file={f} /></li>)}
+                  </ul>
+                </div>
+              ) : null;
+            })()}
+          </div>
+        </Section>
+      )}
+
+      {/* Mailing */}
+      {detail.mailing && (
+        <Section title="Mailing address">
+          <FieldGrid>
+            <Field label="Address line 1" value={get(detail.mailing, "addressLine1")} />
+            <Field label="Address line 2" value={get(detail.mailing, "addressLine2")} />
+            <Field label="City" value={get(detail.mailing, "city")} />
+            <Field label="State" value={get(detail.mailing, "state")} />
+            <Field label="Postal code" value={get(detail.mailing, "postalCode")} />
+            <Field label="Country" value={get(detail.mailing, "country")} />
+          </FieldGrid>
+        </Section>
+      )}
+
+      {/* Agreement */}
+      {detail.agreement && (
+        <Section title="Agreement">
+          <FieldGrid>
+            <Field label="Signed by" value={get(detail.agreement, "signedBy")} />
+            <Field label="Signed at" value={formatDate(get(detail.agreement, "signedAt"))} />
+            <Field label="Accepted terms" value={formatBool(get(detail.agreement, "acceptedTerms"))} />
+            <Field label="Accepted privacy policy" value={formatBool(get(detail.agreement, "acceptedPrivacyPolicy"))} />
+          </FieldGrid>
+        </Section>
+      )}
 
       {detail.authors && detail.authors.length > 0 && (
         <Section title={`Authors (${detail.authors.length})`}>
@@ -263,20 +355,57 @@ export default function AdminProposalDetail() {
             {detail.authors.map((a, i) => (
               <div key={i} className="p-4">
                 <div className="text-xs uppercase tracking-wider text-muted-foreground mb-2">
-                  Author {i + 1}{i === 0 ? " · lead" : ""}
+                  Author {i + 1}
+                  {String(get(a, "role") || "") && ` · ${String(get(a, "role"))}`}
+                  {i === 0 ? " · lead" : ""}
                 </div>
-                <pre className="text-xs whitespace-pre-wrap break-all text-foreground bg-[#f4f3ec]/40 p-3 border border-border">
-{JSON.stringify(a, null, 2)}
-                </pre>
+                <FieldGrid>
+                  <Field label="Title" value={get(a, "title")} />
+                  <Field label="First name" value={get(a, "firstName")} />
+                  <Field label="Last name" value={get(a, "lastName")} />
+                  <Field label="Email" value={get(a, "email")} />
+                  <Field label="Phone" value={get(a, "phone")} />
+                  <Field label="Position" value={get(a, "position")} />
+                  <Field label="Institution" value={get(a, "institution")} />
+                  <Field label="Country" value={get(a, "country")} />
+                  <Field label="Role" value={get(a, "role")} />
+                </FieldGrid>
+                {get(a, "biography") && (
+                  <div className="mt-3">
+                    <LongField label="Biography" value={get(a, "biography")} />
+                  </div>
+                )}
+                {get(a, "cv_url") && (
+                  <div className="mt-3">
+                    <a
+                      href={String(get(a, "cv_url"))}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="inline-flex items-center text-accent hover:underline text-xs"
+                    >
+                      <Download className="h-3.5 w-3.5 mr-1" /> Download CV
+                    </a>
+                  </div>
+                )}
               </div>
             ))}
           </div>
         </Section>
       )}
 
-      {detail.s3_folder && (
-        <p className="text-xs text-muted-foreground">S3 folder: <code className="font-mono">{detail.s3_folder}</code></p>
-      )}
+      <Section title="Metadata">
+        <FieldGrid>
+          <Field label="ID" value={detail.id} />
+          <Field label="Reference" value={detail.reference_number} />
+          <Field label="Status" value={detail.status} />
+          <Field label="Submitted at" value={formatDate(detail.submitted_at)} />
+          <Field label="Created at" value={formatDate(detail.created_at)} />
+          <Field label="Updated at" value={formatDate(detail.updated_at)} />
+          <Field label="Reviewed at" value={formatDate(detail.reviewed_at)} />
+          <Field label="Reviewed by" value={detail.reviewed_by} />
+          <Field label="S3 folder" value={detail.s3_folder} />
+        </FieldGrid>
+      </Section>
     </div>
   );
 }
@@ -292,12 +421,64 @@ function Section({ title, children }: { title: string; children: React.ReactNode
   );
 }
 
-function JsonSection({ title, value }: { title: string; value: unknown }) {
+function FieldGrid({ children }: { children: React.ReactNode }) {
+  return <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 p-4">{children}</div>;
+}
+
+function Field({ label, value }: { label: string; value: unknown }) {
+  const display =
+    value === null || value === undefined || value === ""
+      ? "—"
+      : typeof value === "boolean"
+      ? value ? "Yes" : "No"
+      : String(value);
   return (
-    <Section title={title}>
-      <pre className="text-xs whitespace-pre-wrap break-all text-foreground p-4">
-{JSON.stringify(value, null, 2)}
-      </pre>
-    </Section>
+    <div>
+      <div className="text-[10px] uppercase tracking-wider text-muted-foreground mb-1">{label}</div>
+      <div className="text-sm text-foreground break-words">{display}</div>
+    </div>
   );
+}
+
+function LongField({ label, value }: { label: string; value: unknown }) {
+  const display = value === null || value === undefined || value === "" ? "—" : String(value);
+  return (
+    <div>
+      <div className="text-[10px] uppercase tracking-wider text-muted-foreground mb-1">{label}</div>
+      <div className="text-sm text-foreground whitespace-pre-wrap break-words">{display}</div>
+    </div>
+  );
+}
+
+function FileLink({ file }: { file: Record<string, unknown> }) {
+  const url = file.url ? String(file.url) : "";
+  const name = file.filename ? String(file.filename) : url.split("/").pop() || "file";
+  const size = typeof file.size_bytes === "number" ? formatBytes(file.size_bytes) : null;
+  if (!url) return <span className="text-sm text-muted-foreground">{name}</span>;
+  return (
+    <a
+      href={url}
+      target="_blank"
+      rel="noreferrer"
+      className="inline-flex items-center text-accent hover:underline text-sm break-all"
+    >
+      <Download className="h-3.5 w-3.5 mr-1 flex-shrink-0" />
+      {name}{size ? ` (${size})` : ""}
+    </a>
+  );
+}
+
+function get(obj: unknown, key: string): unknown {
+  if (!obj || typeof obj !== "object") return null;
+  return (obj as Record<string, unknown>)[key] ?? null;
+}
+
+function joinArr(v: unknown): string {
+  if (!Array.isArray(v) || v.length === 0) return "";
+  return v.map((x) => String(x)).join(", ");
+}
+
+function formatBool(v: unknown): unknown {
+  if (v === null || v === undefined) return null;
+  return Boolean(v);
 }
