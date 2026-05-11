@@ -263,6 +263,9 @@ export default function AdminOrderDetail() {
               <Row label="Vendor Tx" value={detail.vendor_tx_code} mono />
             )}
             {detail.opayo_status && <Row label="Opayo status" value={detail.opayo_status} />}
+            {detail.failure_reason && (
+              <Row label="Failure reason" value={detail.failure_reason} highlight />
+            )}
             {detail.ip_address && <Row label="IP address" value={detail.ip_address} mono />}
             {detail.updated_at && (
               <Row label="Updated" value={formatDate(detail.updated_at)} />
