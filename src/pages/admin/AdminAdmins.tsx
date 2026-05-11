@@ -225,7 +225,6 @@ export default function AdminAdmins() {
                 <p className="text-xs text-muted-foreground mt-0.5">
                   {a.name ? `${a.name} · ` : ""}
                   Created {new Date(a.created_at).toLocaleDateString()}
-                  {a.last_login_at ? ` · Last login ${new Date(a.last_login_at).toLocaleString()}` : " · Never signed in"}
                 </p>
               </div>
               <div className="flex gap-1">
