@@ -239,14 +239,6 @@ export default function AdminOrderDetail() {
               />
             )}
           </dl>
-          {detail.coupons && detail.coupons.length > 0 && (
-            <div className="text-xs text-muted-foreground px-4 py-3 border-t border-border">
-              Coupons:{" "}
-              {detail.coupons
-                .map((c) => c.code || `−${formatMoney(c.discount, detail.currency)}`)
-                .join(", ")}
-            </div>
-          )}
         </Section>
 
         {/* Box 4 — Payment */}
