@@ -1018,4 +1018,30 @@ export const adminApi = {
       id: number; status: string; reviewed_at: string; reviewed_by: string;
       review_notes: string; updated_at: string;
     }>(`/proposals/${encodeURIComponent(String(id))}`, { method: "PATCH", body: payload }),
+
+  // ─── Contact messages (external CMS API) ─────────────────────
+  listContactMessages: (opts: {
+    page?: number;
+    per_page?: number;
+    q?: string;
+    subject_id?: number;
+    date_from?: string;
+    date_to?: string;
+    sort?: string;
+    order?: "asc" | "desc";
+  } = {}) => {
+    const qs = new URLSearchParams();
+    if (opts.page) qs.set("page", String(opts.page));
+    if (opts.per_page) qs.set("per_page", String(opts.per_page));
+    if (opts.q) qs.set("q", opts.q);
+    if (opts.subject_id !== undefined) qs.set("subject_id", String(opts.subject_id));
+    if (opts.date_from) qs.set("date_from", opts.date_from);
+    if (opts.date_to) qs.set("date_to", opts.date_to);
+    if (opts.sort) qs.set("sort", opts.sort);
+    if (opts.order) qs.set("order", opts.order);
+    const suffix = qs.toString() ? `?${qs.toString()}` : "";
+    return callExternalCms<CmsContactMessageListResponse>(`/contact-messages${suffix}`);
+  },
+  getContactMessage: (id: number | string) =>
+    callExternalCms<CmsContactMessageDetail>(`/contact-messages/${encodeURIComponent(String(id))}`),
 };
