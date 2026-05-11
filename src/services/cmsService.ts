@@ -22,6 +22,7 @@ export interface CmsOrderSummary {
   billing_country?: string | null;
   payment_method?: string | null;
   payment_method_title?: string | null;
+  failure_reason?: string | null;
   item_count?: number | null;
   created_at: string;
   updated_at?: string | null;
@@ -84,6 +85,7 @@ export interface CmsOrderDetail {
   transaction_id?: string | null;
   vendor_tx_code?: string | null;
   opayo_status?: string | null;
+  failure_reason?: string | null;
   ip_address?: string | null;
   customer_note?: string | null;
   created_at?: string | null;
