@@ -8,6 +8,7 @@ const footerLinks = {
     { name: "Publish a Book", href: "/publish-a-book" },
     { name: "News", href: "/news" },
     { name: "FAQs", href: "/faqs" },
+    { name: "Order Tracking", href: "/order-tracking" },
   ],
   otherLinks: [
     { name: "Privacy Policy", href: "/privacy-policy" },
