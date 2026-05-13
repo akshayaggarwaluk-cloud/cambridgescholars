@@ -74,7 +74,10 @@ export default function AuthorPromises() {
           >
             {promises.map((p, i) => (
               <li key={i} className="pl-2">
-                <h2 className="text-[16px] font-bold text-[#333333] mb-1">
+                <h2
+                  className="text-[16px] font-bold text-[#333333] mb-1 !font-sans"
+                  style={{ fontFamily: '"Nunito Sans", sans-serif' }}
+                >
                   {p.title}
                 </h2>
                 <p>{p.body}</p>
