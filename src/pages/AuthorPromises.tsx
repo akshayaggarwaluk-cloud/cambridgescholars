@@ -62,33 +62,28 @@ export default function AuthorPromises() {
       <main className="py-16 bg-white">
         <section className="max-w-7xl mx-auto px-6 md:px-16">
           <p
-            className="text-[16px] text-[#696969] leading-[1.6] mb-10"
+            className="text-[16px] text-[#696969] leading-[1.6] mb-8"
             style={{ fontFamily: '"Nunito Sans", sans-serif' }}
           >
             We are dedicated to academic publishing and place our authors at the centre of our work. Whether you are an experienced writer or publishing for the first time, in Humanities and Social Sciences, Health Sciences, Physical Sciences or Life Sciences, we make these ten commitments:
           </p>
 
           <ol
-            className="space-y-6 text-[16px] text-[#696969] leading-[1.6]"
+            className="list-decimal pl-6 space-y-5 text-[16px] text-[#696969] leading-[1.6] [&_li::marker]:text-[#333333] [&_li::marker]:font-normal"
             style={{ fontFamily: '"Nunito Sans", sans-serif' }}
           >
             {promises.map((p, i) => (
-              <li key={i} className="flex gap-4">
-                <span className="text-[#C75B2A] font-semibold w-8 shrink-0">
-                  {String(i + 1).padStart(2, "0")}.
-                </span>
-                <div>
-                  <h2 className="text-[18px] font-semibold text-[#333333] mb-1">
-                    {p.title}
-                  </h2>
-                  <p>{p.body}</p>
-                </div>
+              <li key={i} className="pl-2">
+                <h2 className="text-[16px] font-bold text-[#333333] mb-1">
+                  {p.title}
+                </h2>
+                <p>{p.body}</p>
               </li>
             ))}
           </ol>
 
           <p
-            className="text-[14px] text-[#696969] leading-[1.6] mt-10 italic"
+            className="text-[14px] text-[#696969] leading-[1.6] mt-8"
             style={{ fontFamily: '"Nunito Sans", sans-serif' }}
           >
             *Where extensive language editing is required, we may suggest an external service. A limited Scholarship Fund is available to assist in cases of financial difficulty.
