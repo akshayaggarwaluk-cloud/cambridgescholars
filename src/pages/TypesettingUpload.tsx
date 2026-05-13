@@ -2,10 +2,6 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { PageBreadcrumb } from "@/components/layout/PageBreadcrumb";
 
-// SendThisFile FileBox widget URL — same widget used on the Typesetting page.
-const SENDTHISFILE_URL =
-  "https://www21.sendthisfile.com/filebox/index.jsp?balance=13308&widgetcode=rmdAEQK7NsksIsI4cGToas83&errorMessage=";
-
 export default function TypesettingUpload() {
   return (
     <div className="min-h-screen bg-white">
@@ -23,32 +19,16 @@ export default function TypesettingUpload() {
 
       <section className="container-wide pb-16 bg-white">
         <div className="max-w-4xl mx-auto">
-          <p className="text-[#333333] text-base leading-relaxed mb-6">
-            To send large files for typesetting, please use the application below, entering the password provided by our Editorial team. Please note, this application may take a few moments to load.
-          </p>
-
-          <p className="text-[#333333] text-base leading-relaxed mb-8">
-            For a comprehensive overview of the publication process, please see our{" "}
-            <a
-              href="/typesetting"
-              className="text-[#C75B2A] underline hover:no-underline"
-            >
-              Typesetting page
-            </a>
-            .
-          </p>
-
-          <div className="min-h-[700px] w-full">
-            <iframe
-              src={SENDTHISFILE_URL}
-              width="100%"
-              height="700"
-              style={{ border: 0 }}
-              title="Send files for typesetting"
-              allow="clipboard-write"
-              className="w-full"
-            />
-          </div>
+          <ul className="list-disc pl-6 space-y-3 text-base">
+            <li>
+              <a
+                href="/typesetting"
+                className="text-[#C75B2A] hover:underline"
+              >
+                Comprehensive Overview of the Publication Process
+              </a>
+            </li>
+          </ul>
         </div>
       </section>
 
