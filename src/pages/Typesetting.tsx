@@ -53,11 +53,11 @@ export default function Typesetting() {
               </Button>
             </div>
           ) : (
-            <div className="min-h-[700px] w-full">
+            <div className="w-full">
               <iframe
                 src={SENDTHISFILE_URL}
                 width="100%"
-                height="700"
+                height="450"
                 style={{ border: 0 }}
                 title="Send files for typesetting"
                 allow="clipboard-write"
