@@ -28,7 +28,7 @@ export default function Auth() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (isAuthenticated) navigate("/profile");
+    if (isAuthenticated) navigate("/my-account");
   }, [isAuthenticated, navigate]);
 
   // ── Login state ────────────────────────────────
@@ -81,7 +81,7 @@ export default function Auth() {
       }
       authLogin(res);
       toast.success("Welcome back!");
-      navigate("/profile");
+      navigate("/my-account");
     } catch (error) {
       const message = error instanceof Error ? error.message : "Login failed";
       if (/invalid|incorrect|unauthor/i.test(message)) {
@@ -152,7 +152,7 @@ export default function Auth() {
       if (res?.access_token && res?.user) {
         authLogin(res);
         toast.success("Account created — welcome!");
-        navigate("/profile");
+        navigate("/my-account");
       } else {
         toast.success("Account created. You can now log in.");
         setRegisterStep("details");

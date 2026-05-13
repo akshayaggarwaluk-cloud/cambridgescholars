@@ -125,7 +125,8 @@ export function AnimatedRoutes() {
         <Route path="/forgot-password" element={<PageTransition><ForgotPassword /></PageTransition>} />
         <Route path="/reset-password" element={<PageTransition><ResetPassword /></PageTransition>} />
         
-        <Route path="/profile" element={<PageTransition><ProtectedRoute><ExternalProfile /></ProtectedRoute></PageTransition>} />
+        <Route path="/my-account" element={<PageTransition><ProtectedRoute><ExternalProfile /></ProtectedRoute></PageTransition>} />
+        <Route path="/profile" element={<Navigate to="/my-account" replace />} />
         <Route path="/orders/:id/pay" element={<PageTransition><ProtectedRoute><PayOrder /></ProtectedRoute></PageTransition>} />
         <Route path="/orders" element={<OrdersRedirect />} />
         <Route path="/orders/*" element={<OrdersWildcardRedirect />} />
