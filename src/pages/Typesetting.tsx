@@ -67,23 +67,6 @@ export default function Typesetting() {
               />
             </div>
           )}
-
-          <div className="mt-6 text-center">
-            <Button
-              asChild
-              variant="outline"
-              className="uppercase tracking-wider"
-            >
-              <a
-                href={SENDTHISFILE_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <ExternalLink className="h-4 w-4 mr-2" />
-                Open upload form in new tab
-              </a>
-            </Button>
-          </div>
         </div>
       </section>
 
