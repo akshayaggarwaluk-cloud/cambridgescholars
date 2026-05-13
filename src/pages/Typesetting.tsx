@@ -26,7 +26,7 @@ export default function Typesetting() {
         </div>
       </div>
 
-      <section className="container-wide pb-16 bg-white">
+      <section className="container-wide pb-6 bg-white">
         <div className="pt-12">
           <p className="text-[#333333] text-base leading-relaxed mb-8">
             To send large files for typesetting, please use the application below, entering the password provided by our Editorial team. Please note, this application may take a few moments to load.
