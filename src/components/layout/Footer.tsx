@@ -13,7 +13,7 @@ const footerLinks = {
     { name: "Privacy Policy", href: "/pages/privacy" },
     { name: "Cookies Policy", href: "/cookies" },
     { name: "Terms and Conditions", href: "/terms" },
-    { name: "Accessibility Statement", href: "/accessibility" },
+    { name: "Accessibility Statement", href: "/accessibility-policy" },
     { name: "Refund and Returns", href: "/returns" },
   ],
 };
