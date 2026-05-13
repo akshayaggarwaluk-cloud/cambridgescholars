@@ -27,6 +27,7 @@ const routeLabels: Record<string, string> = {
   "/publish": "Publish a Book",
   "/how-to-publish": "How to Publish",
   "/book-proposal-form": "Book Proposal Form",
+  "/typesetting": "Typesetting",
   "/resources": "Resources",
   "/endorsement-submission": "Endorsement Submission"
 };
