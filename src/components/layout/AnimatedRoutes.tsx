@@ -84,8 +84,8 @@ function OrdersRedirect() {
   const params = new URLSearchParams(location.search);
   const newOrderId = params.get("new") || params.get("order_id") || params.get("orderId");
   const target = newOrderId
-    ? `/profile?tab=orders&new=${encodeURIComponent(newOrderId)}`
-    : "/profile?tab=orders";
+    ? `/my-account?tab=orders&new=${encodeURIComponent(newOrderId)}`
+    : "/my-account?tab=orders";
 
   return <Navigate to={target} replace />;
 }
@@ -96,8 +96,8 @@ function OrdersWildcardRedirect() {
   const pathOrderId = location.pathname.match(/^\/orders\/([^/]+)/)?.[1];
   const newOrderId = params.get("new") || params.get("order_id") || params.get("orderId") || pathOrderId;
   const target = newOrderId
-    ? `/profile?tab=orders&new=${encodeURIComponent(newOrderId)}`
-    : "/profile?tab=orders";
+    ? `/my-account?tab=orders&new=${encodeURIComponent(newOrderId)}`
+    : "/my-account?tab=orders";
 
   return <Navigate to={target} replace />;
 }
