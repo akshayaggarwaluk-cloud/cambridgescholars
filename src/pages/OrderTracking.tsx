@@ -88,19 +88,44 @@ export default function OrderTracking() {
         </div>
       </div>
 
-      <main className="flex-1 py-12 bg-white">
-        <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
-          <p className="leading-[1.7] text-[#333333] text-[16px] font-nav mb-8">
+      <main className="flex-1 py-16 bg-white">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+          {result && (
+            <div
+              className={`mb-10 p-5 border ${
+                result.success
+                  ? "bg-[#f6fef9] border-[#86efac]"
+                  : "bg-[#fde8e6] border-[#f5b5ad]"
+              }`}
+            >
+              <div className="flex items-start gap-3">
+                {result.success ? (
+                  <PackageCheck className="h-5 w-5 text-[#16a34a] mt-0.5 flex-shrink-0" />
+                ) : (
+                  <AlertCircle className="h-5 w-5 text-[#C75B2A] mt-0.5 flex-shrink-0" />
+                )}
+                <p
+                  className={`text-[16px] leading-[1.6] font-nav ${
+                    result.success ? "text-[#166534]" : "text-[#333333]"
+                  }`}
+                >
+                  {result.message}
+                </p>
+              </div>
+            </div>
+          )}
+
+          <p className="leading-[1.7] text-[#333333] text-[16px] font-nav mb-10 text-center">
             To track your order please enter your Order ID in the box below and
             press the "Track" button. This was given to you on your receipt and
             in the confirmation email you should have received.
           </p>
 
           <form onSubmit={handleTrack} className="space-y-6">
-            <div>
+            <div className="text-center">
               <Label
                 htmlFor="order-id"
-                className="text-[13px] font-bold uppercase tracking-wider text-[#333333] mb-2 block"
+                className="text-[13px] font-bold uppercase tracking-wider text-[#333333] mb-3 block"
               >
                 Order ID
               </Label>
@@ -115,10 +140,10 @@ export default function OrderTracking() {
               />
             </div>
 
-            <div>
+            <div className="text-center">
               <Label
                 htmlFor="billing-email"
-                className="text-[13px] font-bold uppercase tracking-wider text-[#333333] mb-2 block"
+                className="text-[13px] font-bold uppercase tracking-wider text-[#333333] mb-3 block"
               >
                 Billing email
               </Label>
@@ -133,69 +158,28 @@ export default function OrderTracking() {
               />
             </div>
 
-            <Button
-              type="submit"
-              disabled={loading}
-              className="h-12 px-8 rounded-none uppercase tracking-[0.22em] bg-[#C75B2A] hover:bg-[#a84a22] text-white font-semibold text-[14px]"
-            >
-              {loading ? (
-                <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Tracking...
-                </>
-              ) : (
-                <>
-                  <Search className="mr-2 h-4 w-4" />
-                  Track
-                </>
-              )}
-            </Button>
+            <div className="flex justify-center pt-2">
+              <Button
+                type="submit"
+                disabled={loading}
+                className="h-12 px-10 rounded-none uppercase tracking-[0.22em] bg-[#C75B2A] hover:bg-[#a84a22] text-white font-semibold text-[14px]"
+              >
+                {loading ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Tracking...
+                  </>
+                ) : (
+                  <>
+                    <Search className="mr-2 h-4 w-4" />
+                    Track
+                  </>
+                )}
+              </Button>
+            </div>
           </form>
 
-          {result && (
-            <div
-              className={`mt-8 p-6 border ${
-                result.success
-                  ? "bg-[#f6fef9] border-[#86efac]"
-                  : "bg-[#fef2f2] border-[#fca5a5]"
-              }`}
-            >
-              <div className="flex items-start gap-3">
-                {result.success ? (
-                  <PackageCheck className="h-5 w-5 text-[#16a34a] mt-0.5 flex-shrink-0" />
-                ) : (
-                  <AlertCircle className="h-5 w-5 text-[#dc2626] mt-0.5 flex-shrink-0" />
-                )}
-                <p
-                  className={`text-[15px] leading-[1.6] font-nav ${
-                    result.success ? "text-[#166534]" : "text-[#991b1b]"
-                  }`}
-                >
-                  {result.message}
-                </p>
-              </div>
-            </div>
-          )}
-
-          <div className="mt-10 p-6 bg-[#f4f3ec]">
-            <h2 className="font-nav text-[16px] font-bold text-[#333333] mb-3">
-              Processing Your Order
-            </h2>
-            <p className="text-[15px] text-[#696969] font-nav leading-[1.6]">
-              Please wait while we securely process your order.
-            </p>
-            <p className="text-[15px] text-[#696969] font-nav leading-[1.6] mt-2">
-              <strong className="text-[#333333]">
-                Do not refresh or leave this page.
-              </strong>
-            </p>
-            <p className="text-[15px] text-[#696969] font-nav leading-[1.6] mt-2">
-              You will be redirected shortly to a confirmation page with your
-              order number.
-            </p>
-          </div>
-
-          <div className="mt-8">
+          <div className="mt-12 text-center">
             <p className="text-[15px] text-[#696969] font-nav leading-[1.6]">
               If you have any questions about your order, please contact us at{" "}
               <a
