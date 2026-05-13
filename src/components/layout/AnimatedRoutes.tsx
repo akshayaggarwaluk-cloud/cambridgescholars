@@ -114,7 +114,8 @@ export function AnimatedRoutes() {
         <Route path="/cart" element={<PageTransition><Cart /></PageTransition>} />
         <Route path="/checkout" element={<PageTransition><ProtectedRoute><Checkout /></ProtectedRoute></PageTransition>} />
         <Route path="/checkout/result" element={<PageTransition><CheckoutResult /></PageTransition>} />
-        <Route path="/about" element={<PageTransition><About /></PageTransition>} />
+        <Route path="/about-us" element={<PageTransition><About /></PageTransition>} />
+        <Route path="/about" element={<Navigate to="/about-us" replace />} />
         <Route path="/contact-us" element={<PageTransition><Contact /></PageTransition>} />
         <Route path="/contact" element={<Navigate to="/contact-us" replace />} />
         <Route path="/auth" element={<PageTransition><Auth /></PageTransition>} />
