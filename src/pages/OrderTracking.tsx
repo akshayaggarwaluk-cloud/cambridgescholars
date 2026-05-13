@@ -81,7 +81,7 @@ export default function OrderTracking() {
           <PageBreadcrumb
             items={[
               { label: "Home", href: "/" },
-              { label: "My Account", href: "/my-account" },
+              { label: "My account", href: "/my-account" },
             ]}
             currentPage="Order Tracking"
           />
@@ -109,7 +109,7 @@ export default function OrderTracking() {
                 type="text"
                 value={orderId}
                 onChange={(e) => setOrderId(e.target.value)}
-                placeholder="e.g. 12345"
+                placeholder="Found in your order confirmation email."
                 required
                 className="h-12 rounded-none border-[#e5e5e5] bg-white text-[#333333] focus-visible:ring-[#C75B2A]"
               />
@@ -127,7 +127,7 @@ export default function OrderTracking() {
                 type="email"
                 value={billingEmail}
                 onChange={(e) => setBillingEmail(e.target.value)}
-                placeholder="your@email.com"
+                placeholder="Email you used during checkout."
                 required
                 className="h-12 rounded-none border-[#e5e5e5] bg-white text-[#333333] focus-visible:ring-[#C75B2A]"
               />
