@@ -5,10 +5,10 @@ import { Footer } from "@/components/layout/Footer";
 import { PageBreadcrumb } from "@/components/layout/PageBreadcrumb";
 import { Button } from "@/components/ui/button";
 
-// TODO: Update this with the actual SendThisFile FileBox public URL.
-// Log in to https://www.sendthisfile.com/ as admin@c-s-p.org / ulwahada007,
-// go to the FileBox / "Receive Files" section, and copy the public URL here.
-const SENDTHISFILE_URL = "https://www.sendthisfile.com/PLACEHOLDER";
+// SendThisFile FileBox widget URL — extracted from the archived
+// https://archive.cambridgescholars.com/typesetting/ page.
+const SENDTHISFILE_URL =
+  "https://www21.sendthisfile.com/filebox/index.jsp?balance=13308&widgetcode=rmdAEQK7NsksIsI4cGToas83&errorMessage=";
 
 export default function Typesetting() {
   const [iframeError, setIframeError] = useState(false);
