@@ -47,40 +47,56 @@ const promises = [
 
 export default function AuthorPromises() {
   return (
-    <>
+    <div className="min-h-screen bg-white">
       <Header />
 
-      {/* PAGE HEADER */}
       <div className="w-full bg-[#F4F3EC] pt-24 sm:pt-28">
         <div className="container-wide h-[200px] flex items-center justify-between">
-          <h1 className="text-[40px] leading-[1.2] font-baskerville font-normal text-[#333333] my-[10px]">Our Author Promises</h1>
+          <h1 className="text-[40px] leading-[1.2] font-baskerville font-normal text-[#333333] my-[10px]">
+            Our Author Promises
+          </h1>
           <PageBreadcrumb currentPage="Our Author Promises" />
         </div>
       </div>
 
-      {/* CONTENT */}
-      <section className="w-full py-16 bg-white">
-        <div className="container-wide font-nav text-[16px] font-normal text-[#333333] leading-[1.7]">
-          <p className="mb-10">
+      <main className="py-16 bg-white">
+        <section className="max-w-7xl mx-auto px-6 md:px-16">
+          <p
+            className="text-[16px] text-[#696969] leading-[1.6] mb-10"
+            style={{ fontFamily: '"Nunito Sans", sans-serif' }}
+          >
             We are dedicated to academic publishing and place our authors at the centre of our work. Whether you are an experienced writer or publishing for the first time, in Humanities and Social Sciences, Health Sciences, Physical Sciences or Life Sciences, we make these ten commitments:
           </p>
 
-          <ol className="list-decimal pl-6 space-y-6 marker:font-normal marker:text-[#333333]">
+          <ol
+            className="space-y-6 text-[16px] text-[#696969] leading-[1.6]"
+            style={{ fontFamily: '"Nunito Sans", sans-serif' }}
+          >
             {promises.map((p, i) => (
-              <li key={i} className="pl-2">
-                <p className="font-bold text-[16px] mb-2 text-[#333333]">{p.title}</p>
-                <p className="font-normal text-[16px] text-[#333333] leading-[1.7]">{p.body}</p>
+              <li key={i} className="flex gap-4">
+                <span className="text-[#C75B2A] font-semibold w-8 shrink-0">
+                  {String(i + 1).padStart(2, "0")}.
+                </span>
+                <div>
+                  <h2 className="text-[18px] font-semibold text-[#333333] mb-1">
+                    {p.title}
+                  </h2>
+                  <p>{p.body}</p>
+                </div>
               </li>
             ))}
           </ol>
 
-          <p className="mt-10 pt-6 border-t border-gray-200 text-[16px]">
-            *Where extensive language editing is required, we may suggest an external service. A limited Scholarship Fund is available to assist in cases of financial difficulty
+          <p
+            className="text-[14px] text-[#696969] leading-[1.6] mt-10 italic"
+            style={{ fontFamily: '"Nunito Sans", sans-serif' }}
+          >
+            *Where extensive language editing is required, we may suggest an external service. A limited Scholarship Fund is available to assist in cases of financial difficulty.
           </p>
-        </div>
-      </section>
+        </section>
+      </main>
 
       <Footer />
-    </>
+    </div>
   );
 }
