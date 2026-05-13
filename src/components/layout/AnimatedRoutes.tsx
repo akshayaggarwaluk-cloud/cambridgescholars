@@ -154,8 +154,8 @@ export function AnimatedRoutes() {
         <Route path="/endorsement-submission" element={<Navigate to="/reviewer-form" replace />} />
         <Route path="/news" element={<PageTransition><News /></PageTransition>} />
         <Route path="/news/:slug" element={<PageTransition><NewsArticle /></PageTransition>} />
-        <Route path="/pages/privacy" element={<PageTransition><PrivacyPolicy /></PageTransition>} />
-        <Route path="/privacy" element={<Navigate to="/pages/privacy" replace />} />
+        <Route path="/privacy-policy" element={<PageTransition><PrivacyPolicy /></PageTransition>} />
+        <Route path="/privacy-policy-old" element={<Navigate to="/privacy-policy" replace />} />
         <Route path="/cookies" element={<PageTransition><CookiesPolicy /></PageTransition>} />
         <Route path="/terms" element={<PageTransition><TermsAndConditions /></PageTransition>} />
         <Route path="/accessibility-policy" element={<PageTransition><AccessibilityPolicy /></PageTransition>} />

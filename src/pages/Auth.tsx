@@ -497,7 +497,7 @@ export default function Auth() {
                     Your personal data will be used to support your experience throughout this
                     website, to manage access to your account, and for other purposes described
                     in our{" "}
-                    <Link to="/pages/privacy" className="text-[#E4573D] hover:underline">
+                    <Link to="/privacy-policy" className="text-[#E4573D] hover:underline">
                       privacy policy
                     </Link>
                     .

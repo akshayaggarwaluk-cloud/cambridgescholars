@@ -10,7 +10,7 @@ const footerLinks = {
     { name: "FAQs", href: "/faqs" },
   ],
   otherLinks: [
-    { name: "Privacy Policy", href: "/pages/privacy" },
+    { name: "Privacy Policy", href: "/privacy-policy" },
     { name: "Cookies Policy", href: "/cookies" },
     { name: "Terms and Conditions", href: "/terms" },
     { name: "Accessibility Statement", href: "/accessibility-policy" },
