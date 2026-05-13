@@ -24,7 +24,7 @@ const navigation = [
 
 const publishDropdownItems = [
   { name: "How to Publish", href: "/how-to-publish" },
-  { name: "Submit a Proposal", href: "/submit-proposal" },
+  { name: "Submit a Proposal", href: "/book-proposal-form" },
   { name: "Resources", href: "/resources" },
   { name: "Endorsement Submission", href: "/reviewer-form" },
 ];

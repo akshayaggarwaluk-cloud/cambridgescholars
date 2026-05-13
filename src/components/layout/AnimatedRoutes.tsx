@@ -127,7 +127,8 @@ export function AnimatedRoutes() {
         <Route path="/wishlist" element={<PageTransition><Wishlist /></PageTransition>} />
         <Route path="/faq" element={<PageTransition><FAQ /></PageTransition>} />
         <Route path="/how-to-publish" element={<PageTransition><HowToPublish /></PageTransition>} />
-        <Route path="/submit-proposal" element={<PageTransition><SubmitProposal /></PageTransition>} />
+        <Route path="/book-proposal-form" element={<PageTransition><SubmitProposal /></PageTransition>} />
+        <Route path="/submit-proposal" element={<Navigate to="/book-proposal-form" replace />} />
         <Route path="/resources" element={<PageTransition><Resources /></PageTransition>} />
         <Route path="/resources/post-publication" element={<RedirectPostPublication />} />
         <Route path="/post-publication" element={<PageTransition><ResourceDetail /></PageTransition>} />
