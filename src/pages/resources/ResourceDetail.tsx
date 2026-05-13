@@ -13,6 +13,7 @@ export default function ResourceDetail() {
   const pathSlugMap: Record<string, string> = {
     "/post-publication": "post-publication",
     "/proposal-stage": "proposal-and-publishing-forms",
+    "/manuscript-preparation": "preparing-your-manuscript",
   };
   const slug = params.slug || pathSlugMap[normalizedPath];
   const [resource, setResource] = useState<CmsResource | null>(null);
