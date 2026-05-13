@@ -6,7 +6,7 @@ const footerLinks = {
     { name: "About Us", href: "/about" },
     { name: "Buy a Book", href: "/product" },
     { name: "Publish a Book", href: "/publish-a-book" },
-    { name: "News", href: "/news" },
+    { name: "Blogs", href: "/blogs" },
     { name: "FAQs", href: "/faqs" },
     { name: "Order Tracking", href: "/order-tracking" },
   ],
