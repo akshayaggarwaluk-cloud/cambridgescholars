@@ -41,6 +41,7 @@ import AuthorExperiences from "@/pages/AuthorExperiences";
 import AuthorPromises from "@/pages/AuthorPromises";
 import ContributorGuidelines from "@/pages/ContributorGuidelines";
 import CompleteAuthorGuidancePack from "@/pages/CompleteAuthorGuidancePack";
+import EqualityStatement from "@/pages/EqualityStatement";
 import ApiAudit from "@/pages/ApiAudit";
 import Forthcoming from "@/pages/Forthcoming";
 import SeriesList from "@/pages/SeriesList";
@@ -163,6 +164,7 @@ export function AnimatedRoutes() {
         <Route path="/our-author-promises" element={<PageTransition><AuthorPromises /></PageTransition>} />
         <Route path="/contributor-guidelines" element={<PageTransition><ContributorGuidelines /></PageTransition>} />
         <Route path="/complete-author-guidance-pack" element={<PageTransition><CompleteAuthorGuidancePack /></PageTransition>} />
+        <Route path="/equality-statement" element={<PageTransition><EqualityStatement /></PageTransition>} />
         <Route path="/api-audit" element={<PageTransition><ApiAudit /></PageTransition>} />
         <Route path="/forthcoming" element={<PageTransition><Forthcoming /></PageTransition>} />
         <Route path="/series" element={<PageTransition><SeriesList /></PageTransition>} />
