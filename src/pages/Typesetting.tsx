@@ -17,15 +17,14 @@ export default function Typesetting() {
     <div className="min-h-screen bg-white">
       <Header />
 
-      <section className="relative h-[35vh] min-h-[280px] flex items-center justify-center bg-[#f4f3ec]">
-        <h1 className="relative z-10 font-serif text-[#333333] text-3xl md:text-5xl text-center">
-          Typesetting
-        </h1>
-      </section>
-
-      <section className="container-wide py-8 bg-white">
-        <PageBreadcrumb />
-      </section>
+      <div className="w-full bg-[#F4F3EC] pt-24 sm:pt-28">
+        <div className="container-wide h-[200px] flex items-center justify-between">
+          <h1 className="text-[40px] leading-[1.2] font-baskerville font-normal text-[#333333] my-[10px]">
+            Typesetting
+          </h1>
+          <PageBreadcrumb currentPage="Typesetting" />
+        </div>
+      </div>
 
       <section className="container-wide pb-16 bg-white">
         <div className="max-w-4xl mx-auto">
