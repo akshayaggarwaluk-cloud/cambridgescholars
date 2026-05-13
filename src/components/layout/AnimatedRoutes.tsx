@@ -80,6 +80,11 @@ function RedirectPostPublication() {
   return <Navigate to="/post-publication" replace />;
 }
 
+function NewsRedirect() {
+  const { slug } = useParams();
+  return <Navigate to={`/blogs/${slug ?? ""}`} replace />;
+}
+
 function OrdersRedirect() {
   const location = useLocation();
   const params = new URLSearchParams(location.search);
@@ -156,8 +161,10 @@ export function AnimatedRoutes() {
         <Route path="/resources/:slug" element={<PageTransition><ResourceDetail /></PageTransition>} />
         <Route path="/reviewer-form" element={<PageTransition><EndorsementSubmission /></PageTransition>} />
         <Route path="/endorsement-submission" element={<Navigate to="/reviewer-form" replace />} />
-        <Route path="/news" element={<PageTransition><News /></PageTransition>} />
-        <Route path="/news/:slug" element={<PageTransition><NewsArticle /></PageTransition>} />
+        <Route path="/blogs" element={<PageTransition><News /></PageTransition>} />
+        <Route path="/blogs/:slug" element={<PageTransition><NewsArticle /></PageTransition>} />
+        <Route path="/news" element={<Navigate to="/blogs" replace />} />
+        <Route path="/news/:slug" element={<NewsRedirect />} />
         <Route path="/privacy-policy" element={<PageTransition><PrivacyPolicy /></PageTransition>} />
         <Route path="/cookies-policy" element={<PageTransition><CookiesPolicy /></PageTransition>} />
         <Route path="/terms-and-conditions" element={<PageTransition><TermsAndConditions /></PageTransition>} />
