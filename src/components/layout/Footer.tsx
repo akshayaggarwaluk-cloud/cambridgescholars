@@ -11,7 +11,7 @@ const footerLinks = {
   ],
   otherLinks: [
     { name: "Privacy Policy", href: "/privacy-policy" },
-    { name: "Cookies Policy", href: "/cookies" },
+    { name: "Cookies Policy", href: "/cookies-policy" },
     { name: "Terms and Conditions", href: "/terms" },
     { name: "Accessibility Statement", href: "/accessibility-policy" },
     { name: "Refund and Returns", href: "/returns" },
