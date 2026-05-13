@@ -39,6 +39,7 @@ import AccessibilityPolicy from "@/pages/AccessibilityPolicy";
 import RefundAndReturns from "@/pages/RefundAndReturns";
 import AuthorExperiences from "@/pages/AuthorExperiences";
 import AuthorPromises from "@/pages/AuthorPromises";
+import ContributorGuidelines from "@/pages/ContributorGuidelines";
 import ApiAudit from "@/pages/ApiAudit";
 import Forthcoming from "@/pages/Forthcoming";
 import SeriesList from "@/pages/SeriesList";
