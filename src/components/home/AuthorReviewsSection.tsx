@@ -121,7 +121,7 @@ export function AuthorReviewsSection() {
           {visible.map((review, index) => {
             const { name, title } = parseAuthor(review.author);
             return (
-              <div key={index} className="flex flex-col items-center sm:flex-row sm:items-start gap-6 cursor-pointer hover:bg-muted/30 rounded-lg p-2 -m-2 transition-colors" onClick={() => navigate("/author-experiences")}>
+              <div key={index} className="flex flex-col items-center sm:flex-row sm:items-start gap-6 cursor-pointer hover:bg-muted/30 rounded-lg p-2 -m-2 transition-colors" onClick={() => navigate("/reviews")}>
                 {/* Book cover - responsive, ~2/3 aspect */}
                 <div className="flex-shrink-0 w-40 sm:w-44 md:w-52 lg:w-44 xl:w-[203px]">
                   {review.coverImage ? (

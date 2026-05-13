@@ -159,7 +159,7 @@ export function AnimatedRoutes() {
         <Route path="/terms" element={<PageTransition><TermsAndConditions /></PageTransition>} />
         <Route path="/accessibility" element={<PageTransition><AccessibilityPolicy /></PageTransition>} />
         <Route path="/returns" element={<PageTransition><RefundAndReturns /></PageTransition>} />
-        <Route path="/author-experiences" element={<PageTransition><AuthorExperiences /></PageTransition>} />
+        <Route path="/reviews" element={<PageTransition><AuthorExperiences /></PageTransition>} />
         <Route path="/our-author-promises" element={<PageTransition><AuthorPromises /></PageTransition>} />
         <Route path="/contributor-guidelines" element={<PageTransition><ContributorGuidelines /></PageTransition>} />
         <Route path="/complete-author-guidance-pack" element={<PageTransition><CompleteAuthorGuidancePack /></PageTransition>} />
