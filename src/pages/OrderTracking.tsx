@@ -136,7 +136,7 @@ export default function OrderTracking() {
                 onChange={(e) => setOrderId(e.target.value)}
                 placeholder="Found in your order confirmation email."
                 required
-                className="h-12 rounded-none border-[#e5e5e5] bg-white text-[#333333] focus-visible:ring-[#C75B2A]"
+                className="h-12 rounded-none border-[#e5e5e5] bg-white text-[#333333] text-center placeholder:text-center focus-visible:ring-[#C75B2A]"
               />
             </div>
 
@@ -154,7 +154,7 @@ export default function OrderTracking() {
                 onChange={(e) => setBillingEmail(e.target.value)}
                 placeholder="Email you used during checkout."
                 required
-                className="h-12 rounded-none border-[#e5e5e5] bg-white text-[#333333] focus-visible:ring-[#C75B2A]"
+                className="h-12 rounded-none border-[#e5e5e5] bg-white text-[#333333] text-center placeholder:text-center focus-visible:ring-[#C75B2A]"
               />
             </div>
 
