@@ -47,6 +47,7 @@ import Forthcoming from "@/pages/Forthcoming";
 import SeriesList from "@/pages/SeriesList";
 import SeriesDetail from "@/pages/SeriesDetail";
 import Ebooks from "@/pages/Ebooks";
+import OrderTracking from "@/pages/OrderTracking";
 
 import AdminGate from "@/components/admin/AdminGate";
 import AdminLayout from "@/components/admin/AdminLayout";
