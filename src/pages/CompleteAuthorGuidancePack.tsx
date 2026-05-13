@@ -24,11 +24,10 @@ export default function CompleteAuthorGuidancePack() {
           >
             <li>
               <a
-                href="/Author-Guidance.pdf"
+                href="https://www.cambridgescholars.com/wp-content/uploads/2025/07/Author-Guidance.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-[#C75B2A] hover:underline font-normal"
-                download
               >
                 Comprehensive Overview of the Publication Process
               </a>
