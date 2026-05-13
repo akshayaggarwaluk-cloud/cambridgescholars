@@ -168,7 +168,7 @@ const HowToPublish = () => {
                 size="lg"
                 className="px-12 py-6 text-accent border-accent hover:bg-accent hover:text-accent-foreground font-bold"
               >
-                <Link to="/submit-proposal">GET STARTED</Link>
+                <Link to="/book-proposal-form">GET STARTED</Link>
               </Button>
             </div>
           </div>

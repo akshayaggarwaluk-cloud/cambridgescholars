@@ -19,7 +19,7 @@ const publishCards = [
     icon: submitProposalIcon,
     title: "Submit a proposal",
     description: "Send us your application",
-    href: "/submit-proposal",
+    href: "/book-proposal-form",
   },
   {
     icon: resourcesIcon,
