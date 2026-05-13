@@ -30,7 +30,7 @@ const publishDropdownItems = [
 ];
 
 const trailingNav = [
-   { name: "FAQs", href: "/faq" },
+   { name: "FAQs", href: "/faqs" },
   { name: "Contact", href: "/contact" },
 ];
 

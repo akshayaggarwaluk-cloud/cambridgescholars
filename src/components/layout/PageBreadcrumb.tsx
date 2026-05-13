@@ -17,7 +17,7 @@ const routeLabels: Record<string, string> = {
   "/product": "Books",
   "/about": "About Us",
   "/contact": "Contact",
-  "/faq": "FAQs",
+  "/faqs": "FAQs",
   "/cart": "Cart",
   "/checkout": "Checkout",
   "/wishlist": "Wishlist",
