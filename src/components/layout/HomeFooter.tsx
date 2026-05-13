@@ -15,7 +15,7 @@ const navLinks = [
   { name: "About Us", href: "/about" },
   { name: "Buy a Book", href: "/product" },
   { name: "Publish a Book", href: "/publish-a-book" },
-  { name: "FAQs", href: "/faq" },
+  { name: "FAQs", href: "/faqs" },
   { name: "Contact", href: "/contact" },
 ];
 
