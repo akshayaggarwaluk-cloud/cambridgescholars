@@ -127,6 +127,8 @@ export function AnimatedRoutes() {
         
         <Route path="/my-account" element={<PageTransition><ProtectedRoute><ExternalProfile /></ProtectedRoute></PageTransition>} />
         <Route path="/profile" element={<Navigate to="/my-account" replace />} />
+        <Route path="/my-account/order-tracking" element={<Navigate to="/order-tracking" replace />} />
+        <Route path="/order-tracking" element={<PageTransition><OrderTracking /></PageTransition>} />
         <Route path="/orders/:id/pay" element={<PageTransition><ProtectedRoute><PayOrder /></ProtectedRoute></PageTransition>} />
         <Route path="/orders" element={<OrdersRedirect />} />
         <Route path="/orders/*" element={<OrdersWildcardRedirect />} />
