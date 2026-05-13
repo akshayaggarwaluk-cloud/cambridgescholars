@@ -1,5 +1,5 @@
 export function buildAccountOrdersPath(orderId?: string | number | null) {
   return orderId != null && String(orderId).trim()
-    ? `/profile?tab=orders&new=${encodeURIComponent(String(orderId))}`
-    : "/profile?tab=orders";
+    ? `/my-account?tab=orders&new=${encodeURIComponent(String(orderId))}`
+    : "/my-account?tab=orders";
 }

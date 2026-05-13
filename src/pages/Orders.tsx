@@ -10,7 +10,7 @@ export default function Orders() {
     const pathOrderId = location.pathname.match(/^\/orders\/([^/]+)/)?.[1];
     const newOrderId = params.get("new") || params.get("order_id") || params.get("orderId") || pathOrderId;
     navigate(
-      newOrderId ? `/profile?tab=orders&new=${encodeURIComponent(newOrderId)}` : "/profile?tab=orders",
+      newOrderId ? `/my-account?tab=orders&new=${encodeURIComponent(newOrderId)}` : "/my-account?tab=orders",
       { replace: true },
     );
   }, [location.pathname, location.search, navigate]);

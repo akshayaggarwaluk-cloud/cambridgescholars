@@ -22,7 +22,7 @@ const routeLabels: Record<string, string> = {
   "/checkout": "Checkout",
   "/wishlist": "Wishlist",
   "/orders": "Orders",
-  "/profile": "Profile",
+  "/my-account": "My Account",
   "/auth": "Sign In",
   "/publish": "Publish a Book",
   "/how-to-publish": "How to Publish",

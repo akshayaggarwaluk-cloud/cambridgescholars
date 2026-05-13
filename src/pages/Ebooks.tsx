@@ -72,7 +72,7 @@ export default function Ebooks() {
           <h1 className="text-[40px] leading-[1.2] font-baskerville font-normal text-[#333333] my-[10px]">
             My Ebooks
           </h1>
-          <PageBreadcrumb items={[{ label: "Account", href: "/profile" }]} currentPage="Ebooks" />
+          <PageBreadcrumb items={[{ label: "Account", href: "/my-account" }]} currentPage="Ebooks" />
         </div>
       </div>
 

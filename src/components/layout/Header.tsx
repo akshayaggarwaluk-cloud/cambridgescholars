@@ -270,7 +270,7 @@ export function Header() {
               {user ? (
                 <Tooltip>
                   <TooltipTrigger asChild>
-                    <Link to="/profile">
+                    <Link to="/my-account">
                       <Button
                         variant="ghost"
                         size="icon"
@@ -325,7 +325,7 @@ export function Header() {
                 </Button>
               </Link>
               {user ? (
-                <Link to="/profile">
+                <Link to="/my-account">
                   <Button variant="ghost" size="icon" className="h-9 w-9" aria-label="Account">
                     <User className="h-5 w-5" />
                   </Button>
