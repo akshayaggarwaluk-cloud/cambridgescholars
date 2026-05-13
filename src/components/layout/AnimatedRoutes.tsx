@@ -158,7 +158,7 @@ export function AnimatedRoutes() {
         <Route path="/cookies-policy" element={<PageTransition><CookiesPolicy /></PageTransition>} />
         <Route path="/terms-and-conditions" element={<PageTransition><TermsAndConditions /></PageTransition>} />
         <Route path="/accessibility-policy" element={<PageTransition><AccessibilityPolicy /></PageTransition>} />
-        <Route path="/returns" element={<PageTransition><RefundAndReturns /></PageTransition>} />
+        <Route path="/refund-returns" element={<PageTransition><RefundAndReturns /></PageTransition>} />
         <Route path="/reviews" element={<PageTransition><AuthorExperiences /></PageTransition>} />
         <Route path="/our-author-promises" element={<PageTransition><AuthorPromises /></PageTransition>} />
         <Route path="/contributor-guidelines" element={<PageTransition><ContributorGuidelines /></PageTransition>} />
