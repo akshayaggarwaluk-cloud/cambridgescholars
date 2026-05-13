@@ -140,6 +140,8 @@ export function AnimatedRoutes() {
         <Route path="/resources" element={<PageTransition><Resources /></PageTransition>} />
         <Route path="/resources/post-publication" element={<RedirectPostPublication />} />
         <Route path="/post-publication" element={<PageTransition><ResourceDetail /></PageTransition>} />
+        <Route path="/resources/proposal-and-publishing-forms" element={<Navigate to="/proposal-stage" replace />} />
+        <Route path="/proposal-stage" element={<PageTransition><ResourceDetail /></PageTransition>} />
         <Route path="/resources/:slug" element={<PageTransition><ResourceDetail /></PageTransition>} />
         <Route path="/reviewer-form" element={<PageTransition><EndorsementSubmission /></PageTransition>} />
         <Route path="/endorsement-submission" element={<Navigate to="/reviewer-form" replace />} />
