@@ -80,6 +80,11 @@ function RedirectPostPublication() {
   return <Navigate to="/post-publication" replace />;
 }
 
+function NewsRedirect() {
+  const { slug } = useParams();
+  return <Navigate to={`/blogs/${slug ?? ""}`} replace />;
+}
+
 function OrdersRedirect() {
   const location = useLocation();
   const params = new URLSearchParams(location.search);
