@@ -10,7 +10,11 @@ export default function ResourceDetail() {
   const params = useParams<{ slug: string }>();
   const location = useLocation();
   const normalizedPath = location.pathname.replace(/\/+$/, "");
-  const slug = params.slug || (normalizedPath === "/post-publication" ? "post-publication" : undefined);
+  const pathSlugMap: Record<string, string> = {
+    "/post-publication": "post-publication",
+    "/proposal-stage": "proposal-and-publishing-forms",
+  };
+  const slug = params.slug || pathSlugMap[normalizedPath];
   const [resource, setResource] = useState<CmsResource | null>(null);
   const [loading, setLoading] = useState(true);
 
