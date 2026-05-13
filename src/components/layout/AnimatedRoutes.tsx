@@ -25,6 +25,7 @@ import FAQ from "@/pages/FAQ";
 import HowToPublish from "@/pages/HowToPublish";
 import SubmitProposal from "@/pages/SubmitProposal";
 import Typesetting from "@/pages/Typesetting";
+import TypesettingUpload from "@/pages/TypesettingUpload";
 import Resources from "@/pages/Resources";
 import ResourceDetail from "@/pages/resources/ResourceDetail";
 import EndorsementSubmission from "@/pages/EndorsementSubmission";
@@ -131,6 +132,8 @@ export function AnimatedRoutes() {
         <Route path="/book-proposal-form" element={<PageTransition><SubmitProposal /></PageTransition>} />
         <Route path="/typesetting" element={<PageTransition><Typesetting /></PageTransition>} />
         <Route path="/pages/typesetting" element={<PageTransition><Typesetting /></PageTransition>} />
+        <Route path="/typesetting-upload" element={<PageTransition><TypesettingUpload /></PageTransition>} />
+        <Route path="/pages/typesetting-upload" element={<PageTransition><TypesettingUpload /></PageTransition>} />
         <Route path="/submit-proposal" element={<Navigate to="/book-proposal-form" replace />} />
         <Route path="/resources" element={<PageTransition><Resources /></PageTransition>} />
         <Route path="/resources/post-publication" element={<RedirectPostPublication />} />
