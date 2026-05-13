@@ -14,6 +14,7 @@ export default function ResourceDetail() {
     "/post-publication": "post-publication",
     "/proposal-stage": "proposal-and-publishing-forms",
     "/manuscript-preparation": "preparing-your-manuscript",
+    "/cover-design": "preparing-your-book-cover",
   };
   const slug = params.slug || pathSlugMap[normalizedPath];
   const [resource, setResource] = useState<CmsResource | null>(null);
