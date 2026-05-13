@@ -33,7 +33,7 @@ function renderAt(url: string) {
     <MemoryRouter initialEntries={[url]}>
       <Routes>
         <Route path="/checkout/result" element={<CheckoutResult />} />
-        <Route path="/profile" element={<ProfileLanding />} />
+        <Route path="/my-account" element={<ProfileLanding />} />
       </Routes>
     </MemoryRouter>,
   );
