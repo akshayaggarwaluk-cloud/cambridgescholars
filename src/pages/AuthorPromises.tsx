@@ -62,14 +62,14 @@ export default function AuthorPromises() {
       <main className="py-16 bg-white">
         <section className="max-w-7xl mx-auto px-6 md:px-16">
           <p
-            className="text-[16px] text-[#696969] leading-[1.6] mb-8"
+            className="text-[16px] text-[#333333] leading-[1.6] mb-8"
             style={{ fontFamily: '"Nunito Sans", sans-serif' }}
           >
             We are dedicated to academic publishing and place our authors at the centre of our work. Whether you are an experienced writer or publishing for the first time, in Humanities and Social Sciences, Health Sciences, Physical Sciences or Life Sciences, we make these ten commitments:
           </p>
 
           <ol
-            className="list-decimal pl-6 space-y-5 text-[16px] text-[#696969] leading-[1.6] [&_li::marker]:text-[#333333] [&_li::marker]:font-normal"
+            className="list-decimal pl-6 space-y-5 text-[16px] text-[#333333] leading-[1.6] [&_li::marker]:text-[#333333] [&_li::marker]:font-normal"
             style={{ fontFamily: '"Nunito Sans", sans-serif' }}
           >
             {promises.map((p, i) => (
@@ -83,7 +83,7 @@ export default function AuthorPromises() {
           </ol>
 
           <p
-            className="text-[14px] text-[#696969] leading-[1.6] mt-8"
+            className="text-[14px] text-[#333333] leading-[1.6] mt-8"
             style={{ fontFamily: '"Nunito Sans", sans-serif' }}
           >
             *Where extensive language editing is required, we may suggest an external service. A limited Scholarship Fund is available to assist in cases of financial difficulty.
