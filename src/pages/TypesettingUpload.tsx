@@ -7,14 +7,13 @@ export default function TypesettingUpload() {
     <div className="min-h-screen bg-white">
       <Header />
 
-      <section className="bg-[#f4f3ec] py-16 md:py-24">
-        <div className="container-wide flex flex-col md:flex-row md:items-end md:justify-between gap-4">
-          <h1 className="font-serif text-[#333333] text-4xl md:text-6xl">
-            Typesetting Upload
-          </h1>
+      {/* PAGE HEADER */}
+      <div className="w-full bg-[#F4F3EC] pt-24 sm:pt-28">
+        <div className="container-wide min-h-[140px] md:h-[200px] flex flex-col md:flex-row md:items-center md:justify-between gap-3 md:gap-0 py-6 md:py-0">
+          <h1 className="text-[28px] sm:text-[34px] md:text-[40px] leading-[1.2] font-baskerville font-normal text-[#333333] md:my-[10px]">Typesetting Upload</h1>
           <PageBreadcrumb currentPage="Typesetting Upload" />
         </div>
-      </section>
+      </div>
 
       <section className="container-wide pb-16 bg-white">
         <div className="max-w-4xl mx-auto pt-12">
