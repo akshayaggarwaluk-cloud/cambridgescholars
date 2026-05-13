@@ -160,6 +160,7 @@ export function AnimatedRoutes() {
         <Route path="/returns" element={<PageTransition><RefundAndReturns /></PageTransition>} />
         <Route path="/author-experiences" element={<PageTransition><AuthorExperiences /></PageTransition>} />
         <Route path="/our-author-promises" element={<PageTransition><AuthorPromises /></PageTransition>} />
+        <Route path="/contributor-guidelines" element={<PageTransition><ContributorGuidelines /></PageTransition>} />
         <Route path="/api-audit" element={<PageTransition><ApiAudit /></PageTransition>} />
         <Route path="/forthcoming" element={<PageTransition><Forthcoming /></PageTransition>} />
         <Route path="/series" element={<PageTransition><SeriesList /></PageTransition>} />
