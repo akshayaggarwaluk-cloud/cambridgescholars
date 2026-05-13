@@ -271,3 +271,44 @@ export async function removeFromWishlistApi(
 export async function listEbooks(): Promise<EbooksResponse> {
   return callAccount<EbooksResponse>("/ebooks");
 }
+
+// ── Public order tracking (guest, no auth) ─────────────────────
+
+export async function trackOrder(params: {
+  order_id: number | string;
+  billing_email: string;
+}): Promise<OrderDetail> {
+  const res = await fetch(`${API_BASE}/orders/track`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      order_id:
+        typeof params.order_id === "string" && /^\d+$/.test(params.order_id.trim())
+          ? Number(params.order_id.trim())
+          : params.order_id,
+      billing_email: params.billing_email.trim(),
+    }),
+  });
+
+  if (!res.ok) {
+    if (res.status === 404) {
+      throw new Error(
+        "We could not find an order matching those details. Please check your Order ID and billing email.",
+      );
+    }
+    if (res.status === 429) {
+      throw new Error(
+        "Too many lookup attempts. Please wait a while before trying again.",
+      );
+    }
+    throw new Error(await parseError(res));
+  }
+
+  const text = await res.text();
+  if (!text) throw new Error("Empty response from server");
+  try {
+    return JSON.parse(text) as OrderDetail;
+  } catch {
+    throw new Error("Invalid response from server");
+  }
+}
