@@ -98,7 +98,7 @@ export function HeroSection() {
       onMouseLeave={handleMouseLeave}
     >
       <div className="relative z-10 w-full">
-        <div className="grid lg:grid-cols-2 gap-8 lg:gap-4 items-center">
+        <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
           <div className="text-foreground order-2 lg:order-1 min-w-0 min-h-[380px] md:min-h-[420px] flex flex-col justify-center pl-8 sm:pl-12 lg:pl-[max(4rem,calc((100vw-80rem)/2+4rem))] pr-8 sm:pr-12 lg:pr-0">
             <AnimatePresence mode="wait">
               <motion.div
@@ -139,7 +139,7 @@ export function HeroSection() {
                 <img
                   src={activeReview.image}
                   alt={activeReview.bookTitle}
-                  className="max-h-full max-w-full w-auto h-full object-contain object-center lg:object-left mx-auto lg:mx-0 scale-110 lg:scale-125 origin-center lg:origin-left lg:-translate-x-48 xl:-translate-x-64"
+                  className="max-h-full max-w-full w-auto h-full object-contain object-center lg:object-left mx-auto lg:mx-0 scale-110 lg:scale-125 origin-center lg:origin-left lg:-translate-x-24 xl:-translate-x-32"
                 />
               </motion.div>
             </AnimatePresence>
