@@ -125,7 +125,7 @@ export function HeroSection() {
             </AnimatePresence>
           </div>
 
-          <div className="relative order-1 lg:order-2 h-[480px] md:h-[600px] lg:h-[760px] flex items-center justify-center lg:justify-end px-4 sm:px-8 lg:pl-0 lg:pr-8 xl:pr-16 overflow-hidden">
+          <div className="relative order-1 lg:order-2 h-[480px] md:h-[600px] lg:h-[760px] flex items-center justify-center lg:justify-start px-4 sm:px-8 lg:pl-0 lg:pr-0 overflow-hidden">
             <AnimatePresence mode="wait">
               <motion.div
                 key={activeIndex}
@@ -134,12 +134,12 @@ export function HeroSection() {
                 animate="animate"
                 exit="exit"
                 transition={{ duration: 0.6, ease: [0.25, 0.4, 0.25, 1] }}
-                className="h-full w-full flex items-center justify-center lg:justify-end"
+                className="h-full w-full flex items-center justify-center lg:justify-start"
               >
                 <img
                   src={activeReview.image}
                   alt={activeReview.bookTitle}
-                  className="max-h-full max-w-full w-auto h-full object-contain object-center lg:object-right mx-auto lg:mx-0 scale-110 lg:scale-125 origin-center lg:origin-right"
+                  className="max-h-full max-w-full w-auto h-full object-contain object-center lg:object-left mx-auto lg:mx-0 scale-110 lg:scale-125 origin-center lg:origin-left"
                 />
               </motion.div>
             </AnimatePresence>
