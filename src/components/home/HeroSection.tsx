@@ -125,7 +125,7 @@ export function HeroSection() {
             </AnimatePresence>
           </div>
 
-          <div className="relative order-1 lg:order-2 h-[480px] md:h-[600px] lg:h-[760px] flex items-center justify-center lg:justify-end px-4 sm:px-8 lg:pl-0 lg:pr-8 xl:pr-16 overflow-hidden">
+          <div className="relative order-1 lg:order-2 h-[480px] md:h-[600px] lg:h-[760px] flex items-center justify-center lg:justify-start px-4 sm:px-8 lg:pl-0 lg:pr-16 xl:pr-24 overflow-hidden">
             <AnimatePresence mode="wait">
               <motion.div
                 key={activeIndex}
