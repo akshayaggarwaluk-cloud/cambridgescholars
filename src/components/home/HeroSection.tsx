@@ -93,7 +93,7 @@ export function HeroSection() {
 
   return (
     <section
-      className="relative bg-[#f4f3ec] pt-28 pb-8 md:pt-32 md:pb-12 min-h-[80vh] flex items-center overflow-hidden"
+      className="relative bg-[#f4f3ec] pt-28 pb-8 md:pt-32 md:pb-12 min-h-[80vh] flex items-center"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
@@ -139,7 +139,7 @@ export function HeroSection() {
                 <img
                   src={activeReview.image}
                   alt={activeReview.bookTitle}
-                  className="pointer-events-none max-h-full max-w-full w-auto h-full object-contain object-center lg:object-left mx-auto lg:mx-0 scale-110 lg:scale-125 origin-center lg:origin-left lg:-translate-x-24 xl:-translate-x-32"
+                  className="pointer-events-none max-h-full max-w-full w-auto h-full object-contain object-center lg:object-left mx-auto lg:mx-0 scale-110 lg:scale-125 origin-center lg:origin-left lg:-translate-x-40 xl:-translate-x-56"
                 />
               </motion.div>
             </AnimatePresence>
