@@ -706,7 +706,8 @@ export async function submitProposal(
   files: { cv?: File | null; sampleChapters?: File[]; additionalFiles?: File[] },
 ): Promise<ProposalSubmitResponse> {
   const fd = new FormData();
-  fd.append("authors", JSON.stringify(payload.authors));
+  // Backend expects `authors` as a repeated multipart array field — one entry per author.
+  payload.authors.forEach((a) => fd.append("authors", JSON.stringify(a)));
   fd.append("mailing", JSON.stringify(payload.mailing));
   fd.append("book", JSON.stringify(payload.book));
   fd.append("description", JSON.stringify(payload.description));
