@@ -647,7 +647,7 @@ export interface ProposalPayload {
   book: {
     title: string;
     subtitle?: string;
-    type: "monograph" | "edited_collection";
+    type: "monograph" | "edited-volume";
     subject: string;
     secondarySubjects?: string[];
     language: string;
@@ -706,14 +706,7 @@ export async function submitProposal(
   files: { cv?: File | null; sampleChapters?: File[]; additionalFiles?: File[] },
 ): Promise<ProposalSubmitResponse> {
   const fd = new FormData();
-  // Backend expects `authors` as a multipart array of objects using bracket notation
-  // (parsed via the `qs` library on the server, e.g. authors[0][firstName]).
-  payload.authors.forEach((a, i) => {
-    Object.entries(a).forEach(([key, value]) => {
-      if (value === undefined || value === null || value === "") return;
-      fd.append(`authors[${i}][${key}]`, String(value));
-    });
-  });
+  fd.append("authors", JSON.stringify(payload.authors));
   fd.append("mailing", JSON.stringify(payload.mailing));
   fd.append("book", JSON.stringify(payload.book));
   fd.append("description", JSON.stringify(payload.description));
