@@ -647,7 +647,7 @@ export interface ProposalPayload {
   book: {
     title: string;
     subtitle?: string;
-    type: "monograph" | "edited";
+    type: "monograph" | "edited_collection";
     subject: string;
     secondarySubjects?: string[];
     language: string;
