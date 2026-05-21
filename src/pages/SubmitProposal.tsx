@@ -219,7 +219,7 @@ const SubmitProposal = () => {
       book: {
         title: formData.proposedTitle || "",
         subtitle: formData.proposedSubtitle,
-        type: (bookType === "edited" ? "edited" : "monograph") as "monograph" | "edited",
+        type: (bookType === "edited" ? "edited_collection" : "monograph") as "monograph" | "edited_collection",
         subject: formData.languages || "General",
         language: "English",
         estimatedWordCount: parseInt(formData.wordCount || "0", 10) || 0,
