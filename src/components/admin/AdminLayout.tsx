@@ -1,4 +1,4 @@
-import { Link, NavLink, Outlet, useNavigate } from "react-router-dom";
+import { Link, NavLink, Outlet, useNavigate, Navigate, useLocation } from "react-router-dom";
 import {
   LayoutDashboard, Newspaper, Sparkles, ExternalLink, LogOut, Users,
   BookOpen, MessageSquareQuote, HelpCircle, FileText, FolderDown,
@@ -10,7 +10,7 @@ import { toast } from "sonner";
 
 const navGroups: Array<{
   label?: string;
-  items: Array<{ to: string; label: string; icon: typeof LayoutDashboard; end?: boolean }>;
+  items: Array<{ to: string; label: string; icon: typeof LayoutDashboard; end?: boolean; roles?: string[] }>;
 }> = [
   { items: [{ to: "/admin", label: "Dashboard", icon: LayoutDashboard, end: true }] },
   {
@@ -33,7 +33,7 @@ const navGroups: Array<{
   {
     label: "Operations",
     items: [
-      { to: "/admin/orders", label: "Orders", icon: ShoppingBag },
+      { to: "/admin/orders", label: "Orders", icon: ShoppingBag, roles: ["admin", "orders"] },
       { to: "/admin/coupons", label: "Coupons", icon: Tag },
       { to: "/admin/users", label: "Users", icon: UserRound },
       { to: "/admin/admins", label: "Admins", icon: Users },
@@ -41,9 +41,29 @@ const navGroups: Array<{
   },
 ];
 
+// Roles with restricted access only see specific sections.
+const ROLE_ALLOWED: Record<string, string[]> = {
+  orders: ["/admin/orders"],
+};
+
 export default function AdminLayout() {
   const navigate = useNavigate();
+  const location = useLocation();
   const user = adminSession.getUser();
+  const role = user?.role ?? "admin";
+  const allowed = ROLE_ALLOWED[role];
+
+  // Orders-only role: redirect away from anything except their allowed routes.
+  if (allowed && !allowed.some((p) => location.pathname === p || location.pathname.startsWith(p + "/"))) {
+    return <Navigate to={allowed[0]} replace />;
+  }
+
+  const visibleGroups = navGroups
+    .map((g) => ({
+      ...g,
+      items: g.items.filter((i) => (allowed ? allowed.some((p) => i.to === p || i.to.startsWith(p + "/")) : true)),
+    }))
+    .filter((g) => g.items.length > 0);
 
   const handleLogout = () => {
     adminLogout();
@@ -79,7 +99,7 @@ export default function AdminLayout() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 grid lg:grid-cols-[240px_1fr] gap-8">
         <aside>
           <nav className="space-y-6">
-            {navGroups.map((group, gi) => (
+            {visibleGroups.map((group, gi) => (
               <div key={gi} className="space-y-1">
                 {group.label && (
                   <div className="px-4 mb-1 text-[10px] font-nav uppercase tracking-widest text-muted-foreground">
