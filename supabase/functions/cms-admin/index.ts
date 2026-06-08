@@ -92,7 +92,10 @@ async function verifyToken(token: string): Promise<AdminClaims | null> {
       role?: string;
       name?: string;
     };
-    if (payload.role !== "admin") return null;
+    // Accept any non-empty role issued by the external CSP admin login
+    // (e.g. "admin", "orders"). Role-based authorization is enforced
+    // per-action below and in the frontend layout.
+    if (!payload.role) return null;
     if (!payload.exp || payload.exp * 1000 < Date.now()) return null;
     return {
       sub: String(payload.sub ?? "external"),
