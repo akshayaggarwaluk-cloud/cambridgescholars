@@ -274,6 +274,7 @@ export interface CmsAdminUser {
   id: string | number;
   email: string;
   name?: string | null;
+  role?: string | null;
 }
 
 export const adminSession = {
