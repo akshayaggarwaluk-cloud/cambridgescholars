@@ -740,7 +740,17 @@ export async function adminWhoAmI(): Promise<CmsAdminUser | null> {
   if (!token) return null;
   try {
     const res = await callAdmin<{ admin: CmsAdminUser }>({ action: "whoami" });
-    return res.admin;
+    // The whoami response doesn't include role; preserve it from the
+    // cached login response so role-based UI keeps working after reload.
+    const cached = adminSession.getUser();
+    const merged: CmsAdminUser = {
+      ...res.admin,
+      name: res.admin.name ?? cached?.name ?? null,
+      role: cached?.role ?? null,
+    };
+    const token2 = adminSession.getToken();
+    if (token2) adminSession.set(token2, merged, adminSession.getExternalToken());
+    return merged;
   } catch {
     adminSession.clear();
     return null;
