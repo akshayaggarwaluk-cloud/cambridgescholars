@@ -21,7 +21,11 @@ export default function AdminLogin() {
     try {
       const user = await adminLogin(email.trim(), password);
       toast.success(`Welcome, ${user.name || user.email}`);
-      navigate(from === "/admin/login" ? "/admin" : from, { replace: true });
+      // Role-restricted users land directly on their allowed section.
+      const roleHome: Record<string, string> = { orders: "/admin/orders" };
+      const home = (user.role && roleHome[user.role]) || "/admin";
+      const target = from === "/admin/login" ? home : from;
+      navigate(target, { replace: true });
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "Login failed");
     } finally {
