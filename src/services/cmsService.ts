@@ -711,7 +711,7 @@ export async function adminLogin(email: string, password: string): Promise<CmsAd
 
   const data = payload as {
     access_token?: string;
-    admin?: { id: string | number; email: string; name?: string | null; is_active?: boolean };
+    admin?: { id: string | number; email: string; name?: string | null; is_active?: boolean; role?: string | null };
   };
   if (!data?.access_token || !data.admin?.email) {
     throw new Error("Unexpected login response from CMS");
@@ -721,6 +721,7 @@ export async function adminLogin(email: string, password: string): Promise<CmsAd
     id: data.admin.id,
     email: data.admin.email,
     name: data.admin.name ?? null,
+    role: data.admin.role ?? null,
   };
 
   // Use the same external token for both the CMS edge function
