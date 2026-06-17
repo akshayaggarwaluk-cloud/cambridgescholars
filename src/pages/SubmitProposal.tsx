@@ -370,6 +370,19 @@ const SubmitProposal = () => {
               Not now
             </Button>
             <Button
+              variant="outline"
+              asChild
+              className="rounded-none uppercase border-[#C75B2A] text-[#C75B2A] hover:bg-[#C75B2A]/10 hover:text-[#C75B2A]"
+            >
+              <a
+                href="/p/artificial-intelligence-research-integrity-and-content-authenticity-policy"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Read more
+              </a>
+            </Button>
+            <Button
               onClick={() => setShowDisclaimer(false)}
               className="rounded-none uppercase bg-[#C75B2A] hover:bg-[#a84a22] text-white"
             >
