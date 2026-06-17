@@ -978,6 +978,9 @@ export const adminApi = {
     callAdmin<{ data: CmsPolicyPage[] }>({ action: "list_policy_pages" }).then((r) => r.data),
   updatePolicyPage: (payload: { id?: string; slug?: string; title?: string; content?: string | null }) =>
     callAdmin<{ data: CmsPolicyPage }>({ action: "update_policy_page", ...payload }).then((r) => r.data),
+  createPolicyPage: (payload: { slug: string; title: string; content?: string | null }) =>
+    callAdmin<{ data: CmsPolicyPage }>({ action: "create_policy_page", ...payload }).then((r) => r.data),
+  deletePolicyPage: (id: string) => callAdmin({ action: "delete_policy_page", id }),
 
   // ─── Contact Submissions ─────────────────────────────────────
   listContactSubmissions: () =>

@@ -33,6 +33,7 @@ import News from "@/pages/News";
 import NewsArticle from "@/pages/NewsArticle";
 import NotFound from "@/pages/NotFound";
 import PrivacyPolicy from "@/pages/PrivacyPolicy";
+import PolicyPage from "@/pages/PolicyPage";
 import CookiesPolicy from "@/pages/CookiesPolicy";
 import TermsAndConditions from "@/pages/TermsAndConditions";
 import AccessibilityPolicy from "@/pages/AccessibilityPolicy";
@@ -171,6 +172,7 @@ export function AnimatedRoutes() {
         <Route path="/terms-and-conditions" element={<PageTransition><TermsAndConditions /></PageTransition>} />
         <Route path="/accessibility-policy" element={<PageTransition><AccessibilityPolicy /></PageTransition>} />
         <Route path="/refund-returns" element={<PageTransition><RefundAndReturns /></PageTransition>} />
+        <Route path="/p/:slug" element={<PageTransition><PolicyPage /></PageTransition>} />
         <Route path="/reviews" element={<PageTransition><AuthorExperiences /></PageTransition>} />
         <Route path="/our-author-promises" element={<PageTransition><AuthorPromises /></PageTransition>} />
         <Route path="/contributor-guidelines" element={<PageTransition><ContributorGuidelines /></PageTransition>} />

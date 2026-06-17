@@ -598,6 +598,27 @@ Deno.serve(async (req) => {
         if (error) throw error;
         return json({ data });
       }
+      case "create_policy_page": {
+        if (!body.title || !body.slug) return json({ error: "Title and slug are required" }, 400);
+        const slug = String(body.slug).trim().toLowerCase()
+          .replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+        if (!slug) return json({ error: "Invalid slug" }, 400);
+        const { data, error } = await supabaseAdmin
+          .from("cms_policy_pages").insert({
+            slug,
+            title: body.title,
+            content: body.content ?? null,
+          }).select().single();
+        if (error) return json({ error: error.message }, 400);
+        return json({ data });
+      }
+      case "delete_policy_page": {
+        if (!body.id) return json({ error: "Missing id" }, 400);
+        const { error } = await supabaseAdmin
+          .from("cms_policy_pages").delete().eq("id", body.id);
+        if (error) throw error;
+        return json({ ok: true });
+      }
 
       // ─── Contact submissions ────────────────────────────────
       case "list_contact_submissions": {
