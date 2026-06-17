@@ -31,6 +31,7 @@ const SubmitProposal = () => {
   const [currentStep, setCurrentStep] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [aiDeclaration, setAiDeclaration] = useState(false);
   const [referenceNumber, setReferenceNumber] = useState<string>("");
   const [hasCoAuthors, setHasCoAuthors] = useState<string>("");
   const [coAuthorCount, setCoAuthorCount] = useState("1");
@@ -168,6 +169,14 @@ const SubmitProposal = () => {
       toast({
         title: "Please complete the required fields",
         description: "Some entries are missing or invalid.",
+        variant: "destructive",
+      });
+      return;
+    }
+    if (!aiDeclaration) {
+      toast({
+        title: "Declaration required",
+        description: "Please confirm the authorship declaration before submitting.",
         variant: "destructive",
       });
       return;
