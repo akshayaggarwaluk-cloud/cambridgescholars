@@ -1,4 +1,6 @@
 import { Link, useLocation } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { supabase } from "@/integrations/supabase/client";
 
 const footerLinks = {
   pages: [
@@ -19,10 +21,36 @@ const footerLinks = {
   ],
 };
 
+const BUILTIN_SLUGS = new Set([
+  "privacy-policy", "cookies-policy", "terms-and-conditions",
+  "accessibility-policy", "refund-returns",
+]);
+
 export function Footer() {
   const location = useLocation();
+  const [customLinks, setCustomLinks] = useState<{ name: string; href: string }[]>([]);
+
+  useEffect(() => {
+    let cancelled = false;
+    supabase
+      .from("cms_policy_pages")
+      .select("slug, title")
+      .order("created_at", { ascending: true })
+      .then(({ data }) => {
+        if (cancelled || !data) return;
+        setCustomLinks(
+          data
+            .filter((p) => !BUILTIN_SLUGS.has(p.slug))
+            .map((p) => ({ name: p.title, href: `/p/${p.slug}` }))
+        );
+      });
+    return () => { cancelled = true; };
+  }, []);
+
   const isActive = (href: string) =>
     href === "/" ? location.pathname === "/" : location.pathname.startsWith(href);
+
+  const otherLinks = [...footerLinks.otherLinks, ...customLinks];
 
   return (
     <footer className="bg-[#222222] text-[#ABABAB]">
@@ -76,7 +104,7 @@ export function Footer() {
               Other Links
             </h3>
             <ul className="space-y-4">
-              {footerLinks.otherLinks.map((link) => (
+              {otherLinks.map((link) => (
                 <li key={link.name}>
                   <Link
                     to={link.href}
