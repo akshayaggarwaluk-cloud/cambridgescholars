@@ -1,13 +1,4 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogDescription,
-  DialogFooter,
-} from "@/components/ui/dialog";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { PageBreadcrumb } from "@/components/layout/PageBreadcrumb";
@@ -19,15 +10,13 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Progress } from "@/components/ui/progress";
 import { useToast } from "@/hooks/use-toast";
-import { ArrowLeft, ArrowRight, Send, Upload, CheckCircle2 } from "lucide-react";
+import { ArrowLeft, ArrowRight, Send, Upload, CheckCircle2, Sparkles } from "lucide-react";
 import { submitProposal, type ProposalAuthor } from "@/services/cspApi";
 
 const TOTAL_STEPS = 7;
 
 const SubmitProposal = () => {
   const { toast } = useToast();
-  const navigate = useNavigate();
-  const [showDisclaimer, setShowDisclaimer] = useState(true);
   const [currentStep, setCurrentStep] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
