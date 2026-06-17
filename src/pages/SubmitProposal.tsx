@@ -371,7 +371,7 @@ const SubmitProposal = () => {
             </Button>
             <Button
               onClick={() => setShowDisclaimer(false)}
-              className="rounded-none uppercase bg-[#333333] hover:bg-[#1a1a1a] text-white"
+              className="rounded-none uppercase bg-[#C75B2A] hover:bg-[#a84a22] text-white"
             >
               Got it, let's begin
             </Button>
