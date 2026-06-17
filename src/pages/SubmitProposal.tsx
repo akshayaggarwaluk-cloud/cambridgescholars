@@ -32,6 +32,7 @@ const SubmitProposal = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [aiDeclaration, setAiDeclaration] = useState(false);
+  const [aiDeclarationError, setAiDeclarationError] = useState("");
   const [referenceNumber, setReferenceNumber] = useState<string>("");
   const [hasCoAuthors, setHasCoAuthors] = useState<string>("");
   const [coAuthorCount, setCoAuthorCount] = useState("1");
@@ -173,7 +174,11 @@ const SubmitProposal = () => {
       });
       return;
     }
-    if (!aiDeclaration) return;
+    if (!aiDeclaration) {
+      setAiDeclarationError("Please confirm your declaration before submitting.");
+      return;
+    }
+    setAiDeclarationError("");
     if (!cvFile) {
       toast({ title: "CV is required", description: "Please upload your CV in Step 1.", variant: "destructive" });
       setCurrentStep(1);
@@ -748,7 +753,10 @@ const SubmitProposal = () => {
                       id="ai-declaration"
                       type="checkbox"
                       checked={aiDeclaration}
-                      onChange={(e) => setAiDeclaration(e.target.checked)}
+                      onChange={(e) => {
+                        setAiDeclaration(e.target.checked);
+                        if (e.target.checked) setAiDeclarationError("");
+                      }}
                       className="mt-1 w-4 h-4 accent-[#C75B2A] cursor-pointer"
                     />
                     <label
@@ -762,6 +770,9 @@ const SubmitProposal = () => {
                       <span className="text-[#C75B2A]"> *</span>
                     </label>
                   </div>
+                  {aiDeclarationError && (
+                    <p className="text-sm text-[#C75B2A] -mt-2 ml-7">{aiDeclarationError}</p>
+                  )}
                 </>
               )}
             </div>
@@ -779,7 +790,7 @@ const SubmitProposal = () => {
                   NEXT
                 </Button>
               ) : (
-                <Button onClick={handleSubmit} disabled={isSubmitting || !aiDeclaration} className="px-8 py-3 rounded-none text-sm font-semibold tracking-wider bg-[#e4573d] hover:bg-[#e4573d]/90 text-white gap-2 disabled:opacity-50 disabled:cursor-not-allowed">
+                <Button onClick={handleSubmit} disabled={isSubmitting} className="px-8 py-3 rounded-none text-sm font-semibold tracking-wider bg-[#e4573d] hover:bg-[#e4573d]/90 text-white gap-2">
                   {isSubmitting ? (
                     "SUBMITTING..."
                   ) : (
