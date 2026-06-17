@@ -116,6 +116,45 @@
 }
 
 @layer components {
+  /* CMS rich text rendered from the admin Policy Pages editor.
+     Match the typography of the original built-in policy pages so
+     edited content looks identical to the static fallback. */
+  .cms-rich-content,
+  .cms-rich-content p,
+  .cms-rich-content li,
+  .cms-rich-content strong,
+  .cms-rich-content em,
+  .cms-rich-content a,
+  .cms-rich-content td,
+  .cms-rich-content th {
+    font-family: var(--font-nav, 'Source Sans 3', system-ui, sans-serif);
+    color: #333333;
+  }
+  .cms-rich-content h1,
+  .cms-rich-content h2,
+  .cms-rich-content h3,
+  .cms-rich-content h4,
+  .cms-rich-content h5,
+  .cms-rich-content h6 {
+    font-family: var(--font-nav, 'Source Sans 3', system-ui, sans-serif);
+    font-weight: 700;
+    color: #333333;
+    letter-spacing: normal;
+  }
+  .cms-rich-content h2 { font-size: 18px; margin-top: 2rem; margin-bottom: 0.75rem; }
+  .cms-rich-content h3 { font-size: 16px; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+  .cms-rich-content p { margin-bottom: 1rem; line-height: 1.7; }
+  .cms-rich-content ul { list-style: disc; padding-left: 1.25rem; margin-bottom: 1rem; }
+  .cms-rich-content ol { list-style: decimal; padding-left: 1.25rem; margin-bottom: 1rem; }
+  .cms-rich-content li { margin-bottom: 0.25rem; line-height: 1.7; }
+  .cms-rich-content a { color: #C75B2A; text-decoration: underline; }
+  .cms-rich-content table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
+  .cms-rich-content th,
+  .cms-rich-content td { border: 1px solid #e5e7eb; padding: 0.5rem 0.75rem; text-align: left; }
+  .cms-rich-content th { background: #f4f3ec; font-weight: 600; }
+}
+
+@layer components {
   .container-wide {
     @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
   }
