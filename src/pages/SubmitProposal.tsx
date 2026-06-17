@@ -1,13 +1,4 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogDescription,
-  DialogFooter,
-} from "@/components/ui/dialog";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { PageBreadcrumb } from "@/components/layout/PageBreadcrumb";
@@ -19,15 +10,13 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Progress } from "@/components/ui/progress";
 import { useToast } from "@/hooks/use-toast";
-import { ArrowLeft, ArrowRight, Send, Upload, CheckCircle2 } from "lucide-react";
+import { ArrowLeft, ArrowRight, Send, Upload, CheckCircle2, Sparkles } from "lucide-react";
 import { submitProposal, type ProposalAuthor } from "@/services/cspApi";
 
 const TOTAL_STEPS = 7;
 
 const SubmitProposal = () => {
   const { toast } = useToast();
-  const navigate = useNavigate();
-  const [showDisclaimer, setShowDisclaimer] = useState(true);
   const [currentStep, setCurrentStep] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -320,57 +309,6 @@ const SubmitProposal = () => {
   return (
     <div className="min-h-screen bg-white">
       <Header />
-      <Dialog
-        open={showDisclaimer}
-        onOpenChange={(open) => {
-          if (!open) navigate(-1);
-        }}
-      >
-        <DialogContent className="max-w-2xl max-h-[85vh] overflow-y-auto">
-          <DialogHeader>
-            <DialogTitle className="font-baskerville text-2xl text-[#333333]">
-              Important Disclaimer
-            </DialogTitle>
-            <DialogDescription className="sr-only">
-              Please read before starting your proposal.
-            </DialogDescription>
-          </DialogHeader>
-          <div
-            className="space-y-4 text-[15px] leading-relaxed text-[#333333]"
-            style={{ fontFamily: '"Nunito Sans", system-ui, sans-serif' }}
-          >
-            <h3 className="text-lg font-semibold text-[#C75B2A]">AI-Generated Content</h3>
-            <p>
-              AI tools may be used to assist with writing, editing, translation, or summarising,
-              but no part of the book should be written by AI alone unless it has been thoroughly
-              reread, checked, and rewritten by the author or editor.
-            </p>
-            <p>
-              AI-generated material must be checked for factual errors, hallucinated claims,
-              invented quotations, incorrect bibliographic entries, false citations, and
-              misleading summaries. We use a vetting process that may identify passages likely to
-              have been generated or insufficiently checked. In such cases, we may ask for
-              sections to be withdrawn, rewritten, or substantially revised before production
-              continues.
-            </p>
-          </div>
-          <DialogFooter className="gap-2 sm:gap-2">
-            <Button
-              variant="outline"
-              onClick={() => navigate(-1)}
-              className="rounded-none uppercase"
-            >
-              Cancel
-            </Button>
-            <Button
-              onClick={() => setShowDisclaimer(false)}
-              className="rounded-none uppercase bg-[#C75B2A] hover:bg-[#a84a22] text-white"
-            >
-              I Understand & Agree
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
       <div className="w-full bg-[#F4F3EC] pt-24 sm:pt-28">
         <div className="container-wide h-[200px] flex items-center justify-between">
           <h1 className="text-[40px] leading-[1.2] font-baskerville font-normal text-[#333333] my-[10px]">Book Proposal Form</h1>
@@ -415,6 +353,36 @@ const SubmitProposal = () => {
               Please note that we publish in English only and do not provide translation services at this time.
               Submissions in languages other than English will not be considered for publication.
             </p>
+
+            {/* AI Disclaimer */}
+            <div
+              className="mb-8 border-l-4 border-[#C75B2A] bg-[#FBF6F1] px-5 py-4 rounded-sm"
+              role="note"
+              aria-label="AI-generated content disclaimer"
+            >
+              <div className="flex items-start gap-3">
+                <Sparkles className="w-5 h-5 text-[#C75B2A] flex-shrink-0 mt-0.5" aria-hidden="true" />
+                <div
+                  className="text-[14px] leading-relaxed text-[#333333] space-y-2"
+                  style={{ fontFamily: '"Nunito Sans", system-ui, sans-serif' }}
+                >
+                  <p className="font-semibold text-[#C75B2A]">A note on AI-generated content</p>
+                  <p>
+                    AI tools may be used to assist with writing, editing, translation, or summarising,
+                    but no part of the book should be written by AI alone unless it has been thoroughly
+                    reread, checked, and rewritten by the author or editor.
+                  </p>
+                  <p>
+                    AI-generated material must be checked for factual errors, hallucinated claims,
+                    invented quotations, incorrect bibliographic entries, false citations, and
+                    misleading summaries. We use a vetting process that may identify passages likely to
+                    have been generated or insufficiently checked. In such cases, we may ask for
+                    sections to be withdrawn, rewritten, or substantially revised before production
+                    continues.
+                  </p>
+                </div>
+              </div>
+            </div>
 
             {/* Progress */}
             <div className="mb-8">
