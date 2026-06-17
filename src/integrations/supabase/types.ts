@@ -398,6 +398,33 @@ export type Database = {
         }
         Relationships: []
       }
+      cms_policy_pages: {
+        Row: {
+          content: string | null
+          created_at: string
+          id: string
+          slug: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          content?: string | null
+          created_at?: string
+          id?: string
+          slug: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          content?: string | null
+          created_at?: string
+          id?: string
+          slug?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       cms_proposal_submissions: {
         Row: {
           admin_notes: string | null
