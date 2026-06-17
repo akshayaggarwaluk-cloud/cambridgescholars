@@ -779,7 +779,7 @@ const SubmitProposal = () => {
                   NEXT
                 </Button>
               ) : (
-                <Button onClick={handleSubmit} disabled={isSubmitting} className="px-8 py-3 rounded-none text-sm font-semibold tracking-wider bg-[#e4573d] hover:bg-[#e4573d]/90 text-white gap-2">
+                <Button onClick={handleSubmit} disabled={isSubmitting || !aiDeclaration} className="px-8 py-3 rounded-none text-sm font-semibold tracking-wider bg-[#e4573d] hover:bg-[#e4573d]/90 text-white gap-2 disabled:opacity-50 disabled:cursor-not-allowed">
                   {isSubmitting ? (
                     "SUBMITTING..."
                   ) : (
