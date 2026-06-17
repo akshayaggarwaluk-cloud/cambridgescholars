@@ -25,15 +25,15 @@ const PolicyPage = () => {
   return (
     <div className="min-h-screen flex flex-col text-black">
       <Header />
-      <div className="w-full bg-[#F4F3EC] pt-24 sm:pt-28 pb-8">
-        <div className="container-wide min-h-[200px] flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-          <h1 className="text-[24px] sm:text-[32px] lg:text-[40px] leading-[1.2] font-baskerville font-normal text-[#333333] my-[10px] flex-1 break-words">{title}</h1>
+      <div className="w-full bg-[#F4F3EC] pt-24 sm:pt-28 pb-6">
+        <div className="container-wide min-h-[160px] flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+          <h1 className="text-[24px] sm:text-[32px] lg:text-[40px] leading-[1.2] font-baskerville font-normal text-[#333333] my-[6px] flex-1 break-words">{title}</h1>
           <div className="sm:max-w-[40%] sm:text-right">
             <PageBreadcrumb currentPage={title} />
           </div>
         </div>
       </div>
-      <main className="flex-1 py-12 bg-white">
+      <main className="flex-1 py-8 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-black">
           {hasCustom ? (
             <div
