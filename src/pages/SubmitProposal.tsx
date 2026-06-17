@@ -343,10 +343,10 @@ const SubmitProposal = () => {
             </DialogDescription>
           </DialogHeader>
           <div
-            className="space-y-4 text-[15px] leading-relaxed text-[#333333]"
+            className="space-y-3 text-[13px] leading-relaxed text-[#666666]"
             style={{ fontFamily: '"Nunito Sans", system-ui, sans-serif' }}
           >
-            <h3 className="text-lg font-semibold text-[#C75B2A]">AI-Generated Content</h3>
+            <h3 className="text-sm font-semibold text-[#444444]">AI-Generated Content</h3>
             <p>
               AI tools may be used to assist with writing, editing, translation, or summarising,
               but no part of the book should be written by AI alone unless it has been thoroughly
@@ -371,7 +371,7 @@ const SubmitProposal = () => {
             </Button>
             <Button
               onClick={() => setShowDisclaimer(false)}
-              className="rounded-none uppercase bg-[#C75B2A] hover:bg-[#a84a22] text-white"
+              className="rounded-none uppercase bg-[#333333] hover:bg-[#1a1a1a] text-white"
             >
               Got it, let's begin
             </Button>
