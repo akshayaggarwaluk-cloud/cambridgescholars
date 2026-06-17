@@ -2,8 +2,11 @@ import { PageBreadcrumb } from "@/components/layout/PageBreadcrumb";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { Separator } from "@/components/ui/separator";
+import { usePolicyPage } from "@/hooks/usePolicyPage";
 
 const TermsAndConditions = () => {
+  const { page, hasCustom } = usePolicyPage("terms-and-conditions");
+  const title = page?.title || "Terms and Conditions";
   return (
     <div className="min-h-screen flex flex-col text-black">
       <Header />
@@ -11,17 +14,20 @@ const TermsAndConditions = () => {
       {/* Header Banner */}
       <div className="w-full bg-[#F4F3EC] pt-24 sm:pt-28">
         <div className="container-wide h-[200px] flex items-center justify-between">
-          <h1 className="text-[40px] leading-[1.2] font-baskerville font-normal text-[#333333] my-[10px]">Terms and Conditions</h1>
-          <PageBreadcrumb
-            currentPage="Terms and Conditions
-
-"
-          />
+          <h1 className="text-[40px] leading-[1.2] font-baskerville font-normal text-[#333333] my-[10px]">{title}</h1>
+          <PageBreadcrumb currentPage={title} />
         </div>
       </div>
 
       <main className="flex-1 py-12 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {hasCustom ? (
+          <div
+            className="cms-rich-content text-[#333333] text-[16px] font-nav leading-[1.7]"
+            dangerouslySetInnerHTML={{ __html: page!.content || "" }}
+          />
+        ) : (
+        <>
           {/* Introduction */}
           <div className="mb-8">
             <p className="leading-[1.7] text-[#333333] text-[16px] font-nav">
@@ -159,6 +165,8 @@ const TermsAndConditions = () => {
               by email to <a href="mailto:orders@cambridgescholars.com" className="text-[#C75B2A] hover:underline">orders@cambridgescholars.com</a>.
             </p>
           </section>
+        </>
+        )}
         </div>
       </main>
 

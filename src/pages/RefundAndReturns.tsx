@@ -3,8 +3,11 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { Separator } from "@/components/ui/separator";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { usePolicyPage } from "@/hooks/usePolicyPage";
 
 const RefundAndReturns = () => {
+  const { page, hasCustom } = usePolicyPage("refund-returns");
+  const title = page?.title || "Refund and Returns";
   return (
     <div className="min-h-screen flex flex-col  text-black">
       <Header />
@@ -12,13 +15,20 @@ const RefundAndReturns = () => {
       {/* Header Banner */}
       <div className="w-full bg-[#F4F3EC] pt-24 sm:pt-28">
         <div className="container-wide h-[200px] flex items-center justify-between">
-          <h1 className="text-[40px] leading-[1.2] font-baskerville font-normal text-[#333333] my-[10px]">Refund and Returns</h1>
-          <PageBreadcrumb currentPage="Refund and Returns" />
+          <h1 className="text-[40px] leading-[1.2] font-baskerville font-normal text-[#333333] my-[10px]">{title}</h1>
+          <PageBreadcrumb currentPage={title} />
         </div>
       </div>
 
       <main className="flex-1 py-12 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {hasCustom ? (
+          <div
+            className="cms-rich-content text-[#333333] text-[16px] font-nav leading-[1.7]"
+            dangerouslySetInnerHTML={{ __html: page!.content || "" }}
+          />
+        ) : (
+        <>
           {/* Introduction */}
           <div className="mb-8">
             <p className="leading-[1.7] text-[#333333] text-[16px] font-nav">
@@ -232,6 +242,8 @@ const RefundAndReturns = () => {
               </a>
             </p>
           </section>
+        </>
+        )}
         </div>
       </main>
 

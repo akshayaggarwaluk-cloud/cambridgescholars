@@ -2,7 +2,7 @@ import { Link, NavLink, Outlet, useNavigate, Navigate, useLocation } from "react
 import {
   LayoutDashboard, Newspaper, Sparkles, ExternalLink, LogOut, Users,
   BookOpen, MessageSquareQuote, HelpCircle, FileText, FolderDown,
-  Inbox, FileSignature, ShoppingBag, UserCog, Tag, UserRound,
+  Inbox, FileSignature, ShoppingBag, UserCog, Tag, UserRound, ScrollText,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { adminLogout, adminSession } from "@/services/cmsService";
@@ -21,6 +21,7 @@ const navGroups: Array<{
       { to: "/admin/faqs", label: "FAQs", icon: HelpCircle },
       { to: "/admin/resources", label: "Resources", icon: FileText },
       { to: "/admin/footer-documents", label: "Footer Documents", icon: FolderDown },
+      { to: "/admin/policy-pages", label: "Footer Policy Pages", icon: ScrollText },
     ],
   },
   {
