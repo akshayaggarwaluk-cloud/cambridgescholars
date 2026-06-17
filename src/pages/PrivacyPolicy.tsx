@@ -2,8 +2,11 @@ import { PageBreadcrumb } from "@/components/layout/PageBreadcrumb";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { Separator } from "@/components/ui/separator";
+import { usePolicyPage } from "@/hooks/usePolicyPage";
 
 const PrivacyPolicy = () => {
+  const { page, hasCustom } = usePolicyPage("privacy-policy");
+  const title = page?.title || "Privacy Policy";
   return (
     <div className="min-h-screen flex flex-col text-black">
       <Header />
@@ -11,18 +14,22 @@ const PrivacyPolicy = () => {
       {/* Header Banner */}
       <div className="w-full bg-[#F4F3EC] pt-24 sm:pt-28">
         <div className="container-wide h-[200px] flex items-center justify-between">
-          <h1 className="text-[40px] leading-[1.2] font-baskerville font-normal text-[#333333] my-[10px]">Privacy Policy</h1>
+          <h1 className="text-[40px] leading-[1.2] font-baskerville font-normal text-[#333333] my-[10px]">{title}</h1>
           <PageBreadcrumb
-            currentPage="Privacy Policy
-
-
-"
+            currentPage={title}
           />
         </div>
       </div>
 
       <main className="flex-1 py-12 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-black">
+        {hasCustom ? (
+          <div
+            className="cms-rich-content text-[#333333] text-[16px] font-nav leading-[1.7]"
+            dangerouslySetInnerHTML={{ __html: page!.content || "" }}
+          />
+        ) : (
+        <>
           {/* Introduction */}
           <div className="mb-8">
             <p className="leading-[1.7] text-[#333333] text-[16px] font-nav">
