@@ -363,36 +363,6 @@ const SubmitProposal = () => {
               Submissions in languages other than English will not be considered for publication.
             </p>
 
-            {/* AI Disclaimer */}
-            <div
-              className="mb-8 border-l-4 border-[#C75B2A] bg-[#FBF6F1] px-5 py-4 rounded-sm"
-              role="note"
-              aria-label="AI-generated content disclaimer"
-            >
-              <div className="flex items-start gap-3">
-                <Sparkles className="w-5 h-5 text-[#C75B2A] flex-shrink-0 mt-0.5" aria-hidden="true" />
-                <div
-                  className="text-[14px] leading-relaxed text-[#333333] space-y-2"
-                  style={{ fontFamily: '"Nunito Sans", system-ui, sans-serif' }}
-                >
-                  <p className="font-semibold text-[#C75B2A]">A note on AI-generated content</p>
-                  <p>
-                    AI tools may be used to assist with writing, editing, translation, or summarising,
-                    but no part of the book should be written by AI alone unless it has been thoroughly
-                    reread, checked, and rewritten by the author or editor.
-                  </p>
-                  <p>
-                    AI-generated material must be checked for factual errors, hallucinated claims,
-                    invented quotations, incorrect bibliographic entries, false citations, and
-                    misleading summaries. We use a vetting process that may identify passages likely to
-                    have been generated or insufficiently checked. In such cases, we may ask for
-                    sections to be withdrawn, rewritten, or substantially revised before production
-                    continues.
-                  </p>
-                </div>
-              </div>
-            </div>
-
             {/* Progress */}
             <div className="mb-8">
               <p className="text-sm text-muted-foreground mb-2">
