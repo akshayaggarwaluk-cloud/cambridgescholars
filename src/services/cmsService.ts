@@ -609,6 +609,16 @@ export async function fetchPublishedFooterDocuments(): Promise<CmsFooterDocument
   return (data || []) as CmsFooterDocument[];
 }
 
+export async function fetchPolicyPageBySlug(slug: string): Promise<CmsPolicyPage | null> {
+  const { data, error } = await supabase
+    .from("cms_policy_pages")
+    .select("*")
+    .eq("slug", slug)
+    .maybeSingle();
+  if (error) throw error;
+  return (data || null) as CmsPolicyPage | null;
+}
+
 // ─── Public writes — submissions ────────────────────────────────
 
 export async function submitContactForm(input: {
@@ -962,6 +972,12 @@ export const adminApi = {
   updateFooterDocument: (payload: Partial<CmsFooterDocument> & { id: string }) =>
     callAdmin<{ data: CmsFooterDocument }>({ action: "update_footer_document", ...payload }).then((r) => r.data),
   deleteFooterDocument: (id: string) => callAdmin({ action: "delete_footer_document", id }),
+
+  // ─── Policy Pages (footer "Other links") ─────────────────────
+  listPolicyPages: () =>
+    callAdmin<{ data: CmsPolicyPage[] }>({ action: "list_policy_pages" }).then((r) => r.data),
+  updatePolicyPage: (payload: { id?: string; slug?: string; title?: string; content?: string | null }) =>
+    callAdmin<{ data: CmsPolicyPage }>({ action: "update_policy_page", ...payload }).then((r) => r.data),
 
   // ─── Contact Submissions ─────────────────────────────────────
   listContactSubmissions: () =>
