@@ -127,7 +127,7 @@
   .cms-rich-content a,
   .cms-rich-content td,
   .cms-rich-content th {
-    font-family: var(--font-nav, 'Source Sans 3', system-ui, sans-serif);
+    font-family: "Nunito Sans", system-ui, sans-serif;
     color: #333333;
   }
   .cms-rich-content h1,
@@ -136,7 +136,7 @@
   .cms-rich-content h4,
   .cms-rich-content h5,
   .cms-rich-content h6 {
-    font-family: var(--font-nav, 'Source Sans 3', system-ui, sans-serif);
+    font-family: "Nunito Sans", system-ui, sans-serif;
     font-weight: 700;
     color: #333333;
     letter-spacing: normal;
