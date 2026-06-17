@@ -749,6 +749,26 @@ const SubmitProposal = () => {
                   <p className="text-sm text-muted-foreground pt-4">
                     Please check over your information thoroughly and click the submit button below.
                   </p>
+
+                  <div className="flex items-start gap-3 pt-2 p-4 border border-[#C75B2A]/30 bg-[#C75B2A]/5">
+                    <input
+                      id="ai-declaration"
+                      type="checkbox"
+                      checked={aiDeclaration}
+                      onChange={(e) => setAiDeclaration(e.target.checked)}
+                      className="mt-1 w-4 h-4 accent-[#C75B2A] cursor-pointer"
+                    />
+                    <label
+                      htmlFor="ai-declaration"
+                      className="text-[15px] leading-relaxed text-[#333333] cursor-pointer"
+                      style={{ fontFamily: '"Nunito Sans", system-ui, sans-serif' }}
+                    >
+                      I declare that this proposal represents my own intellectual work and ideas.
+                      I understand that Cambridge Scholars Publishing assesses proposals for
+                      AI-generated content as part of its editorial review process.
+                      <span className="text-[#C75B2A]"> *</span>
+                    </label>
+                  </div>
                 </>
               )}
             </div>
