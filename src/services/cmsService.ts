@@ -414,6 +414,15 @@ export interface CmsFooterDocument {
   updated_at: string;
 }
 
+export interface CmsPolicyPage {
+  id: string;
+  slug: string;
+  title: string;
+  content: string | null;
+  updated_at: string;
+  created_at: string;
+}
+
 export interface CmsContactSubmission {
   id: string;
   name: string;
