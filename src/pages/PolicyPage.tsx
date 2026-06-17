@@ -28,8 +28,11 @@ const PolicyPage = () => {
       <div className="w-full bg-[#F4F3EC] pt-24 sm:pt-28">
         <div className="container-wide min-h-[200px] py-6 flex items-center justify-between gap-6">
           <h1 className="text-[28px] sm:text-[34px] lg:text-[40px] leading-[1.2] font-baskerville font-normal text-[#333333] my-[10px] flex-1 break-words">{title}</h1>
-          <div className="shrink-0 max-w-[45%]">
-            <PageBreadcrumb currentPage={title} className="[&_ol]:justify-end [&_ol]:flex-wrap [&_ol]:text-right" />
+          <div className="shrink-0 max-w-[45%] text-right">
+            <PageBreadcrumb
+              currentPage={title}
+              className="[&_ol]:block [&_ol]:text-right [&_ol>li]:inline [&_ol>div]:inline"
+            />
           </div>
         </div>
       </div>
