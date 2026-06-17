@@ -339,24 +339,19 @@ const SubmitProposal = () => {
             className="space-y-4 text-[15px] leading-relaxed text-[#333333]"
             style={{ fontFamily: '"Nunito Sans", system-ui, sans-serif' }}
           >
-            <p className="text-base">
-              Hello, and thank you for considering us for your book. We're delighted you're here
-              and look forward to reading your proposal.
-            </p>
-            <h3 className="text-lg font-semibold text-[#C75B2A]">A gentle word on AI</h3>
+            <h3 className="text-lg font-semibold text-[#C75B2A]">AI-Generated Content</h3>
             <p>
-              You're very welcome to use AI tools to help with writing, editing, translation, or
-              summarising. We simply ask that nothing be left entirely to AI — please reread,
-              check, and rewrite anything it produces so the words truly feel like yours.
+              AI tools may be used to assist with writing, editing, translation, or summarising,
+              but no part of the book should be written by AI alone unless it has been thoroughly
+              reread, checked, and rewritten by the author or editor.
             </p>
             <p>
-              Because AI can sometimes introduce small errors — invented quotes, inaccurate
-              citations, or misleading summaries — we kindly review submissions for these. If
-              anything needs a little more care, we'll reach out and work with you to revise it
-              before production.
-            </p>
-            <p className="text-[#C75B2A] font-medium">
-              Thank you for your care and craft. We can't wait to see what you've created.
+              AI-generated material must be checked for factual errors, hallucinated claims,
+              invented quotations, incorrect bibliographic entries, false citations, and
+              misleading summaries. We use a vetting process that may identify passages likely to
+              have been generated or insufficiently checked. In such cases, we may ask for
+              sections to be withdrawn, rewritten, or substantially revised before production
+              continues.
             </p>
           </div>
           <DialogFooter className="gap-2 sm:gap-2">
