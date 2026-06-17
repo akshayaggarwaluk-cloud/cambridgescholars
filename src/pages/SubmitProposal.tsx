@@ -318,6 +318,47 @@ const SubmitProposal = () => {
   return (
     <div className="min-h-screen bg-white">
       <Header />
+      <Dialog open={showDisclaimer} onOpenChange={setShowDisclaimer}>
+        <DialogContent className="max-w-xl max-h-[85vh] overflow-y-auto border-t-4 border-t-[#C75B2A]">
+          <DialogHeader>
+            <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-[#FBF1EA]">
+              <Sparkles className="h-6 w-6 text-[#C75B2A]" aria-hidden="true" />
+            </div>
+            <DialogTitle className="text-center font-baskerville text-2xl font-normal text-[#333333]">
+              A note on AI-generated content
+            </DialogTitle>
+            <DialogDescription className="sr-only">
+              Friendly disclaimer about AI use in proposals.
+            </DialogDescription>
+          </DialogHeader>
+          <div
+            className="space-y-4 text-[15px] leading-relaxed text-[#333333]"
+            style={{ fontFamily: '"Nunito Sans", system-ui, sans-serif' }}
+          >
+            <p>
+              AI tools may be used to assist with writing, editing, translation, or summarising,
+              but no part of the book should be written by AI alone unless it has been thoroughly
+              reread, checked, and rewritten by the author or editor.
+            </p>
+            <p>
+              AI-generated material must be checked for factual errors, hallucinated claims,
+              invented quotations, incorrect bibliographic entries, false citations, and
+              misleading summaries. We use a vetting process that may identify passages likely to
+              have been generated or insufficiently checked. In such cases, we may ask for
+              sections to be withdrawn, rewritten, or substantially revised before production
+              continues.
+            </p>
+          </div>
+          <DialogFooter>
+            <Button
+              onClick={() => setShowDisclaimer(false)}
+              className="w-full rounded-none uppercase bg-[#C75B2A] hover:bg-[#a84a22] text-white"
+            >
+              Got it, continue
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
       <div className="w-full bg-[#F4F3EC] pt-24 sm:pt-28">
         <div className="container-wide h-[200px] flex items-center justify-between">
           <h1 className="text-[40px] leading-[1.2] font-baskerville font-normal text-[#333333] my-[10px]">Book Proposal Form</h1>
