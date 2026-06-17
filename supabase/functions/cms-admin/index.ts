@@ -580,6 +580,25 @@ Deno.serve(async (req) => {
         return json({ ok: true });
       }
 
+      // ─── Policy pages (footer "Other links") ────────────────
+      case "list_policy_pages": {
+        const { data, error } = await supabaseAdmin
+          .from("cms_policy_pages").select("*")
+          .order("slug", { ascending: true });
+        if (error) throw error;
+        return json({ data });
+      }
+      case "update_policy_page": {
+        if (!body.id && !body.slug) return json({ error: "Missing id or slug" }, 400);
+        const patch: Record<string, unknown> = { updated_at: new Date().toISOString() };
+        for (const k of ["title", "content"]) if (k in body) patch[k] = body[k];
+        const query = supabaseAdmin.from("cms_policy_pages").update(patch);
+        const filtered = body.id ? query.eq("id", body.id) : query.eq("slug", body.slug);
+        const { data, error } = await filtered.select().single();
+        if (error) throw error;
+        return json({ data });
+      }
+
       // ─── Contact submissions ────────────────────────────────
       case "list_contact_submissions": {
         const { data, error } = await supabaseAdmin
