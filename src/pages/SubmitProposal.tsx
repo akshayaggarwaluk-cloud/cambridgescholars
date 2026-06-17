@@ -173,14 +173,7 @@ const SubmitProposal = () => {
       });
       return;
     }
-    if (!aiDeclaration) {
-      toast({
-        title: "Declaration required",
-        description: "Please confirm the authorship declaration before submitting.",
-        variant: "destructive",
-      });
-      return;
-    }
+    if (!aiDeclaration) return;
     if (!cvFile) {
       toast({ title: "CV is required", description: "Please upload your CV in Step 1.", variant: "destructive" });
       setCurrentStep(1);
@@ -750,7 +743,7 @@ const SubmitProposal = () => {
                     Please check over your information thoroughly and click the submit button below.
                   </p>
 
-                  <div className="flex items-start gap-3 pt-2 p-4 border border-[#C75B2A]/30 bg-[#C75B2A]/5">
+                  <div className="flex items-start gap-3 pt-2">
                     <input
                       id="ai-declaration"
                       type="checkbox"
