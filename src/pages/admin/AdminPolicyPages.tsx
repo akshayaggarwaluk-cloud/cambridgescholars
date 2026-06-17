@@ -51,7 +51,7 @@ export default function AdminPolicyPages() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="font-baskerville text-2xl sm:text-3xl">Footer Policy Pages</h1>
+        <h1 className="font-baskerville text-2xl sm:text-3xl">Footer Documents</h1>
         <p className="text-muted-foreground text-sm">
           Edit the content of the “Other Links” pages in the site footer. Leaving the body empty falls back to the original built-in copy.
         </p>

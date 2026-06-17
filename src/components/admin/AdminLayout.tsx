@@ -20,7 +20,7 @@ const navGroups: Array<{
       { to: "/admin/news", label: "News", icon: Newspaper },
       { to: "/admin/faqs", label: "FAQs", icon: HelpCircle },
       { to: "/admin/resources", label: "Resources", icon: FileText },
-      { to: "/admin/policy-pages", label: "Footer Policy Pages", icon: ScrollText },
+      { to: "/admin/policy-pages", label: "Footer Documents", icon: ScrollText },
     ],
   },
   {
