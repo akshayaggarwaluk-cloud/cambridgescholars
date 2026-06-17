@@ -330,6 +330,8 @@ const PrivacyPolicy = () => {
               Email: admin@cambridgescholars.com
             </p>
           </section>
+        </>
+        )}
         </div>
       </main>
 
