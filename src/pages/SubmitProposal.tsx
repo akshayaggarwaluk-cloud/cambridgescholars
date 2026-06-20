@@ -781,7 +781,6 @@ const SubmitProposal = () => {
                       is your own scholarly work, that all references, citations, quotations and
                       factual claims have been checked by you, and that you have not submitted
                       AI-generated scholarly content as original work.
-                      <span className="text-[#C75B2A]"> *</span>
                     </label>
                   </div>
                   {aiDeclarationError && (
