@@ -777,9 +777,10 @@ const SubmitProposal = () => {
                       className="text-[15px] leading-relaxed text-[#333333] cursor-pointer"
                       style={{ fontFamily: '"Nunito Sans", system-ui, sans-serif' }}
                     >
-                      I declare that this proposal represents my own intellectual work and ideas.
-                      I understand that Cambridge Scholars Publishing assesses proposals for
-                      AI-generated content as part of its editorial review process.
+                      By proceeding with this submission, you confirm that the material you provide
+                      is your own scholarly work, that all references, citations, quotations and
+                      factual claims have been checked by you, and that you have not submitted
+                      AI-generated scholarly content as original work.
                       <span className="text-[#C75B2A]"> *</span>
                     </label>
                   </div>
