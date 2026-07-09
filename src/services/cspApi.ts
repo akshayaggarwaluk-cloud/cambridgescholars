@@ -648,7 +648,7 @@ export interface ProposalPayload {
     title: string;
     subtitle?: string;
     type: "monograph" | "edited-volume";
-    subject: string;
+    subject?: string;
     secondarySubjects?: string[];
     language: string;
     estimatedWordCount: number;
