@@ -96,6 +96,7 @@ const SubmitProposal = () => {
     3: [
       { key: "proposedTitle", type: "text" },
       { key: "proposedSubtitle", type: "text" },
+      { key: "primarySubject", type: "text" },
     ],
     4: [
       { key: "briefSummary", type: "text" },
@@ -238,6 +239,7 @@ const SubmitProposal = () => {
         title: formData.proposedTitle || "",
         subtitle: formData.proposedSubtitle,
         type: (bookType === "edited" ? "edited-volume" : "monograph") as "monograph" | "edited-volume",
+        subject: formData.primarySubject || "",
         language: formData.languages || "",
         estimatedWordCount: parseInt(formData.wordCount || "0", 10) || 0,
         estimatedCompletionDate: formData.submissionDate || "",
@@ -586,6 +588,7 @@ const SubmitProposal = () => {
                   <h2 className="text-2xl font-serif text-foreground pb-2">Book Details</h2>
                   <FieldInput label="Proposed Title" required value={formData.proposedTitle} onChange={(v) => updateField("proposedTitle", v)} error={errors.proposedTitle} />
                   <FieldInput label="Proposed Subtitle" required value={formData.proposedSubtitle} onChange={(v) => updateField("proposedSubtitle", v)} error={errors.proposedSubtitle} />
+                  <FieldInput label="Primary Subject (e.g. History, Law, Computer Science)" required value={formData.primarySubject} onChange={(v) => updateField("primarySubject", v)} error={errors.primarySubject} />
                   <div className="space-y-1">
                     <Label className="text-[16px] font-bold text-[#696969]" style={{ fontFamily: '"Nunito Sans", system-ui, sans-serif' }}>
                       Type of Book <span className="text-accent font-normal italic">(Required)</span>
