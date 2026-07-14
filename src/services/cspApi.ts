@@ -650,7 +650,7 @@ export interface ProposalPayload {
     type: "monograph" | "edited-volume";
     subject?: string;
     secondarySubjects?: string[];
-    language: string;
+    language?: string;
     estimatedWordCount: number;
     estimatedPages?: number;
     estimatedCompletionDate: string;
