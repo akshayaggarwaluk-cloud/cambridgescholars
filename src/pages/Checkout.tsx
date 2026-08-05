@@ -414,11 +414,6 @@ export default function Checkout() {
     try {
       // Build the /checkout/pay payload — flat shape per CSP OpenAPI spec
       // (CheckoutPayRequest). Card details and a SINGLE billing address.
-      const billingAddress: AddressData = isEbookOnly
-        ? billing
-        : useShippingForBilling
-          ? shipping
-          : billing;
       if (!billingAddress.country) {
         toast.error("Please select a billing country.");
         setLoading(false);
