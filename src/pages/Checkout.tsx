@@ -396,6 +396,15 @@ export default function Checkout() {
       toast.error("Please enter an email address.");
       return;
     }
+    const billingAddress: AddressData = isEbookOnly
+      ? billing
+      : useShippingForBilling
+        ? shipping
+        : billing;
+    if (!billingAddress.phone.trim()) {
+      toast.error("Please enter a billing phone number.");
+      return;
+    }
     if (!card.number || !card.expiry || !card.cvc || !cardholder.trim()) {
       toast.error("Please complete all card details.");
       return;
@@ -405,11 +414,6 @@ export default function Checkout() {
     try {
       // Build the /checkout/pay payload — flat shape per CSP OpenAPI spec
       // (CheckoutPayRequest). Card details and a SINGLE billing address.
-      const billingAddress: AddressData = isEbookOnly
-        ? billing
-        : useShippingForBilling
-          ? shipping
-          : billing;
       if (!billingAddress.country) {
         toast.error("Please select a billing country.");
         setLoading(false);
@@ -664,7 +668,7 @@ export default function Checkout() {
                     idPrefix="bill"
                     data={billing}
                     onChange={setBilling}
-                    phoneRequired={isEbookOnly}
+                    phoneRequired
                     showEmail
                     email={email}
                     onEmailChange={setEmail}
