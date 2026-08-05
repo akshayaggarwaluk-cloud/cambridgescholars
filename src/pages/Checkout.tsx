@@ -664,7 +664,7 @@ export default function Checkout() {
                     idPrefix="bill"
                     data={billing}
                     onChange={setBilling}
-                    phoneRequired={isEbookOnly}
+                    phoneRequired
                     showEmail
                     email={email}
                     onEmailChange={setEmail}
