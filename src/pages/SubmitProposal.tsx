@@ -753,8 +753,11 @@ const SubmitProposal = () => {
 
                   <div className="space-y-2 pt-2">
                     <Label className="text-[16px] font-bold text-[#696969]" style={{ fontFamily: '"Nunito Sans", system-ui, sans-serif' }}>
-                      Complete Manuscript (optional)
+                      Complete Manuscript (Optional)
                     </Label>
+                    <p className="text-xs text-muted-foreground">
+                      Only upload if your full manuscript is ready for review. Do not upload a work-in-progress — a sample chapter is sufficient if your manuscript is not yet complete.
+                    </p>
                     <label className="flex items-start gap-2 text-sm text-foreground cursor-pointer select-none">
                       <input
                         type="checkbox"
@@ -773,6 +776,7 @@ const SubmitProposal = () => {
                         Choose File
                         <input
                           type="file"
+                          accept=".pdf,.doc,.docx"
                           className="hidden"
                           disabled={!completeManuscriptConfirmed}
                           onChange={(e) => setCompleteManuscriptFile(e.target.files?.[0] || null)}
@@ -782,9 +786,6 @@ const SubmitProposal = () => {
                         {completeManuscriptFile ? completeManuscriptFile.name : "No file chosen"}
                       </span>
                     </div>
-                    <p className="text-xs text-muted-foreground">
-                      Only upload if your full manuscript is ready for review. Do not upload work-in-progress — a sample chapter is sufficient.
-                    </p>
                   </div>
 
                   <h2 className="text-2xl font-serif text-foreground pb-2 pt-4">Additional Comments and Permissions</h2>
