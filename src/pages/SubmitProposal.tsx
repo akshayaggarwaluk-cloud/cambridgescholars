@@ -751,6 +751,42 @@ const SubmitProposal = () => {
                     <p className="text-xs text-muted-foreground">Max. file size: 2 GB.</p>
                   </div>
 
+                  <div className="space-y-2 pt-2">
+                    <Label className="text-[16px] font-bold text-[#696969]" style={{ fontFamily: '"Nunito Sans", system-ui, sans-serif' }}>
+                      Complete Manuscript (optional)
+                    </Label>
+                    <label className="flex items-start gap-2 text-sm text-foreground cursor-pointer select-none">
+                      <input
+                        type="checkbox"
+                        checked={completeManuscriptConfirmed}
+                        onChange={(e) => {
+                          setCompleteManuscriptConfirmed(e.target.checked);
+                          if (!e.target.checked) setCompleteManuscriptFile(null);
+                        }}
+                        className="mt-1"
+                      />
+                      <span>I confirm this is a complete, final manuscript</span>
+                    </label>
+                    <div className="flex items-center gap-3">
+                      <label className={`inline-flex items-center gap-2 px-4 py-2 border border-input bg-background text-sm ${completeManuscriptConfirmed ? "cursor-pointer hover:bg-muted" : "opacity-50 cursor-not-allowed"} transition-colors`}>
+                        <Upload className="w-4 h-4" />
+                        Choose File
+                        <input
+                          type="file"
+                          className="hidden"
+                          disabled={!completeManuscriptConfirmed}
+                          onChange={(e) => setCompleteManuscriptFile(e.target.files?.[0] || null)}
+                        />
+                      </label>
+                      <span className="text-sm text-muted-foreground">
+                        {completeManuscriptFile ? completeManuscriptFile.name : "No file chosen"}
+                      </span>
+                    </div>
+                    <p className="text-xs text-muted-foreground">
+                      Only upload if your full manuscript is ready for review. Do not upload work-in-progress — a sample chapter is sufficient.
+                    </p>
+                  </div>
+
                   <h2 className="text-2xl font-serif text-foreground pb-2 pt-4">Additional Comments and Permissions</h2>
                   <FieldTextarea label="Any additional notes or context from the author" required rows={4} value={formData.additionalNotes} onChange={(v) => updateField("additionalNotes", v)} error={errors.additionalNotes} />
                   <FieldTextarea
