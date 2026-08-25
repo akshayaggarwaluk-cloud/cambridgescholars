@@ -279,6 +279,7 @@ const SubmitProposal = () => {
         cv: cvFile,
         sampleChapters: sampleFiles,
         additionalFiles: supportingFiles,
+        completeManuscript: completeManuscriptFile,
       });
       if (res?.data?.referenceNumber) setReferenceNumber(res.data.referenceNumber);
       setIsSubmitted(true);
