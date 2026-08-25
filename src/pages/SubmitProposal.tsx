@@ -41,6 +41,8 @@ const SubmitProposal = () => {
   const [cvFile, setCvFile] = useState<File | null>(null);
   const [sampleFiles, setSampleFiles] = useState<File[]>([]);
   const [supportingFiles, setSupportingFiles] = useState<File[]>([]);
+  const [completeManuscriptFile, setCompleteManuscriptFile] = useState<File | null>(null);
+  const [completeManuscriptConfirmed, setCompleteManuscriptConfirmed] = useState(false);
   const [country, setCountry] = useState("");
   const [formData, setFormData] = useState<Record<string, string>>({});
   const [coAuthorRoles, setCoAuthorRoles] = useState<Record<number, string>>({});
