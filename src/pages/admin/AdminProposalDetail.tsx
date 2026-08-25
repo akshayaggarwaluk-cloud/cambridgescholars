@@ -308,6 +308,15 @@ export default function AdminProposalDetail() {
               ) : null;
             })()}
             {(() => {
+              const full = get(detail.manuscript, "completeManuscript") as Record<string, unknown> | null;
+              return full ? (
+                <div>
+                  <div className="text-[10px] uppercase tracking-wider text-muted-foreground mb-1">Complete manuscript</div>
+                  <FileLink file={full} />
+                </div>
+              ) : null;
+            })()}
+            {(() => {
               const extra = get(detail.manuscript, "additionalFiles") as unknown;
               const arr = Array.isArray(extra) ? extra as Record<string, unknown>[] : [];
               return arr.length > 0 ? (

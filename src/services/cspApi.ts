@@ -675,6 +675,7 @@ export interface ProposalPayload {
   };
   manuscript: {
     sampleChapter?: string;
+    completeManuscript?: string;
     fullManuscript?: string;
     additionalFiles?: string[];
   };
