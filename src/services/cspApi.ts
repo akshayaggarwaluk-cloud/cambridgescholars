@@ -675,6 +675,7 @@ export interface ProposalPayload {
   };
   manuscript: {
     sampleChapter?: string;
+    completeManuscript?: string;
     fullManuscript?: string;
     additionalFiles?: string[];
   };
@@ -703,7 +704,7 @@ export interface ProposalSubmitResponse {
 /** Submit a book proposal (multipart/form-data). */
 export async function submitProposal(
   payload: ProposalPayload,
-  files: { cv?: File | null; sampleChapters?: File[]; additionalFiles?: File[] },
+  files: { cv?: File | null; sampleChapters?: File[]; additionalFiles?: File[]; completeManuscript?: File | null },
 ): Promise<ProposalSubmitResponse> {
   const fd = new FormData();
   fd.append("authors", JSON.stringify(payload.authors));
@@ -717,6 +718,7 @@ export async function submitProposal(
   if (files.cv) fd.append("cv", files.cv);
   (files.sampleChapters || []).forEach((f) => fd.append("sampleChapter", f));
   (files.additionalFiles || []).forEach((f) => fd.append("additionalFiles", f));
+  if (files.completeManuscript) fd.append("completeManuscript", files.completeManuscript);
 
   const res = await fetch(`${CSP_API_BASE}/submissions/proposal`, {
     method: "POST",
