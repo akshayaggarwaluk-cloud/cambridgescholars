@@ -72,6 +72,10 @@ const SubmitProposal = () => {
       if (!/^\d+$/.test(v)) return "Please enter digits only.";
     } else if (type === "date") {
       if (Number.isNaN(Date.parse(v))) return "Please enter a valid date.";
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      const entered = new Date(v + "T00:00:00");
+      if (entered < today) return "The submission date cannot be in the past.";
     } else {
       if (v.length > 2000) return "Input is too long.";
     }
