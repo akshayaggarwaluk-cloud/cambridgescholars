@@ -870,45 +870,48 @@ const SubmitProposal = () => {
   );
 };
 
-const FieldInput = ({
-  label,
-  required,
-  type = "text",
-  value,
-  onChange,
-  error,
-  maxLength,
-}: {
-  label: string;
-  required?: boolean;
-  type?: string;
-  value?: string;
-  onChange?: (value: string) => void;
-  error?: string;
-  maxLength?: number;
-}) => (
-  <div className="space-y-1">
-    <Label className="text-[16px] font-bold text-[#696969]" style={{ fontFamily: '"Nunito Sans", system-ui, sans-serif' }}>
-      {label} {required && <span className="text-accent font-normal italic">(Required)</span>}
-    </Label>
-    <Input
-      type={type === "number" ? "text" : type}
-      inputMode={type === "tel" ? "tel" : type === "number" ? "numeric" : undefined}
-      required={required}
-      value={value ?? ""}
-      maxLength={maxLength ?? (type === "email" ? 255 : type === "tel" ? 20 : 500)}
-      onChange={(e) => {
-        let v = e.target.value;
-        if (type === "tel") v = v.replace(/[^0-9+\s\-()]/g, "");
-        if (type === "number") v = v.replace(/[^0-9]/g, "");
-        onChange?.(v);
-      }}
-      className={`border rounded-none shadow-none focus-visible:ring-0 px-3 py-2 bg-[#f5f5f5] ${error ? "border-destructive" : "border-input"}`}
-      aria-invalid={!!error}
-    />
-    {error && <p className="text-xs text-destructive mt-1">{error}</p>}
-  </div>
-);
+ const FieldInput = ({
+   label,
+   required,
+   type = "text",
+   value,
+   onChange,
+   error,
+   maxLength,
+   min,
+ }: {
+   label: string;
+   required?: boolean;
+   type?: string;
+   value?: string;
+   onChange?: (value: string) => void;
+   error?: string;
+   maxLength?: number;
+   min?: string;
+ }) => (
+   <div className="space-y-1">
+     <Label className="text-[16px] font-bold text-[#696969]" style={{ fontFamily: '"Nunito Sans", system-ui, sans-serif' }}>
+       {label} {required && <span className="text-accent font-normal italic">(Required)</span>}
+     </Label>
+     <Input
+       type={type === "number" ? "text" : type}
+       inputMode={type === "tel" ? "tel" : type === "number" ? "numeric" : undefined}
+       required={required}
+       value={value ?? ""}
+       min={min}
+       maxLength={maxLength ?? (type === "email" ? 255 : type === "tel" ? 20 : 500)}
+       onChange={(e) => {
+         let v = e.target.value;
+         if (type === "tel") v = v.replace(/[^0-9+\s\-()]/g, "");
+         if (type === "number") v = v.replace(/[^0-9]/g, "");
+         onChange?.(v);
+       }}
+       className={`border rounded-none shadow-none focus-visible:ring-0 px-3 py-2 bg-[#f5f5f5] ${error ? "border-destructive" : "border-input"}`}
+       aria-invalid={!!error}
+     />
+     {error && <p className="text-xs text-destructive mt-1">{error}</p>}
+   </div>
+ );
 
 const FieldTextarea = ({
   label,
