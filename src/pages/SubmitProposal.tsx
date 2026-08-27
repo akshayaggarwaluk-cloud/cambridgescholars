@@ -703,7 +703,7 @@ const SubmitProposal = () => {
                       </SelectContent>
                     </Select>
                   </div>
-                  <FieldInput label="When do you expect to submit the final manuscript?" type="date" required value={formData.submissionDate} onChange={(v) => updateField("submissionDate", v)} error={errors.submissionDate} />
+                  <FieldInput label="When do you expect to submit the final manuscript?" type="date" required value={formData.submissionDate} onChange={(v) => updateField("submissionDate", v)} error={errors.submissionDate} min={new Date().toISOString().split("T")[0]} />
                 </>
               )}
 
