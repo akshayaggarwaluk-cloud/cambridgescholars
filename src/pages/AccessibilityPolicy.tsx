@@ -5,7 +5,7 @@ import { Separator } from "@/components/ui/separator";
 import { usePolicyPage } from "@/hooks/usePolicyPage";
 
 const AccessibilityPolicy = () => {
-  const { page, hasCustom } = usePolicyPage("accessibility-policy");
+  const { page, hasCustom } = usePolicyPage("accessibility-statement");
   const title = page?.title || "Accessibility Policy";
   return (
     <div className="min-h-screen flex flex-col">

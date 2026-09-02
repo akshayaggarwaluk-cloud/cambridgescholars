@@ -10,11 +10,10 @@ const SLUG_TO_ROUTE: Record<string, string> = {
   "privacy-policy": "/privacy-policy",
   "cookies-policy": "/cookies-policy",
   "terms-and-conditions": "/terms-and-conditions",
-  "accessibility-policy": "/accessibility-policy",
-  "refund-returns": "/refund-returns",
+  "accessibility-statement": "/accessibility-policy",
+  "refund-and-returns": "/refund-returns",
 };
 
-const BUILTIN_SLUGS = new Set(Object.keys(SLUG_TO_ROUTE));
 const routeFor = (slug: string) => SLUG_TO_ROUTE[slug] || `/p/${slug}`;
 
 const slugify = (v: string) =>
@@ -81,7 +80,7 @@ export default function AdminPolicyPages() {
   };
 
   const remove = async (it: CmsPolicyPage) => {
-    if (BUILTIN_SLUGS.has(it.slug)) {
+    if (it.is_builtin) {
       toast.error("Built-in pages cannot be deleted");
       return;
     }
@@ -226,7 +225,7 @@ export default function AdminPolicyPages() {
           {items.map((it) => {
             const route = routeFor(it.slug);
             const hasCustom = !!(it.content && it.content.trim().length > 0);
-            const isBuiltin = BUILTIN_SLUGS.has(it.slug);
+            const isBuiltin = !!it.is_builtin;
             return (
               <div
                 key={it.id}

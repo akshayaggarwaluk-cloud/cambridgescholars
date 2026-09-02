@@ -1,6 +1,6 @@
 import { Link, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { supabase } from "@/integrations/supabase/client";
+import { fetchPolicyPages } from "@/services/cmsService";
 
 const footerLinks = {
   pages: [
@@ -21,29 +21,22 @@ const footerLinks = {
   ],
 };
 
-const BUILTIN_SLUGS = new Set([
-  "privacy-policy", "cookies-policy", "terms-and-conditions",
-  "accessibility-policy", "refund-returns",
-]);
-
 export function Footer() {
   const location = useLocation();
   const [customLinks, setCustomLinks] = useState<{ name: string; href: string }[]>([]);
 
   useEffect(() => {
     let cancelled = false;
-    supabase
-      .from("cms_policy_pages")
-      .select("slug, title")
-      .order("created_at", { ascending: true })
-      .then(({ data }) => {
-        if (cancelled || !data) return;
+    fetchPolicyPages()
+      .then((data) => {
+        if (cancelled) return;
         setCustomLinks(
           data
-            .filter((p) => !BUILTIN_SLUGS.has(p.slug))
+            .filter((p) => !p.is_builtin)
             .map((p) => ({ name: p.title, href: `/p/${p.slug}` }))
         );
-      });
+      })
+      .catch(() => { /* footer degrades gracefully to built-in links only */ });
     return () => { cancelled = true; };
   }, []);
 

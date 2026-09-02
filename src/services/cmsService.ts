@@ -307,7 +307,7 @@ export const adminSession = {
 };
 
 export interface CmsHeroSlide {
-  id: string;
+  id: number;
   title: string;
   subtitle: string | null;
   author: string | null;
@@ -323,7 +323,7 @@ export interface CmsHeroSlide {
 }
 
 export interface CmsNewsArticle {
-  id: string;
+  id: number;
   slug: string;
   title: string;
   excerpt: string | null;
@@ -380,7 +380,7 @@ export interface CmsAuthorReview {
 }
 
 export interface CmsFaq {
-  id: string;
+  id: number;
   question: string;
   answer: string;
   category: string | null;
@@ -391,7 +391,7 @@ export interface CmsFaq {
 }
 
 export interface CmsResource {
-  id: string;
+  id: number;
   slug: string;
   title: string;
   excerpt: string | null;
@@ -415,10 +415,11 @@ export interface CmsFooterDocument {
 }
 
 export interface CmsPolicyPage {
-  id: string;
+  id: number;
   slug: string;
   title: string;
   content: string | null;
+  is_builtin?: boolean;
   updated_at: string;
   created_at: string;
 }
@@ -507,50 +508,60 @@ export interface CmsPagination {
 }
 
 // ─── Public reads (no auth) ─────────────────────────────────────
+//
+// Hero slides, news, FAQs, resources and policy pages are served by the
+// external CSP CMS REST API (https://api.cambridgescholars.com/api/website/cms/*),
+// added 2026-09-01. These are plain unauthenticated GETs — the API returns
+// only published rows by default; `include_unpublished=true` (admin-only,
+// see adminApi below) is what surfaces drafts.
+
+class CmsHttpError extends Error {
+  status: number;
+  constructor(message: string, status: number) {
+    super(message);
+    this.status = status;
+  }
+}
+
+async function callPublicCms<T = unknown>(path: string): Promise<T> {
+  let res: Response;
+  try {
+    res = await fetch(`${CMS_API_BASE}${path}`, { headers: { Accept: "application/json" } });
+  } catch {
+    throw new Error("Unable to reach the CMS server. Please try again.");
+  }
+  let parsed: unknown = null;
+  try { parsed = await res.json(); } catch { /* ignore */ }
+  if (!res.ok) {
+    const err = (parsed as { error?: string } | null)?.error;
+    throw new CmsHttpError(err || `Request failed (${res.status})`, res.status);
+  }
+  return parsed as T;
+}
 
 export async function fetchPublishedHeroSlides(): Promise<CmsHeroSlide[]> {
-  const { data, error } = await supabase
-    .from("cms_hero_slides")
-    .select("*")
-    .eq("is_published", true)
-    .order("display_order", { ascending: true })
-    .order("created_at", { ascending: false });
-  if (error) throw error;
-  return (data || []) as CmsHeroSlide[];
+  const res = await callPublicCms<{ data: CmsHeroSlide[] }>("/hero-slides");
+  return res.data || [];
 }
 
 export async function fetchPublishedNews(): Promise<CmsNewsArticle[]> {
-  const { data, error } = await supabase
-    .from("cms_news_articles")
-    .select("*")
-    .eq("is_published", true)
-    .order("display_order", { ascending: true })
-    .order("published_at", { ascending: false });
-  if (error) throw error;
-  return (data || []) as CmsNewsArticle[];
+  const res = await callPublicCms<{ data: CmsNewsArticle[] }>("/news");
+  return res.data || [];
 }
 
 export async function fetchHomepageNews(): Promise<CmsNewsArticle[]> {
-  const { data, error } = await supabase
-    .from("cms_news_articles")
-    .select("*")
-    .eq("is_published", true)
-    .eq("show_on_homepage", true)
-    .order("homepage_order", { ascending: true })
-    .order("published_at", { ascending: false });
-  if (error) throw error;
-  return (data || []) as CmsNewsArticle[];
+  const res = await callPublicCms<{ data: CmsNewsArticle[] }>("/news?homepage=true&limit=20");
+  return res.data || [];
 }
 
 export async function fetchPublishedNewsBySlug(slug: string): Promise<CmsNewsArticle | null> {
-  const { data, error } = await supabase
-    .from("cms_news_articles")
-    .select("*")
-    .eq("slug", slug)
-    .eq("is_published", true)
-    .maybeSingle();
-  if (error) throw error;
-  return (data || null) as CmsNewsArticle | null;
+  try {
+    const res = await callPublicCms<{ data: CmsNewsArticle }>(`/news/slug/${encodeURIComponent(slug)}`);
+    return res.data;
+  } catch (e) {
+    if (e instanceof CmsHttpError && e.status === 404) return null;
+    throw e;
+  }
 }
 
 export async function fetchPublishedFeaturedBooks(): Promise<CmsFeaturedBook[]> {
@@ -574,30 +585,23 @@ export async function fetchPublishedAuthorReviews(): Promise<CmsAuthorReview[]> 
 }
 
 export async function fetchPublishedFaqs(): Promise<CmsFaq[]> {
-  const { data, error } = await supabase
-    .from("cms_faqs").select("*")
-    .eq("is_published", true)
-    .order("category", { ascending: true })
-    .order("display_order", { ascending: true });
-  if (error) throw error;
-  return (data || []) as CmsFaq[];
+  const res = await callPublicCms<{ data: CmsFaq[] }>("/faqs");
+  return res.data || [];
 }
 
 export async function fetchPublishedResources(): Promise<CmsResource[]> {
-  const { data, error } = await supabase
-    .from("cms_resources").select("*")
-    .eq("is_published", true)
-    .order("display_order", { ascending: true });
-  if (error) throw error;
-  return (data || []) as CmsResource[];
+  const res = await callPublicCms<{ data: CmsResource[] }>("/resources");
+  return res.data || [];
 }
 
 export async function fetchPublishedResourceBySlug(slug: string): Promise<CmsResource | null> {
-  const { data, error } = await supabase
-    .from("cms_resources").select("*")
-    .eq("slug", slug).eq("is_published", true).maybeSingle();
-  if (error) throw error;
-  return (data || null) as CmsResource | null;
+  try {
+    const res = await callPublicCms<{ data: CmsResource }>(`/resources/slug/${encodeURIComponent(slug)}`);
+    return res.data;
+  } catch (e) {
+    if (e instanceof CmsHttpError && e.status === 404) return null;
+    throw e;
+  }
 }
 
 export async function fetchPublishedFooterDocuments(): Promise<CmsFooterDocument[]> {
@@ -609,14 +613,19 @@ export async function fetchPublishedFooterDocuments(): Promise<CmsFooterDocument
   return (data || []) as CmsFooterDocument[];
 }
 
+export async function fetchPolicyPages(): Promise<CmsPolicyPage[]> {
+  const res = await callPublicCms<{ data: CmsPolicyPage[] }>("/policy-pages");
+  return res.data || [];
+}
+
 export async function fetchPolicyPageBySlug(slug: string): Promise<CmsPolicyPage | null> {
-  const { data, error } = await supabase
-    .from("cms_policy_pages")
-    .select("*")
-    .eq("slug", slug)
-    .maybeSingle();
-  if (error) throw error;
-  return (data || null) as CmsPolicyPage | null;
+  try {
+    const res = await callPublicCms<{ data: CmsPolicyPage }>(`/policy-pages/slug/${encodeURIComponent(slug)}`);
+    return res.data;
+  } catch (e) {
+    if (e instanceof CmsHttpError && e.status === 404) return null;
+    throw e;
+  }
 }
 
 // ─── Public writes — submissions ────────────────────────────────
@@ -754,26 +763,36 @@ export function adminLogout() {
   adminSession.clear();
 }
 
-export async function adminWhoAmI(): Promise<CmsAdminUser | null> {
-  const token = adminSession.getToken();
-  if (!token) return null;
+function decodeJwtExp(token: string): number | null {
   try {
-    const res = await callAdmin<{ admin: CmsAdminUser }>({ action: "whoami" });
-    // The whoami response doesn't include role; preserve it from the
-    // cached login response so role-based UI keeps working after reload.
-    const cached = adminSession.getUser();
-    const merged: CmsAdminUser = {
-      ...res.admin,
-      name: res.admin.name ?? cached?.name ?? null,
-      role: cached?.role ?? null,
-    };
-    const token2 = adminSession.getToken();
-    if (token2) adminSession.set(token2, merged, adminSession.getExternalToken());
-    return merged;
+    const parts = token.split(".");
+    if (parts.length !== 3) return null;
+    const padded = parts[1].replace(/-/g, "+").replace(/_/g, "/");
+    const padding = "=".repeat((4 - (padded.length % 4)) % 4);
+    const payload = JSON.parse(atob(padded + padding)) as { exp?: number };
+    return typeof payload.exp === "number" ? payload.exp : null;
   } catch {
-    adminSession.clear();
     return null;
   }
+}
+
+/**
+ * Verifies the admin session locally — no network round-trip. The login
+ * response already authenticated this session and cached the admin user;
+ * this just checks the stored JWT hasn't expired since.
+ */
+export function adminWhoAmI(): Promise<CmsAdminUser | null> {
+  const token = adminSession.getToken();
+  const user = adminSession.getUser();
+  if (!token || !user) return Promise.resolve(null);
+
+  const exp = decodeJwtExp(token);
+  if (exp !== null && exp * 1000 < Date.now()) {
+    adminSession.clear();
+    return Promise.resolve(null);
+  }
+
+  return Promise.resolve(user);
 }
 
 // ─── CRUD ──────────────────────────────────────────────────────
@@ -831,21 +850,34 @@ async function callExternalCms<T = unknown>(
 
 export const adminApi = {
   listHero: () =>
-    callAdmin<{ data: CmsHeroSlide[] }>({ action: "list_hero" }).then((r) => r.data),
+    callExternalCms<{ data: CmsHeroSlide[] }>("/hero-slides?include_unpublished=true").then((r) => r.data),
   createHero: (payload: Partial<CmsHeroSlide>) =>
-    callAdmin<{ data: CmsHeroSlide }>({ action: "create_hero", ...payload }).then((r) => r.data),
-  updateHero: (payload: Partial<CmsHeroSlide> & { id: string }) =>
-    callAdmin<{ data: CmsHeroSlide }>({ action: "update_hero", ...payload }).then((r) => r.data),
-  deleteHero: (id: string) => callAdmin({ action: "delete_hero", id }),
+    callExternalCms<{ data: CmsHeroSlide }>("/hero-slides", { method: "POST", body: payload }).then((r) => r.data),
+  updateHero: (payload: Partial<CmsHeroSlide> & { id: number | string }) => {
+    const { id, ...rest } = payload;
+    return callExternalCms<{ data: CmsHeroSlide }>(`/hero-slides/${encodeURIComponent(String(id))}`, {
+      method: "PUT", body: rest,
+    }).then((r) => r.data);
+  },
+  deleteHero: (id: number | string) =>
+    callExternalCms<{ ok?: true }>(`/hero-slides/${encodeURIComponent(String(id))}`, { method: "DELETE" }),
 
   listNews: () =>
-    callAdmin<{ data: CmsNewsArticle[] }>({ action: "list_news" }).then((r) => r.data),
+    callExternalCms<{ data: CmsNewsArticle[] }>("/news?include_unpublished=true").then((r) => r.data),
   createNews: (payload: Partial<CmsNewsArticle>) =>
-    callAdmin<{ data: CmsNewsArticle }>({ action: "create_news", ...payload }).then((r) => r.data),
-  updateNews: (payload: Partial<CmsNewsArticle> & { id: string }) =>
-    callAdmin<{ data: CmsNewsArticle }>({ action: "update_news", ...payload }).then((r) => r.data),
-  deleteNews: (id: string) => callAdmin({ action: "delete_news", id }),
+    callExternalCms<{ data: CmsNewsArticle }>("/news", { method: "POST", body: payload }).then((r) => r.data),
+  updateNews: (payload: Partial<CmsNewsArticle> & { id: number | string }) => {
+    const { id, ...rest } = payload;
+    return callExternalCms<{ data: CmsNewsArticle }>(`/news/${encodeURIComponent(String(id))}`, {
+      method: "PUT", body: rest,
+    }).then((r) => r.data);
+  },
+  deleteNews: (id: number | string) =>
+    callExternalCms<{ ok?: true }>(`/news/${encodeURIComponent(String(id))}`, { method: "DELETE" }),
 
+  // NOTE: /cms/uploads response shape ("returns S3 URL") wasn't fully
+  // specified — this defensively reads either { url } or { data: { url } }.
+  // Verify against a real admin session and simplify once confirmed.
   uploadImage: async (file: File): Promise<string> => {
     const buf = await file.arrayBuffer();
     let binary = "";
@@ -855,31 +887,17 @@ export const adminApi = {
       binary += String.fromCharCode.apply(null, Array.from(bytes.subarray(i, i + chunk)));
     }
     const base64 = btoa(binary);
-    const res = await callAdmin<{ url: string }>({
-      action: "upload_image",
-      filename: file.name,
-      content_type: file.type,
-      base64,
+    const res = await callExternalCms<{ url?: string; data?: { url?: string } }>("/uploads", {
+      method: "POST",
+      body: { filename: file.name, content_type: file.type || "application/octet-stream", base64 },
     });
-    return res.url;
+    const url = res.url ?? res.data?.url;
+    if (!url) throw new Error("Unexpected response from upload");
+    return url;
   },
 
   uploadFile: async (file: File): Promise<string> => {
-    const buf = await file.arrayBuffer();
-    let binary = "";
-    const bytes = new Uint8Array(buf);
-    const chunk = 0x8000;
-    for (let i = 0; i < bytes.length; i += chunk) {
-      binary += String.fromCharCode.apply(null, Array.from(bytes.subarray(i, i + chunk)));
-    }
-    const base64 = btoa(binary);
-    const res = await callAdmin<{ url: string }>({
-      action: "upload_image",
-      filename: file.name,
-      content_type: file.type || "application/octet-stream",
-      base64,
-    });
-    return res.url;
+    return adminApi.uploadImage(file);
   },
 
   // ─── Admin accounts ──────────────────────────────────────────
@@ -948,21 +966,31 @@ export const adminApi = {
 
   // ─── FAQs ────────────────────────────────────────────────────
   listFaqs: () =>
-    callAdmin<{ data: CmsFaq[] }>({ action: "list_faqs" }).then((r) => r.data),
+    callExternalCms<{ data: CmsFaq[] }>("/faqs?include_unpublished=true").then((r) => r.data),
   createFaq: (payload: Partial<CmsFaq>) =>
-    callAdmin<{ data: CmsFaq }>({ action: "create_faq", ...payload }).then((r) => r.data),
-  updateFaq: (payload: Partial<CmsFaq> & { id: string }) =>
-    callAdmin<{ data: CmsFaq }>({ action: "update_faq", ...payload }).then((r) => r.data),
-  deleteFaq: (id: string) => callAdmin({ action: "delete_faq", id }),
+    callExternalCms<{ data: CmsFaq }>("/faqs", { method: "POST", body: payload }).then((r) => r.data),
+  updateFaq: (payload: Partial<CmsFaq> & { id: number | string }) => {
+    const { id, ...rest } = payload;
+    return callExternalCms<{ data: CmsFaq }>(`/faqs/${encodeURIComponent(String(id))}`, {
+      method: "PUT", body: rest,
+    }).then((r) => r.data);
+  },
+  deleteFaq: (id: number | string) =>
+    callExternalCms<{ ok?: true }>(`/faqs/${encodeURIComponent(String(id))}`, { method: "DELETE" }),
 
   // ─── Resources ───────────────────────────────────────────────
   listResources: () =>
-    callAdmin<{ data: CmsResource[] }>({ action: "list_resources" }).then((r) => r.data),
+    callExternalCms<{ data: CmsResource[] }>("/resources?include_unpublished=true").then((r) => r.data),
   createResource: (payload: Partial<CmsResource>) =>
-    callAdmin<{ data: CmsResource }>({ action: "create_resource", ...payload }).then((r) => r.data),
-  updateResource: (payload: Partial<CmsResource> & { id: string }) =>
-    callAdmin<{ data: CmsResource }>({ action: "update_resource", ...payload }).then((r) => r.data),
-  deleteResource: (id: string) => callAdmin({ action: "delete_resource", id }),
+    callExternalCms<{ data: CmsResource }>("/resources", { method: "POST", body: payload }).then((r) => r.data),
+  updateResource: (payload: Partial<CmsResource> & { id: number | string }) => {
+    const { id, ...rest } = payload;
+    return callExternalCms<{ data: CmsResource }>(`/resources/${encodeURIComponent(String(id))}`, {
+      method: "PUT", body: rest,
+    }).then((r) => r.data);
+  },
+  deleteResource: (id: number | string) =>
+    callExternalCms<{ ok?: true }>(`/resources/${encodeURIComponent(String(id))}`, { method: "DELETE" }),
 
   // ─── Footer Documents ────────────────────────────────────────
   listFooterDocuments: () =>
@@ -975,12 +1003,17 @@ export const adminApi = {
 
   // ─── Policy Pages (footer "Other links") ─────────────────────
   listPolicyPages: () =>
-    callAdmin<{ data: CmsPolicyPage[] }>({ action: "list_policy_pages" }).then((r) => r.data),
-  updatePolicyPage: (payload: { id?: string; slug?: string; title?: string; content?: string | null }) =>
-    callAdmin<{ data: CmsPolicyPage }>({ action: "update_policy_page", ...payload }).then((r) => r.data),
+    callExternalCms<{ data: CmsPolicyPage[] }>("/policy-pages").then((r) => r.data),
+  updatePolicyPage: (payload: { id: number | string; title?: string; content?: string | null }) => {
+    const { id, ...rest } = payload;
+    return callExternalCms<{ data: CmsPolicyPage }>(`/policy-pages/${encodeURIComponent(String(id))}`, {
+      method: "PUT", body: rest,
+    }).then((r) => r.data);
+  },
   createPolicyPage: (payload: { slug: string; title: string; content?: string | null }) =>
-    callAdmin<{ data: CmsPolicyPage }>({ action: "create_policy_page", ...payload }).then((r) => r.data),
-  deletePolicyPage: (id: string) => callAdmin({ action: "delete_policy_page", id }),
+    callExternalCms<{ data: CmsPolicyPage }>("/policy-pages", { method: "POST", body: payload }).then((r) => r.data),
+  deletePolicyPage: (id: number | string) =>
+    callExternalCms<{ ok?: true }>(`/policy-pages/${encodeURIComponent(String(id))}`, { method: "DELETE" }),
 
   // ─── Contact Submissions ─────────────────────────────────────
   listContactSubmissions: () =>

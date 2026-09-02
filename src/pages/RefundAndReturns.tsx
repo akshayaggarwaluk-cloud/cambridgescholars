@@ -6,7 +6,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { usePolicyPage } from "@/hooks/usePolicyPage";
 
 const RefundAndReturns = () => {
-  const { page, hasCustom } = usePolicyPage("refund-returns");
+  const { page, hasCustom } = usePolicyPage("refund-and-returns");
   const title = page?.title || "Refund and Returns";
   return (
     <div className="min-h-screen flex flex-col  text-black">
