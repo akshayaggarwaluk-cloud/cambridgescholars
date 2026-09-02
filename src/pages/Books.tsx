@@ -138,7 +138,18 @@ export default function Books() {
     return null;
   };
 
-  // Fetch books from CSP API
+  // Fetch books from CSP API.
+  //
+  // categoriesDepKey (not the raw `categories` array) is the dependency here
+  // on purpose: `categories` only changes reference once, when it finishes
+  // loading, but that would re-trigger this whole effect even for "all"
+  // (which never needs the category list) — causing a redundant second
+  // /books request and a loading-flicker on every page load. This key stays
+  // constant for "all" and only flips once, when a *specific* category is
+  // selected and the name lookup it needs actually becomes available.
+  const categoriesDepKey =
+    selectedCategory === "all" ? "all" : categories.length > 0 ? "loaded" : "pending";
+
   useEffect(() => {
     const loadBooks = async () => {
       setLoading(true);
@@ -183,7 +194,10 @@ export default function Books() {
       }
     };
     loadBooks();
-  }, [searchQuery, selectedCategory, currentPage, categories, activeSearchField, orderBy]);
+    // `categories` itself is intentionally omitted — `categoriesDepKey` is
+    // the deliberate, narrower substitute described above.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchQuery, selectedCategory, currentPage, categoriesDepKey, activeSearchField, orderBy]);
 
   const handleCategoryChange = (category: string) => {
     setSelectedCategory(category);

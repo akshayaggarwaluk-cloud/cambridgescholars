@@ -57,8 +57,6 @@ import AdminDashboard from "@/pages/admin/AdminDashboard";
 import AdminHeroSlides from "@/pages/admin/AdminHeroSlides";
 import AdminNews from "@/pages/admin/AdminNews";
 import AdminAdmins from "@/pages/admin/AdminAdmins";
-import AdminFeaturedBooks from "@/pages/admin/AdminFeaturedBooks";
-import AdminAuthorReviews from "@/pages/admin/AdminAuthorReviews";
 import AdminFaqs from "@/pages/admin/AdminFaqs";
 import AdminResources from "@/pages/admin/AdminResources";
 import AdminComingSoon from "@/pages/admin/AdminComingSoon";
@@ -189,9 +187,7 @@ export function AnimatedRoutes() {
         <Route path="/admin" element={<AdminGate><AdminLayout /></AdminGate>}>
           <Route index element={<AdminDashboard />} />
           <Route path="hero-slides" element={<AdminHeroSlides />} />
-          <Route path="featured-books" element={<AdminFeaturedBooks />} />
           <Route path="news" element={<AdminNews />} />
-          <Route path="author-reviews" element={<AdminAuthorReviews />} />
           <Route path="faqs" element={<AdminFaqs />} />
           <Route path="resources" element={<AdminResources />} />
           <Route path="policy-pages" element={<AdminPolicyPages />} />

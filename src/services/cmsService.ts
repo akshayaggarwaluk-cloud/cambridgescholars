@@ -351,34 +351,6 @@ export interface CmsAdminAccount {
 
 // ─── New CMS entity types ────────────────────────────────────
 
-export interface CmsFeaturedBook {
-  id: string;
-  book_id: string | null;
-  title: string;
-  subtitle: string | null;
-  author: string | null;
-  cover_image: string | null;
-  link_url: string | null;
-  description: string | null;
-  display_order: number;
-  is_published: boolean;
-  created_at: string;
-  updated_at: string;
-}
-
-export interface CmsAuthorReview {
-  id: string;
-  author_name: string;
-  position: string | null;
-  quote: string;
-  photo_url: string | null;
-  book_title: string | null;
-  display_order: number;
-  is_published: boolean;
-  created_at: string;
-  updated_at: string;
-}
-
 export interface CmsFaq {
   id: number;
   question: string;
@@ -562,26 +534,6 @@ export async function fetchPublishedNewsBySlug(slug: string): Promise<CmsNewsArt
     if (e instanceof CmsHttpError && e.status === 404) return null;
     throw e;
   }
-}
-
-export async function fetchPublishedFeaturedBooks(): Promise<CmsFeaturedBook[]> {
-  const { data, error } = await supabase
-    .from("cms_featured_books").select("*")
-    .eq("is_published", true)
-    .order("display_order", { ascending: true })
-    .order("created_at", { ascending: false });
-  if (error) throw error;
-  return (data || []) as CmsFeaturedBook[];
-}
-
-export async function fetchPublishedAuthorReviews(): Promise<CmsAuthorReview[]> {
-  const { data, error } = await supabase
-    .from("cms_author_reviews").select("*")
-    .eq("is_published", true)
-    .order("display_order", { ascending: true })
-    .order("created_at", { ascending: false });
-  if (error) throw error;
-  return (data || []) as CmsAuthorReview[];
 }
 
 export async function fetchPublishedFaqs(): Promise<CmsFaq[]> {
@@ -945,24 +897,6 @@ export const adminApi = {
   },
   deleteAdmin: (id: string) =>
     callExternalCms<{ ok?: true }>(`/admins/${encodeURIComponent(id)}`, { method: "DELETE" }),
-
-  // ─── Featured Books ──────────────────────────────────────────
-  listFeaturedBooks: () =>
-    callAdmin<{ data: CmsFeaturedBook[] }>({ action: "list_featured_books" }).then((r) => r.data),
-  createFeaturedBook: (payload: Partial<CmsFeaturedBook>) =>
-    callAdmin<{ data: CmsFeaturedBook }>({ action: "create_featured_book", ...payload }).then((r) => r.data),
-  updateFeaturedBook: (payload: Partial<CmsFeaturedBook> & { id: string }) =>
-    callAdmin<{ data: CmsFeaturedBook }>({ action: "update_featured_book", ...payload }).then((r) => r.data),
-  deleteFeaturedBook: (id: string) => callAdmin({ action: "delete_featured_book", id }),
-
-  // ─── Author Reviews ──────────────────────────────────────────
-  listAuthorReviews: () =>
-    callAdmin<{ data: CmsAuthorReview[] }>({ action: "list_author_reviews" }).then((r) => r.data),
-  createAuthorReview: (payload: Partial<CmsAuthorReview>) =>
-    callAdmin<{ data: CmsAuthorReview }>({ action: "create_author_review", ...payload }).then((r) => r.data),
-  updateAuthorReview: (payload: Partial<CmsAuthorReview> & { id: string }) =>
-    callAdmin<{ data: CmsAuthorReview }>({ action: "update_author_review", ...payload }).then((r) => r.data),
-  deleteAuthorReview: (id: string) => callAdmin({ action: "delete_author_review", id }),
 
   // ─── FAQs ────────────────────────────────────────────────────
   listFaqs: () =>
