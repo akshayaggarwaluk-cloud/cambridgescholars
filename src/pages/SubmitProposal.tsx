@@ -70,6 +70,9 @@ const SubmitProposal = () => {
       if (!phoneRe.test(v)) return "Please enter a valid phone number (digits only, 7–20 chars).";
     } else if (type === "number") {
       if (!/^\d+$/.test(v)) return "Please enter digits only.";
+      if (key === "wordCount" && parseInt(v, 10) > 200000) {
+        return "Estimated word count must be 200,000 or fewer.";
+      }
     } else if (type === "date") {
       if (Number.isNaN(Date.parse(v))) return "Please enter a valid date.";
       const today = new Date();
