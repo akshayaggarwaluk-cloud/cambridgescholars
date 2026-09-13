@@ -473,7 +473,7 @@ const SubmitProposal = () => {
                   <FieldInput label="Phone Number" type="tel" required value={formData.phone} onChange={(v) => updateField("phone", v)} error={errors.phone} />
                   <FieldInput label="Institution or Organisation" required value={formData.institution} onChange={(v) => updateField("institution", v)} error={errors.institution} />
                   <FieldInput label="Current Position" required value={formData.position} onChange={(v) => updateField("position", v)} error={errors.position} />
-                  <FieldInput label="Academic/Professional Qualifications" required maxLength={2000} value={formData.qualifications} onChange={(v) => updateField("qualifications", v)} error={errors.qualifications} />
+                  <FieldInput label="Academic/Professional Qualifications" required value={formData.qualifications} onChange={(v) => updateField("qualifications", v)} error={errors.qualifications} />
 
                   <div className="space-y-1">
                     <Label className="text-[16px] font-bold text-[#696969]" style={{ fontFamily: '"Nunito Sans", system-ui, sans-serif' }}>
