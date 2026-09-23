@@ -28,7 +28,7 @@ const imageVariants = {
   exit: { opacity: 0, x: -80, scale: 0.95 },
 };
 
-const BOOK_THICKNESS = 36;
+const BOOK_THICKNESS = 28;
 
 // Renders a flat cover image as a tilted 3D book (cover, page block, back cover).
 function Book3D({ src, alt }: { src: string; alt: string }) {
@@ -40,7 +40,7 @@ function Book3D({ src, alt }: { src: string; alt: string }) {
       />
       <div
         className="relative h-full"
-        style={{ transformStyle: "preserve-3d", transform: "rotateY(-32deg) rotateX(8deg) rotateZ(2deg)" }}
+        style={{ transformStyle: "preserve-3d", transform: "rotateY(-18deg) rotateX(4deg) rotateZ(1deg)" }}
       >
         <img
           src={src}
