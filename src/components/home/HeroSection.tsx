@@ -28,21 +28,21 @@ const imageVariants = {
   exit: { opacity: 0, x: -80, scale: 0.95 },
 };
 
-const BOOK_THICKNESS = 30;
+const BOOK_THICKNESS = 46;
 
 // Renders a flat cover image as a 3D book leaning back and turned clockwise,
 // with page edges on the right and bottom and a shadow cast behind it.
 function Book3D({ src, alt }: { src: string; alt: string }) {
   return (
-    <div className="relative h-[72%]" style={{ perspective: "1600px" }}>
+    <div className="relative h-[72%]" style={{ perspective: "3200px" }}>
       <div
         className="relative h-full"
-        style={{ transformStyle: "preserve-3d", transform: "rotateZ(12deg) rotateX(6deg) rotateY(-14deg)" }}
+        style={{ transformStyle: "preserve-3d", transform: "rotateZ(14deg) rotateX(24deg) rotateY(-8deg)" }}
       >
         {/* Shadow cast behind the book */}
         <div
-          className="absolute inset-0 rounded-[4px] bg-black/45 blur-2xl"
-          style={{ transform: `translateZ(${-BOOK_THICKNESS / 2 - 2}px) translate(10%, 6%)` }}
+          className="absolute inset-0 rounded-[4px] bg-black/30 blur-3xl"
+          style={{ transform: `translateZ(${-BOOK_THICKNESS / 2 - 2}px) translate(9%, 7%)` }}
           aria-hidden
         />
         <img
@@ -85,7 +85,7 @@ function Book3D({ src, alt }: { src: string; alt: string }) {
         />
         {/* Back cover */}
         <div
-          className="absolute inset-0 rounded-r-[3px] bg-neutral-800"
+          className="absolute inset-0 rounded-r-[3px] bg-[#b9b4a8]"
           style={{ transform: `translateZ(${-BOOK_THICKNESS / 2}px)` }}
           aria-hidden
         />
