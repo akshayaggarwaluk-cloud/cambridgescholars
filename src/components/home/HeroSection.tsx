@@ -28,6 +28,57 @@ const imageVariants = {
   exit: { opacity: 0, x: -80, scale: 0.95 },
 };
 
+const BOOK_THICKNESS = 36;
+
+// Renders a flat cover image as a tilted 3D book (cover, page block, back cover).
+function Book3D({ src, alt }: { src: string; alt: string }) {
+  return (
+    <div className="relative h-[80%]" style={{ perspective: "1800px" }}>
+      <div
+        className="absolute left-[8%] right-[-6%] -bottom-6 h-10 rounded-[50%] bg-black/35 blur-2xl"
+        aria-hidden
+      />
+      <div
+        className="relative h-full"
+        style={{ transformStyle: "preserve-3d", transform: "rotateY(-32deg) rotateX(8deg) rotateZ(2deg)" }}
+      >
+        <img
+          src={src}
+          alt={alt}
+          className="pointer-events-none relative block h-full w-auto max-w-none rounded-r-[3px]"
+          style={{ transform: `translateZ(${BOOK_THICKNESS / 2}px)` }}
+        />
+        {/* Spine crease highlight on the front cover */}
+        <div
+          className="pointer-events-none absolute inset-y-0 left-0 w-[6%]"
+          style={{
+            transform: `translateZ(${BOOK_THICKNESS / 2 + 0.5}px)`,
+            background: "linear-gradient(90deg, rgba(255,255,255,0.18), rgba(0,0,0,0.25) 60%, rgba(255,255,255,0.08))",
+          }}
+          aria-hidden
+        />
+        {/* Page block */}
+        <div
+          className="absolute right-0 top-[1.5%] h-[97%]"
+          style={{
+            width: `${BOOK_THICKNESS}px`,
+            transformOrigin: "right center",
+            transform: `translateZ(${-BOOK_THICKNESS / 2}px) rotateY(90deg)`,
+            background: "repeating-linear-gradient(90deg, #fdfdf8 0px, #e9e7de 1px, #fdfdf8 2px)",
+          }}
+          aria-hidden
+        />
+        {/* Back cover */}
+        <div
+          className="absolute inset-0 rounded-r-[3px] bg-neutral-800"
+          style={{ transform: `translateZ(${-BOOK_THICKNESS / 2}px)` }}
+          aria-hidden
+        />
+      </div>
+    </div>
+  );
+}
+
 export function HeroSection() {
   const [featuredReviews, setFeaturedReviews] = useState<FeaturedReview[]>([]);
   const [activeIndex, setActiveIndex] = useState(0);
@@ -136,11 +187,7 @@ export function HeroSection() {
                 transition={{ duration: 0.6, ease: [0.25, 0.4, 0.25, 1] }}
                 className="h-full w-full flex items-center justify-center"
               >
-                <img
-                  src={activeReview.image}
-                  alt={activeReview.bookTitle}
-                  className="pointer-events-none max-h-full max-w-full w-auto h-full object-contain object-center shadow-2xl"
-                />
+                <Book3D src={activeReview.image} alt={activeReview.bookTitle} />
               </motion.div>
             </AnimatePresence>
           </div>
