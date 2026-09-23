@@ -28,72 +28,6 @@ const imageVariants = {
   exit: { opacity: 0, x: -80, scale: 0.95 },
 };
 
-const BOOK_THICKNESS = 46;
-
-// Renders a flat cover image as a 3D book leaning back and turned clockwise,
-// with page edges on the right and bottom and a shadow cast behind it.
-function Book3D({ src, alt }: { src: string; alt: string }) {
-  return (
-    <div className="relative h-[72%]" style={{ perspective: "3200px" }}>
-      <div
-        className="relative h-full"
-        style={{ transformStyle: "preserve-3d", transform: "rotateZ(14deg) rotateX(24deg) rotateY(-8deg)" }}
-      >
-        {/* Shadow cast behind the book */}
-        <div
-          className="absolute inset-0 rounded-[4px] bg-black/30 blur-3xl"
-          style={{ transform: `translateZ(${-BOOK_THICKNESS / 2 - 2}px) translate(9%, 7%)` }}
-          aria-hidden
-        />
-        <img
-          src={src}
-          alt={alt}
-          className="pointer-events-none relative block h-full w-auto max-w-none rounded-r-[3px]"
-          style={{ transform: `translateZ(${BOOK_THICKNESS / 2}px)` }}
-        />
-        {/* Spine crease and light falloff on the front cover */}
-        <div
-          className="pointer-events-none absolute inset-0 rounded-r-[3px]"
-          style={{
-            transform: `translateZ(${BOOK_THICKNESS / 2 + 0.5}px)`,
-            background:
-              "linear-gradient(90deg, rgba(255,255,255,0.15) 0%, rgba(0,0,0,0.3) 3%, rgba(255,255,255,0.1) 5%, transparent 9%), linear-gradient(160deg, rgba(255,255,255,0.12), transparent 45%, rgba(0,0,0,0.12))",
-          }}
-          aria-hidden
-        />
-        {/* Page block, right edge */}
-        <div
-          className="absolute right-0 top-[1%] h-[98%]"
-          style={{
-            width: `${BOOK_THICKNESS}px`,
-            transformOrigin: "right center",
-            transform: `translateZ(${-BOOK_THICKNESS / 2}px) rotateY(90deg)`,
-            background: "repeating-linear-gradient(90deg, #fbfaf4 0px, #dedbd0 1px, #fbfaf4 2px)",
-          }}
-          aria-hidden
-        />
-        {/* Page block, bottom edge */}
-        <div
-          className="absolute bottom-0 left-[1%] w-[98%]"
-          style={{
-            height: `${BOOK_THICKNESS}px`,
-            transformOrigin: "center bottom",
-            transform: `translateZ(${BOOK_THICKNESS / 2}px) rotateX(90deg)`,
-            background: "repeating-linear-gradient(180deg, #f1efe6 0px, #d2cfc3 1px, #f1efe6 2px)",
-          }}
-          aria-hidden
-        />
-        {/* Back cover */}
-        <div
-          className="absolute inset-0 rounded-r-[3px] bg-[#b9b4a8]"
-          style={{ transform: `translateZ(${-BOOK_THICKNESS / 2}px)` }}
-          aria-hidden
-        />
-      </div>
-    </div>
-  );
-}
-
 export function HeroSection() {
   const [featuredReviews, setFeaturedReviews] = useState<FeaturedReview[]>([]);
   const [activeIndex, setActiveIndex] = useState(0);
@@ -191,7 +125,7 @@ export function HeroSection() {
             </AnimatePresence>
           </div>
 
-          <div className="relative order-1 lg:order-2 h-[420px] md:h-[520px] lg:h-[600px] flex items-center justify-center px-4 sm:px-8 lg:pr-[max(4rem,calc((100vw-80rem)/2+4rem))]">
+          <div className="relative order-1 lg:order-2 h-[480px] md:h-[600px] lg:h-[760px] flex items-center justify-center lg:justify-start px-4 sm:px-8 lg:pl-0 lg:pr-4 xl:pr-8">
             <AnimatePresence mode="wait">
               <motion.div
                 key={activeIndex}
@@ -200,9 +134,13 @@ export function HeroSection() {
                 animate="animate"
                 exit="exit"
                 transition={{ duration: 0.6, ease: [0.25, 0.4, 0.25, 1] }}
-                className="h-full w-full flex items-center justify-center"
+                className="h-full w-full flex items-center justify-center lg:justify-start"
               >
-                <Book3D src={activeReview.image} alt={activeReview.bookTitle} />
+                <img
+                  src={activeReview.image}
+                  alt={activeReview.bookTitle}
+                  className="pointer-events-none max-h-full max-w-full w-auto h-full object-contain object-center lg:object-left mx-auto lg:mx-0 scale-110 lg:scale-125 origin-center lg:origin-left lg:-translate-x-40 xl:-translate-x-56"
+                />
               </motion.div>
             </AnimatePresence>
           </div>
