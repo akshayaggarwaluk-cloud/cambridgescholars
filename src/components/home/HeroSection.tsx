@@ -140,6 +140,7 @@ export function HeroSection() {
                   src={activeReview.image}
                   alt={activeReview.bookTitle}
                   className="pointer-events-none max-h-full max-w-full w-auto h-full object-contain object-center lg:object-left mx-auto lg:mx-0 scale-110 lg:scale-125 origin-center lg:origin-left lg:-translate-x-40 xl:-translate-x-56"
+                  style={{ filter: "drop-shadow(28px 22px 26px rgba(0,0,0,0.22)) drop-shadow(8px 8px 8px rgba(0,0,0,0.12))" }}
                 />
               </motion.div>
             </AnimatePresence>
