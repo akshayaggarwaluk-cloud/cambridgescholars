@@ -28,43 +28,58 @@ const imageVariants = {
   exit: { opacity: 0, x: -80, scale: 0.95 },
 };
 
-const BOOK_THICKNESS = 28;
+const BOOK_THICKNESS = 30;
 
-// Renders a flat cover image as a tilted 3D book (cover, page block, back cover).
+// Renders a flat cover image as a 3D book leaning back and turned clockwise,
+// with page edges on the right and bottom and a shadow cast behind it.
 function Book3D({ src, alt }: { src: string; alt: string }) {
   return (
-    <div className="relative h-[80%]" style={{ perspective: "1800px" }}>
-      <div
-        className="absolute left-[8%] right-[-6%] -bottom-6 h-10 rounded-[50%] bg-black/35 blur-2xl"
-        aria-hidden
-      />
+    <div className="relative h-[72%]" style={{ perspective: "1600px" }}>
       <div
         className="relative h-full"
-        style={{ transformStyle: "preserve-3d", transform: "rotateY(-18deg) rotateX(4deg) rotateZ(1deg)" }}
+        style={{ transformStyle: "preserve-3d", transform: "rotateZ(12deg) rotateX(30deg) rotateY(-14deg)" }}
       >
+        {/* Shadow cast behind the book */}
+        <div
+          className="absolute inset-0 rounded-[4px] bg-black/45 blur-2xl"
+          style={{ transform: `translateZ(${-BOOK_THICKNESS / 2 - 2}px) translate(10%, 6%)` }}
+          aria-hidden
+        />
         <img
           src={src}
           alt={alt}
           className="pointer-events-none relative block h-full w-auto max-w-none rounded-r-[3px]"
           style={{ transform: `translateZ(${BOOK_THICKNESS / 2}px)` }}
         />
-        {/* Spine crease highlight on the front cover */}
+        {/* Spine crease and light falloff on the front cover */}
         <div
-          className="pointer-events-none absolute inset-y-0 left-0 w-[6%]"
+          className="pointer-events-none absolute inset-0 rounded-r-[3px]"
           style={{
             transform: `translateZ(${BOOK_THICKNESS / 2 + 0.5}px)`,
-            background: "linear-gradient(90deg, rgba(255,255,255,0.18), rgba(0,0,0,0.25) 60%, rgba(255,255,255,0.08))",
+            background:
+              "linear-gradient(90deg, rgba(255,255,255,0.15) 0%, rgba(0,0,0,0.3) 3%, rgba(255,255,255,0.1) 5%, transparent 9%), linear-gradient(160deg, rgba(255,255,255,0.12), transparent 45%, rgba(0,0,0,0.12))",
           }}
           aria-hidden
         />
-        {/* Page block */}
+        {/* Page block, right edge */}
         <div
-          className="absolute right-0 top-[1.5%] h-[97%]"
+          className="absolute right-0 top-[1%] h-[98%]"
           style={{
             width: `${BOOK_THICKNESS}px`,
             transformOrigin: "right center",
             transform: `translateZ(${-BOOK_THICKNESS / 2}px) rotateY(90deg)`,
-            background: "repeating-linear-gradient(90deg, #fdfdf8 0px, #e9e7de 1px, #fdfdf8 2px)",
+            background: "repeating-linear-gradient(90deg, #fbfaf4 0px, #dedbd0 1px, #fbfaf4 2px)",
+          }}
+          aria-hidden
+        />
+        {/* Page block, bottom edge */}
+        <div
+          className="absolute bottom-0 left-[1%] w-[98%]"
+          style={{
+            height: `${BOOK_THICKNESS}px`,
+            transformOrigin: "center bottom",
+            transform: `translateZ(${BOOK_THICKNESS / 2}px) rotateX(90deg)`,
+            background: "repeating-linear-gradient(180deg, #f1efe6 0px, #d2cfc3 1px, #f1efe6 2px)",
           }}
           aria-hidden
         />
