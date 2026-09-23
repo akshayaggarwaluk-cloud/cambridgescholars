@@ -37,7 +37,7 @@ function Book3D({ src, alt }: { src: string; alt: string }) {
     <div className="relative h-[72%]" style={{ perspective: "1600px" }}>
       <div
         className="relative h-full"
-        style={{ transformStyle: "preserve-3d", transform: "rotateZ(12deg) rotateX(30deg) rotateY(-14deg)" }}
+        style={{ transformStyle: "preserve-3d", transform: "rotateZ(12deg) rotateX(15deg) rotateY(-14deg)" }}
       >
         {/* Shadow cast behind the book */}
         <div
