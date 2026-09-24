@@ -138,6 +138,9 @@ const SubmitProposal = () => {
       const err = validateField(key, formData[key] || "", type);
       if (err) newErrors[key] = err;
     });
+    if (currentStep === 1 && !cvFile) {
+      newErrors.cv = "Please upload your CV.";
+    }
     if (currentStep === 1 && hasCoAuthors === "yes") {
       const count = parseInt(coAuthorCount) || 1;
       for (let i = 0; i < count; i++) {
@@ -487,12 +490,24 @@ const SubmitProposal = () => {
                           type="file"
                           accept=".pdf,.docx"
                           className="hidden"
-                          onChange={(e) => setCvFile(e.target.files?.[0] || null)}
+                          onChange={(e) => {
+                            const file = e.target.files?.[0] || null;
+                            setCvFile(file);
+                            if (file) {
+                              setErrors((prev) => {
+                                if (!prev.cv) return prev;
+                                const next = { ...prev };
+                                delete next.cv;
+                                return next;
+                              });
+                            }
+                          }}
                         />
                       </label>
                       <span className="text-sm text-muted-foreground">{cvFile ? cvFile.name : "No file chosen"}</span>
                     </div>
                     <p className="text-xs text-muted-foreground">Max. file size: 10 MB.</p>
+                    {errors.cv && <p className="text-xs text-destructive mt-1">{errors.cv}</p>}
                   </div>
 
                   <div className="space-y-1">
