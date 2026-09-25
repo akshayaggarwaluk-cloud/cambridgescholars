@@ -48,14 +48,18 @@ const SubmitProposal = () => {
   const [coAuthorRoles, setCoAuthorRoles] = useState<Record<number, string>>({});
   const [errors, setErrors] = useState<Record<string, string>>({});
 
-  const updateField = (key: string, value: string) => {
-    setFormData((prev) => ({ ...prev, [key]: value }));
+  const clearError = (key: string) => {
     setErrors((prev) => {
       if (!prev[key]) return prev;
       const next = { ...prev };
       delete next[key];
       return next;
     });
+  };
+
+  const updateField = (key: string, value: string) => {
+    setFormData((prev) => ({ ...prev, [key]: value }));
+    clearError(key);
   };
 
   const validateField = (key: string, value: string, type: string): string => {
@@ -140,6 +144,15 @@ const SubmitProposal = () => {
     });
     if (currentStep === 1 && !cvFile) {
       newErrors.cv = "Please upload your CV.";
+    }
+    if (currentStep === 1 && !hasCoAuthors) {
+      newErrors.hasCoAuthors = "Please select Yes or No.";
+    }
+    if (currentStep === 2 && !country) {
+      newErrors.country = "Please select a country.";
+    }
+    if (currentStep === 3 && !bookType) {
+      newErrors.bookType = "Please select the type of book.";
     }
     if (currentStep === 1 && hasCoAuthors === "yes") {
       const count = parseInt(coAuthorCount) || 1;
@@ -493,14 +506,7 @@ const SubmitProposal = () => {
                           onChange={(e) => {
                             const file = e.target.files?.[0] || null;
                             setCvFile(file);
-                            if (file) {
-                              setErrors((prev) => {
-                                if (!prev.cv) return prev;
-                                const next = { ...prev };
-                                delete next.cv;
-                                return next;
-                              });
-                            }
+                            if (file) clearError("cv");
                           }}
                         />
                       </label>
@@ -515,7 +521,7 @@ const SubmitProposal = () => {
                       Co-authors / Editors / Contributors / Translators{" "}
                       <span className="text-accent font-normal italic">(Required)</span>
                     </Label>
-                    <RadioGroup value={hasCoAuthors} onValueChange={setHasCoAuthors} className="flex gap-6 pt-1">
+                    <RadioGroup value={hasCoAuthors} onValueChange={(v) => { setHasCoAuthors(v); clearError("hasCoAuthors"); }} className="flex gap-6 pt-1">
                       <div className="flex items-center space-x-2">
                         <RadioGroupItem value="yes" id="coauthors-yes" />
                         <Label htmlFor="coauthors-yes" className="font-normal cursor-pointer">
@@ -529,6 +535,7 @@ const SubmitProposal = () => {
                         </Label>
                       </div>
                     </RadioGroup>
+                    {errors.hasCoAuthors && <p className="text-xs text-destructive mt-1">{errors.hasCoAuthors}</p>}
                   </div>
 
                   {hasCoAuthors === "yes" && (
@@ -565,7 +572,7 @@ const SubmitProposal = () => {
                       <Label className="text-[16px] font-bold text-[#696969]" style={{ fontFamily: '"Nunito Sans", system-ui, sans-serif' }}>
                         Country <span className="text-accent font-normal italic">(Required)</span>
                       </Label>
-                      <Select value={country} onValueChange={setCountry}>
+                      <Select value={country} onValueChange={(v) => { setCountry(v); clearError("country"); }}>
                         <SelectTrigger>
                           <SelectValue placeholder="Please Select Country" />
                         </SelectTrigger>
@@ -597,6 +604,7 @@ const SubmitProposal = () => {
                           ))}
                         </SelectContent>
                       </Select>
+                      {errors.country && <p className="text-xs text-destructive mt-1">{errors.country}</p>}
                     </div>
                     <FieldInput label="State / Province / Region / County" required value={formData.state} onChange={(v) => updateField("state", v)} error={errors.state} />
                     <FieldInput label="City" required value={formData.city} onChange={(v) => updateField("city", v)} error={errors.city} />
@@ -618,7 +626,7 @@ const SubmitProposal = () => {
                     <Label className="text-[16px] font-bold text-[#696969]" style={{ fontFamily: '"Nunito Sans", system-ui, sans-serif' }}>
                       Type of Book <span className="text-accent font-normal italic">(Required)</span>
                     </Label>
-                    <RadioGroup value={bookType} onValueChange={setBookType} className="flex flex-col gap-3 pt-2">
+                    <RadioGroup value={bookType} onValueChange={(v) => { setBookType(v); clearError("bookType"); }} className="flex flex-col gap-3 pt-2">
                       <div className="flex items-center space-x-2">
                         <RadioGroupItem value="monograph" id="type-monograph" />
                         <Label htmlFor="type-monograph" className="font-normal cursor-pointer">
@@ -632,6 +640,7 @@ const SubmitProposal = () => {
                         </Label>
                       </div>
                     </RadioGroup>
+                    {errors.bookType && <p className="text-xs text-destructive mt-1">{errors.bookType}</p>}
                   </div>
                 </>
               )}
