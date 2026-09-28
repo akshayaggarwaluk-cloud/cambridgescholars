@@ -20,9 +20,10 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Progress } from "@/components/ui/progress";
 import { useToast } from "@/hooks/use-toast";
 import { ArrowLeft, ArrowRight, Send, Upload, CheckCircle2 } from "lucide-react";
-import { submitProposal, type ProposalAuthor } from "@/services/cspApi";
+import { submitProposal, ProposalValidationError, type ProposalAuthor } from "@/services/cspApi";
 
 const TOTAL_STEPS = 7;
+const DUPLICATE_EMAIL_ERROR = "This email address has already been used by another author in this submission";
 
 const SubmitProposal = () => {
   const { toast } = useToast();
@@ -39,6 +40,7 @@ const SubmitProposal = () => {
   const [bookType, setBookType] = useState("");
   const [manuscriptStage, setManuscriptStage] = useState("");
   const [cvFile, setCvFile] = useState<File | null>(null);
+  const [coAuthorCvFiles, setCoAuthorCvFiles] = useState<Record<number, File | null>>({});
   const [sampleFiles, setSampleFiles] = useState<File[]>([]);
   const [supportingFiles, setSupportingFiles] = useState<File[]>([]);
   const [completeManuscriptFile, setCompleteManuscriptFile] = useState<File | null>(null);
@@ -154,19 +156,39 @@ const SubmitProposal = () => {
     if (currentStep === 3 && !bookType) {
       newErrors.bookType = "Please select the type of book.";
     }
-    if (currentStep === 1 && hasCoAuthors === "yes") {
-      const count = parseInt(coAuthorCount) || 1;
-      for (let i = 0; i < count; i++) {
-        const nameErr = validateField(`coauthor-${i}-name`, formData[`coauthor-${i}-name`] || "", "text");
-        if (nameErr) newErrors[`coauthor-${i}-name`] = nameErr;
-        const emailErr = validateField(`coauthor-${i}-email`, formData[`coauthor-${i}-email`] || "", "email");
-        if (emailErr) newErrors[`coauthor-${i}-email`] = emailErr;
-        // Affiliation is optional for co-authors — backend only requires
-        // first/last name + email (idx ≥ 1). Lead author still validates.
-      }
-    }
+    if (currentStep === 1) Object.assign(newErrors, validateCoAuthors());
     setErrors((prev) => ({ ...prev, ...newErrors }));
     return Object.keys(newErrors).length === 0;
+  };
+
+  // Co-author name, email (unique across all authors) and CV. A single name is
+  // fine — the backend treats lastName as optional.
+  const validateCoAuthors = (): Record<string, string> => {
+    const newErrors: Record<string, string> = {};
+    if (hasCoAuthors !== "yes") return newErrors;
+    const count = parseInt(coAuthorCount) || 1;
+    const seenEmails = new Set([(formData.email || "").trim().toLowerCase()].filter(Boolean));
+    for (let i = 0; i < count; i++) {
+      const nameErr = validateField(`coauthor-${i}-name`, formData[`coauthor-${i}-name`] || "", "text");
+      if (nameErr) newErrors[`coauthor-${i}-name`] = nameErr;
+      const email = (formData[`coauthor-${i}-email`] || "").trim().toLowerCase();
+      const emailErr = validateField(`coauthor-${i}-email`, email, "email");
+      if (emailErr) newErrors[`coauthor-${i}-email`] = emailErr;
+      else if (seenEmails.has(email)) newErrors[`coauthor-${i}-email`] = DUPLICATE_EMAIL_ERROR;
+      if (email) seenEmails.add(email);
+      if (!coAuthorCvFiles[i]) newErrors[`coauthor-${i}-cv`] = "CV file required";
+      // Affiliation is optional for co-authors.
+    }
+    return newErrors;
+  };
+
+  // Maps API error keys (authors[0].cv, authors[2].email, …) onto form fields.
+  const mapApiErrorKey = (key: string): string | null => {
+    const m = key.match(/^authors\[(\d+)\]\.(cv|email)$/);
+    if (!m) return null;
+    const idx = parseInt(m[1], 10);
+    if (idx === 0) return m[2];
+    return `coauthor-${idx - 1}-${m[2]}`;
   };
 
   const handleNext = () => {
@@ -207,6 +229,13 @@ const SubmitProposal = () => {
     setAiDeclarationError("");
     if (!cvFile) {
       toast({ title: "CV is required", description: "Please upload your CV in Step 1.", variant: "destructive" });
+      setCurrentStep(1);
+      return;
+    }
+    const coAuthorErrors = validateCoAuthors();
+    if (Object.keys(coAuthorErrors).length > 0) {
+      setErrors((prev) => ({ ...prev, ...coAuthorErrors }));
+      toast({ title: "Co-author details incomplete", description: "Please check the co-author details and CVs in Step 1.", variant: "destructive" });
       setCurrentStep(1);
       return;
     }
@@ -300,6 +329,10 @@ const SubmitProposal = () => {
     try {
       const res = await submitProposal(payload, {
         cv: cvFile,
+        coAuthorCvs:
+          hasCoAuthors === "yes"
+            ? Array.from({ length: parseInt(coAuthorCount) || 1 }, (_, i) => coAuthorCvFiles[i] || null)
+            : [],
         sampleChapters: sampleFiles,
         additionalFiles: supportingFiles,
         completeManuscript: completeManuscriptFile,
@@ -308,6 +341,19 @@ const SubmitProposal = () => {
       setIsSubmitted(true);
       window.scrollTo({ top: 0, behavior: "smooth" });
     } catch (err) {
+      if (err instanceof ProposalValidationError) {
+        const fieldErrors: Record<string, string> = {};
+        for (const [key, message] of Object.entries(err.details)) {
+          const field = mapApiErrorKey(key);
+          if (!field) continue;
+          fieldErrors[field] = field.endsWith("cv") ? "CV file required" : message;
+        }
+        if (Object.keys(fieldErrors).length > 0) {
+          setErrors((prev) => ({ ...prev, ...fieldErrors }));
+          setCurrentStep(1);
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        }
+      }
       toast({
         title: "Submission failed",
         description: err instanceof Error ? err.message : "Please try again.",
@@ -346,6 +392,30 @@ const SubmitProposal = () => {
         </div>
         <FieldInput label="Name" required value={formData[`coauthor-${i}-name`] || ""} onChange={(v) => updateField(`coauthor-${i}-name`, v)} error={errors[`coauthor-${i}-name`]} />
         <FieldInput label="Email" type="email" required value={formData[`coauthor-${i}-email`] || ""} onChange={(v) => updateField(`coauthor-${i}-email`, v)} error={errors[`coauthor-${i}-email`]} />
+        <div className="space-y-1">
+          <Label className="text-[16px] font-bold text-[#696969]" style={{ fontFamily: '"Nunito Sans", system-ui, sans-serif' }}>
+            Upload CV <span className="text-accent font-normal italic">(Required)</span>
+          </Label>
+          <div className="flex items-center gap-3">
+            <label className="inline-flex items-center gap-2 px-4 py-2 border border-input bg-background cursor-pointer hover:bg-muted transition-colors text-sm">
+              <Upload className="w-4 h-4" />
+              Choose File
+              <input
+                type="file"
+                accept=".pdf,.doc,.docx"
+                className="hidden"
+                onChange={(e) => {
+                  const file = e.target.files?.[0] || null;
+                  setCoAuthorCvFiles((prev) => ({ ...prev, [i]: file }));
+                  if (file) clearError(`coauthor-${i}-cv`);
+                }}
+              />
+            </label>
+            <span className="text-sm text-muted-foreground">{coAuthorCvFiles[i]?.name || "No file chosen"}</span>
+          </div>
+          <p className="text-xs text-muted-foreground">PDF, DOC or DOCX, max 10MB</p>
+          {errors[`coauthor-${i}-cv`] && <p className="text-xs text-destructive mt-1">{errors[`coauthor-${i}-cv`]}</p>}
+        </div>
         <FieldInput label="Affiliation (optional)" value={formData[`coauthor-${i}-affiliation`] || ""} onChange={(v) => updateField(`coauthor-${i}-affiliation`, v)} error={errors[`coauthor-${i}-affiliation`]} />
       </div>
     ));

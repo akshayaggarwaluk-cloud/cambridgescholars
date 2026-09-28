@@ -701,10 +701,27 @@ export interface ProposalSubmitResponse {
   details?: Record<string, string>;
 }
 
+/** Validation failure from the proposal API; `details` is keyed like `authors[1].cv`. */
+export class ProposalValidationError extends Error {
+  details: Record<string, string>;
+  constructor(message: string, details: Record<string, string>) {
+    super(message);
+    this.name = "ProposalValidationError";
+    this.details = details;
+  }
+}
+
 /** Submit a book proposal (multipart/form-data). */
 export async function submitProposal(
   payload: ProposalPayload,
-  files: { cv?: File | null; sampleChapters?: File[]; additionalFiles?: File[]; completeManuscript?: File | null },
+  files: {
+    cv?: File | null;
+    /** CVs for authors[1..], in authors-array order; sent as cv_1, cv_2, … */
+    coAuthorCvs?: (File | null)[];
+    sampleChapters?: File[];
+    additionalFiles?: File[];
+    completeManuscript?: File | null;
+  },
 ): Promise<ProposalSubmitResponse> {
   const fd = new FormData();
   fd.append("authors", JSON.stringify(payload.authors));
@@ -716,6 +733,9 @@ export async function submitProposal(
   fd.append("agreement", JSON.stringify(payload.agreement));
 
   if (files.cv) fd.append("cv", files.cv);
+  (files.coAuthorCvs || []).forEach((f, i) => {
+    if (f) fd.append(`cv_${i + 1}`, f);
+  });
   (files.sampleChapters || []).forEach((f) => fd.append("sampleChapter", f));
   (files.additionalFiles || []).forEach((f) => fd.append("additionalFiles", f));
   if (files.completeManuscript) fd.append("completeManuscript", files.completeManuscript);
@@ -732,7 +752,7 @@ export async function submitProposal(
     if (res.status === 413) throw new Error(parsed.message || "One or more files are too large.");
     if (res.status === 400 && parsed.details) {
       const first = Object.values(parsed.details)[0];
-      throw new Error(first || "Please review the form for errors.");
+      throw new ProposalValidationError(first || "Please review the form for errors.", parsed.details);
     }
     throw new Error(parsed.message || parsed.error || `Submission failed (${res.status})`);
   }
