@@ -24,6 +24,8 @@ import { submitProposal, ProposalValidationError, type ProposalAuthor } from "@/
 
 const TOTAL_STEPS = 7;
 const DUPLICATE_EMAIL_ERROR = "This email address has already been used by another author in this submission";
+const ACADEMIC_QUALIFICATION_MAX = 200;
+const BIOGRAPHY_MAX = 500;
 
 const SubmitProposal = () => {
   const { toast } = useToast();
@@ -100,7 +102,6 @@ const SubmitProposal = () => {
       { key: "phone", type: "tel" },
       { key: "institution", type: "text" },
       { key: "position", type: "text" },
-      { key: "qualifications", type: "text" },
     ],
     2: [
       { key: "state", type: "text" },
@@ -144,6 +145,7 @@ const SubmitProposal = () => {
       const err = validateField(key, formData[key] || "", type);
       if (err) newErrors[key] = err;
     });
+    if (currentStep === 1) Object.assign(newErrors, validateAuthorProfile(""));
     if (currentStep === 1 && !cvFile) {
       newErrors.cv = "Please upload your CV.";
     }
@@ -177,14 +179,55 @@ const SubmitProposal = () => {
       else if (seenEmails.has(email)) newErrors[`coauthor-${i}-email`] = DUPLICATE_EMAIL_ERROR;
       if (email) seenEmails.add(email);
       if (!coAuthorCvFiles[i]) newErrors[`coauthor-${i}-cv`] = "CV file required";
+      Object.assign(newErrors, validateAuthorProfile(`coauthor-${i}-`));
       // Affiliation is optional for co-authors.
     }
     return newErrors;
   };
 
+  // Academic qualification and biography, required for every author. `prefix`
+  // is "" for the lead author and "coauthor-N-" for co-authors.
+  const validateAuthorProfile = (prefix: string): Record<string, string> => {
+    const newErrors: Record<string, string> = {};
+    const qualification = (formData[`${prefix}academicQualification`] || "").trim();
+    if (!qualification) newErrors[`${prefix}academicQualification`] = "Academic qualification required";
+    else if (qualification.length > ACADEMIC_QUALIFICATION_MAX)
+      newErrors[`${prefix}academicQualification`] = `Academic qualification max ${ACADEMIC_QUALIFICATION_MAX} chars`;
+    const biography = (formData[`${prefix}biography`] || "").trim();
+    if (!biography) newErrors[`${prefix}biography`] = "Biography required";
+    else if (biography.length > BIOGRAPHY_MAX) newErrors[`${prefix}biography`] = `Biography max ${BIOGRAPHY_MAX} chars`;
+    return newErrors;
+  };
+
+  const renderAuthorProfileFields = (prefix: string) => (
+    <>
+      <FieldInput
+        label="Academic Qualification"
+        required
+        placeholder="e.g. PhD, University of Edinburgh; FRSA"
+        maxLength={ACADEMIC_QUALIFICATION_MAX}
+        showCount
+        value={formData[`${prefix}academicQualification`] || ""}
+        onChange={(v) => updateField(`${prefix}academicQualification`, v)}
+        error={errors[`${prefix}academicQualification`]}
+      />
+      <FieldTextarea
+        label="Biography"
+        required
+        rows={4}
+        placeholder="Professional biography paragraph"
+        maxLength={BIOGRAPHY_MAX}
+        showCount
+        value={formData[`${prefix}biography`] || ""}
+        onChange={(v) => updateField(`${prefix}biography`, v)}
+        error={errors[`${prefix}biography`]}
+      />
+    </>
+  );
+
   // Maps API error keys (authors[0].cv, authors[2].email, …) onto form fields.
   const mapApiErrorKey = (key: string): string | null => {
-    const m = key.match(/^authors\[(\d+)\]\.(cv|email)$/);
+    const m = key.match(/^authors\[(\d+)\]\.(cv|email|academicQualification|biography)$/);
     if (!m) return null;
     const idx = parseInt(m[1], 10);
     if (idx === 0) return m[2];
@@ -262,7 +305,8 @@ const SubmitProposal = () => {
         position: formData.position,
         institution: formData.institution,
         country: country || formData.country,
-        biography: formData.qualifications,
+        academicQualification: (formData.academicQualification || "").trim(),
+        biography: (formData.biography || "").trim(),
       },
     ];
     if (hasCoAuthors === "yes") {
@@ -276,6 +320,8 @@ const SubmitProposal = () => {
           lastName: n.lastName,
           email: formData[`coauthor-${i}-email`] || "",
           institution: formData[`coauthor-${i}-affiliation`] || "",
+          academicQualification: (formData[`coauthor-${i}-academicQualification`] || "").trim(),
+          biography: (formData[`coauthor-${i}-biography`] || "").trim(),
         });
       }
     }
@@ -417,6 +463,7 @@ const SubmitProposal = () => {
           {errors[`coauthor-${i}-cv`] && <p className="text-xs text-destructive mt-1">{errors[`coauthor-${i}-cv`]}</p>}
         </div>
         <FieldInput label="Affiliation (optional)" value={formData[`coauthor-${i}-affiliation`] || ""} onChange={(v) => updateField(`coauthor-${i}-affiliation`, v)} error={errors[`coauthor-${i}-affiliation`]} />
+        {renderAuthorProfileFields(`coauthor-${i}-`)}
       </div>
     ));
   };
@@ -559,7 +606,7 @@ const SubmitProposal = () => {
                   <FieldInput label="Phone Number" type="tel" required value={formData.phone} onChange={(v) => updateField("phone", v)} error={errors.phone} />
                   <FieldInput label="Institution or Organisation" required value={formData.institution} onChange={(v) => updateField("institution", v)} error={errors.institution} />
                   <FieldInput label="Current Position" required value={formData.position} onChange={(v) => updateField("position", v)} error={errors.position} />
-                  <FieldInput label="Academic/Professional Qualifications" required value={formData.qualifications} onChange={(v) => updateField("qualifications", v)} error={errors.qualifications} />
+                  {renderAuthorProfileFields("")}
 
                   <div className="space-y-1">
                     <Label className="text-[16px] font-bold text-[#696969]" style={{ fontFamily: '"Nunito Sans", system-ui, sans-serif' }}>
@@ -976,6 +1023,8 @@ const SubmitProposal = () => {
    error,
    maxLength,
    min,
+   placeholder,
+   showCount,
  }: {
    label: string;
    required?: boolean;
@@ -985,6 +1034,8 @@ const SubmitProposal = () => {
    error?: string;
    maxLength?: number;
    min?: string;
+   placeholder?: string;
+   showCount?: boolean;
  }) => (
    <div className="space-y-1">
      <Label className="text-[16px] font-bold text-[#696969]" style={{ fontFamily: '"Nunito Sans", system-ui, sans-serif' }}>
@@ -996,6 +1047,7 @@ const SubmitProposal = () => {
        required={required}
        value={value ?? ""}
        min={min}
+       placeholder={placeholder}
        maxLength={maxLength ?? (type === "email" ? 255 : type === "tel" ? 20 : 500)}
        onChange={(e) => {
          let v = e.target.value;
@@ -1006,9 +1058,16 @@ const SubmitProposal = () => {
        className={`border rounded-none shadow-none focus-visible:ring-0 px-3 py-2 bg-[#f5f5f5] ${error ? "border-destructive" : "border-input"}`}
        aria-invalid={!!error}
      />
+     {showCount && maxLength && <CharCount value={value} max={maxLength} />}
      {error && <p className="text-xs text-destructive mt-1">{error}</p>}
    </div>
  );
+
+const CharCount = ({ value, max }: { value?: string; max: number }) => (
+  <p className="text-xs text-muted-foreground text-right">
+    {(value ?? "").length}/{max}
+  </p>
+);
 
 const FieldTextarea = ({
   label,
@@ -1018,6 +1077,8 @@ const FieldTextarea = ({
   onChange,
   error,
   maxLength = 2000,
+  placeholder,
+  showCount,
 }: {
   label: string;
   required?: boolean;
@@ -1026,6 +1087,8 @@ const FieldTextarea = ({
   onChange?: (value: string) => void;
   error?: string;
   maxLength?: number;
+  placeholder?: string;
+  showCount?: boolean;
 }) => (
   <div className="space-y-1">
     <Label className="text-[16px] font-bold text-[#696969]" style={{ fontFamily: '"Nunito Sans", system-ui, sans-serif' }}>
@@ -1036,10 +1099,12 @@ const FieldTextarea = ({
       rows={rows}
       value={value ?? ""}
       maxLength={maxLength}
+      placeholder={placeholder}
       onChange={(e) => onChange?.(e.target.value)}
       className={`border rounded-none shadow-none focus-visible:ring-0 px-3 py-2 bg-[#f5f5f5] resize-vertical ${error ? "border-destructive" : "border-input"}`}
       aria-invalid={!!error}
     />
+    {showCount && <CharCount value={value} max={maxLength} />}
     {error && <p className="text-xs text-destructive mt-1">{error}</p>}
   </div>
 );

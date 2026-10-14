@@ -378,6 +378,7 @@ export default function AdminProposalDetail() {
                   <Field label="Institution" value={get(a, "institution")} />
                   <Field label="Country" value={get(a, "country")} />
                   <Field label="Role" value={get(a, "role")} />
+                  <Field label="Academic qualification" value={get(a, "academicQualification")} />
                 </FieldGrid>
                 {get(a, "biography") && (
                   <div className="mt-3">

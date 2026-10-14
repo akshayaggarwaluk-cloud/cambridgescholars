@@ -630,6 +630,7 @@ export interface ProposalAuthor {
   position?: string;
   institution?: string;
   country?: string;
+  academicQualification?: string;
   biography?: string;
   cv?: string;
 }
