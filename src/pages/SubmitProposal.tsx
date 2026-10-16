@@ -254,7 +254,7 @@ const SubmitProposal = () => {
           <SelectItem value="none">—</SelectItem>
           {AUTHOR_TITLES.map((t) => (
             <SelectItem key={t} value={t}>
-              {t}
+              {t}.
             </SelectItem>
           ))}
         </SelectContent>
