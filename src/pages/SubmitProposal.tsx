@@ -27,6 +27,8 @@ const DUPLICATE_EMAIL_ERROR = "This email address has already been used by anoth
 const ACADEMIC_QUALIFICATION_MAX = 200;
 const BIOGRAPHY_MAX = 500;
 const AUTHOR_TITLES = ["Dr", "Prof", "Mr", "Ms", "Mrs"];
+// Step holding the co-author question and co-author details (after Type of Book).
+const COAUTHOR_STEP = 3;
 
 const SubmitProposal = () => {
   const { toast } = useToast();
@@ -149,16 +151,16 @@ const SubmitProposal = () => {
     if (currentStep === 1 && !cvFile) {
       newErrors.cv = "Please upload your CV.";
     }
-    if (currentStep === 1 && !hasCoAuthors) {
-      newErrors.hasCoAuthors = "Please select Yes or No.";
-    }
     if (currentStep === 2 && !country) {
       newErrors.country = "Please select a country.";
     }
     if (currentStep === 3 && !bookType) {
       newErrors.bookType = "Please select the type of book.";
     }
-    if (currentStep === 1) Object.assign(newErrors, validateCoAuthors());
+    if (currentStep === COAUTHOR_STEP && !hasCoAuthors) {
+      newErrors.hasCoAuthors = "Please select Yes or No.";
+    }
+    if (currentStep === COAUTHOR_STEP) Object.assign(newErrors, validateCoAuthors());
     setErrors((prev) => ({ ...prev, ...newErrors }));
     return Object.keys(newErrors).length === 0;
   };
@@ -300,8 +302,8 @@ const SubmitProposal = () => {
     const coAuthorErrors = validateCoAuthors();
     if (Object.keys(coAuthorErrors).length > 0) {
       setErrors((prev) => ({ ...prev, ...coAuthorErrors }));
-      toast({ title: "Co-author details incomplete", description: "Please check the co-author details and CVs in Step 1.", variant: "destructive" });
-      setCurrentStep(1);
+      toast({ title: "Co-author details incomplete", description: `Please check the co-author details and CVs in Step ${COAUTHOR_STEP}.`, variant: "destructive" });
+      setCurrentStep(COAUTHOR_STEP);
       return;
     }
     if (sampleFiles.length === 0) {
@@ -420,7 +422,9 @@ const SubmitProposal = () => {
         }
         if (Object.keys(fieldErrors).length > 0) {
           setErrors((prev) => ({ ...prev, ...fieldErrors }));
-          setCurrentStep(1);
+          // Lead-author fields are on step 1; co-author fields on COAUTHOR_STEP.
+          const leadError = Object.keys(fieldErrors).some((f) => !f.startsWith("coauthor-"));
+          setCurrentStep(leadError ? 1 : COAUTHOR_STEP);
           window.scrollTo({ top: 0, behavior: "smooth" });
         }
       }
@@ -658,52 +662,6 @@ const SubmitProposal = () => {
                     <p className="text-xs text-muted-foreground">Max. file size: 10 MB.</p>
                     {errors.cv && <p className="text-xs text-destructive mt-1">{errors.cv}</p>}
                   </div>
-
-                  <div className="space-y-1">
-                    <Label className="text-[16px] font-bold text-[#696969]" style={{ fontFamily: '"Nunito Sans", system-ui, sans-serif' }}>
-                      Co-authors / Editors / Contributors / Translators{" "}
-                      <span className="text-accent font-normal italic">(Required)</span>
-                    </Label>
-                    <RadioGroup value={hasCoAuthors} onValueChange={(v) => { setHasCoAuthors(v); clearError("hasCoAuthors"); }} className="flex gap-6 pt-1">
-                      <div className="flex items-center space-x-2">
-                        <RadioGroupItem value="yes" id="coauthors-yes" />
-                        <Label htmlFor="coauthors-yes" className="font-normal cursor-pointer">
-                          Yes
-                        </Label>
-                      </div>
-                      <div className="flex items-center space-x-2">
-                        <RadioGroupItem value="no" id="coauthors-no" />
-                        <Label htmlFor="coauthors-no" className="font-normal cursor-pointer">
-                          No
-                        </Label>
-                      </div>
-                    </RadioGroup>
-                    {errors.hasCoAuthors && <p className="text-xs text-destructive mt-1">{errors.hasCoAuthors}</p>}
-                  </div>
-
-                  {hasCoAuthors === "yes" && (
-                    <>
-                      <div className="space-y-1">
-                        <Label className="text-[16px] font-bold text-[#696969]" style={{ fontFamily: '"Nunito Sans", system-ui, sans-serif' }}>
-                          How many Co-authors / Editors / Contributors / Translators{" "}
-                          <span className="text-accent font-normal italic">(Required)</span>
-                        </Label>
-                        <Select value={coAuthorCount} onValueChange={setCoAuthorCount}>
-                          <SelectTrigger className="max-w-[200px]">
-                            <SelectValue />
-                          </SelectTrigger>
-                          <SelectContent>
-                            {Array.from({ length: 10 }, (_, i) => (
-                              <SelectItem key={i + 1} value={String(i + 1)}>
-                                {i + 1}
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
-                      </div>
-                      {renderCoAuthorFields()}
-                    </>
-                  )}
                 </>
               )}
 
@@ -785,6 +743,52 @@ const SubmitProposal = () => {
                     </RadioGroup>
                     {errors.bookType && <p className="text-xs text-destructive mt-1">{errors.bookType}</p>}
                   </div>
+
+                  <div className="space-y-1">
+                    <Label className="text-[16px] font-bold text-[#696969]" style={{ fontFamily: '"Nunito Sans", system-ui, sans-serif' }}>
+                      Co-authors / Editors / Contributors / Translators{" "}
+                      <span className="text-accent font-normal italic">(Required)</span>
+                    </Label>
+                    <RadioGroup value={hasCoAuthors} onValueChange={(v) => { setHasCoAuthors(v); clearError("hasCoAuthors"); }} className="flex gap-6 pt-1">
+                      <div className="flex items-center space-x-2">
+                        <RadioGroupItem value="yes" id="coauthors-yes" />
+                        <Label htmlFor="coauthors-yes" className="font-normal cursor-pointer">
+                          Yes
+                        </Label>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <RadioGroupItem value="no" id="coauthors-no" />
+                        <Label htmlFor="coauthors-no" className="font-normal cursor-pointer">
+                          No
+                        </Label>
+                      </div>
+                    </RadioGroup>
+                    {errors.hasCoAuthors && <p className="text-xs text-destructive mt-1">{errors.hasCoAuthors}</p>}
+                  </div>
+
+                  {hasCoAuthors === "yes" && (
+                    <>
+                      <div className="space-y-1">
+                        <Label className="text-[16px] font-bold text-[#696969]" style={{ fontFamily: '"Nunito Sans", system-ui, sans-serif' }}>
+                          How many Co-authors / Editors / Contributors / Translators{" "}
+                          <span className="text-accent font-normal italic">(Required)</span>
+                        </Label>
+                        <Select value={coAuthorCount} onValueChange={setCoAuthorCount}>
+                          <SelectTrigger className="max-w-[200px]">
+                            <SelectValue />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {Array.from({ length: 10 }, (_, i) => (
+                              <SelectItem key={i + 1} value={String(i + 1)}>
+                                {i + 1}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      </div>
+                      {renderCoAuthorFields()}
+                    </>
+                  )}
                 </>
               )}
 
