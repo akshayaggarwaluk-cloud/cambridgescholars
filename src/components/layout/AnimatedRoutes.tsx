@@ -171,6 +171,8 @@ export function AnimatedRoutes() {
         <Route path="/accessibility-policy" element={<PageTransition><AccessibilityPolicy /></PageTransition>} />
         <Route path="/refund-returns" element={<PageTransition><RefundAndReturns /></PageTransition>} />
         <Route path="/p/:slug" element={<PageTransition><PolicyPage /></PageTransition>} />
+        {/* Short policy slugs (/pages/privacy); the CMS resolves short and full slugs alike. */}
+        <Route path="/pages/:slug" element={<PageTransition><PolicyPage /></PageTransition>} />
         <Route path="/reviews" element={<PageTransition><AuthorExperiences /></PageTransition>} />
         <Route path="/our-author-promises" element={<PageTransition><AuthorPromises /></PageTransition>} />
         <Route path="/contributor-guidelines" element={<PageTransition><ContributorGuidelines /></PageTransition>} />
