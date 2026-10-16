@@ -98,6 +98,11 @@ const SubmitProposal = () => {
 
   const progress = Math.round((currentStep / TOTAL_STEPS) * 100);
 
+  // A monograph only takes co-authors; an edited collection takes editors,
+  // contributors or translators.
+  const coAuthorRoleOptions = bookType === "monograph" ? ["Co-authors"] : ["Editors", "Contributors", "Translators"];
+  const coAuthorGroupLabel = coAuthorRoleOptions.join(" / ");
+
   const stepFieldSpecs: Record<number, Array<{ key: string; type: string }>> = {
     1: [
       { key: "fullName", type: "text" },
@@ -173,6 +178,9 @@ const SubmitProposal = () => {
     const count = parseInt(coAuthorCount) || 1;
     const seenEmails = new Set([(formData.email || "").trim().toLowerCase()].filter(Boolean));
     for (let i = 0; i < count; i++) {
+      if (bookType === "edited" && !coAuthorRoleOptions.some((r) => r.toLowerCase() === coAuthorRoles[i])) {
+        newErrors[`coauthor-${i}-role`] = "Please select a role.";
+      }
       const nameErr = validateField(`coauthor-${i}-name`, formData[`coauthor-${i}-name`] || "", "text");
       if (nameErr) newErrors[`coauthor-${i}-name`] = nameErr;
       const email = (formData[`coauthor-${i}-email`] || "").trim().toLowerCase();
@@ -338,7 +346,7 @@ const SubmitProposal = () => {
       const count = parseInt(coAuthorCount) || 1;
       for (let i = 0; i < count; i++) {
         const n = splitName(formData[`coauthor-${i}-name`] || "");
-        const role = (coAuthorRoles[i] || "co-author").replace(/s$/, "") as ProposalAuthor["role"];
+        const role = (bookType === "monograph" ? "co-author" : (coAuthorRoles[i] || "co-author").replace(/s$/, "")) as ProposalAuthor["role"];
         authors.push({
           role: ["author", "co-author", "editor", "contributor", "translator"].includes(role) ? role : "co-author",
           title: formData[`coauthor-${i}-title`] || undefined,
@@ -443,28 +451,34 @@ const SubmitProposal = () => {
     return Array.from({ length: count }, (_, i) => (
       <div key={i} className="space-y-4 pt-6 border-t border-border">
         <h3 className="text-base font-semibold text-foreground">
-          Co-authors / Editors / Contributors / Translators {i + 1}
+          {coAuthorGroupLabel} {i + 1}
         </h3>
         {renderTitleField(`coauthor-${i}-title`)}
-        <div className="space-y-1">
-          <Label className="text-[16px] font-bold text-[#696969]" style={{ fontFamily: '"Nunito Sans", system-ui, sans-serif' }}>
-            Role<span className="text-accent font-normal italic">(Required)</span>
-          </Label>
-          <RadioGroup
-            value={coAuthorRoles[i] || ""}
-            onValueChange={(v) => setCoAuthorRoles((prev) => ({ ...prev, [i]: v }))}
-            className="flex flex-wrap gap-4 pt-1"
-          >
-            {["Co-authors", "Editors", "Contributors", "Translators"].map((role) => (
-              <div key={role} className="flex items-center space-x-2">
-                <RadioGroupItem value={role.toLowerCase()} id={`role-${i}-${role}`} />
-                <Label htmlFor={`role-${i}-${role}`} className="font-normal cursor-pointer">
-                  {role}
-                </Label>
-              </div>
-            ))}
-          </RadioGroup>
-        </div>
+        {bookType === "edited" && (
+          <div className="space-y-1">
+            <Label className="text-[16px] font-bold text-[#696969]" style={{ fontFamily: '"Nunito Sans", system-ui, sans-serif' }}>
+              Role <span className="text-accent font-normal italic">(Required)</span>
+            </Label>
+            <RadioGroup
+              value={coAuthorRoles[i] || ""}
+              onValueChange={(v) => {
+                setCoAuthorRoles((prev) => ({ ...prev, [i]: v }));
+                clearError(`coauthor-${i}-role`);
+              }}
+              className="flex flex-wrap gap-4 pt-1"
+            >
+              {coAuthorRoleOptions.map((role) => (
+                <div key={role} className="flex items-center space-x-2">
+                  <RadioGroupItem value={role.toLowerCase()} id={`role-${i}-${role}`} />
+                  <Label htmlFor={`role-${i}-${role}`} className="font-normal cursor-pointer">
+                    {role}
+                  </Label>
+                </div>
+              ))}
+            </RadioGroup>
+            {errors[`coauthor-${i}-role`] && <p className="text-xs text-destructive mt-1">{errors[`coauthor-${i}-role`]}</p>}
+          </div>
+        )}
         <FieldInput label="Name" required value={formData[`coauthor-${i}-name`] || ""} onChange={(v) => updateField(`coauthor-${i}-name`, v)} error={errors[`coauthor-${i}-name`]} />
         <FieldInput label="Email" type="email" required value={formData[`coauthor-${i}-email`] || ""} onChange={(v) => updateField(`coauthor-${i}-email`, v)} error={errors[`coauthor-${i}-email`]} />
         <div className="space-y-1">
@@ -744,9 +758,11 @@ const SubmitProposal = () => {
                     {errors.bookType && <p className="text-xs text-destructive mt-1">{errors.bookType}</p>}
                   </div>
 
+                  {bookType && (
+                  <>
                   <div className="space-y-1">
                     <Label className="text-[16px] font-bold text-[#696969]" style={{ fontFamily: '"Nunito Sans", system-ui, sans-serif' }}>
-                      Co-authors / Editors / Contributors / Translators{" "}
+                      {coAuthorGroupLabel}{" "}
                       <span className="text-accent font-normal italic">(Required)</span>
                     </Label>
                     <RadioGroup value={hasCoAuthors} onValueChange={(v) => { setHasCoAuthors(v); clearError("hasCoAuthors"); }} className="flex gap-6 pt-1">
@@ -770,7 +786,7 @@ const SubmitProposal = () => {
                     <>
                       <div className="space-y-1">
                         <Label className="text-[16px] font-bold text-[#696969]" style={{ fontFamily: '"Nunito Sans", system-ui, sans-serif' }}>
-                          How many Co-authors / Editors / Contributors / Translators{" "}
+                          How many {coAuthorGroupLabel}{" "}
                           <span className="text-accent font-normal italic">(Required)</span>
                         </Label>
                         <Select value={coAuthorCount} onValueChange={setCoAuthorCount}>
@@ -788,6 +804,8 @@ const SubmitProposal = () => {
                       </div>
                       {renderCoAuthorFields()}
                     </>
+                  )}
+                  </>
                   )}
                 </>
               )}
