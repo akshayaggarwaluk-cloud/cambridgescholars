@@ -99,8 +99,13 @@ const SubmitProposal = () => {
   const progress = Math.round((currentStep / TOTAL_STEPS) * 100);
 
   // A monograph only takes co-authors; an edited collection takes editors,
-  // contributors or translators.
-  const coAuthorRoleOptions = bookType === "monograph" ? ["Co-authors"] : ["Editors", "Contributors", "Translators"];
+  // contributors or translators. Until a type is chosen, all four are offered.
+  const coAuthorRoleOptions =
+    bookType === "monograph"
+      ? ["Co-authors"]
+      : bookType === "edited"
+        ? ["Editors", "Contributors", "Translators"]
+        : ["Co-authors", "Editors", "Contributors", "Translators"];
   const coAuthorGroupLabel = coAuthorRoleOptions.join(" / ");
 
   const stepFieldSpecs: Record<number, Array<{ key: string; type: string }>> = {
@@ -454,7 +459,7 @@ const SubmitProposal = () => {
           {coAuthorGroupLabel} {i + 1}
         </h3>
         {renderTitleField(`coauthor-${i}-title`)}
-        {bookType === "edited" && (
+        {bookType !== "monograph" && (
           <div className="space-y-1">
             <Label className="text-[16px] font-bold text-[#696969]" style={{ fontFamily: '"Nunito Sans", system-ui, sans-serif' }}>
               Role <span className="text-accent font-normal italic">(Required)</span>
@@ -758,8 +763,6 @@ const SubmitProposal = () => {
                     {errors.bookType && <p className="text-xs text-destructive mt-1">{errors.bookType}</p>}
                   </div>
 
-                  {bookType && (
-                  <>
                   <div className="space-y-1">
                     <Label className="text-[16px] font-bold text-[#696969]" style={{ fontFamily: '"Nunito Sans", system-ui, sans-serif' }}>
                       {coAuthorGroupLabel}{" "}
@@ -804,8 +807,6 @@ const SubmitProposal = () => {
                       </div>
                       {renderCoAuthorFields()}
                     </>
-                  )}
-                  </>
                   )}
                 </>
               )}
