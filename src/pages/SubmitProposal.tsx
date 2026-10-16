@@ -26,6 +26,7 @@ const TOTAL_STEPS = 7;
 const DUPLICATE_EMAIL_ERROR = "This email address has already been used by another author in this submission";
 const ACADEMIC_QUALIFICATION_MAX = 200;
 const BIOGRAPHY_MAX = 500;
+const AUTHOR_TITLES = ["Dr", "Prof", "Mr", "Ms", "Mrs"];
 
 const SubmitProposal = () => {
   const { toast } = useToast();
@@ -225,6 +226,28 @@ const SubmitProposal = () => {
     </>
   );
 
+  // Optional honorific. Radix Select can't hold "", so "none" stands in for blank.
+  const renderTitleField = (key: string) => (
+    <div className="space-y-1">
+      <Label className="text-[16px] font-bold text-[#696969]" style={{ fontFamily: '"Nunito Sans", system-ui, sans-serif' }}>
+        Title
+      </Label>
+      <Select value={formData[key] || "none"} onValueChange={(v) => updateField(key, v === "none" ? "" : v)}>
+        <SelectTrigger className="max-w-[200px]">
+          <SelectValue />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value="none">—</SelectItem>
+          {AUTHOR_TITLES.map((t) => (
+            <SelectItem key={t} value={t}>
+              {t}
+            </SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
+    </div>
+  );
+
   // Maps API error keys (authors[0].cv, authors[2].email, …) onto form fields.
   const mapApiErrorKey = (key: string): string | null => {
     const m = key.match(/^authors\[(\d+)\]\.(cv|email|academicQualification|biography)$/);
@@ -298,6 +321,7 @@ const SubmitProposal = () => {
     const authors: ProposalAuthor[] = [
       {
         role: "author",
+        title: formData.title || undefined,
         firstName: primary.firstName,
         lastName: primary.lastName,
         email: formData.email || "",
@@ -316,6 +340,7 @@ const SubmitProposal = () => {
         const role = (coAuthorRoles[i] || "co-author").replace(/s$/, "") as ProposalAuthor["role"];
         authors.push({
           role: ["author", "co-author", "editor", "contributor", "translator"].includes(role) ? role : "co-author",
+          title: formData[`coauthor-${i}-title`] || undefined,
           firstName: n.firstName,
           lastName: n.lastName,
           email: formData[`coauthor-${i}-email`] || "",
@@ -417,9 +442,10 @@ const SubmitProposal = () => {
         <h3 className="text-base font-semibold text-foreground">
           Co-authors / Editors / Contributors / Translators {i + 1}
         </h3>
+        {renderTitleField(`coauthor-${i}-title`)}
         <div className="space-y-1">
           <Label className="text-[16px] font-bold text-[#696969]" style={{ fontFamily: '"Nunito Sans", system-ui, sans-serif' }}>
-            Role <span className="text-accent font-normal italic">(Required)</span>
+            Role<span className="text-accent font-normal italic">(Required)</span>
           </Label>
           <RadioGroup
             value={coAuthorRoles[i] || ""}
@@ -601,6 +627,7 @@ const SubmitProposal = () => {
             <div className="space-y-6">
               {currentStep === 1 && (
                 <>
+                  {renderTitleField("title")}
                   <FieldInput label="Full Name" required value={formData.fullName} onChange={(v) => updateField("fullName", v)} error={errors.fullName} />
                   <FieldInput label="Email Address" type="email" required value={formData.email} onChange={(v) => updateField("email", v)} error={errors.email} />
                   <FieldInput label="Phone Number" type="tel" required value={formData.phone} onChange={(v) => updateField("phone", v)} error={errors.phone} />
