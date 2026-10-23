@@ -203,14 +203,16 @@ export default function FileBrowser() {
             </div>
           ) : (
             <div className={files.isFetching && files.isPlaceholderData ? "opacity-60 transition-opacity" : ""}>
-              <Table>
+              {/* Fixed layout: the filename column takes the leftover width and
+                  long names truncate, so the Download button always fits. */}
+              <Table className="table-fixed">
                 <TableHeader>
                   <TableRow className="bg-muted/50 hover:bg-muted/50">
                     <TableHead>Filename</TableHead>
-                    <TableHead className="w-[160px]">Folder</TableHead>
-                    <TableHead className="w-[100px] text-right">Size</TableHead>
-                    <TableHead className="w-[180px]">Last modified</TableHead>
-                    <TableHead className="w-[130px]" />
+                    {!folder && <TableHead className="w-[130px]">Folder</TableHead>}
+                    <TableHead className="w-[90px] text-right whitespace-nowrap">Size</TableHead>
+                    <TableHead className="w-[160px] whitespace-nowrap">Last modified</TableHead>
+                    <TableHead className="w-[136px]" />
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -219,16 +221,18 @@ export default function FileBrowser() {
                       <TableCell className="py-2.5">
                         <div className="flex items-center gap-2.5 min-w-0">
                           <FileIcon filename={file.filename} />
-                          <span className="truncate font-medium text-foreground" title={file.s3_key}>
+                          <span className="line-clamp-2 break-words font-medium text-foreground" title={file.filename}>
                             {file.filename}
                           </span>
                         </div>
                       </TableCell>
-                      <TableCell className="py-2.5 text-muted-foreground">{folderLabel(file.folder)}</TableCell>
-                      <TableCell className="py-2.5 text-right tabular-nums text-muted-foreground">
+                      {!folder && (
+                        <TableCell className="py-2.5 text-muted-foreground truncate">{folderLabel(file.folder)}</TableCell>
+                      )}
+                      <TableCell className="py-2.5 text-right tabular-nums text-muted-foreground whitespace-nowrap">
                         {formatBytes(file.size_bytes)}
                       </TableCell>
-                      <TableCell className="py-2.5 text-muted-foreground tabular-nums">
+                      <TableCell className="py-2.5 text-muted-foreground tabular-nums whitespace-nowrap">
                         {formatDateTime(file.last_modified)}
                       </TableCell>
                       <TableCell className="py-2.5 text-right">
