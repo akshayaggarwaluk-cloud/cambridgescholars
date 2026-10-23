@@ -1,7 +1,7 @@
 import { FormEvent, useEffect, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { Loader2, Pencil, Plus, RefreshCw, UserX, UserCheck } from "lucide-react";
+import { Loader2, Pencil, Plus, RefreshCw, Trash2 } from "lucide-react";
 import { Button } from "../PortalButton";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -29,12 +29,14 @@ import {
 } from "@/components/ui/alert-dialog";
 import {
   createUser,
-  deactivateUser,
+  deleteUser,
   FOLDERS,
   folderLabel,
   formatDateTime,
+  formatRelative,
   getIndexStats,
   getSession,
+  InternalApiError,
   type InternalUser,
   listUsers,
   updateUser,
@@ -74,23 +76,18 @@ function UsersTab() {
 
   const refresh = () => queryClient.invalidateQueries({ queryKey: ["internal-users"] });
 
-  const deactivate = useMutation({
-    mutationFn: (u: InternalUser) => deactivateUser(u.id),
+  const remove = useMutation({
+    mutationFn: (u: InternalUser) => deleteUser(u.id),
     onSuccess: (_, u) => {
-      toast.success(`${u.name} has been deactivated.`);
-      refresh();
+      // Drop the row straight away rather than waiting for a refetch.
+      queryClient.setQueryData<InternalUser[]>(["internal-users"], (prev) => prev?.filter((x) => x.id !== u.id));
+      toast.success(`${u.name} has been deleted.`);
     },
-    onError: (err) => toast.error(err instanceof Error ? err.message : "Could not deactivate user."),
+    onError: (err) => {
+      if (err instanceof InternalApiError && err.status === 400) toast.error("You cannot delete your own account");
+      else toast.error(err instanceof Error ? err.message : "Could not delete user.");
+    },
     onSettled: () => setConfirming(null),
-  });
-
-  const reactivate = useMutation({
-    mutationFn: (u: InternalUser) => updateUser(u.id, { is_active: true }),
-    onSuccess: (_, u) => {
-      toast.success(`${u.name} has been reactivated.`);
-      refresh();
-    },
-    onError: (err) => toast.error(err instanceof Error ? err.message : "Could not reactivate user."),
   });
 
   const list = users.data ?? [];
@@ -128,20 +125,19 @@ function UsersTab() {
               <TableHead>Name</TableHead>
               <TableHead>Email</TableHead>
               <TableHead>Folders</TableHead>
-              <TableHead className="w-[110px]">Status</TableHead>
-              <TableHead className="w-[170px]">Last login</TableHead>
-              <TableHead className="w-[200px]" />
+              <TableHead className="w-[90px]">Admin</TableHead>
+              <TableHead className="w-[150px]">Last login</TableHead>
+              <TableHead className="w-[190px]" />
             </TableRow>
           </TableHeader>
           <TableBody>
             {list.map((u) => {
               const isSelf = currentUserId != null && String(u.id) === currentUserId;
               return (
-                <TableRow key={u.id} className={u.is_active ? "" : "bg-muted/30"}>
+                <TableRow key={u.id}>
                   <TableCell className="font-medium">
                     <div className="flex items-center gap-2">
-                      <span className={`whitespace-nowrap ${u.is_active ? "" : "text-muted-foreground"}`}>{u.name}</span>
-                      {u.is_admin && <Chip tone="brand">Admin</Chip>}
+                      <span className="whitespace-nowrap">{u.name}</span>
                       {isSelf && <span className="text-xs text-muted-foreground">(you)</span>}
                     </div>
                   </TableCell>
@@ -155,37 +151,25 @@ function UsersTab() {
                       )}
                     </div>
                   </TableCell>
-                  <TableCell>
-                    {u.is_active ? <Chip tone="green">Active</Chip> : <Chip tone="grey">Inactive</Chip>}
+                  <TableCell>{u.is_admin && <Chip tone="brand">Admin</Chip>}</TableCell>
+                  <TableCell className="text-muted-foreground" title={formatDateTime(u.last_login, "")}>
+                    {formatRelative(u.last_login, "Never")}
                   </TableCell>
-                  <TableCell className="text-muted-foreground tabular-nums">{formatDateTime(u.last_login, "Never")}</TableCell>
                   <TableCell>
                     <div className="flex justify-end gap-2">
                       <Button size="sm" variant="quiet" className="gap-1.5" onClick={() => setEditing(u)}>
                         <Pencil className="h-3.5 w-3.5" /> Edit
                       </Button>
-                      {u.is_active ? (
-                        <Button
-                          size="sm"
-                          variant="quiet"
-                          className="gap-1.5 text-destructive hover:text-destructive"
-                          disabled={isSelf}
-                          title={isSelf ? "You can't deactivate your own account" : undefined}
-                          onClick={() => setConfirming(u)}
-                        >
-                          <UserX className="h-3.5 w-3.5" /> Deactivate
-                        </Button>
-                      ) : (
-                        <Button
-                          size="sm"
-                          variant="quiet"
-                          className="gap-1.5"
-                          disabled={reactivate.isPending && reactivate.variables?.id === u.id}
-                          onClick={() => reactivate.mutate(u)}
-                        >
-                          <UserCheck className="h-3.5 w-3.5" /> Reactivate
-                        </Button>
-                      )}
+                      <Button
+                        size="sm"
+                        variant="quiet"
+                        className="gap-1.5 text-destructive hover:text-destructive"
+                        disabled={isSelf}
+                        title={isSelf ? "You cannot delete your own account" : undefined}
+                        onClick={() => setConfirming(u)}
+                      >
+                        <Trash2 className="h-3.5 w-3.5" /> Delete
+                      </Button>
                     </div>
                   </TableCell>
                 </TableRow>
@@ -206,27 +190,26 @@ function UsersTab() {
         }}
       />
 
-      <AlertDialog open={confirming !== null} onOpenChange={(o) => !o && !deactivate.isPending && setConfirming(null)}>
+      <AlertDialog open={confirming !== null} onOpenChange={(o) => !o && !remove.isPending && setConfirming(null)}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Deactivate {confirming?.name}?</AlertDialogTitle>
+            <AlertDialogTitle>Delete {confirming?.name}? This cannot be undone.</AlertDialogTitle>
             <AlertDialogDescription>
-              {confirming?.email} will no longer be able to sign in. Their account and folder access are kept, so you
-              can reactivate them later.
+              {confirming?.email} will be removed permanently, along with their folder access.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel disabled={deactivate.isPending}>Cancel</AlertDialogCancel>
+            <AlertDialogCancel disabled={remove.isPending}>Cancel</AlertDialogCancel>
             <AlertDialogAction
               className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
-              disabled={deactivate.isPending}
+              disabled={remove.isPending}
               onClick={(e) => {
                 e.preventDefault();
-                if (confirming) deactivate.mutate(confirming);
+                if (confirming) remove.mutate(confirming);
               }}
             >
-              {deactivate.isPending && <Loader2 className="h-4 w-4 animate-spin" />}
-              Deactivate
+              {remove.isPending && <Loader2 className="h-4 w-4 animate-spin" />}
+              Delete
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
@@ -240,11 +223,10 @@ interface UserForm {
   email: string;
   password: string;
   is_admin: boolean;
-  is_active: boolean;
   folders: string[];
 }
 
-const emptyForm: UserForm = { name: "", email: "", password: "", is_admin: false, is_active: true, folders: [] };
+const emptyForm: UserForm = { name: "", email: "", password: "", is_admin: false, folders: [] };
 
 function UserDialog({
   user,
@@ -274,7 +256,6 @@ function UserDialog({
             email: user.email,
             password: "",
             is_admin: user.is_admin,
-            is_active: user.is_active,
             folders: user.folders.filter((f) => (FOLDERS as readonly string[]).includes(f)),
           }
         : emptyForm,
@@ -321,7 +302,6 @@ function UserDialog({
         const update: UserUpdate = {
           name: form.name.trim(),
           is_admin: form.is_admin,
-          is_active: form.is_active,
           folders: form.folders,
         };
         if (form.password) update.password = form.password;
@@ -408,17 +388,7 @@ function UserDialog({
               disabled={isSelf}
               onChange={(v) => set("is_admin", v)}
             />
-            {!isNew && (
-              <ToggleRow
-                id="user-active"
-                label="Active"
-                hint="Inactive users can't sign in."
-                checked={form.is_active}
-                disabled={isSelf}
-                onChange={(v) => set("is_active", v)}
-              />
-            )}
-            {isSelf && <p className="text-xs text-muted-foreground">You can't remove your own admin access or deactivate yourself.</p>}
+            {isSelf && <p className="text-xs text-muted-foreground">You can't remove your own admin access.</p>}
           </div>
 
           {errors.form && (
@@ -499,12 +469,10 @@ function StatsTab() {
 
 // ─── Small pieces ───────────────────────────────────────────────
 
-function Chip({ children, tone = "default" }: { children: React.ReactNode; tone?: "default" | "brand" | "green" | "grey" }) {
+function Chip({ children, tone = "default" }: { children: React.ReactNode; tone?: "default" | "brand" }) {
   const tones = {
     default: "bg-[#eef2f8] text-[#1a3e6f]",
     brand: "bg-[#1a3e6f] text-white",
-    green: "bg-emerald-50 text-emerald-700 ring-1 ring-inset ring-emerald-200",
-    grey: "bg-muted text-muted-foreground ring-1 ring-inset ring-border",
   };
   return <span className={`inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium ${tones[tone]}`}>{children}</span>;
 }

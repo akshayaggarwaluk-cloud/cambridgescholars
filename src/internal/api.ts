@@ -222,7 +222,6 @@ export interface InternalUser {
   name: string;
   email: string;
   is_admin: boolean;
-  is_active: boolean;
   folders: string[];
   last_login: string | null;
   created_at: string | null;
@@ -248,7 +247,6 @@ export function createUser(input: NewUserInput) {
 export type UserUpdate = Partial<{
   name: string;
   is_admin: boolean;
-  is_active: boolean;
   password: string;
   folders: string[];
 }>;
@@ -257,7 +255,8 @@ export function updateUser(id: number, update: UserUpdate) {
   return request<unknown>(`/users/${id}`, { method: "PUT", body: update });
 }
 
-export function deactivateUser(id: number) {
+/** Permanently deletes the user. The API answers 400 when deleting yourself. */
+export function deleteUser(id: number) {
   return request<unknown>(`/users/${id}`, { method: "DELETE" });
 }
 
@@ -294,6 +293,29 @@ const dateTimeFormat = new Intl.DateTimeFormat("en-GB", {
   hour: "2-digit",
   minute: "2-digit",
 });
+
+const relativeFormat = new Intl.RelativeTimeFormat("en", { numeric: "auto" });
+const RELATIVE_UNITS: Array<[Intl.RelativeTimeFormatUnit, number]> = [
+  ["year", 365 * 24 * 3600],
+  ["month", 30 * 24 * 3600],
+  ["week", 7 * 24 * 3600],
+  ["day", 24 * 3600],
+  ["hour", 3600],
+  ["minute", 60],
+];
+
+/** "2 hours ago", "yesterday", "just now". */
+export function formatRelative(value: string | null | undefined, empty = "—"): string {
+  if (!value) return empty;
+  const t = new Date(value).getTime();
+  if (Number.isNaN(t)) return empty;
+  const seconds = (t - Date.now()) / 1000;
+  if (Math.abs(seconds) < 45) return "just now";
+  for (const [unit, size] of RELATIVE_UNITS) {
+    if (Math.abs(seconds) >= size) return relativeFormat.format(Math.round(seconds / size), unit);
+  }
+  return relativeFormat.format(Math.round(seconds / 60), "minute");
+}
 
 export function formatDateTime(value: string | null | undefined, empty = "—"): string {
   if (!value) return empty;
