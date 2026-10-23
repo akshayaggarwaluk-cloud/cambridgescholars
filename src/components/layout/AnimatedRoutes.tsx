@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { ReactNode, Suspense, lazy } from "react";
 import { Navigate, Routes, Route, useLocation, useParams } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
 import { PageTransition } from "./PageTransition";
@@ -70,6 +70,9 @@ import AdminContactMessageDetail from "@/pages/admin/AdminContactMessageDetail";
 import AdminUsers from "@/pages/admin/AdminUsers";
 import AdminUserDetail from "@/pages/admin/AdminUserDetail";
 import AdminPolicyPages from "@/pages/admin/AdminPolicyPages";
+
+// Staff file portal: loaded only when someone visits /internal.
+const InternalApp = lazy(() => import("@/internal/InternalApp"));
 
 function RedirectBookToProduct() {
   const { id } = useParams();
@@ -204,6 +207,8 @@ export function AnimatedRoutes() {
           <Route path="users/:id" element={<AdminUserDetail />} />
           <Route path="admins" element={<AdminAdmins />} />
         </Route>
+
+        <Route path="/internal/*" element={<Suspense fallback={null}><InternalApp /></Suspense>} />
 
         <Route path="*" element={<PageTransition><NotFound /></PageTransition>} />
       </Routes>
