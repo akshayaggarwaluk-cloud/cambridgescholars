@@ -43,6 +43,8 @@ import {
   type UserUpdate,
 } from "../api";
 
+import UploadTab from "./UploadTab";
+
 const MIN_PASSWORD_LENGTH = 8;
 
 export default function InternalAdmin() {
@@ -53,12 +55,16 @@ export default function InternalAdmin() {
         <TabsList>
           <TabsTrigger value="users">Users</TabsTrigger>
           <TabsTrigger value="stats">Index stats</TabsTrigger>
+          <TabsTrigger value="upload">Upload</TabsTrigger>
         </TabsList>
         <TabsContent value="users" className="mt-4">
           <UsersTab />
         </TabsContent>
         <TabsContent value="stats" className="mt-4">
           <StatsTab />
+        </TabsContent>
+        <TabsContent value="upload" className="mt-4">
+          <UploadTab />
         </TabsContent>
       </Tabs>
     </div>

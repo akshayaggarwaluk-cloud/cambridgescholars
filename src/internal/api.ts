@@ -271,6 +271,119 @@ export async function getIndexStats(): Promise<FolderStat[]> {
   return res.data || [];
 }
 
+// ─── Uploads ────────────────────────────────────────────────────
+
+export type NamingRules = Partial<Record<FolderKey, { pattern: string; example: string }>>;
+
+export function getNamingRules() {
+  return request<NamingRules>("/files/naming-rules");
+}
+
+/** File types the picker offers for each folder. */
+export const FOLDER_ACCEPT: Record<FolderKey, string> = {
+  allbooks: ".pdf",
+  ebooks: ".pdf",
+  samples: ".pdf",
+  croppedcovers: ".jpg,.jpeg",
+  amazoncroppedcovers: ".jpg,.jpeg",
+};
+
+// Client-side copy of the server's filename rules, checked before uploading.
+// The server validates again; its 422 message is what the user sees if the
+// two ever disagree.
+const ISBN13 = "97[89]\\d{10}";
+const FILENAME_RULES: Record<FolderKey, { test: (name: string) => boolean; example: string }> = {
+  ebooks: {
+    test: (n) => new RegExp(`^${ISBN13}\\.pdf$`).test(n),
+    example: "9781234567890.pdf  (13-digit ISBN + .pdf)",
+  },
+  samples: {
+    // Hyphenated ISBN (group lengths vary) that still totals 13 digits.
+    test: (n) => {
+      const m = n.match(/^(97[89](?:-\d+){3}-\d)-sample(?:_v\d+)?\.pdf$/);
+      return !!m && m[1].replace(/-/g, "").length === 13;
+    },
+    example: "978-1-1234-5678-9-sample.pdf  or  978-1-1234-5678-9-sample_v2.pdf",
+  },
+  croppedcovers: {
+    test: (n) => new RegExp(`^${ISBN13}\\.jpg$`).test(n),
+    example: "9781234567890.jpg  (13-digit ISBN + .jpg)",
+  },
+  amazoncroppedcovers: {
+    test: (n) => new RegExp(`^${ISBN13}\\.MAIN\\.jpg$`).test(n),
+    example: "9781234567890.MAIN.jpg  (13-digit ISBN + .MAIN.jpg)",
+  },
+  allbooks: {
+    test: (n) => /^[^\s_+/\\]+(?:\+[^\s_+/\\]+)*_(?:paper|hard)_(?:man|ebk)_v\d+\.pdf$/.test(n),
+    example: "Title+Of+Book_paper_man_v1.pdf  (binding: paper|hard, type: man|ebk)",
+  },
+};
+
+export const fallbackNamingExample = (folder: FolderKey) => FILENAME_RULES[folder].example;
+
+export const filenameMatchesRule = (folder: FolderKey, filename: string) => FILENAME_RULES[folder].test(filename);
+
+export interface UploadResult {
+  ok: true;
+  s3_key: string;
+  size_bytes: number;
+}
+
+export interface UploadHandle {
+  promise: Promise<UploadResult>;
+  abort: () => void;
+}
+
+/**
+ * Uploads one file. Uses XMLHttpRequest rather than fetch so `onProgress`
+ * can report the percentage sent.
+ */
+export function uploadFile(folder: FolderKey, file: File, onProgress: (percent: number) => void): UploadHandle {
+  const xhr = new XMLHttpRequest();
+  const promise = new Promise<UploadResult>((resolve, reject) => {
+    const session = getSession();
+    if (!session) {
+      redirectToLogin();
+      reject(new InternalApiError(401, "Your session has expired. Please sign in again."));
+      return;
+    }
+    xhr.open("POST", `${INTERNAL_API_BASE}/files/upload`);
+    xhr.setRequestHeader("Authorization", `Bearer ${session.token}`);
+    xhr.setRequestHeader("Accept", "application/json");
+    xhr.upload.onprogress = (e) => {
+      if (e.lengthComputable) onProgress(Math.round((e.loaded / e.total) * 100));
+    };
+    xhr.onload = () => {
+      let json: { error?: unknown; message?: unknown } & Partial<UploadResult> = {};
+      try {
+        json = JSON.parse(xhr.responseText || "{}");
+      } catch {
+        // Non-JSON body; fall through to the status-based message.
+      }
+      if (xhr.status === 401) {
+        redirectToLogin();
+        reject(new InternalApiError(401, "Your session has expired. Please sign in again."));
+      } else if (xhr.status >= 200 && xhr.status < 300) {
+        resolve({ ok: true, s3_key: json.s3_key ?? "", size_bytes: json.size_bytes ?? file.size });
+      } else {
+        const msg =
+          (typeof json.error === "string" && json.error) ||
+          (typeof json.message === "string" && json.message) ||
+          (xhr.status === 413 ? "The file is too large to upload." : `Upload failed (${xhr.status}).`);
+        reject(new InternalApiError(xhr.status, msg));
+      }
+    };
+    xhr.onerror = () => reject(new InternalApiError(0, "Could not reach the server. Check your connection and try again."));
+    xhr.onabort = () => reject(new DOMException("Upload cancelled", "AbortError"));
+
+    const form = new FormData();
+    form.append("folder", folder);
+    form.append("file", file);
+    xhr.send(form);
+  });
+  return { promise, abort: () => xhr.abort() };
+}
+
 // ─── Formatting ─────────────────────────────────────────────────
 
 export function formatBytes(bytes: number | null | undefined): string {
