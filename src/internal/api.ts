@@ -7,10 +7,9 @@ export const LOGIN_PATH = "/internal/login";
 
 // ─── Folders ────────────────────────────────────────────────────
 
-// Folder names come from GET /folders and are shown in title case with
-// underscores as spaces (dj_mats_decided → "Dj Mats Decided"), so new
-// folders need no code change.
-export const folderLabel = (key: string): string => key.replace(/_/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
+// Folder names come from GET /folders and are shown exactly as the S3 key,
+// so new folders need no code change.
+export const folderLabel = (key: string): string => key;
 
 // ─── Session ────────────────────────────────────────────────────
 
