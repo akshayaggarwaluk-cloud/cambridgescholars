@@ -133,7 +133,7 @@ export default function FileBrowser() {
   return (
     <div className="flex gap-6 items-start">
       {/* Folder sidebar */}
-      <aside className="w-60 shrink-0 bg-white border border-border rounded-lg p-2 sticky top-6">
+      <aside className="w-72 shrink-0 bg-white border border-border rounded-lg p-2 sticky top-6">
         <p className="px-3 pt-2 pb-1 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">Folders</p>
         <FolderButton
           active={!folder}
@@ -365,10 +365,11 @@ function FolderButton({
         active ? "bg-[#1a3e6f] text-white" : "text-foreground hover:bg-muted"
       }`}
     >
-      <span className={active ? "text-white" : "text-muted-foreground"}>{icon}</span>
-      <span className="flex-1 truncate">{label}</span>
+      <span className={`shrink-0 ${active ? "text-white" : "text-muted-foreground"}`}>{icon}</span>
+      {/* Folder keys can be long single words; wrap rather than cut them off. */}
+      <span className="flex-1 min-w-0 [overflow-wrap:anywhere] leading-snug">{label}</span>
       {count !== undefined && (
-        <span className={`text-xs tabular-nums ${active ? "text-white/80" : "text-muted-foreground"}`}>
+        <span className={`shrink-0 text-xs tabular-nums ${active ? "text-white/80" : "text-muted-foreground"}`}>
           {count.toLocaleString()}
         </span>
       )}
