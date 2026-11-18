@@ -94,7 +94,7 @@ export default function UploadDialog({
 
   return (
     <Dialog open={open} onOpenChange={(o) => !uploading && onOpenChange(o)}>
-      <DialogContent className="max-w-lg">
+      <DialogContent className="max-w-lg max-h-[calc(100vh-2rem)] overflow-y-auto">
         <DialogHeader>
           <DialogTitle>Upload a file</DialogTitle>
           <DialogDescription>The file is stored in the selected folder and appears in the list once uploaded.</DialogDescription>

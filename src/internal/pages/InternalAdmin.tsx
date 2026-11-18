@@ -345,7 +345,7 @@ function UserDialog({
 
   return (
     <Dialog open={open} onOpenChange={(o) => !o && !saving && onClose()}>
-      <DialogContent className="max-w-lg">
+      <DialogContent className="max-w-lg max-h-[calc(100vh-2rem)] overflow-y-auto">
         <DialogHeader>
           <DialogTitle>{isNew ? "Add user" : `Edit ${user?.name}`}</DialogTitle>
           <DialogDescription>
