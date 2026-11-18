@@ -7,18 +7,10 @@ export const LOGIN_PATH = "/internal/login";
 
 // ─── Folders ────────────────────────────────────────────────────
 
-// Folder names come from GET /folders; this only maps known keys to friendly
-// labels. Any other folder shows its raw key.
-const FOLDER_LABELS: Record<string, string> = {
-  allbooks: "Full Books",
-  ebooks: "eBooks",
-  samples: "Sample Chapters",
-  croppedcovers: "Covers",
-  amazoncroppedcovers: "Amazon Covers",
-  dj_mats_decided: "DJ Materials",
-};
-
-export const folderLabel = (key: string): string => FOLDER_LABELS[key] ?? key;
+// Folder names come from GET /folders and are shown in title case with
+// underscores as spaces (dj_mats_decided → "Dj Mats Decided"), so new
+// folders need no code change.
+export const folderLabel = (key: string): string => key.replace(/_/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
 
 // ─── Session ────────────────────────────────────────────────────
 
