@@ -1,7 +1,7 @@
 import { FormEvent, useEffect, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { Loader2, Pencil, Plus, RefreshCw, Trash2 } from "lucide-react";
+import { ArrowUp, Loader2, Pencil, Plus, RefreshCw, Trash2 } from "lucide-react";
 import { Button } from "../PortalButton";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -30,7 +30,7 @@ import {
 import {
   createUser,
   deleteUser,
-  FOLDERS,
+  type FolderAccess,
   folderLabel,
   formatDateTime,
   formatRelative,
@@ -42,8 +42,7 @@ import {
   updateUser,
   type UserUpdate,
 } from "../api";
-
-import UploadTab from "./UploadTab";
+import { useFolders } from "../useFolders";
 
 const MIN_PASSWORD_LENGTH = 8;
 
@@ -55,16 +54,12 @@ export default function InternalAdmin() {
         <TabsList>
           <TabsTrigger value="users">Users</TabsTrigger>
           <TabsTrigger value="stats">Index stats</TabsTrigger>
-          <TabsTrigger value="upload">Upload</TabsTrigger>
         </TabsList>
         <TabsContent value="users" className="mt-4">
           <UsersTab />
         </TabsContent>
         <TabsContent value="stats" className="mt-4">
           <StatsTab />
-        </TabsContent>
-        <TabsContent value="upload" className="mt-4">
-          <UploadTab />
         </TabsContent>
       </Tabs>
     </div>
@@ -150,10 +145,19 @@ function UsersTab() {
                   <TableCell className="text-muted-foreground">{u.email}</TableCell>
                   <TableCell>
                     <div className="flex flex-wrap gap-1">
-                      {u.folders.length === 0 ? (
+                      {u.is_admin ? (
+                        <Chip title="Admins can open and upload to every folder">
+                          All folders <ArrowUp className="h-3 w-3 ml-0.5" aria-label="can upload" />
+                        </Chip>
+                      ) : u.permissions.length === 0 ? (
                         <span className="text-xs text-muted-foreground">None</span>
                       ) : (
-                        u.folders.map((f) => <Chip key={f}>{folderLabel(f)}</Chip>)
+                        u.permissions.map((p) => (
+                          <Chip key={p.folder} title={p.can_upload ? "Can view and upload" : "View only"}>
+                            {folderLabel(p.folder)}
+                            {p.can_upload && <ArrowUp className="h-3 w-3 ml-0.5" aria-label="can upload" />}
+                          </Chip>
+                        ))
                       )}
                     </div>
                   </TableCell>
@@ -229,10 +233,10 @@ interface UserForm {
   email: string;
   password: string;
   is_admin: boolean;
-  folders: string[];
+  permissions: FolderAccess[];
 }
 
-const emptyForm: UserForm = { name: "", email: "", password: "", is_admin: false, folders: [] };
+const emptyForm: UserForm = { name: "", email: "", password: "", is_admin: false, permissions: [] };
 
 function UserDialog({
   user,
@@ -251,19 +255,14 @@ function UserDialog({
   const [form, setForm] = useState<UserForm>(emptyForm);
   const [errors, setErrors] = useState<Partial<Record<keyof UserForm | "form", string>>>({});
   const [saving, setSaving] = useState(false);
+  const folders = useFolders();
 
   useEffect(() => {
     if (!open) return;
     setErrors({});
     setForm(
       user
-        ? {
-            name: user.name,
-            email: user.email,
-            password: "",
-            is_admin: user.is_admin,
-            folders: user.folders.filter((f) => (FOLDERS as readonly string[]).includes(f)),
-          }
+        ? { name: user.name, email: user.email, password: "", is_admin: user.is_admin, permissions: user.permissions }
         : emptyForm,
     );
   }, [open, user]);
@@ -273,8 +272,28 @@ function UserDialog({
     setErrors((e) => ({ ...e, [key]: undefined, form: undefined }));
   };
 
-  const toggleFolder = (key: string, on: boolean) =>
-    set("folders", on ? FOLDERS.filter((f) => f === key || form.folders.includes(f)) : form.folders.filter((f) => f !== key));
+  // Every folder from GET /folders, plus any the user already has that the
+  // list doesn't include, so saving never silently drops a permission.
+  const allFolders = [
+    ...(folders.data ?? []).map((f) => f.folder),
+    ...form.permissions.map((p) => p.folder).filter((f) => !folders.data?.some((x) => x.folder === f)),
+  ];
+  const permissionFor = (folder: string) => form.permissions.find((p) => p.folder === folder);
+  const setAccess = (folder: string, on: boolean) =>
+    set(
+      "permissions",
+      on
+        ? [...form.permissions.filter((p) => p.folder !== folder), { folder, can_upload: false }]
+        : form.permissions.filter((p) => p.folder !== folder),
+    );
+  const setUpload = (folder: string, on: boolean) =>
+    set(
+      "permissions",
+      form.permissions.map((p) => (p.folder === folder ? { ...p, can_upload: on } : p)),
+    );
+  // Saved in the same order as the folder list.
+  const orderedPermissions = () =>
+    allFolders.map((f) => permissionFor(f)).filter((p): p is FolderAccess => !!p);
 
   const validate = (): boolean => {
     const next: typeof errors = {};
@@ -301,14 +320,14 @@ function UserDialog({
           email: form.email.trim(),
           password: form.password,
           is_admin: form.is_admin,
-          folders: form.folders,
+          permissions: orderedPermissions(),
         });
         toast.success(`${form.name.trim()} has been added.`);
       } else {
         const update: UserUpdate = {
           name: form.name.trim(),
           is_admin: form.is_admin,
-          folders: form.folders,
+          permissions: orderedPermissions(),
         };
         if (form.password) update.password = form.password;
         await updateUser(user.id, update);
@@ -322,7 +341,7 @@ function UserDialog({
     }
   };
 
-  const allSelected = form.folders.length === FOLDERS.length;
+  const allSelected = allFolders.length > 0 && allFolders.every((f) => permissionFor(f));
 
   return (
     <Dialog open={open} onOpenChange={(o) => !o && !saving && onClose()}>
@@ -364,37 +383,69 @@ function UserDialog({
             />
           </Field>
 
-          <div className="space-y-2">
-            <div className="flex items-center justify-between">
-              <Label>Folder access</Label>
-              <button
-                type="button"
-                className="text-xs text-[#1a3e6f] hover:underline"
-                onClick={() => set("folders", allSelected ? [] : [...FOLDERS])}
-              >
-                {allSelected ? "Clear all" : "Select all"}
-              </button>
-            </div>
-            <div className="grid grid-cols-2 gap-2 rounded-md border border-border p-3">
-              {FOLDERS.map((f) => (
-                <label key={f} className="flex items-center gap-2 text-sm cursor-pointer">
-                  <Checkbox checked={form.folders.includes(f)} onCheckedChange={(c) => toggleFolder(f, c === true)} />
-                  {folderLabel(f)}
-                </label>
-              ))}
-            </div>
-          </div>
-
           <div className="space-y-3 rounded-md border border-border p-3">
             <ToggleRow
               id="user-admin"
               label="Administrator"
-              hint="Can manage users and view index stats."
+              hint="Can manage users and view index stats. Admins can open and upload to every folder."
               checked={form.is_admin}
               disabled={isSelf}
               onChange={(v) => set("is_admin", v)}
             />
             {isSelf && <p className="text-xs text-muted-foreground">You can't remove your own admin access.</p>}
+          </div>
+
+          <div className="space-y-2">
+            <div className="flex items-center justify-between">
+              <Label>Folder permissions</Label>
+              {allFolders.length > 0 && (
+                <button
+                  type="button"
+                  className="text-xs text-[#1a3e6f] hover:underline"
+                  onClick={() =>
+                    set(
+                      "permissions",
+                      allSelected
+                        ? []
+                        : allFolders.map((f) => permissionFor(f) ?? { folder: f, can_upload: false }),
+                    )
+                  }
+                >
+                  {allSelected ? "Clear all" : "Give access to all"}
+                </button>
+              )}
+            </div>
+            <div className="rounded-md border border-border divide-y divide-border">
+              <div className="flex items-center justify-between px-3 py-1.5 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+                <span>Access</span>
+                <span>Upload</span>
+              </div>
+              {folders.isLoading && (
+                <div className="flex items-center gap-2 px-3 py-3 text-sm text-muted-foreground">
+                  <Loader2 className="h-4 w-4 animate-spin" /> Loading folders…
+                </div>
+              )}
+              {folders.isError && (
+                <p className="px-3 py-3 text-sm text-destructive">Could not load folders. Close and reopen to try again.</p>
+              )}
+              {allFolders.map((f) => {
+                const perm = permissionFor(f);
+                return (
+                  <div key={f} className="flex items-center justify-between gap-3 px-3 py-2">
+                    <label className="flex items-center gap-2 text-sm cursor-pointer min-w-0">
+                      <Checkbox checked={!!perm} onCheckedChange={(c) => setAccess(f, c === true)} />
+                      <span className="truncate">{folderLabel(f)}</span>
+                    </label>
+                    <Switch
+                      checked={!!perm?.can_upload}
+                      disabled={!perm}
+                      onCheckedChange={(v) => setUpload(f, v)}
+                      aria-label={`Allow uploads to ${folderLabel(f)}`}
+                    />
+                  </div>
+                );
+              })}
+            </div>
           </div>
 
           {errors.form && (
@@ -475,12 +526,20 @@ function StatsTab() {
 
 // ─── Small pieces ───────────────────────────────────────────────
 
-function Chip({ children, tone = "default" }: { children: React.ReactNode; tone?: "default" | "brand" }) {
+function Chip({
+  children,
+  tone = "default",
+  title,
+}: {
+  children: React.ReactNode;
+  tone?: "default" | "brand";
+  title?: string;
+}) {
   const tones = {
     default: "bg-[#eef2f8] text-[#1a3e6f]",
     brand: "bg-[#1a3e6f] text-white",
   };
-  return <span className={`inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium ${tones[tone]}`}>{children}</span>;
+  return <span title={title} className={`inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium ${tones[tone]}`}>{children}</span>;
 }
 
 function Field({

@@ -7,25 +7,24 @@ export const LOGIN_PATH = "/internal/login";
 
 // ─── Folders ────────────────────────────────────────────────────
 
-export const FOLDERS = ["allbooks", "ebooks", "samples", "croppedcovers", "amazoncroppedcovers"] as const;
-export type FolderKey = (typeof FOLDERS)[number];
-
-const FOLDER_LABELS: Record<FolderKey, string> = {
+// Folder names come from GET /folders; this only maps known keys to friendly
+// labels. Any other folder shows its raw key.
+const FOLDER_LABELS: Record<string, string> = {
   allbooks: "Full Books",
   ebooks: "eBooks",
   samples: "Sample Chapters",
   croppedcovers: "Covers",
   amazoncroppedcovers: "Amazon Covers",
+  dj_mats_decided: "DJ Materials",
 };
 
-export const folderLabel = (key: string): string => FOLDER_LABELS[key as FolderKey] ?? key;
-
-export const isFolderKey = (v: string | null | undefined): v is FolderKey =>
-  !!v && (FOLDERS as readonly string[]).includes(v);
+export const folderLabel = (key: string): string => FOLDER_LABELS[key] ?? key;
 
 // ─── Session ────────────────────────────────────────────────────
 
-const TOKEN_KEY = "csp_internal_token";
+const TOKEN_KEY = "internal_token";
+/** Earlier versions stored the token here; removed on sign-in and sign-out. */
+const LEGACY_TOKEN_KEY = "csp_internal_token";
 const NAME_KEY = "csp_internal_name";
 const ADMIN_KEY = "csp_internal_is_admin";
 
@@ -78,6 +77,7 @@ export function getSession(): InternalSession | null {
 }
 
 export function saveSession(token: string, name: string, isAdmin: boolean) {
+  localStorage.removeItem(LEGACY_TOKEN_KEY);
   localStorage.setItem(TOKEN_KEY, token);
   localStorage.setItem(NAME_KEY, name);
   localStorage.setItem(ADMIN_KEY, String(isAdmin));
@@ -85,6 +85,7 @@ export function saveSession(token: string, name: string, isAdmin: boolean) {
 
 export function clearSession() {
   try {
+    localStorage.removeItem(LEGACY_TOKEN_KEY);
     localStorage.removeItem(TOKEN_KEY);
     localStorage.removeItem(NAME_KEY);
     localStorage.removeItem(ADMIN_KEY);
@@ -217,19 +218,31 @@ export function getDownloadUrl(key: string) {
   return request<{ url: string; expires_in: number }>(`/files/download?key=${encodeURIComponent(key)}`);
 }
 
+/** A folder the current user can open, and whether they may upload to it. */
+export interface FolderAccess {
+  folder: string;
+  can_upload: boolean;
+}
+
+/** Folders the current user can see. Admins get every folder, all uploadable. */
+export async function getFolders(): Promise<FolderAccess[]> {
+  const res = await request<{ data: FolderAccess[] }>("/folders");
+  return res.data || [];
+}
+
 export interface InternalUser {
   id: number;
   name: string;
   email: string;
   is_admin: boolean;
-  folders: string[];
+  permissions: FolderAccess[];
   last_login: string | null;
   created_at: string | null;
 }
 
 export async function listUsers(): Promise<InternalUser[]> {
   const res = await request<{ data: InternalUser[] }>("/users");
-  return res.data || [];
+  return (res.data || []).map((u) => ({ ...u, permissions: u.permissions ?? [] }));
 }
 
 export interface NewUserInput {
@@ -237,7 +250,7 @@ export interface NewUserInput {
   email: string;
   password: string;
   is_admin: boolean;
-  folders: string[];
+  permissions: FolderAccess[];
 }
 
 export function createUser(input: NewUserInput) {
@@ -248,7 +261,7 @@ export type UserUpdate = Partial<{
   name: string;
   is_admin: boolean;
   password: string;
-  folders: string[];
+  permissions: FolderAccess[];
 }>;
 
 export function updateUser(id: number, update: UserUpdate) {
@@ -273,14 +286,14 @@ export async function getIndexStats(): Promise<FolderStat[]> {
 
 // ─── Uploads ────────────────────────────────────────────────────
 
-export type NamingRules = Partial<Record<FolderKey, { pattern: string; example: string }>>;
+export type NamingRules = Record<string, { pattern: string; example: string } | undefined>;
 
 export function getNamingRules() {
   return request<NamingRules>("/files/naming-rules");
 }
 
-/** File types the picker offers for each folder. */
-export const FOLDER_ACCEPT: Record<FolderKey, string> = {
+/** File types the picker offers; folders not listed accept any file. */
+const FOLDER_ACCEPT: Record<string, string> = {
   allbooks: ".pdf",
   ebooks: ".pdf",
   samples: ".pdf",
@@ -288,11 +301,13 @@ export const FOLDER_ACCEPT: Record<FolderKey, string> = {
   amazoncroppedcovers: ".jpg,.jpeg",
 };
 
+export const folderAccept = (folder: string): string | undefined => FOLDER_ACCEPT[folder];
+
 // Client-side copy of the server's filename rules, checked before uploading.
-// The server validates again; its 422 message is what the user sees if the
-// two ever disagree.
+// Folders without a rule here are left entirely to the server, which
+// validates every upload; its 422 message is shown if the two disagree.
 const ISBN13 = "97[89]\\d{10}";
-const FILENAME_RULES: Record<FolderKey, { test: (name: string) => boolean; example: string }> = {
+const FILENAME_RULES: Record<string, { test: (name: string) => boolean; example: string }> = {
   ebooks: {
     test: (n) => new RegExp(`^${ISBN13}\\.pdf$`).test(n),
     example: "9781234567890.pdf  (13-digit ISBN + .pdf)",
@@ -317,11 +332,17 @@ const FILENAME_RULES: Record<FolderKey, { test: (name: string) => boolean; examp
     test: (n) => /^[^\s_+/\\]+(?:\+[^\s_+/\\]+)*_(?:paper|hard)_(?:man|ebk)_v\d+\.pdf$/.test(n),
     example: "Title+Of+Book_paper_man_v1.pdf  (binding: paper|hard, type: man|ebk)",
   },
+  dj_mats_decided: {
+    test: (n) => /\.(jpe?g|pdf|sla)$/i.test(n),
+    example: "Any filename ending .jpg, .jpeg, .pdf or .sla",
+  },
 };
 
-export const fallbackNamingExample = (folder: FolderKey) => FILENAME_RULES[folder].example;
+/** Built-in example for a folder, or undefined when it has no client rule. */
+export const fallbackNamingExample = (folder: string): string | undefined => FILENAME_RULES[folder]?.example;
 
-export const filenameMatchesRule = (folder: FolderKey, filename: string) => FILENAME_RULES[folder].test(filename);
+/** True when the name passes the folder's rule, or the folder has no rule. */
+export const filenameMatchesRule = (folder: string, filename: string) => FILENAME_RULES[folder]?.test(filename) ?? true;
 
 export interface UploadResult {
   ok: true;
@@ -338,7 +359,7 @@ export interface UploadHandle {
  * Uploads one file. Uses XMLHttpRequest rather than fetch so `onProgress`
  * can report the percentage sent.
  */
-export function uploadFile(folder: FolderKey, file: File, onProgress: (percent: number) => void): UploadHandle {
+export function uploadFile(folder: string, file: File, onProgress: (percent: number) => void): UploadHandle {
   const xhr = new XMLHttpRequest();
   const promise = new Promise<UploadResult>((resolve, reject) => {
     const session = getSession();

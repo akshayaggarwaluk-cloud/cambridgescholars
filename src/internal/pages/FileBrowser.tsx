@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import { keepPreviousData, useQuery } from "@tanstack/react-query";
+import { keepPreviousData, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import {
   ChevronLeft,
@@ -15,6 +15,7 @@ import {
   Layers,
   Loader2,
   Search,
+  Upload,
   X,
 } from "lucide-react";
 import { Button } from "../PortalButton";
@@ -22,27 +23,27 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import {
-  FOLDERS,
+  type FolderAccess,
   folderLabel,
   formatBytes,
   formatDateTime,
   getDownloadUrl,
-  getSession,
   InternalApiError,
   type InternalFile,
-  isFolderKey,
   listFiles,
 } from "../api";
+import { useFolders } from "../useFolders";
+import UploadDialog from "./UploadDialog";
 
 const PER_PAGE_OPTIONS = [25, 50, 100];
-const SEARCH_DEBOUNCE_MS = 350;
+const SEARCH_DEBOUNCE_MS = 300;
 
 const noRetryOnAuth = (count: number, err: unknown) =>
   !(err instanceof InternalApiError && (err.status === 401 || err.status === 403)) && count < 2;
 
 export default function FileBrowser() {
   const [params, setParams] = useSearchParams();
-  const folder = isFolderKey(params.get("folder")) ? params.get("folder")! : "";
+  const folder = params.get("folder") || "";
   const q = params.get("q") || "";
   const page = Math.max(1, parseInt(params.get("page") || "1", 10) || 1);
   const perPageParam = parseInt(params.get("per_page") || "50", 10);
@@ -71,7 +72,22 @@ export default function FileBrowser() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchText]);
 
-  const folders = useAccessibleFolders();
+  const queryClient = useQueryClient();
+  const folders = useFolders();
+  const counts = useFolderCounts(folders.data);
+  const uploadable = useMemo(() => (folders.data ?? []).filter((f) => f.can_upload).map((f) => f.folder), [folders.data]);
+  // In a folder: only if that folder allows uploads. In "All folders": if any does.
+  const showUpload = folder ? uploadable.includes(folder) : uploadable.length > 0;
+  const [uploadOpen, setUploadOpen] = useState(false);
+
+  const onUploaded = (target: string, filename: string, size: number) => {
+    toast.success(`Uploaded ${filename} (${formatBytes(size)}) to ${folderLabel(target)}.`);
+    queryClient.invalidateQueries({
+      predicate: (query) =>
+        (query.queryKey[0] === "internal-files" && (query.queryKey[1] === target || query.queryKey[1] === "")) ||
+        query.queryKey[0] === "internal-folder-counts",
+    });
+  };
 
   const files = useQuery({
     queryKey: ["internal-files", folder, q, page, perPage],
@@ -123,25 +139,41 @@ export default function FileBrowser() {
           active={!folder}
           icon={<Layers className="h-4 w-4" />}
           label="All folders"
-          count={folders.data ? folders.data.reduce((n, f) => n + f.count, 0) : undefined}
+          count={counts.data?.total}
           onClick={() => updateParams({ folder: null, page: 1 })}
         />
         {folders.isLoading &&
           Array.from({ length: 3 }, (_, i) => <div key={i} className="mx-3 my-2 h-5 rounded bg-muted animate-pulse" />)}
         {folders.data?.map((f) => (
           <FolderButton
-            key={f.key}
-            active={folder === f.key}
+            key={f.folder}
+            active={folder === f.folder}
             icon={<Folder className="h-4 w-4" />}
-            label={folderLabel(f.key)}
-            count={f.count}
-            onClick={() => updateParams({ folder: f.key, page: 1 })}
+            label={folderLabel(f.folder)}
+            count={counts.data?.byFolder[f.folder]}
+            onClick={() => updateParams({ folder: f.folder, page: 1 })}
           />
         ))}
+        {folders.isError && (
+          <div className="px-3 py-2 space-y-1">
+            <p className="text-xs text-destructive">Could not load folders.</p>
+            <button type="button" className="text-xs text-[#1a3e6f] hover:underline" onClick={() => folders.refetch()}>
+              Try again
+            </button>
+          </div>
+        )}
         {folders.data && folders.data.length === 0 && (
           <p className="px-3 py-2 text-xs text-muted-foreground">You don't have access to any folders yet.</p>
         )}
       </aside>
+
+      <UploadDialog
+        open={uploadOpen}
+        onOpenChange={setUploadOpen}
+        folders={uploadable}
+        initialFolder={folder}
+        onUploaded={(target, filename, res) => onUploaded(target, filename, res.size_bytes)}
+      />
 
       {/* Main panel */}
       <section className="flex-1 min-w-0 space-y-4">
@@ -167,6 +199,11 @@ export default function FileBrowser() {
               </button>
             )}
           </div>
+          {showUpload && (
+            <Button size="sm" className="gap-1.5 h-10 shrink-0" onClick={() => setUploadOpen(true)}>
+              <Upload className="h-4 w-4" /> Upload
+            </Button>
+          )}
         </div>
 
         <div className="bg-white border border-border rounded-lg overflow-hidden">
@@ -227,7 +264,11 @@ export default function FileBrowser() {
                         </div>
                       </TableCell>
                       {!folder && (
-                        <TableCell className="py-2.5 text-muted-foreground truncate">{folderLabel(file.folder)}</TableCell>
+                        <TableCell className="py-2.5">
+                          <span className="inline-block max-w-full truncate rounded-full bg-[#eef2f8] px-2 py-0.5 text-xs font-medium text-[#1a3e6f] align-middle">
+                            {folderLabel(file.folder)}
+                          </span>
+                        </TableCell>
                       )}
                       <TableCell className="py-2.5 text-right tabular-nums text-muted-foreground whitespace-nowrap">
                         {formatBytes(file.size_bytes)}
@@ -276,26 +317,28 @@ export default function FileBrowser() {
   );
 }
 
-// Folders the user can open, with file counts. Tokens don't list folders, so
-// each folder is probed with a one-file request: admins see every folder;
-// other users see the folders that answer with files.
-function useAccessibleFolders() {
-  const isAdmin = !!getSession()?.isAdmin;
+// File counts for the sidebar. /folders doesn't return counts, so each folder
+// is asked for a one-file page and its `total` is used. A folder whose count
+// fails to load just shows no badge.
+function useFolderCounts(folders: FolderAccess[] | undefined) {
+  const keys = (folders ?? []).map((f) => f.folder);
   return useQuery({
-    queryKey: ["internal-folders", isAdmin],
+    queryKey: ["internal-folder-counts", ...keys],
+    enabled: keys.length > 0,
     staleTime: 5 * 60_000,
     queryFn: async () => {
-      const results = await Promise.all(
-        FOLDERS.map(async (key) => {
+      const byFolder: Record<string, number | undefined> = {};
+      await Promise.all(
+        keys.map(async (key) => {
           try {
-            const res = await listFiles({ folder: key, page: 1, per_page: 1 });
-            return { key, count: res.total, ok: true };
+            byFolder[key] = (await listFiles({ folder: key, page: 1, per_page: 1 })).total;
           } catch {
-            return { key, count: 0, ok: false };
+            byFolder[key] = undefined;
           }
         }),
       );
-      return results.filter((r) => (isAdmin ? true : r.ok && r.count > 0)).map(({ key, count }) => ({ key, count }));
+      const known = Object.values(byFolder).filter((n): n is number => n !== undefined);
+      return { byFolder, total: known.length === keys.length ? known.reduce((a, b) => a + b, 0) : undefined };
     },
   });
 }

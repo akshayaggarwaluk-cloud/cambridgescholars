@@ -45,20 +45,45 @@ function RequireSession({ admin, children }: { admin?: boolean; children: ReactN
 // Applies the portal's colour scheme to <html> (so dialogs and dropdowns,
 // which render outside the page tree, pick it up too), sets the tab title,
 // and keeps the portal out of search engines.
+//
+// Every route change remounts the portal (the site's route animation keys on
+// the path), and the old copy can unmount just before or after the new one
+// mounts. So mounts are counted, and when the last one goes the restore waits
+// a moment; a portal page mounting in that gap cancels it, avoiding a flash
+// of the public site's colours between portal pages.
+let portalMounts = 0;
+let restore: (() => void) | null = null;
+let pendingRestore: ReturnType<typeof setTimeout> | null = null;
+
 function usePortalChrome() {
   useEffect(() => {
-    const root = document.documentElement;
-    root.classList.add("internal-portal");
-    const prevTitle = document.title;
-    document.title = "Staff File Portal · Cambridge Scholars Publishing";
-    const robots = document.createElement("meta");
-    robots.name = "robots";
-    robots.content = "noindex, nofollow";
-    document.head.appendChild(robots);
+    if (pendingRestore) {
+      clearTimeout(pendingRestore);
+      pendingRestore = null;
+    }
+    if (portalMounts++ === 0 && !restore) {
+      const root = document.documentElement;
+      root.classList.add("internal-portal");
+      const prevTitle = document.title;
+      document.title = "Staff File Portal · Cambridge Scholars Publishing";
+      const robots = document.createElement("meta");
+      robots.name = "robots";
+      robots.content = "noindex, nofollow";
+      document.head.appendChild(robots);
+      restore = () => {
+        root.classList.remove("internal-portal");
+        document.title = prevTitle;
+        robots.remove();
+      };
+    }
     return () => {
-      root.classList.remove("internal-portal");
-      document.title = prevTitle;
-      robots.remove();
+      if (--portalMounts === 0) {
+        pendingRestore = setTimeout(() => {
+          pendingRestore = null;
+          restore?.();
+          restore = null;
+        }, 200);
+      }
     };
   }, []);
 }
